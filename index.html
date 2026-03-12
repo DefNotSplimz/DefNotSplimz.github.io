@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glen Cilinder-Hansen | Prototype Engineering</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@100;200;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -41,10 +41,10 @@
                 </div>
                 <span class="text-zinc-700 hidden lg:block text-left">// STATUS: ACTIVE_PRODUCTION</span>
             </div>
-            <div class="flex gap-8">
-                <a href="#projekter" class="hover:text-brand transition-colors">PROJECTS</a>
-                <a href="#profil" class="hover:text-brand transition-colors">PROFILE</a>
-                <a href="#kontakt" class="text-white border border-white/20 px-3 py-1 hover:bg-white hover:text-black transition-all">TERMINATE_&_CONTACT</a>
+            <div class="flex gap-8 text-left">
+                <a href="#projekter" class="hover:text-brand transition-colors text-left">PROJECTS</a>
+                <a href="#profil" class="hover:text-brand transition-colors text-left">PROFILE</a>
+                <a href="#kontakt" class="text-white border border-white/20 px-3 py-1 hover:bg-white hover:text-black transition-all text-left">TERMINATE_&_CONTACT</a>
             </div>
         </div>
     </nav>
@@ -56,8 +56,8 @@
                     <h1 class="text-6xl md:text-[140px] font-black text-white leading-[0.8] tracking-tighter uppercase mb-12">
                         NO WASTE.<br>ONLY <span class="text-brand">OUTPUT.</span>
                     </h1>
-                    <div class="max-w-2xl">
-                        <p class="text-2xl text-zinc-400 font-sans leading-tight font-light uppercase tracking-tight">
+                    <div class="max-w-xl text-left">
+                        <p class="text-xl md:text-2xl text-zinc-500 font-sans leading-relaxed font-extralight">
                             CNC-eksekvering eller manuelt håndværk. Jeg mestrer begge discipliner og afslutter enhver opgave med mikron-præcision som eneste acceptkriterium.
                         </p>
                     </div>
@@ -122,21 +122,21 @@
                         <img src="img/piston-fit.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
                     </div>
                     <div class="flex-1 w-full text-left">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase">Materiale-interface</span>
+                        <div class="flex justify-between items-start mb-4 text-left">
+                            <div class="text-left">
+                                <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase text-left">Materiale-interface</span>
                                 <h4 class="text-white font-bold text-sm uppercase">Støbejern / Rustfrit</h4>
                             </div>
                             <span class="text-[8px] text-zinc-600 font-bold bg-white/5 px-2 py-1 rounded">QA_PASSED</span>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4 border-t border-white/5 pt-4 text-left">
-                            <div>
+                            <div class="text-left">
                                 <span class="block text-[8px] text-zinc-600 uppercase mb-1">Cylinder H7</span>
                                 <span class="text-white font-bold text-[11px] font-mono uppercase">11.005 mm</span>
                             </div>
-                            <div>
-                                <span class="block text-[8px] text-zinc-600 uppercase mb-1">Stempel f7</span>
+                            <div class="text-left">
+                                <span class="block text-[8px] text-zinc-600 uppercase mb-1 text-left">Stempel f7</span>
                                 <span class="text-white font-bold text-[11px] font-mono uppercase">10.992 mm</span>
                             </div>
                         </div>
@@ -146,36 +146,36 @@
         </div>
     </section>
 
-    <section class="py-10 px-6">
+    <section class="py-10 px-6 text-left">
         <div class="max-w-[1600px] mx-auto text-left">
-            <div class="mb-6 flex items-center gap-4">
-                <h3 class="text-xs font-bold text-white uppercase tracking-[0.3em]">Tekniske Referencer</h3>
+            <div class="mb-6 flex items-center gap-4 text-left">
+                <h3 class="text-xs font-bold text-white uppercase tracking-[0.3em] text-left">Tekniske Referencer</h3>
                 <div class="h-[1px] flex-1 bg-white/5"></div>
             </div>
             
             <div class="grid lg:grid-cols-3 gap-0 border border-white/10 text-left">
-                <div class="p-8 border-r border-white/10 flex gap-6 items-center group bg-industrial/20 text-left text-left">
+                <div class="p-8 border-r border-white/10 flex gap-6 items-center group bg-industrial/20 text-left">
                     <div class="w-20 h-20 bg-zinc-800 shrink-0 border border-white/10 overflow-hidden text-left">
                         <img src="img/jig-render.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all text-left">
                     </div>
-                    <div>
-                        <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase text-left">Drill_Jig_H4</span>
+                    <div class="text-left">
+                        <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase">Drill_Jig_H4</span>
                         <h4 class="text-white font-bold text-xs uppercase mb-1">Borefikstur</h4>
-                        <p class="text-[10px] text-zinc-500 font-sans leading-tight text-left">Udviklet i SS_316 for maksimal geometrisk stabilitet.</p>
+                        <p class="text-[10px] text-zinc-500 font-sans leading-tight">Udviklet i SS_316 for maksimal geometrisk stabilitet.</p>
                     </div>
                 </div>
 
-                <div class="p-8 border-r border-white/10 flex items-center justify-center bg-industrial/5 opacity-30 text-left text-left text-left">
+                <div class="p-8 border-r border-white/10 flex items-center justify-center bg-industrial/5 opacity-30">
                     <span class="text-[10px] uppercase tracking-widest text-zinc-700 font-bold tracking-tighter">Pending_Project_02</span>
                 </div>
-                <div class="p-8 flex items-center justify-center bg-industrial/5 opacity-30 text-left text-left text-left">
+                <div class="p-8 flex items-center justify-center bg-industrial/5 opacity-30">
                     <span class="text-[10px] uppercase tracking-widest text-zinc-700 font-bold tracking-tighter">Pending_Project_03</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="profil" class="py-40 px-6 border-t border-white/10 bg-industrial/10">
+    <section id="profil" class="py-40 px-6 border-t border-white/10 bg-industrial/10 text-left text-left">
         <div class="max-w-[1600px] mx-auto grid lg:grid-cols-3 gap-16 text-left">
             <div class="space-y-6">
                 <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase">[01] Tilgang</span>
@@ -183,13 +183,13 @@
                     Som 32-årig lærling er min modenhed min største tolerance. Jeg ser ikke blot på det færdige emne, men på hele produktionskæden – fra CAM-strategi til endelig QA-verificering.
                 </p>
             </div>
-            <div class="space-y-6 text-left text-left text-left">
+            <div class="space-y-6">
                 <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase text-left">[02] Metode</span>
-                <p class="text-zinc-400 text-sm leading-relaxed font-sans text-left">
+                <p class="text-zinc-400 text-sm leading-relaxed font-sans text-left text-left">
                     Datadrevet produktion. Ved at kombinere digital optimering i Fusion 360 med praktisk bearbejdning, reducerer jeg fejlmarginaler og cyklustider. Værktøjsstrategi er fundamentet.
                 </p>
             </div>
-            <div class="space-y-6 text-left text-left text-left text-left">
+            <div class="space-y-6 text-left text-left">
                 <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase text-left">[03] Mål</span>
                 <p class="text-zinc-400 text-sm leading-relaxed font-sans text-white text-left">
                     Eksperimentel prototypeudvikling. Jeg søger miljøer, hvor de snævreste tolerancer er standarden, og hvor materialeindsigt er afgørende for succesen.
@@ -198,14 +198,14 @@
         </div>
     </section>
 
-    <footer id="kontakt" class="py-60 border-t border-white/10 text-center">
+    <footer id="kontakt" class="py-60 border-t border-white/10 text-center text-left">
         <div class="max-w-[1600px] mx-auto px-6 flex flex-col items-center">
-            <h2 class="text-7xl md:text-[180px] font-black text-white uppercase tracking-tighter leading-none mb-20 text-center text-center">
+            <h2 class="text-7xl md:text-[180px] font-black text-white uppercase tracking-tighter leading-none mb-20 text-center">
                 GET IN <span class="text-brand">SYNC.</span>
             </h2>
-            <div class="flex flex-col md:flex-row gap-1 border border-white/10 bg-white/5 text-center text-center">
+            <div class="flex flex-col md:flex-row gap-1 border border-white/10 bg-white/5">
                 <a href="mailto:defnotsplimz@gmail.com" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm text-center">Send_Email</a>
-                <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm border-t md:border-t-0 md:border-l border-white/10 text-center text-center">LinkedIn_Auth</a>
+                <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm border-t md:border-t-0 md:border-l border-white/10 text-center">LinkedIn_Auth</a>
             </div>
             <p class="mt-20 font-mono text-[9px] text-zinc-800 uppercase tracking-[0.5em] text-center">
                 Glen Cilinder-Hansen // Prototype Engineering // 2026_BUILD
