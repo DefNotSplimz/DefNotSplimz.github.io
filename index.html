@@ -23,12 +23,12 @@
         }
     </script>
 </head>
-<body class="bg-dark text-zinc-300 antialiased selection:bg-brand selection:text-white">
+<body class="bg-dark text-zinc-300 antialiased selection:bg-brand selection:text-white font-sans text-left">
 
     <nav class="border-b border-zinc-900 bg-dark/90 backdrop-blur-xl fixed w-full z-50">
         <div class="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between text-[10px] font-mono tracking-widest uppercase">
             <div class="flex gap-8">
-                <span class="text-brand">● LIVE_OS</span>
+                <span class="text-brand font-bold">● LIVE_OS</span>
                 <span class="hidden md:inline text-zinc-600">LOC: DANMARK</span>
                 <span class="hidden md:inline text-zinc-600">AGE: 32_YEARS</span>
             </div>
@@ -40,15 +40,15 @@
     </nav>
 
     <section class="min-h-screen flex items-center justify-center pt-20">
-        <div class="max-w-[1400px] w-full px-6 grid lg:grid-cols-12 gap-12">
+        <div class="max-w-[1400px] w-full px-6 grid lg:grid-cols-12 gap-12 text-left">
             <div class="lg:col-span-8">
                 <h1 class="text-7xl md:text-[120px] font-bold text-white leading-[0.9] tracking-tighter mb-8">
-                    GEOMETRISK <br><span class="text-brand italic">EKSEKVERING.</span>
+                    GEOMETRISK <br><span class="text-brand italic uppercase">Eksekvering.</span>
                 </h1>
                 <p class="text-xl md:text-2xl text-zinc-500 max-w-2xl leading-relaxed font-light">
-                    Jeg er ikke bare en lærling. Jeg er en moden produktionsressource, der mestrer 
+                    Jeg er en moden produktionsressource, der mestrer 
                     <span class="text-white font-medium">Haas CNC-systemer</span> og komplekse tolerancer. 
-                    Jeg leverer resultater, hvor andre finder begrænsninger.
+                    Jeg leverer resultater gennem en kombination af moderne teknologi og klassisk håndværk.
                 </p>
             </div>
             <div class="lg:col-span-4 flex flex-col justify-end border-l border-zinc-900 pl-8 pb-4">
@@ -58,7 +58,7 @@
                         <li>CAM Programmering (Fusion 360)</li>
                         <li>High Precision Turning (Haas ST10)</li>
                         <li>Advanced Milling (Haas Mini Mill)</li>
-                        <li>Materialeoptimering ( POM / Nylon / Aluminium / Messing / Støbejern / Stål)</li>
+                        <li>Materialeoptimering (POM / Nylon / Alu / Messing / Stål / Støbejern)</li>
                     </ul>
                 </div>
             </div>
@@ -67,109 +67,31 @@
 
     <section id="projekt" class="py-32 border-t border-zinc-900">
         <div class="max-w-[1400px] mx-auto px-6">
-            <div class="mb-20">
+            <div class="mb-20 text-left">
                 <h2 class="text-xs font-mono text-brand mb-4 uppercase tracking-[0.5em]">Selected Works</h2>
                 <h3 class="text-5xl font-bold text-white uppercase tracking-tighter">Case: Flame Eater MK2</h3>
             </div>
 
-            <div class="grid md:grid-cols-4 gap-4">
+            <div class="grid md:grid-cols-4 gap-4 text-left">
                 <div class="md:col-span-2 md:row-span-2 bg-zinc-900 rounded-2xl overflow-hidden relative group border border-zinc-800">
                     <div class="absolute inset-0 bg-gradient-to-t from-dark to-transparent opacity-60 z-10"></div>
                     <img src="img/main.jpg" alt="Flame Eater" class="w-full h-full object-cover transition duration-700 group-hover:scale-105 opacity-50">
                     <div class="absolute bottom-8 left-8 z-20">
                         <span class="bg-brand text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">Hero Shot</span>
-                        <h4 class="text-2xl font-bold text-white mt-4">Total Samling</h4>
+                        <h4 class="text-2xl font-bold text-white mt-4 uppercase font-mono">Total Samling</h4>
                     </div>
                 </div>
 
                 <div class="md:col-span-2 bg-zinc-900/50 p-10 rounded-2xl border border-zinc-800 flex flex-col justify-between">
                     <p class="text-lg text-zinc-400 font-light leading-relaxed">
                         En ekstremt lav-effekts motor, hvor tolerancefejl på <span class="text-white font-bold">±0.005mm</span> 
-                        i cylinderen vil resultere i totalt driftsstop.
+                        i cylinderen resulterer i totalt driftsstop. Kræver perfekt balance mellem tæthed og friktion.
                     </p>
                     <div class="grid grid-cols-2 gap-8 mt-12">
                         <div>
-                            <span class="block text-[10px] text-zinc-600 uppercase font-mono mb-2">Timing</span>
-                            <span class="text-white font-bold">30°/20° Asymmetrisk</span>
+                            <span class="block text-[10px] text-zinc-600 uppercase font-mono mb-2 tracking-widest">Timing</span>
+                            <span class="text-white font-bold uppercase">30°/20° Asymmetrisk</span>
                         </div>
                         <div>
-                            <span class="block text-[10px] text-zinc-600 uppercase font-mono mb-2">Smøring</span>
-                            <span class="text-white font-bold">0% (Tør drift)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 group hover:border-brand transition">
-                    <h5 class="text-white font-bold mb-4">Cam Disc</h5>
-                    <p class="text-xs text-zinc-500 leading-relaxed italic">Fremstillet i stål. Emnet er grovbearbejdet på drejebænk og derefter formgivet via manuel fræsning med en specialudviklet 3D-printet skabelon for at ramme de asymmetriske grader. Slutjusteret med håndfil for at sikre den kritiske timing på 30° åben og 20° luk</p>
-                </div> 
-
-                <div class="bg-zinc-900/50 p-8 rounded-2xl border border-zinc-800 group hover:border-brand transition">
-                    <h5 class="text-white font-bold mb-4">Piston</h5>
-                    <p class="text-xs text-zinc-500 leading-relaxed italic">Piston (stempel) er drejet og indpasset manuelt i støbejern for at opnå en perfekt H7/f7 pasning mod den rustfrie cylinder. Da systemet kører uden smøring, er overfladerne på både piston og slide valve manuelt slebet og poleret til spejlfinish for at eliminere friktion og sikre absolut tæthed.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-32 bg-zinc-950">
-        <div class="max-w-[1400px] mx-auto px-6">
-            <div class="overflow-hidden border border-zinc-900 rounded-3xl bg-dark shadow-2xl">
-                <table class="w-full text-left text-sm font-mono">
-                    <thead class="bg-zinc-900 text-zinc-600 uppercase text-[10px]">
-                        <tr>
-                            <th class="p-8 border-b border-zinc-900">ID_KOMPONENT</th>
-                            <th class="p-8 border-b border-zinc-900">KRAV_DIM</th>
-                            <th class="p-8 border-b border-zinc-900 text-brand">REEL_MÅL</th>
-                            <th class="p-8 border-b border-zinc-900">STATUS</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-zinc-400">
-                        <tr class="border-b border-zinc-900 hover:bg-zinc-900/20 transition">
-    <td class="p-8 text-white font-bold uppercase text-xs">Cylinder Bore</td>
-    <td class="p-8">ø11.00 H7</td>
-    <td class="p-8 text-brand">11.005</td>
-    <td class="p-8">✓ PASS</td>
-</tr>
-<tr class="border-b border-zinc-900 hover:bg-zinc-900/20 transition">
-    <td class="p-8 text-white font-bold uppercase text-xs font-mono tracking-widest">Cylinder Bore</td>
-    <td class="p-8 font-mono">ø11.00 H7</td>
-    <td class="p-8 text-brand font-mono">11.005</td>
-    <td class="p-8 font-mono">✓ MANUAL_FIT</td>
-</tr>
-<tr class="border-b border-zinc-900 hover:bg-zinc-900/20 transition">
-    <td class="p-8 text-white font-bold uppercase text-xs font-mono tracking-widest">Piston (ø11)</td>
-    <td class="p-8 font-mono">ø11.00 f7</td>
-    <td class="p-8 text-brand font-mono">10.992</td>
-    <td class="p-8 font-mono">✓ MANUAL_FIT</td>
-</tr>
-<tr class="border-b border-zinc-900 hover:bg-zinc-900/20 transition">
-    <td class="p-8 text-white font-bold uppercase text-xs">Cam Disc Center</td>
-    <td class="p-8">ø5.00 H7</td>
-    <td class="p-8 text-brand">5.000</td>
-    <td class="p-8">✓ PASS</td>
-</tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <footer id="kontakt" class="py-40 border-t border-zinc-900">
-        <div class="max-w-[1400px] mx-auto px-6 flex flex-col items-center">
-            <h2 class="text-7xl md:text-[150px] font-bold text-white tracking-tighter mb-20 text-center uppercase">
-                Ready to <br><span class="text-brand">Engage.</span>
-            </h2>
-            <div class="flex flex-col md:flex-row gap-12 items-center text-xl font-mono">
-                <a href="mailto:defnotsplimz@gmail.com" class="text-white hover:text-brand transition uppercase">My_Mail</a>
-                <span class="text-zinc-800 hidden md:block">/</span>
-                <a href="https://www.linkedin.com/in/glenchansen/" class="text-zinc-600 hover:text-white transition uppercase">LinkedIn_Profile</a>
-            </div>
-            <p class="mt-40 text-[10px] text-zinc-800 font-mono tracking-widest uppercase">
-                &copy; 2026 Glen Cilinder-Hansen // Built for Production
-            </p>
-        </div>
-    </footer>
-
-</body>
-</html>
+                            <span class="block text-[10px] text-zinc-600 uppercase font-mono mb-2 tracking-widest">Smøring</span>
+                            <span class="text-white font-bold uppercase text-
