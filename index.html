@@ -17,7 +17,7 @@
             <span class="text-white font-bold tracking-tighter text-xl">PROTOTYPE.V2</span>
             <div class="space-x-8 text-sm uppercase tracking-widest">
                 <a href="#projekt" class="hover:text-white transition">Projekt</a>
-                <a href="#specs" class="hover:text-white transition">Maskiner</a>
+                <a href="#specs" class="hover:text-white transition">Præcision</a>
                 <a href="#kontakt" class="bg-white text-black px-4 py-2 rounded-sm hover:bg-zinc-200 transition">Kontakt</a>
             </div>
         </div>
@@ -25,12 +25,12 @@
 
     <header class="h-screen flex items-center justify-center pt-20">
         <div class="max-w-4xl px-6 text-center">
-            <h1 class="text-6xl md:text-8xl font-extrabold text-white tracking-tighter mb-6">
-                PRÆCISION <br><span class="text-zinc-500">I HVER SPÅN.</span>
+            <h1 class="text-6xl md:text-8xl font-extrabold text-white tracking-tighter mb-6 uppercase">
+                Præcision <br><span class="text-zinc-500 text-5xl md:text-7xl">uden kompromis.</span>
             </h1>
             <p class="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
                 32-årig Finmekaniker med speciale i CNC-produktion på Haas systemer. 
-                Jeg transformerer tekniske tegninger til fysisk perfektion.
+                Jeg transformerer komplekse tekniske tegninger til fysisk perfektion.
             </p>
         </div>
     </header>
@@ -40,51 +40,68 @@
             <div class="grid md:grid-cols-2 gap-16 items-center">
                 <div class="space-y-6">
                     <h2 class="text-4xl font-bold text-white tracking-tight">Mini Flame Eater MK2</h2>
-                    <p class="text-zinc-400">Genproduktion af J. Ridders' design med fokus på ekstrem friktionsminimering[cite: 17, 122]. En motor der kræver tæthed uden smøring[cite: 356, 400].</p>
+                    <p class="text-zinc-400 leading-relaxed">
+                        Genproduktion af J. Ridders' design med fokus på ekstrem friktionsminimering[cite: 17, 122]. 
+                        En flammehapper-motor der kræver absolut tæthed uden smøring for at opnå stabil drift[cite: 356, 400].
+                    </p>
                     
-                    <div class="space-y-4">
+                    <div class="space-y-6">
                         <div class="border-l-2 border-zinc-700 pl-4">
-                            <h4 class="text-white font-semibold">Nokschijf (Cam Disc)</h4>
-                            <p class="text-sm">Asymmetrisk profil: 30° åben / 20° luk timing[cite: 365, 367]. Programmeret via CAM for absolut kurve-præcision[cite: 368].</p>
+                            <h4 class="text-white font-semibold uppercase text-sm tracking-wider">Nokschijf (Cam Disc)</h4>
+                            <p class="text-sm mt-1">Asymmetrisk profil programmeret til præcis timing: 30° åben før top / 20° luk før bund[cite: 365, 367, 409, 411].</p>
                         </div>
                         <div class="border-l-2 border-zinc-700 pl-4">
-                            <h4 class="text-white font-semibold">Cylinder & Piston</h4>
-                            <p class="text-sm">Rustfrit stål vs. støbejern[cite: 53, 136]. Drejet til H7/f7 pasning for tæthed uden olie.</p>
+                            <h4 class="text-white font-semibold uppercase text-sm tracking-wider">Cylinder & Zuiger</h4>
+                            <p class="text-sm mt-1">Fremstillet i rustfrit stål og gietijzer[cite: 53, 136]. Drejet til præcisionstolerancer for tæthed uden olie[cite: 356, 400].</p>
+                        </div>
+                        <div class="border-l-2 border-zinc-700 pl-4">
+                            <h4 class="text-white font-semibold uppercase text-sm tracking-wider">Vliegwiel (Messing)</h4>
+                            <p class="text-sm mt-1">Drejet med fokus på absolut massebalance. Verificeret ved ubelastet drifttid på over 1 minut[cite: 361, 405].</p>
                         </div>
                     </div>
                 </div>
-                <div class="aspect-square bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden flex items-center justify-center">
-                    <img src="img/flame-eater.jpg" alt="Mini Flame Eater" class="opacity-50 hover:opacity-100 transition duration-500">
+                <div class="aspect-square bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden flex items-center justify-center relative">
+                    <div class="absolute inset-0 flex items-center justify-center text-zinc-800 font-bold uppercase tracking-widest">
+                        Prototype Image
+                    </div>
+                    <img src="img/flame-eater.jpg" alt="Mini Flame Eater" class="relative z-10 opacity-60 hover:opacity-100 transition duration-500 object-cover w-full h-full">
                 </div>
             </div>
         </div>
     </section>
 
     <section id="specs" class="py-32">
-        <div class="max-w-6xl mx-auto px-6">
-            <h3 class="text-2xl font-bold text-white mb-12 uppercase tracking-widest text-center">Verificeret Præcision</h3>
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h3 class="text-xs font-bold text-zinc-500 mb-4 uppercase tracking-[0.3em]">Kvalitetssikring</h3>
+            <h2 class="text-3xl text-white font-bold mb-12">Verificeret Dimensionskontrol</h2>
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse border border-zinc-800">
-                    <thead class="bg-zinc-900 text-zinc-500 text-xs uppercase">
+                <table class="w-full text-left border-collapse border border-zinc-800 bg-zinc-900/50">
+                    <thead class="bg-zinc-900 text-zinc-500 text-xs uppercase tracking-wider">
                         <tr>
-                            <th class="p-4 border border-zinc-800">Komponent</th>
-                            <th class="p-4 border border-zinc-800">Krav (mm)</th>
-                            <th class="p-4 border border-zinc-800">Aktuelt (mm)</th>
-                            <th class="p-4 border border-zinc-800">Værktøj</th>
+                            <th class="p-5 border border-zinc-800">Komponent</th>
+                            <th class="p-5 border border-zinc-800">Dimension</th>
+                            <th class="p-5 border border-zinc-800">Aktuelt (mm)</th>
+                            <th class="p-5 border border-zinc-800">Værktøj</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm">
+                    <tbody class="text-sm text-zinc-400">
                         <tr>
-                            <td class="p-4 border border-zinc-800 text-white font-medium">Cylinderboring [cite: 66]</td>
-                            <td class="p-4 border border-zinc-800">ø11.00 H7</td>
-                            <td class="p-4 border border-zinc-800">11.005</td>
-                            <td class="p-4 border border-zinc-800 italic">Indv. Mikrometer</td>
+                            <td class="p-5 border border-zinc-800 text-white font-medium">Cylinderboring [cite: 66]</td>
+                            <td class="p-5 border border-zinc-800">ø11.00 H7</td>
+                            <td class="p-5 border border-zinc-800">11.005</td>
+                            <td class="p-5 border border-zinc-800 italic text-xs">Indv. Mikrometer</td>
                         </tr>
                         <tr>
-                            <td class="p-4 border border-zinc-800 text-white font-medium">Piston [cite: 131]</td>
-                            <td class="p-4 border border-zinc-800">ø11.00 f7</td>
-                            <td class="p-4 border border-zinc-800">10.990</td>
-                            <td class="p-4 border border-zinc-800 italic">Mikrometer</td>
+                            <td class="p-5 border border-zinc-800 text-white font-medium">Zuiger (Stempel) [cite: 137]</td>
+                            <td class="p-5 border border-zinc-800">ø11.00 f7</td>
+                            <td class="p-5 border border-zinc-800">10.990</td>
+                            <td class="p-5 border border-zinc-800 italic text-xs">Mikrometer</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 border border-zinc-800 text-white font-medium">Nokschijf Center [cite: 220]</td>
+                            <td class="p-5 border border-zinc-800">ø5.00 H7</td>
+                            <td class="p-5 border border-zinc-800">5.000</td>
+                            <td class="p-5 border border-zinc-800 italic text-xs">Pasdorn / Digital måling</td>
                         </tr>
                     </tbody>
                 </table>
@@ -92,10 +109,12 @@
         </div>
     </section>
 
-    <footer id="kontakt" class="py-20 border-t border-zinc-800 text-center">
-        <p class="text-zinc-500 text-sm mb-4 tracking-widest uppercase">Klar til nye udfordringer</p>
-        <h2 class="text-3xl text-white font-bold mb-8">Lad os tale om produktion.</h2>
-        <a href="mailto:din@email.dk" class="text-zinc-400 hover:text-white underline underline-offset-8 transition">din@email.dk</a>
+    <footer id="kontakt" class="py-32 border-t border-zinc-800 text-center">
+        <p class="text-zinc-600 text-xs mb-4 tracking-[0.4em] uppercase font-bold">Løsningsorienteret Produktion</p>
+        <h2 class="text-4xl text-white font-bold mb-10 tracking-tight">Lad os optimere jeres prototype-flow.</h2>
+        <a href="mailto:din-email@her.dk" class="inline-block text-zinc-400 hover:text-white text-lg border-b border-zinc-700 pb-2 transition duration-300">
+            defnotglen@gmail.com
+        </a>
     </footer>
 
 </body>
