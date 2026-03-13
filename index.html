@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prototype Engineering | Præcision & Produktion</title>
+    <title>Datum Prototyping | Teknisk Verifikation</title>
     
-    <meta property="og:title" content="Prototype Engineering | Præcision & Produktion">
-    <meta property="og:description" content="Præcision er ikke en påstand. Det er en standard. CNC-eksekvering, simulering og finmekanik verificeret jf. ISO 286.">
-    <meta property="og:image" content="https://defnotsplimz.github.io/img/logo-main.png">
-    <meta property="og:url" content="https://defnotsplimz.github.io/">
-    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    
+    <meta property="og:title" content="Datum Prototyping | Teknisk Verifikation">
+    <meta property="og:description" content="Finmekanisk eksekvering og metodisk procesvalidering. Portfolio for G. Cilinder-Hansen.">
+    <meta property="og:image" content="https://defnotsplimz.github.io/img/logo.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
@@ -35,28 +35,25 @@
     <nav class="fixed top-0 w-full z-50 bg-paper/90 backdrop-blur-lg border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
             <div class="flex items-center">
-                <img src="img/logo-main.png" alt="Prototype Engineering Logo" class="h-16 w-auto object-contain">
+                <img src="img/logo.png" alt="Datum Prototyping Logo" class="h-16 w-auto object-contain">
             </div>
             
             <div class="hidden md:flex gap-8 text-sm font-medium text-slate-500">
+                <a href="#profil" class="hover:text-corporate transition-colors">Profil</a>
                 <a href="#sop" class="hover:text-corporate transition-colors">Protokol</a>
-                <a href="#kompetencer" class="hover:text-corporate transition-colors">Kapacitet</a>
-                <a href="#cases" class="hover:text-corporate transition-colors">Cases</a>
-                <a href="#qa" class="hover:text-corporate transition-colors">Kvalitetssikring</a>
+                <a href="#cases" class="hover:text-corporate transition-colors">Portefølje</a>
+                <a href="#qa" class="hover:text-corporate transition-colors">Kvalitet</a>
+                <a href="#kontakt" class="hover:text-corporate transition-colors">Kontakt</a>
             </div>
-            <a href="#intake" class="text-sm font-medium bg-corporate text-white px-6 py-2.5 rounded-full hover:bg-accent transition-all">
-                Kontakt
+            <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="text-sm font-medium bg-corporate text-white px-6 py-2.5 rounded-full hover:bg-accent transition-all">
+                LinkedIn
             </a>
         </div>
     </nav>
 
-    <section class="pt-56 pb-24 px-6">
+    <header class="pt-56 pb-20 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="mb-14">
-                <img src="img/logo-main.png" alt="PE Visual Mark" class="h-44 w-auto object-contain">
-            </div>
-
-            <p class="text-accent font-semibold tracking-wide uppercase text-sm mb-6">Prototype Engineering & Finmekanik</p>
+            <p class="text-accent font-semibold tracking-wide uppercase text-sm mb-6">Datum Prototyping // Teknisk Showcase</p>
             <h1 class="text-6xl md:text-[100px] font-extrabold leading-[0.9] tracking-tighter mb-12">
                 Præcision er ikke en påstand.<br>
                 <span class="text-slate-400">Det er en standard.</span>
@@ -65,31 +62,51 @@
             <div class="grid md:grid-cols-2 gap-16 mt-24">
                 <div>
                     <p class="text-xl md:text-2xl text-slate-600 font-light leading-relaxed mb-10">
-                        Jeg designer, simulerer og eksekverer prototyper for industrien. Fra CAD-optimering til den sidste mikron på den manuelle drejebænk. Ingen gætteri, kun dokumenteret output.
+                        Finmekanisk eksekvering og teknisk verifikation. Fra CAD-optimering til mikron-kontrol på manuelle og CNC-styrede maskiner hos TEC Frederiksberg.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#intake" class="bg-corporate text-white px-8 py-4 rounded-full font-medium hover:bg-accent transition-all text-center">
-                            Start Dialog
+                        <a href="#cases" class="bg-corporate text-white px-8 py-4 rounded-full font-medium hover:bg-accent transition-all text-center">
+                            Se Portefølje
                         </a>
                         <a href="dossier.html" class="bg-white border border-slate-200 text-corporate px-8 py-4 rounded-full font-medium hover:bg-slate-50 transition-all text-center flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                            Download Teknisk Dossier
+                            Download Dossier
                         </a>
                     </div>
                 </div>
                 <div class="flex flex-col justify-end space-y-4 border-l-2 border-accent pl-6">
                     <div>
-                        <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Nuværende Lokation</span>
-                        <span class="font-medium">TEC Frederiksberg</span>
+                        <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Status</span>
+                        <span class="font-medium text-lg text-corporate">Finmekaniker-lærling, TEC</span>
                     </div>
                     <div>
-                        <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Specialisering</span>
-                        <span class="font-medium">Kompleks Geometri & Termisk Balance</span>
+                        <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Metodik</span>
+                        <span class="font-medium">Datum Prototyping // ISO 286</span>
                     </div>
-                    <div>
-                        <span class="block text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">Standard</span>
-                        <span class="font-medium">ISO 286</span>
-                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="profil" class="py-24 px-6 bg-white border-t border-slate-100">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-16 items-center">
+            <div class="md:col-span-5">
+                <h2 class="text-3xl font-extrabold tracking-tight mb-6 uppercase text-corporate italic">Den metodiske profil</h2>
+                <p class="text-slate-600 leading-relaxed mb-6 font-medium">
+                    Med 32 års erfaring og en baggrund funderet i logik, er min tilgang til finmekanik præget af metodisk stringens og stabilitet. Jeg betragter ikke lærlingetiden som en start, men som en målrettet perfektionering af en teknisk disciplin.
+                </p>
+                <p class="text-slate-600 leading-relaxed font-medium">
+                    Min værdi ligger i kombinationen af voksen ansvarsfølelse og en kompromisløs dedikation til mikron-præcision. Hos Datum Prototyping er målet aldrig blot at producere et emne, men at validere en proces, der sikrer absolut repeterbarhed og kvalitet.
+                </p>
+            </div>
+            <div class="md:col-span-7 grid grid-cols-2 gap-4">
+                <div class="border-l-4 border-accent p-6 bg-slate-50">
+                    <span class="block font-bold text-corporate mb-2 uppercase text-xs">Stabilitet</span>
+                    <p class="text-sm text-slate-500 font-medium">En moden tilgang til produktion sikrer færre fejl og højere driftssikkerhed.</p>
+                </div>
+                <div class="border-l-4 border-accent p-6 bg-slate-50">
+                    <span class="block font-bold text-corporate mb-2 uppercase text-xs">Logik</span>
+                    <p class="text-sm text-slate-500 font-medium">Systematisk fejlsøgning og procesoptimering baseret på fakta, ikke gætteri.</p>
                 </div>
             </div>
         </div>
@@ -97,278 +114,137 @@
 
     <section class="border-y border-slate-200 bg-white">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-200">
-            <div class="py-12 px-6">
-                <span class="block text-4xl font-extrabold mb-2">32</span>
-                <span class="text-sm text-slate-500 font-medium">Års modenhed og procesforståelse</span>
-            </div>
-            <div class="py-12 px-6">
-                <span class="block text-4xl font-extrabold mb-2">H7/f7</span>
-                <span class="text-sm text-slate-500 font-medium">Standard for kritiske pasninger</span>
-            </div>
-            <div class="py-12 px-6">
-                <span class="block text-4xl font-extrabold mb-2">100%</span>
-                <span class="text-sm text-slate-500 font-medium">Simulering før eksekvering</span>
-            </div>
-            <div class="py-12 px-6">
-                <span class="block text-4xl font-extrabold mb-2">0</span>
-                <span class="text-sm text-slate-500 font-medium">Tolerance for uplanlagt spild</span>
-            </div>
+            <div class="py-12 px-6"><span class="block text-4xl font-extrabold mb-2">32</span><span class="text-sm text-slate-500 font-medium">Års modenhed</span></div>
+            <div class="py-12 px-6"><span class="block text-4xl font-extrabold mb-2">H7/f7</span><span class="text-sm text-slate-500 font-medium">Tolerance-standard</span></div>
+            <div class="py-12 px-6"><span class="block text-4xl font-extrabold mb-2">100%</span><span class="text-sm text-slate-500 font-medium">Dokumenteret Proces</span></div>
+            <div class="py-12 px-6"><span class="block text-4xl font-extrabold mb-2">0</span><span class="text-sm text-slate-500 font-medium">Accept af spild</span></div>
         </div>
     </section>
 
     <section id="sop" class="py-32 px-6 bg-slate-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto">
             <div class="mb-20 max-w-2xl">
-                <h2 class="text-4xl font-extrabold tracking-tight mb-6">Standard Operating Procedure</h2>
-                <p class="text-lg text-slate-600 font-light">
-                    Intet overlades til tilfældighederne. En stabil produktion kræver en stringent arbejdsgang fra modtagelse af tegning til endelig frigivelse af emnet.
-                </p>
+                <h2 class="text-4xl font-extrabold tracking-tight mb-6 uppercase">Standard Operating Procedure</h2>
+                <p class="text-lg text-slate-600 font-light italic">Metodikken bag ethvert emne produceret under Datum Prototyping standarden.</p>
             </div>
-
             <div class="grid md:grid-cols-4 gap-8">
-                <div class="relative">
-                    <span class="text-6xl font-black text-slate-200 absolute -top-8 -left-4 z-0">01</span>
-                    <div class="relative z-10 pt-4">
-                        <h4 class="font-bold text-lg mb-3">Tolerancetjek & CAD</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">Analyse af tegningens kritiske mål. Geometri optimeres for at sikre maksimal værktøjsadgang og stabilitet.</p>
-                    </div>
-                </div>
-                <div class="relative">
-                    <span class="text-6xl font-black text-slate-200 absolute -top-8 -left-4 z-0">02</span>
-                    <div class="relative z-10 pt-4">
-                        <h4 class="font-bold text-lg mb-3">CAM & Simulering</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">Værktøjsvalg og strategi i Fusion 360. Implementering af adaptiv rydning for at minimere cyklustid og værktøjsslid.</p>
-                    </div>
-                </div>
-                <div class="relative">
-                    <span class="text-6xl font-black text-slate-200 absolute -top-8 -left-4 z-0">03</span>
-                    <div class="relative z-10 pt-4">
-                        <h4 class="font-bold text-lg mb-3">Fysisk Opspænding</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">Etablering af nulpunkter og fastspænding med fokus på at eliminere vibrationer under den spåntagende proces.</p>
-                    </div>
-                </div>
-                <div class="relative">
-                    <span class="text-6xl font-black text-slate-200 absolute -top-8 -left-4 z-0">04</span>
-                    <div class="relative z-10 pt-4">
-                        <h4 class="font-bold text-lg mb-3">First Article Inspection</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed">Fysisk verificering jf. ISO 286. Systematisk opmåling før emnet frigives til næste operation eller kunden.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="kompetencer" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-16">
-            <div class="lg:col-span-6">
-                <div class="mb-12">
-                    <h2 class="text-4xl font-extrabold tracking-tight mb-4">Maskinpark</h2>
-                    <p class="text-lg text-slate-600 font-light">Valget af den rette teknologi til den specifikke tolerance.</p>
-                </div>
-                <div class="space-y-4">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-corporate">Haas ST10</h4>
-                            <p class="text-xs text-slate-500 mt-1">CNC Turning</p>
-                        </div>
-                        <span class="bg-slate-100 text-corporate text-xs font-semibold px-3 py-1 rounded-full">Primary</span>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-corporate">Haas Mini Mill</h4>
-                            <p class="text-xs text-slate-500 mt-1">CNC Milling</p>
-                        </div>
-                        <span class="bg-slate-100 text-corporate text-xs font-semibold px-3 py-1 rounded-full">Primary</span>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-corporate">Weiler Matador</h4>
-                            <p class="text-xs text-slate-500 mt-1">Manual Precision Lathe</p>
-                        </div>
-                        <span class="bg-slate-100 text-corporate text-xs font-semibold px-3 py-1 rounded-full">Specialized</span>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex justify-between items-center">
-                        <div>
-                            <h4 class="font-bold text-corporate">Deckel</h4>
-                            <p class="text-xs text-slate-500 mt-1">Manual Milling</p>
-                        </div>
-                        <span class="bg-slate-100 text-corporate text-xs font-semibold px-3 py-1 rounded-full">Specialized</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="lg:col-span-6">
-                <div class="mb-12">
-                    <h2 class="text-4xl font-extrabold tracking-tight mb-4">Materialebibliotek</h2>
-                    <p class="text-lg text-slate-600 font-light">Erfaring med bearbejdning på tværs af legeringer og polymerer.</p>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-corporate text-white p-6 rounded-2xl border border-corporate">
-                        <span class="block text-xs text-accent font-semibold uppercase tracking-wider mb-2">High Finish</span>
-                        <h4 class="font-bold text-lg">Aluminium</h4>
-                        <p class="text-xs text-slate-400 mt-2">Optimeret spånbrydning til spejlblanke overflader.</p>
-                    </div>
-                    <div class="bg-corporate text-white p-6 rounded-2xl border border-corporate">
-                        <span class="block text-xs text-accent font-semibold uppercase tracking-wider mb-2">High Finish</span>
-                        <h4 class="font-bold text-lg">Messing</h4>
-                        <p class="text-xs text-slate-400 mt-2">Præcisionsbearbejdning med minimal friktion.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
-                        <h4 class="font-bold text-corporate">Værktøjsstål</h4>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
-                        <h4 class="font-bold text-corporate">Rustfast Stål</h4>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
-                        <h4 class="font-bold text-corporate">Alm. Stål</h4>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
-                        <h4 class="font-bold text-corporate">Polymerer</h4>
-                        <p class="text-xs text-slate-500 mt-1">POM & Nylon</p>
-                    </div>
-                </div>
+                <div class="relative"><span class="text-6xl font-black text-slate-200 absolute -top-8 -left-4 z-0">01</span><div class="relative z-10 pt-4"><h4 class="font-bold text-lg mb-3">Analyse</h4><p class="text-sm text-slate-600 leading-relaxed">Geometri-analyse og tolerance-tjek jf. ISO 286.</p></div></div>
+                <div class="relative"><span class="text-6xl font-black text-slate-200 absolute -top-8 -left-4 z-0">02</span><div class="relative z-10 pt-4"><h4 class="font-bold text-lg mb-3">Strategi</h4><p class="text-sm text-slate-600 leading-relaxed">CAM-simulering og værktøjsvalg for optimal finish.</p></div></div>
+                <div class="relative"><span class="text-6xl font-black text-slate-200 absolute -top-8 -left-4 z-0">03</span><div class="relative z-10 pt-4"><h4 class="font-bold text-lg mb-3">Eksekvering</h4><p class="text-sm text-slate-600 leading-relaxed">Præcisionseksekvering på CNC eller manuelle maskiner.</p></div></div>
+                <div class="relative"><span class="text-6xl font-black text-slate-200 absolute -top-8 -left-4 z-0">04</span><div class="relative z-10 pt-4"><h4 class="font-bold text-lg mb-3">Verificering</h4><p class="text-sm text-slate-600 leading-relaxed">FAI (First Article Inspection) med analog metrologi.</p></div></div>
             </div>
         </div>
     </section>
 
     <section id="cases" class="py-32 px-6 bg-corporate text-white">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-4xl font-extrabold tracking-tight mb-24">Case Studies</h2>
+            <h2 class="text-4xl font-extrabold tracking-tight mb-24 uppercase tracking-tighter text-slate-300">Udvalgte Cases // Portefølje</h2>
 
-            <div class="grid lg:grid-cols-2 gap-16 items-center mb-32">
+            <div class="grid lg:grid-cols-2 gap-16 items-center mb-40">
                 <div>
-                    <span class="text-accent font-semibold tracking-wide uppercase text-xs mb-4 block">Fysisk Validering</span>
-                    <h3 class="text-4xl font-bold mb-6 leading-tight">Flame Eater MK2</h3>
+                    <span class="text-accent font-semibold tracking-wide uppercase text-xs mb-4 block">Finmekanisk Montage</span>
+                    <h3 class="text-4xl font-bold mb-6 leading-tight">Flame Eater MK2 // Vakuum Motor</h3>
                     <p class="text-slate-400 text-lg leading-relaxed mb-8 font-light">
-                        Vakuum motor system udviklet med strenge krav til termisk balance. Systemets tæthed og funktion beror udelukkende på tolerancerne i cylinder- og stempelsamlingen.
+                        Eksekvering af kritiske pasninger i støbejern og rustfast stål. Systemets funktionalitet kræver en cylinder-tolerance på <span class="text-white font-mono">H7</span> og en stempel-tolerance på <span class="text-white font-mono">f7</span> for at sikre kompression uden mekanisk modstand.
                     </p>
-                    <div class="grid grid-cols-2 gap-8 pt-8 border-t border-slate-800">
+                    <div class="grid grid-cols-2 gap-4 pt-8 border-t border-slate-800">
                         <div>
-                            <span class="block text-xs text-slate-500 uppercase font-semibold mb-1">Tolerancer</span>
-                            <span class="font-medium">H7 / f7 Pasning</span>
+                            <span class="block text-[10px] text-slate-500 uppercase mb-1">Cylinder</span>
+                            <span class="text-sm font-mono">Drejning + Honing</span>
                         </div>
                         <div>
-                            <span class="block text-xs text-slate-500 uppercase font-semibold mb-1">Materialer</span>
-                            <span class="font-medium">Støbejern, SS316, Messing</span>
+                            <span class="block text-[10px] text-slate-500 uppercase mb-1">Verificering</span>
+                            <span class="text-sm font-mono text-accent">FAI Godkendt</span>
                         </div>
                     </div>
                 </div>
-                <div class="bg-slate-800 rounded-2xl overflow-hidden aspect-square">
-                    <img src="img/flame-render.png" class="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" alt="Flame Eater MK2">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-slate-800 rounded aspect-square overflow-hidden border border-slate-700">
+                        <img src="img/flame-parts.jpg" alt="Flame Eater Enkeltdel" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="bg-slate-800 rounded aspect-square overflow-hidden border border-slate-700">
+                        <img src="img/flame-assembly.jpg" alt="Flame Eater Samling" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500">
+                    </div>
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="order-2 lg:order-1">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-slate-800 p-6 rounded-2xl flex flex-col items-center justify-center relative aspect-square">
-                            <span class="absolute top-4 left-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">CAD Data</span>
-                            <img src="img/crankweb-render.png" class="w-full h-full object-contain" alt="Crankweb Render">
-                        </div>
-                        <div class="bg-slate-900 rounded-2xl overflow-hidden relative aspect-square">
-                            <span class="absolute top-4 left-4 text-[10px] font-bold text-white bg-accent px-2 py-1 rounded uppercase tracking-widest z-10">Live QA</span>
-                            <img src="img/crankweb-qa-dorn.png" class="w-full h-full object-cover opacity-80" alt="QA Verification">
-                        </div>
+                <div class="order-2 lg:order-1 flex flex-col gap-4">
+                    <div class="bg-slate-800 p-6 rounded aspect-video overflow-hidden border border-slate-700">
+                        <img src="img/crankweb-render.png" class="w-full h-full object-contain opacity-50" alt="CAD Render">
+                    </div>
+                    <div class="bg-slate-900 p-6 rounded aspect-video overflow-hidden border border-slate-800">
+                        <img src="img/crankweb-qa-dorn.png" class="w-full h-full object-cover opacity-50" alt="QA Verification">
                     </div>
                 </div>
                 <div class="order-1 lg:order-2">
                     <span class="text-accent font-semibold tracking-wide uppercase text-xs mb-4 block">Komponent Analyse</span>
                     <h3 class="text-4xl font-bold mb-6 leading-tight">Crankweb Assembly</h3>
                     <p class="text-slate-400 text-lg leading-relaxed mb-8 font-light">
-                        Kritisk komponent til krumtapsmekanisme. Absolut concentricity er påkrævet for at eliminere vibrationer. Komponenten er produceret og dokumenteret live i maskinen, verificeret med analog passerdorn, før endelig frigivelse.
+                        Kritisk komponent til krumtapsmekanisme. Produceret og dokumenteret i maskinen, verificeret med analog passerdorn Ø7h7 for at sikre absolut concentricity.
                     </p>
-                    <div class="grid grid-cols-2 gap-8 pt-8 border-t border-slate-800">
-                        <div>
-                            <span class="block text-xs text-slate-500 uppercase font-semibold mb-1">Verificering</span>
-                            <span class="font-medium">Ø7h7 Analog Dorn</span>
-                        </div>
-                        <div>
-                            <span class="block text-xs text-slate-500 uppercase font-semibold mb-1">Materiale</span>
-                            <span class="font-medium">Messing MS58</span>
-                        </div>
+                    <div class="pt-8 border-t border-slate-800">
+                        <span class="block text-[10px] text-slate-500 uppercase mb-1">Standard</span>
+                        <span class="font-medium text-accent text-lg tracking-widest">ISO 286 METROLOGI</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="qa" class="py-32 px-6">
+    <section id="qa" class="py-32 px-6 bg-white border-b border-slate-100">
         <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-16">
             <div class="lg:col-span-5">
-                <h2 class="text-4xl font-extrabold tracking-tight mb-6">Præcision kræver føling.</h2>
-                <p class="text-lg text-slate-600 font-light leading-relaxed mb-8">
-                    Jeg fravælger aktivt digitale måleinstrumenter ved kritiske pasninger. En korrekt tolerancemåling er en fysisk disciplin, der kræver en analog forståelse for indgreb og friktion. Jeg stoler på kalibreret mekanik frem for elektronik.
+                <h2 class="text-4xl font-extrabold tracking-tight mb-6 uppercase">Kvalitetssikring.</h2>
+                <p class="text-lg text-slate-600 font-light leading-relaxed mb-8 italic">
+                    Jeg fravælger aktivt digitale måleinstrumenter ved kritiske pasninger. En korrekt tolerancemåling kræver analog føling for indgreb og friktion.
                 </p>
             </div>
             <div class="lg:col-span-7 grid sm:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="font-bold text-corporate mb-6 pb-4 border-b border-slate-100">Analog Validering</h4>
-                    <ul class="space-y-4 text-sm text-slate-600 font-medium">
-                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Trepunktsmålere</li>
-                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Topunktsmålere</li>
-                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Mikrometerskruer (Ind/Ud)</li>
+                <div class="bg-paper p-8 rounded border border-slate-100 shadow-sm">
+                    <h4 class="font-bold text-corporate mb-4 uppercase text-xs tracking-widest">Metrologi</h4>
+                    <ul class="space-y-3 text-sm text-slate-600 font-medium">
+                        <li>- Trepunktsmålere (Analog)</li>
+                        <li>- Mikrometerskruer (Ind/Ud)</li>
+                        <li>- Måleure (Præcision 0.001mm)</li>
                     </ul>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-                    <h4 class="font-bold text-corporate mb-6 pb-4 border-b border-slate-100">Standarder</h4>
-                    <ul class="space-y-4 text-sm text-slate-600 font-medium">
-                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Passerdorne (H7 kontrol)</li>
-                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> Gevindtolke</li>
-                        <li class="flex items-center gap-3"><span class="w-1.5 h-1.5 rounded-full bg-accent"></span> ISO 286</li>
+                <div class="bg-paper p-8 rounded border border-slate-100 shadow-sm">
+                    <h4 class="font-bold text-corporate mb-4 uppercase text-xs tracking-widest">Verificering</h4>
+                    <ul class="space-y-3 text-sm text-slate-600 font-medium">
+                        <li>- Passerdorne (H7 kontrol)</li>
+                        <li>- Gevindtolke / Referenceblokke</li>
+                        <li>- Systematisk FAI-rapport</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="intake" class="py-32 px-6 bg-corporate text-white border-t border-slate-800">
+    <section id="kontakt" class="py-32 px-6 bg-corporate text-white">
         <div class="max-w-4xl mx-auto">
             <div class="mb-16">
-                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Projektforespørgsel.</h2>
-                <p class="text-slate-400 font-light text-lg">
-                    Forlad gætteriet. Definer tolerancer, materiale og scope, så vurderer jeg eksekverbarheden.
-                </p>
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase">Teknisk Kontakt.</h2>
+                <p class="text-slate-400 font-light text-lg italic">Denne portal er en teknisk showcase. Kontakt mig for netværk, faglig sparring eller rekrutteringsdialog.</p>
             </div>
-
             <form id="intake-form" action="https://formspree.io/f/mdawdogr" method="POST" class="space-y-8">
                 <div class="grid md:grid-cols-2 gap-8">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Afsender / Virksomhed</label>
-                        <input type="text" name="name" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors">
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Navn / Firma</label>
+                        <input type="text" name="name" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Retur-Email</label>
-                        <input type="email" name="email" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors">
+                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Email</label>
+                        <input type="email" name="email" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent">
                     </div>
                 </div>
-
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Kritisk Tolerance</label>
-                        <select name="tolerance" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent appearance-none">
-                            <option value="ISO_2768_m">ISO 2768-m (Generel Maskin)</option>
-                            <option value="ISO_286">ISO 286 (Kritiske Pasninger)</option>
-                            <option value="High_Precision">Specifik (< 0.01 mm)</option>
-                            <option value="Form_Fit">Form/Fit Prototype (Ingen kritiske mål)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Primært Materiale</label>
-                        <input type="text" name="material" placeholder="F.eks. Alu 7075, Messing MS58, POM" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors">
-                    </div>
-                </div>
-
                 <div>
-                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Projekt Scope & CAD-Link</label>
-                    <textarea name="message" rows="4" placeholder="Angiv komponentens funktion og driftsmiljø. Indsæt direkte URL til .STEP / .IGES data (WeTransfer / Drive) her." required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors"></textarea>
+                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Besked</label>
+                    <textarea name="message" rows="4" placeholder="Hvad vil du gerne tale om? (Teknik, rekruttering eller sparring)" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accent"></textarea>
                 </div>
-
                 <div class="pt-4 flex justify-between items-center">
-                    <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">LinkedIn Profil</a>
-                    <button id="submit-btn" type="submit" class="bg-accent text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-corporate transition-all flex items-center gap-3">
-                        <span>Indsend Specifikationer</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </button>
+                    <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="text-sm font-medium text-slate-400 hover:text-white transition-colors underline decoration-accent decoration-2 underline-offset-4">Gå til LinkedIn</a>
+                    <button id="submit-btn" type="submit" class="bg-accent text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-corporate transition-all">Etablér Kontakt</button>
                 </div>
             </form>
         </div>
@@ -377,46 +253,27 @@
     <div id="success-popup" class="fixed bottom-8 right-8 bg-corporate border border-slate-700 px-6 py-4 rounded-lg shadow-2xl transform translate-y-[150%] opacity-0 transition-all duration-500 z-50 flex items-center gap-4 pointer-events-none">
         <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
         <div>
-            <span class="block text-xs font-bold uppercase tracking-widest text-accent mb-1">Forespørgsel Modtaget</span>
-            <span class="text-sm font-light text-slate-300">Dine data er registreret. Jeg gennemgår materialet og vender tilbage.</span>
+            <span class="block text-xs font-bold uppercase tracking-widest text-accent">Besked Modtaget</span>
+            <span class="text-sm font-light text-slate-300 italic">Dine data er registreret i systemet.</span>
         </div>
     </div>
 
     <script>
         const form = document.getElementById('intake-form');
         const popup = document.getElementById('success-popup');
-        const submitBtn = document.getElementById('submit-btn');
-        const btnText = submitBtn.querySelector('span');
-
         form.addEventListener('submit', async (e) => {
-            e.preventDefault(); 
-            const originalText = btnText.innerText;
-            btnText.innerText = 'SENDER...';
-            submitBtn.disabled = true;
-            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-
-            try {
-                const response = await fetch(form.action, {
-                    method: form.method,
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (response.ok) {
-                    form.reset(); 
-                    popup.classList.remove('translate-y-[150%]', 'opacity-0');
-                    setTimeout(() => {
-                        popup.classList.add('translate-y-[150%]', 'opacity-0');
-                    }, 5000);
-                } else {
-                    alert('Systemfejl: Kunne ikke validere data.');
-                }
-            } catch (error) {
-                alert('Netværksfejl.');
-            } finally {
-                btnText.innerText = originalText;
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            e.preventDefault();
+            const response = await fetch(form.action, { 
+                method: form.method, 
+                body: new FormData(form), 
+                headers: { 'Accept': 'application/json' } 
+            });
+            if (response.ok) {
+                form.reset();
+                popup.classList.remove('translate-y-[150%]', 'opacity-0');
+                setTimeout(() => {
+                    popup.classList.add('translate-y-[150%]', 'opacity-0');
+                }, 5000);
             }
         });
     </script>
