@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCH | Teknisk Dossier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        corporate: '#0F172A',
+                        accent: '#2563EB',
+                        paper: '#ffffff',
+                        line: '#E2E8F0',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; }
+        /* Print-specific optimizations */
+        @media print {
+            body { background-color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none !important; }
+            .page-break { page-break-before: always; }
+            @page { margin: 0; size: A4 portrait; }
+            .a4-container { box-shadow: none !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; border: none !important; }
+        }
+    </style>
+</head>
+<body class="text-corporate font-sans antialiased py-10 print:py-0 text-left">
+
+    <div class="max-w-[210mm] mx-auto mb-6 flex justify-between items-center no-print px-4 md:px-0 text-left">
+        <a href="index.html" class="text-sm font-medium text-slate-500 hover:text-corporate flex items-center gap-2 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Tilbage til Portefølje
+        </a>
+        <button onclick="window.print()" class="bg-corporate text-white px-6 py-2 rounded font-medium hover:bg-accent transition-colors flex items-center gap-2 text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            Gem som PDF / Print
+        </button>
+    </div>
+
+    <main class="a4-container mx-auto bg-white shadow-xl border border-line w-full max-w-[210mm] min-h-[297mm] relative overflow-hidden text-left">
+        
+        <header class="border-b-4 border-corporate p-12 text-left">
+            <div class="flex justify-between items-start mb-8 text-left">
+                <div class="text-left">
+                    <span class="font-mono text-[10px] uppercase tracking-widest text-accent font-bold block mb-2">Dokument: Teknisk Dossier</span>
+                    <h1 class="text-5xl font-extrabold tracking-tighter uppercase leading-none text-corporate">Glen<br>Cilinder-Hansen</h1>
+                </div>
+                <div class="text-right text-xs font-mono uppercase text-slate-500 space-y-1">
+                    <p><span class="font-bold text-corporate">Status:</span> Lærling (Aktiv)</p>
+                    <p><span class="font-bold text-corporate">Lokation:</span> TEC Frederiksberg</p>
+                    <p><span class="font-bold text-corporate">Periode:</span> Aug 2023 – Apr 2027</p>
+                    <p class="mt-2 text-[10px] text-slate-400">ID: GCH-2026-REV01</p>
+                </div>
+            </div>
+            <p class="text-sm text-slate-600 font-medium max-w-lg leading-relaxed text-left">
+                Dette dokument tjener som formel verifikation af teknisk kapacitet, maskinforståelse og metodik inden for prototype- og finmekanisk produktion.
+            </p>
+        </header>
+
+        <div class="p-12 space-y-12 text-left">
+
+            <section class="text-left">
+                <div class="border-b-2 border-slate-200 pb-2 mb-6 flex items-baseline gap-4 text-left">
+                    <span class="text-accent font-mono font-bold text-lg">01.</span>
+                    <h2 class="text-xl font-bold uppercase tracking-tight text-corporate">Kapacitet & Specifikationer</h2>
+                </div>
+                <div class="grid grid-cols-2 gap-px bg-slate-200 border border-slate-200 text-left">
+                    <div class="bg-white p-4 flex flex-col text-left">
+                        <span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">Toleranceområde</span>
+                        <span class="font-bold text-corporate text-sm">0.01 mm – 0.001 mm</span>
+                    </div>
+                    <div class="bg-white p-4 flex flex-col text-left">
+                        <span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">Standard</span>
+                        <span class="font-bold text-corporate text-sm">ISO 286</span>
+                    </div>
+                    <div class="bg-white p-4 flex flex-col text-left">
+                        <span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">CNC Maskinpark</span>
+                        <span class="font-bold text-corporate text-sm">Haas ST10 // Haas Mini Mill</span>
+                    </div>
+                    <div class="bg-white p-4 flex flex-col text-left">
+                        <span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">Manuel Maskinpark</span>
+                        <span class="font-bold text-corporate text-sm">Weiler Matador // Deckel</span>
+                    </div>
+                    <div class="bg-white p-4 flex flex-col text-left">
+                        <span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">Certificeringer</span>
+                        <span class="font-bold text-corporate text-sm">Titan of CNC: 3-Axis Beginner</span>
+                    </div>
+                    <div class="bg-white p-4 flex flex-col text-left">
+                        <span class="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-1">Kommende Opkvalificering</span>
+                        <span class="font-bold text-corporate text-sm">TEC Lodning & Svejsning</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-left">
+                <div class="border-b-2 border-slate-200 pb-2 mb-6 flex items-baseline gap-4 text-left">
+                    <span class="text-accent font-mono font-bold text-lg">02.</span>
+                    <h2 class="text-xl font-bold uppercase tracking-tight text-corporate">CAM Strategi (Fusion 360)</h2>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed mb-6 font-medium text-left">
+                    En stabil produktion dikteres af den korrekte værktøjsbane. Strategien tilpasses materialets dimensioner og emnets geometri for at sikre termisk stabilitet og optimal spånbrydning.
+                </p>
+                <div class="grid grid-cols-2 gap-8 text-left">
+                    <div class="text-left">
+                        <h4 class="font-bold text-sm text-corporate uppercase border-l-2 border-accent pl-3 mb-3 text-left">Skrub (Materialefjernelse)</h4>
+                        <ul class="space-y-2 text-sm text-slate-600 font-medium text-left">
+                            <li class="flex items-start gap-2 text-left"><span class="text-accent mt-1 text-left">▪</span> <span class="font-bold text-corporate">Adaptive Clearing:</span> Sikrer konstant spåntykkelse.</li>
+                            <li class="flex items-start gap-2 text-left"><span class="text-accent mt-1 text-left">▪</span> Maksimerer udnyttelsen af skærlængden.</li>
+                            <li class="flex items-start gap-2 text-left"><span class="text-accent mt-1 text-left">▪</span> Eliminerer overbelastning af spindel og værktøj.</li>
+                        </ul>
+                    </div>
+                    <div class="text-left">
+                        <h4 class="font-bold text-sm text-corporate uppercase border-l-2 border-accent pl-3 mb-3 text-left">Slet (Overfladefinish)</h4>
+                        <ul class="space-y-2 text-sm text-slate-600 font-medium text-left">
+                            <li class="flex items-start gap-2 text-left"><span class="text-accent mt-1 text-left">▪</span> <span class="font-bold text-corporate">2D Contour / 3D Flat / 3D Horizontal</span></li>
+                            <li class="flex items-start gap-2 text-left"><span class="text-accent mt-1 text-left">▪</span> Strategi vælges dynamisk ud fra emnets størrelse og overfladekompleksitet.</li>
+                            <li class="flex items-start gap-2 text-left"><span class="text-accent mt-1 text-left">▪</span> Sikrer absolut vinkelrethed.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-left">
+                <div class="border-b-2 border-slate-200 pb-2 mb-6 flex items-baseline gap-4 text-left">
+                    <span class="text-accent font-mono font-bold text-lg">03.</span>
+                    <h2 class="text-xl font-bold uppercase tracking-tight text-corporate">Root Cause Analysis (The Scrap Bin)</h2>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 p-6 text-left">
+                    <p class="text-xs font-mono uppercase text-slate-500 tracking-widest mb-4 border-b border-slate-200 pb-2 text-left">
+                        Case: Flame Eater MK2 (Hovedforløb 2) // Status: <span class="text-red-600 font-bold">Kasseret ved FAI</span>
+                    </p>
+                    <p class="text-sm text-slate-600 italic mb-6 text-left">Evnen til at diagnosticere og udbedre fejl er forskellen på en maskinoperatør og en finmekaniker.</p>
+                    
+                    <div class="space-y-4 text-sm text-left">
+                        <div class="flex gap-4 text-left">
+                            <span class="font-bold text-corporate w-24 shrink-0 text-left">Fejldiagnose:</span>
+                            <span class="text-slate-600 text-left">Dimensioner målt uden for tolerance. Årsagen blev sporet direkte til ukompenseret mekanisk slør (backlash) i spindlerne på den ældre, manuelle Deckel fræser.</span>
+                        </div>
+                        <div class="flex gap-4 text-left">
+                            <span class="font-bold text-corporate w-24 shrink-0 text-left">Handling:</span>
+                            <span class="text-slate-600 text-left">Emnerne blev omgående skrottet for at forhindre montagefejl og fejlfunktion i det endelige motorsystem.</span>
+                        </div>
+                        <div class="flex gap-4 text-left">
+                            <span class="font-bold text-corporate w-24 shrink-0 text-left">Optimering:</span>
+                            <span class="text-slate-600 text-left">Proceduren for manuel bearbejdning på maskinen blev revideret. Indgreb og aksekørsel blev omstruktureret til konsekvent at optage sløret fra samme retning, før spåntagning påbegyndtes.</span>
+                        </div>
+                        <div class="flex gap-4 pt-2 text-left">
+                            <span class="font-bold text-accent w-24 shrink-0 text-left">Resultat:</span>
+                            <span class="font-bold text-corporate text-left">Nul toleranceafvigelser på det efterfølgende re-run.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-left">
+                <div class="border-b-2 border-slate-200 pb-2 mb-6 flex items-baseline gap-4 text-left">
+                    <span class="text-accent font-mono font-bold text-lg">04.</span>
+                    <h2 class="text-xl font-bold uppercase tracking-tight text-corporate">QA & Metrologi</h2>
+                </div>
+                <p class="text-sm text-slate-600 leading-relaxed mb-6 font-medium text-left">
+                    Kritiske pasninger kræver kalibreret mekanik og analog føling. Digitale hjælpemidler fravælges aktivt ved mikron-kontrol for at eliminere elektronisk måleusikkerhed.
+                </p>
+                <div class="grid grid-cols-2 gap-4 text-left">
+                    <div class="border border-slate-200 p-4 text-left">
+                        <span class="block text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-2 text-left">Verificeringsværktøj</span>
+                        <ul class="text-sm text-corporate font-bold space-y-1 text-left">
+                            <li>- Trepunktsmålere (Analog)</li>
+                            <li>- Topunktsmålere (Analog)</li>
+                            <li>- Mikrometerskruer (Ind/Ud)</li>
+                        </ul>
+                    </div>
+                    <div class="border border-slate-200 p-4 text-left">
+                        <span class="block text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-2 text-left">Go / No-Go Standard</span>
+                        <ul class="text-sm text-corporate font-bold space-y-1 text-left">
+                            <li>- Passerdorne (H7-kontrol)</li>
+                            <li>- Gevindtolke</li>
+                            <li>- Referenceblokke</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        
+        <div class="absolute bottom-8 left-12 right-12 flex justify-between items-end border-t border-slate-200 pt-4 text-left">
+            <span class="font-mono text-[8px] uppercase text-slate-400">Verificeret og godkendt til produktion</span>
+            <span class="font-mono text-[8px] uppercase text-slate-400">Side 1 af 1</span>
+        </div>
+
+    </main>
+
+</body>
+</html>
