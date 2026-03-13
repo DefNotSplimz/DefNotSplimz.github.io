@@ -37,47 +37,45 @@
         <div class="max-w-[1600px] mx-auto px-6 h-14 flex items-center justify-between text-[10px] tracking-[0.2em] uppercase">
             <div class="flex items-center gap-6">
                 <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 bg-brand rounded-full"></span>
+                    <span class="w-2 h-2 bg-brand rounded-full animate-pulse"></span>
                     <span class="text-white font-bold">OPERATOR: G. CILINDER-HANSEN</span>
                 </div>
                 <span class="text-zinc-700 hidden lg:block">// STATUS: ACTIVE_PRODUCTION</span>
             </div>
-            <div class="flex gap-8 text-left">
-                <a href="#projekter" class="hover:text-brand transition-colors text-left">PROJECTS</a>
-                <a href="#profil" class="hover:text-brand transition-colors text-left">PROFILE</a>
-                <a href="#kontakt" class="text-white border border-white/20 px-3 py-1 hover:bg-white hover:text-black transition-all">TERMINATE_&_CONTACT</a>
+            <div class="flex gap-8">
+                <a href="#projekter" class="hover:text-brand transition-colors">PROJECTS</a>
+                <a href="#profil" class="hover:text-brand transition-colors">PROFILE</a>
+                <a href="#kontakt" class="text-brand border border-brand/30 px-3 py-1 hover:bg-brand hover:text-white transition-all">TERMINATE_&_CONTACT</a>
             </div>
         </div>
     </nav>
 
     <section class="min-h-screen flex flex-col justify-center px-6 pt-20">
-        <div class="max-w-[1600px] mx-auto w-full text-left">
+        <div class="max-w-[1600px] mx-auto w-full">
             <div class="grid lg:grid-cols-12 gap-0 border border-white/10">
-                <div class="lg:col-span-8 p-12 lg:p-20 border-r border-white/10 text-left">
+                <div class="lg:col-span-8 p-12 lg:p-20 border-r border-white/10">
                     <h1 class="text-6xl md:text-[140px] font-black text-white leading-[0.8] tracking-tighter uppercase mb-12">
                         NO WASTE.<br>ONLY <span class="text-brand">OUTPUT.</span>
                     </h1>
-                    <div class="max-w-xl text-left">
+                    <div class="max-w-xl">
                         <p class="text-xl md:text-2xl text-zinc-500 font-sans leading-relaxed font-extralight uppercase">
                             CNC-eksekvering eller manuelt håndværk. Jeg mestrer begge discipliner og afslutter enhver opgave med mikron-præcision som eneste acceptkriterium.
                         </p>
                     </div>
                 </div>
                 <div class="lg:col-span-4 p-12 bg-industrial/30 flex flex-col justify-between">
-                    <div class="space-y-8">
-                        <div>
-                            <span class="text-brand block mb-4 tracking-[0.3em] text-[10px]">CAPABILITIES</span>
-                            <ul class="space-y-2 text-sm text-white font-bold uppercase">
-                                <li>[01] FUSION 360 CAD/CAM</li>
-                                <li>[02] CNC OPTIMIZATION</li>
-                                <li>[03] ISO TOLERANCE MGMT</li>
-                                <li>[04] MANUAL PERFORMANCE</li>
-                            </ul>
-                        </div>
+                    <div>
+                        <span class="text-brand block mb-6 tracking-[0.3em] text-[10px] font-bold">CORE_CAPABILITIES</span>
+                        <ul class="space-y-3 text-xs text-white font-bold uppercase tracking-widest">
+                            <li class="flex items-center gap-3"><span class="text-brand/50">[01]</span> Fusion 360 CAD/CAM</li>
+                            <li class="flex items-center gap-3"><span class="text-brand/50">[02]</span> CNC Optimization</li>
+                            <li class="flex items-center gap-3"><span class="text-brand/50">[03]</span> ISO Tolerance MGMT</li>
+                            <li class="flex items-center gap-3"><span class="text-brand/50">[04]</span> Manual Performance</li>
+                        </ul>
                     </div>
                     <div class="pt-12 border-t border-white/5">
-                        <span class="text-zinc-600 block text-[9px] mb-2 font-mono uppercase">Current Machine Stack:</span>
-                        <p class="text-xs text-zinc-400 uppercase">Haas ST10 // Mini Mill // Manual Lathe</p>
+                        <span class="text-zinc-600 block text-[9px] mb-2 font-mono uppercase italic tracking-widest">Hardware_Stack:</span>
+                        <p class="text-[10px] text-zinc-400 uppercase font-bold">Haas ST10 // Mini Mill // Manual Lathe</p>
                     </div>
                 </div>
             </div>
@@ -87,8 +85,8 @@
     <section id="projekter" class="py-20 px-6 pb-0">
         <div class="max-w-[1600px] mx-auto">
             <div class="grid lg:grid-cols-4 border border-white/10">
-                <div class="p-8 border-b lg:border-b-0 lg:border-r border-white/10 lg:col-span-1 text-left">
-                    <div class="mb-6">
+                <div class="p-8 border-b lg:border-b-0 lg:border-r border-white/10 lg:col-span-1">
+                    <div class="mb-6 text-left">
                         <span class="text-[10px] text-brand font-black tracking-[0.3em] uppercase bg-brand/10 px-2 py-1 border border-brand/20">
                             IDENTIFIER: PRIMARY_PROJECT
                         </span>
@@ -100,8 +98,8 @@
                 </div>
 
                 <div class="lg:col-span-3 border-b border-white/10 relative group bg-zinc-900">
-                    <img src="img/flame-render.png" alt="Flame Eater MK2 Render" class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000">
-                    <div class="absolute inset-0 pointer-events-none border-[20px] border-black/20 text-left"></div>
+                    <img src="img/flame-render.png" alt="Flame Eater MK2" class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000">
+                    <div class="absolute inset-0 pointer-events-none border-[20px] border-black/20"></div>
                     <div class="absolute bottom-6 right-6 text-zinc-500 text-[10px] tracking-widest font-mono bg-black/50 px-4 py-2 backdrop-blur-md">
                         ISO_VIEW // FULL_ASSEMBLY_RENDER
                     </div>
@@ -109,22 +107,22 @@
             </div>
 
             <div class="grid lg:grid-cols-2 border-x border-b border-white/10">
-                <div class="p-8 border-r border-white/10 flex gap-8 items-start lg:items-center group bg-industrial/10 text-left">
-                    <div class="w-24 h-24 bg-zinc-800 shrink-0 border border-white/10 overflow-hidden text-left">
+                <div class="p-8 border-r border-white/10 flex flex-col md:flex-row gap-8 items-start lg:items-center group bg-industrial/10">
+                    <div class="w-24 h-24 bg-zinc-800 shrink-0 border border-white/10 overflow-hidden">
                         <img src="img/cam-disc-render.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
                     </div>
                     <div>
-                        <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase text-left">Cam System</span>
+                        <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase">Cam System</span>
                         <h4 class="text-white font-bold text-sm uppercase mb-2">Timing Geometry</h4>
                         <p class="text-[10px] text-zinc-500 font-sans leading-tight">3D-skabelon integration for præcis profilgeometri og ventilstyring.</p>
                     </div>
                 </div>
 
-                <div class="p-8 flex flex-col md:flex-row gap-8 items-start lg:items-center group text-left bg-industrial/30">
+                <div class="p-8 flex flex-col md:flex-row gap-8 items-start lg:items-center group bg-industrial/30">
                     <div class="w-24 h-24 bg-zinc-800 shrink-0 border border-white/10 overflow-hidden">
                         <img src="img/piston-fit.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
                     </div>
-                    <div class="flex-1 w-full text-left">
+                    <div class="flex-1 w-full">
                         <div class="flex justify-between items-start mb-4">
                             <div>
                                 <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase">Materiale-interface</span>
@@ -134,12 +132,12 @@
                         </div>
                         <div class="grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
                             <div>
-                                <span class="block text-[8px] text-zinc-600 uppercase mb-1 text-left">Cylinder H7</span>
-                                <span class="text-white font-bold text-[11px] font-mono uppercase">11.005 mm</span>
+                                <span class="block text-[8px] text-zinc-600 uppercase mb-1">Cylinder H7</span>
+                                <span class="text-white font-bold text-[11px] font-mono">11.005 mm</span>
                             </div>
                             <div>
                                 <span class="block text-[8px] text-zinc-600 uppercase mb-1 text-left">Stempel f7</span>
-                                <span class="text-white font-bold text-[11px] font-mono uppercase">10.992 mm</span>
+                                <span class="text-white font-bold text-[11px] font-mono">10.992 mm</span>
                             </div>
                         </div>
                     </div>
@@ -149,23 +147,23 @@
     </section>
 
     <section class="py-10 px-6">
-        <div class="max-w-[1600px] mx-auto text-left">
+        <div class="max-w-[1600px] mx-auto">
             <div class="mb-6 flex items-center gap-4">
                 <h3 class="text-xs font-bold text-white uppercase tracking-[0.3em]">Tekniske Referencer</h3>
                 <div class="h-[1px] flex-1 bg-white/5"></div>
             </div>
             <div class="grid lg:grid-cols-3 gap-0 border border-white/10">
-                <div class="p-8 border-r border-white/10 flex gap-6 items-start lg:items-center group bg-industrial/20 text-left">
+                <div class="p-8 border-r border-white/10 flex gap-6 items-start lg:items-center group bg-industrial/20">
                     <div class="w-20 h-20 bg-zinc-800 shrink-0 border border-white/10 overflow-hidden">
                         <img src="img/jig-render.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
                     </div>
                     <div>
                         <span class="text-[8px] text-brand font-black tracking-widest uppercase mb-1 block">REF: DRILL_JIG_H4</span>
-                        <h4 class="text-white font-bold text-xs uppercase mb-1">Borefikstur</h4>
+                        <h4 class="text-white font-bold text-sm uppercase mb-1">Borefikstur</h4>
                         <p class="text-[10px] text-zinc-500 font-sans leading-tight">Udviklet i SS_316 for maksimal geometrisk stabilitet.</p>
                     </div>
                 </div>
-                <div class="p-8 border-r border-white/10 flex items-center justify-center bg-industrial/5 opacity-30 text-left">
+                <div class="p-8 border-r border-white/10 flex items-center justify-center bg-industrial/5 opacity-30">
                     <span class="text-[10px] uppercase tracking-widest text-zinc-700 font-bold tracking-tighter">Pending_Project_02</span>
                 </div>
                 <div class="p-8 flex items-center justify-center bg-industrial/5 opacity-30">
@@ -177,17 +175,17 @@
 
     <section id="profil" class="py-40 px-6 border-t border-white/10 bg-industrial/10">
         <div class="max-w-[1600px] mx-auto">
-            <div class="mb-20 text-left">
+            <div class="mb-20">
                 <h2 class="text-4xl font-black text-white uppercase italic tracking-tighter">Technical Profile // Execution Logic</h2>
                 <div class="h-1 w-20 bg-brand mt-4"></div>
             </div>
 
-            <div class="grid lg:grid-cols-3 gap-16 text-left mb-24">
+            <div class="grid lg:grid-cols-3 gap-16 mb-24">
                 <div class="space-y-6 group border-t border-white/5 pt-8 hover:border-brand transition-colors duration-500">
                     <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase block mb-4">[01] Systematisk Drift</span>
                     <div class="space-y-4">
-                        <p class="text-zinc-400 text-sm leading-relaxed font-sans text-left">
-                            Jeg opererer med en modenhed, der prioriterer sikkerhed og sporbarhed over hurtige genveje. En lærlingetid i en voksen alder betyder, at min forståelse for maskin-ansvar og processtabilitet er dybt forankret i enhver opstilling.
+                        <p class="text-zinc-400 text-sm leading-relaxed font-sans">
+                            Jeg opererer med en modenhed, der prioriterer sikkerhed og sporbarhed over hurtige genveje. Processtabilitet er dybt forankret i enhver opstilling.
                         </p>
                         <div class="bg-white/5 p-4 border-l-2 border-brand">
                             <span class="text-white text-[10px] font-bold font-mono uppercase block mb-1">Målsætning:</span>
@@ -200,56 +198,44 @@
                     <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase block mb-4">[02] Digital Præcision</span>
                     <div class="space-y-4">
                         <p class="text-zinc-400 text-sm leading-relaxed font-sans">
-                            Integrationen af Fusion 360 som strategisk værktøj minimerer usikkerhed. Ved at anvende avancerede CAM-strategier og simuleringer før første spån, sikrer jeg, at både værktøjsvalg og cyklustider er optimeret til det yderste.
+                            Integrationen af Fusion 360 som strategisk værktøj minimerer usikkerhed. Avancerede CAM-strategier og simuleringer før første spån.
                         </p>
-                        <div class="bg-white/5 p-4 border-l-2 border-brand">
+                        <div class="bg-white/5 p-4 border-l-2 border-brand text-left">
                             <span class="text-white text-[10px] font-bold font-mono uppercase block mb-1">Metodik:</span>
-                            <span class="text-zinc-500 text-[10px] font-mono uppercase">Data-drevet spåntagning // Reduceret værktøjsslid.</span>
+                            <span class="text-zinc-500 text-[10px] font-mono uppercase">Data-drevet spåntagning // Optimeret cyklustid.</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-6 group border-t border-white/5 pt-8 hover:border-brand transition-colors duration-500">
+                <div class="space-y-6 group border-t border-white/5 pt-8 hover:border-brand transition-colors duration-500 text-left">
                     <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase block mb-4">[03] Finmekanisk Fokus</span>
                     <div class="space-y-4">
                         <p class="text-zinc-400 text-sm leading-relaxed font-sans text-left">
-                            Jeg søger udfordringer, hvor konventionelle metoder kommer til kort. Min fremtid ligger i high-end prototyping, hvor mikron-tolerancer og materialeforståelse er de afgørende parametre for et funktionelt slutprodukt.
+                            Jeg søger udfordringer i high-end prototyping, hvor mikron-tolerancer og materialeforståelse er de afgørende parametre.
                         </p>
                         <div class="bg-white/5 p-4 border-l-2 border-brand text-left">
                             <span class="text-white text-[10px] font-bold font-mono uppercase block mb-1">Kapacitet:</span>
-                            <span class="text-zinc-500 text-[10px] font-mono uppercase text-left text-left">Kompleks komponentfremstilling // ISO-standarder.</span>
+                            <span class="text-zinc-500 text-[10px] font-mono uppercase">Kompleks komponentfremstilling // ISO-standarder.</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="border border-white/10 bg-industrial/40 backdrop-blur-sm p-10 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-4 opacity-10 font-mono text-[60px] font-black pointer-events-none group-hover:text-brand transition-colors text-left text-left">QA</div>
-                <div class="grid md:grid-cols-4 gap-12 relative z-10 text-left">
+                <div class="absolute top-0 right-0 p-4 opacity-5 font-mono text-[80px] font-black pointer-events-none group-hover:text-brand transition-colors">QA</div>
+                <div class="grid md:grid-cols-4 gap-12 relative z-10">
                     <div class="md:col-span-1">
                         <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase block mb-3 italic">Validation Stack</span>
                         <h5 class="text-white font-black uppercase text-xl italic leading-none tracking-tighter">Metrologi &<br>Inspektion</h5>
                     </div>
-                    <div class="md:col-span-3">
-                        <ul class="grid grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-12 text-[11px] font-mono text-zinc-400 uppercase tracking-widest text-left">
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2">
-                                <span class="text-brand font-bold text-lg">01</span> Mikrometerskruer (IND/UD)
-                            </li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2 text-left">
-                                <span class="text-brand font-bold text-lg">02</span> Måleur & Vippeur (0.01/0.002)
-                            </li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2">
-                                <span class="text-brand font-bold text-lg">03</span> Præcisions-højdemåler
-                            </li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2 text-left">
-                                <span class="text-brand font-bold text-lg">04</span> Passerdorne H7 (Sæt)
-                            </li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2">
-                                <span class="text-brand font-bold text-lg text-left">05</span> Gevindtolke / Ringlære
-                            </li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2">
-                                <span class="text-brand font-bold text-lg">06</span> Slipsæt (Referenceblokke)
-                            </li>
+                    <div class="md:col-span-3 text-left">
+                        <ul class="grid grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-12 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">01</span> Mikrometerskruer</li>
+                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">02</span> Måleur & Vippeur</li>
+                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">03</span> Højdemåler</li>
+                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">04</span> Passerdorne H7</li>
+                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">05</span> Gevindtolke</li>
+                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">06</span> Slipsæt</li>
                         </ul>
                     </div>
                 </div>
@@ -259,14 +245,14 @@
 
     <footer id="kontakt" class="py-60 border-t border-white/10 text-center">
         <div class="max-w-[1600px] mx-auto px-6 flex flex-col items-center">
-            <h2 class="text-7xl md:text-[180px] font-black text-white uppercase tracking-tighter leading-none mb-20 text-center text-center">
+            <h2 class="text-7xl md:text-[180px] font-black text-white uppercase tracking-tighter leading-none mb-20">
                 GET IN <span class="text-brand">SYNC.</span>
             </h2>
             <div class="flex flex-col md:flex-row gap-1 border border-white/10 bg-white/5">
-                <a href="mailto:defnotsplimz@gmail.com" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm text-center">Send_Email</a>
-                <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm border-t md:border-t-0 md:border-l border-white/10 text-center">LinkedIn_Auth</a>
+                <a href="mailto:defnotsplimz@gmail.com" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm">Send_Email</a>
+                <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm border-t md:border-t-0 md:border-l border-white/10">LinkedIn_Auth</a>
             </div>
-            <p class="mt-20 font-mono text-[9px] text-zinc-800 uppercase tracking-[0.5em] text-center">
+            <p class="mt-20 font-mono text-[9px] text-zinc-800 uppercase tracking-[0.5em]">
                 Glen Cilinder-Hansen // Prototype Engineering // 2026_BUILD
             </p>
         </div>
