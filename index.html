@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glen Cilinder-Hansen | Prototype Engineering</title>
+    <title>GCH // PROTOTYPE PRODUCTION TERMINAL</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@100;200;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700;800&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: '#ff5f1f',
-                        industrial: '#111111',
+                        brand: '#ff5f1f', // Warning Orange
+                        machine: '#0a0a0b', // Deep Slate
+                        terminal: '#141417',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     }
                 }
@@ -23,301 +23,176 @@
         }
     </script>
     <style>
+        /* CAD GRID BAGGRUND */
         body {
-            background-color: #050505;
-            background-image: radial-gradient(circle at 2px 2px, #1a1a1a 1px, transparent 0);
-            background-size: 32px 32px;
+            background-color: #050506;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            font-family: 'JetBrains Mono', monospace;
         }
-        .selection-brand::selection { background: #ff5f1f; color: white; }
+
+        /* SCANLINE EFFEKT */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            z-index: 100;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .heavy-border { border: 1px solid rgba(255,255,255,0.1); }
+        .glitch-text:hover { text-shadow: 2px 0 #ff5f1f, -2px 0 #00ffff; }
     </style>
 </head>
-<body class="text-zinc-400 font-mono selection:bg-brand selection:text-white text-left">
+<body class="text-zinc-400 selection:bg-brand selection:text-white">
 
-    <nav class="fixed top-0 w-full z-50 border-b border-white/10 bg-black/90 backdrop-blur-xl">
-        <div class="max-w-[1600px] mx-auto px-6 h-14 flex items-center justify-between text-[10px] tracking-[0.2em] uppercase">
-            <div class="flex items-center gap-6">
-                <div class="flex items-center gap-2 text-left">
-                    <span class="w-2 h-2 bg-brand rounded-full animate-pulse"></span>
-                    <span class="text-white font-bold">OPERATOR: G. CILINDER-HANSEN</span>
-                </div>
-                <span class="text-zinc-700 hidden lg:block">// STATUS: ACTIVE_PRODUCTION</span>
-            </div>
-            <div class="flex gap-8 text-left">
-                <a href="#projekter" class="hover:text-brand transition-colors">PROJECTS</a>
-                <a href="#profil" class="hover:text-brand transition-colors">PROFILE</a>
-                <a href="#kontakt" class="text-brand border border-brand/30 px-3 py-1 hover:bg-brand hover:text-white transition-all">TERMINATE_&_CONTACT</a>
-            </div>
+    <nav class="fixed left-0 top-0 h-full w-16 border-r border-white/10 bg-black/50 backdrop-blur-md z-50 flex flex-col items-center py-8 justify-between">
+        <div class="text-brand font-black text-xl rotate-[-90deg] tracking-tighter mb-8 uppercase">GCH_V3</div>
+        <div class="flex flex-col gap-12 uppercase text-[10px] tracking-widest [writing-mode:vertical-lr] rotate-180">
+            <a href="#projekter" class="hover:text-white transition-all">01_Production</a>
+            <a href="#profil" class="hover:text-white transition-all">02_Specifications</a>
+            <a href="#kontakt" class="hover:text-white transition-all">03_Connect</a>
         </div>
+        <div class="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
     </nav>
 
-    <section class="min-h-screen flex flex-col justify-center px-6 pt-20">
-        <div class="max-w-[1600px] mx-auto w-full text-left">
-            <div class="grid lg:grid-cols-12 gap-0 border border-white/10">
-                <div class="lg:col-span-8 p-12 lg:p-20 border-r border-white/10 text-left">
-                    <h1 class="text-6xl md:text-[140px] font-black text-white leading-[0.8] tracking-tighter uppercase mb-12">
-                        NO WASTE.<br>ONLY <span class="text-brand">OUTPUT.</span>
-                    </h1>
-                    <div class="max-w-xl text-left">
-                        <p class="text-xl md:text-2xl text-zinc-500 font-sans leading-relaxed font-extralight uppercase">
-                            CNC-eksekvering eller manuelt håndværk. Jeg mestrer begge discipliner og afslutter enhver opgave med mikron-præcision som eneste acceptkriterium.
-                        </p>
-                    </div>
+    <main class="ml-16">
+        <header class="border-b border-white/10 p-6 flex justify-between items-center bg-black/40">
+            <div class="text-[10px] space-y-1 uppercase">
+                <p class="text-white font-bold tracking-widest"><span class="text-brand">●</span> SYSTEM_ACTIVE</p>
+                <p class="text-zinc-600">Location: Ishøj, DK // 55.6140° N, 12.3494° E</p>
+            </div>
+            <div class="text-right">
+                <span class="text-[10px] text-zinc-600 block uppercase">Prototype Unit 2026</span>
+                <span class="text-white text-xs font-bold tracking-widest">GLEN CILINDER-HANSEN</span>
+            </div>
+        </header>
+
+        <section class="min-h-[80vh] border-b border-white/10 grid lg:grid-cols-12">
+            <div class="lg:col-span-8 p-12 lg:p-24 flex flex-col justify-center border-r border-white/10">
+                <div class="mb-4 inline-block bg-brand/10 border border-brand/20 px-3 py-1 text-brand text-[10px] font-bold tracking-[0.4em] uppercase">
+                    Status: Next-Gen Manufacturing
                 </div>
-                <div class="lg:col-span-4 p-12 bg-industrial/30 flex flex-col justify-between">
+                <h1 class="text-6xl md:text-[120px] font-extrabold text-white leading-[0.85] tracking-tighter uppercase mb-12">
+                    DANMARKS NÆSTE <br><span class="text-transparent" style="-webkit-text-stroke: 1px rgba(255,255,255,0.3);">PROTOTYPE</span><br> PRODUCENT.
+                </h1>
+                <p class="max-w-xl text-xl text-zinc-400 font-light leading-relaxed">
+                    Ingen gætteri. Kun rå tolerance-eksekvering. Fra CAD-optimering til mikron-præcision – jeg bygger de systemer, andre ikke kan visualisere.
+                </p>
+            </div>
+            <div class="lg:col-span-4 bg-terminal/50 p-12 flex flex-col justify-between">
+                <div class="space-y-12">
                     <div>
-                        <span class="text-brand block mb-6 tracking-[0.3em] text-[10px] font-bold">CORE_CAPABILITIES</span>
-                        <ul class="space-y-3 text-xs text-white font-bold uppercase tracking-widest text-left">
-                            <li><span class="text-brand/50">[01]</span> Fusion 360 CAD/CAM</li>
-                            <li><span class="text-brand/50">[02]</span> CNC Optimization</li>
-                            <li><span class="text-brand/50">[03]</span> ISO Tolerance MGMT</li>
-                            <li><span class="text-brand/50">[04]</span> Manual Performance</li>
-                        </ul>
-                    </div>
-                    <div class="pt-12 border-t border-white/5">
-                        <span class="text-zinc-600 block text-[9px] mb-2 font-mono uppercase italic tracking-widest">Hardware_Stack:</span>
-                        <p class="text-[10px] text-zinc-400 uppercase font-bold">Haas ST10 // Mini Mill // Manual Lathe</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projekter" class="py-20 px-6 pb-0">
-        <div class="max-w-[1600px] mx-auto">
-            <div class="grid lg:grid-cols-4 border border-white/10">
-                <div class="p-8 border-b lg:border-b-0 lg:border-r border-white/10 lg:col-span-1 text-left">
-                    <div class="mb-6">
-                        <span class="text-[10px] text-brand font-black tracking-[0.3em] uppercase bg-brand/10 px-2 py-1 border border-brand/20">
-                            IDENTIFIER: PRIMARY_PROJECT
-                        </span>
-                    </div>
-                    <h3 class="text-3xl font-black text-white uppercase tracking-tighter leading-none mb-6">Flame Eater MK2</h3>
-                    <p class="text-xs leading-relaxed text-zinc-500 font-sans">
-                        Præcisionstolereret vakuummotor udviklet med fokus på termisk balance. Et bevis på fejlfrit samspil mellem komplekse legeringer og snævre tolerancer.
-                    </p>
-                </div>
-
-                <div class="lg:col-span-3 border-b border-white/10 relative group bg-zinc-900">
-                    <img src="img/flame-render.png" alt="Flame Eater MK2" class="w-full h-full object-cover grayscale opacity-40 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000">
-                    <div class="absolute inset-0 pointer-events-none border-[20px] border-black/20"></div>
-                    <div class="absolute bottom-6 right-6 text-zinc-500 text-[10px] tracking-widest font-mono bg-black/50 px-4 py-2 backdrop-blur-md">
-                        ISO_VIEW // FULL_ASSEMBLY_RENDER
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid lg:grid-cols-2 border-x border-b border-white/10 text-left">
-                <div class="p-8 border-r border-white/10 flex flex-col md:flex-row gap-8 items-start lg:items-center group bg-industrial/10">
-                    <div class="w-24 h-24 bg-zinc-800 shrink-0 border border-white/10 overflow-hidden">
-                        <img src="img/cam-disc-render.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                    </div>
-                    <div>
-                        <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase">Cam System</span>
-                        <h4 class="text-white font-bold text-sm uppercase mb-2">Timing Geometry</h4>
-                        <p class="text-[10px] text-zinc-500 font-sans leading-tight">3D-skabelon integration for præcis profilgeometri og ventilstyring.</p>
-                    </div>
-                </div>
-
-                <div class="p-8 flex flex-col md:flex-row gap-8 items-start lg:items-center group bg-industrial/30">
-                    <div class="w-24 h-24 bg-zinc-800 shrink-0 border border-white/10 overflow-hidden">
-                        <img src="img/piston-fit.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                    </div>
-                    <div class="flex-1 w-full">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase">Materiale-interface</span>
-                                <h4 class="text-white font-bold text-sm uppercase text-left">Støbejern / Rustfrit</h4>
-                            </div>
-                            <span class="text-[8px] text-zinc-600 font-bold bg-white/5 px-2 py-1 rounded">QA_PASSED</span>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 border-t border-white/5 pt-4 text-left">
-                            <div>
-                                <span class="block text-[8px] text-zinc-600 uppercase mb-1">Cylinder H7</span>
-                                <span class="text-white font-bold text-[11px] font-mono">11.005 mm</span>
-                            </div>
-                            <div>
-                                <span class="block text-[8px] text-zinc-600 uppercase mb-1">Stempel f7</span>
-                                <span class="text-white font-bold text-[11px] font-mono">10.992 mm</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-10 px-6 pb-0">
-        <div class="max-w-[1600px] mx-auto">
-            <div class="grid lg:grid-cols-4 border border-white/10">
-                <div class="p-8 border-b lg:border-b-0 lg:border-r border-white/10 lg:col-span-1 text-left">
-                    <div class="mb-6">
-                        <span class="text-[10px] text-brand font-black tracking-[0.3em] uppercase bg-brand/10 px-2 py-1 border border-brand/20">
-                            IDENTIFIER: PROCES_VALIDATION
-                        </span>
-                    </div>
-                    <h3 class="text-3xl font-black text-white uppercase tracking-tighter leading-none mb-6">Crankweb Assembly</h3>
-                    <p class="text-xs leading-relaxed text-zinc-500 font-sans">
-                        Kritisk komponent til krumtapsmekanisme. Fokus på absolut vinkelrethed og præcisionstolerancer for at eliminere vibrationer.
-                    </p>
-                </div>
-
-                <div class="lg:col-span-3 border-b border-white/10 relative group bg-black/40 max-h-[400px] overflow-hidden">
-                    <img src="img/crankweb-render.png" alt="Crankweb Render" class="w-full h-full object-contain p-12 grayscale opacity-40 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-1000">
-                    <div class="absolute inset-0 pointer-events-none border-[20px] border-black/10"></div>
-                    <div class="absolute bottom-6 right-6 text-zinc-600 text-[10px] tracking-widest font-mono uppercase">
-                        Component_Detail // Precision_Scale
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid lg:grid-cols-2 border-x border-b border-white/10">
-                <div class="p-8 border-r border-white/10 flex flex-col md:flex-row gap-8 items-start lg:items-center group bg-industrial/30 text-left">
-                    <div class="w-32 h-32 bg-zinc-800 shrink-0 border border-brand/30 overflow-hidden relative">
-                        <img src="img/crankweb-qa-dorn.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                        <div class="absolute top-0 left-0 bg-brand text-white text-[8px] px-1 font-bold italic">LIVE_QA</div>
-                    </div>
-                    <div>
-                        <span class="text-brand text-[9px] block mb-1 tracking-widest uppercase">Tolerance Verificering</span>
-                        <h4 class="text-white font-bold text-sm uppercase mb-2">H7 Fit Check</h4>
-                        <p class="text-[10px] text-zinc-500 font-sans leading-tight">
-                            Fysisk validering af Ø7h7 pasning ved brug af kalibreret passerdorn.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="p-8 flex flex-col justify-center bg-industrial/10 text-left">
-                    <div class="grid grid-cols-2 gap-8">
-                        <div>
-                            <span class="block text-[8px] text-zinc-600 uppercase mb-2 tracking-widest">Dimension</span>
-                            <span class="text-white font-mono text-xl font-bold">Ø7 +0.015 / 0</span>
-                        </div>
-                        <div>
-                            <span class="block text-[8px] text-zinc-600 uppercase mb-2 tracking-widest">Materiale</span>
-                            <span class="text-white font-mono text-xl font-bold uppercase">Messing</span>
-                        </div>
-                    </div>
-                    <div class="mt-6 pt-6 border-t border-white/5">
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span class="text-[9px] text-zinc-400 font-mono uppercase tracking-widest">ISO_286-2_VERIFIED</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-10 px-6">
-        <div class="max-w-[1600px] mx-auto">
-            <div class="mb-6 flex items-center gap-4">
-                <h3 class="text-xs font-bold text-white uppercase tracking-[0.3em]">Tekniske Referencer</h3>
-                <div class="h-[1px] flex-1 bg-white/5"></div>
-            </div>
-            <div class="grid lg:grid-cols-3 gap-0 border border-white/10 text-left">
-                <div class="p-8 border-r border-white/10 flex gap-6 items-start lg:items-center group bg-industrial/20">
-                    <div class="w-20 h-20 bg-zinc-800 shrink-0 border border-white/10 overflow-hidden">
-                        <img src="img/jig-render.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
-                    </div>
-                    <div>
-                        <span class="text-[8px] text-brand font-black tracking-widest uppercase mb-1 block">REF: DRILL_JIG_H4</span>
-                        <h4 class="text-white font-bold text-sm uppercase mb-1">Borefikstur</h4>
-                        <p class="text-[10px] text-zinc-500 font-sans leading-tight">Udviklet i SS_316 for maksimal geometrisk stabilitet.</p>
-                    </div>
-                </div>
-                <div class="p-8 border-r border-white/10 flex items-center justify-center bg-industrial/5 opacity-30 text-left">
-                    <span class="text-[10px] uppercase tracking-widest text-zinc-700 font-bold tracking-tighter">Pending_Project_02</span>
-                </div>
-                <div class="p-8 flex items-center justify-center bg-industrial/5 opacity-30 text-left">
-                    <span class="text-[10px] uppercase tracking-widest text-zinc-700 font-bold tracking-tighter">Pending_Project_03</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="profil" class="py-40 px-6 border-t border-white/10 bg-industrial/10">
-        <div class="max-w-[1600px] mx-auto">
-            <div class="mb-20 text-left">
-                <h2 class="text-4xl font-black text-white uppercase italic tracking-tighter">Technical Profile // Execution Logic</h2>
-                <div class="h-1 w-20 bg-brand mt-4"></div>
-            </div>
-
-            <div class="grid lg:grid-cols-3 gap-16 text-left mb-24">
-                <div class="space-y-6 group border-t border-white/5 pt-8 hover:border-brand transition-colors duration-500">
-                    <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase block mb-4">[01] Systematisk Drift</span>
-                    <div class="space-y-4">
-                        <p class="text-zinc-400 text-sm leading-relaxed font-sans">
-                            Jeg opererer med en modenhed, der prioriterer sikkerhed og sporbarhed over hurtige genveje. Processtabilitet er dybt forankret i enhver opstilling.
-                        </p>
-                        <div class="bg-white/5 p-4 border-l-2 border-brand">
-                            <span class="text-white text-[10px] font-bold font-mono uppercase block mb-1">Målsætning:</span>
-                            <span class="text-zinc-500 text-[10px] font-mono uppercase">Nul-fejl strategi gennem total proceskontrol.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-6 group border-t border-white/5 pt-8 hover:border-brand transition-colors duration-500">
-                    <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase block mb-4">[02] Digital Præcision</span>
-                    <div class="space-y-4">
-                        <p class="text-zinc-400 text-sm leading-relaxed font-sans">
-                            Integrationen af Fusion 360 som strategisk værktøj minimerer usikkerhed. Avancerede CAM-strategier og simuleringer før første spån.
-                        </p>
-                        <div class="bg-white/5 p-4 border-l-2 border-brand text-left">
-                            <span class="text-white text-[10px] font-bold font-mono uppercase block mb-1">Metodik:</span>
-                            <span class="text-zinc-500 text-[10px] font-mono uppercase">Data-drevet spåntagning // Optimeret cyklustid.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-6 group border-t border-white/5 pt-8 hover:border-brand transition-colors duration-500">
-                    <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase block mb-4 text-left">[03] Finmekanisk Fokus</span>
-                    <div class="space-y-4 text-left">
-                        <p class="text-zinc-400 text-sm leading-relaxed font-sans text-left">
-                            Jeg søger udfordringer i high-end prototyping, hvor mikron-tolerancer og materialeforståelse er de afgørende parametre.
-                        </p>
-                        <div class="bg-white/5 p-4 border-l-2 border-brand text-left text-left">
-                            <span class="text-white text-[10px] font-bold font-mono uppercase block mb-1">Kapacitet:</span>
-                            <span class="text-zinc-500 text-[10px] font-mono uppercase">Kompleks komponentfremstilling // ISO-standarder.</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border border-white/10 bg-industrial/40 backdrop-blur-sm p-10 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 p-4 opacity-5 font-mono text-[80px] font-black pointer-events-none group-hover:text-brand transition-colors">QA</div>
-                <div class="grid md:grid-cols-4 gap-12 relative z-10 text-left">
-                    <div class="md:col-span-1">
-                        <span class="text-brand font-mono text-[10px] tracking-[0.4em] uppercase block mb-3 italic">Validation Stack</span>
-                        <h5 class="text-white font-black uppercase text-xl italic leading-none tracking-tighter">Metrologi &<br>Inspektion</h5>
-                    </div>
-                    <div class="md:col-span-3">
-                        <ul class="grid grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-12 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">01</span> Mikrometerskruer</li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">02</span> Måleur & Vippeur</li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">03</span> Højdemåler</li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">04</span> Passerdorne H7</li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">05</span> Gevindtolke</li>
-                            <li class="flex items-center gap-3 border-b border-white/5 pb-2"><span class="text-brand font-bold text-base">06</span> Slipsæt</li>
+                        <h4 class="text-white text-[10px] font-bold tracking-[0.3em] uppercase mb-6">Execution_Engines</h4>
+                        <ul class="space-y-4 text-xs">
+                            <li class="flex justify-between border-b border-white/5 pb-2"><span>HAAS_ST10</span> <span class="text-brand">CNC_LATHE</span></li>
+                            <li class="flex justify-between border-b border-white/5 pb-2"><span>HAAS_MINI_MILL</span> <span class="text-brand">CNC_MILL</span></li>
+                            <li class="flex justify-between border-b border-white/5 pb-2"><span>MANUAL_PRECISION</span> <span class="text-brand">LATHE_STATION</span></li>
                         </ul>
                     </div>
                 </div>
+                <div class="text-[10px] leading-relaxed text-zinc-600 uppercase font-bold tracking-widest">
+                    // All output verified via ISO-286 metrology standards. <br> // High-complexity machining as standard.
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer id="kontakt" class="py-60 border-t border-white/10 text-center">
-        <div class="max-w-[1600px] mx-auto px-6 flex flex-col items-center">
-            <h2 class="text-7xl md:text-[180px] font-black text-white uppercase tracking-tighter leading-none mb-20 text-center">
-                GET IN <span class="text-brand">SYNC.</span>
-            </h2>
-            <div class="flex flex-col md:flex-row gap-1 border border-white/10 bg-white/5 text-center">
-                <a href="mailto:defnotsplimz@gmail.com" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm text-center">Send_Email</a>
-                <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="px-12 py-6 hover:bg-white hover:text-black transition-all font-bold uppercase tracking-widest text-sm border-t md:border-t-0 md:border-l border-white/10 text-center">LinkedIn_Auth</a>
+        <section id="projekter" class="p-12 lg:p-24 border-b border-white/10">
+            <div class="flex justify-between items-end mb-16">
+                <h2 class="text-4xl font-black text-white italic uppercase tracking-tighter">01_Production_Log</h2>
+                <span class="text-zinc-600 text-[10px] uppercase font-mono tracking-widest">Total_Units: 02</span>
             </div>
-            <p class="mt-20 font-mono text-[9px] text-zinc-800 uppercase tracking-[0.5em] text-center">
-                Glen Cilinder-Hansen // Prototype Engineering // 2026_BUILD
-            </p>
-        </div>
-    </footer>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="border border-white/10 bg-terminal/30 group overflow-hidden">
+                    <div class="p-6 border-b border-white/10 flex justify-between items-center">
+                        <span class="text-[10px] font-bold text-brand uppercase">ID: FLAME_EATER_MK2</span>
+                        <span class="text-[10px] text-zinc-600 uppercase">Status: Validated</span>
+                    </div>
+                    <div class="aspect-video relative overflow-hidden">
+                        <img src="img/flame-render.png" class="w-full h-full object-cover grayscale opacity-50 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white uppercase mb-4">Vakuum Motor System</h3>
+                        <div class="grid grid-cols-2 gap-4 text-[10px] font-mono text-zinc-500 uppercase">
+                            <div class="border-l border-brand/50 pl-4">Mat: Støbejern / Rustfrit</div>
+                            <div class="border-l border-brand/50 pl-4">Tol: H7 / f7 Precision Fit</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-white/10 bg-terminal/30 group overflow-hidden">
+                    <div class="p-6 border-b border-white/10 flex justify-between items-center">
+                        <span class="text-[10px] font-bold text-brand uppercase">ID: CRANKWEB_ASSY</span>
+                        <span class="text-[10px] text-zinc-600 uppercase">Status: Live_QA</span>
+                    </div>
+                    <div class="aspect-video relative overflow-hidden flex items-center justify-center bg-black/60">
+                        <img src="img/crankweb-render.png" class="w-48 grayscale opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                        <div class="absolute inset-0 border-[20px] border-black/20 pointer-events-none"></div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-white uppercase mb-4">Crankweb Assembly</h3>
+                        <div class="grid grid-cols-2 gap-4 text-[10px] font-mono text-zinc-500 uppercase">
+                            <div class="border-l border-brand/50 pl-4">Mat: Messing MS58</div>
+                            <div class="border-l border-brand/50 pl-4">QA: Ø7h7 Dorn Verified</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="profil" class="grid lg:grid-cols-12 border-b border-white/10 bg-terminal/20">
+            <div class="lg:col-span-4 p-12 lg:p-24 border-r border-white/10">
+                <h2 class="text-4xl font-black text-white italic uppercase tracking-tighter mb-8">02_Tech_Specs</h2>
+                <p class="text-sm leading-relaxed text-zinc-500 italic">
+                    "Som 32-årig lærling bringer jeg en professionel modenhed ind på værkstedet. Jeg løser ikke bare opgaver – jeg optimerer processer."
+                </p>
+            </div>
+            <div class="lg:col-span-8 p-12 lg:p-24 grid md:grid-cols-2 gap-16">
+                <div class="space-y-4">
+                    <span class="text-brand text-[10px] font-bold uppercase tracking-widest">// Methodology</span>
+                    <h4 class="text-white font-bold uppercase italic">Data-Driven Production</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed font-sans">
+                        Fuld udnyttelse af Fusion 360 CAM-strategier. Ved at simulere enhver værktøjsbane før produktion, minimerer jeg spild og sikrer kompromisløs kvalitet i hver eneste spån.
+                    </p>
+                </div>
+                <div class="space-y-4 text-left">
+                    <span class="text-brand text-[10px] font-bold uppercase tracking-widest text-left">// Validation</span>
+                    <h4 class="text-white font-bold uppercase italic text-left">Metrologi Inventory</h4>
+                    <ul class="text-[10px] font-mono uppercase space-y-2 text-zinc-600">
+                        <li>[X] Mikrometerskruer (IND/UD)</li>
+                        <li>[X] Måleur & Vippeur (0.01/0.002)</li>
+                        <li>[X] Passerdorne H7 Sæt</li>
+                        <li>[X] Gevindtolke / Ringlære</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer id="kontakt" class="py-40 px-12 text-center bg-black">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl md:text-[100px] font-black text-white uppercase italic tracking-tighter mb-12">
+                    START_PRODUCTION
+                </h2>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="mailto:defnotsplimz@gmail.com" class="border border-brand text-brand px-12 py-6 uppercase font-bold text-sm hover:bg-brand hover:text-white transition-all">
+                        Initialize_Email_Link
+                    </a>
+                    <a href="https://www.linkedin.com/in/glenchansen/" class="border border-white/10 text-white px-12 py-6 uppercase font-bold text-sm hover:bg-white hover:text-black transition-all">
+                        LinkedIn_Protocol
+                    </a>
+                </div>
+                <p class="mt-24 text-[9px] text-zinc-800 uppercase tracking-[0.8em]">
+                    Glen Cilinder-Hansen // Prototype Engineer // DK_SYS_2026
+                </p>
+            </div>
+        </footer>
+    </main>
 
 </body>
 </html>
