@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
+            darkMode: 'class', // Aktiverer Dark Mode via class
             theme: {
                 extend: {
                     colors: {
@@ -31,154 +32,158 @@
         }
     </script>
 </head>
-<body class="bg-paper text-corporate font-sans antialiased selection:bg-accent selection:text-white">
+<body class="bg-paper dark:bg-slate-950 text-corporate dark:text-slate-200 font-sans antialiased selection:bg-accent selection:text-white transition-colors duration-300">
 
-    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center">
-                <img src="img/logo.png" alt="Datum Prototyping" class="h-10 w-auto object-contain">
+                <img src="img/logo.png" alt="Datum Prototyping" class="h-10 w-auto object-contain dark:brightness-200 transition-all">
             </div>
             
-            <div class="hidden md:flex gap-8 text-sm font-semibold text-steel">
-                <a href="#profil" class="hover:text-accent transition-colors">Profil</a>
-                <a href="#kompetencer" class="hover:text-accent transition-colors">Kapacitet</a>
-                <a href="#cases" class="hover:text-accent transition-colors">Cases</a>
-                <a href="#qa" class="hover:text-accent transition-colors">Metrologi</a>
+            <div class="hidden md:flex gap-8 text-sm font-semibold text-steel dark:text-slate-400">
+                <a href="#profil" class="hover:text-accent dark:hover:text-white transition-colors">Profil</a>
+                <a href="#kompetencer" class="hover:text-accent dark:hover:text-white transition-colors">Kapacitet</a>
+                <a href="#cases" class="hover:text-accent dark:hover:text-white transition-colors">Cases</a>
+                <a href="#qa" class="hover:text-accent dark:hover:text-white transition-colors">Metrologi</a>
             </div>
             <div class="flex gap-4 items-center">
-                 <a href="dossier.html" class="text-sm font-semibold text-corporate hover:text-accent hidden sm:block transition-colors">Dossier PDF</a>
-                <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="text-sm font-bold bg-corporate text-white px-5 py-2 rounded hover:bg-accent transition-all">
+                <button id="theme-toggle" type="button" class="text-steel dark:text-slate-400 hover:text-accent dark:hover:text-white transition-colors p-2 rounded-lg" aria-label="Toggle Dark Mode">
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                </button>
+                <a href="dossier.html" class="text-sm font-semibold text-corporate dark:text-slate-300 hover:text-accent dark:hover:text-white hidden sm:block transition-colors">Dossier PDF</a>
+                <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="text-sm font-bold bg-corporate dark:bg-slate-800 text-white dark:text-slate-100 px-5 py-2 rounded border border-transparent dark:border-slate-700 hover:bg-accent transition-all">
                     LinkedIn
                 </a>
             </div>
         </div>
     </nav>
 
-    <header class="pt-40 pb-20 px-6 bg-white border-b border-slate-200">
+    <header class="pt-40 pb-20 px-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto">
-            <div class="inline-block border border-accent/30 bg-accent/5 text-accent font-mono text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-6">
+            <div class="inline-block border border-accent/30 dark:border-accent/50 bg-accent/5 dark:bg-accent/10 text-accent dark:text-blue-400 font-mono text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-6">
                 Status: Finmekaniker-lærling (TEC)
             </div>
             
-            <h1 class="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight mb-8">
-                Ingeniørmæssig logik omsat til <span class="text-accent">mikron-præcision.</span>
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-[1.05] tracking-tight mb-8 text-corporate dark:text-white">
+                Ingeniørmæssig logik omsat til <span class="text-accent dark:text-blue-500">mikron-præcision.</span>
             </h1>
             
             <div class="grid md:grid-cols-12 gap-12 mt-12">
                 <div class="md:col-span-7">
-                    <p class="text-lg md:text-xl text-steel font-medium leading-relaxed mb-8">
+                    <p class="text-lg md:text-xl text-steel dark:text-slate-400 font-medium leading-relaxed mb-8">
                         Jeg bygger bro mellem CAD-simulering og fysisk virkelighed. Specialiseret i finmekanisk produktion, instrumentmageri og analog kvalitetskontrol jf. ISO 286. 
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#cases" class="bg-corporate text-white px-8 py-3 rounded font-bold hover:bg-accent transition-all text-center">
+                        <a href="#cases" class="bg-corporate dark:bg-accent text-white px-8 py-3 rounded font-bold hover:bg-accent dark:hover:bg-blue-400 transition-all text-center">
                             Verificerede Cases
                         </a>
-                        <a href="#kontakt" class="bg-white border border-slate-300 text-corporate px-8 py-3 rounded font-bold hover:bg-slate-50 transition-all text-center">
+                        <a href="#kontakt" class="bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-corporate dark:text-white px-8 py-3 rounded font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-center">
                             Etablér Kontakt
                         </a>
                     </div>
                 </div>
                 
                 <div class="md:col-span-5 grid grid-cols-2 gap-4">
-                     <div class="bg-paper p-5 rounded border border-slate-200">
-                        <span class="block text-3xl font-black text-corporate mb-1">32</span>
-                        <span class="text-xs font-bold uppercase text-steel tracking-wider">Års Modenhed</span>
+                     <div class="bg-paper dark:bg-slate-800 p-5 rounded border border-slate-200 dark:border-slate-700 transition-colors">
+                        <span class="block text-3xl font-black text-corporate dark:text-white mb-1">32</span>
+                        <span class="text-xs font-bold uppercase text-steel dark:text-slate-400 tracking-wider">Års Modenhed</span>
                     </div>
-                     <div class="bg-paper p-5 rounded border border-slate-200">
-                        <span class="block text-3xl font-black text-corporate mb-1">H7/f7</span>
-                        <span class="text-xs font-bold uppercase text-steel tracking-wider">Tolerance-fokus</span>
+                     <div class="bg-paper dark:bg-slate-800 p-5 rounded border border-slate-200 dark:border-slate-700 transition-colors">
+                        <span class="block text-3xl font-black text-corporate dark:text-white mb-1">H7/f7</span>
+                        <span class="text-xs font-bold uppercase text-steel dark:text-slate-400 tracking-wider">Tolerance-fokus</span>
                     </div>
-                     <div class="bg-paper p-5 rounded border border-slate-200">
-                        <span class="block text-3xl font-black text-corporate mb-1">100%</span>
-                        <span class="text-xs font-bold uppercase text-steel tracking-wider">Analog QA</span>
+                     <div class="bg-paper dark:bg-slate-800 p-5 rounded border border-slate-200 dark:border-slate-700 transition-colors">
+                        <span class="block text-3xl font-black text-corporate dark:text-white mb-1">100%</span>
+                        <span class="text-xs font-bold uppercase text-steel dark:text-slate-400 tracking-wider">Analog QA</span>
                     </div>
-                     <div class="bg-paper p-5 rounded border border-slate-200">
-                        <span class="block text-3xl font-black text-corporate mb-1">Datum</span>
-                        <span class="text-xs font-bold uppercase text-steel tracking-wider">Metodik</span>
+                     <div class="bg-paper dark:bg-slate-800 p-5 rounded border border-slate-200 dark:border-slate-700 transition-colors">
+                        <span class="block text-3xl font-black text-corporate dark:text-white mb-1">Datum</span>
+                        <span class="text-xs font-bold uppercase text-steel dark:text-slate-400 tracking-wider">Metodik</span>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="profil" class="py-24 px-6">
+    <section id="profil" class="py-24 px-6 bg-paper dark:bg-slate-950 transition-colors duration-300">
         <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
             <div>
-                <h2 class="text-sm font-mono text-accent font-bold uppercase tracking-widest mb-3">Profil</h2>
-                <h3 class="text-3xl font-extrabold tracking-tight mb-6">En moden tilgang til produktion.</h3>
-                <p class="text-steel leading-relaxed mb-6">
+                <h2 class="text-sm font-mono text-accent dark:text-blue-400 font-bold uppercase tracking-widest mb-3">Profil</h2>
+                <h3 class="text-3xl font-extrabold tracking-tight mb-6 text-corporate dark:text-white">En moden tilgang til produktion.</h3>
+                <p class="text-steel dark:text-slate-400 leading-relaxed mb-6">
                     Lærlingetiden er ikke en start; det er en perfektionering. Med 32 års livserfaring og en analytisk tilgang til problemløsning, eliminerer jeg gætteri fra produktionen. 
                 </p>
-                <p class="text-steel leading-relaxed">
-                    Under min operativ-standard, <strong>Datum Prototyping</strong>, behandler jeg hver opgave som en industriel proces. Fokus er på stabilitet, dokumentation og en kompromisløs dedikation til det håndværk, maskinerne udfører.
+                <p class="text-steel dark:text-slate-400 leading-relaxed">
+                    Under min operativ-standard, <strong class="dark:text-white">Datum Prototyping</strong>, behandler jeg hver opgave som en industriel proces. Fokus er på stabilitet, dokumentation og en kompromisløs dedikation til det håndværk, maskinerne udfører.
                 </p>
             </div>
             
-            <div class="bg-white border border-slate-200 rounded p-8 shadow-sm">
-                <h4 class="font-bold text-lg border-b border-slate-100 pb-4 mb-4">Standard Operating Procedure</h4>
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded p-8 shadow-sm transition-colors">
+                <h4 class="font-bold text-lg border-b border-slate-100 dark:border-slate-800 pb-4 mb-4 text-corporate dark:text-white">Standard Operating Procedure</h4>
                 <ul class="space-y-4">
                     <li class="flex items-start gap-4">
-                        <span class="font-mono text-accent font-bold mt-0.5">01</span>
-                        <div><strong class="block text-sm">Geometri Analyse</strong><span class="text-sm text-steel">Tolerancetjek jf. ISO 286 før opstart.</span></div>
+                        <span class="font-mono text-accent dark:text-blue-500 font-bold mt-0.5">01</span>
+                        <div><strong class="block text-sm dark:text-white">Geometri Analyse</strong><span class="text-sm text-steel dark:text-slate-400">Tolerancetjek jf. ISO 286 før opstart.</span></div>
                     </li>
                     <li class="flex items-start gap-4">
-                        <span class="font-mono text-accent font-bold mt-0.5">02</span>
-                        <div><strong class="block text-sm">CAM Strategi</strong><span class="text-sm text-steel">Optimering for termisk balance (Fusion 360).</span></div>
+                        <span class="font-mono text-accent dark:text-blue-500 font-bold mt-0.5">02</span>
+                        <div><strong class="block text-sm dark:text-white">CAM Strategi</strong><span class="text-sm text-steel dark:text-slate-400">Optimering for termisk balance (Fusion 360).</span></div>
                     </li>
                     <li class="flex items-start gap-4">
-                        <span class="font-mono text-accent font-bold mt-0.5">03</span>
-                        <div><strong class="block text-sm">Eksekvering</strong><span class="text-sm text-steel">Stabilitet på CNC og manuelle enheder.</span></div>
+                        <span class="font-mono text-accent dark:text-blue-500 font-bold mt-0.5">03</span>
+                        <div><strong class="block text-sm dark:text-white">Eksekvering</strong><span class="text-sm text-steel dark:text-slate-400">Stabilitet på CNC og manuelle enheder.</span></div>
                     </li>
                     <li class="flex items-start gap-4">
-                        <span class="font-mono text-accent font-bold mt-0.5">04</span>
-                        <div><strong class="block text-sm">Verificering</strong><span class="text-sm text-steel">Analog FAI (First Article Inspection).</span></div>
+                        <span class="font-mono text-accent dark:text-blue-500 font-bold mt-0.5">04</span>
+                        <div><strong class="block text-sm dark:text-white">Verificering</strong><span class="text-sm text-steel dark:text-slate-400">Analog FAI (First Article Inspection).</span></div>
                     </li>
                 </ul>
             </div>
         </div>
     </section>
 
-    <section id="kompetencer" class="py-24 px-6 bg-corporate text-white">
+    <section id="kompetencer" class="py-24 px-6 bg-corporate dark:bg-slate-900 text-white transition-colors border-y border-transparent dark:border-slate-800">
         <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16">
             <div>
-                <h2 class="text-sm font-mono text-accent font-bold uppercase tracking-widest mb-3">Kapacitet</h2>
+                <h2 class="text-sm font-mono text-accent dark:text-blue-400 font-bold uppercase tracking-widest mb-3">Kapacitet</h2>
                 <h3 class="text-3xl font-extrabold tracking-tight mb-8">Udstyr & Software</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-slate-800 p-5 rounded border border-slate-700">
+                    <div class="bg-slate-800 dark:bg-slate-950 p-5 rounded border border-slate-700 dark:border-slate-800">
                         <h4 class="font-bold">Haas (ST10 / Mini Mill)</h4>
                         <p class="text-xs text-slate-400 mt-1">CNC Drej/Fræs</p>
                     </div>
-                    <div class="bg-slate-800 p-5 rounded border border-slate-700">
+                    <div class="bg-slate-800 dark:bg-slate-950 p-5 rounded border border-slate-700 dark:border-slate-800">
                         <h4 class="font-bold">Weiler / Deckel</h4>
                         <p class="text-xs text-slate-400 mt-1">Manuel Præcision</p>
                     </div>
-                    <div class="bg-slate-800 p-5 rounded border border-slate-700">
+                    <div class="bg-slate-800 dark:bg-slate-950 p-5 rounded border border-slate-700 dark:border-slate-800">
                         <h4 class="font-bold">Fusion 360</h4>
                         <p class="text-xs text-slate-400 mt-1">CAD / CAM (3-akse)</p>
                     </div>
-                     <div class="bg-slate-800 p-5 rounded border border-slate-700">
+                     <div class="bg-slate-800 dark:bg-slate-950 p-5 rounded border border-slate-700 dark:border-slate-800">
                         <h4 class="font-bold">Analog Metrologi</h4>
                         <p class="text-xs text-slate-400 mt-1">Mikrometer / Dorne</p>
                     </div>
                 </div>
             </div>
             <div>
-                 <h2 class="text-sm font-mono text-accent font-bold uppercase tracking-widest mb-3">Materialer</h2>
+                 <h2 class="text-sm font-mono text-accent dark:text-blue-400 font-bold uppercase tracking-widest mb-3">Materialer</h2>
                 <h3 class="text-3xl font-extrabold tracking-tight mb-8">Egenskaber & Bearbejdning</h3>
                 <div class="space-y-3">
-                    <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                    <div class="flex items-center justify-between border-b border-slate-700 dark:border-slate-800 pb-3">
                         <span class="font-bold">Aluminium (6082-T6 / 7075)</span>
                         <span class="text-xs font-mono text-slate-400">High-speed / Finish</span>
                     </div>
-                    <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                    <div class="flex items-center justify-between border-b border-slate-700 dark:border-slate-800 pb-3">
                         <span class="font-bold">Rustfast Stål (316 / A4)</span>
                         <span class="text-xs font-mono text-slate-400">Køling / Slidstyrke</span>
                     </div>
-                    <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                    <div class="flex items-center justify-between border-b border-slate-700 dark:border-slate-800 pb-3">
                         <span class="font-bold">Værktøjsstål & Støbejern</span>
                         <span class="text-xs font-mono text-slate-400">Pasninger / Slid</span>
                     </div>
-                    <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                    <div class="flex items-center justify-between border-b border-slate-700 dark:border-slate-800 pb-3">
                         <span class="font-bold">Polymerer (POM / PEEK)</span>
                         <span class="text-xs font-mono text-slate-400">Termisk kontrol</span>
                     </div>
@@ -187,73 +192,73 @@
         </div>
     </section>
 
-    <section id="cases" class="py-32 px-6 bg-white border-b border-slate-200">
+    <section id="cases" class="py-32 px-6 bg-white dark:bg-slate-950 border-b border-slate-200 dark:border-slate-900 transition-colors">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-sm font-mono text-accent font-bold uppercase tracking-widest mb-3 text-center">Portefølje</h2>
-            <h3 class="text-4xl font-extrabold tracking-tight mb-20 text-center">Verificeret Eksekvering</h3>
+            <h2 class="text-sm font-mono text-accent dark:text-blue-400 font-bold uppercase tracking-widest mb-3 text-center">Portefølje</h2>
+            <h3 class="text-4xl font-extrabold tracking-tight mb-20 text-center text-corporate dark:text-white">Verificeret Eksekvering</h3>
 
             <div class="grid lg:grid-cols-2 gap-12 items-center mb-32">
-                 <div class="bg-paper rounded-xl p-6 border border-slate-200">
-                    <img src="img/flame-render.png" alt="Flame Eater MK2 System" class="w-full h-auto object-contain drop-shadow-xl hover:scale-[1.02] transition-transform">
+                 <div class="bg-paper dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 transition-colors">
+                    <img src="img/flame-render.png" alt="Flame Eater MK2 System" class="w-full h-auto object-contain drop-shadow-xl dark:drop-shadow-[0_10px_20px_rgba(255,255,255,0.05)] hover:scale-[1.02] transition-transform">
                 </div>
                 <div>
-                    <h4 class="text-2xl font-bold mb-4">Flame Eater MK2 // Vakuum Motor</h4>
-                    <p class="text-steel leading-relaxed mb-6">
+                    <h4 class="text-2xl font-bold mb-4 text-corporate dark:text-white">Flame Eater MK2 // Vakuum Motor</h4>
+                    <p class="text-steel dark:text-slate-400 leading-relaxed mb-6">
                         Samlet eksekvering af vakuum-motor. Demonstrerer integration af finmekaniske komponenter, hvor systemets drift kræver absolut overensstemmelse mellem cylinder og stempel.
                     </p>
                     <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="px-3 py-1 bg-slate-100 text-xs font-mono font-bold rounded">Tolerance: H7/f7</span>
-                        <span class="px-3 py-1 bg-slate-100 text-xs font-mono font-bold rounded">Mat: Støbejern/Rustfast</span>
-                        <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-mono font-bold rounded">Status: Operativ</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-mono font-bold rounded text-corporate dark:text-slate-300">Tolerance: H7/f7</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-mono font-bold rounded text-corporate dark:text-slate-300">Mat: Støbejern/Rustfast</span>
+                        <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs font-mono font-bold rounded">Status: Operativ</span>
                     </div>
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-12 items-center mb-32">
                 <div class="order-2 lg:order-1">
-                    <h4 class="text-2xl font-bold mb-4">Crankweb Assembly</h4>
-                    <p class="text-steel leading-relaxed mb-6">
-                        Kritisk krumtapskomponent til Flame Eater-systemet. Verificeret analogt for at sikre concentricity...
+                    <h4 class="text-2xl font-bold mb-4 text-corporate dark:text-white">Crankweb Assembly</h4>
+                    <p class="text-steel dark:text-slate-400 leading-relaxed mb-6">
+                        Kritisk krumtapskomponent til Flame Eater-systemet. Verificeret analogt for at sikre concentricity og eliminere vibrationsstøj. Beviser evnen til at ramme de kritiske pasninger.
                     </p>
                     <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="px-3 py-1 bg-slate-100 text-xs font-mono font-bold rounded">Pasning: Ø7h7</span>
-                        <span class="px-3 py-1 bg-slate-100 text-xs font-mono font-bold rounded">Verifikation: Passerdorn</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-mono font-bold rounded text-corporate dark:text-slate-300">Pasning: Ø7h7</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-mono font-bold rounded text-corporate dark:text-slate-300">Verifikation: Passerdorn</span>
                     </div>
                 </div>
-                <div class="order-1 lg:order-2 bg-paper rounded-xl p-6 border border-slate-200 grid grid-cols-2 gap-4">
+                <div class="order-1 lg:order-2 bg-paper dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 grid grid-cols-2 gap-4 transition-colors">
                     <img src="img/crankweb-render.png" alt="Crankweb CAD" class="w-full object-contain">
                     <img src="img/crankweb-qa-dorn.png" alt="Crankweb QA" class="w-full object-contain rounded">
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-12 items-center mb-32">
-                 <div class="bg-paper rounded-xl p-6 border border-slate-200">
-                    <img src="img/tactable.png" alt="Tac Table Optisk Platform" class="w-full h-auto object-contain drop-shadow-xl hover:scale-[1.02] transition-transform">
+                 <div class="bg-paper dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 transition-colors">
+                    <img src="img/tactable.png" alt="Tac Table Optisk Platform" class="w-full h-auto object-contain drop-shadow-xl dark:drop-shadow-[0_10px_20px_rgba(255,255,255,0.05)] hover:scale-[1.02] transition-transform">
                 </div>
                 <div>
-                    <h4 class="text-2xl font-bold mb-4">Tac Table // Optisk Platform</h4>
-                    <p class="text-steel leading-relaxed mb-6">
+                    <h4 class="text-2xl font-bold mb-4 text-corporate dark:text-white">Tac Table // Optisk Platform</h4>
+                    <p class="text-steel dark:text-slate-400 leading-relaxed mb-6">
                         Monteringsenhed til langdistance-optik designet til våbenmekaniker. Strenge krav til absolut parallelitet og planhed for at eliminere vinkelfejl ved sigtemidler.
                     </p>
                     <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="px-3 py-1 bg-slate-100 text-xs font-mono font-bold rounded">Mat: Alu 6082-T6</span>
-                        <span class="px-3 py-1 bg-slate-100 text-xs font-mono font-bold rounded">Krav: Geometrisk Planhed</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-mono font-bold rounded text-corporate dark:text-slate-300">Mat: Alu 6082-T6</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-mono font-bold rounded text-corporate dark:text-slate-300">Krav: Geometrisk Planhed</span>
                     </div>
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                  <div class="order-2 lg:order-1">
-                    <h4 class="text-2xl font-bold mb-4">Ring Bender MK-I</h4>
-                    <p class="text-steel leading-relaxed mb-6">
+                    <h4 class="text-2xl font-bold mb-4 text-corporate dark:text-white">Ring Bender MK-I</h4>
+                    <p class="text-steel dark:text-slate-400 leading-relaxed mb-6">
                         Reverse engineering og værktøjsoptimering. Redesign af et upålideligt plastikværktøj til en industriel hybrid-konstruktion i metal til undervisningsbrug.
                     </p>
                     <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="px-3 py-1 bg-slate-100 text-xs font-mono font-bold rounded">Mat: Alu/Stål Hybrid</span>
-                        <span class="px-3 py-1 bg-slate-100 text-xs font-mono font-bold rounded">Fokus: Slidstyrke</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-mono font-bold rounded text-corporate dark:text-slate-300">Mat: Alu/Stål Hybrid</span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-800 text-xs font-mono font-bold rounded text-corporate dark:text-slate-300">Fokus: Slidstyrke</span>
                     </div>
                 </div>
-                <div class="order-1 lg:order-2 bg-paper rounded-xl p-6 border border-slate-200">
+                <div class="order-1 lg:order-2 bg-paper dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 transition-colors">
                     <img src="img/ringbender.png" alt="Ring Bender Tool" class="w-full object-contain hover:scale-[1.02] transition-transform">
                 </div>
             </div>
@@ -261,30 +266,30 @@
         </div>
     </section>
 
-    <section id="qa" class="py-24 px-6 bg-paper">
+    <section id="qa" class="py-24 px-6 bg-paper dark:bg-slate-900 transition-colors">
         <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-sm font-mono text-accent font-bold uppercase tracking-widest mb-3">Metrologi</h2>
-            <h3 class="text-3xl font-extrabold tracking-tight mb-8">Mekanisk tillid frem for digital.</h3>
-            <p class="text-steel text-lg leading-relaxed mb-12">
+            <h2 class="text-sm font-mono text-accent dark:text-blue-400 font-bold uppercase tracking-widest mb-3">Metrologi</h2>
+            <h3 class="text-3xl font-extrabold tracking-tight mb-8 text-corporate dark:text-white">Mekanisk tillid frem for digital.</h3>
+            <p class="text-steel dark:text-slate-400 text-lg leading-relaxed mb-12">
                 Jeg fravælger aktivt digitale skydelærer ved kritiske pasninger. En korrekt tolerancemåling (især H7/h7) kræver analog føling for indgreb, friktion og temperatur. Jeg stoler udelukkende på kalibreret, mekanisk metrologi: Trepunktsmålere, mikrometerskruer og reference-dorne.
             </p>
         </div>
     </section>
 
-    <section id="kontakt" class="py-24 px-6 bg-corporate text-white">
+    <section id="kontakt" class="py-24 px-6 bg-corporate dark:bg-slate-950 text-white transition-colors border-t border-transparent dark:border-slate-900">
         <div class="max-w-3xl mx-auto text-center">
             <h2 class="text-4xl font-extrabold tracking-tight mb-4">Teknisk Dialog.</h2>
             <p class="text-slate-400 mb-12">Denne portal er en teknisk showcase. Kontakt mig for netværk, faglig sparring eller rekrutteringsdialog vedrørende fremtidige stillinger.</p>
             
             <form id="intake-form" action="https://formspree.io/f/mdawdogr" method="POST" class="space-y-4 text-left">
                 <div class="grid md:grid-cols-2 gap-4">
-                    <input type="text" name="name" placeholder="Navn / Firma" required class="w-full bg-slate-800 border border-slate-700 rounded px-4 py-3 text-white focus:outline-none focus:border-accent">
-                    <input type="email" name="email" placeholder="Email" required class="w-full bg-slate-800 border border-slate-700 rounded px-4 py-3 text-white focus:outline-none focus:border-accent">
+                    <input type="text" name="name" placeholder="Navn / Firma" required class="w-full bg-slate-800 dark:bg-slate-900 border border-slate-700 dark:border-slate-800 rounded px-4 py-3 text-white focus:outline-none focus:border-accent dark:focus:border-blue-500 transition-colors">
+                    <input type="email" name="email" placeholder="Email" required class="w-full bg-slate-800 dark:bg-slate-900 border border-slate-700 dark:border-slate-800 rounded px-4 py-3 text-white focus:outline-none focus:border-accent dark:focus:border-blue-500 transition-colors">
                 </div>
-                <textarea name="message" rows="4" placeholder="Besked..." required class="w-full bg-slate-800 border border-slate-700 rounded px-4 py-3 text-white focus:outline-none focus:border-accent"></textarea>
+                <textarea name="message" rows="4" placeholder="Besked..." required class="w-full bg-slate-800 dark:bg-slate-900 border border-slate-700 dark:border-slate-800 rounded px-4 py-3 text-white focus:outline-none focus:border-accent dark:focus:border-blue-500 transition-colors"></textarea>
                 <div class="flex justify-between items-center pt-2">
-                     <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="text-sm font-bold text-accent hover:text-white transition-colors">Find mig på LinkedIn</a>
-                    <button type="submit" class="bg-accent text-white px-8 py-3 rounded font-bold hover:bg-white hover:text-corporate transition-all">
+                     <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="text-sm font-bold text-accent dark:text-blue-400 hover:text-white transition-colors">Find mig på LinkedIn</a>
+                    <button type="submit" class="bg-accent dark:bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-white hover:text-corporate dark:hover:bg-slate-100 transition-all">
                         Send Besked
                     </button>
                 </div>
@@ -292,15 +297,16 @@
         </div>
     </section>
 
-    <div id="success-popup" class="fixed bottom-8 right-8 bg-white border border-slate-200 px-6 py-4 rounded shadow-2xl transform translate-y-[150%] opacity-0 transition-all duration-500 z-50 flex items-center gap-4 pointer-events-none">
+    <div id="success-popup" class="fixed bottom-8 right-8 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded shadow-2xl transform translate-y-[150%] opacity-0 transition-all duration-500 z-50 flex items-center gap-4 pointer-events-none">
         <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
         <div>
-            <span class="block text-xs font-bold text-corporate">Besked Modtaget</span>
-            <span class="text-sm text-steel">Dine data er registreret.</span>
+            <span class="block text-xs font-bold text-corporate dark:text-white">Besked Modtaget</span>
+            <span class="text-sm text-steel dark:text-slate-400">Dine data er registreret.</span>
         </div>
     </div>
 
     <script>
+        // Form Logic
         const form = document.getElementById('intake-form');
         const popup = document.getElementById('success-popup');
         form.addEventListener('submit', async (e) => {
@@ -310,6 +316,36 @@
                 form.reset();
                 popup.classList.remove('translate-y-[150%]', 'opacity-0');
                 setTimeout(() => popup.classList.add('translate-y-[150%]', 'opacity-0'), 5000);
+            }
+        });
+
+        // Dark Mode Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+        const htmlElement = document.documentElement;
+
+        // Tjek hukommelse eller system-indstilling
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+            lightIcon.classList.remove('hidden');
+        } else {
+            htmlElement.classList.remove('dark');
+            darkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            // Skift Ikon
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+
+            // Skift Tema
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
             }
         });
     </script>
