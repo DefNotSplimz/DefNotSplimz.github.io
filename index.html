@@ -36,16 +36,27 @@
 </head>
 <body class="bg-paper dark:bg-slate-950 text-slate-900 dark:text-slate-200 font-sans antialiased selection:bg-accent transition-colors duration-300">
 
-    <nav class="fixed top-0 w-full z-50 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-900">
+    <nav class="fixed top-0 w-full z-50 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-900 transition-all">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <img src="img/logo.png" alt="Datum Prototyping" class="h-10 w-auto dark:brightness-200">
-            <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-                <a href="#profil" class="hover:text-accent">Profil</a>
-                <a href="#kompetencer" class="hover:text-accent">Kapacitet</a>
-                <a href="#cases" class="hover:text-accent">Cases</a>
-                <a href="#kontakt" class="hover:text-accent">Kontakt</a>
+            <div class="flex items-center">
+                <img src="img/logoB.svg" alt="Datum Prototyping" class="h-8 md:h-10 w-auto dark:hidden">
+                <img src="img/logoW.svg" alt="Datum Prototyping" class="h-8 md:h-10 w-auto hidden dark:block">
             </div>
-            <a href="dossier.html" class="text-[10px] font-black bg-corporate text-white px-6 py-2 rounded hover:invert transition-all uppercase tracking-widest">Dossier PDF</a>
+            
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+                    <a href="#profil" class="hover:text-accent transition-colors">Profil</a>
+                    <a href="#kompetencer" class="hover:text-accent transition-colors">Kapacitet</a>
+                    <a href="#cases" class="hover:text-accent transition-colors">Cases</a>
+                </div>
+                
+                <button id="theme-toggle" class="p-2 text-slate-500 hover:text-accent focus:outline-none transition-colors">
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                </button>
+
+                <a href="dossier.html" class="text-[10px] font-black bg-corporate dark:bg-blue-600 text-white px-6 py-2 rounded hover:invert transition-all uppercase tracking-widest">Dossier PDF</a>
+            </div>
         </div>
     </nav>
 
@@ -63,9 +74,9 @@
                     <p class="text-xl text-slate-600 dark:text-slate-400 font-medium leading-relaxed mb-8 max-w-2xl">
                         32-årig finmekaniker-lærling i transition fra TEC-skolepraktik til industriel fastansættelse. Jeg eliminerer gætteri gennem teknisk verifikation og mikron-præcis eksekvering jf. ISO 286.
                     </p>
-                    <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex gap-4">
                         <a href="#cases" class="bg-corporate dark:bg-blue-600 text-white px-10 py-4 rounded font-bold hover:invert transition-all text-center uppercase tracking-widest text-sm">Cases</a>
-                        <a href="#kontakt" class="bg-white dark:bg-slate-900 border-2 border-corporate dark:border-slate-800 text-corporate dark:text-white px-10 py-4 rounded font-bold hover:bg-slate-50 transition-all text-center uppercase tracking-widest text-sm">Kontakt</a>
+                        <a href="#kontakt" class="border-2 border-corporate dark:border-slate-800 px-10 py-4 rounded font-bold hover:bg-slate-50 dark:hover:bg-slate-900 transition-all text-center uppercase tracking-widest text-sm">Kontakt</a>
                     </div>
                 </div>
             </div>
@@ -78,7 +89,7 @@
                 <h2 class="text-xs font-mono text-accent font-bold uppercase tracking-[0.3em] mb-4">// Profil</h2>
                 <h3 class="text-4xl font-black tracking-tight mb-8 text-corporate dark:text-white uppercase">Operatør Modenhed.</h3>
                 <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
-                    Min tilgang til produktion er dikteret af systematik. Med svendebrevet i horisonten søger jeg en stilling, hvor jeg kan overføre min erfaring med CNC-bearbejdning, CAM-optimering og analog metrologi til reel drift. 
+                    Min tilgang til produktion er dikteret af systematik. Med svendebrevet i horisonten søger jeg en stilling, hvor jeg kan overføre min erfaring med CNC-bearbejdning, CAM-optimering og analog metrologi til reel drift.
                 </p>
                 <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
                     For mig er finmekanik en kontrakt om præcision. Jeg bygger bro mellem kompleks CAD-simulering og fysisk virkelighed gennem verificerede SOP'er.
@@ -161,5 +172,33 @@
         <p class="text-[8px] font-mono text-slate-400 uppercase tracking-[0.5em]">Datum Prototyping // G. Cilinder-Hansen // 2026</p>
     </footer>
 
+    <script>
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+        const htmlElement = document.documentElement;
+
+        // Validering af systempræference og lagret tema
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            htmlElement.classList.add('dark');
+            lightIcon.classList.remove('hidden');
+        } else {
+            htmlElement.classList.remove('dark');
+            darkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>
