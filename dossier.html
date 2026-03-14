@@ -8,17 +8,16 @@
     <link rel="icon" type="image/png" href="img/favicon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        corporate: '#0F172A',
+                        corporate: '#020617',
                         accent: '#0284C7',
                         paper: '#ffffff',
                         steel: '#64748B',
-                        line: '#E2E8F0',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -31,164 +30,92 @@
     <style>
         body { background-color: #F8FAFC; }
         @media print {
-            body { background-color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0; padding: 0; }
+            body { background-color: white; margin: 0; padding: 0; }
             .no-print { display: none !important; }
             @page { margin: 0; size: A4 portrait; }
-            .a4-container { 
-                box-shadow: none !important; 
-                margin: 0 !important; 
-                width: 210mm !important; 
-                height: 297mm !important; 
-                max-height: 297mm !important; 
-                border: none !important; 
-                overflow: hidden !important;
-            }
+            .a4-container { box-shadow: none !important; margin: 0 !important; width: 210mm !important; }
         }
     </style>
 </head>
 <body class="text-corporate font-sans antialiased py-10 print:py-0">
 
-    <div class="max-w-[210mm] mx-auto mb-6 flex justify-between items-center no-print px-4 md:px-0">
-        <a href="index.html" class="text-sm font-bold text-steel hover:text-corporate flex items-center gap-2 transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Tilbage til Portal
-        </a>
-        <button onclick="window.print()" class="bg-corporate text-white px-6 py-2 rounded font-bold hover:bg-accent transition-colors flex items-center gap-2 text-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+    <div class="max-w-[210mm] mx-auto mb-6 flex justify-between items-center no-print px-4">
+        <a href="index.html" class="text-xs font-bold uppercase tracking-widest text-steel hover:text-corporate transition-colors">← Portal</a>
+        <button onclick="window.print()" class="bg-corporate text-white px-6 py-2 rounded font-bold hover:bg-accent transition-colors text-xs uppercase tracking-widest">
             Print Dossier (A4)
         </button>
     </div>
 
-    <main class="a4-container mx-auto bg-white shadow-xl border border-line w-full max-w-[210mm] min-h-[297mm] flex flex-col overflow-hidden">
+    <main class="a4-container mx-auto bg-white shadow-2xl border border-slate-200 w-full max-w-[210mm] min-h-[297mm] flex flex-col overflow-hidden">
         
-        <header class="border-b-4 border-corporate px-10 py-6 bg-slate-50">
-            <div class="flex justify-between items-start mb-4">
+        <header class="border-b-[6px] border-corporate px-10 py-8 bg-slate-50">
+            <div class="flex justify-between items-start mb-6">
                 <div>
-                    <img src="img/logo.png" alt="Datum Prototyping" class="h-12 w-auto object-contain mb-3">
-                    <span class="font-mono text-[10px] uppercase tracking-widest text-accent font-bold block">Dokument: Teknisk Specifikation</span>
+                    <img src="img/logo.png" alt="Datum Prototyping" class="h-14 w-auto object-contain mb-4">
+                    <h1 class="text-2xl font-black uppercase tracking-tighter text-slate-950">Technical Dossier // 2026</h1>
                 </div>
-                <div class="text-right text-[11px] font-mono text-corporate space-y-1 bg-white border border-slate-200 p-2.5 rounded">
-                    <p class="uppercase text-[9px] text-steel tracking-widest mb-1">Operatør Data</p>
-                    <p><span class="font-bold">Navn:</span> G. Cilinder-Hansen</p>
-                    <p><span class="font-bold">Profil:</span> Moden / 32 År</p>
-                    <p><span class="font-bold">Uddannelse:</span> Finmekaniker (TEC)</p>
-                    <p><span class="font-bold">Standard:</span> ISO 286 Metrologi</p>
+                <div class="text-right font-mono text-slate-950 space-y-1 bg-white border-2 border-slate-950 p-4 shadow-[4px_4px_0px_0px_rgba(2,6,23,1)]">
+                    <p class="uppercase text-[10px] text-slate-400 tracking-widest mb-2 border-b border-slate-100 font-bold">Operator Audit</p>
+                    <p class="text-[12px]"><span class="font-bold">OPERATOR:</span> G. Cilinder-Hansen</p>
+                    <p class="text-[12px]"><span class="font-bold">STATUS:</span> Final Phase Apprentice</p>
+                    <p class="text-[12px]"><span class="font-bold">KAPACITET:</span> ISO 286 Compliant</p>
                 </div>
             </div>
-            <p class="text-[13px] text-corporate font-medium max-w-lg leading-snug border-l-2 border-accent pl-3">
-                Dette dokument tjener som formel verifikation af teknisk kapacitet, maskinforståelse og metodik inden for finmekanisk produktion, instrumentmageri og prototype-udvikling.
-            </p>
+            <div class="bg-slate-950 text-white p-3 text-[12px] font-mono tracking-tight uppercase">
+                Mission Critical: Dokumentation af præcision fra TEC-skolepraktik til industriel drift.
+            </div>
         </header>
 
-        <div class="px-10 py-6 space-y-5 flex-grow">
-
+        <div class="px-10 py-8 space-y-8 flex-grow">
             <section>
-                <div class="border-b border-slate-200 pb-1 mb-2 flex items-baseline gap-2">
+                <div class="border-b-2 border-slate-950 pb-1 mb-4 flex items-baseline gap-2">
                     <span class="text-accent font-mono font-bold text-sm">01.</span>
-                    <h2 class="text-base font-bold uppercase tracking-tight text-corporate">Maskinpark & Tolerance</h2>
-                </div>
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <div class="bg-paper border border-slate-100 p-3 rounded">
-                        <span class="text-[9px] font-mono text-steel uppercase tracking-widest block mb-1">CNC Eksekvering</span>
-                        <p class="font-bold text-corporate mb-0.5">Haas ST10 / Mini Mill</p>
-                        <p class="text-[11px] text-steel leading-tight">Optimering af skæredata via Fusion 360 (CAD/CAM).</p>
-                    </div>
-                    <div class="bg-paper border border-slate-100 p-3 rounded">
-                        <span class="text-[9px] font-mono text-steel uppercase tracking-widest block mb-1">Manuel Præcision</span>
-                        <p class="font-bold text-corporate mb-0.5">Weiler Matador / Deckel</p>
-                        <p class="text-[11px] text-steel leading-tight">Højpræcision med absolut fokus på koncentricitet.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section>
-                <div class="border-b border-slate-200 pb-1 mb-2 flex items-baseline gap-2">
-                    <span class="text-accent font-mono font-bold text-sm">02.</span>
-                    <h2 class="text-base font-bold uppercase tracking-tight text-corporate">Standard Operating Procedure</h2>
+                    <h2 class="text-lg font-black uppercase tracking-tight text-corporate">Maskinpark & Tolerance</h2>
                 </div>
                 <div class="grid grid-cols-2 gap-6 text-sm">
-                    <div>
-                        <h4 class="font-bold text-corporate text-[11px] uppercase tracking-widest mb-1 text-accent">Termisk Kontrol</h4>
-                        <p class="text-steel mb-2 leading-tight text-[11px]">
-                            Strategien tilpasses materialets termiske stabilitet for at sikre geometrisk overensstemmelse ved kritiske mål (H7/f7).
-                        </p>
-                        <ul class="space-y-0.5 text-corporate font-medium text-[11px]">
-                            <li>▪ Alu 6082-T6 / 7075 (Finish)</li>
-                            <li>▪ Rustfast 316 / A4 (Kølingskontrol)</li>
-                            <li>▪ Værktøjsstål (Slidstyrke & Pasning)</li>
-                        </ul>
+                    <div class="border-2 border-slate-100 p-4">
+                        <span class="text-[9px] font-mono text-slate-400 uppercase tracking-widest block mb-2 font-bold">CNC Eksekvering</span>
+                        <p class="font-bold text-corporate mb-1">Haas ST10 / Mini Mill</p>
+                        <p class="text-[11px] text-slate-500 leading-tight italic">Optimering af skæredata via Fusion 360 (CAD/CAM).</p>
                     </div>
-                    <div>
-                        <h4 class="font-bold text-corporate text-[11px] uppercase tracking-widest mb-1 text-accent">CAM Strategi (Skrub/Slet)</h4>
-                        <ul class="space-y-1.5 text-steel leading-tight text-[11px]">
-                            <li><strong class="text-corporate">Adaptive Clearing:</strong> Konstant værktøjsbelastning for minimering af spænding.</li>
-                            <li><strong class="text-corporate">2D Contour / 3D Horizontal:</strong> Fokus på endelig overfladefinish uden vibrationsmærker.</li>
-                        </ul>
+                    <div class="border-2 border-slate-100 p-4">
+                        <span class="text-[9px] font-mono text-slate-400 uppercase tracking-widest block mb-2 font-bold">Manuel Præcision</span>
+                        <p class="font-bold text-corporate mb-1">Weiler Matador / Deckel</p>
+                        <p class="text-[11px] text-slate-500 leading-tight italic">Højpræcision med absolut fokus på koncentricitet.</p>
                     </div>
                 </div>
             </section>
 
             <section>
-                <div class="border-b border-slate-200 pb-1 mb-2 flex items-baseline gap-2">
-                    <span class="text-accent font-mono font-bold text-sm">03.</span>
-                    <h2 class="text-base font-bold uppercase tracking-tight text-corporate">Track Record // Cases</h2>
+                <div class="border-b-2 border-slate-950 pb-1 mb-4 flex items-baseline gap-2">
+                    <span class="text-accent font-mono font-bold text-sm">02.</span>
+                    <h2 class="text-lg font-black uppercase tracking-tight text-corporate">Track Record // Cases</h2>
                 </div>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between bg-paper px-3 py-1.5 rounded border border-slate-100">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between border-2 border-slate-50 px-4 py-3">
                         <div>
-                            <h4 class="font-bold text-[13px] text-corporate">Flame Eater MK2 // Vakuum Motor</h4>
-                            <p class="text-[11px] text-steel mt-0.5">Samlet systemmontage i støbejern/rustfast stål.</p>
+                            <h4 class="font-black text-sm uppercase text-corporate tracking-tighter">Flame Eater MK2 // Vakuum Motor</h4>
+                            <p class="text-[11px] text-slate-500 mt-1">Samlet systemmontage i støbejern/rustfast stål.</p>
                         </div>
-                        <span class="bg-slate-200 text-corporate font-mono text-[9px] px-2 py-1 rounded font-bold uppercase">H7 / f7</span>
+                        <span class="bg-slate-950 text-white font-mono text-[10px] px-3 py-1 font-bold uppercase">H7 / f7</span>
                     </div>
-                    <div class="flex items-center justify-between bg-paper px-3 py-1.5 rounded border border-slate-100">
+                    <div class="flex items-center justify-between border-2 border-slate-50 px-4 py-3">
                         <div>
-                            <h4 class="font-bold text-[13px] text-corporate">Tac Table // Optisk Platform</h4>
-                            <p class="text-[11px] text-steel mt-0.5">Custom monteringsenhed til våbenmekaniker (Alu 6082-T6).</p>
+                            <h4 class="font-black text-sm uppercase text-corporate tracking-tighter">Tac Table // Optisk Platform</h4>
+                            <p class="text-[11px] text-slate-500 mt-1">Custom monteringsenhed til våbenmekaniker (Alu 6082-T6).</p>
                         </div>
-                        <span class="bg-slate-200 text-corporate font-mono text-[9px] px-2 py-1 rounded font-bold uppercase">Planhed</span>
-                    </div>
-                    <div class="flex items-center justify-between bg-paper px-3 py-1.5 rounded border border-slate-100">
-                        <div>
-                            <h4 class="font-bold text-[13px] text-corporate">Ring Bender MK-I</h4>
-                            <p class="text-[11px] text-steel mt-0.5">Reverse engineering og redesign fra plast til metalhybrid.</p>
-                        </div>
-                        <span class="bg-slate-200 text-corporate font-mono text-[9px] px-2 py-1 rounded font-bold uppercase">Tooling</span>
+                        <span class="bg-slate-950 text-white font-mono text-[10px] px-3 py-1 font-bold uppercase">Planhed</span>
                     </div>
                 </div>
             </section>
-
-            <section>
-                <div class="border-b border-slate-200 pb-1 mb-2 flex items-baseline gap-2">
-                    <span class="text-accent font-mono font-bold text-sm">04.</span>
-                    <h2 class="text-base font-bold uppercase tracking-tight text-corporate">Kvalitetssikring & QA</h2>
-                </div>
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <div class="border-l-2 border-slate-200 pl-3">
-                        <span class="block text-[9px] font-mono uppercase tracking-widest text-accent mb-1 font-bold">Analog Tillid</span>
-                        <p class="text-steel text-[11px] leading-tight">
-                            Fravælger digitale skydelærer ved kritiske pasninger til fordel for kalibreret, mekanisk metrologi for at sikre korrekt føling for indgreb.
-                        </p>
-                    </div>
-                    <div class="border-l-2 border-slate-200 pl-3">
-                        <span class="block text-[9px] font-mono uppercase tracking-widest text-accent mb-1 font-bold">Instrumentering</span>
-                        <ul class="text-corporate font-bold text-[11px] space-y-0.5">
-                            <li>▪ Trepunktsmålere / Mikrometerskruer</li>
-                            <li>▪ Måleure (0.001mm opløsning)</li>
-                            <li>▪ Passerdorne (ISO 286 kontrol)</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
         </div>
         
-        <div class="px-10 pb-6 mt-auto">
-            <div class="flex justify-between items-end border-t border-slate-200 pt-3">
-                <span class="font-mono text-[8px] uppercase text-slate-400 font-bold">Datum Prototyping // Verificeret Kapacitet</span>
-                <span class="font-mono text-[8px] uppercase text-accent font-bold">ID: DATUM-2026-REV01</span>
+        <footer class="px-10 pb-8 mt-auto">
+            <div class="flex justify-between items-end border-t-2 border-slate-100 pt-4">
+                <span class="font-mono text-[9px] uppercase text-slate-400 font-bold tracking-widest">Datum Prototyping // Precision Verified</span>
+                <span class="font-mono text-[9px] uppercase text-accent font-bold tracking-widest">ID: DATUM-2026-REV01</span>
             </div>
-        </div>
+        </footer>
 
     </main>
 
