@@ -18,7 +18,7 @@
                 extend: {
                     colors: {
                         corporate: '#020617',
-                        accent: '#38bdf8',
+                        accent: '#1d4ed8', /* Deep industrial blue for print consistency */
                         paper: '#ffffff',
                         steel: '#475569',
                     },
@@ -68,17 +68,18 @@
                 </div>
                 <div class="text-right font-mono text-corporate space-y-1 bg-white border-2 border-corporate p-5 shadow-[6px_6px_0px_0px_rgba(2,6,23,1)]">
                     <p class="uppercase text-[9px] text-slate-400 tracking-[0.3em] mb-3 border-b border-slate-100 font-bold pb-1">Operator Audit</p>
-                    <p class="text-[11px]"><span class="font-bold">OPERATOR:</span> G. Cilinder-Hansen</p>
-                    <p class="text-[11px]"><span class="font-bold">STATUS:</span> Final Phase Apprentice</p>
-                    <p class="text-[11px]"><span class="font-bold">KAPACITET:</span> ISO 286 Compliant</p>
+                    <p class="text-[11px]"><span class="font-bold">OPERATOR:</span> G. Cilinder-Hansen (32)</p>
+                    <p class="text-[11px]"><span class="font-bold">STATUS:</span> TEC Skolepraktik // R&D</p>
+                    <p class="text-[11px]"><span class="font-bold">BASE:</span> TEC Frederiksberg</p>
                 </div>
             </div>
-            <div class="bg-corporate text-white p-4 text-[11px] font-mono tracking-tight uppercase border-l-4 border-accent">
-                Mission Critical: Formel verifikation af teknisk kapacitet og industriel transition.
+            <div class="bg-corporate text-white p-4 text-[11px] font-mono tracking-tight uppercase border-l-4 border-accent flex justify-between">
+                <span>Mission Critical: Eksekvering af komplekse prototyper jf. ISO 286.</span>
+                <span class="font-bold text-accent">PRIS: 0 DKK // KRAV: KOMPLEKSITET</span>
             </div>
         </header>
 
-        <div class="px-10 py-10 space-y-10 flex-grow">
+        <div class="px-10 py-8 space-y-8 flex-grow">
 
             <section>
                 <div class="border-b-2 border-corporate pb-1 mb-4 flex items-baseline gap-2">
@@ -134,7 +135,7 @@
                 <div class="grid grid-cols-2 gap-8 text-sm">
                     <div class="border-l-4 border-accent pl-5">
                         <span class="block text-[10px] font-mono uppercase tracking-widest text-corporate mb-2 font-black">Metodik</span>
-                        <p class="text-steel text-[12px] leading-relaxed">
+                        <p class="text-steel text-[11px] leading-relaxed">
                             Fravælger digitale instrumenter ved kritiske tolerancer. Præcision sikres via kalibreret, analog metrologi (mikrometerskruer og trepunktsmålere) for at garantere korrekt føling.
                         </p>
                     </div>
@@ -155,15 +156,32 @@
                 </div>
             </section>
 
+            <section>
+                <div class="border-b-2 border-corporate pb-1 mb-4 flex items-baseline gap-2">
+                    <span class="text-accent font-mono font-bold text-sm">04.</span>
+                    <h2 class="text-base font-black uppercase tracking-tight text-corporate">Operationel Protokol</h2>
+                </div>
+                <div class="grid grid-cols-2 gap-6 text-sm">
+                    <div class="border-2 border-slate-100 p-4">
+                        <span class="text-[9px] font-mono font-bold uppercase tracking-widest block mb-1">Fortrolighed (NDA)</span>
+                        <p class="text-[11px] text-steel">Fuld diskretion garanteres. Parat til at underskrive standard NDA forud for overdragelse af CAD-data (STEP/IGES).</p>
+                    </div>
+                    <div class="border-2 border-slate-100 p-4">
+                        <span class="text-[9px] font-mono font-bold uppercase tracking-widest block mb-1">Materiale & Logistik</span>
+                        <p class="text-[11px] text-steel">Råmateriale leveres af opdragsgiver. Fysisk overdragelse sker primært på TEC Frederiksberg efter forudgående aftale.</p>
+                    </div>
+                </div>
+            </section>
+
         </div>
         
         <footer class="px-10 pb-10 mt-auto">
             <div class="flex justify-between items-end border-t-2 border-slate-100 pt-6">
                 <div class="space-y-1">
                     <p class="font-mono text-[9px] uppercase text-slate-400 font-bold tracking-[0.2em]">Datum Prototyping // Precision Verified</p>
-                    <p class="text-[8px] text-slate-300 italic">Dette dokument er digitalt genereret og verificeret for teknisk overensstemmelse.</p>
+                    <p class="text-[8px] text-slate-400 italic">Dette dokument er digitalt genereret og verificeret for teknisk overensstemmelse.</p>
                 </div>
-                <span class="font-mono text-[10px] uppercase text-accent font-black tracking-widest">ID: DATUM-2026-REV01</span>
+                <span class="font-mono text-[10px] uppercase text-accent font-black tracking-widest">ID: DATUM-2026-REV02</span>
             </div>
         </footer>
 
