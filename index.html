@@ -1,30 +1,27 @@
 <!DOCTYPE html>
-<html lang="da" class="scroll-smooth">
+<html lang="da" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datum Prototyping | Precision is the Only Standard</title>
+    <title>Datum Prototyping | G. Cilinder-Hansen</title>
     
-    <meta name="description" content="Online portfolio for 32-årig finmekaniker i TEC Skolepraktik. Dokumentation af CNC-eksekvering og R&D prototyping jf. ISO 286.">
-    <meta property="og:title" content="Datum Prototyping | G. Cilinder-Hansen">
-    <meta property="og:image" content="https://datumprototyping.dk/img/og-preview.png?v=2"> 
-    <meta property="og:url" content="https://datumprototyping.dk">
-
-    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
-    <link rel="icon" type="image/png" sizes="48x48" href="img/favicon-48.png">
+    <meta name="description" content="Teknisk portfolio for G. Cilinder-Hansen. Dokumenteret CNC-eksekvering og metrologisk validering jf. ISO 286.">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        corporate: '#09090b',
-                        accent: '#f59e0b',
-                        paper: '#f4f4f5',
-                        steel: '#52525b',
+                        border: "hsl(240 3.7% 15.9%)",
+                        background: "#09090b",
+                        foreground: "hsl(0 0% 98%)",
+                        primary: "#f59e0b",
+                        muted: "hsl(240 3.7% 15.9%)",
+                        "muted-foreground": "hsl(240 5% 64.9%)",
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -34,242 +31,205 @@
             }
         }
     </script>
+    <style>
+        .glass { background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(8px); }
+        .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 5px; }
+    </style>
 </head>
-<body class="bg-paper dark:bg-corporate text-corporate dark:text-paper font-sans antialiased selection:bg-accent transition-colors duration-300">
+<body class="bg-background text-foreground font-sans antialiased subtle-grid">
 
-    <nav class="fixed top-0 w-full z-50 bg-paper/90 dark:bg-corporate/90 backdrop-blur-md border-b border-slate-300 dark:border-zinc-800 transition-all">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="img/logoB.svg" alt="Datum Prototyping" class="h-8 md:h-10 w-auto dark:hidden">
-                <img src="img/logoW.svg" alt="Datum Prototyping" class="h-8 md:h-10 w-auto hidden dark:block">
+    <nav class="fixed top-0 w-full z-50 border-b border-zinc-800 glass">
+        <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="#" class="flex items-center h-full group" title="Til top">
+                    <img src="img/logoW.svg" alt="Datum Prototyping Logo" class="h-6 w-auto block group-hover:opacity-80 transition-opacity">
+                </a>
+                
+                <div class="h-4 w-px bg-zinc-800 hidden sm:block"></div>
+                
+                <span class="text-[10px] font-mono text-muted-foreground hidden sm:block uppercase tracking-widest italic text-primary">Status: Operational</span>
             </div>
             
             <div class="flex items-center gap-6">
-                <div class="hidden md:flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-steel dark:text-steel hover:*:text-corporate dark:hover:*:text-accent transition-colors">
-                    <a href="#profil">Profil</a>
-                    <a href="#kompetencer">Kapacitet</a>
-                    <a href="#cases">Projekter</a>
+                <div class="hidden md:flex gap-6 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-widest">
+                    <a href="#kapacitet">Kapacitet</a>
+                    <a href="#cases">Eksekvering</a>
+                    <a href="#mindset">Mindset</a>
                 </div>
-                
-                <button id="theme-toggle" class="p-2 text-steel hover:text-corporate dark:hover:text-accent focus:outline-none transition-colors">
-                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
-                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                </button>
-
-                <a href="dossier.html" class="text-[10px] font-black bg-corporate dark:bg-accent text-paper dark:text-corporate px-6 py-2 rounded-none hover:opacity-80 transition-all uppercase tracking-widest border border-corporate dark:border-accent">Teknisk Dossier</a>
+                <a href="dossier.html" class="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-[10px] font-black text-black shadow transition-all hover:opacity-90 uppercase tracking-widest">
+                    Teknisk Dossier
+                    <svg class="w-3 h-3 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
             </div>
         </div>
     </nav>
 
-    <header class="relative pt-40 pb-20 px-6 bg-paper dark:bg-corporate border-b border-slate-300 dark:border-zinc-800 overflow-hidden">
-        
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute inset-0 opacity-[0.15] dark:opacity-0 transition-opacity duration-500" 
-                 style="background-size: 40px 40px; background-image: linear-gradient(to right, #09090b 1px, transparent 1px), linear-gradient(to bottom, #09090b 1px, transparent 1px);">
+    <header class="relative pt-40 pb-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="inline-flex items-center rounded-sm border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-mono text-primary mb-8 font-bold">
+                <span class="relative flex h-2 w-2 mr-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                LOG: 32-ÅRIG VOKSENLÆRLING // TEC SKOLEPRAKTIK
             </div>
-            <div class="absolute inset-0 opacity-0 dark:opacity-[0.15] transition-opacity duration-500" 
-                 style="background-size: 40px 40px; background-image: linear-gradient(to right, #f4f4f5 1px, transparent 1px), linear-gradient(to bottom, #f4f4f5 1px, transparent 1px);">
-            </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto relative z-10">
-            <div class="flex items-center justify-between mb-8">
-                <div class="inline-flex items-center px-3 py-1 border border-corporate dark:border-accent/30 bg-slate-200 dark:bg-accent/10 text-corporate dark:text-accent text-[10px] font-mono font-bold uppercase tracking-widest">
-                    <span class="w-2 h-2 rounded-none bg-corporate dark:bg-accent mr-2 animate-pulse dark:shadow-[0_0_8px_rgba(245,158,11,0.8)]"></span>
-                    Status: TEC Skolepraktik // Portfolio & Dokumentation
-                </div>
-                <div class="hidden md:block text-[10px] font-mono text-corporate dark:text-steel text-right uppercase tracking-[0.3em] font-bold border-r-2 border-corporate dark:border-accent pr-3">
-                    OPRINDELSE: SKP <br> KRAV: KOMPLEKSITET
-                </div>
-            </div>
-
-            <h1 class="text-6xl md:text-8xl font-black leading-[0.95] tracking-tighter mb-10 text-corporate dark:text-paper uppercase italic">
-                Precision is the <br><span class="text-corporate dark:text-accent not-italic border-b-8 border-accent dark:border-transparent inline-block">Only Standard.</span>
+            
+            <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 leading-[0.85] italic">
+                Precision over <br><span class="text-zinc-600 not-italic">Potential.</span>
             </h1>
             
-            <div class="grid md:grid-cols-12 gap-12 mt-12">
-                <div class="md:col-span-8 relative">
-                    <div class="border-l-4 border-accent pl-6 mb-10 space-y-4">
-                        <p class="text-xl text-corporate dark:text-paper font-bold leading-relaxed">
-                            32-årig voksenlærling. Branchen foretrækker 18-årige; jeg foretrækker mikron-præcision. 
-                        </p>
-                        <p class="text-lg text-steel dark:text-zinc-400 font-medium leading-relaxed">
-                            Dette er et digitalt portfolio bygget til at dokumentere min maskintekniske udvikling og kapacitet via TEC Skolepraktik frem mod svendeprøven. 
-                        </p>
-                        <p class="text-lg text-steel dark:text-zinc-400 font-medium leading-relaxed">
-                            <strong class="text-corporate dark:text-paper uppercase font-black text-sm tracking-widest">Fokusområder:</strong> Kompleks CNC-programmering, adaptiv bearbejdning og streng metrologisk kontrol. Her fremvises udelukkende eksekverede prototyper jf. ISO 286.
-                        </p>
-                    </div>
-
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#cases" class="bg-corporate dark:bg-accent dark:text-corporate text-paper px-10 py-4 font-black hover:opacity-90 transition-all text-center uppercase tracking-widest text-xs flex items-center gap-2 border border-corporate dark:border-accent">
-                            Gennemse Projekter
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        </a>
-                        <a href="dossier.html" class="border-2 border-corporate dark:border-zinc-800 px-10 py-4 font-black hover:bg-slate-200 dark:hover:bg-zinc-900 transition-all text-center uppercase tracking-widest text-xs text-corporate dark:text-paper">
-                            Se Teknisk Dossier
-                        </a>
-                    </div>
+            <div class="max-w-2xl">
+                <p class="text-xl text-muted-foreground leading-relaxed mb-10 border-l-2 border-primary pl-6">
+                    Hvor branchen ser en lærling, ser jeg et produktionsapparat. Jeg medbringer 32 års ansvarsbevidsthed og en urokkelig systematik i CNC-eksekvering. Jeg er ikke her for at eksperimentere – jeg er her for at levere fejlfrit emnearbejde jf. ISO 286.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#cases" class="bg-zinc-100 text-black px-8 py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-white transition-all">
+                        Gennemse Cases
+                    </a>
+                    <a href="dossier.html" class="border border-zinc-800 bg-zinc-900/50 text-zinc-100 px-8 py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all">
+                        Hent PDF Dossier
+                    </a>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="profil" class="py-24 px-6 bg-slate-100 dark:bg-zinc-950">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-start">
-            <div>
-                <h2 class="text-xs font-mono text-corporate dark:text-accent font-bold uppercase tracking-[0.3em] mb-4 border-b border-corporate dark:border-accent inline-block pb-1">// Profil</h2>
-                <h3 class="text-4xl font-black tracking-tight mb-8 text-corporate dark:text-paper uppercase">Operatør Modenhed.</h3>
-                <p class="text-lg text-steel dark:text-zinc-400 leading-relaxed mb-6">
-                    Min tilgang til produktion er dikteret af systematik. Formålet med dette portfolio er at bygge bro mellem teoretisk uddannelse og reel industriel dokumentation af de komponenter, der fremstilles under forløbet i skolepraktikken.
-                </p>
-            </div>
-            <div class="bg-paper dark:bg-corporate border-2 border-corporate dark:border-zinc-800 p-8 shadow-[8px_8px_0px_0px_#09090b] dark:shadow-[8px_8px_0px_0px_#f59e0b]">
-                <h4 class="font-black text-xl uppercase tracking-tighter mb-6 border-b border-slate-300 dark:border-zinc-800 pb-4 text-corporate dark:text-paper">Audit Workflow</h4>
-                <ul class="space-y-6 text-sm font-medium text-corporate dark:text-paper">
-                    <li class="flex gap-4 items-center"><span class="font-mono text-accent font-bold text-lg">01</span><span>Geometri-analyse jf. ISO 286</span></li>
-                    <li class="flex gap-4 items-center"><span class="font-mono text-accent font-bold text-lg">02</span><span>Termisk CAM-optimering</span></li>
-                    <li class="flex gap-4 items-center"><span class="font-mono text-accent font-bold text-lg">03</span><span>Analog FAI Verificering</span></li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="kompetencer" class="py-24 px-6 bg-corporate text-paper border-y border-zinc-800">
-        <div class="max-w-7xl mx-auto grid lg:grid-cols-3 gap-8">
-            <div class="p-8 border border-zinc-800 hover:border-accent transition-colors">
-                <h4 class="font-black uppercase tracking-widest text-accent mb-4">Hardware</h4>
-                <ul class="font-mono text-xs space-y-2 text-zinc-400">
-                    <li class="flex items-center gap-2"><div class="w-1 h-1 bg-accent"></div> Haas ST10 / Mini Mill</li>
-                    <li class="flex items-center gap-2"><div class="w-1 h-1 bg-accent"></div> Weiler Matador / Deckel</li>
-                </ul>
-            </div>
-            <div class="p-8 border border-zinc-800 hover:border-accent transition-colors">
-                <h4 class="font-black uppercase tracking-widest text-accent mb-4">Software</h4>
-                <ul class="font-mono text-xs space-y-2 text-zinc-400">
-                    <li class="flex items-center gap-2"><div class="w-1 h-1 bg-accent"></div> Fusion 360 (CAD/CAM)</li>
-                    <li class="flex items-center gap-2"><div class="w-1 h-1 bg-accent"></div> HSM / Adaptive Clearing</li>
-                </ul>
-            </div>
-            <div class="p-8 border border-zinc-800 hover:border-accent transition-colors">
-                <h4 class="font-black uppercase tracking-widest text-accent mb-4">Metrologi</h4>
-                <ul class="font-mono text-xs space-y-2 text-zinc-400">
-                    <li class="flex items-center gap-2"><div class="w-1 h-1 bg-accent"></div> Mikrometerskruer (Analog)</li>
-                    <li class="flex items-center gap-2"><div class="w-1 h-1 bg-accent"></div> ISO 286 Compliance</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="cases" class="py-32 px-6 bg-paper dark:bg-corporate">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-xs font-mono text-corporate dark:text-accent font-bold uppercase tracking-[0.3em] mb-20 text-center border-b border-corporate dark:border-accent inline-block pb-1 mx-auto table">// Verificeret Eksekvering</h2>
-            
-            <div class="grid lg:grid-cols-2 gap-24 items-start mb-32">
-                 <div class="bg-slate-100 dark:bg-zinc-900 border-2 border-corporate dark:border-zinc-800 p-8 shadow-[12px_12px_0px_0px_#09090b] dark:shadow-[12px_12px_0px_0px_#f59e0b]">
-                    <img src="img/flame-render.png" alt="Flame Eater MK2" class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-500">
-                </div>
-                <div>
-                    <div class="inline-block px-3 py-1 bg-corporate dark:bg-zinc-800 text-[10px] font-mono font-bold uppercase tracking-widest mb-6 text-paper">Case: 01 // Motorik</div>
-                    <h4 class="text-4xl font-black uppercase tracking-tighter mb-4 text-corporate dark:text-paper">Flame Eater MK2</h4>
-                    <p class="text-steel dark:text-zinc-400 text-lg leading-relaxed mb-6">
-                        Vakuum-motor eksekveret med hybride bearbejdningsstrategier. Projektet demonstrerer evnen til at styre termisk ekspansion i manuelle H7/f7 pasninger, kombineret med præcis CNC-konturfræsning af motorens vitale timing-komponent (Cam Disc).
-                    </p>
-                    <ul class="space-y-3 mb-8 text-sm font-mono text-corporate dark:text-zinc-400 font-bold dark:font-normal">
-                        <li class="flex items-center gap-3"><span class="w-2 h-2 bg-accent"></span> Eksekvering: Manuel drejning & 3-akset CNC</li>
-                        <li class="flex items-center gap-3"><span class="w-2 h-2 bg-accent"></span> Materiale: EN-GJL-250 / AISI 304 / AISI 316</li>
-                        <li class="flex items-center gap-3"><span class="w-2 h-2 bg-accent"></span> Tolerance: ISO 286 (H7/f7) & Formtolerancer</li>
+    <section id="kapacitet" class="py-24 border-t border-zinc-800 bg-zinc-950/50">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-600 mb-12 italic">// Kapacitets_Audit</h2>
+            <div class="grid md:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800 shadow-2xl">
+                <div class="p-10 bg-background">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-8">Hardware_Ops</h3>
+                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground">
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Haas ST10 / Mini Mill</span> <span class="text-zinc-500">Verified</span></li>
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Weiler / Deckel Precision</span> <span class="text-zinc-500">Verified</span></li>
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Mikroskop-montage</span> <span class="text-zinc-500">Verified</span></li>
                     </ul>
+                </div>
+                <div class="p-10 bg-background">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-8">System_Stack</h3>
+                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground">
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Fusion 360 (CAD/CAM)</span> <span class="text-zinc-500">Mastery</span></li>
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Adaptive Clearing</span> <span class="text-zinc-500">Mastery</span></li>
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>G-Code Optimization</span> <span class="text-zinc-500">Mastery</span></li>
+                    </ul>
+                </div>
+                <div class="p-10 bg-background">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-8">Metrologi_QA</h3>
+                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground">
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>ISO 286 (H7/f7)</span> <span class="text-zinc-500">Strict</span></li>
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Analog Metrology</span> <span class="text-zinc-500">Strict</span></li>
+                        <li class="flex justify-between border-b border-zinc-900 pb-2"><span>FAI Documentation</span> <span class="text-zinc-500">Strict</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <div class="space-y-3 border-t-2 border-corporate dark:border-zinc-800 pt-6 mt-6">
-                        <p class="text-[10px] font-mono font-bold uppercase tracking-widest text-corporate dark:text-accent">// Audit & Metrologi (FAI)</p>
-                        <div class="flex flex-col gap-3">
-                            <a href="fai/fai-01.html" target="_blank" class="inline-flex items-center justify-between w-full border-2 border-zinc-200 dark:border-zinc-800 px-4 py-3 hover:border-corporate dark:hover:border-accent transition-colors bg-zinc-50 dark:bg-zinc-900 group">
-                                <span class="text-xs font-black uppercase tracking-widest text-corporate dark:text-paper group-hover:text-accent transition-colors">01. Cylinder & Stempel</span>
-                                <span class="text-[9px] font-mono font-bold uppercase tracking-widest bg-corporate text-paper px-2 py-1 border border-corporate">Åbn Rapport</span>
+    <section id="cases" class="py-32 px-4 max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold tracking-tighter mb-16 uppercase italic text-zinc-100">Verificeret Eksekvering</h2>
+        
+        <div class="grid md:grid-cols-2 gap-16">
+            <div class="group space-y-8">
+                <div class="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden relative">
+                    <img src="img/flame-render.png" alt="Flame Eater" class="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                    <div class="absolute top-4 right-4 bg-zinc-950/80 border border-zinc-800 px-3 py-1 text-[10px] font-mono font-bold uppercase">Case_01</div>
+                </div>
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold uppercase tracking-tighter">Flame Eater MK2</h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">
+                        Hybrid bearbejdning med fokus på termisk ekspansion og H7/f7 pasninger. Systematikken bag eksekveringen sikrer absolut vakuumtæthed uden mekanisk friktion.
+                    </p>
+                    <div class="space-y-2 border-t border-zinc-800 pt-8">
+                        <p class="text-[10px] font-bold text-zinc-600 uppercase mb-4 tracking-[0.3em]">Audit_Reports (FAI)</p>
+                        <div class="grid gap-2">
+                            <a href="fai/fai-01.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all group/btn">
+                                <span class="text-xs font-bold group-hover/btn:text-primary transition-colors uppercase">01. Cylinder & Stempel</span>
+                                <span class="text-[10px] font-mono text-zinc-600">Open_Data</span>
                             </a>
-                            <a href="fai/fai-02-camdisc.html" target="_blank" class="inline-flex items-center justify-between w-full border-2 border-zinc-200 dark:border-zinc-800 px-4 py-3 hover:border-corporate dark:hover:border-accent transition-colors bg-zinc-50 dark:bg-zinc-900 group">
-                                <span class="text-xs font-black uppercase tracking-widest text-corporate dark:text-paper group-hover:text-accent transition-colors">02. Cam Disc (Knastskive)</span>
-                                <span class="text-[9px] font-mono font-bold uppercase tracking-widest bg-corporate text-paper px-2 py-1 border border-corporate">Åbn Rapport</span>
+                            <a href="fai/fai-02-camdisc.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all group/btn">
+                                <span class="text-xs font-bold group-hover/btn:text-primary transition-colors uppercase">02. Cam Disc (Knast)</span>
+                                <span class="text-[10px] font-mono text-zinc-600">Open_Data</span>
                             </a>
-                            <a href="fai/fai-03-flywheel.html" target="_blank" class="inline-flex items-center justify-between w-full border-2 border-zinc-200 dark:border-zinc-800 px-4 py-3 hover:border-corporate dark:hover:border-accent transition-colors bg-zinc-50 dark:bg-zinc-900 group">
-                                <span class="text-xs font-black uppercase tracking-widest text-corporate dark:text-paper group-hover:text-accent transition-colors">03. Svinghjul (Masse & Center)</span>
-                                <span class="text-[9px] font-mono font-bold uppercase tracking-widest bg-corporate text-paper px-2 py-1 border border-corporate">Åbn Rapport</span>
+                            <a href="fai/fai-03-flywheel.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all group/btn">
+                                <span class="text-xs font-bold group-hover/btn:text-primary transition-colors uppercase">03. Svinghjul (Masse)</span>
+                                <span class="text-[10px] font-mono text-zinc-600">Open_Data</span>
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-24 items-start">
-                <div class="order-2 lg:order-1">
-                    <div class="inline-block px-3 py-1 bg-corporate dark:bg-zinc-800 text-[10px] font-mono font-bold uppercase tracking-widest mb-6 text-paper">Case: 02 // Optik</div>
-                    <h4 class="text-4xl font-black uppercase tracking-tighter mb-6 text-corporate dark:text-paper">Tac Table</h4>
-                    <p class="text-steel dark:text-zinc-400 text-lg leading-relaxed mb-8">
-                        Optisk platform udviklet til højpræcisions-montering. Fokus her var på eliminering af indre spændinger i materialet for at sikre vedvarende planhed over tid.
-                    </p>
-                    <ul class="space-y-3 mb-10 text-sm font-mono text-corporate dark:text-zinc-400 font-bold dark:font-normal">
-                        <li class="flex items-center gap-3"><span class="w-2 h-2 bg-accent"></span> Materiale: Alu 6082-T6 (Hærdet)</li>
-                        <li class="flex items-center gap-3"><span class="w-2 h-2 bg-accent"></span> Operation: High-speed adaptive clearing</li>
-                        <li class="flex items-center gap-3"><span class="w-2 h-2 bg-accent"></span> Krav: < 0.02mm planparallelitet</li>
-                    </ul>
+            <div class="group space-y-8">
+                <div class="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden relative">
+                    <img src="img/tactable.png" alt="Tac Table" class="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                    <div class="absolute top-4 right-4 bg-zinc-950/80 border border-zinc-800 px-3 py-1 text-[10px] font-mono font-bold uppercase">Case_02</div>
                 </div>
-                <div class="bg-slate-100 dark:bg-zinc-900 border-2 border-corporate dark:border-zinc-800 p-8 shadow-[12px_12px_0px_0px_#09090b] dark:shadow-[12px_12px_0px_0px_#f59e0b] order-1 lg:order-2">
-                    <img src="img/tactable.png" alt="Tac Table" class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold uppercase tracking-tighter">Tac Table</h3>
+                    <p class="text-muted-foreground text-sm leading-relaxed">
+                        Optisk monteringsplatform i Alu 6082-T6. Strategisk eliminering af indre spændinger for at garantere vedvarende planhed under 0.02mm.
+                    </p>
+                    <div class="mt-auto pt-8 border-t border-zinc-800">
+                        <div class="flex gap-4 text-[10px] font-mono text-zinc-600 uppercase tracking-widest font-bold">
+                            <span>#Adaptive_Clearing</span>
+                            <span>#Stress_Relief</span>
+                            <span>#Metrologi</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="kontakt" class="py-24 px-6 bg-corporate text-paper border-t-4 border-accent">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-4xl font-black uppercase tracking-tighter mb-4 italic">Kontakt.</h2>
-            <p class="text-zinc-400 text-sm font-mono mb-12">Henvendelser vedrørende portfoliets indhold eller fremtidigt samarbejde.</p>
-            
-            <form action="https://formspree.io/f/mdawdogr" method="POST" class="space-y-4 text-left">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <input type="text" name="name" placeholder="NAVN / VIRKSOMHED" required class="w-full bg-zinc-900 border border-zinc-800 px-4 py-4 text-paper font-mono text-xs outline-none focus:border-accent transition-colors">
-                    <input type="email" name="email" placeholder="EMAIL" required class="w-full bg-zinc-900 border border-zinc-800 px-4 py-4 text-paper font-mono text-xs outline-none focus:border-accent transition-colors">
+    <section id="mindset" class="py-32 border-y border-zinc-800 bg-zinc-950/30">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-600 mb-16 italic text-center">// Reliability_Mindset</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 border border-zinc-800 bg-background relative group hover:border-primary/30 transition-all">
+                    <div class="text-primary font-mono text-xs mb-4">01_ANSVAR</div>
+                    <h4 class="text-lg font-bold uppercase mb-4 tracking-tighter">Produktionsøkonomi</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed">Jeg forstår sammenhængen mellem cyklustid og værktøjslevetid. Jeg passer på maskinerne, som var de mine egne.</p>
                 </div>
-                <input type="text" name="subject" placeholder="EMNE" required class="w-full bg-zinc-900 border border-zinc-800 px-4 py-4 text-paper font-mono text-xs outline-none focus:border-accent transition-colors">
-                <textarea name="message" rows="4" placeholder="BESKED..." required class="w-full bg-zinc-900 border border-zinc-800 px-4 py-4 text-paper font-mono text-xs outline-none focus:border-accent transition-colors"></textarea>
-                <button type="submit" class="w-full bg-accent text-corporate px-8 py-5 font-black hover:opacity-90 transition-all uppercase tracking-[0.2em] text-xs">Send Besked</button>
-            </form>
+                <div class="p-8 border border-zinc-800 bg-background relative group hover:border-primary/30 transition-all">
+                    <div class="text-primary font-mono text-xs mb-4">02_DISCIPLIN</div>
+                    <h4 class="text-lg font-bold uppercase mb-4 tracking-tighter">Nul-fejls Kultur</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed">Måling er ikke en kontrol, det er en garanti. Mine FAI-rapporter er beviset på min systematiske tilgang til kvalitet.</p>
+                </div>
+                <div class="p-8 border border-zinc-800 bg-background relative group hover:border-primary/30 transition-all">
+                    <div class="text-primary font-mono text-xs mb-4">03_MODENHED</div>
+                    <h4 class="text-lg font-bold uppercase mb-4 tracking-tighter">Hurtig Integration</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed">Modenhed betyder kortere oplæring. Jeg tager ejerskab over setups fra dag ét og kræver minimal supervision.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <footer class="py-10 px-6 border-t border-slate-300 dark:border-zinc-800 text-center bg-paper dark:bg-corporate">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <p class="text-[8px] font-mono text-steel uppercase tracking-[0.5em]">Datum Prototyping // G. Cilinder-Hansen // 2026</p>
-            <p class="text-[8px] font-mono text-steel uppercase tracking-[0.5em]">LOKATION: TEC FREDERIKSBERG, DANMARK // STATUS: PORTFOLIO</p>
+    <section id="kontakt" class="py-32 px-4 max-w-xl mx-auto">
+        <h2 class="text-4xl font-bold tracking-tighter text-center mb-4 uppercase italic">Forbindelse</h2>
+        <p class="text-center text-muted-foreground text-xs mb-16 font-mono tracking-widest uppercase">System_Status: Awaiting_Transmission</p>
+        
+        <form action="https://formspree.io/f/mdawdogr" method="POST" class="space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+                <input type="text" name="name" placeholder="NAVN / FIRMA" required class="flex h-14 w-full border border-zinc-800 bg-background px-4 py-2 text-xs font-mono uppercase focus:border-primary outline-none transition-all">
+                <input type="email" name="email" placeholder="EMAIL" required class="flex h-14 w-full border border-zinc-800 bg-background px-4 py-2 text-xs font-mono uppercase focus:border-primary outline-none transition-all">
+            </div>
+            <textarea name="message" rows="4" placeholder="TEKNISK FORESPØRGSEL..." required class="flex w-full border border-zinc-800 bg-background px-4 py-2 text-xs font-mono uppercase focus:border-primary outline-none transition-all"></textarea>
+            <button type="submit" class="bg-primary text-black px-4 py-5 text-[10px] font-black shadow transition-all hover:opacity-90 w-full uppercase tracking-[0.3em]">
+                Send Transmission
+            </button>
+        </form>
+    </section>
+
+    <footer class="py-12 border-t border-zinc-800 bg-zinc-950">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-mono text-zinc-700 uppercase tracking-[0.4em] font-bold">
+            <p>Datum Prototyping // G. Cilinder-Hansen // © 2026</p>
+            <p>Precise_Verified_Operational</p>
         </div>
     </footer>
 
-    <script>
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const darkIcon = document.getElementById('theme-toggle-dark-icon');
-        const lightIcon = document.getElementById('theme-toggle-light-icon');
-        const htmlElement = document.documentElement;
-
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            htmlElement.classList.add('dark');
-            lightIcon.classList.remove('hidden');
-        } else {
-            htmlElement.classList.remove('dark');
-            darkIcon.classList.remove('hidden');
-        }
-
-        themeToggleBtn.addEventListener('click', function() {
-            darkIcon.classList.toggle('hidden');
-            lightIcon.classList.toggle('hidden');
-            if (htmlElement.classList.contains('dark')) {
-                htmlElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            } else {
-                htmlElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            }
-        });
-    </script>
 </body>
 </html>
