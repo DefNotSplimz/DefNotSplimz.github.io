@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datum Prototyping | G. Cilinder-Hansen</title>
     
-    <meta name="description" content="Teknisk portfolio for G. Cilinder-Hansen. Dokumenteret CNC-eksekvering og metrologisk validering jf. ISO 286.">
+    <meta property="og:title" content="Teknisk Portefølje | G. Cilinder-Hansen">
+    <meta property="og:description" content="Dokumenteret finmekanik og CNC-eksekvering jf. ISO 286. 32-årig voksenlærling med fokus på nul-fejls kultur.">
+    <meta property="og:image" content="img/og-preview.png">
+    <meta property="og:url" content="https://datumprototyping.dk/ text-zinc-400">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -23,10 +26,7 @@
                         muted: "hsl(240 3.7% 15.9%)",
                         "muted-foreground": "hsl(240 5% 64.9%)",
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
                 }
             }
         }
@@ -35,7 +35,6 @@
         .glass { background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(8px); }
         .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
         ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 5px; }
     </style>
 </head>
@@ -44,15 +43,12 @@
     <nav class="fixed top-0 w-full z-50 border-b border-zinc-800 glass">
         <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <a href="#" class="flex items-center h-full group" title="Til top">
-                    <img src="img/logoW.svg" alt="Datum Prototyping Logo" class="h-6 w-auto block group-hover:opacity-80 transition-opacity">
+                <a href="#" class="flex items-center h-full group">
+                    <img src="img/logoW.svg" alt="Logo" class="h-6 w-auto block group-hover:opacity-80 transition-opacity">
                 </a>
-                
                 <div class="h-4 w-px bg-zinc-800 hidden sm:block"></div>
-                
-                <span class="text-[10px] font-mono text-muted-foreground hidden sm:block uppercase tracking-widest italic text-primary">Status: Operational</span>
+                <span class="text-[10px] font-mono text-primary hidden sm:block uppercase tracking-widest italic font-bold">Status: Operational</span>
             </div>
-            
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex gap-6 text-[10px] font-bold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-widest">
                     <a href="#kapacitet">Kapacitet</a>
@@ -70,28 +66,18 @@
     <header class="relative pt-40 pb-24 px-4">
         <div class="max-w-6xl mx-auto">
             <div class="inline-flex items-center rounded-sm border border-primary/20 bg-primary/5 px-3 py-1 text-[10px] font-mono text-primary mb-8 font-bold">
-                <span class="relative flex h-2 w-2 mr-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                </span>
                 LOG: 32-ÅRIG VOKSENLÆRLING // TEC SKOLEPRAKTIK
             </div>
-            
             <h1 class="text-6xl md:text-8xl font-bold tracking-tighter mb-8 leading-[0.85] italic">
                 Precision over <br><span class="text-zinc-600 not-italic">Potential.</span>
             </h1>
-            
             <div class="max-w-2xl">
-                <p class="text-xl text-muted-foreground leading-relaxed mb-10 border-l-2 border-primary pl-6">
-                    Hvor branchen ser en lærling, ser jeg et produktionsapparat. Jeg medbringer 32 års ansvarsbevidsthed og en urokkelig systematik i CNC-eksekvering. Jeg er ikke her for at eksperimentere – jeg er her for at levere fejlfrit emnearbejde jf. ISO 286.
+                <p class="text-xl text-muted-foreground leading-relaxed mb-10 border-l-2 border-primary pl-6 uppercase tracking-tight">
+                    Hvor branchen ser en lærling, ser jeg et produktionsapparat. Jeg medbringer 32 års ansvarsbevidsthed og urokkelig systematik i CNC-eksekvering.
                 </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="#cases" class="bg-zinc-100 text-black px-8 py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-white transition-all">
-                        Gennemse Cases
-                    </a>
-                    <a href="dossier.html" class="border border-zinc-800 bg-zinc-900/50 text-zinc-100 px-8 py-4 text-xs font-black uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all">
-                        Hent PDF Dossier
-                    </a>
+                <div class="flex flex-wrap gap-4 font-black">
+                    <a href="#cases" class="bg-zinc-100 text-black px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-white transition-all">Gennemse Eksekvering</a>
+                    <a href="dossier.html" class="border border-zinc-800 bg-zinc-900/50 text-zinc-100 px-8 py-4 text-xs uppercase tracking-[0.2em] hover:bg-zinc-800 transition-all">Hent PDF Dossier</a>
                 </div>
             </div>
         </div>
@@ -100,10 +86,10 @@
     <section id="kapacitet" class="py-24 border-t border-zinc-800 bg-zinc-950/50">
         <div class="max-w-6xl mx-auto px-4">
             <h2 class="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-600 mb-12 italic">// Kapacitets_Audit</h2>
-            <div class="grid md:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800 shadow-2xl">
+            <div class="grid md:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800">
                 <div class="p-10 bg-background">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-8">Hardware_Ops</h3>
-                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground">
+                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground uppercase">
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Haas ST10 / Mini Mill</span> <span class="text-zinc-500">Verified</span></li>
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Weiler / Deckel Precision</span> <span class="text-zinc-500">Verified</span></li>
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Mikroskop-montage</span> <span class="text-zinc-500">Verified</span></li>
@@ -111,7 +97,7 @@
                 </div>
                 <div class="p-10 bg-background">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-8">System_Stack</h3>
-                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground">
+                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground uppercase">
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Fusion 360 (CAD/CAM)</span> <span class="text-zinc-500">Mastery</span></li>
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Adaptive Clearing</span> <span class="text-zinc-500">Mastery</span></li>
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>G-Code Optimization</span> <span class="text-zinc-500">Mastery</span></li>
@@ -119,7 +105,7 @@
                 </div>
                 <div class="p-10 bg-background">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-primary mb-8">Metrologi_QA</h3>
-                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground">
+                    <ul class="font-mono text-[11px] space-y-4 text-muted-foreground uppercase">
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>ISO 286 (H7/f7)</span> <span class="text-zinc-500">Strict</span></li>
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>Analog Metrology</span> <span class="text-zinc-500">Strict</span></li>
                         <li class="flex justify-between border-b border-zinc-900 pb-2"><span>FAI Documentation</span> <span class="text-zinc-500">Strict</span></li>
@@ -131,7 +117,6 @@
 
     <section id="cases" class="py-32 px-4 max-w-6xl mx-auto">
         <h2 class="text-3xl font-bold tracking-tighter mb-16 uppercase italic text-zinc-100">Verificeret Eksekvering</h2>
-        
         <div class="grid md:grid-cols-2 gap-16">
             <div class="group space-y-8">
                 <div class="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden relative">
@@ -140,29 +125,20 @@
                 </div>
                 <div class="space-y-6">
                     <h3 class="text-3xl font-bold uppercase tracking-tighter">Flame Eater MK2</h3>
-                    <p class="text-muted-foreground text-sm leading-relaxed">
-                        Hybrid bearbejdning med fokus på termisk ekspansion og H7/f7 pasninger. Systematikken bag eksekveringen sikrer absolut vakuumtæthed uden mekanisk friktion.
-                    </p>
-                    <div class="space-y-2 border-t border-zinc-800 pt-8">
-                        <p class="text-[10px] font-bold text-zinc-600 uppercase mb-4 tracking-[0.3em]">Audit_Reports (FAI)</p>
-                        <div class="grid gap-2">
-                            <a href="fai/fai-01.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all group/btn">
-                                <span class="text-xs font-bold group-hover/btn:text-primary transition-colors uppercase">01. Cylinder & Stempel</span>
-                                <span class="text-[10px] font-mono text-zinc-600">Open_Data</span>
-                            </a>
-                            <a href="fai/fai-02-camdisc.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all group/btn">
-                                <span class="text-xs font-bold group-hover/btn:text-primary transition-colors uppercase">02. Cam Disc (Knast)</span>
-                                <span class="text-[10px] font-mono text-zinc-600">Open_Data</span>
-                            </a>
-                            <a href="fai/fai-03-flywheel.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all group/btn">
-                                <span class="text-xs font-bold group-hover/btn:text-primary transition-colors uppercase">03. Svinghjul (Masse)</span>
-                                <span class="text-[10px] font-mono text-zinc-600">Open_Data</span>
-                            </a>
-                        </div>
+                    <p class="text-muted-foreground text-sm leading-relaxed mb-8">Hybrid bearbejdning med fokus på termisk ekspansion og H7/f7 pasninger.</p>
+                    <div class="grid gap-2 border-t border-zinc-800 pt-8">
+                        <a href="fai/fai-01.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all font-bold uppercase text-xs">
+                            <span>01. Cylinder & Stempel</span> <span class="text-[10px] font-mono text-primary">FAI_REPORT</span>
+                        </a>
+                        <a href="fai/fai-02-camdisc.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all font-bold uppercase text-xs">
+                            <span>02. Cam Disc (Knast)</span> <span class="text-[10px] font-mono text-primary">FAI_REPORT</span>
+                        </a>
+                        <a href="fai/fai-03-flywheel.html" class="flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary/50 transition-all font-bold uppercase text-xs">
+                            <span>03. Svinghjul (Masse)</span> <span class="text-[10px] font-mono text-primary">FAI_REPORT</span>
+                        </a>
                     </div>
                 </div>
             </div>
-
             <div class="group space-y-8">
                 <div class="aspect-video bg-zinc-900 border border-zinc-800 overflow-hidden relative">
                     <img src="img/tactable.png" alt="Tac Table" class="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
@@ -170,15 +146,9 @@
                 </div>
                 <div class="space-y-6">
                     <h3 class="text-3xl font-bold uppercase tracking-tighter">Tac Table</h3>
-                    <p class="text-muted-foreground text-sm leading-relaxed">
-                        Optisk monteringsplatform i Alu 6082-T6. Strategisk eliminering af indre spændinger for at garantere vedvarende planhed under 0.02mm.
-                    </p>
-                    <div class="mt-auto pt-8 border-t border-zinc-800">
-                        <div class="flex gap-4 text-[10px] font-mono text-zinc-600 uppercase tracking-widest font-bold">
-                            <span>#Adaptive_Clearing</span>
-                            <span>#Stress_Relief</span>
-                            <span>#Metrologi</span>
-                        </div>
+                    <p class="text-muted-foreground text-sm leading-relaxed">Optisk monteringsplatform i Alu 6082-T6. Strategisk eliminering af indre spændinger.</p>
+                    <div class="mt-auto pt-8 border-t border-zinc-800 flex gap-4 text-[10px] font-mono text-zinc-600 uppercase tracking-widest font-bold">
+                        <span>#Adaptive_Clearing</span><span>#Metrologi</span>
                     </div>
                 </div>
             </div>
@@ -188,47 +158,28 @@
     <section id="mindset" class="py-32 border-y border-zinc-800 bg-zinc-950/30">
         <div class="max-w-6xl mx-auto px-4">
             <h2 class="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-600 mb-16 italic text-center">// Reliability_Mindset</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-8 border border-zinc-800 bg-background relative group hover:border-primary/30 transition-all">
-                    <div class="text-primary font-mono text-xs mb-4">01_ANSVAR</div>
-                    <h4 class="text-lg font-bold uppercase mb-4 tracking-tighter">Produktionsøkonomi</h4>
-                    <p class="text-xs text-zinc-500 leading-relaxed">Jeg forstår sammenhængen mellem cyklustid og værktøjslevetid. Jeg passer på maskinerne, som var de mine egne.</p>
+            <div class="grid md:grid-cols-3 gap-8 text-center uppercase">
+                <div class="p-8 border border-zinc-800 bg-background hover:border-primary/30 transition-all">
+                    <div class="text-primary font-mono text-xs mb-4 italic">01_ANSVAR</div>
+                    <h4 class="text-lg font-bold mb-4 tracking-tighter">Produktionsøkonomi</h4>
+                    <p class="text-[10px] text-zinc-500 leading-relaxed font-bold">Jeg passer på maskinerne, som var de mine egne.</p>
                 </div>
-                <div class="p-8 border border-zinc-800 bg-background relative group hover:border-primary/30 transition-all">
-                    <div class="text-primary font-mono text-xs mb-4">02_DISCIPLIN</div>
-                    <h4 class="text-lg font-bold uppercase mb-4 tracking-tighter">Nul-fejls Kultur</h4>
-                    <p class="text-xs text-zinc-500 leading-relaxed">Måling er ikke en kontrol, det er en garanti. Mine FAI-rapporter er beviset på min systematiske tilgang til kvalitet.</p>
+                <div class="p-8 border border-zinc-800 bg-background hover:border-primary/30 transition-all">
+                    <div class="text-primary font-mono text-xs mb-4 italic">02_DISCIPLIN</div>
+                    <h4 class="text-lg font-bold mb-4 tracking-tighter">Nul-fejls Kultur</h4>
+                    <p class="text-[10px] text-zinc-500 leading-relaxed font-bold">Måling er ikke en kontrol, det er en garanti.</p>
                 </div>
-                <div class="p-8 border border-zinc-800 bg-background relative group hover:border-primary/30 transition-all">
-                    <div class="text-primary font-mono text-xs mb-4">03_MODENHED</div>
-                    <h4 class="text-lg font-bold uppercase mb-4 tracking-tighter">Hurtig Integration</h4>
-                    <p class="text-xs text-zinc-500 leading-relaxed">Modenhed betyder kortere oplæring. Jeg tager ejerskab over setups fra dag ét og kræver minimal supervision.</p>
+                <div class="p-8 border border-zinc-800 bg-background hover:border-primary/30 transition-all">
+                    <div class="text-primary font-mono text-xs mb-4 italic">03_MODENHED</div>
+                    <h4 class="text-lg font-bold mb-4 tracking-tighter">Hurtig Integration</h4>
+                    <p class="text-[10px] text-zinc-500 leading-relaxed font-bold">Min modenhed betyder kortere oplæring.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="kontakt" class="py-32 px-4 max-w-xl mx-auto">
-        <h2 class="text-4xl font-bold tracking-tighter text-center mb-4 uppercase italic">Forbindelse</h2>
-        <p class="text-center text-muted-foreground text-xs mb-16 font-mono tracking-widest uppercase">System_Status: Awaiting_Transmission</p>
-        
-        <form action="https://formspree.io/f/mdawdogr" method="POST" class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
-                <input type="text" name="name" placeholder="NAVN / FIRMA" required class="flex h-14 w-full border border-zinc-800 bg-background px-4 py-2 text-xs font-mono uppercase focus:border-primary outline-none transition-all">
-                <input type="email" name="email" placeholder="EMAIL" required class="flex h-14 w-full border border-zinc-800 bg-background px-4 py-2 text-xs font-mono uppercase focus:border-primary outline-none transition-all">
-            </div>
-            <textarea name="message" rows="4" placeholder="TEKNISK FORESPØRGSEL..." required class="flex w-full border border-zinc-800 bg-background px-4 py-2 text-xs font-mono uppercase focus:border-primary outline-none transition-all"></textarea>
-            <button type="submit" class="bg-primary text-black px-4 py-5 text-[10px] font-black shadow transition-all hover:opacity-90 w-full uppercase tracking-[0.3em]">
-                Send Transmission
-            </button>
-        </form>
-    </section>
-
-    <footer class="py-12 border-t border-zinc-800 bg-zinc-950">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-mono text-zinc-700 uppercase tracking-[0.4em] font-bold">
-            <p>Datum Prototyping // G. Cilinder-Hansen // © 2026</p>
-            <p>Precise_Verified_Operational</p>
-        </div>
+    <footer class="py-12 border-t border-zinc-800 bg-zinc-950 text-center text-[9px] font-mono text-zinc-700 uppercase tracking-[0.4em] font-bold">
+        <p>Datum Prototyping // G. Cilinder-Hansen // 2026 // Operational</p>
     </footer>
 
 </body>

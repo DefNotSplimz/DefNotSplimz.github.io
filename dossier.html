@@ -4,210 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Technical Dossier | Datum Prototyping</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        border: "hsl(240 3.7% 15.9%)",
-                        background: "hsl(240 10% 3.9%)",
-                        foreground: "hsl(0 0% 98%)",
-                        primary: "#f59e0b",
-                        muted: "hsl(240 3.7% 15.9%)",
-                        "muted-foreground": "hsl(240 5% 64.9%)",
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
+                    colors: { border: "hsl(240 3.7% 15.9%)", background: "hsl(240 10% 3.9%)", foreground: "hsl(0 0% 98%)", primary: "#f59e0b", muted: "hsl(240 3.7% 15.9%)", "muted-foreground": "hsl(240 5% 64.9%)" },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
                 }
             }
         }
     </script>
     <style>
-        /* Skærm-styling */
-        .subtle-grid { 
-            background-image: radial-gradient(circle, #27272a 0.5px, transparent 0.5px); 
-            background-size: 16px 16px; 
-        }
-
-        /* PRINT-OPTIMERING: Fjerner sort blæk-forbrug */
+        .subtle-grid { background-image: radial-gradient(circle, #27272a 0.5px, transparent 0.5px); background-size: 16px 16px; }
         @media print {
-            @page {
-                margin: 0;
-                size: A4 portrait;
-            }
-            
-            html, body {
-                background-color: white !important;
-                color: black !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-
-            .no-print {
-                display: none !important;
-            }
-
-            /* Tving hvid baggrund på alle containere */
-            .a4-container, 
-            main, 
-            header, 
-            section, 
-            footer, 
-            .bg-background, 
-            .bg-zinc-900\/20, 
-            .bg-zinc-950,
-            .bg-zinc-900,
-            tr {
-                background-color: white !important;
-                background-image: none !important;
-                color: black !important;
-                border-color: #d4d4d8 !important; /* zinc-300 */
-                box-shadow: none !important;
-            }
-
-            /* Juster tekstfarver for læsbarhed på hvidt papir */
-            .text-foreground, .text-zinc-100, h1, h2, h3, h4, p, span, td, th { 
-                color: black !important; 
-            }
-            
-            .text-muted-foreground, .text-zinc-500, .text-zinc-400 { 
-                color: #52525b !important; /* zinc-600 */
-            }
-
-            /* Bevar primær accent, men gør den print-venlig */
-            .bg-primary { 
-                background-color: #f59e0b !important; 
-                -webkit-print-color-adjust: exact; 
-                print-color-adjust: exact;
-            }
-            
-            .text-primary { 
-                color: #b45309 !important; /* Mørkere ravgul for læsbarhed */
-            }
-
-            /* Sørg for at badges og borders står skarpt */
-            .border, .border-zinc-800 {
-                border: 1px solid #d4d4d8 !important;
-            }
-
-            .a4-container {
-                width: 210mm !important;
-                height: 297mm !important;
-                border: none !important;
-            }
+            @page { margin: 0; size: A4 portrait; }
+            html, body { background-color: white !important; color: black !important; padding: 0 !important; }
+            .no-print { display: none !important; }
+            .a4-container, main, header, section, footer, .bg-background, .bg-zinc-900, tr { background-color: white !important; color: black !important; border-color: #d4d4d8 !important; box-shadow: none !important; }
+            .text-zinc-100, h1, h2, h3, h4, p, span, td, th { color: black !important; }
+            .text-primary { color: #b45309 !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
 </head>
 <body class="bg-[#09090b] text-foreground font-sans antialiased py-10 subtle-grid">
-
     <div class="max-w-[210mm] mx-auto mb-6 flex justify-between items-center no-print px-4">
-        <a href="index.html" class="inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-primary transition-colors">
+        <a href="index.html" class="inline-flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-primary transition-colors uppercase italic tracking-tighter">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             System Portal
         </a>
-        <button onclick="window.print()" class="inline-flex items-center justify-center rounded-md bg-white px-4 py-2 text-xs font-bold text-black shadow transition-colors hover:bg-zinc-200">
-            Export as PDF (A4)
-        </button>
+        <button onclick="window.print()" class="bg-white px-4 py-2 text-xs font-black text-black shadow hover:bg-zinc-200 uppercase tracking-widest">Export as PDF (A4)</button>
     </div>
 
     <main class="a4-container mx-auto bg-background border border-zinc-800 shadow-2xl w-full max-w-[210mm] min-h-[297mm] flex flex-col overflow-hidden">
-        
-        <header class="border-b border-zinc-800 p-10 bg-zinc-900/20">
-            <div class="flex justify-between items-start">
-                <div>
-                    <div class="flex items-center gap-2 mb-6">
-                        <div class="h-5 w-5 bg-primary rounded-sm"></div>
-                        <span class="font-bold tracking-tighter text-lg uppercase">Datum_Dossier</span>
-                    </div>
-                    <h1 class="text-3xl font-bold tracking-tighter uppercase italic text-zinc-100">Teknisk Validering</h1>
-                    <p class="text-xs font-mono text-zinc-500 mt-1 uppercase tracking-widest">Rev_05 // 2026-Q1</p>
-                </div>
-                
-                <div class="text-right space-y-3">
-                    <div class="inline-flex items-center rounded-md border border-zinc-800 bg-zinc-950 px-4 py-3">
-                        <div class="text-[10px] font-mono leading-tight">
-                            <p class="text-muted-foreground uppercase text-[8px] mb-1">Audit_Subject</p>
-                            <p class="font-bold">G. Cilinder-Hansen</p>
-                            <p class="text-primary text-[9px]">ID: 32-SKP-FRB</p>
-                        </div>
-                    </div>
-                </div>
+        <header class="border-b border-zinc-800 p-10 bg-zinc-900/20 flex justify-between items-start uppercase">
+            <div>
+                <div class="flex items-center gap-2 mb-6"><div class="h-5 w-5 bg-primary"></div><span class="font-bold text-lg tracking-tighter">Datum_Dossier</span></div>
+                <h1 class="text-3xl font-black italic text-zinc-100">Teknisk Validering</h1>
+                <p class="text-[10px] font-mono text-zinc-500 mt-1 tracking-widest italic font-bold">Rev_05 // 2026-Q1</p>
             </div>
-            
-            <div class="mt-10 flex gap-2">
-                <span class="inline-flex items-center rounded-full bg-zinc-800 px-2.5 py-0.5 text-[10px] font-mono text-zinc-400">ISO_286_COMPLIANT</span>
-                <span class="inline-flex items-center rounded-full bg-zinc-800 px-2.5 py-0.5 text-[10px] font-mono text-zinc-400">CNC_MASTER_VERIFIED</span>
-                <span class="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-mono text-primary uppercase">Audit_Active</span>
+            <div class="text-right border border-zinc-800 bg-zinc-950 px-4 py-3 font-mono text-[10px] leading-tight">
+                <p class="text-muted-foreground text-[8px] mb-1">Subject_ID</p>
+                <p class="font-bold">G. Cilinder-Hansen</p>
+                <p class="text-primary text-[9px] font-black">ID: 32-SKP-FRB</p>
             </div>
         </header>
 
-        <div class="p-10 space-y-12 flex-grow">
-
+        <div class="p-10 space-y-12 flex-grow uppercase">
             <section>
                 <div class="flex items-center gap-4 mb-6">
                     <span class="text-[10px] font-mono text-primary font-bold">01</span>
-                    <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Operationel Kapacitet</h2>
+                    <h2 class="text-xs font-bold tracking-[0.2em] text-zinc-500 italic">Operationel Kapacitet</h2>
                     <div class="h-px bg-zinc-800 flex-grow"></div>
                 </div>
-                
                 <div class="grid grid-cols-2 gap-px bg-zinc-800 border border-zinc-800">
                     <div class="bg-background p-6">
-                        <h4 class="text-[10px] font-mono text-zinc-500 uppercase mb-2 tracking-widest">Primary_CNC</h4>
-                        <p class="font-bold text-sm mb-1 uppercase tracking-tight text-zinc-100">Haas ST10 / Mini Mill</p>
-                        <p class="text-[11px] text-muted-foreground leading-relaxed">Eksekvering af G-kode via Fusion 360. Optimering af skæredata og værktøjsveje for maksimal overfladefinish.</p>
+                        <h4 class="text-[10px] font-mono text-zinc-500 mb-2 font-bold italic tracking-tighter">Primary_CNC</h4>
+                        <p class="font-black text-sm text-zinc-100">Haas ST10 / Mini Mill</p>
+                        <p class="text-[10px] text-muted-foreground leading-relaxed mt-2 font-bold italic">Eksekvering via Fusion 360. Optimering af skæredata jf. materiale-spec.</p>
                     </div>
                     <div class="bg-background p-6">
-                        <h4 class="text-[10px] font-mono text-zinc-500 uppercase mb-2 tracking-widest">Manual_Precision</h4>
-                        <p class="font-bold text-sm mb-1 uppercase tracking-tight text-zinc-100">Weiler / Deckel</p>
-                        <p class="text-[11px] text-muted-foreground leading-relaxed">Instrumentmageri og manuel bearbejdning. Fokus på absolut parallelitet, rundhed og overfladeruhed.</p>
+                        <h4 class="text-[10px] font-mono text-zinc-500 mb-2 font-bold italic tracking-tighter">Manual_Precision</h4>
+                        <p class="font-black text-sm text-zinc-100">Weiler / Deckel</p>
+                        <p class="text-[10px] text-muted-foreground leading-relaxed mt-2 font-bold italic">Fokus på absolut parallelitet og overfladefinish.</p>
                     </div>
                 </div>
-            </section>
 
-            <section>
-                <div class="flex items-center gap-4 mb-6">
-                    <span class="text-[10px] font-mono text-primary font-bold">02</span>
-                    <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Verificerede Cases</h2>
-                    <div class="h-px bg-zinc-800 flex-grow"></div>
-                </div>
-                
-                <div class="rounded-md border border-zinc-800 overflow-hidden">
-                    <table class="w-full text-[11px]">
-                        <thead class="bg-zinc-900/50 border-b border-zinc-800">
-                            <tr>
-                                <th class="px-4 py-3 text-left font-mono text-zinc-500 uppercase tracking-widest">Projekt_ID</th>
-                                <th class="px-4 py-3 text-left font-mono text-zinc-500 uppercase tracking-widest">Tolerance_Krav</th>
-                                <th class="px-4 py-3 text-right font-mono text-zinc-500 uppercase tracking-widest">Validering</th>
-                            </tr>
+                <div class="mt-12 rounded-md border border-zinc-800 overflow-hidden text-[10px] font-mono">
+                    <table class="w-full">
+                        <thead class="bg-zinc-900/50 border-b border-zinc-800 italic">
+                            <tr><th class="px-4 py-3 text-left">Legering</th><th class="px-4 py-3 text-left">Bearbejdnings-Audit</th></tr>
                         </thead>
-                        <tbody class="divide-y divide-zinc-800">
-                            <tr>
-                                <td class="px-4 py-4">
-                                    <p class="font-bold uppercase tracking-tight text-zinc-100">Flame Eater MK2</p>
-                                    <p class="text-zinc-500 text-[10px]">Systemintegration // Motorik</p>
-                                </td>
-                                <td class="px-4 py-4 font-mono text-zinc-400">ISO_286 (H7/f7)</td>
-                                <td class="px-4 py-4 text-right">
-                                    <span class="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-[9px] font-mono text-emerald-500 border border-emerald-500/20 uppercase font-bold tracking-tighter">Verified_OK</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-4">
-                                    <p class="font-bold uppercase tracking-tight text-zinc-100">Tac Table</p>
-                                    <p class="text-zinc-500 text-[10px]">Alu 6082-T6 // Optisk Platform</p>
-                                </td>
-                                <td class="px-4 py-4 font-mono text-zinc-400">PLAN_PAR < 0.02MM</td>
-                                <td class="px-4 py-4 text-right">
-                                    <span class="inline-flex items-center rounded-md bg-emerald-500/10 px-2 py-1 text-[9px] font-mono text-emerald-500 border border-emerald-500/20 uppercase font-bold tracking-tighter">Verified_OK</span>
-                                </td>
-                            </tr>
+                        <tbody class="divide-y divide-zinc-800 text-muted-foreground font-bold italic">
+                            <tr><td class="px-4 py-3 text-zinc-100">AISI 304 / 316L</td><td class="px-4 py-3">Håndtering af deformationshærdning og kølestrategi.</td></tr>
+                            <tr><td class="px-4 py-3 text-zinc-100">Alu 6082-T6 / 7075</td><td class="px-4 py-3">Højhastighedsbearbejdning og spændingsfri opspænding.</td></tr>
+                            <tr><td class="px-4 py-3 text-zinc-100">Titanium Gr. 5</td><td class="px-4 py-3">Kontrolleret tilspænding og termisk overvågning.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -215,68 +89,31 @@
 
             <section>
                 <div class="flex items-center gap-4 mb-6">
-                    <span class="text-[10px] font-mono text-primary font-bold">03</span>
-                    <h2 class="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Metrologisk Protokol</h2>
+                    <span class="text-[10px] font-mono text-primary font-bold">02</span>
+                    <h2 class="text-xs font-bold tracking-[0.2em] text-zinc-500 italic">Verificerede Cases</h2>
                     <div class="h-px bg-zinc-800 flex-grow"></div>
                 </div>
-                
-                <div class="grid grid-cols-12 gap-8 items-start">
-                    <div class="col-span-7 space-y-4">
-                        <p class="text-xs text-muted-foreground leading-relaxed">
-                            Kvalitetssikring baseres på kalibreret analog metrologi. Fravælget af digitale instrumenter ved kritiske pasninger sikrer den nødvendige taktile føling og eliminerer usikkerhed ved sensor-drift.
-                        </p>
-                        <div class="flex gap-4">
-                            <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-800 flex-grow">
-                                <span class="text-[9px] font-mono text-zinc-500 block mb-1 uppercase tracking-tighter">Ref_Temperature</span>
-                                <span class="text-sm font-bold text-zinc-100 uppercase">20°C Standard</span>
-                            </div>
-                            <div class="p-4 rounded-lg bg-zinc-900 border border-zinc-800 flex-grow">
-                                <span class="text-[9px] font-mono text-zinc-500 block mb-1 uppercase tracking-tighter">Measurement_Resolution</span>
-                                <span class="text-sm font-bold text-zinc-100 uppercase">0.001mm</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-span-5 space-y-3">
-                        <div class="flex justify-between items-center text-[10px] border-b border-zinc-800 pb-2">
-                            <span class="text-zinc-500 font-medium uppercase tracking-tight">Analog Mikrometer</span>
-                            <span class="font-mono font-bold text-primary tracking-tighter">LEVEL_04</span>
-                        </div>
-                        <div class="flex justify-between items-center text-[10px] border-b border-zinc-800 pb-2">
-                            <span class="text-zinc-500 font-medium uppercase tracking-tight">Trepunktsmåler</span>
-                            <span class="font-mono font-bold text-primary tracking-tighter">LEVEL_03</span>
-                        </div>
-                        <div class="flex justify-between items-center text-[10px] border-b border-zinc-800 pb-2">
-                            <span class="text-zinc-500 font-medium uppercase tracking-tight">ISO_286 Analysis</span>
-                            <span class="font-mono font-bold text-primary tracking-tighter">LEVEL_05</span>
-                        </div>
-                    </div>
+                <div class="rounded-md border border-zinc-800 overflow-hidden">
+                    <table class="w-full text-[11px] font-bold">
+                        <thead class="bg-zinc-900/50 border-b border-zinc-800 text-zinc-500 italic">
+                            <tr><th class="px-4 py-3 text-left">Projekt_ID</th><th class="px-4 py-3 text-left">Tolerance</th><th class="px-4 py-3 text-right">Validering</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-800 italic">
+                            <tr>
+                                <td class="px-4 py-4"><p class="text-zinc-100 font-black">Flame Eater MK2</p><p class="text-zinc-500 text-[10px]">Motorik // H7/f7</p></td>
+                                <td class="px-4 py-4 font-mono text-zinc-400">ISO_286</td>
+                                <td class="px-4 py-4 text-right"><span class="text-[9px] font-mono text-emerald-500 border border-emerald-500/20 px-2 py-1 rounded">Verified_OK</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
-
         </div>
         
-        <footer class="p-10 mt-auto border-t border-zinc-800 bg-zinc-900/10">
-            <div class="flex justify-between items-end">
-                <div class="space-y-1">
-                    <p class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Datum_Prototyping // Precision_Verified</p>
-                    <p class="text-[8px] text-zinc-600 italic">Dette dokument er digitalt valideret til industriel brug.</p>
-                </div>
-                <div class="flex flex-col items-end">
-                    <span class="text-[10px] font-mono bg-primary text-black px-3 py-1 font-bold tracking-tighter border border-black/10">ID: DATUM-2026-REV05</span>
-                </div>
-            </div>
+        <footer class="p-10 mt-auto border-t border-zinc-800 bg-zinc-900/10 flex justify-between items-end uppercase italic">
+            <div class="font-mono text-[9px] text-zinc-500 font-bold"><p>Datum_Prototyping // Precision_Verified</p></div>
+            <div class="bg-primary text-black px-4 py-1 text-[10px] font-black tracking-tighter">ID: DATUM-2026-REV05</div>
         </footer>
-
     </main>
-
-    <script>
-        // Sørger for at PDF-eksporten følger print-reglerne
-        window.onbeforeprint = () => {
-            document.documentElement.classList.remove('dark');
-        };
-        window.onafterprint = () => {
-            document.documentElement.classList.add('dark');
-        };
-    </script>
 </body>
 </html>
