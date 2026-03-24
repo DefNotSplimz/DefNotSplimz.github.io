@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAI Report | FAI-03-FLYWHEEL</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { border: "#e4e4e7", background: "#ffffff", foreground: "#09090b", primary: "#f59e0b", muted: "#f4f4f5", "muted-foreground": "#71717a" },
+                    colors: { primary: "#f59e0b" },
                     fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
                 }
             }
@@ -19,87 +19,100 @@
     <style>
         .subtle-grid { background-image: radial-gradient(circle, #e4e4e7 0.8px, transparent 0.8px); background-size: 20px 20px; }
         @media print {
-            @page { margin: 0; size: A4 portrait; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color: black !important; }
             body { background: white !important; padding: 0 !important; }
             .no-print { display: none !important; }
-            .a4-container { box-shadow: none !important; border: none !important; width: 100% !important; margin: 0 !important; }
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .a4-container { box-shadow: none !important; border: 1px solid #000 !important; width: 100% !important; margin: 0 !important; }
+            .bg-zinc-50 { background: #f8f8f8 !important; }
+            .text-emerald-600 { color: #059669 !important; font-weight: bold !important; }
         }
     </style>
 </head>
-<body class="bg-[#fafafa] text-foreground font-sans antialiased py-8 subtle-grid">
-    <div class="max-w-[210mm] mx-auto mb-4 flex justify-between items-center no-print px-4">
-        <a href="../index.html#cases" class="inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors uppercase italic tracking-tighter">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            System Portal
+<body class="bg-[#fafafa] text-zinc-900 font-sans antialiased py-12 subtle-grid px-4 uppercase">
+    <div class="max-w-[210mm] mx-auto mb-6 flex justify-between items-center no-print px-4">
+        <a href="../index.html#cases" class="text-[10px] font-mono font-bold text-zinc-500 hover:text-primary transition-colors tracking-widest flex items-center gap-2 italic">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            System_Portal
         </a>
-        <button onclick="window.print()" class="inline-flex items-center justify-center rounded-md bg-zinc-950 px-4 py-2 text-xs font-bold text-white shadow hover:bg-zinc-800 transition-colors uppercase tracking-widest">Print Rapport</button>
+        <button onclick="window.print()" class="bg-zinc-950 text-white px-4 py-2 text-[10px] font-black tracking-widest hover:bg-zinc-800 transition-all">
+            Print_Rapport
+        </button>
     </div>
-
-    <main class="a4-container mx-auto bg-white border border-zinc-200 shadow-xl w-full max-w-[210mm] min-h-[297mm] flex flex-col overflow-hidden uppercase">
-        <header class="border-b border-zinc-200 p-8 bg-zinc-50/50 flex justify-between items-start text-zinc-900">
+    <main class="a4-container mx-auto bg-white border border-zinc-200 shadow-xl w-full max-w-[210mm] min-h-[297mm] flex flex-col overflow-hidden">
+        <header class="border-b-2 border-zinc-950 p-10 bg-zinc-50/50 flex justify-between items-start">
             <div>
-                <div class="flex items-center gap-2 mb-4"><div class="h-4 w-4 bg-zinc-950"></div><span class="font-bold text-sm tracking-tighter">Datum_Metrology_Service</span></div>
-                <h1 class="text-2xl font-black italic">FAI Målerapport</h1>
-                <p class="text-[10px] font-mono text-zinc-500 tracking-widest italic font-bold">Svinghjul // Mass Stability Audit</p>
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="bg-zinc-950 text-white px-2 py-1 font-black text-xl italic">D</span>
+                    <span class="font-bold tracking-[0.2em] text-[10px] text-zinc-400">Datum_Metrology_Service</span>
+                </div>
+                <h1 class="text-3xl font-black italic tracking-tighter">FAI_Målerapport</h1>
+                <p class="text-[10px] font-mono text-zinc-500 tracking-widest font-bold mt-1 italic">Svinghjul // Mass Stability Audit</p>
             </div>
-            <div class="text-right font-mono text-[10px] font-bold">
-                <span class="border border-zinc-200 px-3 py-1 font-black text-primary mb-2 inline-block">REPORT_ID: FAI-03-FLYWHEEL</span>
-                <p class="text-zinc-400">Dato: 18.03.2026</p>
+            <div class="text-right">
+                <span class="inline-flex border-2 border-zinc-950 px-3 py-1 text-[10px] font-mono font-black text-zinc-950 mb-2">REPORT_ID: FAI-03-FLYWHEEL</span>
+                <p class="text-[10px] font-mono text-zinc-400 font-bold italic">Dato: 18.03.2026</p>
             </div>
         </header>
-
-        <div class="px-8 py-6 border-b border-zinc-100 bg-zinc-50/30 grid grid-cols-4 gap-6 font-mono text-[9px] font-bold italic">
-            <div><span class="text-zinc-400 block mb-1">Måleudstyr_ID</span><span class="text-zinc-900">Mitutoyo Analog 0-25 / 0.001</span></div>
-            <div><span class="text-zinc-400 block mb-1">Kalibrering</span><span class="text-emerald-600 tracking-tight">● Valid_2026</span></div>
-            <div><span class="text-zinc-400 block mb-1">Audit_Status</span><span class="text-emerald-600 tracking-tight">● Verificeret_OK</span></div>
-            <div><span class="text-zinc-400 block mb-1">Operatør</span><span class="text-zinc-900">G. Cilinder-Hansen</span></div>
+        <div class="px-10 py-6 border-b border-zinc-100 bg-zinc-50/30 grid grid-cols-4 gap-6 font-mono text-[9px] font-bold italic">
+            <div><span class="text-zinc-400 block mb-1 not-italic">Måleudstyr_ID</span>Mitutoyo Analog 0-25 / 0.001</div>
+            <div><span class="text-zinc-400 block mb-1 not-italic">Kalibrering</span><span class="text-emerald-600 tracking-tight">● Valid_2026</span></div>
+            <div><span class="text-zinc-400 block mb-1 not-italic">Audit_Status</span><span class="text-emerald-600 tracking-tight">● Verificeret_OK</span></div>
+            <div><span class="text-zinc-400 block mb-1 not-italic">Operatør</span>G. Cilinder-Hansen</div>
         </div>
-
-        <div class="px-8 py-6 border-b border-zinc-100">
-            <h2 class="text-[10px] font-bold text-zinc-400 tracking-widest mb-4 italic">// CTQ Reference</h2>
-            <div class="rounded-md border border-zinc-200 bg-white flex items-center justify-center p-4">
-                <img src="../img/fai-03-drawing.webp" alt="FAI Drawing" class="max-h-[80mm] w-auto">
+        <div class="px-10 py-8 border-b border-zinc-100">
+            <h2 class="text-[10px] font-bold text-zinc-400 tracking-[0.3em] mb-4 italic">// CTQ_Reference</h2>
+            <div class="border border-zinc-100 bg-zinc-50/30 flex items-center justify-center p-6 grayscale opacity-80">
+                <img src="../img/fai-03-drawing.webp" alt="FAI Drawing" class="max-h-[70mm] w-auto">
             </div>
         </div>
-
-        <div class="p-8 flex-grow">
-            <div class="rounded-md border border-zinc-200 overflow-hidden font-mono text-[10px] font-bold italic">
+        <div class="p-10 flex-grow">
+            <div class="border-2 border-zinc-950 overflow-hidden font-mono text-[10px] font-bold italic">
                 <table class="w-full">
-                    <thead class="bg-zinc-50 text-zinc-500 border-b border-zinc-200 uppercase font-black">
-                        <tr><th class="px-3 py-2 text-left w-12 italic">#</th><th class="px-3 py-2 text-left">Karakteristik</th><th class="px-3 py-2 text-right">Nominel</th><th class="px-3 py-2 text-right">Målt</th><th class="px-3 py-2 text-center">Status</th></tr>
+                    <thead class="bg-zinc-950 text-white border-b border-zinc-950 uppercase font-black">
+                        <tr>
+                            <th class="px-4 py-3 text-left w-12 italic">#</th>
+                            <th class="px-4 py-3 text-left">Karakteristik</th>
+                            <th class="px-4 py-3 text-right">Nominel</th>
+                            <th class="px-4 py-3 text-right">Målt</th>
+                            <th class="px-4 py-3 text-center">Status</th>
+                        </tr>
                     </thead>
-                    <tbody class="divide-y divide-zinc-100 text-zinc-700">
+                    <tbody class="divide-y divide-zinc-200 text-zinc-800">
                         <tr>
-                            <td class="px-3 py-3 text-zinc-300">01</td>
-                            <td class="px-3 py-3 font-black text-zinc-900">Centerboring (Aksel)</td>
-                            <td class="px-3 py-3 text-right">Ø 7.000 (H7)</td><td class="px-3 py-3 text-right font-black text-zinc-900 italic underline">7.000</td>
-                            <td class="px-3 py-3 text-center"><span class="text-[9px] font-black text-emerald-600 border border-emerald-100 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">Nominal</span></td>
+                            <td class="px-4 py-4 text-zinc-300">01</td>
+                            <td class="px-4 py-4 font-black text-zinc-950">Centerboring (Aksel)</td>
+                            <td class="px-4 py-4 text-right italic">Ø 7.000 (H7)</td>
+                            <td class="px-4 py-4 text-right text-zinc-950 font-black italic underline">7.000</td>
+                            <td class="px-4 py-4 text-center"><span class="text-[9px] font-black text-emerald-600 border-2 border-emerald-600 px-2 py-0.5 uppercase">Nominal</span></td>
                         </tr>
                         <tr>
-                            <td class="px-3 py-3 text-zinc-300">02</td>
-                            <td class="px-3 py-3 font-black text-zinc-900">Ydre Diameter</td>
-                            <td class="px-3 py-3 text-right">Ø 50.000 (±0.1)</td><td class="px-3 py-3 text-right font-black text-zinc-900">50.010</td>
-                            <td class="px-3 py-3 text-center"><span class="text-[9px] font-black text-emerald-600 border border-emerald-100 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">Pass</span></td>
+                            <td class="px-4 py-4 text-zinc-300">02</td>
+                            <td class="px-4 py-4 font-black text-zinc-950">Ydre Diameter</td>
+                            <td class="px-4 py-4 text-right italic">Ø 50.000 (±0.1)</td>
+                            <td class="px-4 py-4 text-right text-zinc-950 font-black">50.010</td>
+                            <td class="px-4 py-4 text-center"><span class="text-[9px] font-black text-emerald-600 border-2 border-emerald-600 px-2 py-0.5 uppercase">Pass</span></td>
                         </tr>
-                        <tr>
-                            <td class="px-3 py-3 text-zinc-300">03</td>
-                            <td class="px-3 py-3 font-black text-zinc-900">Emnetykkelse</td>
-                            <td class="px-3 py-3 text-right">12.000 (±0.1)</td><td class="px-3 py-3 text-right font-black text-zinc-900">12.005</td>
-                            <td class="px-3 py-3 text-center"><span class="text-[9px] font-black text-emerald-600 border border-emerald-100 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">Pass</span></td>
+                        <tr class="bg-zinc-50/50">
+                            <td class="px-4 py-4 text-zinc-300">03</td>
+                            <td class="px-4 py-4 font-black text-zinc-950">Emnetykkelse</td>
+                            <td class="px-4 py-4 text-right italic">12.000 (±0.1)</td>
+                            <td class="px-4 py-4 text-right text-zinc-950 font-black">12.005</td>
+                            <td class="px-4 py-4 text-center"><span class="text-[9px] font-black text-emerald-600 border-2 border-emerald-600 px-2 py-0.5 uppercase">Pass</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="mt-8 p-4 rounded-md border border-zinc-100 bg-zinc-50/30 font-mono text-[10px] text-zinc-600 leading-relaxed italic font-bold">
-                <span class="text-zinc-400 block mb-1 not-italic font-black">// Audit Note</span>
+            <div class="mt-10 p-6 border-l-4 border-primary bg-zinc-50/50 font-mono text-[10px] text-zinc-600 leading-relaxed italic font-bold">
+                <span class="text-zinc-950 block mb-2 not-italic font-black uppercase tracking-widest">// Audit_Note</span>
                 Udført m. præcis cirkulær interpolation for jævn massefordeling. Centerboring rammer nominelt mål for stabil prespasning.
             </div>
         </div>
-
-        <footer class="p-8 border-t border-zinc-100 bg-zinc-50/30 mt-auto flex justify-between items-end italic text-zinc-400 font-mono text-[9px] font-bold">
-            <div class="w-48 border-b border-zinc-200 pb-1 text-zinc-900"><p class="text-[8px] mb-2 font-black uppercase">Verify_Sign</p><p class="text-xs font-black italic tracking-tighter">G. Cilinder-Hansen</p></div>
-            <p class="uppercase tracking-widest">Datum_Metrology // ISO_Verified</p>
+        <footer class="p-10 border-t border-zinc-100 bg-zinc-50/30 mt-auto flex justify-between items-end italic text-zinc-400 font-mono text-[9px] font-bold uppercase tracking-widest">
+            <div class="w-64 border-b-2 border-zinc-950 pb-2 text-zinc-950">
+                <p class="text-[8px] mb-2 font-black not-italic">Verify_Sign</p>
+                <p class="text-sm font-black italic tracking-tighter">G. Cilinder-Hansen</p>
+            </div>
+            <p>Datum_Metrology // ISO_Verified</p>
         </footer>
     </main>
 </body>
