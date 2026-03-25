@@ -7,7 +7,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -52,9 +52,9 @@
     <nav class="fixed top-0 w-full z-50 border-b border-zinc-800 bg-black/80 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-6">
-                <a href="#" class="text-xl font-black tracking-tighter italic uppercase flex items-center gap-2">
-                    <span class="bg-primary text-black px-1.5 py-0.5 not-italic">D</span>
-                    Datum_Prototyping
+                <a href="#" class="text-xl font-black tracking-tighter italic uppercase flex items-center gap-3">
+                    <img src="img/LogoA.svg" alt="Datum Logo" class="h-8 w-auto">
+                    Datum Prototyping
                 </a>
                 <div class="h-4 w-px bg-zinc-800 hidden md:block"></div>
                 <div class="hidden md:flex items-center gap-2">
@@ -66,13 +66,13 @@
                 </div>
             </div>
             
-            <div class="flex items-center gap-8">
+            <div class="flex items-center gap-8 text-white">
                 <div class="hidden lg:flex gap-8 text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">
-                    <a href="#kapacitet" class="hover:text-primary transition-colors">01_Kapacitet</a>
-                    <a href="#cases" class="hover:text-primary transition-colors">02_Eksekvering</a>
-                    <a href="#arkiv" class="hover:text-primary transition-colors">03_Arkiv</a>
+                    <a href="#kapacitet" class="hover:text-primary transition-colors italic">01_Kapacitet</a>
+                    <a href="#cases" class="hover:text-primary transition-colors italic">02_Eksekvering</a>
+                    <a href="#arkiv" class="hover:text-primary transition-colors italic">03_Arkiv</a>
                 </div>
-                <a href="dossier.html" class="group relative inline-flex items-center justify-center px-4 py-2 border border-primary bg-primary/10 text-[10px] font-black text-primary hover:bg-primary hover:text-black transition-all uppercase tracking-widest overflow-hidden">
+                <a href="dossier.html" class="group relative inline-flex items-center justify-center px-4 py-2 border border-primary bg-primary/10 text-[10px] font-black text-primary hover:bg-primary hover:text-black transition-all uppercase tracking-widest overflow-hidden italic">
                     <span class="relative z-10">Teknisk Dossier</span>
                     <div class="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-200"></div>
                 </a>
@@ -94,9 +94,10 @@
             </h1>
             
             <div class="grid grid-cols-12 gap-12 border-t border-zinc-800 pt-12">
-                <div class="col-span-12 md:col-span-7">
-                    <p class="text-xl md:text-2xl text-zinc-400 font-medium leading-relaxed max-w-2xl border-l-4 border-primary pl-8">
-                        Specialiseret i <span class="text-white">prototypeudvikling</span> og R&D. 
+                <div class="col-span-12 md:col-span-7 uppercase italic">
+                    <p class="text-lg md:text-xl text-zinc-500 font-bold tracking-tight leading-tight max-w-2xl border-l-4 border-zinc-900 pl-8">
+                        Specialiseret i <span class="text-white">prototypeudvikling</span> og 
+                        <span class="text-primary">R&D</span>. 
                         Min profil er optimeret til opgaver, der kræver unikke opspændingsstrategier og absolut metrologisk kontrol.
                     </p>
                 </div>
@@ -112,24 +113,24 @@
     <section id="kapacitet" class="py-32 px-6 bg-[#0c0c0e]">
         <div class="max-w-7xl mx-auto">
             <div class="flex items-baseline justify-between mb-20 border-b border-zinc-800 pb-8 uppercase italic">
-                <h2 class="text-4xl font-black tracking-tighter">01_Kapacitets_Audit</h2>
+                <h2 class="text-4xl font-black tracking-tighter text-white">01_Kapacitets_Audit</h2>
                 <span class="text-[10px] font-mono text-zinc-600 font-bold tracking-[0.3em]">Verified_Capabilities</span>
             </div>
 
             <div class="grid md:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800">
                 <div class="bg-[#09090b] p-12">
-                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase">/ Hardware_Ops</div>
-                    <ul class="space-y-6 uppercase italic">
+                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ Hardware_Ops</div>
+                    <ul class="space-y-6 uppercase italic font-bold text-white">
                         <li class="flex flex-col gap-1">
-                            <span class="text-xs font-black text-zinc-100">Haas ST10 / Mini Mill</span>
-                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500 font-bold">
+                            <span class="text-xs font-black">Haas ST10 / Mini Mill</span>
+                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500">
                                 <span>CNC_Execution</span>
                                 <span class="text-primary">Lvl_05</span>
                             </div>
                         </li>
                         <li class="flex flex-col gap-1">
-                            <span class="text-xs font-black text-zinc-100">Weiler / Deckel Precision</span>
-                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500 font-bold">
+                            <span class="text-xs font-black">Weiler / Deckel Precision</span>
+                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500">
                                 <span>Manual_Turning</span>
                                 <span class="text-primary">Lvl_04</span>
                             </div>
@@ -138,18 +139,18 @@
                 </div>
 
                 <div class="bg-[#09090b] p-12">
-                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase">/ System_Stack</div>
-                    <ul class="space-y-6 uppercase italic">
+                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ System_Stack</div>
+                    <ul class="space-y-6 uppercase italic font-bold text-white">
                         <li class="flex flex-col gap-1">
-                            <span class="text-xs font-black text-zinc-100">Fusion 360 (CAD/CAM)</span>
-                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500 font-bold">
+                            <span class="text-xs font-black">Fusion 360 (CAD/CAM)</span>
+                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500">
                                 <span>Adaptive_Clearing</span>
                                 <span class="text-primary">Verified</span>
                             </div>
                         </li>
                         <li class="flex flex-col gap-1">
-                            <span class="text-xs font-black text-zinc-100">G-Code Optimization</span>
-                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500 font-bold">
+                            <span class="text-xs font-black">G-Code Optimization</span>
+                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500">
                                 <span>Cycle_Time_Reduction</span>
                                 <span class="text-primary">Verified</span>
                             </div>
@@ -158,18 +159,18 @@
                 </div>
 
                 <div class="bg-[#09090b] p-12">
-                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase">/ Metrologi_QA</div>
-                    <ul class="space-y-6 uppercase italic">
+                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ Metrologi_QA</div>
+                    <ul class="space-y-6 uppercase italic font-bold text-white">
                         <li class="flex flex-col gap-1">
-                            <span class="text-xs font-black text-zinc-100">ISO 286 (H7/f7)</span>
-                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500 font-bold">
+                            <span class="text-xs font-black">ISO 286 (H7/f7)</span>
+                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500">
                                 <span>Strict_Tolerance</span>
                                 <span class="text-primary">Certified</span>
                             </div>
                         </li>
                         <li class="flex flex-col gap-1">
-                            <span class="text-xs font-black text-zinc-100">Analog Metrology</span>
-                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500 font-bold">
+                            <span class="text-xs font-black">Analog Metrology</span>
+                            <div class="flex justify-between items-center text-[9px] font-mono text-zinc-500">
                                 <span>Manual_Verification</span>
                                 <span class="text-primary">Certified</span>
                             </div>
@@ -207,33 +208,33 @@
                 <div class="lg:col-span-5 flex flex-col justify-between py-4 uppercase italic font-bold">
                     <div class="space-y-8">
                         <div>
-                            <span class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-4">// System_Beskrivelse</span>
-                            <p class="text-zinc-400 text-sm leading-relaxed border-l-2 border-zinc-800 pl-6 lowercase first-letter:uppercase not-italic">
+                            <span class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-4 uppercase italic">// System_Beskrivelse</span>
+                            <p class="text-zinc-400 text-sm leading-relaxed border-l-2 border-zinc-800 pl-6 lowercase first-letter:uppercase not-italic font-bold">
                                 Vakuum-drevet forbrændingsmotor. Konstruktionen kræver absolut kontrol over termisk ekspansion og ISO 286 pasninger.
                             </p>
                         </div>
 
                         <div>
-                            <span class="text-[10px] font-mono text-primary tracking-widest block mb-6">// FAI_Validation_Suite</span>
+                            <span class="text-[10px] font-mono text-primary tracking-widest block mb-6 uppercase italic">// FAI_Validation_Suite</span>
                             <div class="space-y-3">
-                                <a href="fai/fai-01.html" class="group flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary transition-all">
+                                <a href="fai/fai-01.html" class="group flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary transition-all italic">
                                     <div class="flex flex-col">
                                         <span class="text-[9px] font-mono text-zinc-500">FAI-01</span>
-                                        <span class="text-xs text-white tracking-tight">Cylinder & Stempel</span>
+                                        <span class="text-xs text-white tracking-tight uppercase italic">Cylinder & Stempel</span>
                                     </div>
                                     <svg class="w-4 h-4 text-zinc-700 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </a>
-                                <a href="fai/fai-02-camdisc.html" class="group flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary transition-all">
+                                <a href="fai/fai-02-camdisc.html" class="group flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary transition-all italic">
                                     <div class="flex flex-col">
                                         <span class="text-[9px] font-mono text-zinc-500">FAI-02</span>
-                                        <span class="text-xs text-white tracking-tight">Cam Disc (Knast)</span>
+                                        <span class="text-xs text-white tracking-tight uppercase italic">Cam Disc (Knast)</span>
                                     </div>
                                     <svg class="w-4 h-4 text-zinc-700 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </a>
-                                <a href="fai/fai-03-flywheel.html" class="group flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary transition-all">
+                                <a href="fai/fai-03-flywheel.html" class="group flex items-center justify-between p-4 bg-zinc-900/50 border border-zinc-800 hover:border-primary transition-all italic">
                                     <div class="flex flex-col">
                                         <span class="text-[9px] font-mono text-zinc-500">FAI-03</span>
-                                        <span class="text-xs text-white tracking-tight">Svinghjul</span>
+                                        <span class="text-xs text-white tracking-tight uppercase italic">Svinghjul</span>
                                     </div>
                                     <svg class="w-4 h-4 text-zinc-700 group-hover:text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                 </a>
@@ -244,7 +245,7 @@
             </div>
 
             <div id="arkiv" class="flex items-center gap-4 mb-12 uppercase italic">
-                <h2 class="text-[10px] font-mono font-bold text-zinc-500 tracking-[0.5em] whitespace-nowrap">// 03_R&D_Arkiv</h2>
+                <h2 class="text-[10px] font-mono font-bold text-zinc-500 tracking-[0.5em] whitespace-nowrap uppercase italic">// 03_R&D_Arkiv</h2>
                 <div class="h-[1px] bg-zinc-900 flex-grow"></div>
             </div>
 
@@ -254,19 +255,19 @@
                         <img src="img/tactable.png" alt="Tac Table" class="w-full h-full object-cover grayscale opacity-30 group-hover:opacity-100 transition-all">
                     </div>
                     <div class="flex flex-col justify-center space-y-4">
-                        <h4 class="text-2xl font-black text-white tracking-tighter">Tac Table</h4>
-                        <p class="text-zinc-500 text-[10px] leading-relaxed lowercase first-letter:uppercase not-italic">
+                        <h4 class="text-2xl font-black text-white tracking-tighter uppercase italic">Tac Table</h4>
+                        <p class="text-zinc-500 text-[10px] leading-relaxed lowercase first-letter:uppercase not-italic font-bold">
                             Optisk monteringsplatform i Alu 6082-T6. Strategisk eliminering af indre spændinger for absolut planhed.
                         </p>
                         <div class="flex gap-2">
-                            <span class="text-[8px] font-mono px-2 py-0.5 border border-zinc-800 text-zinc-600 tracking-widest">#Milling</span>
-                            <span class="text-[8px] font-mono px-2 py-0.5 border border-zinc-800 text-zinc-600 tracking-widest">#Stress_Relief</span>
+                            <span class="text-[8px] font-mono px-2 py-0.5 border border-zinc-800 text-zinc-600 tracking-widest uppercase italic">#Milling</span>
+                            <span class="text-[8px] font-mono px-2 py-0.5 border border-zinc-800 text-zinc-600 tracking-widest uppercase italic">#Stress_Relief</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="border border-zinc-900 border-dashed p-8 flex items-center justify-center">
-                    <span class="text-[9px] font-mono text-zinc-800 tracking-[0.3em] font-black italic uppercase">Aventing_Integration...</span>
+                    <span class="text-[9px] font-mono text-zinc-800 tracking-[0.3em] font-black italic uppercase italic">Aventing_Integration...</span>
                 </div>
             </div>
         </div>
@@ -274,10 +275,10 @@
 
     <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px]">
-            <div class="text-zinc-700 tracking-[0.5em]">
+            <div class="text-zinc-700 tracking-[0.5em] uppercase italic">
                 Datum Prototyping // Precision_Verified // 2026
             </div>
-            <div class="flex gap-12 text-zinc-500 tracking-widest">
+            <div class="flex gap-12 text-zinc-500 tracking-widest uppercase italic">
                 <span>Ready_for_Integration</span>
                 <span class="text-primary tracking-widest">Operational_Status: 100%</span>
             </div>
