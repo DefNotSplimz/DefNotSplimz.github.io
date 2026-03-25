@@ -29,6 +29,9 @@
             background-image: radial-gradient(circle, #27272a 1px, transparent 1px); 
             background-size: 20px 20px; 
         }
+
+        /* Skjuler print-logoet på skærmen som standard */
+        .print-only-logo { display: none; }
         
         @media print {
             * {
@@ -44,6 +47,11 @@
             }
             .no-print { display: none !important; }
             .subtle-grid { background-image: none !important; }
+
+            /* Skifter logoer ved print */
+            .screen-only-logo { display: none !important; }
+            .print-only-logo { display: block !important; }
+
             .a4-container, section, div, table, tr, td, th {
                 background: white !important;
                 border-color: black !important;
@@ -86,8 +94,9 @@
         <header class="border-b border-zinc-800 p-10 flex justify-between items-start bg-zinc-900/30">
             <div>
                 <div class="flex items-center gap-4 mb-6">
-                    <img src="img/LogoA.svg" alt="Datum Logo" class="h-8 w-auto">
-                    <div class="h-8 w-[1px] bg-zinc-800"></div>
+                    <img src="img/LogoA.svg" alt="Datum Logo" class="h-8 w-auto screen-only-logo">
+                    <img src="img/logoB.svg" alt="Datum Logo Print" class="h-8 w-auto print-only-logo">
+                    <div class="h-8 w-[1px] bg-zinc-800 print:bg-black"></div>
                     <span class="font-bold tracking-[0.3em] text-xs uppercase text-zinc-400 italic">Technical_Validation</span>
                 </div>
                 <h1 class="text-4xl font-black tracking-tighter uppercase italic leading-none">Technical_Dossier</h1>
@@ -97,7 +106,7 @@
             <div class="text-right border-l border-zinc-800 pl-8 font-mono italic">
                 <div class="text-[9px] leading-tight uppercase font-bold">
                     <p class="text-zinc-500 mb-1">Audit_Subject</p>
-                    <p class="text-white text-sm font-black italic">G. Cilinder-Hansen</p>
+                    <p class="text-white text-sm font-black italic uppercase">G. Cilinder-Hansen</p>
                     <p class="text-primary mt-1">ID: 32-SKP-FRB</p>
                 </div>
             </div>
