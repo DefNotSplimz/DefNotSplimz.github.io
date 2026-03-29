@@ -43,7 +43,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Turning <span class="text-zinc-600">&</span> Params</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev05</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev06</div>
                 
                 <div class="flex space-x-0 border border-zinc-800 rounded overflow-hidden inline-flex">
                     <a href="calculator.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Fræsning</a>
@@ -109,7 +109,8 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mb-6" id="wrap-tool-geom">
-                        <div>
+                        
+                        <div id="wrap-re">
                             <label class="label-text">Platteradius (Re) [mm]</label>
                             <select id="in-re" class="input-field">
                                 <option value="0.2">0.2 mm</option>
@@ -121,10 +122,10 @@
                         <div id="wrap-ap">
                             <label class="label-text">Spåndybde (Ap) [radialt, mm]</label>
                             <input type="number" id="in-ap" class="input-field" value="2.0" step="0.1">
-                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic" id="wrap-ap-rec">Fysisk Mål: <span id="rec-ap">2.0</span></div>
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Fysisk Mål: <span id="rec-ap">2.0</span></div>
                         </div>
-                        
-                        <div id="wrap-target-ra" class="hidden col-span-2 mt-2">
+
+                        <div id="wrap-target-ra" class="hidden col-span-2 mt-2 border-t border-zinc-800 pt-4">
                             <label class="label-text text-primary">Ønsket Overfladeruhed (Ra) [µm]</label>
                             <select id="in-target-ra" class="input-field border-primary">
                                 <option value="0.4">0.4 µm (N4 - Spejlblank)</option>
@@ -132,6 +133,22 @@
                                 <option value="1.6" selected>1.6 µm (N6 - Standard Slet)</option>
                                 <option value="3.2">3.2 µm (N7 - Grov Slet)</option>
                             </select>
+                        </div>
+
+                        <div id="wrap-boring-geom" class="hidden col-span-2 grid grid-cols-2 gap-4 mt-2 border-t border-zinc-800 pt-4">
+                            <div>
+                                <label class="label-text">Udborestål Diameter [mm]</label>
+                                <input type="number" id="in-boring-d" class="input-field" value="16" step="1">
+                            </div>
+                            <div>
+                                <label class="label-text">Stål Udhæng (L) [mm]</label>
+                                <input type="number" id="in-boring-l" class="input-field" value="48" step="1">
+                            </div>
+                        </div>
+
+                        <div id="wrap-groove-geom" class="hidden col-span-2 mt-2 border-t border-zinc-800 pt-4">
+                            <label class="label-text">Plattebredde (Insert Width) [mm]</label>
+                            <input type="number" id="in-groove-w" class="input-field" value="3.0" step="0.1">
                         </div>
                     </div>
                 </div>
@@ -167,17 +184,40 @@
 
                     <div id="sec-feedrates">
                         <div class="section-header">// 02_FEEDRATES (FUSION 360)</div>
-                        <div class="out-row"><span class="out-label">Cutting feedrate / rev</span><span id="out-cut-feed" class="out-val text-primary">0 mm/omdr</span></div>
-                        <div class="out-row"><span class="out-label">Lead-in feedrate / rev</span><span id="out-lead-in" class="out-val">0 mm/omdr</span></div>
-                        <div class="out-row"><span class="out-label">Lead-out feedrate / rev</span><span id="out-lead-out" class="out-val">0 mm/omdr</span></div>
-                        <div class="out-row"><span class="out-label">Minute Feed (G98)</span><span id="out-min-feed" class="out-val text-zinc-500">0 mm/min</span></div>
-                        <div class="out-row" id="row-mrr"><span class="out-label">Material Removal Rate (MRR)</span><span id="out-mrr" class="out-val">0 cm³/min</span></div>
+                        <div class="out-row"><span class="out-label" id="lbl-cut-feed">Cutting feedrate / rev</span><span id="out-cut-feed" class="out-val text-primary">0 mm/omdr</span></div>
+                        <div class="out-row" id="row-lead-in"><span class="out-label">Lead-in feedrate / rev</span><span id="out-lead-in" class="out-val">0 mm/omdr</span></div>
+                        <div class="out-row" id="row-lead-out"><span class="out-label">Lead-out feedrate / rev</span><span id="out-lead-out" class="out-val">0 mm/omdr</span></div>
+                        <div class="out-row" id="row-min-feed"><span class="out-label">Minute Feed (G98)</span><span id="out-min-feed" class="out-val text-zinc-500">0 mm/min</span></div>
+                    </div>
+
+                    <div id="sec-mrr">
+                        <div class="section-header">// 03_MATERIAL_REMOVAL</div>
+                        <div class="out-row"><span class="out-label">Material Removal Rate (MRR)</span><span id="out-mrr" class="out-val">0 cm³/min</span></div>
                     </div>
 
                     <div id="sec-quality">
                         <div class="section-header">// 03_SURFACE_QUALITY</div>
                         <div class="out-row"><span class="out-label">Teoretisk Overfladeruhed (Ra)</span><span id="out-ra" class="out-val text-primary">0 µm</span></div>
                         <div class="out-row"><span class="out-label">Spånkontrol Status</span><span id="out-chip-control" class="out-val">Optimal</span></div>
+                    </div>
+
+                    <div id="sec-boring" class="hidden">
+                        <div class="section-header">// 03_BORING_KINEMATICS</div>
+                        <div class="out-row"><span class="out-label">Udborestål (L:D Ratio)</span><span id="out-boring-ld" class="out-val">0x</span></div>
+                        <div class="out-row"><span class="out-label">Vibrationsrisiko</span><span id="out-boring-vib" class="out-val">Lav</span></div>
+                    </div>
+
+                    <div id="sec-groove" class="hidden">
+                        <div class="section-header">// 03_GROOVING_DYNAMICS</div>
+                        <div class="out-row"><span class="out-label">Anbefalet Pecking Depth (Spånbrydning)</span><span id="out-peck" class="out-val text-primary">0 mm</span></div>
+                        <div class="out-row"><span class="out-label">Dwell Time (Bund af spor)</span><span class="out-val">1 Rev</span></div>
+                    </div>
+
+                    <div id="sec-thread" class="hidden">
+                        <div class="section-header">// 03_THREADING_CYCLE</div>
+                        <div class="out-row"><span class="out-label">Total Thread Depth (ISO 60°)</span><span id="out-thread-depth" class="out-val text-primary">0 mm</span></div>
+                        <div class="out-row"><span class="out-label">Number of Stepping Passes (Min)</span><span id="out-thread-passes" class="out-val text-primary">0</span></div>
+                        <div class="out-row"><span class="out-label">Spring Passes (Slet)</span><span id="out-thread-spring" class="out-val">1</span></div>
                     </div>
                 </div>
             </div>
@@ -194,14 +234,19 @@
         const elRe = document.getElementById('in-re');
         const elAp = document.getElementById('in-ap');
         const elTargetRa = document.getElementById('in-target-ra');
+        const elBoringD = document.getElementById('in-boring-d');
+        const elBoringL = document.getElementById('in-boring-l');
+        const elGrooveW = document.getElementById('in-groove-w');
         const elVc = document.getElementById('in-vc');
         const elFn = document.getElementById('in-fn');
         const btnReset = document.getElementById('btn-reset');
         
         const wrapToolGeom = document.getElementById('wrap-tool-geom');
+        const wrapRe = document.getElementById('wrap-re');
         const wrapAp = document.getElementById('wrap-ap');
-        const wrapApRec = document.getElementById('wrap-ap-rec');
         const wrapTargetRa = document.getElementById('wrap-target-ra');
+        const wrapBoringGeom = document.getElementById('wrap-boring-geom');
+        const wrapGrooveGeom = document.getElementById('wrap-groove-geom');
         const lblFn = document.getElementById('lbl-fn');
         
         const recVcSpan = document.getElementById('rec-vc');
@@ -215,12 +260,12 @@
         let recommendedFn = 0;
         let recommendedAp = 0;
 
-        // Listeners for triggers
+        // Clean Listeners
         const configInputs = [elWorkpiece, elSafety, elOperation, elRe, elTargetRa];
         configInputs.forEach(el => el.addEventListener('change', handleConfigChange));
 
-        // Inputs that drive live calculations
-        [elD, elG50, elAp, elVc, elFn].forEach(el => el.addEventListener('input', calculate));
+        const dynamicInputs = [elD, elG50, elAp, elVc, elFn, elBoringD, elBoringL, elGrooveW];
+        dynamicInputs.forEach(el => el.addEventListener('input', calculate));
 
         btnReset.addEventListener('click', () => {
             elVc.value = recommendedVc.toFixed(0);
@@ -240,32 +285,53 @@
         function updateUI() {
             const op = elOperation.value;
             
-            document.getElementById('sec-quality').classList.remove('hidden');
-            document.getElementById('row-mrr').classList.remove('hidden');
+            // Hide all dynamic sections first
+            wrapTargetRa.classList.add('hidden');
+            wrapBoringGeom.classList.add('hidden');
+            wrapGrooveGeom.classList.add('hidden');
+            document.getElementById('sec-mrr').classList.add('hidden');
+            document.getElementById('sec-quality').classList.add('hidden');
+            document.getElementById('sec-boring').classList.add('hidden');
+            document.getElementById('sec-groove').classList.add('hidden');
+            document.getElementById('sec-thread').classList.add('hidden');
+            
+            wrapRe.classList.remove('hidden');
             wrapAp.classList.remove('hidden');
             elRe.disabled = false;
+            document.getElementById('row-lead-in').classList.remove('hidden');
+            document.getElementById('row-lead-out').classList.remove('hidden');
+            document.getElementById('row-min-feed').classList.remove('hidden');
 
             if (op === 'profile_finishing') {
                 wrapTargetRa.classList.remove('hidden');
-            } else {
-                wrapTargetRa.classList.add('hidden');
-            }
-
-            if (op === 'thread') {
-                wrapToolGeom.classList.add('hidden');
-                lblFn.innerText = "Stigning (Pitch) [mm]";
-                document.getElementById('sec-quality').classList.add('hidden');
-                document.getElementById('row-mrr').classList.add('hidden');
-                elFn.disabled = false;
+                document.getElementById('sec-quality').classList.remove('hidden');
+            } else if (op === 'boring') {
+                wrapBoringGeom.classList.remove('hidden');
+                document.getElementById('sec-mrr').classList.remove('hidden');
+                document.getElementById('sec-quality').classList.remove('hidden');
+                document.getElementById('sec-boring').classList.remove('hidden');
             } else if (op === 'groove') {
-                wrapToolGeom.classList.remove('hidden');
+                wrapRe.classList.add('hidden');
                 wrapAp.classList.add('hidden');
-                elRe.disabled = true; 
+                wrapGrooveGeom.classList.remove('hidden');
+                document.getElementById('sec-mrr').classList.remove('hidden');
+                document.getElementById('sec-groove').classList.remove('hidden');
                 lblFn.innerText = "Tilspænding (G99) [mm/omdr]";
-                document.getElementById('sec-quality').classList.add('hidden');
+                document.getElementById('lbl-cut-feed').innerText = "Cutting feedrate / rev";
+            } else if (op === 'thread') {
+                wrapRe.classList.add('hidden');
+                wrapAp.classList.add('hidden');
+                document.getElementById('sec-thread').classList.remove('hidden');
+                document.getElementById('row-lead-in').classList.add('hidden');
+                document.getElementById('row-lead-out').classList.add('hidden');
+                document.getElementById('row-min-feed').classList.add('hidden');
+                lblFn.innerText = "Gevindstigning (Pitch) [mm]";
+                document.getElementById('lbl-cut-feed').innerText = "Thread Pitch (F)";
             } else {
-                wrapToolGeom.classList.remove('hidden');
+                document.getElementById('sec-mrr').classList.remove('hidden');
+                document.getElementById('sec-quality').classList.remove('hidden');
                 lblFn.innerText = "Tilspænding (G99) [mm/omdr]";
+                document.getElementById('lbl-cut-feed').innerText = "Cutting feedrate / rev";
             }
         }
 
@@ -289,7 +355,6 @@
             } else if (op === 'profile_finishing') {
                 baseVc = 280;
                 if (triggerElement === elOperation) { elRe.value = "0.4"; baseAp = 0.2; }
-                
                 const targetRa = parseFloat(elTargetRa.value) || 1.6;
                 const Re = parseFloat(elRe.value) || 0.4;
                 baseFn = Math.sqrt((targetRa * 8 * Re) / 1000); 
@@ -302,9 +367,10 @@
                 baseFn = 0.08;
             } else if (op === 'thread') {
                 baseVc = 60; 
-                baseFn = 1.5; 
+                baseFn = 1.5; // Default pitch
             }
 
+            // Material Multipliers
             baseVc *= matMultVc[workpiece];
             
             if (op === 'thread') {
@@ -322,6 +388,15 @@
                 }
             }
 
+            // Boring Bar Chatter Reduction logic
+            if (op === 'boring') {
+                const bD = parseFloat(elBoringD.value) || 16;
+                const bL = parseFloat(elBoringL.value) || 48;
+                const bRatio = bL / bD;
+                if (bRatio > 4) { baseVc *= 0.6; baseAp *= 0.5; }
+                else if (bRatio > 3) { baseVc *= 0.8; baseAp *= 0.8; }
+            }
+
             if (safety === 'sikker') {
                 baseVc *= 0.75;
                 if (op !== 'thread' && op !== 'profile_finishing') baseFn *= 0.80; 
@@ -334,9 +409,9 @@
 
             recVcSpan.innerText = recommendedVc.toFixed(0);
             recFnSpan.innerText = op === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
-            recApSpan.innerText = recommendedAp.toFixed(1);
+            if (op !== 'thread' && op !== 'groove') recApSpan.innerText = recommendedAp.toFixed(1);
 
-            const ignores = [elAp, elD, elG50];
+            const ignores = [elAp, elD, elG50, elBoringD, elBoringL, elGrooveW];
             if (!ignores.includes(triggerElement)) {
                 elVc.value = recommendedVc.toFixed(0);
                 elFn.value = op === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
@@ -346,6 +421,7 @@
 
         function calculate() {
             const op = elOperation.value;
+            const workpiece = elWorkpiece.value;
             const D = parseFloat(elD.value) || 0;
             const G50 = parseFloat(elG50.value) || 3000;
             const Re = parseFloat(elRe.value) || 0;
@@ -355,6 +431,7 @@
 
             if (D === 0) return;
 
+            // Spindle Math
             let spindle = (Vc * 1000) / (Math.PI * D);
             let isClamped = false;
             
@@ -378,15 +455,58 @@
                 outStatus.className = "out-val safe";
             }
 
-            // Feedrates to match Fusion 360 exactly
-            document.getElementById('out-cut-feed').innerText = Fn.toFixed(3) + " mm/omdr";
-            document.getElementById('out-lead-in').innerText = Fn.toFixed(3) + " mm/omdr";
-            document.getElementById('out-lead-out').innerText = Fn.toFixed(3) + " mm/omdr";
+            // Feedrates Base Output
+            document.getElementById('out-cut-feed').innerText = op === 'thread' ? Fn.toFixed(3) + " mm" : Fn.toFixed(3) + " mm/omdr";
             
-            const minFeed = spindle * Fn;
-            document.getElementById('out-min-feed').innerText = Math.round(minFeed) + " mm/min";
+            if (op !== 'thread') {
+                document.getElementById('out-lead-in').innerText = Fn.toFixed(3) + " mm/omdr";
+                document.getElementById('out-lead-out').innerText = Fn.toFixed(3) + " mm/omdr";
+                const minFeed = spindle * Fn;
+                document.getElementById('out-min-feed').innerText = Math.round(minFeed) + " mm/min";
+            }
 
-            // MRR & Chip Control
+            // Sub-Operation Specific Calcs
+            if (op === 'boring') {
+                const bD = parseFloat(elBoringD.value) || 1;
+                const bL = parseFloat(elBoringL.value) || 1;
+                const bRatio = bL / bD;
+                const outLd = document.getElementById('out-boring-ld');
+                const outVib = document.getElementById('out-boring-vib');
+                
+                outLd.innerText = bRatio.toFixed(1) + "x";
+                if (bRatio > 4) { outLd.className = "out-val warning"; outVib.innerText = "Høj (Kvæl Vc & Ap)"; outVib.className = "out-val warning text-[10px]"; }
+                else if (bRatio > 3) { outLd.className = "out-val text-primary"; outVib.innerText = "Medium"; outVib.className = "out-val text-primary"; }
+                else { outLd.className = "out-val safe"; outVib.innerText = "Lav"; outVib.className = "out-val safe"; }
+            }
+
+            if (op === 'groove') {
+                const w = parseFloat(elGrooveW.value) || 3.0;
+                let peck = w; // Default
+                if (['alu', 'pom', 'nylon'].includes(workpiece)) peck = w * 2.0;
+                else if (['rustfast', 'vaerktoej'].includes(workpiece)) peck = w * 0.5;
+                
+                document.getElementById('out-peck').innerText = peck.toFixed(1) + " mm";
+                
+                const mrr = (spindle * Math.PI * D * Fn) / 1000; 
+                document.getElementById('out-mrr').innerText = mrr.toFixed(2) + " cm³/min (pr mm)";
+            }
+
+            if (op === 'thread') {
+                const pitch = Fn; // Fn field doubles as pitch here
+                const depth = pitch * 0.614; // ISO standard depth
+                document.getElementById('out-thread-depth').innerText = depth.toFixed(3) + " mm";
+                
+                let passes = 6; // Standard steel baseline for M10
+                if (pitch >= 2.0) passes = 8;
+                if (pitch <= 1.0) passes = 4;
+                
+                if (['rustfast', 'vaerktoej'].includes(workpiece)) passes += 3;
+                if (['alu', 'pom', 'nylon'].includes(workpiece)) passes = Math.max(3, passes - 2);
+                
+                document.getElementById('out-thread-passes').innerText = passes;
+            }
+
+            // MRR & Surface Quality for standard cutting
             if (op !== 'thread' && op !== 'groove') {
                 const mrr = Vc * Ap * Fn; 
                 document.getElementById('out-mrr').innerText = mrr.toFixed(1) + " cm³/min";
@@ -403,17 +523,13 @@
                     outChip.className = "out-val safe";
                 }
 
-                // Surface Roughness Ra = (fn^2 / (8 * Re)) * 1000
                 const Ra = ((Fn * Fn) / (8 * Re)) * 1000;
                 document.getElementById('out-ra').innerText = Ra.toFixed(2) + " µm";
-            } else if (op === 'groove') {
-                const mrr = (spindle * Math.PI * D * Fn) / 1000; 
-                document.getElementById('out-mrr').innerText = mrr.toFixed(2) + " cm³/min pr mm bredde";
             }
         }
 
         updateUI();
-        autoFillMatrix();
+        autoFillMatrix(elOperation);
         calculate();
     </script>
 </body>
