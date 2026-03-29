@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Datum Prototyping | CNC Turning</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: "#3b82f6" }, 
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
+        .input-field { background-color: #0c0c0e; border: 1px solid #27272a; padding: 0.5rem; color: white; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .input-field:focus:not(:disabled) { border-color: #3b82f6; }
+        .input-field:disabled { color: #71717a; border-color: #27272a; background-color: #09090b; cursor: not-allowed; }
+        .label-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #71717a; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; display: block; margin-bottom: 0.25rem; }
+        .out-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(39, 39, 42, 0.5); padding: 0.5rem 0; }
+        .out-label { color: #71717a; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .out-val { color: white; font-weight: bold; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .out-val.warning { color: #ef4444; }
+        .out-val.safe { color: #10b981; }
+        .section-header { color: #3b82f6; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; margin-bottom: 1rem; margin-top: 1.5rem; }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-white min-h-screen p-6">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Turning <span class="text-zinc-600">&</span> Params</h1>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev05</div>
+                
+                <div class="flex space-x-0 border border-zinc-800 rounded overflow-hidden inline-flex">
+                    <a href="calculator.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Fræsning</a>
+                    <a href="turning.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-primary text-black">Drejning</a>
+                </div>
+            </div>
+            <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
+                System_Status: <span class="text-primary">Active</span>
+            </div>
+        </header>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+                <div>
+                    <div class="section-header mt-0">// 00_OPERATOR_INPUTS</div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="label-text">Emnemateriale</label>
+                            <select id="in-workpiece" class="input-field border-zinc-600">
+                                <option value="automat">Automatstål (Reference)</option>
+                                <option value="alu">Aluminium</option>
+                                <option value="rustfast">Rustfast Stål</option>
+                                <option value="vaerktoej">Værktøjsstål</option>
+                                <option value="messing">Messing</option>
+                                <option value="pom">POM</option>
+                                <option value="nylon">Nylon</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="label-text">Strategi</label>
+                            <select id="in-safety" class="input-field border-zinc-600 text-primary">
+                                <option value="standard">Standard Kørsel</option>
+                                <option value="sikker">Sikker (Konservativ)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4 mb-6">
+                        <div>
+                            <label class="label-text">CAM Strategi (Fusion 360)</label>
+                            <select id="in-operation" class="input-field">
+                                <option value="face">Turning Face (Plandrejning)</option>
+                                <option value="profile_roughing">Turning Profile Roughing (Skrub)</option>
+                                <option value="adaptive_roughing">Turning Adaptive Roughing (HSM)</option>
+                                <option value="profile_finishing">Turning Profile Finishing (Slet)</option>
+                                <option value="boring">Internal Boring (Indvendig Udboring)</option>
+                                <option value="groove">Turning Groove / Part (Spor / Afstik)</option>
+                                <option value="thread">Turning Thread (Gevindskæring)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="label-text">Aktuel X-Diameter [mm]</label>
+                            <input type="number" id="in-d" class="input-field" value="50" step="1">
+                        </div>
+                        <div>
+                            <label class="label-text text-primary">Max Spindel Limit (G50) [RPM]</label>
+                            <input type="number" id="in-g50" class="input-field border-primary" value="3000" step="100">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6" id="wrap-tool-geom">
+                        <div>
+                            <label class="label-text">Platteradius (Re) [mm]</label>
+                            <select id="in-re" class="input-field">
+                                <option value="0.2">0.2 mm</option>
+                                <option value="0.4">0.4 mm</option>
+                                <option value="0.8" selected>0.8 mm</option>
+                                <option value="1.2">1.2 mm</option>
+                            </select>
+                        </div>
+                        <div id="wrap-ap">
+                            <label class="label-text">Spåndybde (Ap) [radialt, mm]</label>
+                            <input type="number" id="in-ap" class="input-field" value="2.0" step="0.1">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic" id="wrap-ap-rec">Fysisk Mål: <span id="rec-ap">2.0</span></div>
+                        </div>
+                        
+                        <div id="wrap-target-ra" class="hidden col-span-2 mt-2">
+                            <label class="label-text text-primary">Ønsket Overfladeruhed (Ra) [µm]</label>
+                            <select id="in-target-ra" class="input-field border-primary">
+                                <option value="0.4">0.4 µm (N4 - Spejlblank)</option>
+                                <option value="0.8">0.8 µm (N5 - Fin)</option>
+                                <option value="1.6" selected>1.6 µm (N6 - Standard Slet)</option>
+                                <option value="3.2">3.2 µm (N7 - Grov Slet)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-zinc-800 pt-6 mt-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="label-text">Surface Speed (CSS/G96) [m/min]</label>
+                            <input type="number" id="in-vc" class="input-field text-primary font-bold" value="200" step="1">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Fysisk Mål: <span id="rec-vc">200</span></div>
+                        </div>
+                        <div>
+                            <label id="lbl-fn" class="label-text">Tilspænding (G99) [mm/omdr]</label>
+                            <input type="number" id="in-fn" class="input-field text-primary font-bold" value="0.25" step="0.01">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Fysisk Mål: <span id="rec-fn">0.25</span></div>
+                        </div>
+                    </div>
+                    <button id="btn-reset" class="w-full mt-6 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
+                        Reset til Systemets Anbefaling
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-black/40 border border-zinc-900 p-6 relative overflow-hidden flex flex-col">
+                <div class="absolute top-0 right-0 p-4 text-[200px] font-black italic text-zinc-900/30 leading-none pointer-events-none select-none">
+                    <span id="bg-tool-text">T</span>
+                </div>
+
+                <div class="relative z-10 flex-grow">
+                    <div class="section-header mt-0">// 01_SPINDLE_DYNAMICS</div>
+                    <div class="out-row"><span class="out-label">Aktiv Spindelhastighed (ved valgt X)</span><span id="out-spindle" class="out-val">0 RPM</span></div>
+                    <div class="out-row"><span class="out-label">Spindel Status</span><span id="out-spindle-status" class="out-val safe">CSS Aktiv (G96)</span></div>
+
+                    <div id="sec-feedrates">
+                        <div class="section-header">// 02_FEEDRATES (FUSION 360)</div>
+                        <div class="out-row"><span class="out-label">Cutting feedrate / rev</span><span id="out-cut-feed" class="out-val text-primary">0 mm/omdr</span></div>
+                        <div class="out-row"><span class="out-label">Lead-in feedrate / rev</span><span id="out-lead-in" class="out-val">0 mm/omdr</span></div>
+                        <div class="out-row"><span class="out-label">Lead-out feedrate / rev</span><span id="out-lead-out" class="out-val">0 mm/omdr</span></div>
+                        <div class="out-row"><span class="out-label">Minute Feed (G98)</span><span id="out-min-feed" class="out-val text-zinc-500">0 mm/min</span></div>
+                        <div class="out-row" id="row-mrr"><span class="out-label">Material Removal Rate (MRR)</span><span id="out-mrr" class="out-val">0 cm³/min</span></div>
+                    </div>
+
+                    <div id="sec-quality">
+                        <div class="section-header">// 03_SURFACE_QUALITY</div>
+                        <div class="out-row"><span class="out-label">Teoretisk Overfladeruhed (Ra)</span><span id="out-ra" class="out-val text-primary">0 µm</span></div>
+                        <div class="out-row"><span class="out-label">Spånkontrol Status</span><span id="out-chip-control" class="out-val">Optimal</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const elWorkpiece = document.getElementById('in-workpiece');
+        const elSafety = document.getElementById('in-safety');
+        const elOperation = document.getElementById('in-operation');
+        const elD = document.getElementById('in-d');
+        const elG50 = document.getElementById('in-g50');
+        const elRe = document.getElementById('in-re');
+        const elAp = document.getElementById('in-ap');
+        const elTargetRa = document.getElementById('in-target-ra');
+        const elVc = document.getElementById('in-vc');
+        const elFn = document.getElementById('in-fn');
+        const btnReset = document.getElementById('btn-reset');
+        
+        const wrapToolGeom = document.getElementById('wrap-tool-geom');
+        const wrapAp = document.getElementById('wrap-ap');
+        const wrapApRec = document.getElementById('wrap-ap-rec');
+        const wrapTargetRa = document.getElementById('wrap-target-ra');
+        const lblFn = document.getElementById('lbl-fn');
+        
+        const recVcSpan = document.getElementById('rec-vc');
+        const recFnSpan = document.getElementById('rec-fn');
+        const recApSpan = document.getElementById('rec-ap');
+
+        // Matrices
+        const matMultVc = { 'automat': 1.0, 'alu': 3.5, 'rustfast': 0.6, 'vaerktoej': 0.7, 'messing': 2.0, 'pom': 3.0, 'nylon': 3.0 };
+        
+        let recommendedVc = 0;
+        let recommendedFn = 0;
+        let recommendedAp = 0;
+
+        // Listeners for triggers
+        const configInputs = [elWorkpiece, elSafety, elOperation, elRe, elTargetRa];
+        configInputs.forEach(el => el.addEventListener('change', handleConfigChange));
+
+        // Inputs that drive live calculations
+        [elD, elG50, elAp, elVc, elFn].forEach(el => el.addEventListener('input', calculate));
+
+        btnReset.addEventListener('click', () => {
+            elVc.value = recommendedVc.toFixed(0);
+            elFn.value = elOperation.value === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
+            if (elOperation.value !== 'thread' && elOperation.value !== 'groove') {
+                elAp.value = recommendedAp.toFixed(1);
+            }
+            calculate();
+        });
+
+        function handleConfigChange(e) {
+            updateUI();
+            autoFillMatrix(e.target);
+            calculate();
+        }
+
+        function updateUI() {
+            const op = elOperation.value;
+            
+            document.getElementById('sec-quality').classList.remove('hidden');
+            document.getElementById('row-mrr').classList.remove('hidden');
+            wrapAp.classList.remove('hidden');
+            elRe.disabled = false;
+
+            if (op === 'profile_finishing') {
+                wrapTargetRa.classList.remove('hidden');
+            } else {
+                wrapTargetRa.classList.add('hidden');
+            }
+
+            if (op === 'thread') {
+                wrapToolGeom.classList.add('hidden');
+                lblFn.innerText = "Stigning (Pitch) [mm]";
+                document.getElementById('sec-quality').classList.add('hidden');
+                document.getElementById('row-mrr').classList.add('hidden');
+                elFn.disabled = false;
+            } else if (op === 'groove') {
+                wrapToolGeom.classList.remove('hidden');
+                wrapAp.classList.add('hidden');
+                elRe.disabled = true; 
+                lblFn.innerText = "Tilspænding (G99) [mm/omdr]";
+                document.getElementById('sec-quality').classList.add('hidden');
+            } else {
+                wrapToolGeom.classList.remove('hidden');
+                lblFn.innerText = "Tilspænding (G99) [mm/omdr]";
+            }
+        }
+
+        function autoFillMatrix(triggerElement) {
+            const op = elOperation.value;
+            const workpiece = elWorkpiece.value;
+            const safety = elSafety.value;
+            
+            let baseVc = 0;
+            let baseFn = 0;
+            let baseAp = parseFloat(elAp.value) || 2.0;
+
+            if (op === 'face' || op === 'profile_roughing') {
+                baseVc = 200;
+                baseFn = 0.25;
+                if (triggerElement === elOperation) { elRe.value = "0.8"; baseAp = 2.0; }
+            } else if (op === 'adaptive_roughing') {
+                baseVc = 250; 
+                baseFn = 0.35; 
+                if (triggerElement === elOperation) { elRe.value = "0.8"; baseAp = 1.0; }
+            } else if (op === 'profile_finishing') {
+                baseVc = 280;
+                if (triggerElement === elOperation) { elRe.value = "0.4"; baseAp = 0.2; }
+                
+                const targetRa = parseFloat(elTargetRa.value) || 1.6;
+                const Re = parseFloat(elRe.value) || 0.4;
+                baseFn = Math.sqrt((targetRa * 8 * Re) / 1000); 
+            } else if (op === 'boring') {
+                baseVc = 160; 
+                baseFn = 0.15;
+                if (triggerElement === elOperation) { elRe.value = "0.4"; baseAp = 1.0; }
+            } else if (op === 'groove') {
+                baseVc = 120; 
+                baseFn = 0.08;
+            } else if (op === 'thread') {
+                baseVc = 60; 
+                baseFn = 1.5; 
+            }
+
+            baseVc *= matMultVc[workpiece];
+            
+            if (op === 'thread') {
+                if (['rustfast', 'vaerktoej'].includes(workpiece)) baseVc = 30;
+                if (['alu', 'pom', 'nylon'].includes(workpiece)) baseVc = 100;
+            } 
+            else if (op !== 'profile_finishing') {
+                if (['alu', 'pom', 'nylon'].includes(workpiece)) {
+                    baseFn *= 1.3;
+                    if (op === 'profile_roughing' || op === 'face') baseAp = 3.0;
+                }
+                if (['rustfast', 'vaerktoej'].includes(workpiece)) {
+                    baseFn *= 0.8;
+                    if (op === 'profile_roughing' || op === 'face') baseAp = 1.5;
+                }
+            }
+
+            if (safety === 'sikker') {
+                baseVc *= 0.75;
+                if (op !== 'thread' && op !== 'profile_finishing') baseFn *= 0.80; 
+                if (op !== 'thread' && op !== 'groove') baseAp *= 0.75;
+            }
+
+            recommendedVc = baseVc;
+            recommendedFn = baseFn;
+            recommendedAp = baseAp;
+
+            recVcSpan.innerText = recommendedVc.toFixed(0);
+            recFnSpan.innerText = op === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
+            recApSpan.innerText = recommendedAp.toFixed(1);
+
+            const ignores = [elAp, elD, elG50];
+            if (!ignores.includes(triggerElement)) {
+                elVc.value = recommendedVc.toFixed(0);
+                elFn.value = op === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
+                if (op !== 'thread' && op !== 'groove') elAp.value = recommendedAp.toFixed(1);
+            }
+        }
+
+        function calculate() {
+            const op = elOperation.value;
+            const D = parseFloat(elD.value) || 0;
+            const G50 = parseFloat(elG50.value) || 3000;
+            const Re = parseFloat(elRe.value) || 0;
+            const Ap = parseFloat(elAp.value) || 0;
+            const Vc = parseFloat(elVc.value) || 0;
+            const Fn = parseFloat(elFn.value) || 0;
+
+            if (D === 0) return;
+
+            let spindle = (Vc * 1000) / (Math.PI * D);
+            let isClamped = false;
+            
+            if (spindle > G50) {
+                spindle = G50;
+                isClamped = true;
+            }
+
+            const outSpindle = document.getElementById('out-spindle');
+            const outStatus = document.getElementById('out-spindle-status');
+            
+            outSpindle.innerText = Math.round(spindle) + " RPM";
+            
+            if (isClamped) {
+                outSpindle.classList.add('warning');
+                outStatus.innerText = "G50 Limit Nået (Capped)";
+                outStatus.className = "out-val warning";
+            } else {
+                outSpindle.classList.remove('warning');
+                outStatus.innerText = "CSS Aktiv (G96)";
+                outStatus.className = "out-val safe";
+            }
+
+            // Feedrates to match Fusion 360 exactly
+            document.getElementById('out-cut-feed').innerText = Fn.toFixed(3) + " mm/omdr";
+            document.getElementById('out-lead-in').innerText = Fn.toFixed(3) + " mm/omdr";
+            document.getElementById('out-lead-out').innerText = Fn.toFixed(3) + " mm/omdr";
+            
+            const minFeed = spindle * Fn;
+            document.getElementById('out-min-feed').innerText = Math.round(minFeed) + " mm/min";
+
+            // MRR & Chip Control
+            if (op !== 'thread' && op !== 'groove') {
+                const mrr = Vc * Ap * Fn; 
+                document.getElementById('out-mrr').innerText = mrr.toFixed(1) + " cm³/min";
+
+                const outChip = document.getElementById('out-chip-control');
+                if (Ap < Re && op !== 'profile_finishing') {
+                    outChip.innerText = "Advarsel: Spåndybde < Næseradius (Gnidning)";
+                    outChip.className = "out-val warning text-[10px]";
+                } else if (Ap > (Re * 4) && op !== 'adaptive_roughing') {
+                    outChip.innerText = "Advarsel: Tung belastning (Tjek opspænding)";
+                    outChip.className = "out-val warning text-[10px]";
+                } else {
+                    outChip.innerText = "Optimal Cut";
+                    outChip.className = "out-val safe";
+                }
+
+                // Surface Roughness Ra = (fn^2 / (8 * Re)) * 1000
+                const Ra = ((Fn * Fn) / (8 * Re)) * 1000;
+                document.getElementById('out-ra').innerText = Ra.toFixed(2) + " µm";
+            } else if (op === 'groove') {
+                const mrr = (spindle * Math.PI * D * Fn) / 1000; 
+                document.getElementById('out-mrr').innerText = mrr.toFixed(2) + " cm³/min pr mm bredde";
+            }
+        }
+
+        updateUI();
+        autoFillMatrix();
+        calculate();
+    </script>
+</body>
+</html>

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Datum Prototyping | Speeds & Feeds</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: "#f59e0b" },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
+        .input-field { background-color: #0c0c0e; border: 1px solid #27272a; padding: 0.5rem; color: white; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .input-field:focus:not(:disabled) { border-color: #f59e0b; }
+        .input-field:disabled { color: #71717a; border-color: #27272a; background-color: #09090b; cursor: not-allowed; }
+        .label-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #71717a; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; display: block; margin-bottom: 0.25rem; }
+        .out-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(39, 39, 42, 0.5); padding: 0.5rem 0; }
+        .out-label { color: #71717a; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .out-val { color: white; font-weight: bold; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .out-val.warning { color: #ef4444; }
+        .out-val.safe { color: #10b981; }
+        .section-header { color: #f59e0b; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; margin-bottom: 1rem; margin-top: 1.5rem; }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen p-6">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Speeds <span class="text-zinc-600">&</span> Feeds</h1>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Local_Calc_Rev22</div>
+                
+                <div class="flex space-x-0 border border-zinc-800 rounded overflow-hidden inline-flex">
+                    <a href="calculator.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-primary text-black">Fræsning</a>
+                    <a href="turning.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Drejning</a>
+                </div>
+            </div>
+            <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
+                System_Status: <span class="text-primary">Active</span>
+            </div>
+        </header>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+                <div>
+                    <div class="section-header mt-0">// 00_OPERATOR_INPUTS</div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="label-text">Emnemateriale</label>
+                            <select id="in-workpiece" class="input-field border-zinc-600">
+                                <option value="automat">Automatstål (Reference)</option>
+                                <option value="alu">Aluminium</option>
+                                <option value="rustfast">Rustfast Stål</option>
+                                <option value="vaerktoej">Værktøjsstål</option>
+                                <option value="messing">Messing</option>
+                                <option value="pom">POM</option>
+                                <option value="nylon">Nylon</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="label-text">Strategi</label>
+                            <select id="in-safety" class="input-field border-zinc-600 text-primary">
+                                <option value="standard">Standard Kørsel</option>
+                                <option value="sikker">Sikker (Konservativ)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="label-text">Værktøj</label>
+                            <select id="in-tool" class="input-field">
+                                <option value="fraeser">Fræser</option>
+                                <option value="bor">Bor</option>
+                                <option value="tap">Gevindtap</option>
+                            </select>
+                        </div>
+                        <div id="wrap-mat">
+                            <label class="label-text">Værktøjsmateriale</label>
+                            <select id="in-material" class="input-field">
+                                <option value="hm">Hårdmetal</option>
+                                <option value="hss">HSS</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="fraeser-options" class="grid grid-cols-1 gap-4 mb-6">
+                        <div>
+                            <label class="label-text">CAM Strategi (Fusion 360)</label>
+                            <select id="in-cam-path" class="input-field">
+                                <option value="adaptive_hsm">Adaptive Clearing (Med HSM)</option>
+                                <option value="adaptive_conv">Adaptive Clearing (Uden HSM)</option>
+                                <option value="pocket">2D / 3D Pocket</option>
+                                <option value="contour">2D Contour (Profil / Slet)</option>
+                                <option value="slot">Slotting (Sporfræsning)</option>
+                                <option value="face">Facing (Planfræsning)</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col mt-2 hidden" id="wrap-finishing-block">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="in-finishing" class="w-4 h-4 accent-primary bg-zinc-900 border-zinc-700">
+                                <label for="in-finishing" class="label-text ml-2 mb-0 cursor-pointer">Inkluder Sletspån (Finishing Pass)</label>
+                            </div>
+                            <div id="wrap-fin-type" class="hidden mt-3 pl-6 border-l-2 border-zinc-800 ml-2">
+                                <label class="label-text text-zinc-600">Efterfølgende Slet-Strategi</label>
+                                <select id="in-fin-type" class="input-field border-zinc-800 text-xs py-1.5 mt-1">
+                                    <option value="contour">Slet Væg (2D Contour)</option>
+                                    <option value="pocket">Slet Gulv (2D Pocket)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <div id="wrap-d">
+                            <label class="label-text">Diameter [mm]</label>
+                            <input type="number" id="in-d" class="input-field" value="10" step="0.1">
+                        </div>
+                        <div id="wrap-tap" class="hidden col-span-2">
+                            <label class="label-text">Standard ISO Gevind</label>
+                            <select id="in-tap-size" class="input-field border-zinc-600 text-primary">
+                                <option value="3|0.5">M3 x 0.50 (Grov)</option>
+                                <option value="4|0.7">M4 x 0.70 (Grov)</option>
+                                <option value="5|0.8">M5 x 0.80 (Grov)</option>
+                                <option value="6|1.0">M6 x 1.00 (Grov)</option>
+                                <option value="8|1.25" selected>M8 x 1.25 (Grov)</option>
+                                <option value="8|1.0">M8 x 1.00 (Fin)</option>
+                                <option value="10|1.5">M10 x 1.50 (Grov)</option>
+                                <option value="10|1.25">M10 x 1.25 (Fin)</option>
+                                <option value="10|1.0">M10 x 1.00 (Ekstra Fin)</option>
+                                <option value="12|1.75">M12 x 1.75 (Grov)</option>
+                                <option value="12|1.5">M12 x 1.50 (Fin)</option>
+                                <option value="14|2.0">M14 x 2.00 (Grov)</option>
+                                <option value="16|2.0">M16 x 2.00 (Grov)</option>
+                            </select>
+                        </div>
+                        <div id="wrap-l">
+                            <label class="label-text">Udhæng (L) [mm]</label>
+                            <input type="number" id="in-l" class="input-field" value="25" step="1">
+                        </div>
+                        <div id="wrap-z">
+                            <label class="label-text">Antal skær</label>
+                            <input type="number" id="in-z" class="input-field" value="4" min="1">
+                        </div>
+                        <div id="wrap-ae" class="col-span-3">
+                            <label class="label-text">Optimal Load (Radial) [mm]</label>
+                            <input type="number" id="in-ae" class="input-field" value="10" step="0.1">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic" id="wrap-ae-rec">Fysisk Mål: <span id="rec-ae">1.0</span></div>
+                        </div>
+                        <div id="wrap-face-depth" class="hidden col-span-3">
+                            <label class="label-text text-primary">Total Plan Dybde (Total Z) [mm]</label>
+                            <input type="number" id="in-face-depth" class="input-field border-primary" value="2.0" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-zinc-800 pt-6 mt-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="label-text">Skærehastighed [m/min]</label>
+                            <input type="number" id="in-vc" class="input-field text-primary font-bold" value="120" step="1">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Fysisk Mål: <span id="rec-vc">120</span></div>
+                        </div>
+                        <div>
+                            <label id="lbl-fz" class="label-text">Tilsp. pr. tand [mm]</label>
+                            <input type="number" id="in-fz" class="input-field text-primary font-bold" value="0.060" step="0.001">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Fysisk Mål: <span id="rec-fz">0.060</span></div>
+                        </div>
+                    </div>
+                    <button id="btn-reset" class="w-full mt-6 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
+                        Reset til Systemets Anbefaling
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-black/40 border border-zinc-900 p-6 relative overflow-hidden flex flex-col">
+                <div class="absolute top-0 right-0 p-4 text-[200px] font-black italic text-zinc-900/30 leading-none pointer-events-none select-none">
+                    <span id="bg-tool-text">M</span>
+                </div>
+
+                <div class="relative z-10 flex-grow">
+                    <div class="section-header mt-0">// 01_SPEEDS</div>
+                    <div class="out-row"><span class="out-label">Spindle Speed</span><span id="out-spindle" class="out-val">0 RPM</span></div>
+                    <div id="row-surface" class="out-row"><span class="out-label">Surface Speed</span><span id="out-surface" class="out-val">0 m/min</span></div>
+                    <div id="row-ramp-spindle" class="out-row"><span class="out-label">Ramp Spindle Speed</span><span id="out-ramp-spindle" class="out-val">0 RPM</span></div>
+
+                    <div id="sec-feedrates">
+                        <div class="section-header">// 02_FEEDRATES</div>
+                        <div id="row-cutting" class="out-row"><span id="lbl-cutting-out" class="out-label">Cutting Feedrate</span><span id="out-cutting" class="out-val">0 mm/min</span></div>
+                        <div id="row-prog-fz" class="out-row"><span class="out-label">Programmed Feed/Tooth</span><span id="out-prog-fz" class="out-val text-primary">0 mm</span></div>
+                        <div id="row-lead" class="out-row"><span class="out-label">Lead-in / Lead-out</span><span id="out-lead" class="out-val">0 mm/min</span></div>
+                        <div id="row-transition" class="out-row"><span class="out-label">Transition Feedrate</span><span id="out-transition" class="out-val">0 mm/min</span></div>
+                        <div id="row-ramp-feed" class="out-row"><span class="out-label">Ramp Feedrate</span><span id="out-ramp-feed" class="out-val">0 mm/min</span></div>
+                        <div id="row-ramp-angle" class="out-row"><span class="out-label">Max Ramp Angle</span><span id="out-ramp-angle" class="out-val text-primary">0°</span></div>
+                    </div>
+
+                    <div id="sec-vertical">
+                        <div class="section-header">// 03_Z_AXIS</div>
+                        <div id="row-plunge-feed" class="out-row"><span class="out-label">Plunge Feedrate</span><span id="out-plunge" class="out-val">0 mm/min</span></div>
+                        <div id="row-plunge-rev" class="out-row"><span class="out-label">Plunge/Rev</span><span id="out-plunge-rev" class="out-val">0 mm/rev</span></div>
+                        <div id="row-retract" class="out-row hidden"><span class="out-label">Retract Feedrate</span><span id="out-retract" class="out-val">0 mm/min</span></div>
+                        
+                        <div id="row-face-max" class="out-row hidden"><span class="out-label">Max Sikker Spåndybde (Systemgrænse)</span><span id="out-face-max" class="out-val text-zinc-500">0 mm</span></div>
+                        <div id="row-face-passes" class="out-row hidden"><span class="out-label">Antal Z-Skrub (Roughing Passes)</span><span id="out-face-passes" class="out-val">0</span></div>
+                        <div id="row-face-step" class="out-row hidden"><span class="out-label">Skrub Spåndybde pr. Overløb</span><span id="out-face-step" class="out-val text-primary">0 mm</span></div>
+                    </div>
+
+                    <div id="sec-performance">
+                        <div class="section-header">// 04_PERFORMANCE & CAM</div>
+                        <div id="row-coolant" class="out-row"><span class="out-label">Kølemiddel (Coolant)</span><span id="out-coolant" class="out-val text-primary">Flood</span></div>
+                        <div id="row-op-type" class="out-row"><span class="out-label">Operation Type</span><span id="out-op-type" class="out-val safe">Profil/Lomme</span></div>
+                        <div id="row-ld" class="out-row"><span class="out-label">Værktøjsudhæng (L:D Ratio)</span><span id="out-ld" class="out-val">2.5x</span></div>
+                        <div id="row-ct" class="out-row"><span class="out-label">Chip Thinning Multiplier</span><span id="out-ct" class="out-val">1.00x</span></div>
+                    </div>
+
+                    <div id="sec-finishing" class="hidden border-t border-zinc-800 mt-6 pt-2">
+                        <div class="section-header">// 05_FINISHING_PASS (Sletspån)</div>
+                        <div class="out-row"><span class="out-label">Finishing Spindle Speed</span><span id="out-fin-spindle" class="out-val text-primary">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Finishing Feedrate</span><span id="out-fin-feed" class="out-val text-primary">0 mm/min</span></div>
+                        <div class="out-row"><span id="lbl-fin-allow" class="out-label">Sletspån (Stock to Leave)</span><span id="out-fin-allow" class="out-val text-zinc-500">0.2 mm</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const elWorkpiece = document.getElementById('in-workpiece');
+        const elSafety = document.getElementById('in-safety');
+        const elTool = document.getElementById('in-tool');
+        const elMaterial = document.getElementById('in-material');
+        const elCamPath = document.getElementById('in-cam-path');
+        const elFinishing = document.getElementById('in-finishing');
+        const elFinType = document.getElementById('in-fin-type');
+        const elD = document.getElementById('in-d');
+        const elTapSize = document.getElementById('in-tap-size');
+        const elL = document.getElementById('in-l');
+        const elZ = document.getElementById('in-z');
+        const elAe = document.getElementById('in-ae');
+        const elFaceDepth = document.getElementById('in-face-depth');
+        const elVc = document.getElementById('in-vc');
+        const elFz = document.getElementById('in-fz');
+        const btnReset = document.getElementById('btn-reset');
+        
+        const wrapFraeser = document.getElementById('fraeser-options');
+        const wrapFinishingBlock = document.getElementById('wrap-finishing-block');
+        const wrapFinType = document.getElementById('wrap-fin-type');
+        const wrapD = document.getElementById('wrap-d');
+        const wrapTap = document.getElementById('wrap-tap');
+        const wrapL = document.getElementById('wrap-l');
+        const wrapZ = document.getElementById('wrap-z');
+        const wrapAe = document.getElementById('wrap-ae');
+        const wrapAeRec = document.getElementById('wrap-ae-rec');
+        const wrapFaceDepth = document.getElementById('wrap-face-depth');
+        const wrapMat = document.getElementById('wrap-mat');
+        const lblFz = document.getElementById('lbl-fz');
+        const bgToolText = document.getElementById('bg-tool-text');
+        
+        const recVcSpan = document.getElementById('rec-vc');
+        const recFzSpan = document.getElementById('rec-fz');
+        const recAeSpan = document.getElementById('rec-ae');
+
+        // State variables
+        let recommendedVc = 0;
+        let recommendedFz = 0;
+        let recommendedAe = 0;
+
+        // Matrices
+        const matMultVc = { 'automat': 1.0, 'alu': 3.5, 'rustfast': 0.5, 'vaerktoej': 0.6, 'messing': 2.0, 'pom': 3.0, 'nylon': 3.0 };
+        const matMultFz = { 'automat': 1.0, 'alu': 1.2, 'rustfast': 0.8, 'vaerktoej': 0.9, 'messing': 1.0, 'pom': 1.5, 'nylon': 1.5 };
+        const tapVcBase = { 'automat': 10, 'alu': 15, 'rustfast': 5, 'vaerktoej': 6, 'messing': 12, 'pom': 15, 'nylon': 15 };
+
+        // Cleaned Event Listeners Matrix
+        const configInputs = [elWorkpiece, elSafety, elTool, elMaterial, elCamPath, elTapSize, elFinishing, elFinType];
+        configInputs.forEach(el => el.addEventListener('change', handleConfigChange));
+
+        elD.addEventListener('change', handleConfigChange);
+        elL.addEventListener('input', handleConfigChange);
+        elAe.addEventListener('input', handleConfigChange);
+
+        // Inputs that only drive live calculations without updating system recommendations
+        [elD, elFaceDepth, elVc, elFz, elZ].forEach(el => el.addEventListener('input', calculate));
+
+        btnReset.addEventListener('click', () => {
+            elVc.value = recommendedVc.toFixed(0);
+            elFz.value = elTool.value === 'tap' ? recommendedFz.toFixed(2) : recommendedFz.toFixed(3);
+            if (elTool.value === 'fraeser' && elCamPath.value !== 'face') {
+                elAe.value = recommendedAe.toFixed(1);
+            }
+            calculate();
+        });
+
+        function handleConfigChange(e) {
+            updateUI();
+            autoFillMatrix(e.target);
+            calculate();
+        }
+
+        function getActiveDiameter() {
+            if (elTool.value === 'tap') return parseFloat(elTapSize.value.split('|')[0]);
+            return parseFloat(elD.value) || 0;
+        }
+
+        function getActivePitch() {
+            if (elTool.value === 'tap') return parseFloat(elTapSize.value.split('|')[1]);
+            return 0;
+        }
+
+        function getAllowance(workpiece) {
+            if (['pom', 'nylon'].includes(workpiece)) return 0.25;
+            if (['alu'].includes(workpiece)) return 0.20;
+            if (['rustfast', 'vaerktoej'].includes(workpiece)) return 0.10;
+            return 0.15;
+        }
+
+        function updateUI() {
+            const tool = elTool.value;
+            const camPath = elCamPath.value;
+            const isFace = (camPath === 'face');
+            const isAdaptive = camPath.startsWith('adaptive');
+
+            document.getElementById('sec-vertical').classList.remove('hidden');
+            document.getElementById('sec-performance').classList.remove('hidden');
+            document.getElementById('sec-feedrates').classList.remove('hidden');
+            wrapL.classList.remove('hidden');
+            elFz.disabled = false;
+            
+            const rowsToShow = ['row-surface', 'row-ramp-spindle', 'row-prog-fz', 'row-lead', 'row-transition', 'row-ramp-feed', 'row-ramp-angle', 'row-plunge-feed', 'row-plunge-rev', 'row-op-type', 'row-ct', 'row-ld', 'row-coolant'];
+            rowsToShow.forEach(id => document.getElementById(id).classList.remove('hidden'));
+            document.getElementById('row-retract').classList.add('hidden');
+            
+            ['row-face-max', 'row-face-passes', 'row-face-step'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.getElementById('lbl-cutting-out').innerText = "Cutting Feedrate";
+
+            if (tool === 'tap') {
+                wrapFraeser.classList.add('hidden');
+                wrapD.classList.add('hidden');
+                wrapTap.classList.remove('hidden');
+                wrapZ.classList.add('hidden');
+                wrapAe.classList.add('hidden');
+                wrapFaceDepth.classList.add('hidden');
+                wrapMat.classList.add('hidden');
+                wrapL.classList.add('hidden');
+                wrapFinishingBlock.classList.add('hidden');
+                elFinishing.checked = false;
+                document.getElementById('sec-finishing').classList.add('hidden');
+                
+                lblFz.innerText = "Stigning [Låst, mm]";
+                elFz.disabled = true;
+                bgToolText.innerText = "G";
+                
+                ['row-ramp-spindle', 'row-surface', 'row-prog-fz', 'row-lead', 'row-transition', 'row-ramp-feed', 'row-ramp-angle', 'row-op-type', 'row-ct', 'row-ld'].forEach(id => document.getElementById(id).classList.add('hidden'));
+                document.getElementById('sec-vertical').classList.add('hidden');
+                document.getElementById('lbl-cutting-out').innerText = "Rigid Tapping Feedrate (G84)";
+            } 
+            else if (tool === 'bor') {
+                wrapFraeser.classList.add('hidden');
+                wrapD.classList.remove('hidden');
+                wrapTap.classList.add('hidden');
+                wrapZ.classList.add('hidden');
+                wrapAe.classList.add('hidden');
+                wrapFaceDepth.classList.add('hidden');
+                wrapMat.classList.remove('hidden');
+                wrapFinishingBlock.classList.add('hidden');
+                elFinishing.checked = false;
+                document.getElementById('sec-finishing').classList.add('hidden');
+                
+                lblFz.innerText = "Tilsp. pr. omdr. [mm]";
+                bgToolText.innerText = "D";
+                
+                document.getElementById('sec-feedrates').classList.add('hidden');
+                ['row-ramp-spindle', 'row-op-type', 'row-ct'].forEach(id => document.getElementById(id).classList.add('hidden'));
+                document.getElementById('row-plunge-feed').classList.remove('hidden');
+                document.getElementById('row-plunge-rev').classList.remove('hidden');
+                document.getElementById('row-retract').classList.remove('hidden');
+            } 
+            else { // Fræser
+                wrapFraeser.classList.remove('hidden');
+                wrapD.classList.remove('hidden');
+                wrapTap.classList.add('hidden');
+                wrapZ.classList.remove('hidden');
+                wrapMat.classList.remove('hidden');
+                
+                if (isFace || isAdaptive) {
+                    wrapFinishingBlock.classList.remove('hidden');
+                    if (isAdaptive && elFinishing.checked) {
+                        wrapFinType.classList.remove('hidden');
+                    } else {
+                        wrapFinType.classList.add('hidden');
+                    }
+                } else {
+                    wrapFinishingBlock.classList.add('hidden');
+                    elFinishing.checked = false;
+                    wrapFinType.classList.add('hidden');
+                }
+
+                if (isFace) {
+                    wrapAe.classList.add('hidden');
+                    wrapFaceDepth.classList.remove('hidden');
+                    ['row-ramp-spindle', 'row-ramp-feed', 'row-ramp-angle', 'row-op-type', 'row-plunge-feed', 'row-plunge-rev'].forEach(id => document.getElementById(id).classList.add('hidden'));
+                    ['row-face-max', 'row-face-passes', 'row-face-step'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+                } else {
+                    wrapAe.classList.remove('hidden');
+                    wrapFaceDepth.classList.add('hidden');
+                    ['row-plunge-feed', 'row-plunge-rev'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+                    
+                    if (camPath === 'slot') {
+                        elAe.disabled = true;
+                        wrapAeRec.classList.add('hidden');
+                    } else {
+                        elAe.disabled = false;
+                        wrapAeRec.classList.remove('hidden');
+                    }
+                }
+
+                lblFz.innerText = "Tilsp. pr. tand [mm]";
+                bgToolText.innerText = "M";
+            }
+        }
+
+        function autoFillMatrix(triggerElement) {
+            const tool = elTool.value;
+            const mat = elMaterial.value;
+            const camPath = elCamPath.value;
+            const workpiece = elWorkpiece.value;
+            const safety = elSafety.value;
+            const isFace = (camPath === 'face');
+            
+            let D = getActiveDiameter();
+            let L = parseFloat(elL.value) || 30;
+
+            if (triggerElement === elCamPath) {
+                if (isFace) { D = 40; elD.value = D; elL.value = 40; L = 40; }
+                else if (elD.value == 40 && camPath !== 'face') { D = 10; elD.value = D; elL.value = 25; L = 25; }
+            }
+
+            // Udelukkende matrix for Optimal Load (Ae)
+            let baseAe = D;
+            if (tool === 'fraeser' && !isFace) {
+                let aeFactor = 0;
+                if (mat === 'hm') {
+                    if (camPath === 'adaptive_hsm') aeFactor = 0.1;
+                    else if (camPath === 'adaptive_conv') aeFactor = 0.2;
+                    else if (camPath === 'pocket') aeFactor = 0.4;
+                    else if (camPath === 'contour') aeFactor = 0.05;
+                    else if (camPath === 'slot') aeFactor = 1.0;
+                } else { 
+                    if (camPath === 'adaptive_hsm') aeFactor = 0.05;
+                    else if (camPath === 'adaptive_conv') aeFactor = 0.15;
+                    else if (camPath === 'pocket') aeFactor = 0.25;
+                    else if (camPath === 'contour') aeFactor = 0.05;
+                    else if (camPath === 'slot') aeFactor = 1.0;
+                }
+                if (aeFactor > 0) baseAe = D * aeFactor;
+            }
+
+            recommendedAe = baseAe;
+            recAeSpan.innerText = recommendedAe.toFixed(1);
+
+            // Sikrer at Ae overskrives når konfigurationen brydes, men forhindrer at overskrive manuel indtastning i feltet selv
+            if (triggerElement === elCamPath || triggerElement === elD || triggerElement === elMaterial || triggerElement === elTool) {
+                if (tool === 'fraeser' && !isFace) {
+                    elAe.value = recommendedAe.toFixed(1);
+                }
+            }
+
+            const Ae = parseFloat(elAe.value) || D;
+
+            let baseVc = 0;
+            let baseFz = 0;
+
+            if (tool === 'tap') {
+                baseVc = tapVcBase[workpiece];
+                baseFz = getActivePitch();
+            } else {
+                if (tool === 'fraeser') {
+                    if (camPath === 'adaptive_hsm') { baseVc = 250; baseFz = 0.10; }
+                    else if (camPath === 'adaptive_conv') { baseVc = 120; baseFz = 0.08; }
+                    else if (camPath === 'pocket') { baseVc = 120; baseFz = 0.06; }
+                    else if (camPath === 'contour') { baseVc = 160; baseFz = 0.03; }
+                    else if (camPath === 'slot') { baseVc = 100; baseFz = 0.05; }
+                    else if (camPath === 'face') { baseVc = 160; baseFz = 0.08; }
+
+                    baseFz = baseFz * (D / 10);
+                    if (isFace) baseFz *= 1.5;
+                } else { 
+                    baseVc = 80;
+                    baseFz = D * 0.015;
+                }
+
+                baseVc *= matMultVc[workpiece];
+                baseFz *= matMultFz[workpiece];
+                if (mat === 'hss') { baseVc *= 0.4; baseFz *= 0.8; }
+
+                const ldRatio = L / D;
+                let ldPenalty = 1.0;
+                if (ldRatio > 5) ldPenalty = 0.50;
+                else if (ldRatio > 4) ldPenalty = 0.70;
+                else if (ldRatio > 3) ldPenalty = 0.85;
+                
+                baseVc *= ldPenalty;
+                baseFz *= ldPenalty;
+
+                if (tool === 'fraeser' && !isFace && Ae >= D) {
+                    baseFz *= 0.80; 
+                }
+            }
+
+            if (safety === 'sikker' && tool !== 'tap') {
+                baseVc *= 0.75;
+                baseFz *= 0.80;
+            } else if (safety === 'sikker' && tool === 'tap') {
+                baseVc *= 0.70; 
+            }
+
+            recommendedVc = baseVc;
+            recommendedFz = baseFz;
+            
+            recVcSpan.innerText = recommendedVc.toFixed(0);
+            recFzSpan.innerText = tool === 'tap' ? recommendedFz.toFixed(2) : recommendedFz.toFixed(3);
+
+            const ignores = [elAe, elL, elFaceDepth, elFinishing, elFinType];
+            if (!ignores.includes(triggerElement)) {
+                elVc.value = recommendedVc.toFixed(0);
+                elFz.value = tool === 'tap' ? recommendedFz.toFixed(2) : recommendedFz.toFixed(3);
+            }
+        }
+
+        function calculate() {
+            const tool = elTool.value;
+            const mat = elMaterial.value;
+            const camPath = elCamPath.value;
+            const workpiece = elWorkpiece.value;
+            const safety = elSafety.value;
+            const doFinishing = elFinishing.checked;
+            const finType = elFinType.value;
+            const isFace = (camPath === 'face');
+            const isAdaptive = camPath.startsWith('adaptive');
+            
+            const D = getActiveDiameter();
+            const L = parseFloat(elL.value) || 0;
+            const Z = parseFloat(elZ.value) || 1;
+            const Ae = parseFloat(elAe.value) || 0;
+            const totalFaceDepth = parseFloat(elFaceDepth.value) || 0;
+            const Vc = parseFloat(elVc.value) || 0;
+            const inputFz = parseFloat(elFz.value) || 0;
+
+            if (D === 0) return;
+
+            let spindle = (Vc * 1000) / (Math.PI * D);
+            let spindleWarn = false;
+            if (spindle > 10000) { spindleWarn = true; spindle = 10000; }
+
+            const outSpindle = document.getElementById('out-spindle');
+            outSpindle.innerText = Math.round(spindle) + (spindleWarn ? " RPM // HAAS 10K MAX" : " RPM");
+            if (spindleWarn) outSpindle.classList.add('warning');
+            else outSpindle.classList.remove('warning');
+
+            document.getElementById('out-surface').innerText = Vc.toFixed(1) + " m/min";
+            document.getElementById('out-ramp-spindle').innerText = Math.round(spindle) + " RPM";
+
+            // Termisk kontrol matrix
+            const outCoolant = document.getElementById('out-coolant');
+            outCoolant.className = "out-val text-primary"; 
+            
+            if (tool === 'tap') {
+                outCoolant.innerText = "Skæreolie (Manuelt) ell. Flood";
+            } else if (['alu', 'pom', 'nylon'].includes(workpiece)) {
+                outCoolant.innerText = "Flood (M08 - Massiv skylning)";
+            } else if (mat === 'hm' && camPath === 'adaptive_hsm' && tool === 'fraeser') {
+                outCoolant.innerText = "TØR KØRSEL (M09) // Flood dræber skæret her";
+                outCoolant.className = "out-val warning text-[10px]";
+            } else {
+                outCoolant.innerText = "Flood (M08)";
+            }
+
+            let ldPenalty = 1.0;
+            if (tool !== 'tap') {
+                const ldRatio = L / D;
+                if (ldRatio > 5) ldPenalty = 0.50;
+                else if (ldRatio > 4) ldPenalty = 0.70;
+                else if (ldRatio > 3) ldPenalty = 0.85;
+
+                const outLd = document.getElementById('out-ld');
+                outLd.innerText = ldRatio.toFixed(1) + "x";
+                if (ldRatio > 4) outLd.className = "out-val warning";
+                else if (ldRatio > 3) outLd.className = "out-val text-primary";
+                else outLd.className = "out-val safe";
+            }
+
+            const finAllowance = getAllowance(workpiece);
+
+            // Sletspån Beregningslogik
+            const secFinishing = document.getElementById('sec-finishing');
+            if (tool === 'fraeser' && doFinishing && (isFace || isAdaptive)) {
+                secFinishing.classList.remove('hidden');
+                
+                let finSpindle = 0;
+                let finVf = 0;
+
+                if (isFace) {
+                    let finVc = Vc * 1.30;
+                    let finFz = inputFz * 0.50;
+                    finSpindle = (finVc * 1000) / (Math.PI * D);
+                    if (finSpindle > 10000) finSpindle = 10000;
+                    finVf = finSpindle * finFz * Z; 
+                    
+                    document.getElementById('lbl-fin-allow').innerText = "Sletspån Dybde (Total Z To Leave)";
+                } 
+                else if (isAdaptive) {
+                    let finBaseVc = (finType === 'contour') ? 160 : 120;
+                    let finBaseFz = ((finType === 'contour') ? 0.03 : 0.06) * (D / 10);
+
+                    finBaseVc *= matMultVc[workpiece];
+                    finBaseFz *= matMultFz[workpiece];
+                    if (mat === 'hss') { finBaseVc *= 0.4; finBaseFz *= 0.8; }
+                    
+                    finBaseVc *= ldPenalty;
+                    finBaseFz *= ldPenalty;
+                    if (safety === 'sikker') { finBaseVc *= 0.75; finBaseFz *= 0.80; }
+
+                    finSpindle = (finBaseVc * 1000) / (Math.PI * D);
+                    if (finSpindle > 10000) finSpindle = 10000;
+
+                    let finAe = (finType === 'contour') ? finAllowance : (D * 0.4);
+                    let finCT = 1;
+                    if (finAe > 0 && finAe < (D / 2)) {
+                        finCT = D / (2 * Math.sqrt(finAe * (D - finAe)));
+                    }
+
+                    finVf = finSpindle * finBaseFz * finCT * Z;
+                    
+                    document.getElementById('lbl-fin-allow').innerText = (finType === 'contour') 
+                        ? "Radial Sletspån (Radial Stock to Leave)" 
+                        : "Aksial Sletspån (Axial Stock to Leave)";
+                }
+
+                document.getElementById('out-fin-spindle').innerText = Math.round(finSpindle) + " RPM";
+                document.getElementById('out-fin-feed').innerText = Math.round(finVf) + " mm/min";
+                document.getElementById('out-fin-allow').innerText = finAllowance.toFixed(2) + " mm";
+            } else {
+                secFinishing.classList.add('hidden');
+            }
+
+            if (tool === 'tap') {
+                const vf = spindle * inputFz;
+                document.getElementById('out-cutting').innerText = Math.round(vf) + " mm/min";
+                document.getElementById('out-cutting').classList.add('text-primary');
+            } 
+            else if (tool === 'fraeser') {
+                document.getElementById('out-cutting').classList.remove('text-primary');
+                
+                let CT = 1;
+                if (!isFace && Ae > 0 && Ae < (D / 2)) {
+                    const discriminant = Ae * (D - Ae);
+                    if (discriminant > 0) {
+                        CT = D / (2 * Math.sqrt(discriminant));
+                    }
+                }
+
+                if (!isFace) {
+                    const isSlotting = Ae >= D;
+                    const outOpType = document.getElementById('out-op-type');
+                    if (isSlotting) {
+                        outOpType.innerText = "Sporfræsning (Slotting) // -20% Feed";
+                        outOpType.className = "out-val warning text-[10px]";
+                    } else {
+                        outOpType.innerText = "Profil/Lomme";
+                        outOpType.className = "out-val safe";
+                    }
+
+                    let rampAngle = "";
+                    if (['alu', 'pom', 'nylon'].includes(workpiece)) rampAngle = "3.0° - 5.0°";
+                    else if (['messing', 'automat'].includes(workpiece)) rampAngle = "1.5° - 2.0°";
+                    else rampAngle = "0.5° - 1.0°"; 
+                    document.getElementById('out-ramp-angle').innerText = rampAngle;
+                    
+                    const vf = spindle * inputFz * CT * Z;
+                    document.getElementById('out-plunge').innerText = Math.round(vf * 0.33) + " mm/min";
+                    document.getElementById('out-plunge-rev').innerText = ((vf * 0.33) / spindle).toFixed(3) + " mm/rev";
+                } else {
+                    let maxAp = 1.0;
+                    if (['alu', 'pom', 'nylon'].includes(workpiece)) maxAp = 2.5;
+                    else if (['rustfast', 'vaerktoej'].includes(workpiece)) maxAp = 0.5;
+                    
+                    if (safety === 'sikker') { maxAp *= 0.75; }
+                    
+                    let roughingDepth = totalFaceDepth;
+                    if (doFinishing) roughingDepth -= finAllowance;
+                    if (roughingDepth <= 0) roughingDepth = totalFaceDepth;
+                    
+                    let passes = Math.ceil(roughingDepth / maxAp);
+                    if (passes < 1) passes = 1;
+                    let actualStep = roughingDepth / passes;
+
+                    document.getElementById('out-face-max').innerText = maxAp.toFixed(2) + " mm";
+                    document.getElementById('out-face-passes').innerText = passes;
+                    document.getElementById('out-face-step').innerText = actualStep.toFixed(2) + " mm";
+                }
+
+                const progFz = inputFz * CT;
+                const vf = spindle * progFz * Z;
+
+                document.getElementById('out-cutting').innerText = Math.round(vf) + " mm/min";
+                document.getElementById('out-prog-fz').innerText = progFz.toFixed(3) + " mm";
+                document.getElementById('out-lead').innerText = Math.round(vf) + " mm/min";
+                document.getElementById('out-transition').innerText = Math.round(vf * 1.5) + " mm/min";
+                document.getElementById('out-ramp-feed').innerText = Math.round(vf * 0.5) + " mm/min";
+                document.getElementById('out-ct').innerText = CT.toFixed(2) + "x";
+            } 
+            else { 
+                const vf = spindle * inputFz;
+                document.getElementById('out-plunge').innerText = Math.round(vf) + " mm/min";
+                document.getElementById('out-plunge-rev').innerText = inputFz.toFixed(3) + " mm/rev";
+                document.getElementById('out-retract').innerText = Math.round(vf) + " mm/min";
+            }
+        }
+
+        updateUI();
+        autoFillMatrix();
+        calculate();
+    </script>
+</body>
+</html>
