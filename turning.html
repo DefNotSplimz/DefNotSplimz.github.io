@@ -43,7 +43,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Turning <span class="text-zinc-600">&</span> Params</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev06</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev07</div>
                 
                 <div class="flex space-x-0 border border-zinc-800 rounded overflow-hidden inline-flex">
                     <a href="calculator.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Fræsning</a>
@@ -91,6 +91,7 @@
                                 <option value="adaptive_roughing">Turning Adaptive Roughing (HSM)</option>
                                 <option value="profile_finishing">Turning Profile Finishing (Slet)</option>
                                 <option value="boring">Internal Boring (Indvendig Udboring)</option>
+                                <option value="reaming">Centerline Reaming (Brotsjning)</option>
                                 <option value="groove">Turning Groove / Part (Spor / Afstik)</option>
                                 <option value="thread">Turning Thread (Gevindskæring)</option>
                             </select>
@@ -99,7 +100,7 @@
 
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
-                            <label class="label-text">Aktuel X-Diameter [mm]</label>
+                            <label id="lbl-d" class="label-text">Aktuel X-Diameter [mm]</label>
                             <input type="number" id="in-d" class="input-field" value="50" step="1">
                         </div>
                         <div>
@@ -122,7 +123,7 @@
                         <div id="wrap-ap">
                             <label class="label-text">Spåndybde (Ap) [radialt, mm]</label>
                             <input type="number" id="in-ap" class="input-field" value="2.0" step="0.1">
-                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Fysisk Mål: <span id="rec-ap">2.0</span></div>
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic" id="wrap-ap-rec">Fysisk Mål: <span id="rec-ap">2.0</span></div>
                         </div>
 
                         <div id="wrap-target-ra" class="hidden col-span-2 mt-2 border-t border-zinc-800 pt-4">
@@ -179,7 +180,7 @@
 
                 <div class="relative z-10 flex-grow">
                     <div class="section-header mt-0">// 01_SPINDLE_DYNAMICS</div>
-                    <div class="out-row"><span class="out-label">Aktiv Spindelhastighed (ved valgt X)</span><span id="out-spindle" class="out-val">0 RPM</span></div>
+                    <div class="out-row"><span class="out-label">Aktiv Spindelhastighed</span><span id="out-spindle" class="out-val">0 RPM</span></div>
                     <div class="out-row"><span class="out-label">Spindel Status</span><span id="out-spindle-status" class="out-val safe">CSS Aktiv (G96)</span></div>
 
                     <div id="sec-feedrates">
@@ -206,6 +207,12 @@
                         <div class="out-row"><span class="out-label">Udborestål (L:D Ratio)</span><span id="out-boring-ld" class="out-val">0x</span></div>
                         <div class="out-row"><span class="out-label">Vibrationsrisiko</span><span id="out-boring-vib" class="out-val">Lav</span></div>
                     </div>
+                    
+                    <div id="sec-reaming" class="hidden">
+                        <div class="section-header">// 03_REAMING_DYNAMICS</div>
+                        <div class="out-row"><span class="out-label">Anbefalet Forboring (Pre-drill)</span><span id="out-ream-predrill" class="out-val text-primary">0 mm</span></div>
+                        <div class="out-row"><span class="out-label">Diametral Allowance (Stock to Leave)</span><span id="out-ream-allow" class="out-val text-zinc-500">0 mm</span></div>
+                    </div>
 
                     <div id="sec-groove" class="hidden">
                         <div class="section-header">// 03_GROOVING_DYNAMICS</div>
@@ -230,6 +237,7 @@
         const elSafety = document.getElementById('in-safety');
         const elOperation = document.getElementById('in-operation');
         const elD = document.getElementById('in-d');
+        const lblD = document.getElementById('lbl-d');
         const elG50 = document.getElementById('in-g50');
         const elRe = document.getElementById('in-re');
         const elAp = document.getElementById('in-ap');
@@ -270,7 +278,7 @@
         btnReset.addEventListener('click', () => {
             elVc.value = recommendedVc.toFixed(0);
             elFn.value = elOperation.value === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
-            if (elOperation.value !== 'thread' && elOperation.value !== 'groove') {
+            if (elOperation.value !== 'thread' && elOperation.value !== 'groove' && elOperation.value !== 'reaming') {
                 elAp.value = recommendedAp.toFixed(1);
             }
             calculate();
@@ -292,6 +300,7 @@
             document.getElementById('sec-mrr').classList.add('hidden');
             document.getElementById('sec-quality').classList.add('hidden');
             document.getElementById('sec-boring').classList.add('hidden');
+            document.getElementById('sec-reaming').classList.add('hidden');
             document.getElementById('sec-groove').classList.add('hidden');
             document.getElementById('sec-thread').classList.add('hidden');
             
@@ -301,6 +310,8 @@
             document.getElementById('row-lead-in').classList.remove('hidden');
             document.getElementById('row-lead-out').classList.remove('hidden');
             document.getElementById('row-min-feed').classList.remove('hidden');
+            
+            lblD.innerText = "Aktuel X-Diameter [mm]";
 
             if (op === 'profile_finishing') {
                 wrapTargetRa.classList.remove('hidden');
@@ -310,6 +321,12 @@
                 document.getElementById('sec-mrr').classList.remove('hidden');
                 document.getElementById('sec-quality').classList.remove('hidden');
                 document.getElementById('sec-boring').classList.remove('hidden');
+            } else if (op === 'reaming') {
+                wrapToolGeom.classList.add('hidden');
+                document.getElementById('sec-reaming').classList.remove('hidden');
+                lblD.innerText = "Brotsjer Diameter [mm]";
+                lblFn.innerText = "Tilspænding (G99) [mm/omdr]";
+                document.getElementById('lbl-cut-feed').innerText = "Cutting feedrate / rev";
             } else if (op === 'groove') {
                 wrapRe.classList.add('hidden');
                 wrapAp.classList.add('hidden');
@@ -339,6 +356,7 @@
             const op = elOperation.value;
             const workpiece = elWorkpiece.value;
             const safety = elSafety.value;
+            const D = parseFloat(elD.value) || 10;
             
             let baseVc = 0;
             let baseFn = 0;
@@ -362,6 +380,9 @@
                 baseVc = 160; 
                 baseFn = 0.15;
                 if (triggerElement === elOperation) { elRe.value = "0.4"; baseAp = 1.0; }
+            } else if (op === 'reaming') {
+                baseVc = 15; // Low speed to avoid chatter
+                baseFn = D * 0.02; // Aggressive feed based on diameter
             } else if (op === 'groove') {
                 baseVc = 120; 
                 baseFn = 0.08;
@@ -377,7 +398,7 @@
                 if (['rustfast', 'vaerktoej'].includes(workpiece)) baseVc = 30;
                 if (['alu', 'pom', 'nylon'].includes(workpiece)) baseVc = 100;
             } 
-            else if (op !== 'profile_finishing') {
+            else if (op !== 'profile_finishing' && op !== 'reaming') {
                 if (['alu', 'pom', 'nylon'].includes(workpiece)) {
                     baseFn *= 1.3;
                     if (op === 'profile_roughing' || op === 'face') baseAp = 3.0;
@@ -400,7 +421,7 @@
             if (safety === 'sikker') {
                 baseVc *= 0.75;
                 if (op !== 'thread' && op !== 'profile_finishing') baseFn *= 0.80; 
-                if (op !== 'thread' && op !== 'groove') baseAp *= 0.75;
+                if (op !== 'thread' && op !== 'groove' && op !== 'reaming') baseAp *= 0.75;
             }
 
             recommendedVc = baseVc;
@@ -409,13 +430,13 @@
 
             recVcSpan.innerText = recommendedVc.toFixed(0);
             recFnSpan.innerText = op === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
-            if (op !== 'thread' && op !== 'groove') recApSpan.innerText = recommendedAp.toFixed(1);
+            if (op !== 'thread' && op !== 'groove' && op !== 'reaming') recApSpan.innerText = recommendedAp.toFixed(1);
 
             const ignores = [elAp, elD, elG50, elBoringD, elBoringL, elGrooveW];
             if (!ignores.includes(triggerElement)) {
                 elVc.value = recommendedVc.toFixed(0);
                 elFn.value = op === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
-                if (op !== 'thread' && op !== 'groove') elAp.value = recommendedAp.toFixed(1);
+                if (op !== 'thread' && op !== 'groove' && op !== 'reaming') elAp.value = recommendedAp.toFixed(1);
             }
         }
 
@@ -431,7 +452,7 @@
 
             if (D === 0) return;
 
-            // Spindle Math
+            // Spindle Math (Constant Surface Speed - G96 vs Constant RPM - G97)
             let spindle = (Vc * 1000) / (Math.PI * D);
             let isClamped = false;
             
@@ -445,7 +466,11 @@
             
             outSpindle.innerText = Math.round(spindle) + " RPM";
             
-            if (isClamped) {
+            if (op === 'thread' || op === 'reaming') {
+                outSpindle.classList.remove('warning');
+                outStatus.innerText = "G97 (Konstant RPM)";
+                outStatus.className = "out-val text-primary";
+            } else if (isClamped) {
                 outSpindle.classList.add('warning');
                 outStatus.innerText = "G50 Limit Nået (Capped)";
                 outStatus.className = "out-val warning";
@@ -479,6 +504,18 @@
                 else { outLd.className = "out-val safe"; outVib.innerText = "Lav"; outVib.className = "out-val safe"; }
             }
 
+            if (op === 'reaming') {
+                let radAllowance = 0.1;
+                if (D > 6) radAllowance = 0.15;
+                if (D > 16) radAllowance = 0.2;
+                
+                const diaAllowance = radAllowance * 2;
+                const predrill = D - diaAllowance;
+                
+                document.getElementById('out-ream-predrill').innerText = predrill.toFixed(2) + " mm";
+                document.getElementById('out-ream-allow').innerText = diaAllowance.toFixed(2) + " mm";
+            }
+
             if (op === 'groove') {
                 const w = parseFloat(elGrooveW.value) || 3.0;
                 let peck = w; // Default
@@ -507,7 +544,7 @@
             }
 
             // MRR & Surface Quality for standard cutting
-            if (op !== 'thread' && op !== 'groove') {
+            if (op !== 'thread' && op !== 'groove' && op !== 'reaming') {
                 const mrr = Vc * Ap * Fn; 
                 document.getElementById('out-mrr').innerText = mrr.toFixed(1) + " cm³/min";
 
