@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Datum Prototyping | Metrology</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: "#8b5cf6" },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
+        .input-field { background-color: #0c0c0e; border: 1px solid #27272a; padding: 0.5rem; color: white; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .input-field:focus:not(:disabled) { border-color: #8b5cf6; }
+        .label-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #71717a; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; display: block; margin-bottom: 0.25rem; }
+        .out-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(39, 39, 42, 0.5); padding: 0.5rem 0; }
+        .out-label { color: #71717a; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .out-val { color: white; font-weight: bold; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .section-header { color: #8b5cf6; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; margin-bottom: 1rem; margin-top: 1.5rem; }
+        
+        /* --- PRINT PROTOCOL --- */
+        @media print {
+            @page { margin: 1.5cm; size: A4 portrait; }
+            body { background: white !important; color: black !important; }
+            header, footer, button, select, input, .no-print { display: none !important; }
+            #bg-tool-text { display: none !important; }
+            .grid { display: flex !important; flex-direction: column !important; gap: 20px !important; }
+            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50 { background: white !important; border: none !important; padding: 0 !important; }
+            .section-header { color: black !important; border-bottom: 2px solid black; padding-bottom: 4px; font-size: 14px; margin-top: 24px; }
+            .out-row { border-bottom: 1px solid #ccc !important; padding: 8px 0 !important; }
+            .out-label { color: #555 !important; font-size: 12px !important; }
+            .out-val { color: black !important; font-size: 14px !important; font-weight: 900 !important; }
+            .out-val.warning { color: black !important; text-decoration: underline; }
+            body::before { content: "DATUM PROTOTYPING // SETUP SHEET"; display: block; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 18px; letter-spacing: 0.1em; border-bottom: 4px solid black; padding-bottom: 8px; margin-bottom: 30px; }
+        }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-white min-h-screen flex flex-col p-6">
+
+    <div class="max-w-6xl mx-auto w-full">
+        <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Metrology <span class="text-zinc-600">&</span> QA</h1>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Metrology_Rev03</div>
+                
+                <div class="flex gap-4">
+                    <a href="hub.html" class="no-print inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
+                        ← Return_To_Hub
+                    </a>
+                    <button onclick="window.print()" class="no-print inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-primary bg-primary/10 text-primary hover:text-white hover:bg-primary transition-colors">
+                        Print Setup Sheet
+                    </button>
+                </div>
+            </div>
+            <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
+                System_Status: <span class="text-primary">Active</span>
+            </div>
+        </header>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col">
+                <div class="section-header mt-0">// 01_ISO_286_TOLERANCE_MATRIX</div>
+                
+                <div class="grid grid-cols-3 gap-4 mb-6 no-print">
+                    <div class="col-span-3">
+                        <label class="label-text">Nominelt Mål (Ø) [mm]</label>
+                        <input type="number" id="iso-nom" class="input-field border-primary text-primary font-bold" value="20" step="1">
+                    </div>
+                    <div class="col-span-3 md:col-span-1">
+                        <label class="label-text text-zinc-500">Hulklasse (F.eks. H7, M6)</label>
+                        <input type="text" id="iso-hole" class="input-field" value="H7">
+                    </div>
+                    <div class="col-span-3 md:col-span-2">
+                        <label class="label-text text-zinc-500">Akselklasse (F.eks. g6, k6)</label>
+                        <input type="text" id="iso-shaft" class="input-field" value="g6">
+                    </div>
+                </div>
+
+                <div id="iso-error" class="hidden p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed mb-6">
+                    </div>
+
+                <div class="flex-grow flex flex-col justify-end space-y-8">
+                    <div>
+                        <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase italic mb-2 tracking-widest border-b border-zinc-800 pb-1">Hul-Specifikation</div>
+                        <div class="out-row"><span class="out-label">Tolerancefelt</span><span id="out-hole-tol" class="out-val text-primary">+0.000 / +0.000</span></div>
+                        <div class="out-row"><span class="out-label">Absolut Max (Ø)</span><span id="out-hole-max" class="out-val">0.000 mm</span></div>
+                        <div class="out-row"><span class="out-label">Absolut Min (Ø)</span><span id="out-hole-min" class="out-val">0.000 mm</span></div>
+                    </div>
+
+                    <div>
+                        <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase italic mb-2 tracking-widest border-b border-zinc-800 pb-1">Aksel-Specifikation</div>
+                        <div class="out-row"><span class="out-label">Tolerancefelt</span><span id="out-shaft-tol" class="out-val text-primary">+0.000 / +0.000</span></div>
+                        <div class="out-row"><span class="out-label">Absolut Max (Ø)</span><span id="out-shaft-max" class="out-val">0.000 mm</span></div>
+                        <div class="out-row"><span class="out-label">Absolut Min (Ø)</span><span id="out-shaft-min" class="out-val">0.000 mm</span></div>
+                    </div>
+
+                    <div class="bg-zinc-900/50 border border-zinc-800 p-4">
+                        <div class="text-[10px] font-mono text-zinc-500 font-bold uppercase italic mb-2 tracking-widest">System_Fit_Analysis</div>
+                        <div class="out-row border-none pb-0"><span class="out-label">Max Clearance / Gap</span><span id="out-fit-max" class="out-val">0.000 mm</span></div>
+                        <div class="out-row border-none pt-1 pb-0"><span class="out-label">Min Clearance / Interference</span><span id="out-fit-min" class="out-val">0.000 mm</span></div>
+                        <div class="mt-2 text-[10px] font-mono font-bold uppercase italic text-right" id="out-fit-type">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col">
+                <div class="section-header mt-0">// 02_THERMAL_DRIFT_ANALYSIS</div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-6 no-print">
+                    <div class="col-span-2">
+                        <label class="label-text">Emnemateriale</label>
+                        <select id="thm-mat" class="input-field border-zinc-600">
+                            <option value="11.5">Stål (Automat/Værktøj) [11.5 µm/m°C]</option>
+                            <option value="16.0">Rustfast Stål [16.0 µm/m°C]</option>
+                            <option value="23.1">Aluminium [23.1 µm/m°C]</option>
+                            <option value="19.0">Messing [19.0 µm/m°C]</option>
+                            <option value="110.0" selected>POM (Acetal) [110.0 µm/m°C]</option>
+                            <option value="80.0">Nylon [80.0 µm/m°C]</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="label-text text-primary">Nominelt Target Mål ved 20°C [mm]</label>
+                        <input type="number" id="thm-nom" class="input-field border-primary font-bold" value="50.000" step="0.01">
+                    </div>
+                    <div>
+                        <label class="label-text">Aktuel Emnetemp i maskinen [°C]</label>
+                        <input type="number" id="thm-temp" class="input-field" value="45" step="1">
+                    </div>
+                    <div>
+                        <label class="label-text text-zinc-600">Målerums Target Temp [°C]</label>
+                        <input type="number" disabled class="input-field" value="20">
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col justify-end space-y-4">
+                    <p class="no-print text-[10px] font-mono text-zinc-500 italic uppercase font-bold leading-relaxed mb-4 border-l-2 border-zinc-800 pl-4">
+                        Kompenserer for termisk udvidelse. Udregner den fysiske dimension emnet SKAL have i maskinen lige nu, for at ramme Target-målet når det køler ned.
+                    </p>
+
+                    <div class="out-row"><span class="out-label">Temperatur Delta (ΔT)</span><span id="out-thm-delta" class="out-val text-zinc-400">0 °C</span></div>
+                    <div class="out-row"><span class="out-label">Termisk Afvigelse (Drift)</span><span id="out-thm-drift" class="out-val text-red-400">0.000 mm</span></div>
+                    
+                    <div class="bg-primary/10 border border-primary p-4 mt-4">
+                        <div class="text-[10px] font-mono text-primary font-bold uppercase italic mb-1 tracking-widest">Kompenseret Maskin-Mål</div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-xs font-mono text-primary uppercase italic">Bearbejd til dimension:</span>
+                            <span id="out-thm-target" class="text-2xl font-mono font-black text-white">00.000 mm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const isoRanges = [3, 6, 10, 18, 30, 50, 80, 120];
+        
+        const IT = {
+            5: [4, 5, 6, 8, 9, 11, 13, 15],
+            6: [6, 8, 9, 11, 13, 16, 19, 22],
+            7: [10, 12, 15, 18, 21, 25, 30, 35],
+            8: [14, 18, 22, 27, 33, 39, 46, 54],
+            9: [25, 30, 36, 43, 52, 62, 74, 87],
+           10: [40, 48, 58, 70, 84, 100, 120, 140],
+           11: [60, 75, 90, 110, 130, 160, 190, 220]
+        };
+
+        const fdMatrix = {
+            'c': [-60, -70, -80, -95, -110, -130, -150, -170],
+            'd': [-20, -30, -40, -50, -65, -80, -100, -120],
+            'e': [-14, -20, -25, -32, -40, -50, -60, -72],
+            'f': [-6, -10, -13, -16, -20, -25, -30, -36],
+            'g': [-2, -4, -5, -6, -7, -9, -10, -12],
+            'h': [0, 0, 0, 0, 0, 0, 0, 0],
+            'k': [0, 1, 1, 2, 2, 2, 2, 3],
+            'm': [2, 4, 6, 7, 8, 9, 11, 13],
+            'n': [4, 8, 10, 12, 15, 17, 20, 23],
+            'p': [6, 12, 15, 18, 22, 26, 32, 37],
+            's': [14, 19, 23, 27, 35, 43, 53, 59]
+        };
+
+        function getRangeIndex(nom) {
+            if (nom <= 0 || nom > 120) return -1;
+            if (nom <= 3) return 0;
+            for (let i = 0; i < isoRanges.length - 1; i++) {
+                if (nom > isoRanges[i] && nom <= isoRanges[i+1]) return i+1;
+            }
+            return -1;
+        }
+
+        function parseClass(str) {
+            str = str.trim();
+            if (str.length < 2) return null;
+            const letter = str.charAt(0);
+            const grade = parseInt(str.substring(1));
+            return { letter, grade };
+        }
+
+        function calculateTolerance(nom, clsStr, isForHole) {
+            const cls = parseClass(clsStr);
+            if (!cls || isNaN(cls.grade)) return null;
+
+            const idx = getRangeIndex(nom);
+            if (idx === -1) return { err: `Dimension udenfor tilladt område (0-120mm).` };
+
+            if (!IT[cls.grade]) return { err: `IT-Kvalitet ${cls.grade} udenfor matrix (Tilgængelig: 5-11).` };
+            const itVal = IT[cls.grade][idx];
+
+            const charLower = cls.letter.toLowerCase();
+            if (!fdMatrix[charLower]) return { err: `Bogstav '${cls.letter}' udenfor matrix (Tilgængelig: C-S, c-s).` };
+
+            let fd = fdMatrix[charLower][idx];
+            let upper, lower;
+
+            if (!isForHole) {
+                if (['c','d','e','f','g','h'].includes(charLower)) {
+                    let es = fd;
+                    let ei = es - itVal;
+                    upper = es; lower = ei;
+                } else {
+                    let ei = fd;
+                    let es = ei + itVal;
+                    upper = es; lower = ei;
+                }
+            } else {
+                if (['c','d','e','f','g','h'].includes(charLower)) {
+                    let EI = -fd;
+                    let ES = EI + itVal;
+                    upper = ES; lower = EI;
+                } else {
+                    let ES = -fd;
+                    let EI = ES - itVal;
+                    upper = ES; lower = EI;
+                }
+            }
+
+            return { upper, lower, max: nom + (upper/1000), min: nom + (lower/1000) };
+        }
+
+        function throwError(msg) {
+            const errorDiv = document.getElementById('iso-error');
+            errorDiv.innerText = `[!] Systemfejl: ${msg}`;
+            errorDiv.classList.remove('hidden');
+            ['hole-tol', 'hole-max', 'hole-min', 'shaft-tol', 'shaft-max', 'shaft-min', 'fit-max', 'fit-min'].forEach(id => {
+                document.getElementById('out-' + id).innerText = "ERR";
+            });
+            document.getElementById('out-fit-type').innerText = "--";
+        }
+
+        function calculateISO() {
+            const nom = parseFloat(document.getElementById('iso-nom').value);
+            const holeStr = document.getElementById('iso-hole').value;
+            const shaftStr = document.getElementById('iso-shaft').value;
+            const errorDiv = document.getElementById('iso-error');
+
+            if (isNaN(nom)) return;
+            errorDiv.classList.add('hidden');
+
+            const hole = calculateTolerance(nom, holeStr, true);
+            if (hole && hole.err) return throwError(hole.err);
+            
+            const shaft = calculateTolerance(nom, shaftStr, false);
+            if (shaft && shaft.err) return throwError(shaft.err);
+
+            if (!hole || !shaft) return throwError("Syntaksfejl i klasse.");
+
+            const hUStr = hole.upper > 0 ? `+${(hole.upper/1000).toFixed(3)}` : (hole.upper/1000).toFixed(3);
+            const hLStr = hole.lower > 0 ? `+${(hole.lower/1000).toFixed(3)}` : (hole.lower/1000).toFixed(3);
+            document.getElementById('out-hole-tol').innerText = `${hUStr} / ${hLStr}`;
+            document.getElementById('out-hole-max').innerText = hole.max.toFixed(3) + " mm";
+            document.getElementById('out-hole-min').innerText = hole.min.toFixed(3) + " mm";
+
+            const sUStr = shaft.upper > 0 ? `+${(shaft.upper/1000).toFixed(3)}` : (shaft.upper/1000).toFixed(3);
+            const sLStr = shaft.lower > 0 ? `+${(shaft.lower/1000).toFixed(3)}` : (shaft.lower/1000).toFixed(3);
+            document.getElementById('out-shaft-tol').innerText = `${sUStr} / ${sLStr}`;
+            document.getElementById('out-shaft-max').innerText = shaft.max.toFixed(3) + " mm";
+            document.getElementById('out-shaft-min').innerText = shaft.min.toFixed(3) + " mm";
+
+            const maxClearance = hole.max - shaft.min;
+            const minClearance = hole.min - shaft.max;
+
+            document.getElementById('out-fit-max').innerText = maxClearance.toFixed(3) + " mm";
+            document.getElementById('out-fit-min').innerText = minClearance.toFixed(3) + " mm";
+
+            const fitTypeEl = document.getElementById('out-fit-type');
+            if (minClearance >= 0) {
+                fitTypeEl.innerText = "Klarpasning (Clearance Fit)";
+                fitTypeEl.className = "mt-2 text-[10px] font-mono font-bold uppercase italic text-right text-emerald-500";
+            } else if (maxClearance <= 0) {
+                fitTypeEl.innerText = "Presspasning (Interference Fit)";
+                fitTypeEl.className = "mt-2 text-[10px] font-mono font-bold uppercase italic text-right text-red-500";
+            } else {
+                fitTypeEl.innerText = "Overgangspasning (Transition Fit)";
+                fitTypeEl.className = "mt-2 text-[10px] font-mono font-bold uppercase italic text-right text-primary";
+            }
+        }
+
+        function calculateThermal() {
+            const alpha = parseFloat(document.getElementById('thm-mat').value) * 1e-6; 
+            const nom = parseFloat(document.getElementById('thm-nom').value) || 0;
+            const currentTemp = parseFloat(document.getElementById('thm-temp').value) || 20;
+            const targetTemp = 20;
+
+            if (nom === 0) return;
+
+            const deltaT = currentTemp - targetTemp;
+            const drift = nom * alpha * deltaT;
+            const targetInMachine = nom + drift;
+
+            document.getElementById('out-thm-delta').innerText = deltaT > 0 ? `+${deltaT} °C` : `${deltaT} °C`;
+            document.getElementById('out-thm-drift').innerText = drift > 0 ? `+${drift.toFixed(3)} mm` : `${drift.toFixed(3)} mm`;
+            document.getElementById('out-thm-drift').className = drift > 0 ? "out-val text-red-400" : "out-val text-blue-400";
+            
+            document.getElementById('out-thm-target').innerText = targetInMachine.toFixed(3) + " mm";
+        }
+
+        ['iso-nom', 'iso-hole', 'iso-shaft'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateISO);
+            document.getElementById(id).addEventListener('change', calculateISO);
+        });
+
+        ['thm-mat', 'thm-nom', 'thm-temp'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateThermal);
+            document.getElementById(id).addEventListener('change', calculateThermal);
+        });
+
+        calculateISO();
+        calculateThermal();
+    </script>
+</body>
+</html>

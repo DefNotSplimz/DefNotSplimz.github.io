@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Datum Prototyping | Geometry & Setup</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: "#06b6d4" }, 
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
+        .input-field { background-color: #0c0c0e; border: 1px solid #27272a; padding: 0.5rem; color: white; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .input-field:focus:not(:disabled) { border-color: #06b6d4; }
+        .label-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #71717a; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; display: block; margin-bottom: 0.25rem; }
+        .out-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(39, 39, 42, 0.5); padding: 0.5rem 0; }
+        .out-label { color: #71717a; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .out-val { color: white; font-weight: bold; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .section-header { color: #06b6d4; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; margin-bottom: 1rem; margin-top: 1.5rem; }
+        
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; }
+        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
+
+        /* --- PRINT PROTOCOL --- */
+        @media print {
+            @page { margin: 1.5cm; size: A4 portrait; }
+            body { background: white !important; color: black !important; }
+            header, footer, button, select, input, .no-print { display: none !important; }
+            #bg-tool-text { display: none !important; }
+            .grid { display: flex !important; flex-direction: column !important; gap: 20px !important; }
+            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50 { background: white !important; border: none !important; padding: 0 !important; }
+            .section-header { color: black !important; border-bottom: 2px solid black; padding-bottom: 4px; font-size: 14px; margin-top: 24px; }
+            .out-row { border-bottom: 1px solid #ccc !important; padding: 8px 0 !important; }
+            .out-label { color: #555 !important; font-size: 12px !important; }
+            .out-val { color: black !important; font-size: 14px !important; font-weight: 900 !important; }
+            .out-val.warning { color: black !important; text-decoration: underline; }
+            body::before { content: "DATUM PROTOTYPING // SETUP SHEET"; display: block; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 18px; letter-spacing: 0.1em; border-bottom: 4px solid black; padding-bottom: 8px; margin-bottom: 30px; }
+            
+            /* Sørg for at scrollable div'en i Delecirkel printer i fuld længde */
+            #bhc-output { max-height: none !important; overflow: visible !important; }
+        }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen flex flex-col p-6">
+
+    <div class="max-w-6xl mx-auto w-full">
+        <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Geometry <span class="text-zinc-600">&</span> Setup</h1>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Geom_Calc_Rev04</div>
+                
+                <div class="flex gap-4">
+                    <a href="hub.html" class="no-print inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
+                        ← Return_To_Hub
+                    </a>
+                    <button onclick="window.print()" class="no-print inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-primary bg-primary/10 text-primary hover:text-white hover:bg-primary transition-colors">
+                        Print Setup Sheet
+                    </button>
+                </div>
+            </div>
+            <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
+                System_Status: <span class="text-primary">Active</span>
+            </div>
+        </header>
+
+        <div class="grid lg:grid-cols-3 gap-8 mb-8">
+            
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col lg:col-span-2">
+                <div class="section-header mt-0">// 01_BOLT_HOLE_CIRCLE (DELECIRKEL)</div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 no-print">
+                    <div>
+                        <label class="label-text">Center X [mm]</label>
+                        <input type="number" id="bhc-cx" class="input-field" value="0" step="0.01">
+                    </div>
+                    <div>
+                        <label class="label-text">Center Y [mm]</label>
+                        <input type="number" id="bhc-cy" class="input-field" value="0" step="0.01">
+                    </div>
+                    <div>
+                        <label class="label-text text-primary">Cirkel Ø [mm]</label>
+                        <input type="number" id="bhc-d" class="input-field border-primary font-bold" value="50" step="0.1">
+                    </div>
+                    <div>
+                        <label class="label-text text-primary">Antal Huller</label>
+                        <input type="number" id="bhc-n" class="input-field border-primary font-bold" value="6" min="2" step="1">
+                    </div>
+                    <div class="col-span-2 md:col-span-4">
+                        <label class="label-text">Startvinkel (0° er kl. 3 / X+) [Grader]</label>
+                        <input type="number" id="bhc-angle" class="input-field" value="0" step="0.1">
+                    </div>
+                </div>
+
+                <div class="flex-grow border border-zinc-800 bg-zinc-950 flex flex-col">
+                    <div class="grid grid-cols-3 bg-zinc-900 border-b border-zinc-800 p-2 text-[10px] font-mono font-bold text-zinc-500 tracking-widest uppercase">
+                        <div>Hul #</div>
+                        <div>X-Koordinat</div>
+                        <div>Y-Koordinat</div>
+                    </div>
+                    <div id="bhc-output" class="overflow-y-auto max-h-[200px] p-2 space-y-1">
+                        </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-8 lg:col-span-1">
+                
+                <div class="bg-black/40 border border-zinc-900 p-6">
+                    <div class="section-header mt-0">// 02_SINE_BAR_SETUP (SINUSLINEAL)</div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6 no-print">
+                        <div>
+                            <label class="label-text">Vinkel [Grader]</label>
+                            <input type="number" id="sine-angle" class="input-field text-primary font-bold border-primary" value="15" step="0.01">
+                        </div>
+                        <div>
+                            <label class="label-text">Længde [mm]</label>
+                            <select id="sine-length" class="input-field border-zinc-600">
+                                <option value="100" selected>100 mm</option>
+                                <option value="200">200 mm</option>
+                                <option value="127">5" (127 mm)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-primary/10 border border-primary p-4">
+                        <div class="text-[10px] font-mono text-primary font-bold uppercase italic mb-1 tracking-widest">Pasbrikker (Stak)</div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-xs font-mono text-primary uppercase italic">Z-Højde:</span>
+                            <span id="out-sine-height" class="text-2xl font-mono font-black text-white">00.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-black/40 border border-zinc-900 p-6 flex-grow">
+                    <div class="section-header mt-0">// 03_CHAMFER_Z_DEPTH</div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6 no-print">
+                        <div>
+                            <label class="label-text">Hul Ø [mm]</label>
+                            <input type="number" id="chm-hole" class="input-field" value="10" step="0.1">
+                        </div>
+                        <div>
+                            <label class="label-text">Fas Yder Ø [mm]</label>
+                            <input type="number" id="chm-target" class="input-field text-primary border-primary font-bold" value="12" step="0.1">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="label-text">Værktøjsvinkel [Grader]</label>
+                            <select id="chm-angle" class="input-field border-zinc-600">
+                                <option value="90" selected>90° (Standard Fas)</option>
+                                <option value="82">82° (Imperial Fas)</option>
+                                <option value="60">60° (Centerbor)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-900/50 border border-zinc-800 p-4">
+                        <div class="text-[10px] font-mono text-zinc-500 font-bold uppercase italic mb-2 tracking-widest">Absolut Z-Dybde</div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-[10px] font-mono text-zinc-400 uppercase italic max-w-[80px] leading-tight">Fra overflade:</span>
+                            <span id="out-chm-depth" class="text-xl font-mono font-black text-white">Z -0.000</span>
+                        </div>
+                        <div id="warn-chm" class="mt-3 text-[9px] font-mono text-red-500 uppercase italic font-bold hidden">
+                            [!] Fas Ø skal være > Hul Ø.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+                <div>
+                    <div class="section-header mt-0">// 04_TAPER_KINEMATICS (KONUS)</div>
+                    
+                    <div class="col-span-2 mb-4 border-b border-zinc-800 pb-4 no-print">
+                        <label class="label-text text-primary">Standard Konus-Bibliotek</label>
+                        <select id="tpr-preset" class="input-field border-primary text-primary font-bold">
+                            <option value="custom">Brugerdefineret (Manuel Indtastning)</option>
+                            <option value="mt1">Morsekonus 1 (MT1)</option>
+                            <option value="mt2">Morsekonus 2 (MT2)</option>
+                            <option value="mt3">Morsekonus 3 (MT3)</option>
+                            <option value="mt4">Morsekonus 4 (MT4)</option>
+                            <option value="b16">B16 (Borepatron)</option>
+                            <option value="sk40">SK40 / ISO40 (7:24 Ratio)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6 no-print">
+                        <div>
+                            <label class="label-text">Start Ø (Stor) [mm]</label>
+                            <input type="number" id="tpr-d-maj" class="input-field" value="40" step="0.001">
+                        </div>
+                        <div>
+                            <label class="label-text">Slut Ø (Lille) [mm]</label>
+                            <input type="number" id="tpr-d-min" class="input-field" value="20" step="0.001">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="label-text text-primary">Konus Længde (Z) [mm]</label>
+                            <input type="number" id="tpr-l" class="input-field border-primary font-bold" value="50" step="0.001">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="out-row border-zinc-800"><span class="out-label">Kegleforhold (Ratio)</span><span id="out-tpr-ratio" class="out-val text-zinc-500">1:0.00</span></div>
+                    <div class="bg-primary/10 border border-primary p-4 mt-4">
+                        <div class="text-[10px] font-mono text-primary font-bold uppercase italic mb-1 tracking-widest">Topslæde Vinkel (a)</div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-xs font-mono text-primary uppercase italic">Indstilling:</span>
+                            <span id="out-tpr-angle" class="text-2xl font-mono font-black text-white">00.000°</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+                <div>
+                    <div class="section-header mt-0">// 05_SHAFT_FLAT (NØGLEVIDDE)</div>
+                    <div class="grid grid-cols-1 gap-4 mb-6 no-print">
+                        <div>
+                            <label class="label-text">Aksel Diameter (Ø) [mm]</label>
+                            <input type="number" id="flt-d" class="input-field" value="20" step="0.1">
+                        </div>
+                        <div>
+                            <label class="label-text text-primary">Nøglevidde (NV) / Afstand [mm]</label>
+                            <input type="number" id="flt-nv" class="input-field border-primary font-bold" value="17" step="0.1">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="out-row border-zinc-800"><span class="out-label">Resulterende Fladebredde</span><span id="out-flt-width" class="out-val text-zinc-500">0.000 mm</span></div>
+                    <div class="bg-zinc-900/50 border border-zinc-800 p-4 mt-4">
+                        <div class="text-[10px] font-mono text-zinc-500 font-bold uppercase italic mb-2 tracking-widest">Z-Dybde (Pr. Side)</div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-[10px] font-mono text-zinc-400 uppercase italic max-w-[100px] leading-tight">Fræsedybde fra top:</span>
+                            <span id="out-flt-z" class="text-xl font-mono font-black text-white">Z -0.000</span>
+                        </div>
+                        <div id="warn-flt" class="mt-3 text-[9px] font-mono text-red-500 uppercase italic font-bold hidden">
+                            [!] Nøglevidde skal være < Aksel Ø.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+                <div>
+                    <div class="section-header mt-0">// 06_THREAD_VERIFICATION (3-TRÅD)</div>
+                    <div class="grid grid-cols-2 gap-4 mb-6 no-print">
+                        <div>
+                            <label class="label-text">Gevind (Yder Ø) [mm]</label>
+                            <input type="number" id="wire-d" class="input-field" value="10" step="0.1">
+                        </div>
+                        <div>
+                            <label class="label-text">Stigning (Pitch) [mm]</label>
+                            <input type="number" id="wire-p" class="input-field" value="1.5" step="0.01">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="label-text text-primary">Faktisk Tråd Ø (Målerulle) [mm]</label>
+                            <input type="number" id="wire-w" class="input-field border-primary font-bold" value="0.895" step="0.001">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Teoretisk Optimal Tråd: <span id="wire-opt">0.866</span> mm</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="out-row border-zinc-800"><span class="out-label">Gevind-Type</span><span class="out-val text-zinc-500">Metrisk ISO (60°)</span></div>
+                    <div class="bg-primary/10 border border-primary p-4 mt-4">
+                        <div class="text-[10px] font-mono text-primary font-bold uppercase italic mb-1 tracking-widest">Mikrometer Kontrolmål (M)</div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-xs font-mono text-primary uppercase italic">Mål over tråde:</span>
+                            <span id="out-wire-m" class="text-2xl font-mono font-black text-white">00.000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function formatNumber(num) {
+            return num.toFixed(3).replace(/\.?0+$/, ''); 
+        }
+
+        function calculateBHC() {
+            const cx = parseFloat(document.getElementById('bhc-cx').value) || 0;
+            const cy = parseFloat(document.getElementById('bhc-cy').value) || 0;
+            const d = parseFloat(document.getElementById('bhc-d').value) || 0;
+            const n = parseInt(document.getElementById('bhc-n').value) || 0;
+            const startAngleDeg = parseFloat(document.getElementById('bhc-angle').value) || 0;
+            
+            const outputDiv = document.getElementById('bhc-output');
+            outputDiv.innerHTML = '';
+
+            if (d <= 0 || n < 2) {
+                outputDiv.innerHTML = '<div class="p-2 text-xs font-mono text-zinc-500 italic">Indtast gyldig diameter og antal (min. 2).</div>';
+                return;
+            }
+
+            const r = d / 2;
+            const angleStep = 360 / n;
+            
+            for (let i = 0; i < n; i++) {
+                const currentAngleDeg = startAngleDeg + (i * angleStep);
+                const currentAngleRad = currentAngleDeg * (Math.PI / 180);
+                
+                const x = cx + (r * Math.cos(currentAngleRad));
+                const y = cy + (r * Math.sin(currentAngleRad));
+                
+                const row = document.createElement('div');
+                row.className = 'grid grid-cols-3 p-2 border-b border-zinc-800/50 hover:bg-zinc-800 transition-colors font-mono text-xs';
+                
+                const formattedX = x.toFixed(3).padStart(8, ' ');
+                const formattedY = y.toFixed(3).padStart(8, ' ');
+
+                row.innerHTML = `
+                    <div class="text-zinc-500 font-bold">#${i + 1}</div>
+                    <div class="text-primary font-bold">X ${formattedX}</div>
+                    <div class="text-primary font-bold">Y ${formattedY}</div>
+                `;
+                outputDiv.appendChild(row);
+            }
+        }
+
+        function calculateSine() {
+            const angle = parseFloat(document.getElementById('sine-angle').value) || 0;
+            const length = parseFloat(document.getElementById('sine-length').value) || 100;
+            const outHeight = document.getElementById('out-sine-height');
+
+            if (angle <= 0 || angle >= 90) {
+                outHeight.innerText = "ERR";
+                outHeight.classList.add('text-red-500');
+                return;
+            }
+
+            outHeight.classList.remove('text-red-500');
+            const height = length * Math.sin(angle * (Math.PI / 180));
+            outHeight.innerText = height.toFixed(3);
+        }
+
+        function calculateChamfer() {
+            const holeD = parseFloat(document.getElementById('chm-hole').value) || 0;
+            const targetD = parseFloat(document.getElementById('chm-target').value) || 0;
+            const angle = parseFloat(document.getElementById('chm-angle').value) || 90;
+            
+            const outDepth = document.getElementById('out-chm-depth');
+            const warnEl = document.getElementById('warn-chm');
+
+            if (targetD <= holeD) {
+                outDepth.innerText = "ERR";
+                outDepth.classList.replace('text-white', 'text-red-500');
+                warnEl.classList.remove('hidden');
+                return;
+            }
+
+            outDepth.classList.replace('text-red-500', 'text-white');
+            warnEl.classList.add('hidden');
+
+            const zDepth = ((targetD - holeD) / 2) / Math.tan((angle / 2) * (Math.PI / 180));
+            outDepth.innerText = "Z -" + zDepth.toFixed(3);
+        }
+
+        const taperPresets = {
+            'mt1': { maj: 12.065, min: 9.396, l: 53.5 },
+            'mt2': { maj: 17.780, min: 14.534, l: 64.0 },
+            'mt3': { maj: 23.825, min: 19.822, l: 81.0 },
+            'mt4': { maj: 31.267, min: 25.953, l: 102.5 },
+            'b16': { maj: 15.733, min: 14.500, l: 24.0 },
+            'sk40': { maj: 44.450, min: 24.500, l: 68.400 } 
+        };
+
+        const elTprPreset = document.getElementById('tpr-preset');
+        const elTprMaj = document.getElementById('tpr-d-maj');
+        const elTprMin = document.getElementById('tpr-d-min');
+        const elTprL = document.getElementById('tpr-l');
+
+        elTprPreset.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if (val !== 'custom' && taperPresets[val]) {
+                elTprMaj.value = taperPresets[val].maj;
+                elTprMin.value = taperPresets[val].min;
+                elTprL.value = taperPresets[val].l;
+                calculateTaper();
+            }
+        });
+
+        [elTprMaj, elTprMin, elTprL].forEach(el => {
+            el.addEventListener('input', () => {
+                elTprPreset.value = 'custom';
+                calculateTaper();
+            });
+        });
+
+        function calculateTaper() {
+            const dMaj = parseFloat(elTprMaj.value) || 0;
+            const dMin = parseFloat(elTprMin.value) || 0;
+            const l = parseFloat(elTprL.value) || 0;
+            
+            const outAngle = document.getElementById('out-tpr-angle');
+            const outRatio = document.getElementById('out-tpr-ratio');
+
+            if (l <= 0 || dMaj <= dMin) {
+                outAngle.innerText = "ERR";
+                outRatio.innerText = "ERR";
+                return;
+            }
+
+            const angleRad = Math.atan((dMaj - dMin) / (2 * l));
+            const angleDeg = angleRad * (180 / Math.PI);
+            const ratio = (2 * l) / (dMaj - dMin);
+
+            outAngle.innerText = angleDeg.toFixed(3) + "°";
+            
+            if (Math.abs(ratio - (24/7)) < 0.001) {
+                outRatio.innerText = "7:24 (Steep Taper)";
+            } else {
+                outRatio.innerText = "1:" + ratio.toFixed(3);
+            }
+        }
+
+        function calculateFlats() {
+            const d = parseFloat(document.getElementById('flt-d').value) || 0;
+            const nv = parseFloat(document.getElementById('flt-nv').value) || 0;
+            
+            const outZ = document.getElementById('out-flt-z');
+            const outWidth = document.getElementById('out-flt-width');
+            const warnEl = document.getElementById('warn-flt');
+
+            if (nv >= d || nv <= 0) {
+                outZ.innerText = "ERR";
+                outWidth.innerText = "ERR";
+                outZ.classList.replace('text-white', 'text-red-500');
+                warnEl.classList.remove('hidden');
+                return;
+            }
+
+            outZ.classList.replace('text-red-500', 'text-white');
+            warnEl.classList.add('hidden');
+
+            const zDepth = (d - nv) / 2;
+            const width = 2 * Math.sqrt(Math.pow(d/2, 2) - Math.pow(nv/2, 2));
+
+            outZ.innerText = "Z -" + zDepth.toFixed(3);
+            outWidth.innerText = width.toFixed(3) + " mm";
+        }
+
+        function calculate3Wire() {
+            const d = parseFloat(document.getElementById('wire-d').value) || 0;
+            const p = parseFloat(document.getElementById('wire-p').value) || 0;
+            const w = parseFloat(document.getElementById('wire-w').value) || 0;
+            
+            const optWire = 0.57735 * p;
+            document.getElementById('wire-opt').innerText = optWire.toFixed(3);
+
+            if (d <= 0 || p <= 0 || w <= 0) {
+                document.getElementById('out-wire-m').innerText = "ERR";
+                return;
+            }
+
+            const m = d - (1.22687 * p) + (3 * w);
+            document.getElementById('out-wire-m').innerText = m.toFixed(3);
+        }
+
+        ['bhc-cx', 'bhc-cy', 'bhc-d', 'bhc-n', 'bhc-angle'].forEach(id => document.getElementById(id).addEventListener('input', calculateBHC));
+        ['sine-angle', 'sine-length'].forEach(id => { document.getElementById(id).addEventListener('input', calculateSine); document.getElementById(id).addEventListener('change', calculateSine); });
+        ['chm-hole', 'chm-target', 'chm-angle'].forEach(id => { document.getElementById(id).addEventListener('input', calculateChamfer); document.getElementById(id).addEventListener('change', calculateChamfer); });
+        ['tpr-d-maj', 'tpr-d-min', 'tpr-l'].forEach(id => document.getElementById(id).addEventListener('input', calculateTaper));
+        ['flt-d', 'flt-nv'].forEach(id => document.getElementById(id).addEventListener('input', calculateFlats));
+        ['wire-d', 'wire-p', 'wire-w'].forEach(id => document.getElementById(id).addEventListener('input', calculate3Wire));
+
+        calculateBHC();
+        calculateSine();
+        calculateChamfer();
+        calculateTaper();
+        calculateFlats();
+        calculate3Wire();
+    </script>
+</body>
+</html>

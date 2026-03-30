@@ -35,6 +35,22 @@
         .out-val.warning { color: #ef4444; }
         .out-val.safe { color: #10b981; }
         .section-header { color: #3b82f6; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; margin-bottom: 1rem; margin-top: 1.5rem; }
+        
+        /* --- PRINT PROTOCOL --- */
+        @media print {
+            @page { margin: 1.5cm; size: A4 portrait; }
+            body { background: white !important; color: black !important; }
+            header, footer, button, select, input, .no-print { display: none !important; }
+            #bg-tool-text { display: none !important; }
+            .grid { display: block !important; }
+            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50 { background: white !important; border: none !important; padding: 0 !important; }
+            .section-header { color: black !important; border-bottom: 2px solid black; padding-bottom: 4px; font-size: 14px; margin-top: 24px; }
+            .out-row { border-bottom: 1px solid #ccc !important; padding: 8px 0 !important; }
+            .out-label { color: #555 !important; font-size: 12px !important; }
+            .out-val { color: black !important; font-size: 14px !important; font-weight: 900 !important; }
+            .out-val.warning { color: black !important; text-decoration: underline; }
+            body::before { content: "DATUM PROTOTYPING // SETUP SHEET"; display: block; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 18px; letter-spacing: 0.1em; border-bottom: 4px solid black; padding-bottom: 8px; margin-bottom: 30px; }
+        }
     </style>
 </head>
 <body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-white min-h-screen p-6">
@@ -43,13 +59,11 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Turning <span class="text-zinc-600">&</span> Params</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev07</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev10</div>
                 
-                <div class="flex space-x-0 border border-zinc-800 rounded overflow-hidden inline-flex">
-                    <a href="calculator.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Fræsning</a>
-                    <a href="turning.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Drejning</a>
-                    <a href="manual.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Manuelt</a>
-                </div>
+                <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
+                    ← Return_To_Hub
+                </a>
             </div>
             <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
                 System_Status: <span class="text-primary">Active</span>
@@ -57,7 +71,7 @@
         </header>
 
         <div class="grid lg:grid-cols-2 gap-12">
-            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between no-print">
                 <div>
                     <div class="section-header mt-0">// 00_OPERATOR_INPUTS</div>
                     
@@ -99,10 +113,31 @@
                         </div>
                     </div>
 
+                    <div id="wrap-thread-db" class="hidden grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-zinc-800">
+                        <div>
+                            <label class="label-text text-primary">Standard Gevind-Bibliotek</label>
+                            <select id="in-thread-family" class="input-field border-primary text-primary font-bold">
+                                <option value="custom">Brugerdefineret (Slået fra)</option>
+                                <option value="M">Metrisk (M)</option>
+                                <option value="MF">Metrisk Fin (MF)</option>
+                                <option value="UNC">UNC (Tomme Grov)</option>
+                                <option value="UNF">UNF (Tomme Fin)</option>
+                                <option value="BSP">BSP / G (Cylindrisk Rør)</option>
+                                <option value="NPT">NPT (Konisk Rør)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="label-text text-primary">Dimension</label>
+                            <select id="in-thread-size" class="input-field border-primary font-bold" disabled>
+                                <option>Vælg familie først...</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-4 mb-6">
                         <div>
                             <label id="lbl-d" class="label-text">Aktuel X-Diameter [mm]</label>
-                            <input type="number" id="in-d" class="input-field" value="50" step="1">
+                            <input type="number" id="in-d" class="input-field" value="50" step="0.1">
                         </div>
                         <div>
                             <label class="label-text text-primary">Max Spindel Limit (G50) [RPM]</label>
@@ -111,7 +146,6 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mb-6" id="wrap-tool-geom">
-                        
                         <div id="wrap-re">
                             <label class="label-text">Platteradius (Re) [mm]</label>
                             <select id="in-re" class="input-field">
@@ -156,6 +190,15 @@
                 </div>
 
                 <div class="border-t border-zinc-800 pt-6 mt-6">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="label-text text-primary">Max Maskineffekt [kW]</label>
+                            <input type="number" id="in-kw" class="input-field border-primary" value="11.2" step="0.1">
+                        </div>
+                        <div class="flex items-center">
+                            <div class="text-[9px] text-zinc-500 font-mono uppercase italic">Ref: Haas ST-10 = 11.2 kW</div>
+                        </div>
+                    </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="label-text">Surface Speed (CSS/G96) [m/min]</label>
@@ -170,6 +213,9 @@
                     </div>
                     <button id="btn-reset" class="w-full mt-6 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
                         Reset til Systemets Anbefaling
+                    </button>
+                    <button onclick="window.print()" class="no-print w-full mt-3 border border-zinc-700 bg-zinc-900/50 hover:border-white hover:bg-white/10 text-white text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
+                        Generér Setup Sheet (Print)
                     </button>
                 </div>
             </div>
@@ -193,37 +239,38 @@
                     </div>
 
                     <div id="sec-mrr">
-                        <div class="section-header">// 03_MATERIAL_REMOVAL</div>
+                        <div class="section-header">// 03_MATERIAL_REMOVAL & KINEMATICS</div>
                         <div class="out-row"><span class="out-label">Material Removal Rate (MRR)</span><span id="out-mrr" class="out-val">0 cm³/min</span></div>
+                        <div class="out-row"><span class="out-label">Spindel Power Draw (Estimeret)</span><span id="out-power" class="out-val">0 kW</span></div>
                     </div>
 
                     <div id="sec-quality">
-                        <div class="section-header">// 03_SURFACE_QUALITY</div>
+                        <div class="section-header">// 04_SURFACE_QUALITY</div>
                         <div class="out-row"><span class="out-label">Teoretisk Overfladeruhed (Ra)</span><span id="out-ra" class="out-val text-primary">0 µm</span></div>
                         <div class="out-row"><span class="out-label">Spånkontrol Status</span><span id="out-chip-control" class="out-val">Optimal</span></div>
                     </div>
 
                     <div id="sec-boring" class="hidden">
-                        <div class="section-header">// 03_BORING_KINEMATICS</div>
+                        <div class="section-header">// 04_BORING_KINEMATICS</div>
                         <div class="out-row"><span class="out-label">Udborestål (L:D Ratio)</span><span id="out-boring-ld" class="out-val">0x</span></div>
                         <div class="out-row"><span class="out-label">Vibrationsrisiko</span><span id="out-boring-vib" class="out-val">Lav</span></div>
                     </div>
                     
                     <div id="sec-reaming" class="hidden">
-                        <div class="section-header">// 03_REAMING_DYNAMICS</div>
+                        <div class="section-header">// 04_REAMING_DYNAMICS</div>
                         <div class="out-row"><span class="out-label">Anbefalet Forboring (Pre-drill)</span><span id="out-ream-predrill" class="out-val text-primary">0 mm</span></div>
                         <div class="out-row"><span class="out-label">Diametral Allowance (Stock to Leave)</span><span id="out-ream-allow" class="out-val text-zinc-500">0 mm</span></div>
                     </div>
 
                     <div id="sec-groove" class="hidden">
-                        <div class="section-header">// 03_GROOVING_DYNAMICS</div>
+                        <div class="section-header">// 04_GROOVING_DYNAMICS</div>
                         <div class="out-row"><span class="out-label">Anbefalet Pecking Depth (Spånbrydning)</span><span id="out-peck" class="out-val text-primary">0 mm</span></div>
                         <div class="out-row"><span class="out-label">Dwell Time (Bund af spor)</span><span class="out-val">1 Rev</span></div>
                     </div>
 
                     <div id="sec-thread" class="hidden">
-                        <div class="section-header">// 03_THREADING_CYCLE</div>
-                        <div class="out-row"><span class="out-label">Total Thread Depth (ISO 60°)</span><span id="out-thread-depth" class="out-val text-primary">0 mm</span></div>
+                        <div class="section-header">// 04_THREADING_CYCLE</div>
+                        <div class="out-row"><span class="out-label" id="lbl-thread-prof">Total Thread Depth (ISO 60°)</span><span id="out-thread-depth" class="out-val text-primary">0 mm</span></div>
                         <div class="out-row"><span class="out-label">Number of Stepping Passes (Min)</span><span id="out-thread-passes" class="out-val text-primary">0</span></div>
                         <div class="out-row"><span class="out-label">Spring Passes (Slet)</span><span id="out-thread-spring" class="out-val">1</span></div>
                     </div>
@@ -233,13 +280,69 @@
     </div>
 
     <script>
-        // DOM Elements
+        // THREAD DATABASE
+        const threadDB = {
+            'M': [
+                { name: 'M3 x 0.50', d: 3, p: 0.5 },
+                { name: 'M4 x 0.70', d: 4, p: 0.7 },
+                { name: 'M5 x 0.80', d: 5, p: 0.8 },
+                { name: 'M6 x 1.00', d: 6, p: 1.0 },
+                { name: 'M8 x 1.25', d: 8, p: 1.25 },
+                { name: 'M10 x 1.50', d: 10, p: 1.5 },
+                { name: 'M12 x 1.75', d: 12, p: 1.75 },
+                { name: 'M16 x 2.00', d: 16, p: 2.0 },
+                { name: 'M20 x 2.50', d: 20, p: 2.5 }
+            ],
+            'MF': [
+                { name: 'M8 x 1.00', d: 8, p: 1.0 },
+                { name: 'M10 x 1.00', d: 10, p: 1.0 },
+                { name: 'M10 x 1.25', d: 10, p: 1.25 },
+                { name: 'M12 x 1.25', d: 12, p: 1.25 },
+                { name: 'M12 x 1.50', d: 12, p: 1.5 },
+                { name: 'M16 x 1.50', d: 16, p: 1.5 }
+            ],
+            'UNC': [
+                { name: '#4-40 UNC', d: 2.845, p: 0.635 },
+                { name: '#6-32 UNC', d: 3.505, p: 0.794 },
+                { name: '#8-32 UNC', d: 4.166, p: 0.794 },
+                { name: '#10-24 UNC', d: 4.826, p: 1.058 },
+                { name: '1/4"-20 UNC', d: 6.350, p: 1.270 },
+                { name: '5/16"-18 UNC', d: 7.938, p: 1.411 },
+                { name: '3/8"-16 UNC', d: 9.525, p: 1.588 },
+                { name: '1/2"-13 UNC', d: 12.700, p: 1.954 }
+            ],
+            'UNF': [
+                { name: '#10-32 UNF', d: 4.826, p: 0.794 },
+                { name: '1/4"-28 UNF', d: 6.350, p: 0.907 },
+                { name: '5/16"-24 UNF', d: 7.938, p: 1.058 },
+                { name: '3/8"-24 UNF', d: 9.525, p: 1.058 },
+                { name: '1/2"-20 UNF', d: 12.700, p: 1.270 }
+            ],
+            'BSP': [
+                { name: 'G 1/8" (28 TPI)', d: 9.728, p: 0.907 },
+                { name: 'G 1/4" (19 TPI)', d: 13.157, p: 1.337 },
+                { name: 'G 3/8" (19 TPI)', d: 16.662, p: 1.337 },
+                { name: 'G 1/2" (14 TPI)', d: 20.955, p: 1.814 },
+                { name: 'G 3/4" (14 TPI)', d: 26.441, p: 1.814 },
+                { name: 'G 1" (11 TPI)', d: 33.249, p: 2.309 }
+            ],
+            'NPT': [
+                { name: '1/8" NPT (27 TPI)', d: 10.287, p: 0.940 },
+                { name: '1/4" NPT (18 TPI)', d: 13.716, p: 1.411 },
+                { name: '3/8" NPT (18 TPI)', d: 17.145, p: 1.411 },
+                { name: '1/2" NPT (14 TPI)', d: 21.336, p: 1.814 }
+            ]
+        };
+
         const elWorkpiece = document.getElementById('in-workpiece');
         const elSafety = document.getElementById('in-safety');
         const elOperation = document.getElementById('in-operation');
+        const elThreadFamily = document.getElementById('in-thread-family');
+        const elThreadSize = document.getElementById('in-thread-size');
         const elD = document.getElementById('in-d');
         const lblD = document.getElementById('lbl-d');
         const elG50 = document.getElementById('in-g50');
+        const elKw = document.getElementById('in-kw');
         const elRe = document.getElementById('in-re');
         const elAp = document.getElementById('in-ap');
         const elTargetRa = document.getElementById('in-target-ra');
@@ -256,25 +359,58 @@
         const wrapTargetRa = document.getElementById('wrap-target-ra');
         const wrapBoringGeom = document.getElementById('wrap-boring-geom');
         const wrapGrooveGeom = document.getElementById('wrap-groove-geom');
+        const wrapThreadDb = document.getElementById('wrap-thread-db');
         const lblFn = document.getElementById('lbl-fn');
         
         const recVcSpan = document.getElementById('rec-vc');
         const recFnSpan = document.getElementById('rec-fn');
         const recApSpan = document.getElementById('rec-ap');
 
-        // Matrices
         const matMultVc = { 'automat': 1.0, 'alu': 3.5, 'rustfast': 0.6, 'vaerktoej': 0.7, 'messing': 2.0, 'pom': 3.0, 'nylon': 3.0 };
+        const kcValues = { 'automat': 1500, 'alu': 700, 'rustfast': 2400, 'vaerktoej': 2200, 'messing': 600, 'pom': 150, 'nylon': 150 };
         
         let recommendedVc = 0;
         let recommendedFn = 0;
         let recommendedAp = 0;
 
-        // Clean Listeners
+        function populateThreads(family) {
+            elThreadSize.innerHTML = '';
+            if (family === 'custom') {
+                elThreadSize.add(new Option('Manuel Indtastning (Aktiv)', 'custom'));
+                elThreadSize.disabled = true;
+                return;
+            }
+            elThreadSize.disabled = false;
+            threadDB[family].forEach(t => {
+                elThreadSize.add(new Option(t.name, `${t.d}|${t.p}`));
+            });
+            elThreadSize.selectedIndex = 4; // Select something mid-range
+            applyThreadData();
+        }
+
+        function applyThreadData() {
+            if (elThreadFamily.value === 'custom') return;
+            const val = elThreadSize.value;
+            if (!val) return;
+            const [D, P] = val.split('|').map(Number);
+            elD.value = D;
+            elFn.value = P.toFixed(3);
+            calculate();
+        }
+
+        elThreadFamily.addEventListener('change', (e) => { populateThreads(e.target.value); });
+        elThreadSize.addEventListener('change', applyThreadData);
+
         const configInputs = [elWorkpiece, elSafety, elOperation, elRe, elTargetRa];
         configInputs.forEach(el => el.addEventListener('change', handleConfigChange));
 
-        const dynamicInputs = [elD, elG50, elAp, elVc, elFn, elBoringD, elBoringL, elGrooveW];
-        dynamicInputs.forEach(el => el.addEventListener('input', calculate));
+        const dynamicInputs = [elD, elG50, elKw, elAp, elVc, elFn, elBoringD, elBoringL, elGrooveW];
+        dynamicInputs.forEach(el => {
+            el.addEventListener('input', () => {
+                if (el === elD || el === elFn) elThreadFamily.value = 'custom';
+                calculate();
+            });
+        });
 
         btnReset.addEventListener('click', () => {
             elVc.value = recommendedVc.toFixed(0);
@@ -294,10 +430,10 @@
         function updateUI() {
             const op = elOperation.value;
             
-            // Hide all dynamic sections first
             wrapTargetRa.classList.add('hidden');
             wrapBoringGeom.classList.add('hidden');
             wrapGrooveGeom.classList.add('hidden');
+            wrapThreadDb.classList.add('hidden');
             document.getElementById('sec-mrr').classList.add('hidden');
             document.getElementById('sec-quality').classList.add('hidden');
             document.getElementById('sec-boring').classList.add('hidden');
@@ -339,6 +475,7 @@
             } else if (op === 'thread') {
                 wrapRe.classList.add('hidden');
                 wrapAp.classList.add('hidden');
+                wrapThreadDb.classList.remove('hidden');
                 document.getElementById('sec-thread').classList.remove('hidden');
                 document.getElementById('row-lead-in').classList.add('hidden');
                 document.getElementById('row-lead-out').classList.add('hidden');
@@ -382,17 +519,16 @@
                 baseFn = 0.15;
                 if (triggerElement === elOperation) { elRe.value = "0.4"; baseAp = 1.0; }
             } else if (op === 'reaming') {
-                baseVc = 15; // Low speed to avoid chatter
-                baseFn = D * 0.02; // Aggressive feed based on diameter
+                baseVc = 15; 
+                baseFn = D * 0.02; 
             } else if (op === 'groove') {
                 baseVc = 120; 
                 baseFn = 0.08;
             } else if (op === 'thread') {
                 baseVc = 60; 
-                baseFn = 1.5; // Default pitch
+                baseFn = 1.5; 
             }
 
-            // Material Multipliers
             baseVc *= matMultVc[workpiece];
             
             if (op === 'thread') {
@@ -410,7 +546,6 @@
                 }
             }
 
-            // Boring Bar Chatter Reduction logic
             if (op === 'boring') {
                 const bD = parseFloat(elBoringD.value) || 16;
                 const bL = parseFloat(elBoringL.value) || 48;
@@ -433,7 +568,7 @@
             recFnSpan.innerText = op === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
             if (op !== 'thread' && op !== 'groove' && op !== 'reaming') recApSpan.innerText = recommendedAp.toFixed(1);
 
-            const ignores = [elAp, elD, elG50, elBoringD, elBoringL, elGrooveW];
+            const ignores = [elAp, elD, elG50, elBoringD, elBoringL, elGrooveW, elKw, elThreadFamily, elThreadSize];
             if (!ignores.includes(triggerElement)) {
                 elVc.value = recommendedVc.toFixed(0);
                 elFn.value = op === 'thread' ? recommendedFn.toFixed(2) : recommendedFn.toFixed(3);
@@ -446,6 +581,7 @@
             const workpiece = elWorkpiece.value;
             const D = parseFloat(elD.value) || 0;
             const G50 = parseFloat(elG50.value) || 3000;
+            const limitKw = parseFloat(elKw.value) || 11.2;
             const Re = parseFloat(elRe.value) || 0;
             const Ap = parseFloat(elAp.value) || 0;
             const Vc = parseFloat(elVc.value) || 0;
@@ -453,7 +589,6 @@
 
             if (D === 0) return;
 
-            // Spindle Math (Constant Surface Speed - G96 vs Constant RPM - G97)
             let spindle = (Vc * 1000) / (Math.PI * D);
             let isClamped = false;
             
@@ -481,7 +616,6 @@
                 outStatus.className = "out-val safe";
             }
 
-            // Feedrates Base Output
             document.getElementById('out-cut-feed').innerText = op === 'thread' ? Fn.toFixed(3) + " mm" : Fn.toFixed(3) + " mm/omdr";
             
             if (op !== 'thread') {
@@ -491,7 +625,6 @@
                 document.getElementById('out-min-feed').innerText = Math.round(minFeed) + " mm/min";
             }
 
-            // Sub-Operation Specific Calcs
             if (op === 'boring') {
                 const bD = parseFloat(elBoringD.value) || 1;
                 const bL = parseFloat(elBoringL.value) || 1;
@@ -519,22 +652,49 @@
 
             if (op === 'groove') {
                 const w = parseFloat(elGrooveW.value) || 3.0;
-                let peck = w; // Default
+                let peck = w; 
                 if (['alu', 'pom', 'nylon'].includes(workpiece)) peck = w * 2.0;
                 else if (['rustfast', 'vaerktoej'].includes(workpiece)) peck = w * 0.5;
                 
                 document.getElementById('out-peck').innerText = peck.toFixed(1) + " mm";
                 
-                const mrr = (spindle * Math.PI * D * Fn) / 1000; 
-                document.getElementById('out-mrr').innerText = mrr.toFixed(2) + " cm³/min (pr mm)";
+                const mrr = (spindle * Math.PI * D * Fn * w) / 1000; 
+                document.getElementById('out-mrr').innerText = mrr.toFixed(2) + " cm³/min";
+                
+                const kc = kcValues[workpiece] || 1500;
+                const reqKw = (mrr * kc) / (60000 * 0.8);
+                const outPower = document.getElementById('out-power');
+                
+                outPower.innerText = reqKw.toFixed(2) + " kW";
+                if (reqKw > limitKw) { outPower.classList.add('warning'); outPower.innerText += " [OVERLOAD]"; }
+                else if (reqKw > (limitKw * 0.8)) { outPower.className = "out-val text-primary"; }
+                else { outPower.className = "out-val safe"; }
             }
 
             if (op === 'thread') {
-                const pitch = Fn; // Fn field doubles as pitch here
-                const depth = pitch * 0.614; // ISO standard depth
+                const fam = elThreadFamily.value;
+                const pitch = Fn; 
+                let depth = 0;
+                let profLabel = "Total Thread Depth";
+                
+                // BSP er 55 grader (Whitworth form)
+                if (fam === 'BSP') {
+                    depth = pitch * 0.6403;
+                    profLabel = "Total Thread Depth (BSP 55°)";
+                } 
+                else if (fam === 'NPT') {
+                    depth = pitch * 0.800; // Approx form depth for NPT
+                    profLabel = "Total Thread Depth (NPT Taper)";
+                } 
+                else {
+                    depth = pitch * 0.614; // ISO 60 / UN 60
+                    profLabel = "Total Thread Depth (ISO 60°)";
+                }
+                
+                document.getElementById('lbl-thread-prof').innerText = profLabel;
                 document.getElementById('out-thread-depth').innerText = depth.toFixed(3) + " mm";
                 
-                let passes = 6; // Standard steel baseline for M10
+                let passes = 6; 
                 if (pitch >= 2.0) passes = 8;
                 if (pitch <= 1.0) passes = 4;
                 
@@ -544,10 +704,23 @@
                 document.getElementById('out-thread-passes').innerText = passes;
             }
 
-            // MRR & Surface Quality for standard cutting
             if (op !== 'thread' && op !== 'groove' && op !== 'reaming') {
                 const mrr = Vc * Ap * Fn; 
                 document.getElementById('out-mrr').innerText = mrr.toFixed(1) + " cm³/min";
+                
+                const kc = kcValues[workpiece] || 1500;
+                const reqKw = (mrr * kc) / (60000 * 0.8);
+                const outPower = document.getElementById('out-power');
+                
+                outPower.innerText = reqKw.toFixed(2) + " kW";
+                if (reqKw > limitKw) {
+                    outPower.classList.add('warning');
+                    outPower.innerText += " [OVERLOAD]";
+                } else if (reqKw > (limitKw * 0.8)) {
+                    outPower.className = "out-val text-primary";
+                } else {
+                    outPower.className = "out-val safe";
+                }
 
                 const outChip = document.getElementById('out-chip-control');
                 if (Ap < Re && op !== 'profile_finishing') {
@@ -566,6 +739,7 @@
             }
         }
 
+        populateThreads('custom');
         updateUI();
         autoFillMatrix(elOperation);
         calculate();
