@@ -59,7 +59,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Manual <span class="text-zinc-600">&</span> Conventional</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Manual_Calc_Rev12</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Manual_Calc_Rev17</div>
                 
                 <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
                     ← Return_To_Hub
@@ -152,6 +152,25 @@
                             <input type="number" id="in-pitch" class="input-field border-zinc-600 text-primary" value="1.5" step="0.1">
                         </div>
 
+                        <div id="wrap-overhang" class="hidden col-span-2 grid grid-cols-2 gap-4 border-t border-zinc-800 pt-4 mt-2">
+                            <div>
+                                <label class="label-text text-primary">Værktøjsudhæng (L) [mm]</label>
+                                <input type="number" id="in-overhang" class="input-field border-primary font-bold text-primary" value="30" step="1">
+                            </div>
+                            <div id="wrap-mill-ap" class="hidden">
+                                <label class="label-text">Aksial Spåndybde (Ap) [mm]</label>
+                                <input type="number" id="in-mill-ap" class="input-field" value="2.0" step="0.1">
+                            </div>
+                        </div>
+
+                        <div id="wrap-mill-dir" class="hidden col-span-2 mt-2">
+                            <label class="label-text text-primary">Fræseretning (Kinematik)</label>
+                            <select id="in-mill-dir" class="input-field border-primary font-bold text-primary">
+                                <option value="conv" selected>Modfræsning (Conventional) - Sikker kørsel</option>
+                                <option value="climb">Medfræsning (Climb) - KUN ved 0-slør / Kuglespindel</option>
+                            </select>
+                        </div>
+
                         <div id="wrap-boring-geom" class="hidden col-span-2 grid grid-cols-2 gap-4 border-t border-zinc-800 pt-4 mt-2">
                             <div>
                                 <label class="label-text">Udborestål Diameter [mm]</label>
@@ -178,7 +197,7 @@
                             <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Teoretisk Mål: <span id="rec-vc">80</span></div>
                         </div>
                         <div>
-                            <label id="lbl-fz" class="label-text">Skrub Tilsp. pr. omdr (fn) [mm]</label>
+                            <label id="lbl-fz" class="label-text">Skrub Tilsp. pr. omdr/tand [mm]</label>
                             <input type="number" id="in-fz" class="input-field text-primary font-bold" value="0.15" step="0.001">
                             <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Teoretisk Mål: <span id="rec-fz">0.15</span></div>
                         </div>
@@ -205,7 +224,9 @@
 
                         <div class="section-header">// 02_FEED_DYNAMICS</div>
                         <div class="out-row" id="row-feed-min"><span class="out-label" id="lbl-feed-min">Bordtilspænding (Minute Feed)</span><span id="out-feed-min" class="out-val text-primary">0 mm/min</span></div>
-                        <div class="out-row" id="row-feed-rev"><span class="out-label" id="lbl-feed-rev-out">Tilspænding pr. tand</span><span id="out-feed-rev" class="out-val">0 mm/tand</span></div>
+                        <div class="out-row" id="row-feed-rev"><span class="out-label" id="lbl-feed-rev-out">Tilspænding pr. tand (Faktisk)</span><span id="out-feed-rev" class="out-val text-primary">0 mm/tand</span></div>
+                        
+                        <div id="row-mill-ld" class="out-row hidden"><span class="out-label">L:D Ratio (Udhæng)</span><span id="out-mill-ld" class="out-val">0x</span></div>
                     </div>
 
                     <div id="sec-reaming" class="hidden">
@@ -249,21 +270,53 @@
                     <div id="sec-physics">
                         <div class="section-header">// 04_PHYSICAL_CONSTRAINTS</div>
                         <div class="out-row"><span class="out-label">Køling / Smøring</span><span id="out-coolant" class="out-val">Pensel / Skæreolie</span></div>
-                        <div class="out-row"><span class="out-label">Værktøjsstabilitet</span><span id="out-stability" class="out-val safe">Optimal for konventionel</span></div>
+                        <div class="out-row"><span class="out-label">Værktøjsstabilitet</span><span id="out-stability" class="out-val safe">Sikker og eftergivende</span></div>
                         
                         <div id="warn-geom-dir" class="mt-4 p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
-                            </div>
+                        </div>
 
                         <div id="warn-mill-backlash" class="mt-4 p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
-                            [!] Kritisk Kinematik: Brug altid modfræsning (Conventional Milling) ved skrub. Slør i maskinens ledeskruer vil trække emnet ind i fræseren ved medfræsning (Climb Milling) og forårsage havari.
-                        </div>
-                        
-                        <div id="warn-hm-shock" class="mt-4 p-3 border border-amber-900/50 bg-amber-950/20 text-amber-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
-                            [!] Materiale Advarsel: Hårdmetal udsættes let for mikrosplintring på manuelle maskiner pga. svingende spåntryk. Undgå afbrudt spån og hold udhænget ekstremt kort.
+                            [!] Kritisk Kinematik: Du har valgt Medfræsning (Climb Milling). Slør i maskinens ledeskruer vil trække emnet ukontrolleret ind i fræseren. Må KUN udføres hvis maskinen har forspændte kuglespindler eller mekanisk sløreliminator (Backlash Eliminator).
                         </div>
 
                         <div id="warn-boring-chatter" class="mt-4 p-3 border border-amber-900/50 bg-amber-950/20 text-amber-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
-                            [!] Vibrationsrisiko: Udborestålets L:D forhold overskrider 4x. Parametre er tvunget ned for at afværge chatter. Støt stålet yderligere hvis muligt.
+                            [!] Vibrationsrisiko (Drejebænk): Udborestålets L:D forhold overskrider grænsen. Parametre er tvunget ned for at afværge chatter.
+                        </div>
+
+                        <div id="warn-mill-chatter" class="mt-4 p-3 border border-amber-900/50 bg-amber-950/20 text-amber-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
+                            [!] Fysisk Indgreb: Systemet har tvangsreduceret hastighed og tilspænding for at undgå havari og chatter.
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-6 border-t border-zinc-800 no-print">
+                        <div class="section-header mt-0 mb-3">// 05_MATERIAL_REFERENCE</div>
+                        <div class="border border-zinc-800 bg-zinc-950/50">
+                            <div class="grid grid-cols-5 border-b border-zinc-800 p-2 text-[9px] font-mono font-bold text-zinc-500 tracking-widest uppercase">
+                                <div class="col-span-2">Materiale</div>
+                                <div class="col-span-3">Kølemiddel / Smøring</div>
+                            </div>
+                            <div class="p-2 space-y-1.5 text-[10px] font-mono uppercase italic">
+                                <div class="grid grid-cols-5 hover:bg-zinc-900 px-1 py-0.5 transition-colors">
+                                    <div class="col-span-2 text-zinc-400">Aluminium</div>
+                                    <div class="col-span-3 text-primary font-bold">WD40 / Sprit (Undgå påbygning)</div>
+                                </div>
+                                <div class="grid grid-cols-5 hover:bg-zinc-900 px-1 py-0.5 transition-colors">
+                                    <div class="col-span-2 text-zinc-400">Rustfast / Værktøj</div>
+                                    <div class="col-span-3 text-primary font-bold">Skæreolie / Gevindpasta</div>
+                                </div>
+                                <div class="grid grid-cols-5 hover:bg-zinc-900 px-1 py-0.5 transition-colors">
+                                    <div class="col-span-2 text-zinc-400">Stål (Automat/Konst.)</div>
+                                    <div class="col-span-3 text-primary font-bold">Emulsion / Universalolie</div>
+                                </div>
+                                <div class="grid grid-cols-5 hover:bg-zinc-900 px-1 py-0.5 transition-colors">
+                                    <div class="col-span-2 text-zinc-400">Messing / Rødgods</div>
+                                    <div class="col-span-3 text-primary font-bold">Tør (Pas på huggende spån)</div>
+                                </div>
+                                <div class="grid grid-cols-5 hover:bg-zinc-900 px-1 py-0.5 transition-colors">
+                                    <div class="col-span-2 text-zinc-400">Plast (POM/Nylon)</div>
+                                    <div class="col-span-3 text-primary font-bold">Tør / Trykluft (Undgå smelte)</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -272,7 +325,6 @@
     </div>
 
     <script>
-        // THREAD DATABASE
         const threadDB = {
             'M': [
                 { name: 'M3 x 0.50', d: 3, p: 0.5, drill: 2.5 },
@@ -339,6 +391,9 @@
         const elBoringD = document.getElementById('in-boring-d');
         const elBoringL = document.getElementById('in-boring-l');
         const elGrooveW = document.getElementById('in-groove-w');
+        const elOverhang = document.getElementById('in-overhang');
+        const elMillAp = document.getElementById('in-mill-ap');
+        const elMillDir = document.getElementById('in-mill-dir');
         const elVc = document.getElementById('in-vc');
         const elFz = document.getElementById('in-fz');
         const btnReset = document.getElementById('btn-reset');
@@ -350,6 +405,9 @@
         const wrapThreadDb = document.getElementById('wrap-thread-db');
         const wrapBoringGeom = document.getElementById('wrap-boring-geom');
         const wrapGrooveGeom = document.getElementById('wrap-groove-geom');
+        const wrapOverhang = document.getElementById('wrap-overhang');
+        const wrapMillAp = document.getElementById('wrap-mill-ap');
+        const wrapMillDir = document.getElementById('wrap-mill-dir');
         
         const lblFz = document.getElementById('lbl-fz');
         const lblPitch = document.getElementById('lbl-pitch');
@@ -428,7 +486,7 @@
         elTool.addEventListener('change', handleConfigChange);
         elMaterial.addEventListener('change', handleConfigChange);
 
-        const dynamicInputs = [elD, elDEnd, elZ, elPitch, elBoringD, elBoringL, elGrooveW, elVc, elFz];
+        const dynamicInputs = [elD, elDEnd, elZ, elPitch, elBoringD, elBoringL, elGrooveW, elOverhang, elMillAp, elMillDir, elVc, elFz];
         dynamicInputs.forEach(el => {
             el.addEventListener('input', () => {
                 if (el === elD || el === elPitch || el === elFz) elThreadFamily.value = 'custom';
@@ -474,18 +532,22 @@
             wrapBoringGeom.classList.add('hidden');
             wrapGrooveGeom.classList.add('hidden');
             wrapThreadDb.classList.add('hidden');
+            wrapOverhang.classList.add('hidden');
+            wrapMillAp.classList.add('hidden');
+            wrapMillDir.classList.add('hidden');
             elFz.disabled = false;
             
             document.getElementById('warn-geom-dir').classList.add('hidden');
             document.getElementById('warn-mill-backlash').classList.add('hidden');
-            document.getElementById('warn-hm-shock').classList.add('hidden');
             document.getElementById('warn-boring-chatter').classList.add('hidden');
+            document.getElementById('warn-mill-chatter').classList.add('hidden');
             
             document.getElementById('wrap-outputs-mill').classList.add('hidden');
             document.getElementById('wrap-outputs-lathe').classList.add('hidden');
             document.getElementById('wrap-outputs-groove').classList.add('hidden');
             document.getElementById('wrap-outputs-thread').classList.add('hidden');
             document.getElementById('sec-reaming').classList.add('hidden');
+            document.getElementById('row-mill-ld').classList.add('hidden');
 
             if (mach === 'mill') {
                 bgToolText.innerText = "M";
@@ -493,11 +555,15 @@
                 lblFz.innerText = "Tilsp. pr. tand (fz) [mm]";
                 lblOverrideVc.innerText = "Skærehastighed [m/min]";
                 document.getElementById('lbl-feed-min').innerText = "Bordtilspænding (X/Y) [mm/min]";
-                document.getElementById('lbl-feed-rev-out').innerText = "Tilspænding pr. tand";
+                document.getElementById('lbl-feed-rev-out').innerText = "Tilspænding pr. tand (Faktisk)";
+                
+                wrapOverhang.classList.remove('hidden');
                 
                 if (tool === 'mill_cut') {
                     wrapZ.classList.remove('hidden');
-                    document.getElementById('warn-mill-backlash').classList.remove('hidden');
+                    wrapMillAp.classList.remove('hidden');
+                    wrapMillDir.classList.remove('hidden');
+                    document.getElementById('row-mill-ld').classList.remove('hidden');
                     document.getElementById('wrap-outputs-mill').classList.remove('hidden');
                 }
             } else { 
@@ -536,16 +602,12 @@
                 }
             }
 
-            if (elMaterial.value === 'hm' && mach === 'mill' && tool === 'mill_cut') {
-                document.getElementById('warn-hm-shock').classList.remove('hidden');
-            }
-
             if (['tap', 'drill', 'reamer'].includes(tool) && tool !== 'thread_single') {
                 wrapD.classList.remove('hidden');
                 document.getElementById('wrap-outputs-mill').classList.remove('hidden');
                 
                 if (tool === 'tap') {
-                    wrapD.classList.add('hidden'); // Tap controls its own D via DB
+                    wrapD.classList.add('hidden');
                     wrapTap.classList.remove('hidden');
                     wrapThreadDb.classList.remove('hidden');
                     lblFz.innerText = "Stigning [Låst, mm]";
@@ -640,11 +702,13 @@
             const DEnd = parseFloat(elDEnd.value) || 1;
             const Z = parseFloat(elZ.value) || 1;
             let Vc = parseFloat(elVc.value) || 0;
-            const inputFz = parseFloat(elFz.value) || 0;
+            let inputFz = parseFloat(elFz.value) || 0;
 
             if (D === 0) return;
             
             document.getElementById('warn-boring-chatter').classList.add('hidden');
+            document.getElementById('warn-mill-chatter').classList.add('hidden');
+            document.getElementById('warn-mill-backlash').classList.add('hidden');
             document.getElementById('warn-geom-dir').classList.add('hidden');
 
             if (tool === 'turn_int' && DEnd <= D) {
@@ -679,15 +743,83 @@
                 return;
             }
 
-            if (tool === 'turn_int') {
+            let stabilityMsg = "Sikker og eftergivende";
+            let stabilityClass = "out-val safe";
+
+            if (mach === 'mill') {
+                const mL = parseFloat(document.getElementById('in-overhang').value) || 30;
+                const mAp = parseFloat(document.getElementById('in-mill-ap').value) || 2.0;
+                const mDir = document.getElementById('in-mill-dir').value;
+                const ratio = mL / D;
+                const apRatio = mAp / D;
+
+                const outLd = document.getElementById('out-mill-ld');
+                if (tool === 'mill_cut') outLd.innerText = ratio.toFixed(1) + "x";
+
+                let penaltyVc = 1.0;
+                let penaltyFz = 1.0;
+                let warnings = [];
+
+                if (ratio > 4) {
+                    penaltyVc *= 0.6; penaltyFz *= 0.5;
+                    warnings.push("Kritisk Udhæng (>4xD)");
+                } else if (ratio > 3) {
+                    penaltyVc *= 0.8; penaltyFz *= 0.8;
+                    warnings.push("Udhæng >3xD");
+                }
+
+                if (tool === 'mill_cut') {
+                    if (apRatio > 1.5) {
+                        penaltyVc *= 0.5; penaltyFz *= 0.5;
+                        warnings.push("Kritisk Ap (>1.5xD)");
+                    } else if (apRatio > 1.0) {
+                        penaltyVc *= 0.7; penaltyFz *= 0.7;
+                        warnings.push("Tung Ap (>1.0xD)");
+                    } else if (apRatio > 0.5) {
+                        penaltyVc *= 0.9; penaltyFz *= 0.9;
+                        warnings.push("Moderat Ap (>0.5xD)");
+                    }
+
+                    if (mDir === 'climb') {
+                        document.getElementById('warn-mill-backlash').classList.remove('hidden');
+                    }
+                }
+
+                if (warnings.length > 0) {
+                    stabilityMsg = warnings.join(" + ");
+                    stabilityClass = (ratio > 4 || apRatio > 1.5) ? "out-val warning" : "out-val text-primary";
+                    document.getElementById('warn-mill-chatter').classList.remove('hidden');
+                    document.getElementById('warn-mill-chatter').innerText = `[!] Fysisk Indgreb: Systemet har tvangsreduceret hastighed og tilspænding for at undgå havari og chatter. Årsag: ${stabilityMsg}`;
+                    if (tool === 'mill_cut') outLd.className = stabilityClass;
+                } else {
+                    if (tool === 'mill_cut') outLd.className = "out-val safe";
+                }
+
+                Vc *= penaltyVc;
+                inputFz *= penaltyFz;
+
+                if (mat === 'hm' && tool === 'mill_cut') {
+                    stabilityMsg = (warnings.length > 0) ? stabilityMsg + " + HM Chatter" : "Risiko for HM-splintring";
+                    stabilityClass = "out-val warning";
+                }
+            } else if (tool === 'turn_int') {
                 const bD = parseFloat(document.getElementById('in-boring-d').value) || 16;
                 const bL = parseFloat(document.getElementById('in-boring-l').value) || 48;
                 const ratio = bL / bD;
                 if (ratio > 4) {
                     Vc *= 0.6; 
+                    stabilityMsg = "Kritisk (Udhæng > 4xD)";
+                    stabilityClass = "out-val warning";
                     document.getElementById('warn-boring-chatter').classList.remove('hidden');
+                } else if (ratio > 3) {
+                    stabilityMsg = "Reduceret (Udhæng > 3xD)";
+                    stabilityClass = "out-val text-primary";
                 }
             }
+
+            const outStab = document.getElementById('out-stability');
+            outStab.innerText = stabilityMsg;
+            outStab.className = stabilityClass;
 
             if (['tap', 'drill', 'reamer', 'mill_cut'].includes(tool)) {
                 let spindle = (Vc * 1000) / (Math.PI * D);
@@ -832,21 +964,6 @@
                 document.getElementById('lathe-thread-pitch').innerText = pitch.toFixed(3) + " mm/omdr";
                 document.getElementById('lathe-thread-depth').innerText = depth.toFixed(3) + " mm";
                 document.getElementById('lathe-thread-passes').innerText = passes;
-            }
-
-            const outCoolant = document.getElementById('out-coolant');
-            if (['tap', 'reamer', 'thread_single'].includes(tool)) outCoolant.innerText = "Rigelig Skæreolie";
-            else if (['alu', 'pom', 'nylon'].includes(workpiece)) outCoolant.innerText = "WD40 / Sprit / Tør";
-            else if (mat === 'hm' && mach === 'mill') outCoolant.innerText = "Tør kørsel (Undgå termisk chok)";
-            else outCoolant.innerText = "Emulsionskøling ell. Pensel";
-
-            const outStab = document.getElementById('out-stability');
-            if (mat === 'hm' && mach === 'mill') {
-                outStab.innerText = "Risiko for udsplintring (Chatter)";
-                outStab.className = "out-val warning";
-            } else {
-                outStab.innerText = "Sikker og eftergivende";
-                outStab.className = "out-val safe";
             }
         }
 
