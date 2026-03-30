@@ -59,7 +59,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Manual <span class="text-zinc-600">&</span> Conventional</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Manual_Calc_Rev17</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Manual_Calc_Rev18</div>
                 
                 <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
                     ← Return_To_Hub
@@ -190,7 +190,7 @@
                 </div>
 
                 <div class="border-t border-zinc-800 pt-6 mt-6">
-                    <div class="grid grid-cols-2 gap-4">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
                         <div>
                             <label id="lbl-override-vc" class="label-text">Skrub Skærehastighed [m/min]</label>
                             <input type="number" id="in-vc" class="input-field text-primary font-bold" value="80" step="1">
@@ -202,7 +202,19 @@
                             <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Teoretisk Mål: <span id="rec-fz">0.15</span></div>
                         </div>
                     </div>
-                    <button id="btn-reset" class="w-full mt-6 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
+                    
+                    <div class="grid grid-cols-1 mb-4 border border-zinc-700 bg-zinc-900/30 p-3">
+                        <label id="lbl-actual-rpm" class="label-text text-primary">Faktisk Maskingear / Aflæst RPM (Override)</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="in-actual-rpm" class="input-field border-primary font-bold text-primary w-full" placeholder="Lad stå tom for Auto">
+                            <button id="btn-clear-rpm" class="px-4 border border-zinc-600 bg-zinc-800 text-xs font-bold text-zinc-400 hover:text-white transition-colors">X</button>
+                        </div>
+                        <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic leading-tight">
+                            Indtast det faste gear maskinen sættes i, for at få den eksakte bordtilspænding.
+                        </div>
+                    </div>
+
+                    <button id="btn-reset" class="w-full mt-2 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
                         Reset til Sikker Manuel Basis
                     </button>
                     <button onclick="window.print()" class="no-print w-full mt-3 border border-zinc-700 bg-zinc-900/50 hover:border-white hover:bg-white/10 text-white text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
@@ -219,8 +231,8 @@
                 <div class="relative z-10 flex-grow">
                     <div id="wrap-outputs-mill" class="hidden">
                         <div class="section-header mt-0">// 01_GEARBOX_SETTINGS</div>
-                        <div class="out-row"><span class="out-label">Teoretisk Spindelhastighed</span><span id="out-spindle-theo" class="out-val text-zinc-500">0 RPM</span></div>
-                        <div class="out-row"><span class="out-label">Vælg Nærmeste Faste Gear</span><span id="out-spindle-gear" class="out-val text-primary text-lg">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Teoretisk Spindelhastighed (Optimum)</span><span id="out-spindle-theo" class="out-val text-zinc-500">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Anvendt Gear (Brugt til Feed)</span><span id="out-spindle-gear" class="out-val text-primary text-lg">0 RPM</span></div>
 
                         <div class="section-header">// 02_FEED_DYNAMICS</div>
                         <div class="out-row" id="row-feed-min"><span class="out-label" id="lbl-feed-min">Bordtilspænding (Minute Feed)</span><span id="out-feed-min" class="out-val text-primary">0 mm/min</span></div>
@@ -237,22 +249,21 @@
 
                     <div id="wrap-outputs-lathe">
                         <div class="section-header mt-0">// 01_SKRUB (ROUGHING)</div>
-                        <div class="out-row"><span class="out-label">Nærmeste Faste Gear (RPM)</span><span id="lathe-skrub-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Teoretisk RPM (Optimum)</span><span id="lathe-skrub-rpm-theo" class="out-val text-zinc-500">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Anvendt Gear (Brugt til Feed)</span><span id="lathe-skrub-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
                         <div class="out-row"><span class="out-label">Tilspænding (fn)</span><span id="lathe-skrub-fn" class="out-val text-primary">0 mm/omdr</span></div>
                         <div class="out-row"><span class="out-label">Spåndybde pr. overløb (Ap)</span><span id="lathe-skrub-ap" class="out-val text-primary">0 mm</span></div>
                         <div class="out-row"><span class="out-label">Antal Skrub-overløb</span><span id="lathe-skrub-passes" class="out-val">0</span></div>
                         <div class="out-row"><span class="out-label">Længdetilspænding (Z)</span><span id="lathe-skrub-min" class="out-val text-zinc-500">0 mm/min</span></div>
                         
                         <div class="section-header">// 02_SLET (FINISHING)</div>
-                        <div class="out-row"><span class="out-label">Nærmeste Faste Gear (RPM)</span><span id="lathe-slet-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
                         <div class="out-row"><span class="out-label">Slet-Tilspænding (fn)</span><span id="lathe-slet-fn" class="out-val text-primary">0 mm/omdr</span></div>
                         <div class="out-row"><span class="out-label">Sletspån (Radial Allowance)</span><span id="lathe-slet-ap" class="out-val text-primary">0 mm</span></div>
-                        <div class="out-row"><span class="out-label">Længdetilspænding (Z)</span><span id="lathe-slet-min" class="out-val text-zinc-500">0 mm/min</span></div>
                     </div>
 
                     <div id="wrap-outputs-groove" class="hidden">
                         <div class="section-header mt-0">// 01_GROOVING_DYNAMICS</div>
-                        <div class="out-row"><span class="out-label">Nærmeste Faste Gear (RPM)</span><span id="lathe-groove-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Anvendt Gear (RPM)</span><span id="lathe-groove-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
                         <div class="out-row"><span class="out-label">Indstik Tilspænding (fn)</span><span id="lathe-groove-fn" class="out-val text-primary">0 mm/omdr</span></div>
                         <div class="out-row"><span class="out-label">Tværtilspænding (X)</span><span id="lathe-groove-min" class="out-val text-zinc-500">0 mm/min</span></div>
                         <div class="out-row"><span class="out-label">Spånbrydning (Peck Depth)</span><span id="lathe-groove-peck" class="out-val text-primary">0 mm</span></div>
@@ -260,7 +271,7 @@
 
                     <div id="wrap-outputs-thread" class="hidden">
                         <div class="section-header mt-0">// 01_THREADING_CYCLE</div>
-                        <div class="out-row"><span class="out-label">Faste Gear (Sikker Hastighed)</span><span id="lathe-thread-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Anvendt Gear (RPM)</span><span id="lathe-thread-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
                         <div class="out-row"><span class="out-label">Ledeskrue (Pitch/Feed)</span><span id="lathe-thread-pitch" class="out-val text-primary">0 mm/omdr</span></div>
                         <div class="out-row" id="row-thread-predrill"><span class="out-label">Præcis Forboring (Tap)</span><span id="lathe-thread-drill" class="out-val text-primary">0 mm</span></div>
                         <div class="out-row"><span class="out-label" id="lbl-thread-prof">Total Gevinddybde (Radialt)</span><span id="lathe-thread-depth" class="out-val">0 mm</span></div>
@@ -396,6 +407,8 @@
         const elMillDir = document.getElementById('in-mill-dir');
         const elVc = document.getElementById('in-vc');
         const elFz = document.getElementById('in-fz');
+        const elActualRpm = document.getElementById('in-actual-rpm');
+        const btnClearRpm = document.getElementById('btn-clear-rpm');
         const btnReset = document.getElementById('btn-reset');
         
         const wrapZ = document.getElementById('wrap-z');
@@ -486,12 +499,17 @@
         elTool.addEventListener('change', handleConfigChange);
         elMaterial.addEventListener('change', handleConfigChange);
 
-        const dynamicInputs = [elD, elDEnd, elZ, elPitch, elBoringD, elBoringL, elGrooveW, elOverhang, elMillAp, elMillDir, elVc, elFz];
+        const dynamicInputs = [elD, elDEnd, elZ, elPitch, elBoringD, elBoringL, elGrooveW, elOverhang, elMillAp, elMillDir, elVc, elFz, elActualRpm];
         dynamicInputs.forEach(el => {
             el.addEventListener('input', () => {
                 if (el === elD || el === elPitch || el === elFz) elThreadFamily.value = 'custom';
                 calculate();
             });
+        });
+
+        btnClearRpm.addEventListener('click', () => {
+            elActualRpm.value = '';
+            calculate();
         });
 
         btnReset.addEventListener('click', () => {
@@ -703,6 +721,7 @@
             const Z = parseFloat(elZ.value) || 1;
             let Vc = parseFloat(elVc.value) || 0;
             let inputFz = parseFloat(elFz.value) || 0;
+            const userRpm = parseFloat(elActualRpm.value) || 0;
 
             if (D === 0) return;
             
@@ -822,9 +841,11 @@
             outStab.className = stabilityClass;
 
             if (['tap', 'drill', 'reamer', 'mill_cut'].includes(tool)) {
-                let spindle = (Vc * 1000) / (Math.PI * D);
-                document.getElementById('out-spindle-theo').innerText = Math.round(spindle) + " RPM";
-                document.getElementById('out-spindle-gear').innerText = "< " + Math.round(spindle) + " RPM";
+                let spindleTheo = (Vc * 1000) / (Math.PI * D);
+                let spindle = userRpm > 0 ? userRpm : spindleTheo;
+                
+                document.getElementById('out-spindle-theo').innerText = Math.round(spindleTheo) + " RPM";
+                document.getElementById('out-spindle-gear').innerText = userRpm > 0 ? Math.round(spindle) + " RPM (Låst)" : "< " + Math.round(spindle) + " RPM";
 
                 let feedMin = 0;
                 let feedRev = 0;
@@ -833,7 +854,7 @@
                     feedRev = parseFloat(elPitch.value) || 0;
                     feedMin = spindle * feedRev;
                     if (mach === 'lathe') {
-                        document.getElementById('lathe-thread-rpm').innerText = "< " + Math.round(spindle) + " RPM";
+                        document.getElementById('lathe-thread-rpm').innerText = userRpm > 0 ? Math.round(spindle) + " RPM (Låst)" : "< " + Math.round(spindle) + " RPM";
                         document.getElementById('lathe-thread-pitch').innerText = feedRev.toFixed(3) + " mm/omdr";
                         document.getElementById('lathe-thread-drill').innerText = activeDrill.toFixed(2) + " mm";
                     }
@@ -898,28 +919,32 @@
                     passes = Math.ceil((radTotal - finAllow) / actualAp);
                 }
 
-                let rpmSkrub = (Vc * 1000) / (Math.PI * D);
+                let rpmSkrubTheo = (Vc * 1000) / (Math.PI * D);
+                let rpmSkrub = userRpm > 0 ? userRpm : rpmSkrubTheo;
                 let fnSkrub = inputFz;
                 let minSkrub = rpmSkrub * fnSkrub;
 
                 let vcSlet = Vc * 1.30; 
-                let rpmSlet = (vcSlet * 1000) / (Math.PI * DEnd);
+                let rpmSletTheo = (vcSlet * 1000) / (Math.PI * DEnd);
+                let rpmSlet = userRpm > 0 ? userRpm : rpmSletTheo;
                 let fnSlet = inputFz * 0.35; 
                 let minSlet = rpmSlet * fnSlet;
-
-                document.getElementById('lathe-skrub-rpm').innerText = "< " + Math.round(rpmSkrub) + " RPM";
+                
+                document.getElementById('lathe-skrub-rpm-theo').innerText = Math.round(rpmSkrubTheo) + " RPM";
+                document.getElementById('lathe-skrub-rpm').innerText = userRpm > 0 ? Math.round(rpmSkrub) + " RPM (Låst)" : "< " + Math.round(rpmSkrub) + " RPM";
                 document.getElementById('lathe-skrub-fn').innerText = fnSkrub.toFixed(3) + " mm/omdr";
                 document.getElementById('lathe-skrub-ap').innerText = actualAp.toFixed(2) + " mm";
                 document.getElementById('lathe-skrub-passes').innerText = passes;
                 document.getElementById('lathe-skrub-min').innerText = Math.round(minSkrub) + " mm/min";
 
-                document.getElementById('lathe-slet-rpm').innerText = "< " + Math.round(rpmSlet) + " RPM";
+                document.getElementById('lathe-slet-rpm').innerText = userRpm > 0 ? Math.round(rpmSlet) + " RPM (Låst)" : "< " + Math.round(rpmSlet) + " RPM";
                 document.getElementById('lathe-slet-fn').innerText = fnSlet.toFixed(3) + " mm/omdr";
                 document.getElementById('lathe-slet-ap').innerText = finAllow.toFixed(2) + " mm";
                 document.getElementById('lathe-slet-min').innerText = Math.round(minSlet) + " mm/min";
             
             } else if (tool === 'groove') {
-                let rpm = (Vc * 1000) / (Math.PI * D);
+                let rpmTheo = (Vc * 1000) / (Math.PI * D);
+                let rpm = userRpm > 0 ? userRpm : rpmTheo;
                 let fn = inputFz;
                 let minF = rpm * fn;
                 
@@ -928,13 +953,14 @@
                 if (['alu', 'pom', 'nylon'].includes(workpiece)) peck = w * 2.0;
                 else if (['rustfast', 'vaerktoej'].includes(workpiece)) peck = w * 0.5;
 
-                document.getElementById('lathe-groove-rpm').innerText = "< " + Math.round(rpm) + " RPM";
+                document.getElementById('lathe-groove-rpm').innerText = userRpm > 0 ? Math.round(rpm) + " RPM (Låst)" : "< " + Math.round(rpm) + " RPM";
                 document.getElementById('lathe-groove-fn').innerText = fn.toFixed(3) + " mm/omdr";
                 document.getElementById('lathe-groove-min').innerText = Math.round(minF) + " mm/min";
                 document.getElementById('lathe-groove-peck').innerText = peck.toFixed(1) + " mm";
             
             } else if (tool === 'thread_single') {
-                let rpm = (Vc * 1000) / (Math.PI * D);
+                let rpmTheo = (Vc * 1000) / (Math.PI * D);
+                let rpm = userRpm > 0 ? userRpm : rpmTheo;
                 let pitch = parseFloat(elPitch.value) || 0;
                 const fam = elThreadFamily.value;
                 let depth = 0;
@@ -960,11 +986,17 @@
                 if (['alu', 'pom', 'nylon'].includes(workpiece)) passes = Math.max(3, passes - 2);
 
                 document.getElementById('lbl-thread-prof').innerText = profLabel;
-                document.getElementById('lathe-thread-rpm').innerText = "< " + Math.round(rpm) + " RPM";
+                document.getElementById('lathe-thread-rpm').innerText = userRpm > 0 ? Math.round(rpm) + " RPM (Låst)" : "< " + Math.round(rpm) + " RPM";
                 document.getElementById('lathe-thread-pitch').innerText = pitch.toFixed(3) + " mm/omdr";
                 document.getElementById('lathe-thread-depth').innerText = depth.toFixed(3) + " mm";
                 document.getElementById('lathe-thread-passes').innerText = passes;
             }
+
+            const outCoolant = document.getElementById('out-coolant');
+            if (['tap', 'reamer', 'thread_single'].includes(tool)) outCoolant.innerText = "Rigelig Skæreolie";
+            else if (['alu', 'pom', 'nylon'].includes(workpiece)) outCoolant.innerText = "WD40 / Sprit / Tør";
+            else if (mat === 'hm' && mach === 'mill') outCoolant.innerText = "Tør kørsel (Undgå termisk chok)";
+            else outCoolant.innerText = "Emulsionskøling ell. Pensel";
         }
 
         populateThreads('custom');

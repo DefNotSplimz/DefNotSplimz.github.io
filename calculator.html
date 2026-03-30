@@ -59,7 +59,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Speeds <span class="text-zinc-600">&</span> Feeds</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Local_Calc_Rev31</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Local_Calc_Rev32</div>
                 
                 <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
                     ← Return_To_Hub
@@ -148,13 +148,14 @@
                                 <option value="bor">Drilling (Boring)</option>
                                 <option value="reamer">Reaming (Brotsjning)</option>
                                 <option value="tap">Tapping (Gevindskæring)</option>
+                                <option value="thread_mill">Thread Milling (Gevindfræsning)</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-3 gap-4 mb-6">
                         <div id="wrap-d">
-                            <label class="label-text">Diameter [mm]</label>
+                            <label id="lbl-d" class="label-text">Diameter [mm]</label>
                             <input type="number" id="in-d" class="input-field" value="10" step="0.1">
                         </div>
                         
@@ -171,7 +172,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="label-text text-primary">Dimension</label>
+                                <label class="label-text text-primary">Dimension (Target)</label>
                                 <select id="in-tap-size" class="input-field border-primary text-primary font-bold">
                                     </select>
                             </div>
@@ -243,7 +244,7 @@
                     <div id="sec-feedrates">
                         <div class="section-header">// 02_FEEDRATES</div>
                         <div id="row-cutting" class="out-row"><span id="lbl-cutting-out" class="out-label">Cutting Feedrate</span><span id="out-cutting" class="out-val">0 mm/min</span></div>
-                        <div id="row-prog-fz" class="out-row"><span class="out-label">Programmed Feed/Tooth (Faktisk)</span><span id="out-prog-fz" class="out-val text-primary">0 mm</span></div>
+                        <div id="row-prog-fz" class="out-row"><span class="out-label" id="lbl-prog-fz">Programmed Feed/Tooth (Faktisk)</span><span id="out-prog-fz" class="out-val text-primary">0 mm</span></div>
                         <div id="row-lead" class="out-row"><span class="out-label">Lead-in / Lead-out</span><span id="out-lead" class="out-val">0 mm/min</span></div>
                         <div id="row-transition" class="out-row"><span class="out-label">Transition Feedrate</span><span id="out-transition" class="out-val">0 mm/min</span></div>
                         <div id="row-ramp-feed" class="out-row"><span class="out-label">Ramp Feedrate</span><span id="out-ramp-feed" class="out-val">0 mm/min</span></div>
@@ -365,6 +366,7 @@
         const wrapMat = document.getElementById('wrap-mat');
         const lblFz = document.getElementById('lbl-fz');
         const lblAp = document.getElementById('lbl-ap');
+        const lblD = document.getElementById('lbl-d');
         const bgToolText = document.getElementById('bg-tool-text');
         
         const recVcSpan = document.getElementById('rec-vc');
@@ -384,7 +386,6 @@
             threadDB[family].forEach(t => {
                 elTapSize.add(new Option(t.name, `${t.d}|${t.p}|${t.drill}`));
             });
-            // Pre-select something reasonable
             if (family === 'M') elTapSize.selectedIndex = 4; // M8
             else if (family === 'UNC') elTapSize.selectedIndex = 4; // 1/4-20
         }
@@ -431,13 +432,13 @@
 
         function getActivePitch() {
             const tool = getActiveTool();
-            if (tool === 'tap') return parseFloat(elTapSize.value.split('|')[1]);
+            if (tool === 'tap' || tool === 'thread_mill') return parseFloat(elTapSize.value.split('|')[1]);
             return 0;
         }
 
         function getActiveDrill() {
             const tool = getActiveTool();
-            if (tool === 'tap') return parseFloat(elTapSize.value.split('|')[2]);
+            if (tool === 'tap' || tool === 'thread_mill') return parseFloat(elTapSize.value.split('|')[2]);
             return 0;
         }
 
@@ -467,6 +468,7 @@
             
             ['row-face-max', 'row-face-passes', 'row-face-step', 'row-tap-geom'].forEach(id => document.getElementById(id).classList.add('hidden'));
             document.getElementById('lbl-cutting-out').innerText = "Cutting Feedrate";
+            document.getElementById('lbl-prog-fz').innerText = "Programmed Feed/Tooth (Faktisk)";
 
             if (tool === 'tap') {
                 wrapD.classList.add('hidden');
@@ -486,6 +488,24 @@
                 document.getElementById('lbl-cutting-out').innerText = "Rigid Tapping Feedrate (G84)";
                 document.getElementById('row-tap-geom').classList.remove('hidden');
             } 
+            else if (tool === 'thread_mill') {
+                wrapD.classList.remove('hidden');
+                wrapTap.classList.remove('hidden');
+                wrapZ.classList.remove('hidden');
+                wrapAe.classList.add('hidden');
+                wrapAp.classList.add('hidden');
+                wrapMat.classList.remove('hidden');
+                wrapFinishingBlock.classList.add('hidden');
+                
+                lblD.innerText = "Fræser Diameter [mm]";
+                lblFz.innerText = "Tilsp. pr. tand [mm]";
+                bgToolText.innerText = "TM";
+                
+                ['row-ramp-spindle', 'row-transition', 'row-ramp-feed', 'row-ramp-angle', 'row-mrr', 'row-power'].forEach(id => document.getElementById(id).classList.add('hidden'));
+                document.getElementById('lbl-cutting-out').innerText = "Center Feedrate (Helical)";
+                document.getElementById('lbl-prog-fz').innerText = "Contour Feedrate (Linear Edge)";
+                document.getElementById('row-tap-geom').classList.remove('hidden');
+            }
             else if (tool === 'reamer') {
                 wrapD.classList.remove('hidden');
                 wrapTap.classList.add('hidden');
@@ -494,6 +514,7 @@
                 wrapAp.classList.add('hidden');
                 wrapMat.classList.remove('hidden');
                 wrapFinishingBlock.classList.add('hidden');
+                lblD.innerText = "Diameter [mm]";
                 lblFz.innerText = "Tilsp. pr. omdr. [mm]";
                 bgToolText.innerText = "R";
                 document.getElementById('sec-feedrates').classList.add('hidden');
@@ -507,6 +528,7 @@
                 wrapAp.classList.add('hidden');
                 wrapMat.classList.remove('hidden');
                 wrapFinishingBlock.classList.add('hidden');
+                lblD.innerText = "Diameter [mm]";
                 lblFz.innerText = "Tilsp. pr. omdr. [mm]";
                 bgToolText.innerText = "D";
                 document.getElementById('sec-feedrates').classList.add('hidden');
@@ -518,6 +540,7 @@
                 wrapZ.classList.remove('hidden');
                 wrapMat.classList.remove('hidden');
                 wrapAp.classList.remove('hidden');
+                lblD.innerText = "Diameter [mm]";
                 
                 if (isFace || isAdaptive) {
                     wrapFinishingBlock.classList.remove('hidden');
@@ -583,8 +606,12 @@
                 if (tool === 'fraeser' && !isFace) elAe.value = recommendedAe.toFixed(1);
             }
 
-            let baseVc = tool === 'tap' ? 10 : (tool === 'reamer' ? 15 : (tool === 'fraeser' ? (camPath.startsWith('adaptive') ? 200 : 120) : 80));
-            let baseFz = tool === 'tap' ? getActivePitch() : (tool === 'reamer' ? D * 0.02 : (tool === 'fraeser' ? 0.06 * (D / 10) : D * 0.015));
+            let baseVc = tool === 'tap' ? 10 : (tool === 'reamer' ? 15 : (tool === 'fraeser' || tool === 'thread_mill' ? (camPath.startsWith('adaptive') ? 200 : 120) : 80));
+            let baseFz = tool === 'tap' ? getActivePitch() : (tool === 'reamer' ? D * 0.02 : (tool === 'fraeser' || tool === 'thread_mill' ? 0.06 * (D / 10) : D * 0.015));
+
+            if (tool === 'thread_mill') {
+                baseFz *= 0.5; // Kvæl fz lidt for gevindfræser
+            }
 
             if (tool !== 'tap' && tool !== 'reamer') {
                 baseVc *= matMultVc[workpiece];
@@ -613,7 +640,8 @@
             const workpiece = elWorkpiece.value;
             const isFace = (camPath === 'face');
             
-            const D = getActiveDiameter();
+            const D = getActiveDiameter(); // For thread_mill / tap this is Tool D or Tap D. Wait, for thread mill, D should be tool D.
+            const actualToolD = parseFloat(elD.value) || 0; // The physical endmill/threadmill D
             const Z = parseFloat(elZ.value) || 1;
             const Ae = parseFloat(elAe.value) || 0;
             const Ap = parseFloat(elAp.value) || 0;
@@ -621,9 +649,9 @@
             const inputFz = parseFloat(elFz.value) || 0;
             const limitKw = parseFloat(elKw.value) || 5.6;
 
-            if (D === 0) return;
+            if (actualToolD === 0 && tool !== 'tap') return;
 
-            let spindle = (Vc * 1000) / (Math.PI * D);
+            let spindle = tool === 'tap' ? (Vc * 1000) / (Math.PI * D) : (Vc * 1000) / (Math.PI * actualToolD);
             if (spindle > 10000) spindle = 10000;
 
             document.getElementById('out-spindle').innerText = Math.round(spindle) + " RPM";
@@ -637,10 +665,38 @@
                 return; 
             } 
             
+            if (tool === 'thread_mill') {
+                const targetD = parseFloat(elTapSize.value.split('|')[0]);
+                const predrill = getActiveDrill();
+                
+                const errorDiv = document.getElementById('out-cutting');
+                if (actualToolD >= targetD) {
+                    errorDiv.innerText = "ERR (Værktøj >= Gevind)";
+                    errorDiv.className = "out-val warning";
+                    return;
+                } else {
+                    errorDiv.className = "out-val";
+                }
+
+                document.getElementById('out-tap-predrill').innerText = predrill.toFixed(2) + " mm";
+
+                let linearFeed = spindle * inputFz * Z;
+                // Formel for indvendig spiralinterpolation
+                let centerFeed = linearFeed * ((targetD - actualToolD) / targetD);
+
+                document.getElementById('out-cutting').innerText = Math.round(centerFeed) + " mm/min (Vfc)";
+                document.getElementById('out-prog-fz').innerText = Math.round(linearFeed) + " mm/min (Vfp)";
+                document.getElementById('out-lead').innerText = Math.round(centerFeed * 0.5) + " mm/min";
+                document.getElementById('out-plunge').innerText = Math.round(linearFeed * 0.2) + " mm/min";
+                document.getElementById('out-plunge-rev').innerText = ((linearFeed * 0.2) / spindle).toFixed(3) + " mm/rev";
+                
+                return;
+            }
+            
             if (tool === 'fraeser') {
                 let CT = 1;
-                if (!isFace && Ae > 0 && Ae < (D / 2)) {
-                    CT = D / (2 * Math.sqrt(Ae * (D - Ae)));
+                if (!isFace && Ae > 0 && Ae < (actualToolD / 2)) {
+                    CT = actualToolD / (2 * Math.sqrt(Ae * (actualToolD - Ae)));
                 }
 
                 let progFz = inputFz * CT;
@@ -654,7 +710,7 @@
                 
                 let mrr = 0;
                 if (isFace) {
-                    mrr = (D * Ap * vf) / 1000;
+                    mrr = (actualToolD * Ap * vf) / 1000;
                 } else {
                     mrr = (Ae * Ap * vf) / 1000;
                     document.getElementById('out-plunge').innerText = Math.round(vf * 0.33) + " mm/min";
