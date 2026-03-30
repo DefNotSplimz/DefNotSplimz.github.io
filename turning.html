@@ -38,18 +38,56 @@
         
         /* --- PRINT PROTOCOL --- */
         @media print {
-            @page { margin: 1.5cm; size: A4 portrait; }
-            body { background: white !important; color: black !important; }
-            header, footer, button, select, input, .no-print { display: none !important; }
-            #bg-tool-text { display: none !important; }
-            .grid { display: block !important; }
-            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50 { background: white !important; border: none !important; padding: 0 !important; }
-            .section-header { color: black !important; border-bottom: 2px solid black; padding-bottom: 4px; font-size: 14px; margin-top: 24px; }
-            .out-row { border-bottom: 1px solid #ccc !important; padding: 8px 0 !important; }
-            .out-label { color: #555 !important; font-size: 12px !important; }
-            .out-val { color: black !important; font-size: 14px !important; font-weight: 900 !important; }
-            .out-val.warning { color: black !important; text-decoration: underline; }
-            body::before { content: "DATUM PROTOTYPING // SETUP SHEET"; display: block; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 18px; letter-spacing: 0.1em; border-bottom: 4px solid black; padding-bottom: 8px; margin-bottom: 30px; }
+            @page { margin: 1cm; size: A4 portrait; }
+            body { background: white !important; color: black !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            
+            header, footer, button, .no-print, #bg-tool-text { display: none !important; }
+            
+            input, select { 
+                border: none !important; 
+                background: transparent !important; 
+                color: black !important; 
+                font-weight: 900 !important; 
+                font-size: 12px !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                appearance: none !important; 
+                -webkit-appearance: none !important; 
+            }
+            
+            .lg\:grid-cols-2, .lg\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 10px !important; }
+            
+            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50, .bg-zinc-900\/30 { 
+                background: white !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin-bottom: 15px !important;
+            }
+            
+            .text-primary, .text-white, .text-zinc-500, .text-zinc-400, .text-zinc-600, .text-red-500, .text-red-400, .text-blue-400, .text-emerald-500, .text-amber-500 { 
+                color: black !important; 
+            }
+            
+            .section-header { color: black !important; border-bottom: 2px solid black !important; padding-bottom: 2px !important; font-size: 12px !important; margin-top: 15px !important; margin-bottom: 10px !important; }
+            .label-text { color: #666 !important; font-size: 9px !important; margin-bottom: 0 !important; }
+            
+            .out-row { border-bottom: 1px solid #ddd !important; padding: 4px 0 !important; display: flex !important; justify-content: space-between !important; page-break-inside: avoid; }
+            .out-label { color: #555 !important; font-size: 10px !important; }
+            .out-val { color: black !important; font-size: 12px !important; font-weight: bold !important; }
+            
+            .border-red-900\/50, .border-amber-900\/50 { border: 1px solid black !important; }
+            
+            body::before { 
+                content: "DATUM PROTOTYPING // SETUP SHEET"; 
+                display: block; 
+                font-family: 'JetBrains Mono', monospace; 
+                font-weight: 900; 
+                font-size: 16px; 
+                letter-spacing: 0.1em; 
+                border-bottom: 3px solid black; 
+                padding-bottom: 5px; 
+                margin-bottom: 20px; 
+            }
         }
     </style>
 </head>
@@ -59,7 +97,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Turning <span class="text-zinc-600">&</span> Params</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev10</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev11</div>
                 
                 <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
                     ← Return_To_Hub
@@ -280,7 +318,6 @@
     </div>
 
     <script>
-        // THREAD DATABASE
         const threadDB = {
             'M': [
                 { name: 'M3 x 0.50', d: 3, p: 0.5 },
@@ -677,17 +714,16 @@
                 let depth = 0;
                 let profLabel = "Total Thread Depth";
                 
-                // BSP er 55 grader (Whitworth form)
                 if (fam === 'BSP') {
                     depth = pitch * 0.6403;
                     profLabel = "Total Thread Depth (BSP 55°)";
                 } 
                 else if (fam === 'NPT') {
-                    depth = pitch * 0.800; // Approx form depth for NPT
+                    depth = pitch * 0.800; 
                     profLabel = "Total Thread Depth (NPT Taper)";
                 } 
                 else {
-                    depth = pitch * 0.614; // ISO 60 / UN 60
+                    depth = pitch * 0.614; 
                     profLabel = "Total Thread Depth (ISO 60°)";
                 }
                 

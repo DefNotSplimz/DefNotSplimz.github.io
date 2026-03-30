@@ -35,18 +35,56 @@
         
         /* --- PRINT PROTOCOL --- */
         @media print {
-            @page { margin: 1.5cm; size: A4 portrait; }
-            body { background: white !important; color: black !important; }
-            header, footer, button, select, input, .no-print { display: none !important; }
-            #bg-tool-text { display: none !important; }
-            .grid { display: flex !important; flex-direction: column !important; gap: 20px !important; }
-            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50 { background: white !important; border: none !important; padding: 0 !important; }
-            .section-header { color: black !important; border-bottom: 2px solid black; padding-bottom: 4px; font-size: 14px; margin-top: 24px; }
-            .out-row { border-bottom: 1px solid #ccc !important; padding: 8px 0 !important; }
-            .out-label { color: #555 !important; font-size: 12px !important; }
-            .out-val { color: black !important; font-size: 14px !important; font-weight: 900 !important; }
-            .out-val.warning { color: black !important; text-decoration: underline; }
-            body::before { content: "DATUM PROTOTYPING // SETUP SHEET"; display: block; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 18px; letter-spacing: 0.1em; border-bottom: 4px solid black; padding-bottom: 8px; margin-bottom: 30px; }
+            @page { margin: 1cm; size: A4 portrait; }
+            body { background: white !important; color: black !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            
+            header, footer, button, .no-print, #bg-tool-text { display: none !important; }
+            
+            input, select { 
+                border: none !important; 
+                background: transparent !important; 
+                color: black !important; 
+                font-weight: 900 !important; 
+                font-size: 12px !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                appearance: none !important; 
+                -webkit-appearance: none !important; 
+            }
+            
+            .lg\:grid-cols-2, .lg\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 10px !important; }
+            
+            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50, .bg-zinc-900\/30 { 
+                background: white !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin-bottom: 15px !important;
+            }
+            
+            .text-primary, .text-white, .text-zinc-500, .text-zinc-400, .text-zinc-600, .text-red-500, .text-red-400, .text-blue-400, .text-emerald-500, .text-amber-500 { 
+                color: black !important; 
+            }
+            
+            .section-header { color: black !important; border-bottom: 2px solid black !important; padding-bottom: 2px !important; font-size: 12px !important; margin-top: 15px !important; margin-bottom: 10px !important; }
+            .label-text { color: #666 !important; font-size: 9px !important; margin-bottom: 0 !important; }
+            
+            .out-row { border-bottom: 1px solid #ddd !important; padding: 4px 0 !important; display: flex !important; justify-content: space-between !important; page-break-inside: avoid; }
+            .out-label { color: #555 !important; font-size: 10px !important; }
+            .out-val { color: black !important; font-size: 12px !important; font-weight: bold !important; }
+            
+            .border-red-900\/50, .border-amber-900\/50 { border: 1px solid black !important; }
+            
+            body::before { 
+                content: "DATUM PROTOTYPING // SETUP SHEET"; 
+                display: block; 
+                font-family: 'JetBrains Mono', monospace; 
+                font-weight: 900; 
+                font-size: 16px; 
+                letter-spacing: 0.1em; 
+                border-bottom: 3px solid black; 
+                padding-bottom: 5px; 
+                margin-bottom: 20px; 
+            }
         }
     </style>
 </head>
@@ -56,16 +94,11 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Metrology <span class="text-zinc-600">&</span> QA</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Metrology_Rev03</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Metrology_Rev06</div>
                 
-                <div class="flex gap-4">
-                    <a href="hub.html" class="no-print inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
-                        ← Return_To_Hub
-                    </a>
-                    <button onclick="window.print()" class="no-print inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-primary bg-primary/10 text-primary hover:text-white hover:bg-primary transition-colors">
-                        Print Setup Sheet
-                    </button>
-                </div>
+                <a href="hub.html" class="no-print inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
+                    ← Return_To_Hub
+                </a>
             </div>
             <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
                 System_Status: <span class="text-primary">Active</span>
@@ -73,77 +106,85 @@
         </header>
 
         <div class="grid lg:grid-cols-2 gap-12">
-            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col">
-                <div class="section-header mt-0">// 01_ISO_286_TOLERANCE_MATRIX</div>
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+                <div>
+                    <div class="section-header mt-0">// 01_ISO_286_TOLERANCE_MATRIX</div>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-6 no-print">
+                        <div class="col-span-3">
+                            <label class="label-text">Nominelt Mål (Ø) [mm]</label>
+                            <input type="number" id="iso-nom" class="input-field border-primary text-primary font-bold" value="20" step="1">
+                        </div>
+                        <div class="col-span-3 md:col-span-1">
+                            <label class="label-text text-zinc-500">Hulklasse (F.eks. H7, M6)</label>
+                            <input type="text" id="iso-hole" class="input-field" value="H7">
+                        </div>
+                        <div class="col-span-3 md:col-span-2">
+                            <label class="label-text text-zinc-500">Akselklasse (F.eks. g6, k6)</label>
+                            <input type="text" id="iso-shaft" class="input-field" value="g6">
+                        </div>
+                    </div>
+
+                    <div id="iso-error" class="hidden p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed mb-6">
+                    </div>
+
+                    <div class="flex-grow flex flex-col justify-end space-y-8">
+                        <div>
+                            <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase italic mb-2 tracking-widest border-b border-zinc-800 pb-1">Hul-Specifikation</div>
+                            <div class="out-row"><span class="out-label">Tolerancefelt</span><span id="out-hole-tol" class="out-val text-primary">+0.000 / +0.000</span></div>
+                            <div class="out-row"><span class="out-label">Absolut Max (Ø)</span><span id="out-hole-max" class="out-val">0.000 mm</span></div>
+                            <div class="out-row"><span class="out-label">Absolut Min (Ø)</span><span id="out-hole-min" class="out-val">0.000 mm</span></div>
+                        </div>
+
+                        <div>
+                            <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase italic mb-2 tracking-widest border-b border-zinc-800 pb-1">Aksel-Specifikation</div>
+                            <div class="out-row"><span class="out-label">Tolerancefelt</span><span id="out-shaft-tol" class="out-val text-primary">+0.000 / +0.000</span></div>
+                            <div class="out-row"><span class="out-label">Absolut Max (Ø)</span><span id="out-shaft-max" class="out-val">0.000 mm</span></div>
+                            <div class="out-row"><span class="out-label">Absolut Min (Ø)</span><span id="out-shaft-min" class="out-val">0.000 mm</span></div>
+                        </div>
+
+                        <div class="bg-zinc-900/50 border border-zinc-800 p-4">
+                            <div class="text-[10px] font-mono text-zinc-500 font-bold uppercase italic mb-2 tracking-widest">System_Fit_Analysis</div>
+                            <div class="out-row border-none pb-0"><span class="out-label">Max Clearance / Gap</span><span id="out-fit-max" class="out-val">0.000 mm</span></div>
+                            <div class="out-row border-none pt-1 pb-0"><span class="out-label">Min Clearance / Interference</span><span id="out-fit-min" class="out-val">0.000 mm</span></div>
+                            <div class="mt-2 text-[10px] font-mono font-bold uppercase italic text-right" id="out-fit-type">--</div>
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="grid grid-cols-3 gap-4 mb-6 no-print">
-                    <div class="col-span-3">
-                        <label class="label-text">Nominelt Mål (Ø) [mm]</label>
-                        <input type="number" id="iso-nom" class="input-field border-primary text-primary font-bold" value="20" step="1">
-                    </div>
-                    <div class="col-span-3 md:col-span-1">
-                        <label class="label-text text-zinc-500">Hulklasse (F.eks. H7, M6)</label>
-                        <input type="text" id="iso-hole" class="input-field" value="H7">
-                    </div>
-                    <div class="col-span-3 md:col-span-2">
-                        <label class="label-text text-zinc-500">Akselklasse (F.eks. g6, k6)</label>
-                        <input type="text" id="iso-shaft" class="input-field" value="g6">
-                    </div>
-                </div>
-
-                <div id="iso-error" class="hidden p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed mb-6">
-                    </div>
-
-                <div class="flex-grow flex flex-col justify-end space-y-8">
-                    <div>
-                        <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase italic mb-2 tracking-widest border-b border-zinc-800 pb-1">Hul-Specifikation</div>
-                        <div class="out-row"><span class="out-label">Tolerancefelt</span><span id="out-hole-tol" class="out-val text-primary">+0.000 / +0.000</span></div>
-                        <div class="out-row"><span class="out-label">Absolut Max (Ø)</span><span id="out-hole-max" class="out-val">0.000 mm</span></div>
-                        <div class="out-row"><span class="out-label">Absolut Min (Ø)</span><span id="out-hole-min" class="out-val">0.000 mm</span></div>
-                    </div>
-
-                    <div>
-                        <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase italic mb-2 tracking-widest border-b border-zinc-800 pb-1">Aksel-Specifikation</div>
-                        <div class="out-row"><span class="out-label">Tolerancefelt</span><span id="out-shaft-tol" class="out-val text-primary">+0.000 / +0.000</span></div>
-                        <div class="out-row"><span class="out-label">Absolut Max (Ø)</span><span id="out-shaft-max" class="out-val">0.000 mm</span></div>
-                        <div class="out-row"><span class="out-label">Absolut Min (Ø)</span><span id="out-shaft-min" class="out-val">0.000 mm</span></div>
-                    </div>
-
-                    <div class="bg-zinc-900/50 border border-zinc-800 p-4">
-                        <div class="text-[10px] font-mono text-zinc-500 font-bold uppercase italic mb-2 tracking-widest">System_Fit_Analysis</div>
-                        <div class="out-row border-none pb-0"><span class="out-label">Max Clearance / Gap</span><span id="out-fit-max" class="out-val">0.000 mm</span></div>
-                        <div class="out-row border-none pt-1 pb-0"><span class="out-label">Min Clearance / Interference</span><span id="out-fit-min" class="out-val">0.000 mm</span></div>
-                        <div class="mt-2 text-[10px] font-mono font-bold uppercase italic text-right" id="out-fit-type">--</div>
-                    </div>
-                </div>
+                <button onclick="window.print()" class="no-print w-full mt-6 border border-zinc-700 bg-zinc-900/50 hover:border-white hover:bg-white/10 text-white text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
+                    Generér Setup Sheet (Print)
+                </button>
             </div>
 
-            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col">
-                <div class="section-header mt-0">// 02_THERMAL_DRIFT_ANALYSIS</div>
-                
-                <div class="grid grid-cols-2 gap-4 mb-6 no-print">
-                    <div class="col-span-2">
-                        <label class="label-text">Emnemateriale</label>
-                        <select id="thm-mat" class="input-field border-zinc-600">
-                            <option value="11.5">Stål (Automat/Værktøj) [11.5 µm/m°C]</option>
-                            <option value="16.0">Rustfast Stål [16.0 µm/m°C]</option>
-                            <option value="23.1">Aluminium [23.1 µm/m°C]</option>
-                            <option value="19.0">Messing [19.0 µm/m°C]</option>
-                            <option value="110.0" selected>POM (Acetal) [110.0 µm/m°C]</option>
-                            <option value="80.0">Nylon [80.0 µm/m°C]</option>
-                        </select>
-                    </div>
-                    <div class="col-span-2">
-                        <label class="label-text text-primary">Nominelt Target Mål ved 20°C [mm]</label>
-                        <input type="number" id="thm-nom" class="input-field border-primary font-bold" value="50.000" step="0.01">
-                    </div>
-                    <div>
-                        <label class="label-text">Aktuel Emnetemp i maskinen [°C]</label>
-                        <input type="number" id="thm-temp" class="input-field" value="45" step="1">
-                    </div>
-                    <div>
-                        <label class="label-text text-zinc-600">Målerums Target Temp [°C]</label>
-                        <input type="number" disabled class="input-field" value="20">
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+                <div>
+                    <div class="section-header mt-0">// 02_THERMAL_DRIFT_ANALYSIS</div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6 no-print">
+                        <div class="col-span-2">
+                            <label class="label-text">Emnemateriale</label>
+                            <select id="thm-mat" class="input-field border-zinc-600">
+                                <option value="11.5">Stål (Automat/Værktøj) [11.5 µm/m°C]</option>
+                                <option value="16.0">Rustfast Stål [16.0 µm/m°C]</option>
+                                <option value="23.1">Aluminium [23.1 µm/m°C]</option>
+                                <option value="19.0">Messing [19.0 µm/m°C]</option>
+                                <option value="110.0" selected>POM (Acetal) [110.0 µm/m°C]</option>
+                                <option value="80.0">Nylon [80.0 µm/m°C]</option>
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="label-text text-primary">Nominelt Target Mål ved 20°C [mm]</label>
+                            <input type="number" id="thm-nom" class="input-field border-primary font-bold" value="50.000" step="0.01">
+                        </div>
+                        <div>
+                            <label class="label-text">Aktuel Emnetemp i maskinen [°C]</label>
+                            <input type="number" id="thm-temp" class="input-field" value="45" step="1">
+                        </div>
+                        <div>
+                            <label class="label-text text-zinc-600">Målerums Target Temp [°C]</label>
+                            <input type="number" disabled class="input-field" value="20">
+                        </div>
                     </div>
                 </div>
 

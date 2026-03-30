@@ -38,18 +38,58 @@
         
         /* --- PRINT PROTOCOL --- */
         @media print {
-            @page { margin: 1.5cm; size: A4 portrait; }
-            body { background: white !important; color: black !important; }
-            header, footer, button, select, input, .no-print { display: none !important; }
-            #bg-tool-text { display: none !important; }
-            .grid { display: block !important; }
-            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50 { background: white !important; border: none !important; padding: 0 !important; }
-            .section-header { color: black !important; border-bottom: 2px solid black; padding-bottom: 4px; font-size: 14px; margin-top: 24px; }
-            .out-row { border-bottom: 1px solid #ccc !important; padding: 8px 0 !important; }
-            .out-label { color: #555 !important; font-size: 12px !important; }
-            .out-val { color: black !important; font-size: 14px !important; font-weight: 900 !important; }
-            .out-val.warning { color: black !important; text-decoration: underline; }
-            body::before { content: "DATUM PROTOTYPING // SETUP SHEET"; display: block; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 18px; letter-spacing: 0.1em; border-bottom: 4px solid black; padding-bottom: 8px; margin-bottom: 30px; }
+            @page { margin: 1cm; size: A4 portrait; }
+            body { background: white !important; color: black !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            
+            header, footer, button, .no-print, #bg-tool-text { display: none !important; }
+            
+            input, select { 
+                border: none !important; 
+                background: transparent !important; 
+                color: black !important; 
+                font-weight: 900 !important; 
+                font-size: 12px !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                appearance: none !important; 
+                -webkit-appearance: none !important; 
+            }
+            
+            .lg\:grid-cols-2, .lg\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 10px !important; }
+            
+            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50, .bg-zinc-900\/30 { 
+                background: white !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin-bottom: 15px !important;
+            }
+            
+            .text-primary, .text-white, .text-zinc-500, .text-zinc-400, .text-zinc-600, .text-red-500, .text-red-400, .text-blue-400, .text-emerald-500, .text-amber-500 { 
+                color: black !important; 
+            }
+            
+            .section-header { color: black !important; border-bottom: 2px solid black !important; padding-bottom: 2px !important; font-size: 12px !important; margin-top: 15px !important; margin-bottom: 10px !important; }
+            .label-text { color: #666 !important; font-size: 9px !important; margin-bottom: 0 !important; }
+            
+            .out-row { border-bottom: 1px solid #ddd !important; padding: 4px 0 !important; display: flex !important; justify-content: space-between !important; page-break-inside: avoid; }
+            .out-label { color: #555 !important; font-size: 10px !important; }
+            .out-val { color: black !important; font-size: 12px !important; font-weight: bold !important; }
+            
+            .border-red-900\/50, .border-amber-900\/50 { border: 1px solid black !important; }
+            
+            #bhc-output { max-height: none !important; overflow: visible !important; }
+            
+            body::before { 
+                content: "DATUM PROTOTYPING // SETUP SHEET"; 
+                display: block; 
+                font-family: 'JetBrains Mono', monospace; 
+                font-weight: 900; 
+                font-size: 16px; 
+                letter-spacing: 0.1em; 
+                border-bottom: 3px solid black; 
+                padding-bottom: 5px; 
+                margin-bottom: 20px; 
+            }
         }
     </style>
 </head>
@@ -59,7 +99,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Manual <span class="text-zinc-600">&</span> Conventional</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Manual_Calc_Rev18</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Manual_Calc_Rev19</div>
                 
                 <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
                     ← Return_To_Hub
@@ -71,7 +111,7 @@
         </header>
 
         <div class="grid lg:grid-cols-2 gap-12">
-            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between no-print">
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
                 <div>
                     <div class="section-header mt-0">// 00_OPERATOR_INPUTS</div>
                     
@@ -194,12 +234,12 @@
                         <div>
                             <label id="lbl-override-vc" class="label-text">Skrub Skærehastighed [m/min]</label>
                             <input type="number" id="in-vc" class="input-field text-primary font-bold" value="80" step="1">
-                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Teoretisk Mål: <span id="rec-vc">80</span></div>
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic no-print">Teoretisk Mål: <span id="rec-vc">80</span></div>
                         </div>
                         <div>
                             <label id="lbl-fz" class="label-text">Skrub Tilsp. pr. omdr/tand [mm]</label>
                             <input type="number" id="in-fz" class="input-field text-primary font-bold" value="0.15" step="0.001">
-                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Teoretisk Mål: <span id="rec-fz">0.15</span></div>
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic no-print">Teoretisk Mål: <span id="rec-fz">0.15</span></div>
                         </div>
                     </div>
                     
@@ -207,14 +247,14 @@
                         <label id="lbl-actual-rpm" class="label-text text-primary">Faktisk Maskingear / Aflæst RPM (Override)</label>
                         <div class="flex gap-2">
                             <input type="number" id="in-actual-rpm" class="input-field border-primary font-bold text-primary w-full" placeholder="Lad stå tom for Auto">
-                            <button id="btn-clear-rpm" class="px-4 border border-zinc-600 bg-zinc-800 text-xs font-bold text-zinc-400 hover:text-white transition-colors">X</button>
+                            <button id="btn-clear-rpm" class="no-print px-4 border border-zinc-600 bg-zinc-800 text-xs font-bold text-zinc-400 hover:text-white transition-colors">X</button>
                         </div>
-                        <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic leading-tight">
+                        <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic leading-tight no-print">
                             Indtast det faste gear maskinen sættes i, for at få den eksakte bordtilspænding.
                         </div>
                     </div>
 
-                    <button id="btn-reset" class="w-full mt-2 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
+                    <button id="btn-reset" class="no-print w-full mt-2 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
                         Reset til Sikker Manuel Basis
                     </button>
                     <button onclick="window.print()" class="no-print w-full mt-3 border border-zinc-700 bg-zinc-900/50 hover:border-white hover:bg-white/10 text-white text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
@@ -283,17 +323,13 @@
                         <div class="out-row"><span class="out-label">Køling / Smøring</span><span id="out-coolant" class="out-val">Pensel / Skæreolie</span></div>
                         <div class="out-row"><span class="out-label">Værktøjsstabilitet</span><span id="out-stability" class="out-val safe">Sikker og eftergivende</span></div>
                         
-                        <div id="warn-geom-dir" class="mt-4 p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
-                        </div>
-
+                        <div id="warn-geom-dir" class="mt-4 p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden"></div>
                         <div id="warn-mill-backlash" class="mt-4 p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
                             [!] Kritisk Kinematik: Du har valgt Medfræsning (Climb Milling). Slør i maskinens ledeskruer vil trække emnet ukontrolleret ind i fræseren. Må KUN udføres hvis maskinen har forspændte kuglespindler eller mekanisk sløreliminator (Backlash Eliminator).
                         </div>
-
                         <div id="warn-boring-chatter" class="mt-4 p-3 border border-amber-900/50 bg-amber-950/20 text-amber-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
                             [!] Vibrationsrisiko (Drejebænk): Udborestålets L:D forhold overskrider grænsen. Parametre er tvunget ned for at afværge chatter.
                         </div>
-
                         <div id="warn-mill-chatter" class="mt-4 p-3 border border-amber-900/50 bg-amber-950/20 text-amber-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
                             [!] Fysisk Indgreb: Systemet har tvangsreduceret hastighed og tilspænding for at undgå havari og chatter.
                         </div>
@@ -337,56 +373,12 @@
 
     <script>
         const threadDB = {
-            'M': [
-                { name: 'M3 x 0.50', d: 3, p: 0.5, drill: 2.5 },
-                { name: 'M4 x 0.70', d: 4, p: 0.7, drill: 3.3 },
-                { name: 'M5 x 0.80', d: 5, p: 0.8, drill: 4.2 },
-                { name: 'M6 x 1.00', d: 6, p: 1.0, drill: 5.0 },
-                { name: 'M8 x 1.25', d: 8, p: 1.25, drill: 6.8 },
-                { name: 'M10 x 1.50', d: 10, p: 1.5, drill: 8.5 },
-                { name: 'M12 x 1.75', d: 12, p: 1.75, drill: 10.2 },
-                { name: 'M16 x 2.00', d: 16, p: 2.0, drill: 14.0 },
-                { name: 'M20 x 2.50', d: 20, p: 2.5, drill: 17.5 }
-            ],
-            'MF': [
-                { name: 'M8 x 1.00', d: 8, p: 1.0, drill: 7.0 },
-                { name: 'M10 x 1.00', d: 10, p: 1.0, drill: 9.0 },
-                { name: 'M10 x 1.25', d: 10, p: 1.25, drill: 8.8 },
-                { name: 'M12 x 1.25', d: 12, p: 1.25, drill: 10.8 },
-                { name: 'M12 x 1.50', d: 12, p: 1.5, drill: 10.5 },
-                { name: 'M16 x 1.50', d: 16, p: 1.5, drill: 14.5 }
-            ],
-            'UNC': [
-                { name: '#4-40 UNC', d: 2.845, p: 0.635, drill: 2.25 },
-                { name: '#6-32 UNC', d: 3.505, p: 0.794, drill: 2.85 },
-                { name: '#8-32 UNC', d: 4.166, p: 0.794, drill: 3.4 },
-                { name: '#10-24 UNC', d: 4.826, p: 1.058, drill: 3.9 },
-                { name: '1/4"-20 UNC', d: 6.350, p: 1.270, drill: 5.1 },
-                { name: '5/16"-18 UNC', d: 7.938, p: 1.411, drill: 6.6 },
-                { name: '3/8"-16 UNC', d: 9.525, p: 1.588, drill: 8.0 },
-                { name: '1/2"-13 UNC', d: 12.700, p: 1.954, drill: 10.8 }
-            ],
-            'UNF': [
-                { name: '#10-32 UNF', d: 4.826, p: 0.794, drill: 4.1 },
-                { name: '1/4"-28 UNF', d: 6.350, p: 0.907, drill: 5.5 },
-                { name: '5/16"-24 UNF', d: 7.938, p: 1.058, drill: 6.9 },
-                { name: '3/8"-24 UNF', d: 9.525, p: 1.058, drill: 8.5 },
-                { name: '1/2"-20 UNF', d: 12.700, p: 1.270, drill: 11.5 }
-            ],
-            'BSP': [
-                { name: 'G 1/8" (28 TPI)', d: 9.728, p: 0.907, drill: 8.8 },
-                { name: 'G 1/4" (19 TPI)', d: 13.157, p: 1.337, drill: 11.8 },
-                { name: 'G 3/8" (19 TPI)', d: 16.662, p: 1.337, drill: 15.2 },
-                { name: 'G 1/2" (14 TPI)', d: 20.955, p: 1.814, drill: 19.0 },
-                { name: 'G 3/4" (14 TPI)', d: 26.441, p: 1.814, drill: 24.5 },
-                { name: 'G 1" (11 TPI)', d: 33.249, p: 2.309, drill: 30.3 }
-            ],
-            'NPT': [
-                { name: '1/8" NPT (27 TPI)', d: 10.287, p: 0.940, drill: 8.5 },
-                { name: '1/4" NPT (18 TPI)', d: 13.716, p: 1.411, drill: 11.0 },
-                { name: '3/8" NPT (18 TPI)', d: 17.145, p: 1.411, drill: 14.5 },
-                { name: '1/2" NPT (14 TPI)', d: 21.336, p: 1.814, drill: 18.0 }
-            ]
+            'M': [ { name: 'M3 x 0.50', d: 3, p: 0.5, drill: 2.5 }, { name: 'M4 x 0.70', d: 4, p: 0.7, drill: 3.3 }, { name: 'M5 x 0.80', d: 5, p: 0.8, drill: 4.2 }, { name: 'M6 x 1.00', d: 6, p: 1.0, drill: 5.0 }, { name: 'M8 x 1.25', d: 8, p: 1.25, drill: 6.8 }, { name: 'M10 x 1.50', d: 10, p: 1.5, drill: 8.5 }, { name: 'M12 x 1.75', d: 12, p: 1.75, drill: 10.2 }, { name: 'M16 x 2.00', d: 16, p: 2.0, drill: 14.0 }, { name: 'M20 x 2.50', d: 20, p: 2.5, drill: 17.5 } ],
+            'MF': [ { name: 'M8 x 1.00', d: 8, p: 1.0, drill: 7.0 }, { name: 'M10 x 1.00', d: 10, p: 1.0, drill: 9.0 }, { name: 'M10 x 1.25', d: 10, p: 1.25, drill: 8.8 }, { name: 'M12 x 1.25', d: 12, p: 1.25, drill: 10.8 }, { name: 'M12 x 1.50', d: 12, p: 1.5, drill: 10.5 }, { name: 'M16 x 1.50', d: 16, p: 1.5, drill: 14.5 } ],
+            'UNC': [ { name: '#4-40 UNC', d: 2.845, p: 0.635, drill: 2.25 }, { name: '#6-32 UNC', d: 3.505, p: 0.794, drill: 2.85 }, { name: '#8-32 UNC', d: 4.166, p: 0.794, drill: 3.4 }, { name: '#10-24 UNC', d: 4.826, p: 1.058, drill: 3.9 }, { name: '1/4"-20 UNC', d: 6.350, p: 1.270, drill: 5.1 }, { name: '5/16"-18 UNC', d: 7.938, p: 1.411, drill: 6.6 }, { name: '3/8"-16 UNC', d: 9.525, p: 1.588, drill: 8.0 }, { name: '1/2"-13 UNC', d: 12.700, p: 1.954, drill: 10.8 } ],
+            'UNF': [ { name: '#10-32 UNF', d: 4.826, p: 0.794, drill: 4.1 }, { name: '1/4"-28 UNF', d: 6.350, p: 0.907, drill: 5.5 }, { name: '5/16"-24 UNF', d: 7.938, p: 1.058, drill: 6.9 }, { name: '3/8"-24 UNF', d: 9.525, p: 1.058, drill: 8.5 }, { name: '1/2"-20 UNF', d: 12.700, p: 1.270, drill: 11.5 } ],
+            'BSP': [ { name: 'G 1/8" (28 TPI)', d: 9.728, p: 0.907, drill: 8.8 }, { name: 'G 1/4" (19 TPI)', d: 13.157, p: 1.337, drill: 11.8 }, { name: 'G 3/8" (19 TPI)', d: 16.662, p: 1.337, drill: 15.2 }, { name: 'G 1/2" (14 TPI)', d: 20.955, p: 1.814, drill: 19.0 }, { name: 'G 3/4" (14 TPI)', d: 26.441, p: 1.814, drill: 24.5 }, { name: 'G 1" (11 TPI)', d: 33.249, p: 2.309, drill: 30.3 } ],
+            'NPT': [ { name: '1/8" NPT (27 TPI)', d: 10.287, p: 0.940, drill: 8.5 }, { name: '1/4" NPT (18 TPI)', d: 13.716, p: 1.411, drill: 11.0 }, { name: '3/8" NPT (18 TPI)', d: 17.145, p: 1.411, drill: 14.5 }, { name: '1/2" NPT (14 TPI)', d: 21.336, p: 1.814, drill: 18.0 } ]
         };
 
         const elMachine = document.getElementById('in-machine');
