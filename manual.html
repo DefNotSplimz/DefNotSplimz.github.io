@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Datum Prototyping | Manual Machining</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: "#10b981" }, 
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
+        .input-field { background-color: #0c0c0e; border: 1px solid #27272a; padding: 0.5rem; color: white; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .input-field:focus:not(:disabled) { border-color: #10b981; }
+        .input-field:disabled { color: #71717a; border-color: #27272a; background-color: #09090b; cursor: not-allowed; }
+        .label-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #71717a; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; display: block; margin-bottom: 0.25rem; }
+        .out-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(39, 39, 42, 0.5); padding: 0.5rem 0; }
+        .out-label { color: #71717a; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .out-val { color: white; font-weight: bold; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+        .out-val.warning { color: #ef4444; }
+        .out-val.safe { color: #10b981; }
+        .section-header { color: #10b981; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; margin-bottom: 1rem; margin-top: 1.5rem; }
+    </style>
+</head>
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen p-6">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Manual <span class="text-zinc-600">&</span> Conventional</h1>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Manual_Calc_Rev09</div>
+                
+                <div class="flex space-x-0 border border-zinc-800 rounded overflow-hidden inline-flex">
+                    <a href="calculator.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Fræsning</a>
+                    <a href="turning.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-[#0c0c0e] text-zinc-500 hover:text-white hover:bg-zinc-900 transition-colors">Drejning</a>
+                    <a href="manual.html" class="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest bg-primary text-black">Manuelt</a>
+                </div>
+            </div>
+            <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
+                System_Status: <span class="text-primary">Active</span>
+            </div>
+        </header>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
+                <div>
+                    <div class="section-header mt-0">// 00_OPERATOR_INPUTS</div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="label-text">Maskintype</label>
+                            <select id="in-machine" class="input-field border-primary text-primary font-bold">
+                                <option value="mill">Konventionel Fræser (Deckel/Bridgeport)</option>
+                                <option value="lathe" selected>Manuel Drejebænk (Weiler/Colchester)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label id="lbl-mat" class="label-text">Værktøjsmateriale</label>
+                            <select id="in-material" class="input-field">
+                                <option value="hm" selected>Hårdmetal (Vendeskær/HM)</option>
+                                <option value="hss">HSS (Bor / Tap / Special)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="label-text">Emnemateriale</label>
+                            <select id="in-workpiece" class="input-field border-zinc-600">
+                                <option value="automat">Automatstål (Reference)</option>
+                                <option value="alu">Aluminium</option>
+                                <option value="rustfast">Rustfast Stål</option>
+                                <option value="vaerktoej">Værktøjsstål</option>
+                                <option value="messing">Messing</option>
+                                <option value="pom">POM</option>
+                                <option value="nylon">Nylon</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="label-text">Værktøj / Operation</label>
+                            <select id="in-tool" class="input-field">
+                                </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div id="wrap-d">
+                            <label id="lbl-d" class="label-text">Start Diameter (X) [mm]</label>
+                            <input type="number" id="in-d" class="input-field" value="50" step="0.1">
+                        </div>
+                        <div id="wrap-d-end">
+                            <label class="label-text text-primary">Slut Diameter (X) [mm]</label>
+                            <input type="number" id="in-d-end" class="input-field border-primary" value="45" step="0.1">
+                        </div>
+                        
+                        <div id="wrap-z" class="hidden">
+                            <label class="label-text">Antal skær (Z)</label>
+                            <input type="number" id="in-z" class="input-field" value="4" min="1">
+                        </div>
+                        <div id="wrap-tap" class="hidden col-span-2">
+                            <label class="label-text">Gevindstigning (Pitch) [mm]</label>
+                            <input type="number" id="in-pitch" class="input-field border-zinc-600 text-primary" value="1.5" step="0.1">
+                        </div>
+
+                        <div id="wrap-boring-geom" class="hidden col-span-2 grid grid-cols-2 gap-4 border-t border-zinc-800 pt-4 mt-2">
+                            <div>
+                                <label class="label-text">Udborestål Diameter [mm]</label>
+                                <input type="number" id="in-boring-d" class="input-field" value="16" step="1">
+                            </div>
+                            <div>
+                                <label class="label-text">Stål Udhæng (L) [mm]</label>
+                                <input type="number" id="in-boring-l" class="input-field" value="48" step="1">
+                            </div>
+                        </div>
+
+                        <div id="wrap-groove-geom" class="hidden col-span-2 border-t border-zinc-800 pt-4 mt-2">
+                            <label class="label-text">Plattebredde (Insert Width) [mm]</label>
+                            <input type="number" id="in-groove-w" class="input-field" value="3.0" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-zinc-800 pt-6 mt-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label id="lbl-override-vc" class="label-text">Skrub Skærehastighed [m/min]</label>
+                            <input type="number" id="in-vc" class="input-field text-primary font-bold" value="80" step="1">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Teoretisk Mål: <span id="rec-vc">80</span></div>
+                        </div>
+                        <div>
+                            <label id="lbl-fz" class="label-text">Skrub Tilsp. pr. omdr (fn) [mm]</label>
+                            <input type="number" id="in-fz" class="input-field text-primary font-bold" value="0.15" step="0.001">
+                            <div class="text-[9px] text-zinc-500 font-mono mt-1.5 uppercase italic">Teoretisk Mål: <span id="rec-fz">0.15</span></div>
+                        </div>
+                    </div>
+                    <button id="btn-reset" class="w-full mt-6 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
+                        Reset til Sikker Manuel Basis
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-black/40 border border-zinc-900 p-6 relative overflow-hidden flex flex-col">
+                <div class="absolute top-0 right-0 p-4 text-[200px] font-black italic text-zinc-900/30 leading-none pointer-events-none select-none">
+                    <span id="bg-tool-text">T</span>
+                </div>
+
+                <div class="relative z-10 flex-grow">
+                    <div id="wrap-outputs-mill" class="hidden">
+                        <div class="section-header mt-0">// 01_GEARBOX_SETTINGS</div>
+                        <div class="out-row"><span class="out-label">Teoretisk Spindelhastighed</span><span id="out-spindle-theo" class="out-val text-zinc-500">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Vælg Nærmeste Faste Gear</span><span id="out-spindle-gear" class="out-val text-primary text-lg">0 RPM</span></div>
+
+                        <div class="section-header">// 02_FEED_DYNAMICS</div>
+                        <div class="out-row" id="row-feed-min"><span class="out-label" id="lbl-feed-min">Bordtilspænding (Minute Feed)</span><span id="out-feed-min" class="out-val text-primary">0 mm/min</span></div>
+                        <div class="out-row" id="row-feed-rev"><span class="out-label" id="lbl-feed-rev-out">Tilspænding pr. tand</span><span id="out-feed-rev" class="out-val">0 mm/tand</span></div>
+                    </div>
+
+                    <div id="sec-reaming" class="hidden">
+                        <div class="section-header">// 03_REAMING_DYNAMICS</div>
+                        <div class="out-row"><span class="out-label">Anbefalet Forboring (Pre-drill)</span><span id="out-ream-predrill" class="out-val text-primary">0 mm</span></div>
+                        <div class="out-row"><span class="out-label">Diametral Allowance (Stock to Leave)</span><span id="out-ream-allow" class="out-val text-zinc-500">0 mm</span></div>
+                    </div>
+
+                    <div id="wrap-outputs-lathe">
+                        <div class="section-header mt-0">// 01_SKRUB (ROUGHING)</div>
+                        <div class="out-row"><span class="out-label">Nærmeste Faste Gear (RPM)</span><span id="lathe-skrub-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Tilspænding (fn)</span><span id="lathe-skrub-fn" class="out-val text-primary">0 mm/omdr</span></div>
+                        <div class="out-row"><span class="out-label">Spåndybde pr. overløb (Ap)</span><span id="lathe-skrub-ap" class="out-val text-primary">0 mm</span></div>
+                        <div class="out-row"><span class="out-label">Antal Skrub-overløb</span><span id="lathe-skrub-passes" class="out-val">0</span></div>
+                        <div class="out-row"><span class="out-label">Længdetilspænding (Z)</span><span id="lathe-skrub-min" class="out-val text-zinc-500">0 mm/min</span></div>
+                        
+                        <div class="section-header">// 02_SLET (FINISHING)</div>
+                        <div class="out-row"><span class="out-label">Nærmeste Faste Gear (RPM)</span><span id="lathe-slet-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Slet-Tilspænding (fn)</span><span id="lathe-slet-fn" class="out-val text-primary">0 mm/omdr</span></div>
+                        <div class="out-row"><span class="out-label">Sletspån (Radial Allowance)</span><span id="lathe-slet-ap" class="out-val text-primary">0 mm</span></div>
+                        <div class="out-row"><span class="out-label">Længdetilspænding (Z)</span><span id="lathe-slet-min" class="out-val text-zinc-500">0 mm/min</span></div>
+                    </div>
+
+                    <div id="wrap-outputs-groove" class="hidden">
+                        <div class="section-header mt-0">// 01_GROOVING_DYNAMICS</div>
+                        <div class="out-row"><span class="out-label">Nærmeste Faste Gear (RPM)</span><span id="lathe-groove-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Indstik Tilspænding (fn)</span><span id="lathe-groove-fn" class="out-val text-primary">0 mm/omdr</span></div>
+                        <div class="out-row"><span class="out-label">Tværtilspænding (X)</span><span id="lathe-groove-min" class="out-val text-zinc-500">0 mm/min</span></div>
+                        <div class="out-row"><span class="out-label">Spånbrydning (Peck Depth)</span><span id="lathe-groove-peck" class="out-val text-primary">0 mm</span></div>
+                    </div>
+
+                    <div id="wrap-outputs-thread" class="hidden">
+                        <div class="section-header mt-0">// 01_THREADING_CYCLE</div>
+                        <div class="out-row"><span class="out-label">Faste Gear (Sikker Hastighed)</span><span id="lathe-thread-rpm" class="out-val text-primary text-lg">0 RPM</span></div>
+                        <div class="out-row"><span class="out-label">Ledeskrue (Pitch/Feed)</span><span id="lathe-thread-pitch" class="out-val text-primary">0 mm/omdr</span></div>
+                        <div class="out-row"><span class="out-label">Total Gevinddybde (Radialt)</span><span id="lathe-thread-depth" class="out-val">0 mm</span></div>
+                        <div class="out-row"><span class="out-label">Anbefalede Overløb (Passes)</span><span id="lathe-thread-passes" class="out-val">0</span></div>
+                    </div>
+
+                    <div id="sec-physics">
+                        <div class="section-header">// 04_PHYSICAL_CONSTRAINTS</div>
+                        <div class="out-row"><span class="out-label">Køling / Smøring</span><span id="out-coolant" class="out-val">Pensel / Skæreolie</span></div>
+                        <div class="out-row"><span class="out-label">Værktøjsstabilitet</span><span id="out-stability" class="out-val safe">Optimal for konventionel</span></div>
+                        
+                        <div id="warn-geom-dir" class="mt-4 p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
+                            </div>
+
+                        <div id="warn-mill-backlash" class="mt-4 p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
+                            [!] Kritisk Kinematik: Brug altid modfræsning (Conventional Milling) ved skrub. Slør i maskinens ledeskruer vil trække emnet ind i fræseren ved medfræsning (Climb Milling) og forårsage havari.
+                        </div>
+                        
+                        <div id="warn-hm-shock" class="mt-4 p-3 border border-amber-900/50 bg-amber-950/20 text-amber-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
+                            [!] Materiale Advarsel: Hårdmetal udsættes let for mikrosplintring på manuelle maskiner pga. svingende spåntryk. Undgå afbrudt spån og hold udhænget ekstremt kort.
+                        </div>
+
+                        <div id="warn-boring-chatter" class="mt-4 p-3 border border-amber-900/50 bg-amber-950/20 text-amber-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed hidden">
+                            [!] Vibrationsrisiko: Udborestålets L:D forhold overskrider 4x. Parametre er tvunget ned for at afværge chatter. Støt stålet yderligere hvis muligt.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const elMachine = document.getElementById('in-machine');
+        const elWorkpiece = document.getElementById('in-workpiece');
+        const elTool = document.getElementById('in-tool');
+        const elMaterial = document.getElementById('in-material');
+        const elD = document.getElementById('in-d');
+        const elDEnd = document.getElementById('in-d-end');
+        const elZ = document.getElementById('in-z');
+        const elPitch = document.getElementById('in-pitch');
+        const elBoringD = document.getElementById('in-boring-d');
+        const elBoringL = document.getElementById('in-boring-l');
+        const elGrooveW = document.getElementById('in-groove-w');
+        const elVc = document.getElementById('in-vc');
+        const elFz = document.getElementById('in-fz');
+        const btnReset = document.getElementById('btn-reset');
+        
+        const wrapZ = document.getElementById('wrap-z');
+        const wrapD = document.getElementById('wrap-d');
+        const wrapDEnd = document.getElementById('wrap-d-end');
+        const wrapTap = document.getElementById('wrap-tap');
+        const wrapBoringGeom = document.getElementById('wrap-boring-geom');
+        const wrapGrooveGeom = document.getElementById('wrap-groove-geom');
+        
+        const lblFz = document.getElementById('lbl-fz');
+        const lblMat = document.getElementById('lbl-mat');
+        const lblOverrideVc = document.getElementById('lbl-override-vc');
+        const bgToolText = document.getElementById('bg-tool-text');
+        
+        const recVcSpan = document.getElementById('rec-vc');
+        const recFzSpan = document.getElementById('rec-fz');
+
+        // State variables
+        let recommendedVc = 0;
+        let recommendedFz = 0;
+
+        // Base Vc for HSS in Manual Machining
+        const baseVcHSS = { 'automat': 25, 'alu': 80, 'rustfast': 10, 'vaerktoej': 15, 'messing': 40, 'pom': 80, 'nylon': 80 };
+        // Base Vc for HM in Manual Machining (Optimized for Inserts/Vendeskær)
+        const baseVcHM = { 'automat': 100, 'alu': 200, 'rustfast': 50, 'vaerktoej': 60, 'messing': 120, 'pom': 150, 'nylon': 150 };
+        
+        const fzFactor = { 'automat': 1.0, 'alu': 1.2, 'rustfast': 0.7, 'vaerktoej': 0.8, 'messing': 1.0, 'pom': 1.5, 'nylon': 1.5 };
+
+        // Ensure dynamic menu population on load and change
+        function updateMachineOptions() {
+            const mach = elMachine.value;
+            const valBefore = elTool.value;
+            elTool.innerHTML = '';
+            
+            if (mach === 'mill') {
+                elTool.add(new Option('Fræsning (Plan/Pind/Spor)', 'mill_cut'));
+                elTool.add(new Option('Bor', 'drill'));
+                elTool.add(new Option('Brotsjer (Reamer)', 'reamer'));
+                elTool.add(new Option('Gevindtap', 'tap'));
+            } else {
+                elTool.add(new Option('Udvendig Drejning', 'turn_ext'));
+                elTool.add(new Option('Indvendig Udboring', 'turn_int'));
+                elTool.add(new Option('Spor / Afstik (Grooving)', 'groove'));
+                elTool.add(new Option('Gevinddrejning (Single Point)', 'thread_single'));
+                elTool.add(new Option('Bor (Center/Spiral)', 'drill'));
+                elTool.add(new Option('Brotsjer (Reamer)', 'reamer'));
+                elTool.add(new Option('Gevindtap / Bakke', 'tap'));
+            }
+
+            if (Array.from(elTool.options).some(opt => opt.value === valBefore)) {
+                elTool.value = valBefore;
+            }
+        }
+
+        // Event Listeners
+        elMachine.addEventListener('change', () => { updateMachineOptions(); handleConfigChange(); });
+        elWorkpiece.addEventListener('change', handleConfigChange);
+        elTool.addEventListener('change', handleConfigChange);
+        elMaterial.addEventListener('change', handleConfigChange);
+
+        const dynamicInputs = [elD, elDEnd, elZ, elPitch, elBoringD, elBoringL, elGrooveW, elVc, elFz];
+        dynamicInputs.forEach(el => el.addEventListener('input', calculate));
+
+        btnReset.addEventListener('click', () => {
+            elVc.value = recommendedVc.toFixed(0);
+            elFz.value = recommendedFz.toFixed(3);
+            calculate();
+        });
+
+        function handleConfigChange() {
+            updateUI();
+            autoFillMatrix();
+            calculate();
+        }
+
+        function updateUI() {
+            const mach = elMachine.value;
+            const tool = elTool.value;
+            const optHSS = elMaterial.querySelector('option[value="hss"]');
+
+            // Hårdmetal / HSS Låse-logik
+            if (mach === 'lathe' && ['turn_ext', 'turn_int', 'groove', 'thread_single'].includes(tool)) {
+                elMaterial.value = 'hm';
+                optHSS.disabled = true;
+                lblMat.innerText = "Værktøjsmateriale [Låst til HM]";
+                elMaterial.classList.add('text-primary');
+            } else {
+                optHSS.disabled = false;
+                lblMat.innerText = "Værktøjsmateriale";
+                elMaterial.classList.remove('text-primary');
+                if (['drill', 'tap', 'reamer'].includes(tool)) {
+                    elMaterial.value = 'hss'; 
+                }
+            }
+
+            // General UI Resets
+            wrapZ.classList.add('hidden');
+            wrapD.classList.remove('hidden');
+            wrapDEnd.classList.add('hidden');
+            wrapTap.classList.add('hidden');
+            wrapBoringGeom.classList.add('hidden');
+            wrapGrooveGeom.classList.add('hidden');
+            elFz.disabled = false;
+            
+            document.getElementById('warn-geom-dir').classList.add('hidden');
+            document.getElementById('warn-mill-backlash').classList.add('hidden');
+            document.getElementById('warn-hm-shock').classList.add('hidden');
+            document.getElementById('warn-boring-chatter').classList.add('hidden');
+            
+            document.getElementById('wrap-outputs-mill').classList.add('hidden');
+            document.getElementById('wrap-outputs-lathe').classList.add('hidden');
+            document.getElementById('wrap-outputs-groove').classList.add('hidden');
+            document.getElementById('wrap-outputs-thread').classList.add('hidden');
+            document.getElementById('sec-reaming').classList.add('hidden');
+
+            if (mach === 'mill') {
+                bgToolText.innerText = "M";
+                document.getElementById('lbl-d').innerText = "Værktøjsdiameter (D) [mm]";
+                lblFz.innerText = "Tilsp. pr. tand (fz) [mm]";
+                lblOverrideVc.innerText = "Skærehastighed [m/min]";
+                document.getElementById('lbl-feed-min').innerText = "Bordtilspænding (X/Y) [mm/min]";
+                document.getElementById('lbl-feed-rev-out').innerText = "Tilspænding pr. tand";
+                
+                if (tool === 'mill_cut') {
+                    wrapZ.classList.remove('hidden');
+                    document.getElementById('warn-mill-backlash').classList.remove('hidden');
+                    document.getElementById('wrap-outputs-mill').classList.remove('hidden');
+                }
+            } else { // Lathe
+                bgToolText.innerText = "T";
+                document.getElementById('lbl-d').innerText = "Start Diameter (X) [mm]";
+                lblFz.innerText = "Skrub Tilsp. (fn) [mm]";
+                lblOverrideVc.innerText = "Skrub Skærehastighed [m/min]";
+                
+                if (tool === 'turn_ext' || tool === 'turn_int') {
+                    wrapDEnd.classList.remove('hidden');
+                    document.getElementById('wrap-outputs-lathe').classList.remove('hidden');
+                    if (tool === 'turn_int') {
+                        wrapBoringGeom.classList.remove('hidden');
+                        document.getElementById('lbl-d').innerText = "Hul Start Diameter [mm]";
+                        document.getElementById('wrap-d-end').querySelector('.label-text').innerText = "Hul Slut Diameter [mm]";
+                    } else {
+                        document.getElementById('lbl-d').innerText = "Start Diameter (X) [mm]";
+                        document.getElementById('wrap-d-end').querySelector('.label-text').innerText = "Slut Diameter (X) [mm]";
+                    }
+                } else if (tool === 'groove') {
+                    wrapGrooveGeom.classList.remove('hidden');
+                    document.getElementById('lbl-d').innerText = "Aktuel X-Diameter [mm]";
+                    lblFz.innerText = "Indstiks-Tilspænding [mm]";
+                    document.getElementById('wrap-outputs-groove').classList.remove('hidden');
+                } else if (tool === 'thread_single') {
+                    wrapD.classList.remove('hidden');
+                    wrapTap.classList.remove('hidden');
+                    lblFz.innerText = "Stigning [Låst, mm]";
+                    elFz.disabled = true;
+                    document.getElementById('lbl-d').innerText = "Gevind Yderdiameter [mm]";
+                    document.getElementById('wrap-outputs-thread').classList.remove('hidden');
+                }
+            }
+
+            // Material Warnings
+            if (elMaterial.value === 'hm' && mach === 'mill' && tool === 'mill_cut') {
+                document.getElementById('warn-hm-shock').classList.remove('hidden');
+            }
+
+            // Universal Hole Making
+            if (['tap', 'drill', 'reamer'].includes(tool) && tool !== 'thread_single') {
+                wrapD.classList.remove('hidden');
+                document.getElementById('wrap-outputs-mill').classList.remove('hidden');
+                
+                if (tool === 'tap') {
+                    wrapD.classList.add('hidden');
+                    wrapTap.classList.remove('hidden');
+                    lblFz.innerText = "Stigning [Låst, mm]";
+                    elFz.disabled = true;
+                    if(mach === 'lathe') document.getElementById('lbl-feed-min').innerText = "Længdetilspænding (Z) [mm/min]";
+                } else if (tool === 'drill') {
+                    lblFz.innerText = "Tilsp. pr. omdr (fn) [mm]";
+                    document.getElementById('lbl-feed-rev-out').innerText = "Tilspænding pr. omdr.";
+                    if(mach === 'lathe') {
+                        document.getElementById('lbl-feed-min').innerText = "Længdetilspænding (Z) [mm/min]";
+                        document.getElementById('lbl-d').innerText = "Bor Diameter (D) [mm]";
+                    }
+                } else if (tool === 'reamer') {
+                    bgToolText.innerText = "R";
+                    lblFz.innerText = "Tilsp. pr. omdr (fn) [mm]";
+                    document.getElementById('lbl-feed-rev-out').innerText = "Tilspænding pr. omdr.";
+                    document.getElementById('sec-reaming').classList.remove('hidden');
+                    if(mach === 'lathe') {
+                        document.getElementById('lbl-feed-min').innerText = "Længdetilspænding (Z) [mm/min]";
+                        document.getElementById('lbl-d').innerText = "Brotsjer Diameter (D) [mm]";
+                    } else {
+                        document.getElementById('lbl-d').innerText = "Brotsjer Diameter (D) [mm]";
+                    }
+                }
+            }
+        }
+
+        function autoFillMatrix() {
+            const mach = elMachine.value;
+            const tool = elTool.value;
+            const mat = elMaterial.value;
+            const workpiece = elWorkpiece.value;
+            const D = parseFloat(elD.value) || 10;
+            
+            let baseVc = 0;
+            let baseFz = 0;
+
+            if (tool === 'tap' || tool === 'thread_single') {
+                baseVc = tool === 'thread_single' ? 15 : 5; // Very low for manual reaction time
+                baseFz = parseFloat(elPitch.value) || 1.5;
+            } else if (tool === 'reamer') {
+                baseVc = 15; 
+                baseFz = D * 0.02; 
+            } else if (tool === 'groove') {
+                baseVc = baseVcHM[workpiece] * 0.6; // Grooving uses lower speed
+                baseFz = 0.06; // Hardcoded safe grooving feed
+                if (['alu', 'pom', 'nylon'].includes(workpiece)) baseFz = 0.1;
+            } else {
+                if (mat === 'hss') {
+                    baseVc = baseVcHSS[workpiece];
+                } else {
+                    baseVc = baseVcHM[workpiece];
+                }
+
+                if (tool === 'drill') {
+                    baseFz = D * 0.015; 
+                    if (mat === 'hss') baseVc *= 0.8; 
+                } else if (tool === 'mill_cut') {
+                    baseFz = (D / 10) * 0.04; 
+                } else { // turn_ext, turn_int
+                    baseFz = 0.15; 
+                }
+
+                baseFz *= fzFactor[workpiece];
+                if (mat === 'hm' && mach === 'mill') baseFz *= 0.8; 
+            }
+
+            recommendedVc = baseVc;
+            recommendedFz = baseFz;
+
+            recVcSpan.innerText = recommendedVc.toFixed(0);
+            recFzSpan.innerText = (['tap', 'reamer', 'thread_single'].includes(tool)) ? recommendedFz.toFixed(2) : recommendedFz.toFixed(3);
+
+            elVc.value = recommendedVc.toFixed(0);
+            elFz.value = (['tap', 'reamer', 'thread_single'].includes(tool)) ? recommendedFz.toFixed(2) : recommendedFz.toFixed(3);
+        }
+
+        function calculate() {
+            const mach = elMachine.value;
+            const tool = elTool.value;
+            const mat = elMaterial.value;
+            const workpiece = elWorkpiece.value;
+            const D = parseFloat(elD.value) || 1;
+            const DEnd = parseFloat(elDEnd.value) || 1;
+            const Z = parseFloat(elZ.value) || 1;
+            let Vc = parseFloat(elVc.value) || 0;
+            const inputFz = parseFloat(elFz.value) || 0;
+
+            if (D === 0) return;
+            
+            document.getElementById('warn-boring-chatter').classList.add('hidden');
+            document.getElementById('warn-geom-dir').classList.add('hidden');
+
+            // Geometrisk Hard-Stop validering
+            if (tool === 'turn_int' && DEnd <= D) {
+                const warnEl = document.getElementById('warn-geom-dir');
+                warnEl.innerText = "[!] Geometrisk Fejl: Ved indvendig udboring skal Slut Diameter være STØRRE end Start Diameter.";
+                warnEl.classList.remove('hidden');
+                
+                document.getElementById('lathe-skrub-rpm').innerText = "ERR";
+                document.getElementById('lathe-skrub-fn').innerText = "ERR";
+                document.getElementById('lathe-skrub-ap').innerText = "ERR";
+                document.getElementById('lathe-skrub-passes').innerText = "ERR";
+                document.getElementById('lathe-skrub-min').innerText = "ERR";
+                document.getElementById('lathe-slet-rpm').innerText = "ERR";
+                document.getElementById('lathe-slet-fn').innerText = "ERR";
+                document.getElementById('lathe-slet-ap').innerText = "ERR";
+                document.getElementById('lathe-slet-min').innerText = "ERR";
+                return;
+            } else if (tool === 'turn_ext' && DEnd >= D) {
+                const warnEl = document.getElementById('warn-geom-dir');
+                warnEl.innerText = "[!] Geometrisk Fejl: Ved udvendig drejning skal Slut Diameter være MINDRE end Start Diameter.";
+                warnEl.classList.remove('hidden');
+                
+                document.getElementById('lathe-skrub-rpm').innerText = "ERR";
+                document.getElementById('lathe-skrub-fn').innerText = "ERR";
+                document.getElementById('lathe-skrub-ap').innerText = "ERR";
+                document.getElementById('lathe-skrub-passes').innerText = "ERR";
+                document.getElementById('lathe-skrub-min').innerText = "ERR";
+                document.getElementById('lathe-slet-rpm').innerText = "ERR";
+                document.getElementById('lathe-slet-fn').innerText = "ERR";
+                document.getElementById('lathe-slet-ap').innerText = "ERR";
+                document.getElementById('lathe-slet-min').innerText = "ERR";
+                return;
+            }
+
+            // Boring bar penalty calculation
+            if (tool === 'turn_int') {
+                const bD = parseFloat(document.getElementById('in-boring-d').value) || 16;
+                const bL = parseFloat(document.getElementById('in-boring-l').value) || 48;
+                const ratio = bL / bD;
+                if (ratio > 4) {
+                    Vc *= 0.6; // Force lower RPM
+                    document.getElementById('warn-boring-chatter').classList.remove('hidden');
+                }
+            }
+
+            if (['tap', 'drill', 'reamer', 'mill_cut'].includes(tool)) {
+                let spindle = (Vc * 1000) / (Math.PI * D);
+                document.getElementById('out-spindle-theo').innerText = Math.round(spindle) + " RPM";
+                document.getElementById('out-spindle-gear').innerText = "< " + Math.round(spindle) + " RPM";
+
+                let feedMin = 0;
+                let feedRev = 0;
+
+                if (tool === 'tap') {
+                    feedRev = inputFz;
+                    feedMin = spindle * feedRev;
+                } else if (tool === 'reamer') {
+                    feedRev = inputFz;
+                    feedMin = spindle * feedRev;
+                    
+                    let diaAllowance = 0.2; 
+                    const matGroupSoft = ['alu', 'pom', 'nylon'];
+                    const matGroupHard = ['rustfast', 'vaerktoej'];
+
+                    if (matGroupSoft.includes(workpiece)) {
+                        if (D <= 6) diaAllowance = 0.20;
+                        else if (D <= 16) diaAllowance = 0.30;
+                        else diaAllowance = 0.40;
+                    } else if (matGroupHard.includes(workpiece)) {
+                        if (D <= 6) diaAllowance = 0.10;
+                        else if (D <= 16) diaAllowance = 0.15;
+                        else diaAllowance = 0.20;
+                    } else { 
+                        if (D <= 6) diaAllowance = 0.15;
+                        else if (D <= 16) diaAllowance = 0.20;
+                        else diaAllowance = 0.30;
+                    }
+                    
+                    const predrill = D - diaAllowance;
+                    
+                    document.getElementById('out-ream-predrill').innerText = predrill.toFixed(2) + " mm";
+                    document.getElementById('out-ream-allow').innerText = diaAllowance.toFixed(2) + " mm";
+                    
+                } else if (tool === 'mill_cut') {
+                    feedMin = spindle * inputFz * Z;
+                    feedRev = inputFz; 
+                } else { // Drill
+                    feedRev = inputFz;
+                    feedMin = spindle * feedRev;
+                }
+
+                document.getElementById('out-feed-min').innerText = Math.round(feedMin) + " mm/min";
+                document.getElementById('out-feed-rev').innerText = (['drill', 'tap', 'reamer'].includes(tool)) ? feedRev.toFixed(3) + " mm/omdr" : feedRev.toFixed(3) + " mm/tand";
+
+            } else if (tool === 'turn_ext' || tool === 'turn_int') {
+                let finAllow = 0.2;
+                let maxAp = 1.5; 
+                if (['alu', 'pom', 'nylon'].includes(workpiece)) { finAllow = 0.3; maxAp = 2.5; }
+                else if (['rustfast', 'vaerktoej'].includes(workpiece)) { finAllow = 0.15; maxAp = 0.8; }
+                
+                let radTotal = Math.abs(D - DEnd) / 2;
+                let passes = 0;
+                let actualAp = 0;
+                
+                if (radTotal > finAllow) {
+                    let roughRad = radTotal - finAllow;
+                    passes = Math.ceil(roughRad / maxAp);
+                    actualAp = roughRad / passes;
+                } else {
+                    finAllow = radTotal > 0 ? radTotal : 0;
+                }
+
+                // If boring with high overhang, punish Ap
+                if (tool === 'turn_int' && !document.getElementById('warn-boring-chatter').classList.contains('hidden')) {
+                    actualAp *= 0.5;
+                    passes = Math.ceil((radTotal - finAllow) / actualAp);
+                }
+
+                let rpmSkrub = (Vc * 1000) / (Math.PI * D);
+                let fnSkrub = inputFz;
+                let minSkrub = rpmSkrub * fnSkrub;
+
+                let vcSlet = Vc * 1.30; 
+                let rpmSlet = (vcSlet * 1000) / (Math.PI * DEnd);
+                let fnSlet = inputFz * 0.35; 
+                let minSlet = rpmSlet * fnSlet;
+
+                document.getElementById('lathe-skrub-rpm').innerText = "< " + Math.round(rpmSkrub) + " RPM";
+                document.getElementById('lathe-skrub-fn').innerText = fnSkrub.toFixed(3) + " mm/omdr";
+                document.getElementById('lathe-skrub-ap').innerText = actualAp.toFixed(2) + " mm";
+                document.getElementById('lathe-skrub-passes').innerText = passes;
+                document.getElementById('lathe-skrub-min').innerText = Math.round(minSkrub) + " mm/min";
+
+                document.getElementById('lathe-slet-rpm').innerText = "< " + Math.round(rpmSlet) + " RPM";
+                document.getElementById('lathe-slet-fn').innerText = fnSlet.toFixed(3) + " mm/omdr";
+                document.getElementById('lathe-slet-ap').innerText = finAllow.toFixed(2) + " mm";
+                document.getElementById('lathe-slet-min').innerText = Math.round(minSlet) + " mm/min";
+            
+            } else if (tool === 'groove') {
+                let rpm = (Vc * 1000) / (Math.PI * D);
+                let fn = inputFz;
+                let minF = rpm * fn;
+                
+                const w = parseFloat(document.getElementById('in-groove-w').value) || 3.0;
+                let peck = w; 
+                if (['alu', 'pom', 'nylon'].includes(workpiece)) peck = w * 2.0;
+                else if (['rustfast', 'vaerktoej'].includes(workpiece)) peck = w * 0.5;
+
+                document.getElementById('lathe-groove-rpm').innerText = "< " + Math.round(rpm) + " RPM";
+                document.getElementById('lathe-groove-fn').innerText = fn.toFixed(3) + " mm/omdr";
+                document.getElementById('lathe-groove-min').innerText = Math.round(minF) + " mm/min";
+                document.getElementById('lathe-groove-peck').innerText = peck.toFixed(1) + " mm";
+            
+            } else if (tool === 'thread_single') {
+                let rpm = (Vc * 1000) / (Math.PI * D);
+                let pitch = inputFz;
+                let depth = pitch * 0.614;
+                
+                let passes = 6; 
+                if (pitch >= 2.0) passes = 8;
+                if (pitch <= 1.0) passes = 4;
+                if (['rustfast', 'vaerktoej'].includes(workpiece)) passes += 3;
+                if (['alu', 'pom', 'nylon'].includes(workpiece)) passes = Math.max(3, passes - 2);
+
+                document.getElementById('lathe-thread-rpm').innerText = "< " + Math.round(rpm) + " RPM";
+                document.getElementById('lathe-thread-pitch').innerText = pitch.toFixed(2) + " mm/omdr";
+                document.getElementById('lathe-thread-depth').innerText = depth.toFixed(3) + " mm";
+                document.getElementById('lathe-thread-passes').innerText = passes;
+            }
+
+            // Physics Status
+            const outCoolant = document.getElementById('out-coolant');
+            if (['tap', 'reamer', 'thread_single'].includes(tool)) outCoolant.innerText = "Rigelig Skæreolie";
+            else if (['alu', 'pom', 'nylon'].includes(workpiece)) outCoolant.innerText = "WD40 / Sprit / Tør";
+            else if (mat === 'hm' && mach === 'mill') outCoolant.innerText = "Tør kørsel (Undgå termisk chok)";
+            else outCoolant.innerText = "Emulsionskøling ell. Pensel";
+
+            const outStab = document.getElementById('out-stability');
+            if (mat === 'hm' && mach === 'mill') {
+                outStab.innerText = "Risiko for udsplintring (Chatter)";
+                outStab.className = "out-val warning";
+            } else {
+                outStab.innerText = "Sikker og eftergivende";
+                outStab.className = "out-val safe";
+            }
+        }
+
+        updateMachineOptions();
+        updateUI();
+        autoFillMatrix();
+        calculate();
+    </script>
+</body>
+</html>
