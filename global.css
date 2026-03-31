@@ -1,0 +1,188 @@
+/* ==========================================================================
+   GLOBAL DATUM PROTOTYPING STYLES
+   ========================================================================== */
+
+/* --- BASE RENDERING --- */
+html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Låser browserens native farve på checkboxes, radiobuttons og sliders til at bruge elementets aktuelle farve (defineret via Tailwind) */
+input[type="checkbox"], input[type="radio"], input[type="range"] {
+    accent-color: inherit; 
+}
+
+/* --- BACKGROUNDS & GRIDS --- */
+.subtle-grid { 
+    background-image: radial-gradient(circle, #27272a 1px, transparent 1px); 
+    background-size: 24px 24px; 
+}
+
+/* --- COMPONENT CLASSES --- */
+.input-field { 
+    background-color: #0c0c0e; 
+    border: 1px solid #27272a; 
+    padding: 0.5rem; 
+    color: white; 
+    width: 100%; 
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 14px; 
+    outline: none; 
+    transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+.input-field:focus:not(:disabled) { 
+    border-color: inherit; 
+}
+.input-field:disabled { 
+    color: #71717a; 
+    border-color: #27272a; 
+    background-color: #09090b; 
+    cursor: not-allowed; 
+}
+
+.label-text { 
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 10px; 
+    color: #71717a; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 0.2em; 
+    font-style: italic; 
+    display: block; 
+    margin-bottom: 0.25rem; 
+}
+
+.section-header { 
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 10px; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 0.2em; 
+    font-style: italic; 
+    margin-bottom: 1rem; 
+    margin-top: 1.5rem; 
+}
+
+/* --- OUTPUT ROWS --- */
+.out-row { 
+    display: flex; 
+    justify-content: space-between; 
+    border-bottom: 1px solid rgba(39, 39, 42, 0.5); 
+    padding: 0.5rem 0; 
+}
+.out-label { 
+    color: #71717a; 
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 12px; 
+}
+.out-val { 
+    color: white; 
+    font-weight: bold; 
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 12px; 
+}
+.out-val.warning { color: #ef4444; }
+.out-val.safe { color: #10b981; }
+
+/* --- SCROLLBAR --- */
+/* Standard standardisering for Chrome/Edge/Safari */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #09090b; }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #555; }
+/* Firefox support */
+* { scrollbar-width: thin; scrollbar-color: #27272a #09090b; }
+
+/* ==========================================================================
+   PRINT PROTOCOL (INDUSTRIAL SETUP SHEETS)
+   ========================================================================== */
+@media print {
+    @page { 
+        margin: 1cm; 
+        size: A4 portrait; 
+    }
+    
+    body { 
+        background: white !important; 
+        color: black !important; 
+        -webkit-print-color-adjust: exact !important; 
+        print-color-adjust: exact !important; 
+    }
+    
+    header, footer, button, .no-print, #bg-tool-text { display: none !important; }
+    
+    input, select { 
+        border: none !important; 
+        background: transparent !important; 
+        color: black !important; 
+        font-weight: 900 !important; 
+        font-size: 12px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        appearance: none !important; 
+        -webkit-appearance: none !important; 
+    }
+    
+    /* Layout Un-stacking */
+    .lg\:grid-cols-2, .lg\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 10px !important; }
+    
+    .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50, .bg-zinc-900\/30 { 
+        background: white !important; 
+        border: none !important; 
+        padding: 0 !important; 
+        margin-bottom: 15px !important;
+    }
+    
+    /* Setup Sheet Specifikke Print Rules */
+    #setup-section { 
+        border: 2px solid black !important; 
+        padding: 15px !important; 
+        background: transparent !important; 
+        margin-bottom: 20px !important; 
+    }
+    #setup-section input { border-bottom: 1px dotted #000 !important; padding: 2px 0 !important; }
+    #setup-section .label-text { color: #555 !important; font-size: 9px !important; margin-bottom: 2px !important; }
+    #setup-section .section-header { display: none !important; }
+    
+    /* Tabel formatering og beskyttelse mod oversavede rækker */
+    #table-container { border: none !important; background: transparent !important; padding: 0 !important; }
+    #table-container .section-header { color: black !important; border-bottom: 2px solid black !important; padding-bottom: 4px !important; font-size: 14px !important; margin-bottom: 15px !important; }
+    table { width: 100% !important; border-collapse: collapse !important; }
+    th { border-bottom: 2px solid black !important; color: black !important; font-size: 11px !important; padding: 6px 4px !important; text-align: left !important; }
+    td { border-bottom: 1px solid #ccc !important; color: black !important; font-size: 11px !important; padding: 6px 4px !important; font-family: 'JetBrains Mono', monospace !important; font-weight: bold !important;}
+    
+    /* PAGINATION PROTECTION: Forhindrer sidetal i at splitte rækker og sektioner */
+    tr, td, th { page-break-inside: avoid !important; }
+    .out-row { page-break-inside: avoid !important; }
+    div[class*="bg-"] { page-break-inside: avoid !important; } /* Forhindrer at dine mørke bokse knækker midt over */
+
+    /* Farve overskrivelser til ren sort */
+    .text-primary, .text-white, .text-zinc-500, .text-zinc-400, .text-zinc-600, .text-red-500, .text-red-400, .text-blue-400, .text-emerald-500, .text-amber-500 { 
+        color: black !important; 
+    }
+    
+    .section-header { color: black !important; border-bottom: 2px solid black !important; padding-bottom: 2px !important; font-size: 12px !important; margin-top: 15px !important; margin-bottom: 10px !important; }
+    .label-text { color: #666 !important; font-size: 9px !important; margin-bottom: 0 !important; }
+    
+    .out-row { border-bottom: 1px solid #ddd !important; padding: 4px 0 !important; display: flex !important; justify-content: space-between !important; }
+    .out-label { color: #555 !important; font-size: 10px !important; }
+    .out-val { color: black !important; font-size: 12px !important; font-weight: bold !important; }
+    
+    .border-red-900\/50, .border-amber-900\/50 { border: 1px solid black !important; }
+    #bhc-output { max-height: none !important; overflow: visible !important; }
+    
+    /* DYNAMISK BREVHOVED */
+    body::before { 
+        content: "DATUM PROTOTYPING // OPERATIONS SHEET"; 
+        display: block; 
+        font-family: 'JetBrains Mono', monospace; 
+        font-weight: 900; 
+        font-size: 18px; 
+        letter-spacing: 0.1em; 
+        border-bottom: 4px solid black; 
+        padding-bottom: 5px; 
+        margin-bottom: 20px; 
+    }
+}

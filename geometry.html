@@ -8,7 +8,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="global.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -23,77 +23,7 @@
             }
         }
     </script>
-    <style>
-        .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
-        .input-field { background-color: #0c0c0e; border: 1px solid #27272a; padding: 0.5rem; color: white; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
-        .input-field:focus:not(:disabled) { border-color: #06b6d4; }
-        .label-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #71717a; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; display: block; margin-bottom: 0.25rem; }
-        .out-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(39, 39, 42, 0.5); padding: 0.5rem 0; }
-        .out-label { color: #71717a; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
-        .out-val { color: white; font-weight: bold; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
-        .section-header { color: #06b6d4; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; margin-bottom: 1rem; margin-top: 1.5rem; }
-        
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #09090b; }
-        ::-webkit-scrollbar-thumb { background: #27272a; }
-        ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
 
-        /* --- PRINT PROTOCOL --- */
-        @media print {
-            @page { margin: 1cm; size: A4 portrait; }
-            body { background: white !important; color: black !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            
-            header, footer, button, .no-print, #bg-tool-text { display: none !important; }
-            
-            input, select { 
-                border: none !important; 
-                background: transparent !important; 
-                color: black !important; 
-                font-weight: 900 !important; 
-                font-size: 12px !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                appearance: none !important; 
-                -webkit-appearance: none !important; 
-            }
-            
-            .lg\:grid-cols-2, .lg\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 10px !important; }
-            
-            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50, .bg-zinc-900\/30 { 
-                background: white !important; 
-                border: none !important; 
-                padding: 0 !important; 
-                margin-bottom: 15px !important;
-            }
-            
-            .text-primary, .text-white, .text-zinc-500, .text-zinc-400, .text-zinc-600, .text-red-500, .text-red-400, .text-blue-400, .text-emerald-500, .text-amber-500 { 
-                color: black !important; 
-            }
-            
-            .section-header { color: black !important; border-bottom: 2px solid black !important; padding-bottom: 2px !important; font-size: 12px !important; margin-top: 15px !important; margin-bottom: 10px !important; }
-            .label-text { color: #666 !important; font-size: 9px !important; margin-bottom: 0 !important; }
-            
-            .out-row { border-bottom: 1px solid #ddd !important; padding: 4px 0 !important; display: flex !important; justify-content: space-between !important; page-break-inside: avoid; }
-            .out-label { color: #555 !important; font-size: 10px !important; }
-            .out-val { color: black !important; font-size: 12px !important; font-weight: bold !important; }
-            
-            .border-red-900\/50, .border-amber-900\/50 { border: 1px solid black !important; }
-            
-            #bhc-output { max-height: none !important; overflow: visible !important; }
-            
-            body::before { 
-                content: "DATUM PROTOTYPING // SETUP SHEET"; 
-                display: block; 
-                font-family: 'JetBrains Mono', monospace; 
-                font-weight: 900; 
-                font-size: 16px; 
-                letter-spacing: 0.1em; 
-                border-bottom: 3px solid black; 
-                padding-bottom: 5px; 
-                margin-bottom: 20px; 
-            }
-        }
-    </style>
 </head>
 <body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen flex flex-col p-6">
 

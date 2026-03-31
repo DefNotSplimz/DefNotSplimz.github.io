@@ -8,6 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    
+    <link rel="stylesheet" href="global.css">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -24,11 +27,8 @@
             }
         }
     </script>
+    
     <style>
-        .subtle-grid { 
-            background-image: radial-gradient(circle, #27272a 1px, transparent 1px); 
-            background-size: 24px 24px; 
-        }
         .scanline {
             width: 100%;
             height: 2px;
@@ -282,8 +282,20 @@
                     </div>
                 </div>
 
-                <div class="border border-zinc-900 border-dashed p-8 flex items-center justify-center min-h-[200px] md:col-span-2 lg:col-span-1">
-                    <span class="text-[9px] font-mono text-zinc-800 tracking-[0.3em] font-black uppercase italic">Awaiting_Integration...</span>
+                <div class="group border border-zinc-900 bg-black/40 p-8 flex flex-col gap-4 hover:border-zinc-700 transition-colors uppercase italic font-bold md:col-span-2 lg:col-span-1 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 text-[80px] font-black italic text-zinc-900/30 leading-none pointer-events-none select-none transition-colors">
+                        OS
+                    </div>
+                    <div class="relative z-10 flex-grow flex flex-col">
+                        <h4 class="text-2xl font-black text-white tracking-tighter uppercase italic mb-4">Datum Operations Hub</h4>
+                        <p class="text-zinc-500 text-[10px] leading-relaxed lowercase first-letter:uppercase not-italic font-bold">
+                            Komplet digital infrastruktur til værkstedsgulvet. Syv integrerede moduler der dikterer CNC/manuelle skæredata, ISO 286 metrologi, kinematisk geometri og dynamiske setup sheets. Én samlet sandhedskilde for produktion.
+                        </p>
+                        <div class="flex gap-2 mt-auto pt-6 border-t border-zinc-800 transition-colors">
+                            <span class="text-[8px] font-mono px-2 py-0.5 border border-zinc-800 text-zinc-600 tracking-widest uppercase italic">#Infrastructure</span>
+                            <span class="text-[8px] font-mono px-2 py-0.5 border border-zinc-800 text-zinc-600 tracking-widest uppercase italic">#Machining_OS</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

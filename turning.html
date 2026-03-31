@@ -8,7 +8,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" href="global.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -23,73 +23,7 @@
             }
         }
     </script>
-    <style>
-        .subtle-grid { background-image: radial-gradient(circle, #27272a 1px, transparent 1px); background-size: 24px 24px; }
-        .input-field { background-color: #0c0c0e; border: 1px solid #27272a; padding: 0.5rem; color: white; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; }
-        .input-field:focus:not(:disabled) { border-color: #3b82f6; }
-        .input-field:disabled { color: #71717a; border-color: #27272a; background-color: #09090b; cursor: not-allowed; }
-        .label-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #71717a; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; display: block; margin-bottom: 0.25rem; }
-        .out-row { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(39, 39, 42, 0.5); padding: 0.5rem 0; }
-        .out-label { color: #71717a; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
-        .out-val { color: white; font-weight: bold; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
-        .out-val.warning { color: #ef4444; }
-        .out-val.safe { color: #10b981; }
-        .section-header { color: #3b82f6; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-style: italic; margin-bottom: 1rem; margin-top: 1.5rem; }
-        
-        /* --- PRINT PROTOCOL --- */
-        @media print {
-            @page { margin: 1cm; size: A4 portrait; }
-            body { background: white !important; color: black !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-            
-            header, footer, button, .no-print, #bg-tool-text { display: none !important; }
-            
-            input, select { 
-                border: none !important; 
-                background: transparent !important; 
-                color: black !important; 
-                font-weight: 900 !important; 
-                font-size: 12px !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                appearance: none !important; 
-                -webkit-appearance: none !important; 
-            }
-            
-            .lg\:grid-cols-2, .lg\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 10px !important; }
-            
-            .bg-black\/40, .bg-zinc-950, .bg-primary\/10, .bg-zinc-900\/50, .bg-zinc-900\/30 { 
-                background: white !important; 
-                border: none !important; 
-                padding: 0 !important; 
-                margin-bottom: 15px !important;
-            }
-            
-            .text-primary, .text-white, .text-zinc-500, .text-zinc-400, .text-zinc-600, .text-red-500, .text-red-400, .text-blue-400, .text-emerald-500, .text-amber-500 { 
-                color: black !important; 
-            }
-            
-            .section-header { color: black !important; border-bottom: 2px solid black !important; padding-bottom: 2px !important; font-size: 12px !important; margin-top: 15px !important; margin-bottom: 10px !important; }
-            .label-text { color: #666 !important; font-size: 9px !important; margin-bottom: 0 !important; }
-            
-            .out-row { border-bottom: 1px solid #ddd !important; padding: 4px 0 !important; display: flex !important; justify-content: space-between !important; page-break-inside: avoid; }
-            .out-label { color: #555 !important; font-size: 10px !important; }
-            .out-val { color: black !important; font-size: 12px !important; font-weight: bold !important; }
-            
-            .border-red-900\/50, .border-amber-900\/50 { border: 1px solid black !important; }
-            
-            body::before { 
-                content: "DATUM PROTOTYPING // SETUP SHEET"; 
-                display: block; 
-                font-family: 'JetBrains Mono', monospace; 
-                font-weight: 900; 
-                font-size: 16px; 
-                letter-spacing: 0.1em; 
-                border-bottom: 3px solid black; 
-                padding-bottom: 5px; 
-                margin-bottom: 20px; 
-            }
-        }
-    </style>
+
 </head>
 <body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-white min-h-screen p-6">
 
@@ -316,61 +250,9 @@
             </div>
         </div>
     </div>
-
+    <script src="database.js"></script>
     <script>
-        const threadDB = {
-            'M': [
-                { name: 'M3 x 0.50', d: 3, p: 0.5 },
-                { name: 'M4 x 0.70', d: 4, p: 0.7 },
-                { name: 'M5 x 0.80', d: 5, p: 0.8 },
-                { name: 'M6 x 1.00', d: 6, p: 1.0 },
-                { name: 'M8 x 1.25', d: 8, p: 1.25 },
-                { name: 'M10 x 1.50', d: 10, p: 1.5 },
-                { name: 'M12 x 1.75', d: 12, p: 1.75 },
-                { name: 'M16 x 2.00', d: 16, p: 2.0 },
-                { name: 'M20 x 2.50', d: 20, p: 2.5 }
-            ],
-            'MF': [
-                { name: 'M8 x 1.00', d: 8, p: 1.0 },
-                { name: 'M10 x 1.00', d: 10, p: 1.0 },
-                { name: 'M10 x 1.25', d: 10, p: 1.25 },
-                { name: 'M12 x 1.25', d: 12, p: 1.25 },
-                { name: 'M12 x 1.50', d: 12, p: 1.5 },
-                { name: 'M16 x 1.50', d: 16, p: 1.5 }
-            ],
-            'UNC': [
-                { name: '#4-40 UNC', d: 2.845, p: 0.635 },
-                { name: '#6-32 UNC', d: 3.505, p: 0.794 },
-                { name: '#8-32 UNC', d: 4.166, p: 0.794 },
-                { name: '#10-24 UNC', d: 4.826, p: 1.058 },
-                { name: '1/4"-20 UNC', d: 6.350, p: 1.270 },
-                { name: '5/16"-18 UNC', d: 7.938, p: 1.411 },
-                { name: '3/8"-16 UNC', d: 9.525, p: 1.588 },
-                { name: '1/2"-13 UNC', d: 12.700, p: 1.954 }
-            ],
-            'UNF': [
-                { name: '#10-32 UNF', d: 4.826, p: 0.794 },
-                { name: '1/4"-28 UNF', d: 6.350, p: 0.907 },
-                { name: '5/16"-24 UNF', d: 7.938, p: 1.058 },
-                { name: '3/8"-24 UNF', d: 9.525, p: 1.058 },
-                { name: '1/2"-20 UNF', d: 12.700, p: 1.270 }
-            ],
-            'BSP': [
-                { name: 'G 1/8" (28 TPI)', d: 9.728, p: 0.907 },
-                { name: 'G 1/4" (19 TPI)', d: 13.157, p: 1.337 },
-                { name: 'G 3/8" (19 TPI)', d: 16.662, p: 1.337 },
-                { name: 'G 1/2" (14 TPI)', d: 20.955, p: 1.814 },
-                { name: 'G 3/4" (14 TPI)', d: 26.441, p: 1.814 },
-                { name: 'G 1" (11 TPI)', d: 33.249, p: 2.309 }
-            ],
-            'NPT': [
-                { name: '1/8" NPT (27 TPI)', d: 10.287, p: 0.940 },
-                { name: '1/4" NPT (18 TPI)', d: 13.716, p: 1.411 },
-                { name: '3/8" NPT (18 TPI)', d: 17.145, p: 1.411 },
-                { name: '1/2" NPT (14 TPI)', d: 21.336, p: 1.814 }
-            ]
-        };
-
+        
         const elWorkpiece = document.getElementById('in-workpiece');
         const elSafety = document.getElementById('in-safety');
         const elOperation = document.getElementById('in-operation');
