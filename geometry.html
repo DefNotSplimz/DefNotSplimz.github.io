@@ -256,6 +256,7 @@
 
     </div>
 
+    <script src="database.js"></script>
     <script>
         function formatNumber(num) {
             return num.toFixed(3).replace(/\.?0+$/, ''); 
@@ -339,14 +340,7 @@
             outDepth.innerText = "Z -" + zDepth.toFixed(3);
         }
 
-        const taperPresets = {
-            'mt1': { maj: 12.065, min: 9.396, l: 53.5 },
-            'mt2': { maj: 17.780, min: 14.534, l: 64.0 },
-            'mt3': { maj: 23.825, min: 19.822, l: 81.0 },
-            'mt4': { maj: 31.267, min: 25.953, l: 102.5 },
-            'b16': { maj: 15.733, min: 14.500, l: 24.0 },
-            'sk40': { maj: 44.450, min: 24.500, l: 68.400 } 
-        };
+
 
         const elTprPreset = document.getElementById('tpr-preset');
         const elTprMaj = document.getElementById('tpr-d-maj');

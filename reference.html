@@ -8,7 +8,9 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="global.css">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -23,7 +25,6 @@
             }
         }
     </script>
-    
 </head>
 <body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-white min-h-screen flex flex-col p-6">
 
@@ -31,7 +32,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6 no-print">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Reference <span class="text-zinc-600">&</span> Stock</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Ref_Rev02</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Ref_Rev05</div>
                 
                 <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
                     ← Return_To_Hub
@@ -42,7 +43,7 @@
             </div>
         </header>
 
-        <div class="grid lg:grid-cols-2 gap-12">
+        <div class="grid lg:grid-cols-2 gap-12 mb-12">
             
             <div class="flex flex-col gap-8">
                 <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col">
@@ -176,12 +177,21 @@
             <div class="flex flex-col gap-8">
                 
                 <div class="bg-black/40 border border-zinc-900 p-6">
-                    <div class="section-header mt-0">// 03_FASTENER_REFERENCE (DIN 912)</div>
+                    <div class="section-header mt-0">// 03_FASTENER_REFERENCE_MATRIX</div>
                     
-                    <div class="grid grid-cols-1 gap-4 mb-6 no-print">
-                        <div>
-                            <label class="label-text">Standard Metrisk Skrue (Cylinderhoved)</label>
-                            <select id="fast-size" class="input-field border-primary text-primary font-bold">
+                    <div class="grid grid-cols-2 gap-4 mb-6 no-print">
+                        <div class="col-span-2">
+                            <label class="label-text text-primary">Skruetype (Profil)</label>
+                            <select id="fast-type" class="input-field border-primary text-primary font-bold">
+                                <option value="din912" selected>DIN 912 (Standard Cylinderhoved)</option>
+                                <option value="din7984">DIN 7984 (Lavt Cylinderhoved)</option>
+                                <option value="iso7380">ISO 7380 (Linsehoved / Button)</option>
+                                <option value="din7991">DIN 7991 (Undersænket 90°)</option>
+                            </select>
+                        </div>
+                        <div class="col-span-2">
+                            <label class="label-text">Dimension</label>
+                            <select id="fast-size" class="input-field border-zinc-600">
                                 <option value="m3">M3</option>
                                 <option value="m4">M4</option>
                                 <option value="m5">M5</option>
@@ -197,8 +207,8 @@
 
                     <div class="out-row"><span class="out-label">Frihul (Tæt Pasning)</span><span id="out-fast-close" class="out-val text-white">0.0 mm</span></div>
                     <div class="out-row"><span class="out-label">Frihul (Standard/Grov)</span><span id="out-fast-loose" class="out-val text-primary">0.0 mm</span></div>
-                    <div class="out-row"><span class="out-label">Undersænkning (Hoved Ø)</span><span id="out-fast-cb-d" class="out-val text-white">0.0 mm</span></div>
-                    <div class="out-row"><span class="out-label">Undersænkning (Min Z-Dybde)</span><span id="out-fast-cb-z" class="out-val text-primary">0.0 mm</span></div>
+                    <div class="out-row mt-2 border-t border-zinc-800 pt-3"><span class="out-label" id="lbl-fast-cb-d">Plan Undersænkning (Ø)</span><span id="out-fast-cb-d" class="out-val text-white">0.0 mm</span></div>
+                    <div class="out-row"><span class="out-label" id="lbl-fast-cb-z">Undersænkning (Min Z-Dybde)</span><span id="out-fast-cb-z" class="out-val text-primary">0.0 mm</span></div>
                 </div>
 
                 <div class="bg-black/40 border border-zinc-900 p-6 flex-grow">
@@ -223,14 +233,115 @@
             </div>
         </div>
 
-        <button onclick="window.print()" class="no-print w-full mt-8 border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-4 transition-colors italic">
-            Generér Setup Sheet (Print Materialedata)
+        <div class="bg-black/40 border border-zinc-900 p-6 mb-12">
+            <div class="section-header mt-0">// 05_UNIVERSAL_THREAD_&_DRILL_MATRIX</div>
+            <div id="thread-matrix-container" class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                </div>
+        </div>
+
+        <div class="bg-black/40 border border-zinc-900 p-6 mb-12">
+            <div class="section-header mt-0">// 06_GEOMETRISK_TOLERANCE_MATRIX (GD&T)</div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Ligehed</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Form</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><path d="M4,16 L10,8 L20,8 L14,16 Z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Planhed</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Form</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Rundhed</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Form</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
+                            <line x1="4" y1="20" x2="10" y2="4" stroke="currentColor" stroke-width="2"/>
+                            <line x1="14" y1="20" x2="20" y2="4" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Cylindricitet</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Form</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><line x1="6" y1="20" x2="14" y2="4" stroke="currentColor" stroke-width="2"/><line x1="10" y1="20" x2="18" y2="4" stroke="currentColor" stroke-width="2"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Parallelitet</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Retning</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20" stroke="currentColor" stroke-width="2"/><line x1="4" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="2"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Vinkelrethed</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Retning</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><line x1="4" y1="20" x2="20" y2="20" stroke="currentColor" stroke-width="2"/><line x1="4" y1="20" x2="16" y2="6" stroke="currentColor" stroke-width="2"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Vinkel</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Retning</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/><line x1="12" y1="2" x2="12" y2="22" stroke="currentColor" stroke-width="2"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Sand Position</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Beliggenhed</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Koncentricitet</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Beliggenhed</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24"><path d="M6,18 L18,6 M12,6 L18,6 L18,12" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Kast</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Kast / Runout</span></div>
+                </div>
+
+                <div class="border border-zinc-800 bg-zinc-950/50 p-3 flex items-center gap-4 page-break-avoid">
+                    <div class="w-10 h-10 border border-zinc-700 bg-black flex items-center justify-center shrink-0 text-white">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24">
+                            <line x1="4" y1="18" x2="10" y2="6" stroke="currentColor" stroke-width="2"/>
+                            <line x1="14" y1="18" x2="20" y2="6" stroke="currentColor" stroke-width="2"/>
+                            <line x1="4" y1="18" x2="14" y2="18" stroke="currentColor" stroke-width="2"/>
+                            <path d="M6,6 L10,6 L10,10 M16,6 L20,6 L20,10" stroke="currentColor" stroke-width="2" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col"><span class="text-white font-mono font-bold text-[10px] uppercase tracking-widest">Totalkast</span><span class="text-zinc-500 font-mono text-[9px] uppercase italic">Kast / Runout</span></div>
+                </div>
+
+            </div>
+        </div>
+
+        <button onclick="window.print()" class="no-print w-full border border-zinc-700 bg-zinc-900/50 hover:border-primary hover:bg-primary/10 text-zinc-400 hover:text-primary text-[10px] uppercase font-bold tracking-widest py-4 transition-colors italic">
+            Generér Opslagsværk (Print Materiale & Matricer)
         </button>
 
     </div>
 
+    <script src="database.js"></script>
+
     <script>
-        // STOCK CALCULATOR
+        // --- 1. RÅEMNE BEREGNER ---
         const elStkProfile = document.getElementById('stk-profile');
         const elStkMat = document.getElementById('stk-mat');
         const elStkL = document.getElementById('stk-l');
@@ -270,9 +381,9 @@
 
         function calculateStock() {
             const p = elStkProfile.value;
-            const rho = parseFloat(elStkMat.value) || 0; // g/cm^3
-            const l = (parseFloat(elStkL.value) || 0) / 10; // conver to cm
-            let vol = 0; // cm^3
+            const rho = parseFloat(elStkMat.value) || 0; 
+            const l = (parseFloat(elStkL.value) || 0) / 10; 
+            let vol = 0; 
 
             if (p === 'round') {
                 const d = (parseFloat(elStkD.value) || 0) / 10;
@@ -289,11 +400,10 @@
                 }
             } else if (p === 'hex') {
                 const af = (parseFloat(elStkD.value) || 0) / 10;
-                // Area of hex = 0.866025 * AF^2
                 vol = 0.866025 * Math.pow(af, 2) * l;
             }
 
-            const mass = (vol * rho) / 1000; // kg
+            const mass = (vol * rho) / 1000; 
 
             document.getElementById('out-stk-vol').innerText = vol.toFixed(2) + " cm³";
             document.getElementById('out-stk-mass').innerText = mass.toFixed(3) + " kg";
@@ -302,28 +412,40 @@
         elStkProfile.addEventListener('change', updateStockUI);
         [elStkMat, elStkL, elStkD, elStkW, elStkH, elStkDin].forEach(el => el.addEventListener('input', calculateStock));
 
-        // FASTENER DB (DIN 912)
-        const fastDB = {
-            'm3': { c: 3.2, l: 3.4, hd: 5.5, hz: 3.0 },
-            'm4': { c: 4.3, l: 4.5, hd: 7.0, hz: 4.0 },
-            'm5': { c: 5.3, l: 5.5, hd: 8.5, hz: 5.0 },
-            'm6': { c: 6.4, l: 6.6, hd: 10.0, hz: 6.0 },
-            'm8': { c: 8.4, l: 9.0, hd: 13.0, hz: 8.0 },
-            'm10': { c: 10.5, l: 11.0, hd: 16.0, hz: 10.0 },
-            'm12': { c: 13.0, l: 13.5, hd: 18.0, hz: 12.0 },
-            'm16': { c: 17.0, l: 17.5, hd: 24.0, hz: 16.0 },
-            'm20': { c: 21.0, l: 22.0, hd: 30.0, hz: 20.0 }
-        };
 
-        document.getElementById('fast-size').addEventListener('change', (e) => {
-            const data = fastDB[e.target.value];
+        
+
+        const elFastType = document.getElementById('fast-type');
+        const elFastSize = document.getElementById('fast-size');
+        const lblFastCbD = document.getElementById('lbl-fast-cb-d');
+        const lblFastCbZ = document.getElementById('lbl-fast-cb-z');
+        const outFastCbZ = document.getElementById('out-fast-cb-z');
+
+        function updateFastener() {
+            const type = elFastType.value;
+            const size = elFastSize.value;
+            const data = fastDB[type][size];
+
+            if (type === 'din7991') {
+                lblFastCbD.innerText = "Fas Ø (90° Hoved Max)";
+                lblFastCbZ.innerText = "Teoretisk Z-Dybde";
+                outFastCbZ.innerText = "~ Z -" + data.hz.toFixed(1) + " mm";
+            } else {
+                lblFastCbD.innerText = "Plan Undersænkning (Ø)";
+                lblFastCbZ.innerText = "Undersænkning (Min Z-Dybde)";
+                outFastCbZ.innerText = "Z -" + data.hz.toFixed(1) + " mm";
+            }
+
             document.getElementById('out-fast-close').innerText = "Ø " + data.c.toFixed(1) + " mm";
             document.getElementById('out-fast-loose').innerText = "Ø " + data.l.toFixed(1) + " mm";
             document.getElementById('out-fast-cb-d').innerText = "Ø " + data.hd.toFixed(1) + " mm";
-            document.getElementById('out-fast-cb-z').innerText = "Z -" + data.hz.toFixed(1) + " mm";
-        });
+        }
 
-        // HARDNESS CONVERSION (Approx ISO 18265 for Steel)
+        elFastType.addEventListener('change', updateFastener);
+        elFastSize.addEventListener('change', updateFastener);
+
+
+        // --- 3. HARDNESS CONVERSION ---
         const hrSlider = document.getElementById('hr-slider');
         const hrDisp = document.getElementById('hr-disp');
         const outHb = document.getElementById('out-hr-hb');
@@ -333,17 +455,14 @@
             const hrc = parseInt(hrSlider.value);
             hrDisp.innerText = hrc;
             
-            // Very rough approximation polynomial for steel
             let hb = 0;
             let mpa = 0;
             
             if(hrc < 22) { hb = 230; mpa = 770; }
             else {
-                // Approx mapping
                 hb = Math.round(226 + (hrc - 20) * 8.5); 
                 mpa = Math.round(760 + (hrc - 20) * 28.5);
                 
-                // Limit cap mapping realistic to ISO 18265
                 if(hrc > 60) {
                     hb = 650 + (hrc - 60)*10;
                     mpa = 2200 + (hrc - 60)*50;
@@ -356,10 +475,66 @@
 
         hrSlider.addEventListener('input', updateHardness);
 
-        // Init
+
+// --- 4. AUTO-GENERATE TAP DRILL CHART FROM DATABASE ---
+        function renderThreadTables() {
+            const container = document.getElementById('thread-matrix-container');
+            
+            // Sikkerhedstjek: Er database.js loadet?
+            if (typeof threadDB === 'undefined') {
+                container.innerHTML = '<div class="text-red-500 font-mono text-xs italic uppercase col-span-3">System Error: database.js blev ikke indlæst.</div>';
+                return;
+            }
+
+            let html = '';
+            
+            for (const [family, threads] of Object.entries(threadDB)) {
+                html += `
+                <div class="border border-zinc-800 bg-zinc-950/50 flex flex-col page-break-avoid">
+                    <div class="bg-zinc-900 text-primary font-mono text-[10px] font-bold tracking-widest uppercase p-2 border-b border-zinc-800">
+                        [ ${family} ] Forboring
+                    </div>
+                    <div class="p-2 text-[10px] font-mono">
+                        <div class="grid grid-cols-3 border-b border-zinc-800 pb-1 mb-1 text-zinc-500 uppercase tracking-widest">
+                            <div>Gevind</div>
+                            <div class="text-center">Pitch</div>
+                            <div class="text-right">Bor Ø</div>
+                        </div>
+                `;
+                
+                threads.forEach(t => {
+                    // Dynamisk formatering afhængigt af gevindtype
+                    let shortName = '';
+                    if (family === 'BSP' || family === 'NPT') {
+                        // Fjern kun TPI-parentesen for rørgevind -> "G 1/8"" og "1/8" NPT"
+                        shortName = t.name.split(' (')[0]; 
+                    } else {
+                        // Behold kun første ord for Metrisk/UNC -> "M6", "1/4"-20"
+                        shortName = t.name.split(' ')[0];
+                    }
+
+                    html += `
+                        <div class="grid grid-cols-3 hover:bg-zinc-900 px-1 py-0.5 transition-colors">
+                            <div class="text-white font-bold whitespace-nowrap">${shortName}</div>
+                            <div class="text-zinc-400 text-center">${t.p.toFixed(2)}</div>
+                            <div class="text-white text-right font-bold">${t.drill.toFixed(1)}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Init alle funktioner
         updateStockUI();
-        document.getElementById('fast-size').dispatchEvent(new Event('change'));
+        updateFastener();
         updateHardness();
+        
+        // Vent kort for at sikre at database.js er parset før vi tegner gevindtabellerne
+        setTimeout(renderThreadTables, 50);
 
     </script>
 </body>

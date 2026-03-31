@@ -8,7 +8,9 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="global.css">
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -23,7 +25,6 @@
             }
         }
     </script>
-
 </head>
 <body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen p-6">
 
@@ -31,7 +32,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Speeds <span class="text-zinc-600">&</span> Feeds</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Local_Calc_Rev32</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Local_Calc_Rev33</div>
                 
                 <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
                     ← Return_To_Hub
@@ -246,11 +247,11 @@
             </div>
         </div>
     </div>
+
     <script src="database.js"></script>
+
     <script>
         const MAX_MACHINE_FEED = 12700; 
-
-        // THREAD DATABASE
         
         const elWorkpiece = document.getElementById('in-workpiece');
         const elSafety = document.getElementById('in-safety');
@@ -299,7 +300,6 @@
 
         const matMultVc = { 'automat': 1.0, 'alu': 3.5, 'rustfast': 0.5, 'vaerktoej': 0.6, 'messing': 2.0, 'pom': 3.0, 'nylon': 3.0 };
         const matMultFz = { 'automat': 1.0, 'alu': 1.2, 'rustfast': 0.8, 'vaerktoej': 0.9, 'messing': 1.0, 'pom': 1.5, 'nylon': 1.5 };
-        const kcValues = { 'automat': 1500, 'alu': 700, 'rustfast': 2400, 'vaerktoej': 2200, 'messing': 600, 'pom': 150, 'nylon': 150 };
 
         function populateThreads(family) {
             elTapSize.innerHTML = '';
@@ -560,8 +560,8 @@
             const workpiece = elWorkpiece.value;
             const isFace = (camPath === 'face');
             
-            const D = getActiveDiameter(); // For thread_mill / tap this is Tool D or Tap D. Wait, for thread mill, D should be tool D.
-            const actualToolD = parseFloat(elD.value) || 0; // The physical endmill/threadmill D
+            const D = getActiveDiameter(); 
+            const actualToolD = parseFloat(elD.value) || 0; 
             const Z = parseFloat(elZ.value) || 1;
             const Ae = parseFloat(elAe.value) || 0;
             const Ap = parseFloat(elAp.value) || 0;
@@ -601,7 +601,6 @@
                 document.getElementById('out-tap-predrill').innerText = predrill.toFixed(2) + " mm";
 
                 let linearFeed = spindle * inputFz * Z;
-                // Formel for indvendig spiralinterpolation
                 let centerFeed = linearFeed * ((targetD - actualToolD) / targetD);
 
                 document.getElementById('out-cutting').innerText = Math.round(centerFeed) + " mm/min (Vfc)";

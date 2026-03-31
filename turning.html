@@ -23,7 +23,6 @@
             }
         }
     </script>
-
 </head>
 <body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-white min-h-screen p-6">
 
@@ -31,7 +30,7 @@
         <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Turning <span class="text-zinc-600">&</span> Params</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev11</div>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Lathe_Calc_Rev12</div>
                 
                 <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
                     ← Return_To_Hub
@@ -92,10 +91,10 @@
                                 <option value="custom">Brugerdefineret (Slået fra)</option>
                                 <option value="M">Metrisk (M)</option>
                                 <option value="MF">Metrisk Fin (MF)</option>
-                                <option value="UNC">UNC (Tomme Grov)</option>
-                                <option value="UNF">UNF (Tomme Fin)</option>
-                                <option value="BSP">BSP / G (Cylindrisk Rør)</option>
-                                <option value="NPT">NPT (Konisk Rør)</option>
+                                <option value="UNC">UNC</option>
+                                <option value="UNF">UNF</option>
+                                <option value="BSP">BSP / G</option>
+                                <option value="NPT">NPT</option>
                             </select>
                         </div>
                         <div>
@@ -250,9 +249,10 @@
             </div>
         </div>
     </div>
+
     <script src="database.js"></script>
+
     <script>
-        
         const elWorkpiece = document.getElementById('in-workpiece');
         const elSafety = document.getElementById('in-safety');
         const elOperation = document.getElementById('in-operation');
@@ -286,7 +286,6 @@
         const recApSpan = document.getElementById('rec-ap');
 
         const matMultVc = { 'automat': 1.0, 'alu': 3.5, 'rustfast': 0.6, 'vaerktoej': 0.7, 'messing': 2.0, 'pom': 3.0, 'nylon': 3.0 };
-        const kcValues = { 'automat': 1500, 'alu': 700, 'rustfast': 2400, 'vaerktoej': 2200, 'messing': 600, 'pom': 150, 'nylon': 150 };
         
         let recommendedVc = 0;
         let recommendedFn = 0;
@@ -303,7 +302,7 @@
             threadDB[family].forEach(t => {
                 elThreadSize.add(new Option(t.name, `${t.d}|${t.p}`));
             });
-            elThreadSize.selectedIndex = 4; // Select something mid-range
+            elThreadSize.selectedIndex = 4;
             applyThreadData();
         }
 

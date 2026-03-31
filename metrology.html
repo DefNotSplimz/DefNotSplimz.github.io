@@ -23,299 +23,165 @@
             }
         }
     </script>
-    
 </head>
 <body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-white min-h-screen flex flex-col p-6">
 
-    <div class="max-w-6xl mx-auto w-full">
-        <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6">
+    <div class="max-w-6xl mx-auto w-full flex-grow">
+        <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6 no-print">
             <div>
                 <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Metrology <span class="text-zinc-600">&</span> QA</h1>
-                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Metrology_Rev06</div>
-                
-                <a href="hub.html" class="no-print inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
-                    ← Return_To_Hub
-                </a>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // QA_Rev07</div>
+                <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">← Return_To_Hub</a>
             </div>
-            <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
-                System_Status: <span class="text-primary">Active</span>
-            </div>
+            <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">System_Status: <span class="text-primary">Active</span></div>
         </header>
 
         <div class="grid lg:grid-cols-2 gap-12">
-            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
-                <div>
-                    <div class="section-header mt-0">// 01_ISO_286_TOLERANCE_MATRIX</div>
-                    
-                    <div class="grid grid-cols-3 gap-4 mb-6 no-print">
-                        <div class="col-span-3">
-                            <label class="label-text">Nominelt Mål (Ø) [mm]</label>
-                            <input type="number" id="iso-nom" class="input-field border-primary text-primary font-bold" value="20" step="1">
+            <div class="flex flex-col gap-8">
+                <div class="bg-black/40 border border-zinc-900 p-6 no-print">
+                    <div class="section-header mt-0">// 01_ISO_286_TOLERANCE_ENGINE</div>
+                    <div class="grid grid-cols-1 gap-6 mb-6">
+                        <div>
+                            <label class="label-text">Nominelt Mål [mm]</label>
+                            <input type="number" id="iso-nom" class="input-field text-xl" value="50" step="1">
                         </div>
-                        <div class="col-span-3 md:col-span-1">
-                            <label class="label-text text-zinc-500">Hulklasse (F.eks. H7, M6)</label>
-                            <input type="text" id="iso-hole" class="input-field" value="H7">
-                        </div>
-                        <div class="col-span-3 md:col-span-2">
-                            <label class="label-text text-zinc-500">Akselklasse (F.eks. g6, k6)</label>
-                            <input type="text" id="iso-shaft" class="input-field" value="g6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="label-text">Hul (Eks. H7)</label>
+                                <input type="text" id="iso-hole" class="input-field border-zinc-600 uppercase font-bold" value="H7">
+                            </div>
+                            <div>
+                                <label class="label-text">Aksel (Eks. g6)</label>
+                                <input type="text" id="iso-shaft" class="input-field border-zinc-600" value="g6">
+                            </div>
                         </div>
                     </div>
 
-                    <div id="iso-error" class="hidden p-3 border border-red-900/50 bg-red-950/20 text-red-500 text-[10px] font-mono font-bold uppercase italic leading-relaxed mb-6">
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="bg-zinc-950 p-4 border border-zinc-800">
+                            <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase mb-2">Hul_Resultat</div>
+                            <div id="out-hole-dev" class="text-xs font-mono text-zinc-400 mb-1">Dev: 0 / +0.025</div>
+                            <div id="out-hole-range" class="text-lg font-mono font-black text-white">50.000 - 50.025</div>
+                        </div>
+                        <div class="bg-zinc-950 p-4 border border-zinc-800">
+                            <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase mb-2">Aksel_Resultat</div>
+                            <div id="out-shaft-dev" class="text-xs font-mono text-zinc-400 mb-1">Dev: -0.009 / -0.025</div>
+                            <div id="out-shaft-range" class="text-lg font-mono font-black text-white">49.975 - 49.991</div>
+                        </div>
                     </div>
 
-                    <div class="flex-grow flex flex-col justify-end space-y-8">
-                        <div>
-                            <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase italic mb-2 tracking-widest border-b border-zinc-800 pb-1">Hul-Specifikation</div>
-                            <div class="out-row"><span class="out-label">Tolerancefelt</span><span id="out-hole-tol" class="out-val text-primary">+0.000 / +0.000</span></div>
-                            <div class="out-row"><span class="out-label">Absolut Max (Ø)</span><span id="out-hole-max" class="out-val">0.000 mm</span></div>
-                            <div class="out-row"><span class="out-label">Absolut Min (Ø)</span><span id="out-hole-min" class="out-val">0.000 mm</span></div>
-                        </div>
-
-                        <div>
-                            <div class="text-[10px] font-mono text-zinc-600 font-bold uppercase italic mb-2 tracking-widest border-b border-zinc-800 pb-1">Aksel-Specifikation</div>
-                            <div class="out-row"><span class="out-label">Tolerancefelt</span><span id="out-shaft-tol" class="out-val text-primary">+0.000 / +0.000</span></div>
-                            <div class="out-row"><span class="out-label">Absolut Max (Ø)</span><span id="out-shaft-max" class="out-val">0.000 mm</span></div>
-                            <div class="out-row"><span class="out-label">Absolut Min (Ø)</span><span id="out-shaft-min" class="out-val">0.000 mm</span></div>
-                        </div>
-
-                        <div class="bg-zinc-900/50 border border-zinc-800 p-4">
-                            <div class="text-[10px] font-mono text-zinc-500 font-bold uppercase italic mb-2 tracking-widest">System_Fit_Analysis</div>
-                            <div class="out-row border-none pb-0"><span class="out-label">Max Clearance / Gap</span><span id="out-fit-max" class="out-val">0.000 mm</span></div>
-                            <div class="out-row border-none pt-1 pb-0"><span class="out-label">Min Clearance / Interference</span><span id="out-fit-min" class="out-val">0.000 mm</span></div>
-                            <div class="mt-2 text-[10px] font-mono font-bold uppercase italic text-right" id="out-fit-type">--</div>
-                        </div>
+                    <div class="mt-6 p-4 bg-primary/10 border border-primary/20">
+                        <div class="text-[10px] font-mono text-primary font-bold uppercase mb-2 tracking-widest italic">Fit_Analysis (Pasning)</div>
+                        <div id="out-fit-type" class="text-xl font-mono font-black text-white italic uppercase">Mellem_Pasning</div>
+                        <div id="out-fit-val" class="text-xs font-mono text-zinc-400 mt-1">Tolerancefelt: 0.009 - 0.050 mm</div>
                     </div>
                 </div>
-                
-                <button onclick="window.print()" class="no-print w-full mt-6 border border-zinc-700 bg-zinc-900/50 hover:border-white hover:bg-white/10 text-white text-[10px] uppercase font-bold tracking-widest py-3 transition-colors italic">
-                    Generér Setup Sheet (Print)
-                </button>
             </div>
 
-            <div class="bg-black/40 border border-zinc-900 p-6 flex flex-col justify-between">
-                <div>
-                    <div class="section-header mt-0">// 02_THERMAL_DRIFT_ANALYSIS</div>
-                    
-                    <div class="grid grid-cols-2 gap-4 mb-6 no-print">
-                        <div class="col-span-2">
-                            <label class="label-text">Emnemateriale</label>
-                            <select id="thm-mat" class="input-field border-zinc-600">
-                                <option value="11.5">Stål (Automat/Værktøj) [11.5 µm/m°C]</option>
-                                <option value="16.0">Rustfast Stål [16.0 µm/m°C]</option>
-                                <option value="23.1">Aluminium [23.1 µm/m°C]</option>
-                                <option value="19.0">Messing [19.0 µm/m°C]</option>
-                                <option value="110.0" selected>POM (Acetal) [110.0 µm/m°C]</option>
-                                <option value="80.0">Nylon [80.0 µm/m°C]</option>
-                            </select>
-                        </div>
-                        <div class="col-span-2">
-                            <label class="label-text text-primary">Nominelt Target Mål ved 20°C [mm]</label>
-                            <input type="number" id="thm-nom" class="input-field border-primary font-bold" value="50.000" step="0.01">
-                        </div>
-                        <div>
-                            <label class="label-text">Aktuel Emnetemp i maskinen [°C]</label>
-                            <input type="number" id="thm-temp" class="input-field" value="45" step="1">
-                        </div>
-                        <div>
-                            <label class="label-text text-zinc-600">Målerums Target Temp [°C]</label>
-                            <input type="number" disabled class="input-field" value="20">
-                        </div>
+            <div class="bg-black/40 border border-zinc-900 p-6 no-print">
+                <div class="section-header mt-0">// 02_THERMAL_EXPANSION_DRIFT</div>
+                <div class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label class="label-text">Materiale</label>
+                        <select id="thm-mat" class="input-field border-zinc-600">
+                            <option value="11.5">Stål (11.5 µm/mK)</option>
+                            <option value="23.1">Aluminium (23.1 µm/mK)</option>
+                            <option value="19.0">Messing (19.0 µm/mK)</option>
+                            <option value="13.0">Rustfast 304 (13.0 µm/mK)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="label-text">Dimension (L) [mm]</label>
+                        <input type="number" id="thm-nom" class="input-field" value="500">
+                    </div>
+                    <div>
+                        <label class="label-text">Aktuel Temperatur [°C]</label>
+                        <input type="number" id="thm-temp" class="input-field border-primary text-primary font-bold" value="28">
                     </div>
                 </div>
 
-                <div class="flex-grow flex flex-col justify-end space-y-4">
-                    <p class="no-print text-[10px] font-mono text-zinc-500 italic uppercase font-bold leading-relaxed mb-4 border-l-2 border-zinc-800 pl-4">
-                        Kompenserer for termisk udvidelse. Udregner den fysiske dimension emnet SKAL have i maskinen lige nu, for at ramme Target-målet når det køler ned.
-                    </p>
-
-                    <div class="out-row"><span class="out-label">Temperatur Delta (ΔT)</span><span id="out-thm-delta" class="out-val text-zinc-400">0 °C</span></div>
-                    <div class="out-row"><span class="out-label">Termisk Afvigelse (Drift)</span><span id="out-thm-drift" class="out-val text-red-400">0.000 mm</span></div>
-                    
+                <div class="mt-8 space-y-4">
+                    <div class="out-row"><span class="out-label">Delta Temp (Ref 20°C)</span><span id="out-thm-delta" class="out-val text-red-400">+8 °C</span></div>
+                    <div class="out-row"><span class="out-label">Lineær Ekspansion (Drift)</span><span id="out-thm-drift" class="out-val text-red-400">+0.046 mm</span></div>
                     <div class="bg-primary/10 border border-primary p-4 mt-4">
-                        <div class="text-[10px] font-mono text-primary font-bold uppercase italic mb-1 tracking-widest">Kompenseret Maskin-Mål</div>
-                        <div class="flex justify-between items-end">
-                            <span class="text-xs font-mono text-primary uppercase italic">Bearbejd til dimension:</span>
-                            <span id="out-thm-target" class="text-2xl font-mono font-black text-white">00.000 mm</span>
-                        </div>
+                        <div class="text-[10px] font-mono text-primary font-bold uppercase mb-1 italic tracking-widest">Korrigeret_Mål_i_Maskine</div>
+                        <div id="out-thm-target" class="text-2xl font-mono font-black text-white tracking-tighter">500.046 mm</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="database.js"></script>
     <script>
-        const isoRanges = [3, 6, 10, 18, 30, 50, 80, 120];
-        
-        const IT = {
-            5: [4, 5, 6, 8, 9, 11, 13, 15],
-            6: [6, 8, 9, 11, 13, 16, 19, 22],
-            7: [10, 12, 15, 18, 21, 25, 30, 35],
-            8: [14, 18, 22, 27, 33, 39, 46, 54],
-            9: [25, 30, 36, 43, 52, 62, 74, 87],
-           10: [40, 48, 58, 70, 84, 100, 120, 140],
-           11: [60, 75, 90, 110, 130, 160, 190, 220]
-        };
-
-        const fdMatrix = {
-            'c': [-60, -70, -80, -95, -110, -130, -150, -170],
-            'd': [-20, -30, -40, -50, -65, -80, -100, -120],
-            'e': [-14, -20, -25, -32, -40, -50, -60, -72],
-            'f': [-6, -10, -13, -16, -20, -25, -30, -36],
-            'g': [-2, -4, -5, -6, -7, -9, -10, -12],
-            'h': [0, 0, 0, 0, 0, 0, 0, 0],
-            'k': [0, 1, 1, 2, 2, 2, 2, 3],
-            'm': [2, 4, 6, 7, 8, 9, 11, 13],
-            'n': [4, 8, 10, 12, 15, 17, 20, 23],
-            'p': [6, 12, 15, 18, 22, 26, 32, 37],
-            's': [14, 19, 23, 27, 35, 43, 53, 59]
-        };
-
         function getRangeIndex(nom) {
             if (nom <= 0 || nom > 120) return -1;
-            if (nom <= 3) return 0;
-            for (let i = 0; i < isoRanges.length - 1; i++) {
-                if (nom > isoRanges[i] && nom <= isoRanges[i+1]) return i+1;
+            for (let i = 0; i < isoRanges.length; i++) {
+                if (nom <= isoRanges[i]) return i;
             }
             return -1;
         }
 
-        function parseClass(str) {
-            str = str.trim();
-            if (str.length < 2) return null;
-            const letter = str.charAt(0);
-            const grade = parseInt(str.substring(1));
-            return { letter, grade };
-        }
-
-        function calculateTolerance(nom, clsStr, isForHole) {
-            const cls = parseClass(clsStr);
-            if (!cls || isNaN(cls.grade)) return null;
-
-            const idx = getRangeIndex(nom);
-            if (idx === -1) return { err: `Dimension udenfor tilladt område (0-120mm).` };
-
-            if (!IT[cls.grade]) return { err: `IT-Kvalitet ${cls.grade} udenfor matrix (Tilgængelig: 5-11).` };
-            const itVal = IT[cls.grade][idx];
-
-            const charLower = cls.letter.toLowerCase();
-            if (!fdMatrix[charLower]) return { err: `Bogstav '${cls.letter}' udenfor matrix (Tilgængelig: C-S, c-s).` };
-
-            let fd = fdMatrix[charLower][idx];
-            let upper, lower;
-
-            if (!isForHole) {
-                if (['c','d','e','f','g','h'].includes(charLower)) {
-                    let es = fd;
-                    let ei = es - itVal;
-                    upper = es; lower = ei;
-                } else {
-                    let ei = fd;
-                    let es = ei + itVal;
-                    upper = es; lower = ei;
-                }
-            } else {
-                if (['c','d','e','f','g','h'].includes(charLower)) {
-                    let EI = -fd;
-                    let ES = EI + itVal;
-                    upper = ES; lower = EI;
-                } else {
-                    let ES = -fd;
-                    let EI = ES - itVal;
-                    upper = ES; lower = EI;
-                }
-            }
-
-            return { upper, lower, max: nom + (upper/1000), min: nom + (lower/1000) };
-        }
-
-        function throwError(msg) {
-            const errorDiv = document.getElementById('iso-error');
-            errorDiv.innerText = `[!] Systemfejl: ${msg}`;
-            errorDiv.classList.remove('hidden');
-            ['hole-tol', 'hole-max', 'hole-min', 'shaft-tol', 'shaft-max', 'shaft-min', 'fit-max', 'fit-min'].forEach(id => {
-                document.getElementById('out-' + id).innerText = "ERR";
-            });
-            document.getElementById('out-fit-type').innerText = "--";
-        }
-
         function calculateISO() {
-            const nom = parseFloat(document.getElementById('iso-nom').value);
-            const holeStr = document.getElementById('iso-hole').value;
-            const shaftStr = document.getElementById('iso-shaft').value;
-            const errorDiv = document.getElementById('iso-error');
+            const nom = parseFloat(document.getElementById('iso-nom').value) || 0;
+            const hRaw = document.getElementById('iso-hole').value.toUpperCase();
+            const sRaw = document.getElementById('iso-shaft').value;
+            const idx = getRangeIndex(nom);
 
-            if (isNaN(nom)) return;
-            errorDiv.classList.add('hidden');
+            if (idx === -1) return;
 
-            const hole = calculateTolerance(nom, holeStr, true);
-            if (hole && hole.err) return throwError(hole.err);
-            
-            const shaft = calculateTolerance(nom, shaftStr, false);
-            if (shaft && shaft.err) return throwError(shaft.err);
+            let hMin = nom, hMax = nom, sMin = nom, sMax = nom;
 
-            if (!hole || !shaft) return throwError("Syntaksfejl i klasse.");
-
-            const hUStr = hole.upper > 0 ? `+${(hole.upper/1000).toFixed(3)}` : (hole.upper/1000).toFixed(3);
-            const hLStr = hole.lower > 0 ? `+${(hole.lower/1000).toFixed(3)}` : (hole.lower/1000).toFixed(3);
-            document.getElementById('out-hole-tol').innerText = `${hUStr} / ${hLStr}`;
-            document.getElementById('out-hole-max').innerText = hole.max.toFixed(3) + " mm";
-            document.getElementById('out-hole-min').innerText = hole.min.toFixed(3) + " mm";
-
-            const sUStr = shaft.upper > 0 ? `+${(shaft.upper/1000).toFixed(3)}` : (shaft.upper/1000).toFixed(3);
-            const sLStr = shaft.lower > 0 ? `+${(shaft.lower/1000).toFixed(3)}` : (shaft.lower/1000).toFixed(3);
-            document.getElementById('out-shaft-tol').innerText = `${sUStr} / ${sLStr}`;
-            document.getElementById('out-shaft-max').innerText = shaft.max.toFixed(3) + " mm";
-            document.getElementById('out-shaft-min').innerText = shaft.min.toFixed(3) + " mm";
-
-            const maxClearance = hole.max - shaft.min;
-            const minClearance = hole.min - shaft.max;
-
-            document.getElementById('out-fit-max').innerText = maxClearance.toFixed(3) + " mm";
-            document.getElementById('out-fit-min').innerText = minClearance.toFixed(3) + " mm";
-
-            const fitTypeEl = document.getElementById('out-fit-type');
-            if (minClearance >= 0) {
-                fitTypeEl.innerText = "Klarpasning (Clearance Fit)";
-                fitTypeEl.className = "mt-2 text-[10px] font-mono font-bold uppercase italic text-right text-emerald-500";
-            } else if (maxClearance <= 0) {
-                fitTypeEl.innerText = "Presspasning (Interference Fit)";
-                fitTypeEl.className = "mt-2 text-[10px] font-mono font-bold uppercase italic text-right text-red-500";
-            } else {
-                fitTypeEl.innerText = "Overgangspasning (Transition Fit)";
-                fitTypeEl.className = "mt-2 text-[10px] font-mono font-bold uppercase italic text-right text-primary";
+            const hMatch = hRaw.match(/([A-Z]+)(\d+)/);
+            if (hMatch) {
+                const letter = hMatch[1].toLowerCase();
+                const grade = parseInt(hMatch[2]);
+                if (IT[grade] && fdMatrix[letter]) {
+                    const itVal = IT[grade][idx] / 1000;
+                    const fdVal = -fdMatrix[letter][idx] / 1000;
+                    hMin = nom + fdVal;
+                    hMax = hMin + itVal;
+                }
             }
+
+            const sMatch = sRaw.match(/([a-z]+)(\d+)/);
+            if (sMatch) {
+                const letter = sMatch[1];
+                const grade = parseInt(sMatch[2]);
+                if (IT[grade] && fdMatrix[letter]) {
+                    const itVal = IT[grade][idx] / 1000;
+                    const fdVal = fdMatrix[letter][idx] / 1000;
+                    sMax = nom + fdVal;
+                    sMin = sMax - itVal;
+                }
+            }
+
+            document.getElementById('out-hole-dev').innerText = `Dev: ${(hMin - nom).toFixed(3)} / ${(hMax - nom).toFixed(3)}`;
+            document.getElementById('out-hole-range').innerText = `${hMin.toFixed(3)} - ${hMax.toFixed(3)}`;
+            document.getElementById('out-shaft-dev').innerText = `Dev: ${(sMin - nom).toFixed(3)} / ${(sMax - nom).toFixed(3)}`;
+            document.getElementById('out-shaft-range').innerText = `${sMin.toFixed(3)} - ${sMax.toFixed(3)}`;
+
+            const fitType = document.getElementById('out-fit-type');
+            if (sMin > hMax) fitType.innerText = "Pres_Pasning";
+            else if (sMax < hMin) fitType.innerText = "Spillerum";
+            else fitType.innerText = "Mellem_Pasning";
         }
 
         function calculateThermal() {
             const alpha = parseFloat(document.getElementById('thm-mat').value) * 1e-6; 
             const nom = parseFloat(document.getElementById('thm-nom').value) || 0;
             const currentTemp = parseFloat(document.getElementById('thm-temp').value) || 20;
-            const targetTemp = 20;
-
-            if (nom === 0) return;
-
-            const deltaT = currentTemp - targetTemp;
+            const deltaT = currentTemp - 20;
             const drift = nom * alpha * deltaT;
             const targetInMachine = nom + drift;
 
             document.getElementById('out-thm-delta').innerText = deltaT > 0 ? `+${deltaT} °C` : `${deltaT} °C`;
             document.getElementById('out-thm-drift').innerText = drift > 0 ? `+${drift.toFixed(3)} mm` : `${drift.toFixed(3)} mm`;
-            document.getElementById('out-thm-drift').className = drift > 0 ? "out-val text-red-400" : "out-val text-blue-400";
-            
             document.getElementById('out-thm-target').innerText = targetInMachine.toFixed(3) + " mm";
         }
 
-        ['iso-nom', 'iso-hole', 'iso-shaft'].forEach(id => {
-            document.getElementById(id).addEventListener('input', calculateISO);
-            document.getElementById(id).addEventListener('change', calculateISO);
-        });
-
-        ['thm-mat', 'thm-nom', 'thm-temp'].forEach(id => {
-            document.getElementById(id).addEventListener('input', calculateThermal);
-            document.getElementById(id).addEventListener('change', calculateThermal);
-        });
+        ['iso-nom', 'iso-hole', 'iso-shaft'].forEach(id => document.getElementById(id).addEventListener('input', calculateISO));
+        ['thm-mat', 'thm-nom', 'thm-temp'].forEach(id => document.getElementById(id).addEventListener('input', calculateThermal));
 
         calculateISO();
         calculateThermal();
