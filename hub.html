@@ -9,6 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="global.css">
+    
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -22,96 +23,93 @@
             }
         }
     </script>
-
 </head>
-<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid min-h-screen flex flex-col selection:bg-zinc-700 selection:text-white">
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid min-h-screen flex flex-col p-6 selection:bg-zinc-700 selection:text-white">
 
-    <div class="max-w-6xl mx-auto w-full p-6 flex-grow flex flex-col justify-center">
-        <header class="mb-12 border-b border-zinc-800 pb-6">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="h-[1px] w-8 bg-zinc-600"></div>
-                <span class="text-[10px] font-mono text-zinc-500 tracking-[0.4em] uppercase font-bold">System_Root</span>
+    <div class="max-w-7xl mx-auto w-full flex-grow flex flex-col justify-center">
+        
+        <header class="mb-12 border-b border-zinc-800 pb-8 flex flex-col md:flex-row justify-between items-end gap-6">
+            <div class="space-y-2">
+                <h1 class="text-5xl font-black tracking-tighter uppercase italic text-white">Operations <span class="text-zinc-700">Hub</span></h1>
+                <p class="text-[10px] font-mono text-zinc-500 tracking-[0.4em] uppercase font-bold italic">Central_Command // Infrastructure_v3.0</p>
             </div>
-            <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white leading-none">
-                Operations<br><span class="text-zinc-600">Hub</span>
-            </h1>
-            <div class="flex justify-between items-end mt-6">
-                <p class="text-xs font-mono text-zinc-500 uppercase italic font-bold tracking-widest">Select_Module_For_Initialization</p>
-                <a href="index.html" class="text-[10px] font-mono text-zinc-600 hover:text-white uppercase italic tracking-widest border border-zinc-800 px-4 py-2 hover:bg-zinc-900 transition-colors">Return_to_Portfolio</a>
+            <div class="flex flex-col items-end gap-1">
+                <a href="index.html" class="text-[10px] font-mono text-zinc-600 hover:text-white transition-colors uppercase tracking-widest border border-zinc-800 px-4 py-2 bg-black/40 italic font-bold">← Terminate_Session</a>
             </div>
         </header>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            <a href="calculator.html" class="hub-card group relative bg-black/60 border border-zinc-800 p-8 overflow-hidden hover:border-[#f59e0b]">
-                <div class="absolute top-0 right-0 p-4 text-[120px] font-black italic text-zinc-900/40 leading-none pointer-events-none select-none group-hover:text-[#f59e0b]/10 transition-colors">M</div>
-                <div class="relative z-10">
-                    <span class="text-[10px] font-mono text-[#f59e0b] font-bold tracking-[0.3em] uppercase italic mb-4 block">// MOD_01</span>
-                    <h2 class="text-3xl font-black uppercase italic text-white mb-2 group-hover:text-[#f59e0b] transition-colors">CNC Fræsning</h2>
-                    <p class="text-zinc-500 text-xs font-mono leading-relaxed uppercase italic font-bold">Spåntynding (HSM) • MRR-kontrol • Gevindfræsning • Dynamik</p>
-                </div>
+            <a href="calculator.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#f59e0b] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#f59e0b]/10">M</div>
+                <span class="text-[9px] font-mono text-[#f59e0b] font-bold tracking-widest uppercase italic mb-4 block">// MOD_01</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Speeds & Feeds</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">CNC Fræsning • Adaptive • HSM • MRR / Power</p>
             </a>
 
-            <a href="turning.html" class="hub-card group relative bg-black/60 border border-zinc-800 p-8 overflow-hidden hover:border-[#3b82f6]">
-                <div class="absolute top-0 right-0 p-4 text-[120px] font-black italic text-zinc-900/40 leading-none pointer-events-none select-none group-hover:text-[#3b82f6]/10 transition-colors">T</div>
-                <div class="relative z-10">
-                    <span class="text-[10px] font-mono text-[#3b82f6] font-bold tracking-[0.3em] uppercase italic mb-4 block">// MOD_02</span>
-                    <h2 class="text-3xl font-black uppercase italic text-white mb-2 group-hover:text-[#3b82f6] transition-colors">CNC Drejning</h2>
-                    <p class="text-zinc-500 text-xs font-mono leading-relaxed uppercase italic font-bold">CSS (G96) • Gevind-cyklus • Udboring L:D • Spånbrydning</p>
-                </div>
+            <a href="turning.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#3b82f6] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#3b82f6]/10">T</div>
+                <span class="text-[9px] font-mono text-[#3b82f6] font-bold tracking-widest uppercase italic mb-4 block">// MOD_02</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Lathe Params</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">CNC Drejning • G96/G97 • G71/G76 • Ra Control</p>
             </a>
 
-            <a href="manual.html" class="hub-card group relative bg-black/60 border border-zinc-800 p-8 overflow-hidden hover:border-[#10b981]">
-                <div class="absolute top-0 right-0 p-4 text-[120px] font-black italic text-zinc-900/40 leading-none pointer-events-none select-none group-hover:text-[#10b981]/10 transition-colors">H</div>
-                <div class="relative z-10">
-                    <span class="text-[10px] font-mono text-[#10b981] font-bold tracking-[0.3em] uppercase italic mb-4 block">// MOD_03</span>
-                    <h2 class="text-3xl font-black uppercase italic text-white mb-2 group-hover:text-[#10b981] transition-colors">Manuelt & Konv.</h2>
-                    <p class="text-zinc-500 text-xs font-mono leading-relaxed uppercase italic font-bold">Gearkasse-Fysik • Modfræsning • Rigiditet • Pasningsboring</p>
-                </div>
+            <a href="manual.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#10b981] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#10b981]/10">S</div>
+                <span class="text-[9px] font-mono text-[#10b981] font-bold tracking-widest uppercase italic mb-4 block">// MOD_03</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Manual Shop</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">Konventionel • Gear-valg • Gevindur • HSS/HM</p>
             </a>
 
-            <a href="metrology.html" class="hub-card group relative bg-black/60 border border-zinc-800 p-8 overflow-hidden hover:border-[#8b5cf6]">
-                <div class="absolute top-0 right-0 p-4 text-[120px] font-black italic text-zinc-900/40 leading-none pointer-events-none select-none group-hover:text-[#8b5cf6]/10 transition-colors">Q</div>
-                <div class="relative z-10">
-                    <span class="text-[10px] font-mono text-[#8b5cf6] font-bold tracking-[0.3em] uppercase italic mb-4 block">// MOD_04</span>
-                    <h2 class="text-3xl font-black uppercase italic text-white mb-2 group-hover:text-[#8b5cf6] transition-colors">Metrologi & QA</h2>
-                    <p class="text-zinc-500 text-xs font-mono leading-relaxed uppercase italic font-bold">ISO 286 (H7/f7) • Termisk Ekspansion • Tolerance-Matematik</p>
-                </div>
+            <a href="metrology.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#8b5cf6] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#8b5cf6]/10">QA</div>
+                <span class="text-[9px] font-mono text-[#8b5cf6] font-bold tracking-widest uppercase italic mb-4 block">// MOD_04</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Metrology & QA</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">ISO 286 Pasning • Thermal Drift • QA Report</p>
             </a>
 
-            <a href="geometry.html" class="hub-card group relative bg-black/60 border border-zinc-800 p-8 overflow-hidden hover:border-[#06b6d4]">
-                <div class="absolute top-0 right-0 p-4 text-[120px] font-black italic text-zinc-900/40 leading-none pointer-events-none select-none group-hover:text-[#06b6d4]/10 transition-colors">G</div>
-                <div class="relative z-10">
-                    <span class="text-[10px] font-mono text-[#06b6d4] font-bold tracking-[0.3em] uppercase italic mb-4 block">// MOD_05</span>
-                    <h2 class="text-3xl font-black uppercase italic text-white mb-2 group-hover:text-[#06b6d4] transition-colors">Geometri</h2>
-                    <p class="text-zinc-500 text-xs font-mono leading-relaxed uppercase italic font-bold">Delecirkel (X/Y) • Sinuslineal • Z-Dybder • 3-Tråd</p>
-                </div>
+            <a href="geometry.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#06b6d4] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#06b6d4]/10">G</div>
+                <span class="text-[9px] font-mono text-[#06b6d4] font-bold tracking-widest uppercase italic mb-4 block">// MOD_05</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Geometry Set</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">BHC • Konus (MT/SK) • Sinuslinjal • 3-Wire</p>
             </a>
 
-            <a href="setupsheet.html" class="hub-card group relative bg-black/60 border border-zinc-800 p-8 overflow-hidden hover:border-[#ec4899]">
-                <div class="absolute top-0 right-0 p-4 text-[120px] font-black italic text-zinc-900/40 leading-none pointer-events-none select-none group-hover:text-[#ec4899]/10 transition-colors">S</div>
-                <div class="relative z-10">
-                    <span class="text-[10px] font-mono text-[#ec4899] font-bold tracking-[0.3em] uppercase italic mb-4 block">// MOD_06</span>
-                    <h2 class="text-3xl font-black uppercase italic text-white mb-2 group-hover:text-[#ec4899] transition-colors">Setup & Tools</h2>
-                    <p class="text-zinc-500 text-xs font-mono leading-relaxed uppercase italic font-bold">Værktøjsbibliotek • Operation Print • Opspændings-Logik</p>
-                </div>
+            <a href="setupsheet.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#ec4899] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#ec4899]/10">P</div>
+                <span class="text-[9px] font-mono text-[#ec4899] font-bold tracking-widest uppercase italic mb-4 block">// MOD_06</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Setup Sheets</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">Tool List • Opspænding • Print Protocol • Ops</p>
             </a>
 
-            <a href="reference.html" class="hub-card group relative bg-black/60 border border-zinc-800 p-8 overflow-hidden hover:border-[#f43f5e] lg:col-span-3">
-                <div class="absolute top-0 right-0 p-4 text-[120px] font-black italic text-zinc-900/40 leading-none pointer-events-none select-none group-hover:text-[#f43f5e]/10 transition-colors">R</div>
-                <div class="relative z-10">
-                    <span class="text-[10px] font-mono text-[#f43f5e] font-bold tracking-[0.3em] uppercase italic mb-4 block">// MOD_07</span>
-                    <h2 class="text-3xl font-black uppercase italic text-white mb-2 group-hover:text-[#f43f5e] transition-colors">Reference & Stock</h2>
-                    <p class="text-zinc-500 text-xs font-mono leading-relaxed uppercase italic font-bold">Råemne Masse (kg) • Volumen • DIN 912 Undersænk • HRC/MPa Konvertering</p>
-                </div>
+            <a href="reference.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#f43f5e] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#f43f5e]/10">R</div>
+                <span class="text-[9px] font-mono text-[#f43f5e] font-bold tracking-widest uppercase italic mb-4 block">// MOD_07</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Reference Data</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">Forbor • Stock Mass • Hardness • GD&T Symbolik</p>
+            </a>
+
+            <a href="materials.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#10b981] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#10b981]/10">A</div>
+                <span class="text-[9px] font-mono text-[#10b981] font-bold tracking-widest uppercase italic mb-4 block">// MOD_08</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Material Archive</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">Selection Guide • Korrosion • k_c • Machinability</p>
+            </a>
+
+            <a href="converter.html" class="group relative bg-black/60 border border-zinc-900 p-8 hover:border-[#a1a1aa] transition-all">
+                <div class="absolute top-0 right-0 p-4 text-7xl font-black italic text-zinc-900/40 group-hover:text-[#a1a1aa]/10">IN</div>
+                <span class="text-[9px] font-mono text-[#a1a1aa] font-bold tracking-widest uppercase italic mb-4 block">// MOD_09</span>
+                <h2 class="text-2xl font-black uppercase italic text-white mb-2">Unit Converter</h2>
+                <p class="text-zinc-600 text-[10px] font-mono uppercase italic font-bold leading-relaxed">Inch to Metric • Fraction Map • Drill Bit Mapping</p>
             </a>
 
         </div>
-    </div>
 
-    <footer class="py-6 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-center">
-        <span class="text-zinc-700 tracking-[0.5em] text-[9px]">Datum Prototyping // Operations // 2026</span>
-    </footer>
+        <footer class="mt-16 pt-8 border-t border-zinc-900 flex justify-between items-center text-[9px] font-mono text-zinc-700 uppercase italic tracking-widest font-bold">
+            <div>Datum Prototyping // Infrastructure_Operational</div>
+            <div>Auth: Primary_Operator</div>
+        </footer>
+    </div>
 
 </body>
 </html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Datum Prototyping | Material Archive</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: "#10b981" },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid min-h-screen flex flex-col p-6">
+
+    <div class="max-w-7xl mx-auto w-full">
+        <header class="mb-12 border-b border-zinc-800 pb-6 flex flex-col md:flex-row md:justify-between md:items-end gap-6 no-print">
+            <div>
+                <h1 class="text-4xl md:text-5xl font-black tracking-tighter uppercase italic text-white">Material <span class="text-zinc-600">&</span> Specs</h1>
+                <div class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold mt-2 mb-6">Datum Prototyping // Mat_Archive_Rev02</div>
+                
+                <a href="hub.html" class="inline-flex items-center justify-center px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest border border-zinc-800 bg-[#0c0c0e] text-zinc-500 hover:text-white hover:border-zinc-600 transition-colors">
+                    ← Return_To_Hub
+                </a>
+            </div>
+            <div class="font-mono text-[10px] text-zinc-500 font-bold uppercase italic pb-2 md:pb-0">
+                Data_Engine: <span class="text-primary font-black">Operational</span>
+            </div>
+        </header>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-black/40 border border-zinc-900 p-6 overflow-x-auto">
+                    <div class="section-header mt-0">// 01_CORE_MATERIAL_MATRIX</div>
+                    
+                    <table class="w-full text-left font-mono text-[10px] uppercase italic">
+                        <thead>
+                            <tr class="border-b border-zinc-800 text-zinc-500">
+                                <th class="py-4 font-bold tracking-widest">Materiale</th>
+                                <th class="py-4 font-bold tracking-widest text-center">k_c (Force)</th>
+                                <th class="py-4 font-bold tracking-widest text-center">Alpha (µm/mK)</th>
+                                <th class="py-4 font-bold tracking-widest text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="material-table-body">
+                            </tbody>
+                    </table>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 no-print">
+                    <div class="bg-black/40 border border-zinc-900 p-6">
+                        <div class="section-header mt-0">// 03_MACHINABILITY_REF</div>
+                        <p class="text-zinc-500 text-[10px] leading-relaxed italic font-bold">
+                            Procentvis angivelse baseret på Automatstål (11SMn30) som 100%. Værdier over 100% indikerer ekstremt letbearbejdelige materialer (ofte messing eller blød plast).
+                        </p>
+                    </div>
+                    <div class="bg-black/40 border border-zinc-900 p-6 flex items-center justify-center">
+                        <button onclick="window.print()" class="w-full h-full border border-zinc-800 bg-zinc-900/50 hover:border-primary text-zinc-600 hover:text-primary text-[10px] uppercase font-bold tracking-[0.2em] transition-all italic">
+                            Print Technical Data Sheet
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="bg-black/60 border border-primary/30 p-8 sticky top-6 shadow-2xl shadow-primary/5">
+                    <div class="section-header mt-0 text-primary">// 02_TECHNICAL_DEEP_DIVE</div>
+                    
+                    <div id="inspector-default" class="py-12 text-center">
+                        <p class="text-zinc-600 font-mono text-[10px] uppercase italic font-bold">Vælg et materiale i matrixen for at indlæse specifikationer...</p>
+                    </div>
+
+                    <div id="inspector-content" class="hidden space-y-8">
+                        <div>
+                            <h2 id="det-name" class="text-3xl font-black uppercase italic text-white leading-none">---</h2>
+                            <p id="det-type" class="text-primary font-mono text-[10px] uppercase font-bold mt-2 tracking-[0.3em]">---</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="out-row"><span class="out-label">Trækstyrke (Rm)</span><span id="det-rm" class="out-val">0 MPa</span></div>
+                            <div class="out-row"><span class="out-label">Elasticitetsmodul (E)</span><span id="det-e" class="out-val">0 GPa</span></div>
+                            <div class="out-row"><span class="out-label">Korrosionsmodstand</span><span id="det-corr" class="out-val text-primary">---</span></div>
+                            <div class="out-row"><span class="out-label">Svejsbarhed</span><span id="det-weld" class="out-val">---</span></div>
+                            <div class="out-row"><span class="out-label">Overflade-finish</span><span id="det-finish" class="out-val">---</span></div>
+                        </div>
+
+                        <div class="p-4 bg-zinc-900/50 border border-zinc-800">
+                            <div class="text-[9px] font-mono text-zinc-600 uppercase font-bold mb-2 tracking-widest">Bearbejdelighed_Rating</div>
+                            <div class="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                                <div id="det-mach-bar" class="bg-primary h-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                            <div id="det-mach-val" class="text-right text-primary font-mono text-[10px] mt-1 font-bold italic">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script>
+        function renderMaterialList() {
+            const tbody = document.getElementById('material-table-body');
+            tbody.innerHTML = '';
+
+            // Vi løber igennem materialDB fra database.js
+            for (const [id, data] of Object.entries(materialDB)) {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-zinc-900/50 hover:bg-zinc-900/30 transition-all cursor-pointer group";
+                tr.onclick = () => inspectMaterial(id);
+                
+                tr.innerHTML = `
+                    <td class="py-5">
+                        <div class="text-white font-black group-hover:text-primary transition-colors">${data.name}</div>
+                        <div class="text-[9px] text-zinc-600 font-bold uppercase mt-0.5">ID: ${id.toUpperCase()}</div>
+                    </td>
+                    <td class="py-5 text-center text-primary font-bold text-xs">${data.kc}</td>
+                    <td class="py-5 text-center text-zinc-400 font-bold">${data.alpha}</td>
+                    <td class="py-5 text-right">
+                        <span class="text-[9px] bg-zinc-900 border border-zinc-800 px-2 py-1 text-zinc-500 font-bold">LOCKED</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+        }
+
+        function inspectMaterial(id) {
+            const data = materialDB[id];
+            
+            document.getElementById('inspector-default').classList.add('hidden');
+            const content = document.getElementById('inspector-content');
+            content.classList.remove('hidden');
+
+            document.getElementById('det-name').innerText = data.name;
+            document.getElementById('det-type').innerText = data.machinability + " Machinability";
+            document.getElementById('det-rm').innerText = data.rm + " MPa";
+            document.getElementById('det-e').innerText = data.eModul + " GPa";
+            document.getElementById('det-corr').innerText = data.corrosion;
+            document.getElementById('det-weld').innerText = data.weld;
+            document.getElementById('det-finish').innerText = data.finish;
+
+            // Opdater bar
+            const machPercent = parseInt(data.machinability);
+            document.getElementById('det-mach-bar').style.width = Math.min(machPercent, 100) + "%";
+            document.getElementById('det-mach-val').innerText = data.machinability;
+        }
+
+        window.onload = renderMaterialList;
+    </script>
+</body>
+</html>
