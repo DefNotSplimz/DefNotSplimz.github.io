@@ -1,0 +1,32 @@
+<div class="module-header">
+  <div class="hud-badge">MOD_06_ACTIVE</div>
+  <h2>Trigonometri_Engine</h2>
+  <p>Trekantsløser og kegleberegning til Weiler.</p>
+</div>
+<div class="hud-grid">
+  <div class="hud-panel">
+    <div class="panel-title">/// TREKANT</div>
+    <div class="form-row"><div class="input-group"><label>A (Modst.)</label><input type="number" id="tr-a"></div><div class="input-group"><label>B (Hoslig.)</label><input type="number" id="tr-b"></div></div>
+    <div class="panel-title" style="margin-top:20px">/// KEGLE (TAPER)</div>
+    <div class="form-row"><div class="input-group"><label>STOR Ø</label><input type="number" id="tr-d1" value="50"></div><div class="input-group"><label>LILLE Ø</label><input type="number" id="tr-d2" value="45"></div></div>
+    <div class="form-row"><div class="input-group" style="grid-column:1/-1"><label>LÆNGDE (L)</label><input type="number" id="tr-l" value="100"></div></div>
+  </div>
+  <div class="hud-panel display-panel">
+    <div class="panel-title">/// ANALYSE</div>
+    <div class="data-readout active-readout"><div class="readout-label">TREKANT VINKEL</div><div class="readout-val"><span id="tr-v">0</span>°</div></div>
+    <div class="data-readout"><div class="readout-label">KEGLE VINKEL</div><div class="readout-val" style="color:var(--hud-blue)"><span id="tr-k">0</span>°</div></div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    function calc() {
+      const a = parseFloat(document.getElementById('tr-a').value), b = parseFloat(document.getElementById('tr-b').value);
+      if(a && b) document.getElementById('tr-v').innerText = (Math.atan(a/b)*(180/Math.PI)).toFixed(3);
+      const d1 = parseFloat(document.getElementById('tr-d1').value), d2 = parseFloat(document.getElementById('tr-d2').value), l = parseFloat(document.getElementById('tr-l').value);
+      if(l>0) document.getElementById('tr-k').innerText = (Math.atan((d1-d2)/(2*l))*(180/Math.PI)).toFixed(3);
+    }
+    document.querySelectorAll('#viewport input').forEach(i => i.addEventListener('input', calc));
+    calc();
+  })();
+</script>

@@ -1,0 +1,81 @@
+{
+  "materials": [
+    {
+      "id": "mat_alu",
+      "iso_code": "N",
+      "name": "Aluminium (Legeret)",
+      "example": "EN AW-6082",
+      "hardness_hb": 90,
+      "machinability_index": 250,
+      "specific_cutting_force_kc1": 700,
+      "exponent_mc": 0.25,
+      "ui_color_ref": "iso-green"
+    },
+    {
+      "id": "mat_messing",
+      "iso_code": "N",
+      "name": "Messing",
+      "example": "CuZn39Pb3",
+      "hardness_hb": 110,
+      "machinability_index": 300,
+      "specific_cutting_force_kc1": 600,
+      "exponent_mc": 0.22,
+      "ui_color_ref": "iso-green"
+    },
+    {
+      "id": "mat_staal",
+      "iso_code": "P",
+      "name": "Stål (Ulegeret/Lavtlegeret)",
+      "example": "S355 / 1.0570",
+      "hardness_hb": 180,
+      "machinability_index": 100,
+      "specific_cutting_force_kc1": 1500,
+      "exponent_mc": 0.25,
+      "ui_color_ref": "iso-blue"
+    },
+    {
+      "id": "mat_rustfast",
+      "iso_code": "M",
+      "name": "Rustfast Stål (Austenitisk)",
+      "example": "AISI 316 / 1.4404",
+      "hardness_hb": 200,
+      "machinability_index": 45,
+      "specific_cutting_force_kc1": 1900,
+      "exponent_mc": 0.24,
+      "ui_color_ref": "iso-yellow"
+    },
+    {
+      "id": "mat_vaerktoej",
+      "iso_code": "P",
+      "name": "Værktøjsstål (Udglødet)",
+      "example": "Sverker 21 / 1.2379",
+      "hardness_hb": 250,
+      "machinability_index": 40,
+      "specific_cutting_force_kc1": 2100,
+      "exponent_mc": 0.25,
+      "ui_color_ref": "iso-blue-dark"
+    },
+    {
+      "id": "mat_pom",
+      "iso_code": "N_Plast",
+      "name": "POM (Acetal)",
+      "example": "Delrin",
+      "hardness_hb": 15,
+      "machinability_index": 400,
+      "specific_cutting_force_kc1": 150,
+      "exponent_mc": 0.20,
+      "ui_color_ref": "iso-white"
+    },
+    {
+      "id": "mat_nylon",
+      "iso_code": "N_Plast",
+      "name": "Nylon (Polyamid)",
+      "example": "PA6",
+      "hardness_hb": 10,
+      "machinability_index": 350,
+      "specific_cutting_force_kc1": 120,
+      "exponent_mc": 0.20,
+      "ui_color_ref": "iso-white"
+    }
+  ]
+}
