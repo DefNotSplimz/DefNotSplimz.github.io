@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const radios = document.querySelectorAll('input[name="operation"]');
     const workMaterialSelect = document.getElementById('work-material');
     const camStrategySelect = document.getElementById('cam-strategy');
-    const opIntentSelect = document.getElementById('op-intent'); // NY: Skrub/Slet dropdown
+    const opIntentSelect = document.getElementById('op-intent');
     const inputCoolant = document.getElementById('input-coolant');
     const toggleHsm = document.getElementById('toggle-hsm');
     const hsmWrapper = document.getElementById('hsm-wrapper');
-    const wrapperEngagement = document.getElementById('wrapper-engagement');
+    const colAe = document.getElementById('col-ae');
     
     // Job Kontekst Referencer
     const jobInputs = document.querySelectorAll('#job-form input');
@@ -53,9 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const badgeVc = document.getElementById('badge-vc');
     const badgeFz = document.getElementById('badge-fz');
     const badgeStickout = document.getElementById('badge-stickout');
+    const badgeAe = document.getElementById('badge-ae');
+    const badgeAp = document.getElementById('badge-ap');
     
     const outRpm = document.getElementById('out-rpm');
     const outVf = document.getElementById('out-vf');
+    const outMrr = document.getElementById('out-mrr');
     const warningRpm = document.getElementById('warning-rpm');
     const warningHsm = document.getElementById('warning-hsm');
     const warningStickout = document.getElementById('warning-stickout');
@@ -68,72 +71,43 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let currentData = {};
 
-    // Standardværdier optimeret til "Skrub" (Roughing)
+    // Matrix udvidet med optimalLoad (ae_factor) og Stepdown (ap_factor) 
     const cuttingDataMatrix = {
         'HM': {
-            'ALU': { vc: 400, fz_base: 0.08 },
-            'MESSING': { vc: 200, fz_base: 0.06 },
-            'STAAL': { vc: 120, fz_base: 0.05 },
-            'RUSTFAST': { vc: 80, fz_base: 0.04 },
-            'VAERKTOJSSTAAL': { vc: 60, fz_base: 0.03 },
-            'DELRIN': { vc: 300, fz_base: 0.10 },
-            'NYLON': { vc: 200, fz_base: 0.08 }
+            'ALU': { vc: 400, fz_base: 0.08, ae_factor: 0.40, ap_factor: 1.5 },
+            'MESSING': { vc: 200, fz_base: 0.06, ae_factor: 0.30, ap_factor: 1.5 },
+            'STAAL': { vc: 120, fz_base: 0.05, ae_factor: 0.10, ap_factor: 1.0 },
+            'RUSTFAST': { vc: 80, fz_base: 0.04, ae_factor: 0.08, ap_factor: 1.0 },
+            'VAERKTOJSSTAAL': { vc: 60, fz_base: 0.03, ae_factor: 0.05, ap_factor: 1.0 },
+            'DELRIN': { vc: 300, fz_base: 0.10, ae_factor: 0.40, ap_factor: 2.0 },
+            'NYLON': { vc: 200, fz_base: 0.08, ae_factor: 0.40, ap_factor: 2.0 }
         },
         'HSS': {
-            'ALU': { vc: 100, fz_base: 0.05 },
-            'MESSING': { vc: 60, fz_base: 0.04 },
-            'STAAL': { vc: 25, fz_base: 0.03 },
-            'RUSTFAST': { vc: 15, fz_base: 0.02 },
-            'VAERKTOJSSTAAL': { vc: 12, fz_base: 0.015 },
-            'DELRIN': { vc: 100, fz_base: 0.08 },
-            'NYLON': { vc: 80, fz_base: 0.06 }
+            'ALU': { vc: 100, fz_base: 0.05, ae_factor: 0.20, ap_factor: 1.0 },
+            'MESSING': { vc: 60, fz_base: 0.04, ae_factor: 0.15, ap_factor: 1.0 },
+            'STAAL': { vc: 25, fz_base: 0.03, ae_factor: 0.05, ap_factor: 0.5 },
+            'RUSTFAST': { vc: 15, fz_base: 0.02, ae_factor: 0.04, ap_factor: 0.5 },
+            'VAERKTOJSSTAAL': { vc: 12, fz_base: 0.015, ae_factor: 0.02, ap_factor: 0.5 },
+            'DELRIN': { vc: 100, fz_base: 0.08, ae_factor: 0.20, ap_factor: 1.5 },
+            'NYLON': { vc: 80, fz_base: 0.06, ae_factor: 0.20, ap_factor: 1.5 }
         }
     };
 
-    // Logisk mapning af strategier: Er det standard skrub eller slet?
     const strategyIntentMap = {
-        '2D Adaptive Clearing': 'skrub',
-        '2D Pocket': 'skrub',
-        'Face': 'slet',
-        '2D Contour': 'slet',
-        'Slot': 'skrub',
-        'Trace': 'slet',
-        'Thread': 'slet',
-        'Bore': 'skrub',
-        'Circular': 'slet',
-        'Engrave': 'slet',
-        '2D Chamfer': 'slet',
-        '3D Adaptive Clearing': 'skrub',
-        '3D Pocket Clearing': 'skrub',
-        'Steep and Shallow': 'slet',
-        'Flat': 'slet',
-        'Parallel': 'slet',
-        'Scallop': 'slet',
-        '3D Contour': 'slet',
-        'Ramp': 'skrub',
-        'Pencil': 'slet',
-        'Horizontal': 'slet',
-        'Spiral': 'slet',
-        'Radial': 'slet',
-        'Morphed Spiral': 'slet',
-        'Project': 'slet',
-        'Blend': 'slet',
-        'Morph': 'slet',
-        'Corner': 'slet',
-        'Flow': 'slet',
-        'Deburr': 'slet',
-        'Geodesic': 'slet',
-        'Turning Face': 'slet',
-        'Turning Profile Roughing': 'skrub',
-        'Turning Profile Finishing': 'slet',
-        'Turning Groove Roughing': 'skrub',
-        'Turning Groove Finishing': 'slet',
-        'Turning Adaptive Roughing': 'skrub',
-        'Turning Groove': 'slet',
-        'Turning Single Groove': 'slet',
-        'Turning Thread': 'slet',
-        'Turning Chamfer': 'slet',
-        'Turning Part': 'slet',
+        '2D Adaptive Clearing': 'skrub', '2D Pocket': 'skrub', 'Face': 'slet',
+        '2D Contour': 'slet', 'Slot': 'skrub', 'Trace': 'slet', 'Thread': 'slet',
+        'Bore': 'skrub', 'Circular': 'slet', 'Engrave': 'slet', '2D Chamfer': 'slet',
+        '3D Adaptive Clearing': 'skrub', '3D Pocket Clearing': 'skrub',
+        'Steep and Shallow': 'slet', 'Flat': 'slet', 'Parallel': 'slet',
+        'Scallop': 'slet', '3D Contour': 'slet', 'Ramp': 'skrub', 'Pencil': 'slet',
+        'Horizontal': 'slet', 'Spiral': 'slet', 'Radial': 'slet', 'Morphed Spiral': 'slet',
+        'Project': 'slet', 'Blend': 'slet', 'Morph': 'slet', 'Corner': 'slet',
+        'Flow': 'slet', 'Deburr': 'slet', 'Geodesic': 'slet',
+        'Turning Face': 'slet', 'Turning Profile Roughing': 'skrub',
+        'Turning Profile Finishing': 'slet', 'Turning Groove Roughing': 'skrub',
+        'Turning Groove Finishing': 'slet', 'Turning Adaptive Roughing': 'skrub',
+        'Turning Groove': 'slet', 'Turning Single Groove': 'slet',
+        'Turning Thread': 'slet', 'Turning Chamfer': 'slet', 'Turning Part': 'slet',
         'Turning Trace': 'slet'
     };
 
@@ -147,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function exportHubData() {
         saveJobContext(); 
         const hubState = {
-            version: "1.0",
+            version: "1.2",
             timestamp: new Date().toISOString(),
             jobContext: JSON.parse(localStorage.getItem('datum_job_context')) || {},
             toolCrib: JSON.parse(localStorage.getItem('datum_tools')) || [],
@@ -235,10 +209,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if(outJobZero) outJobZero.textContent = data.zero || '-';
     }
 
-    // ==========================================
-    // UI STATUS LOGIK (Auto vs Override)
-    // ==========================================
-
     function setBadgeStatus(badgeId, status) {
         const badge = document.getElementById(badgeId);
         if (!badge) return;
@@ -262,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (op === 'milling') {
             hsmWrapper.style.display = 'flex';
-            wrapperEngagement.style.display = 'grid';
+            colAe.style.display = 'flex'; 
             labelDia.textContent = 'Værktøj Dia (D)';
             inputDia.disabled = true;
             inputDia.classList.add('opacity-50');
@@ -307,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         } else {
             hsmWrapper.style.display = 'none';
-            wrapperEngagement.style.display = 'none';
+            colAe.style.display = 'none'; // Turning hides Optimal Load (Ae), keeps Max Stepdown (Ap)
             labelDia.textContent = 'Emne Dia (D)';
             inputDia.disabled = false;
             inputDia.classList.remove('opacity-50');
@@ -331,7 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
         
-        // Sæt default intent baseret på det første element der vises
         handleStrategyChange();
     }
 
@@ -430,19 +399,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const op = document.querySelector('input[name="operation"]:checked').value;
         const toolMat = hiddenMat.value;
         const workMat = workMaterialSelect.value;
-        const phase = opIntentSelect.value; // 'skrub' eller 'slet'
+        const phase = opIntentSelect.value; 
         const d = parseFloat(hiddenD.value) || 0;
 
         if (toolMat && workMat && cuttingDataMatrix[toolMat] && cuttingDataMatrix[toolMat][workMat]) {
             const data = cuttingDataMatrix[toolMat][workMat];
             
-            // Kompensation for Finishing (Sletning)
             let baseVc = data.vc;
             let baseFz = data.fz_base;
 
             if (phase === 'slet') {
-                baseVc = baseVc * 1.25; // Hæv Vc 25% for overflade
-                baseFz = baseFz * 0.50; // Sænk fz 50% for tolerance
+                baseVc = baseVc * 1.25; 
+                baseFz = baseFz * 0.50; 
             }
 
             inputVc.value = Math.round(baseVc);
@@ -452,6 +420,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 let scaledFz = baseFz * (d / 10);
                 inputFz.value = Math.round(scaledFz * 1000) / 1000;
                 setBadgeStatus('badge-fz', 'AUTO');
+                
+                // Auto-kalkuler Optimal Load og Max Stepdown
+                let targetAe = data.ae_factor * d;
+                let targetAp = data.ap_factor * d;
+
+                if (phase === 'slet') {
+                    targetAe = d * 0.02; // 2% radialt indgreb til sletspån
+                    targetAp = d * 1.5;  // Antager fuld aksial sletning
+                }
+
+                inputAe.value = (Math.round(targetAe * 100) / 100);
+                inputAp.value = (Math.round(targetAp * 100) / 100);
+                setBadgeStatus('badge-ae', 'AUTO');
+                setBadgeStatus('badge-ap', 'AUTO');
+
             } else if (op === 'turning') {
                 inputFz.value = Math.round(baseFz * 1000) / 1000;
                 setBadgeStatus('badge-fz', 'AUTO');
@@ -459,12 +442,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             if(badgeVc) badgeVc.classList.add('hidden');
             if(badgeFz) badgeFz.classList.add('hidden');
+            if(badgeAe) badgeAe.classList.add('hidden');
+            if(badgeAp) badgeAp.classList.add('hidden');
         }
         calculate();
     }
 
     // ==========================================
-    // BEREGNER LOGIK & RCT
+    // BEREGNER LOGIK & MRR
     // ==========================================
 
     function calculate() {
@@ -493,6 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (d === 0) {
             outRpm.textContent = "0";
             outVf.textContent = "0";
+            outMrr.textContent = "0.0";
             warningRpm.classList.add('hidden');
             warningHsm.classList.add('hidden');
             warningStickout.classList.add('hidden');
@@ -543,14 +529,21 @@ document.addEventListener('DOMContentLoaded', () => {
             warningHsm.classList.add('hidden');
         }
 
+        let mrr = 0;
+        if (op === 'milling') {
+            mrr = (ap * ae * vf) / 1000;
+        } else {
+            mrr = vc * ap * fz; 
+        }
+
         outRpm.textContent = Math.round(n_actual).toLocaleString('da-DK');
         outVf.textContent = Math.round(vf).toLocaleString('da-DK');
+        outMrr.textContent = mrr.toFixed(1);
 
         if(hsmLimitEnforced) {
             strategy = `${strategy} (CAPPED)`;
         }
 
-        // Tilføj fase-label til strategi-strengen hvis det ikke allerede fremgår
         const strategyDisplay = `${strategy} [${phase.toUpperCase()}]`;
 
         currentData = {
@@ -618,7 +611,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tr.className = "border-b border-zinc-800 text-xs font-mono text-zinc-400 bg-[#09090b] hover:bg-zinc-900 transition-colors";
             
             const warningDisplay = row.warning ? `text-primary font-bold print:text-black` : `text-white print:text-black`;
-            const engagementDisplay = row.isMilling ? `${row.ap} / ${row.ae}` : `- / -`;
+            const engagementDisplay = row.isMilling ? `${row.ap} / ${row.ae}` : `${row.ap} / -`;
             
             let timeQaStr = "";
             if (row.time > 0) timeQaStr += `${row.time} Min`;
@@ -675,7 +668,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (op === 'milling') {
                     inputDia.value = hiddenD.value;
-                    inputAe.value = hiddenD.value; 
                 }
             } else {
                 hiddenD.value = 0;
@@ -686,9 +678,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputStickout.value = "";
                 if (op === 'milling') {
                     inputDia.value = 0;
-                    inputAe.value = 0;
                 }
                 if(badgeStickout) badgeStickout.classList.add('hidden');
+                if(badgeAe) badgeAe.classList.add('hidden');
+                if(badgeAp) badgeAp.classList.add('hidden');
             }
             autoFillCuttingData();
         });
@@ -722,6 +715,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.id === 'input-vc') setBadgeStatus('badge-vc', 'OVERRIDE');
         if (e.target.id === 'input-fz') setBadgeStatus('badge-fz', 'OVERRIDE');
         if (e.target.id === 'input-stickout') setBadgeStatus('badge-stickout', 'OVERRIDE');
+        if (e.target.id === 'input-ae') setBadgeStatus('badge-ae', 'OVERRIDE');
+        if (e.target.id === 'input-ap') setBadgeStatus('badge-ap', 'OVERRIDE');
         calculate();
     }));
     
@@ -735,18 +730,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(btnClear) {
         btnClear.addEventListener('click', () => {
-            if(confirm("Bekræft sletning af samtlige data (Job, Værktøj og Log).")) {
+            if(confirm("Er du sikker? Dette rydder Job-data og Setup Sheet (Din Værktøjskrybbe bevares).")) {
                 localStorage.removeItem('datum_setups');
-                localStorage.removeItem('datum_tools');
                 localStorage.removeItem('datum_job_context');
                 loadJobContext();
-                renderToolCrib();
                 renderTable();
             }
         });
     }
 
-    // Initial opsætning
     loadJobContext();
     renderToolCrib();
     updateStrategyDropdown();
