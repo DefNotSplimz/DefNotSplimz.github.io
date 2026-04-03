@@ -60,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const warningRpm = document.getElementById('warning-rpm');
     const warningHsm = document.getElementById('warning-hsm');
     const warningStickout = document.getElementById('warning-stickout');
+    const warningCollision = document.getElementById('warning-collision'); // NY
+    const warningStress = document.getElementById('warning-stress'); // NY
     const infoRct = document.getElementById('info-rct');
 
     const MAX_RPM_MILL = 10000;
@@ -113,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function exportHubData() {
         saveJobContext(); 
         const hubState = {
-            version: "1.2",
+            version: "1.3",
             timestamp: new Date().toISOString(),
             jobContext: JSON.parse(localStorage.getItem('datum_job_context')) || {},
             toolCrib: JSON.parse(localStorage.getItem('datum_tools')) || [],
@@ -453,8 +455,26 @@ document.addEventListener('DOMContentLoaded', () => {
             warningRpm.classList.add('hidden');
             warningHsm.classList.add('hidden');
             warningStickout.classList.add('hidden');
+            warningCollision.classList.add('hidden');
+            warningStress.classList.add('hidden');
             infoRct.classList.add('hidden');
             return;
+        }
+
+        // Fysisk Kollisionskontrol: Tjek om Ap er dybere end udlægget
+        if (ap > activeStickout && activeStickout > 0) {
+            warningCollision.classList.remove('hidden');
+        } else {
+            warningCollision.classList.add('hidden');
+        }
+
+        // Stress-Barometer: Tjek spåntværsnit mod en konservativ max belastning (D^2 * 0.5)
+        let toolLoadArea = ap * ae;
+        let safeLoadArea = (d * d) * 0.5;
+        if (toolLoadArea > safeLoadArea && op === 'milling') {
+            warningStress.classList.remove('hidden');
+        } else {
+            warningStress.classList.add('hidden');
         }
 
         if (activeStickout > standardStickout && standardStickout > 0) {
@@ -531,7 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ae: ae,
             rpm: Math.round(n_actual),
             feed: Math.round(vf),
-            warning: limitEnforced || hsmLimitEnforced,
+            warning: limitEnforced || hsmLimitEnforced || (ap > activeStickout),
             isMilling: op === 'milling'
         };
     }
@@ -674,14 +694,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    inputs.forEach(input => input.addEventListener('input', (e) => {
-        if (e.target.id === 'input-vc') setBadgeStatus('badge-vc', 'OVERRIDE');
-        if (e.target.id === 'input-fz') setBadgeStatus('badge-fz', 'OVERRIDE');
-        if (e.target.id === 'input-stickout') setBadgeStatus('badge-stickout', 'OVERRIDE');
-        if (e.target.id === 'input-ae') setBadgeStatus('badge-ae', 'OVERRIDE');
-        if (e.target.id === 'input-ap') setBadgeStatus('badge-ap', 'OVERRIDE');
-        calculate();
-    }));
+    const calculationInputs = [inputVc, inputFz, inputDia, inputAe, inputAp, inputStickout];
+    calculationInputs.forEach(input => {
+        if(input) {
+            input.addEventListener('input', (e) => {
+                if (e.target.id === 'input-vc') setBadgeStatus('badge-vc', 'OVERRIDE');
+                if (e.target.id === 'input-fz') setBadgeStatus('badge-fz', 'OVERRIDE');
+                if (e.target.id === 'input-stickout') setBadgeStatus('badge-stickout', 'OVERRIDE');
+                if (e.target.id === 'input-ae') setBadgeStatus('badge-ae', 'OVERRIDE');
+                if (e.target.id === 'input-ap') setBadgeStatus('badge-ap', 'OVERRIDE');
+                calculate();
+            });
+        }
+    });
     
     if(btnSaveTool) btnSaveTool.addEventListener('click', saveToolToCrib);
     if(btnSave) {
