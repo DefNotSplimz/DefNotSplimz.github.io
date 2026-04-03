@@ -16,16 +16,13 @@
             theme: {
                 extend: {
                     colors: { primary: "#f59e0b" },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen relative flex flex-col">
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen relative flex flex-col">
 
     <div class="scanline print:hidden"></div>
 
@@ -33,7 +30,7 @@
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-6">
                 <a href="gateway.html" class="text-xl font-black tracking-tighter italic uppercase flex items-center gap-3">
-                    <img src="img/logoA.svg" alt="Datum Logo" class="h-8 w-auto" onerror="this.style.display='none'">
+                    <img src="img/logoA.svg" alt="Datum Logo" class="h-8 w-auto">
                     Datum Prototyping
                 </a>
                 <div class="h-4 w-px bg-zinc-800 hidden md:block"></div>
@@ -45,139 +42,110 @@
                     <span class="text-[9px] font-mono text-primary uppercase tracking-[0.2em] font-bold">System_Operational // Hub_Active</span>
                 </div>
             </div>
-            
-            <div class="flex items-center gap-8 text-white">
-                <a href="gateway.html" class="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] hover:text-primary transition-colors italic">Afbryd_CNC</a>
-            </div>
+            <a href="gateway.html" class="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] hover:text-primary transition-colors italic">Afbryd_CNC</a>
         </div>
     </nav>
 
     <header class="relative pt-40 pb-16 px-6 overflow-hidden border-b border-zinc-900 bg-black print:hidden">
         <div class="max-w-7xl mx-auto relative">
             <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Operations Hub</h1>
-            <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.3em] mt-4">Pre-CAM Validation // Live</p>
+            <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.3em] mt-4">Pre-CAM Validation // CNC_Mode</p>
         </div>
     </header>
 
     <section id="job-setup" class="pt-16 px-6 bg-[#0c0c0e] print:hidden">
         <div class="max-w-7xl mx-auto">
-            <div class="bg-[#09090b] border border-zinc-800 p-8 md:p-12">
+            <div class="module-card p-8 md:p-12">
                 <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-800 pb-4 mb-8 gap-6">
                     <div class="text-primary font-mono text-[10px] font-bold tracking-widest uppercase italic">/ Master_Data: Job_Kontekst</div>
                     <div class="flex items-center gap-4">
                         <input type="file" id="import-json" class="hidden" accept=".json">
                         <label for="import-json" class="text-[10px] font-mono text-zinc-500 hover:text-primary transition-colors uppercase tracking-widest font-bold cursor-pointer">Importér_Data</label>
-                        <button id="btn-export-json" class="text-[10px] font-mono text-primary hover:text-white transition-colors uppercase tracking-widest font-bold cursor-pointer border border-primary/30 px-3 py-1 bg-primary/10">Eksportér_Data</button>
+                        <button id="btn-export-json" class="text-[10px] font-mono text-primary hover:text-white uppercase tracking-widest font-bold border border-primary/30 px-3 py-1 bg-primary/10">Eksportér_Data</button>
                     </div>
                 </div>
-                
                 <form id="job-form" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
                     <div class="flex flex-col gap-2 h-full justify-end">
-                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Program (O)</label>
-                        <input type="text" id="job-program" placeholder="O01001" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-zinc-700">
+                        <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Program (O)</label>
+                        <input type="text" id="job-program" placeholder="O01001" class="p-3 text-white font-mono text-sm">
                     </div>
                     <div class="flex flex-col gap-2 h-full justify-end lg:col-span-2">
-                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Emne</label>
-                        <input type="text" id="job-part" placeholder="Part Navn" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-zinc-700">
+                        <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Emne Navn</label>
+                        <input type="text" id="job-part" class="p-3 text-white font-mono text-sm">
                     </div>
                     <div class="flex flex-col gap-2 h-full justify-end">
-                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Revision</label>
-                        <input type="text" id="job-rev" value="01" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
+                        <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Revision</label>
+                        <input type="text" id="job-rev" value="01" class="p-3 text-white font-mono text-sm">
                     </div>
                     <div class="flex flex-col gap-2 h-full justify-end lg:col-span-2">
-                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Råemne (Stock)</label>
-                        <input type="text" id="job-stock" placeholder="X100 Y100 Z25" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-zinc-700">
+                        <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Råemne (Stock)</label>
+                        <input type="text" id="job-stock" placeholder="X100 Y100 Z25" class="p-3 text-white font-mono text-sm">
                     </div>
                     <div class="flex flex-col gap-2 h-full justify-end lg:col-span-3">
-                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Opspænding (Fixturing)</label>
-                        <input type="text" id="job-fixture" placeholder="Skruestik m. bløde bakker" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-zinc-700">
+                        <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Opspænding</label>
+                        <input type="text" id="job-fixture" class="p-3 text-white font-mono text-sm">
                     </div>
                     <div class="flex flex-col gap-2 h-full justify-end lg:col-span-3">
-                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Nulpunkt (WCS Info)</label>
-                        <input type="text" id="job-zero" placeholder="Top, Midtpunkt, Fast Bakke" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-zinc-700">
+                        <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Nulpunkt (WCS)</label>
+                        <input type="text" id="job-zero" class="p-3 text-white font-mono text-sm">
                     </div>
                 </form>
             </div>
         </div>
     </section>
 
-    <section id="tool-crib" class="py-16 px-6 bg-black border-b border-zinc-900 print:hidden">
+    <section id="tool-crib" class="py-16 px-6 bg-black print:hidden">
         <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-px bg-zinc-800 border border-zinc-800">
             <div class="lg:col-span-5 bg-[#09090b] p-8">
-                <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ Master_Data: Værktøj (Assembly)</div>
+                <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ Master_Data: Værktøjskrybbe</div>
                 <form id="tool-form" class="space-y-4">
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 border-b border-zinc-800 pb-4 mb-4">
-                        <div class="flex flex-col gap-2 h-full justify-end">
-                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">T-Nummer</label>
-                            <input type="number" id="tool-t" value="1" min="1" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[10px] font-mono text-zinc-500 uppercase">T-Nummer</label>
+                            <input type="number" id="tool-t" value="1" class="p-3 text-white font-mono text-sm">
                         </div>
-                        <div class="flex flex-col gap-2 h-full justify-end">
-                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Type</label>
-                            <select id="tool-type" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors appearance-none">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[10px] font-mono text-zinc-500 uppercase">Type</label>
+                            <select id="tool-type" class="p-3 text-white font-mono text-sm appearance-none cursor-pointer">
                                 <option value="End Mill">End Mill</option>
                                 <option value="Face Mill">Face Mill</option>
                                 <option value="Drill">Drill</option>
-                                <option value="Turning Tool">Turning Tool</option>
                             </select>
                         </div>
-                        <div class="flex flex-col gap-2 h-full justify-end">
-                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Holder</label>
-                            <select id="tool-holder" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors appearance-none">
-                                <option value="ER16">ER16</option>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[10px] font-mono text-zinc-500 uppercase">Holder</label>
+                            <select id="tool-holder" class="p-3 text-white font-mono text-sm appearance-none cursor-pointer">
                                 <option value="ER20">ER20</option>
-                                <option value="ER25">ER25</option>
-                                <option value="ER32">ER32</option>
                                 <option value="Weldon">Weldon</option>
-                                <option value="Shrink Fit">Krympeholder</option>
-                                <option value="Arbor">Arbor (Face)</option>
-                                <option value="Lathe Tool">Lathe Block</option>
+                                <option value="Shrink Fit">Krympe</option>
                             </select>
                         </div>
-                        <div class="flex flex-col gap-2 h-full justify-end">
-                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Materiale</label>
-                            <select id="tool-mat" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors appearance-none">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[10px] font-mono text-zinc-500 uppercase">Mat.</label>
+                            <select id="tool-mat" class="p-3 text-white font-mono text-sm appearance-none cursor-pointer">
                                 <option value="HM">HM</option>
                                 <option value="HSS">HSS</option>
                             </select>
                         </div>
                     </div>
                     <div class="grid grid-cols-3 gap-4">
-                        <div class="flex flex-col gap-2 h-full justify-end">
-                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Dia (D)</label>
-                            <input type="number" id="tool-d" value="10" min="0.1" step="0.1" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                        </div>
-                        <div class="flex flex-col gap-2 h-full justify-end">
-                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Skær (z)</label>
-                            <input type="number" id="tool-z" value="4" min="1" step="1" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                        </div>
-                        <div class="flex flex-col gap-2 h-full justify-end">
-                            <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Std. Udlæg</label>
-                            <input type="number" id="tool-stickout" value="30" min="1" step="1" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                        </div>
+                        <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase">Dia (D)</label><input type="number" id="tool-d" value="10" class="p-3 text-white font-mono text-sm"></div>
+                        <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase">Skær (z)</label><input type="number" id="tool-z" value="4" class="p-3 text-white font-mono text-sm"></div>
+                        <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase">Udlæg</label><input type="number" id="tool-stickout" value="30" class="p-3 text-white font-mono text-sm"></div>
                     </div>
-                    <button id="btn-save-tool" class="mt-4 w-full px-4 py-3 border border-zinc-800 text-[10px] font-black text-white hover:border-primary hover:text-primary transition-all uppercase tracking-widest bg-zinc-900/50 italic cursor-pointer">
-                        Registrer_Værktøj
-                    </button>
+                    <button id="btn-save-tool" class="btn-industrial mt-4 w-full py-3 italic">Registrer_Værktøj</button>
                 </form>
             </div>
-
             <div class="lg:col-span-7 bg-black p-8 overflow-hidden">
-                <h3 class="text-sm font-black tracking-tighter text-white uppercase italic mb-6">Aktiv Værktøjskrybbe</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                <h3 class="text-sm font-black tracking-tighter text-white uppercase italic mb-6">Aktiv Krybbe</h3>
+                <div class="overflow-x-auto tabular-nums">
+                    <table class="w-full text-left">
                         <thead>
                             <tr class="border-b border-zinc-800 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                                <th class="pb-2 font-bold">T#</th>
-                                <th class="pb-2 font-bold">Assembly</th>
-                                <th class="pb-2 font-bold">Mat.</th>
-                                <th class="pb-2 font-bold">Dia</th>
-                                <th class="pb-2 font-bold">Skær</th>
-                                <th class="pb-2 font-bold">Udlæg</th>
-                                <th class="pb-2 font-bold text-right">Handling</th>
+                                <th class="pb-2">T#</th><th class="pb-2">Assembly</th><th class="pb-2">Mat.</th><th class="pb-2">Dia</th><th class="pb-2 text-right">Handling</th>
                             </tr>
                         </thead>
-                        <tbody id="tool-table-body">
-                        </tbody>
+                        <tbody id="tool-table-body"></tbody>
                     </table>
                 </div>
             </div>
@@ -187,261 +155,114 @@
     <section id="beregner" class="pt-16 pb-12 px-6 bg-[#0c0c0e] print:hidden">
         <div class="max-w-7xl mx-auto">
             <div class="grid lg:grid-cols-12 gap-px bg-zinc-800 border border-zinc-800 mb-12">
-                
-                <div class="lg:col-span-8 bg-[#09090b] p-6 md:p-8">
-                    <div class="text-primary font-mono text-[10px] mb-6 font-bold tracking-widest uppercase italic">/ Parameter_Input</div>
-                    
+                <div class="lg:col-span-8 bg-[#09090b] p-8">
+                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ Parameter_Input</div>
                     <form id="cnc-form" class="space-y-6">
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="md:col-span-2 grid grid-cols-2 gap-4">
-                                <label class="cursor-pointer group flex items-center p-3 border border-zinc-800 hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10">
-                                    <input type="radio" name="operation" value="milling" class="sr-only" checked>
-                                    <span class="text-xs font-black uppercase italic text-white group-has-[:checked]:text-primary">Fræsning (Max 10k)</span>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="lg:col-span-2 flex flex-col gap-2">
+                                <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Vælg Værktøj</label>
+                                <select id="active-tool-select" class="p-3 text-primary font-bold appearance-none cursor-pointer border-primary/50 bg-black"></select>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Materiale</label>
+                                <select id="work-material" class="p-3 appearance-none cursor-pointer bg-black text-white border-zinc-800 focus:border-primary transition-colors">
+                                    <option value="ALU">Aluminium</option>
+                                    <option value="MESSING">Messing</option>
+                                    <option value="STAAL">Stål</option>
+                                    <option value="RUSTFAST">Rustfast stål</option>
+                                    <option value="VAERKTOJSSTAAL">Værktøjsstål</option>
+                                    <option value="POM">POM (Acetal / Delrin)</option>
+                                    <option value="NYLON">Nylon (PA6)</option>
+                                    <option value="STOEBEJERN">Støbejern (GG25)</option>
+                                    <option value="TITANIUM">Titanium (Gr. 5)</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Haas HSM</label>
+                                <label class="relative inline-flex items-center cursor-pointer p-3 border border-zinc-800 bg-black">
+                                    <input type="checkbox" id="toggle-hsm" class="sr-only peer" checked>
+                                    <div class="w-9 h-5 bg-zinc-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-500 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full peer-checked:after:bg-black"></div>
+                                    <span class="ml-3 text-[10px] font-mono text-zinc-500 uppercase">On</span>
                                 </label>
-                                <label class="cursor-pointer group flex items-center p-3 border border-zinc-800 hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10">
-                                    <input type="radio" name="operation" value="turning" class="sr-only">
-                                    <span class="text-xs font-black uppercase italic text-white group-has-[:checked]:text-primary">Drejning (Max 6k)</span>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between bg-black p-3 border border-zinc-800" id="hsm-wrapper">
-                                <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Haas HSM</span>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="toggle-hsm" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-black after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-500 after:border-zinc-500 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary peer-checked:after:bg-black"></div>
-                                </label>
                             </div>
                         </div>
 
-                        <div class="border border-zinc-800 p-5 bg-black">
-                            <h4 class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-4">// 1. Operation Definition</h4>
-                            <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Værktøj</label>
-                                    <select id="active-tool-select" class="bg-[#09090b] border border-primary p-3 text-primary font-mono text-sm focus:outline-none font-bold transition-colors appearance-none cursor-pointer">
-                                        <option value="">-- Definer --</option>
-                                    </select>
+                        <div class="module-card p-5 bg-black">
+                            <h4 class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-4 italic font-bold">// Strategi & Engagement</h4>
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">CAM Strategi</label>
+                                    <select id="cam-strategy" class="p-3 appearance-none cursor-pointer bg-black border-zinc-800 text-white"></select>
                                 </div>
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Emne_Mat.</label>
-                                    <select id="work-material" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer">
-                                        <option value="">-- Vælg --</option>
-                                        <option value="ALU">Aluminium</option>
-                                        <option value="MESSING">Messing</option>
-                                        <option value="STAAL">Stål</option>
-                                        <option value="RUSTFAST">Rustfast stål</option>
-                                        <option value="VAERKTOJSSTAAL">Værktøjsstål</option>
-                                        <option value="DELRIN">Delrin (Plast)</option>
-                                        <option value="NYLON">Nylon (Plast)</option>
-                                    </select>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest" id="label-ae">Opt. Load (Ae)</label>
+                                    <input type="number" id="input-ae" step="0.1" class="p-3 bg-black border-zinc-800">
                                 </div>
-                                <div class="flex flex-col gap-2 h-full justify-end lg:col-span-2">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Strategi</label>
-                                    <select id="cam-strategy" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer">
-                                        </select>
-                                </div>
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Fase</label>
-                                    <select id="op-intent" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer">
-                                        <option value="skrub">Skrub (Rough)</option>
-                                        <option value="slet">Slet (Finish)</option>
-                                    </select>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest" id="label-ap">Stepdown (Ap)</label>
+                                    <input type="number" id="input-ap" step="0.1" class="p-3 bg-black border-zinc-800">
                                 </div>
                             </div>
                         </div>
 
-                        <div class="border border-zinc-800 p-5 bg-black">
-                            <h4 class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-4">// 2. Fysiske Variabler</h4>
-                            
-                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest" id="label-dia">Dia (D)</label>
-                                    <input type="number" id="input-dia" value="0" min="0.1" step="0.1" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors disabled:opacity-50" disabled>
-                                </div>
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <div class="flex items-center justify-between">
-                                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Vc (m/min)</label>
-                                        <span id="badge-vc" class="text-[8px] font-mono font-bold tracking-widest uppercase hidden"></span>
-                                    </div>
-                                    <input type="number" id="input-vc" value="100" min="1" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                                </div>
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <div class="flex items-center justify-between">
-                                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest" id="label-fz">fz (mm)</label>
-                                        <span id="badge-fz" class="text-[8px] font-mono font-bold tracking-widest uppercase hidden"></span>
-                                    </div>
-                                    <input type="number" id="input-fz" value="0.05" min="0.001" step="0.001" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                                </div>
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <div class="flex items-center justify-between">
-                                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Aktivt Udlæg</label>
-                                        <span id="badge-stickout" class="text-[8px] font-mono font-bold tracking-widest uppercase hidden"></span>
-                                    </div>
-                                    <input type="number" id="input-stickout" value="30" min="1" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                                </div>
-                            </div>
-                            
-                            <div id="wrapper-engagement" class="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-6 pt-6 border-t border-zinc-800">
-                                <div class="flex flex-col gap-2 h-full justify-end" id="col-ae">
-                                    <div class="flex items-center justify-between">
-                                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest" id="label-ae">Optimal Load</label>
-                                        <span id="badge-ae" class="text-[8px] font-mono font-bold tracking-widest uppercase hidden"></span>
-                                    </div>
-                                    <input type="number" id="input-ae" value="10" min="0.1" step="0.1" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                                </div>
-                                <div class="flex flex-col gap-2 h-full justify-end" id="col-ap">
-                                    <div class="flex items-center justify-between">
-                                        <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest" id="label-ap">Max Stepdown</label>
-                                        <span id="badge-ap" class="text-[8px] font-mono font-bold tracking-widest uppercase hidden"></span>
-                                    </div>
-                                    <input type="number" id="input-ap" value="5" min="0.1" step="0.1" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                                </div>
-                                <div class="flex flex-col gap-2 h-full justify-end lg:col-span-2">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Køling</label>
-                                    <select id="input-coolant" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer">
-                                        <option value="Flood (M8)">Flood (M8)</option>
-                                        <option value="TSC (M88)">Through-Spindle (M88)</option>
-                                        <option value="Air Blast">Air Blast</option>
-                                        <option value="MQL">Minimum Quantity Lubrication</option>
-                                        <option value="Off (M9)">Off (M9)</option>
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="grid grid-cols-3 gap-6 pt-4 border-t border-zinc-800">
+                            <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">WCS</label><input type="text" id="input-wcs" value="G54" class="p-3 bg-black"></div>
+                            <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">QA / Tolerance</label><input type="text" id="input-qa" class="p-3 bg-black"></div>
+                            <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">Est. Tid (Min)</label><input type="number" id="input-time" value="0" class="p-3 bg-black"></div>
                         </div>
 
-                        <div class="border border-zinc-800 p-5 bg-black">
-                            <h4 class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-4">// 3. Sporing & QA</h4>
-                            <div class="grid grid-cols-3 gap-6">
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">WCS</label>
-                                    <input type="text" id="input-wcs" value="G54" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                                </div>
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">QA Krav</label>
-                                    <input type="text" id="input-qa" placeholder="Fx H7 / ±0.02" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-zinc-700">
-                                </div>
-                                <div class="flex flex-col gap-2 h-full justify-end">
-                                    <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">CAM Tid (Min)</label>
-                                    <input type="number" id="input-time" value="0" min="0" step="0.5" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors">
-                                </div>
-                            </div>
-                        </div>
-
-                        <input type="hidden" id="hidden-d" value="0">
-                        <input type="hidden" id="hidden-z" value="0">
-                        <input type="hidden" id="hidden-mat" value="">
-                        <input type="hidden" id="hidden-holder" value="">
-                        <input type="hidden" id="hidden-std-stickout" value="0">
+                        <input type="hidden" id="hidden-d"><input type="hidden" id="hidden-z"><input type="hidden" id="hidden-mat">
                     </form>
                 </div>
 
-                <div class="lg:col-span-4 bg-black p-8 flex flex-col relative overflow-hidden justify-between">
+                <div class="lg:col-span-4 bg-black p-8 flex flex-col justify-between tabular-nums relative overflow-hidden">
+                    <div class="scanline opacity-10"></div>
                     <div>
-                        <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ Output_Data</div>
-                        
+                        <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ Operations_Validation</div>
                         <div class="space-y-8">
-                            <div>
-                                <span class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-2 uppercase italic">// Spindel_RPM</span>
-                                <div class="flex items-end gap-2">
-                                    <span id="out-rpm" class="text-6xl font-black tracking-tighter text-white uppercase italic">0</span>
-                                    <span class="text-xs font-mono text-zinc-500 font-bold mb-2">RPM</span>
-                                </div>
-                                <div id="warning-rpm" class="mt-2 text-[10px] font-mono text-red-500 font-bold uppercase tracking-widest hidden bg-red-500/10 border border-red-500/20 p-2">
-                                    ! Maskin_Limit Nået. RPM Justeret.
-                                </div>
+                            <div class="grid grid-cols-2 gap-4 border-b border-zinc-800 pb-6">
+                                <div><span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Target Vc</span><br><span id="out-vc-range" class="text-xl font-bold text-white italic">0</span> <small class="text-[8px] text-zinc-600">M/MIN</small></div>
+                                <div><span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Target fz</span><br><span id="out-fz-range" class="text-xl font-bold text-white italic">0</span> <small class="text-[8px] text-zinc-600">MM/T</small></div>
                             </div>
-
                             <div>
-                                <span class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-2 uppercase italic">// Tilspænding_Vf</span>
-                                <div class="flex items-end gap-2">
-                                    <span id="out-vf" class="text-6xl font-black tracking-tighter text-white uppercase italic">0</span>
-                                    <span class="text-xs font-mono text-zinc-500 font-bold mb-2">MM/MIN</span>
-                                </div>
-                                <div id="info-rct" class="mt-2 text-[10px] font-mono text-primary font-bold uppercase tracking-widest hidden bg-primary/10 border border-primary/20 p-2">
-                                    + RCT Aktiv: Tilspænding kompenseres.
-                                </div>
-                                <div id="warning-hsm" class="mt-2 text-[10px] font-mono text-red-500 font-bold uppercase tracking-widest hidden bg-red-500/10 border border-red-500/20 p-2">
-                                    ! HSM Inaktiv: Vf Capped mod Data-Starvation.
-                                </div>
+                                <span class="text-[10px] font-mono text-zinc-600 uppercase italic font-bold tracking-widest">// Spindel_RPM</span>
+                                <div class="flex items-end gap-2"><span id="out-rpm" class="text-6xl font-black tracking-tighter text-white uppercase italic">0</span><span class="text-xs font-mono text-zinc-500 font-bold mb-2">RPM</span></div>
                             </div>
-                            
                             <div>
-                                <span class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-2 uppercase italic">// MRR (Fjernelsesrate)</span>
-                                <div class="flex items-end gap-2">
-                                    <span id="out-mrr" class="text-4xl font-black tracking-tighter text-zinc-300 uppercase italic">0.0</span>
-                                    <span class="text-xs font-mono text-zinc-500 font-bold mb-1">CM³/MIN</span>
-                                </div>
-                                <div id="warning-collision" class="mt-2 text-[10px] font-mono text-red-500 font-bold uppercase tracking-widest hidden bg-red-500/10 border border-red-500/20 p-2">
-                                    ! FATAL: Stepdown > Udlæg (Kollision)
-                                </div>
-                                <div id="warning-stress" class="mt-2 text-[10px] font-mono text-primary font-bold uppercase tracking-widest hidden bg-primary/10 border border-primary/20 p-2">
-                                    ! Høj Værktøjsbelastning: Reducer Ap/Ae
-                                </div>
-                                <div id="warning-stickout" class="mt-2 text-[10px] font-mono text-primary font-bold uppercase tracking-widest hidden bg-primary/10 border border-primary/20 p-2">
-                                    ! Advarsel: Udlæg overstiger standard.
-                                </div>
+                                <span class="text-[10px] font-mono text-zinc-600 uppercase italic font-bold tracking-widest">// Tilspænding_Vf</span>
+                                <div class="flex items-end gap-2"><span id="out-vf" class="text-6xl font-black tracking-tighter text-white uppercase italic">0</span><span class="text-xs font-mono text-zinc-500 font-bold mb-2">MM/MIN</span></div>
+                            </div>
+                            <div class="pt-6 border-t border-zinc-800 space-y-4">
+                                <div class="flex justify-between items-center"><span class="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-widest">MRR Rate</span><span class="text-xl font-bold text-zinc-300 italic"><span id="out-mrr">0.0</span> <small class="text-[10px]">CM³/MIN</small></span></div>
+                                <div id="warning-container" class="space-y-2"></div>
                             </div>
                         </div>
                     </div>
-
-                    <button id="btn-save" class="mt-12 w-full group relative inline-flex items-center justify-center px-4 py-4 border border-primary bg-primary/10 text-[10px] font-black text-primary hover:bg-primary hover:text-black transition-all uppercase tracking-widest overflow-hidden italic cursor-pointer">
-                        <span class="relative z-10">Gem_Til_Setup_Sheet</span>
-                        <div class="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-200"></div>
-                    </button>
+                    <button id="btn-save" class="btn-industrial mt-12 w-full py-4 italic"><span class="relative z-10 font-black uppercase tracking-widest">Gem_Til_Setup_Sheet</span></button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="setup-sheet-section" class="pb-16 px-6 bg-[#0c0c0e]">
+    <section class="pb-16 px-6 bg-[#0c0c0e]">
         <div class="max-w-7xl mx-auto">
-            <div id="setup-sheet-container" class="bg-black border border-zinc-900 p-8" data-date="">
-                
-                <div id="print-header" class="hidden print:grid grid-cols-2 gap-x-12 gap-y-4 mb-12 border-b border-zinc-800 pb-8 text-sm font-mono uppercase">
-                    <div><span class="text-zinc-500 font-bold tracking-widest">Program:</span> <span id="out-job-program" class="font-black text-black"></span></div>
-                    <div><span class="text-zinc-500 font-bold tracking-widest">Revision:</span> <span id="out-job-rev" class="font-black text-black"></span></div>
-                    <div class="col-span-2"><span class="text-zinc-500 font-bold tracking-widest">Emne:</span> <span id="out-job-part" class="font-black text-black"></span></div>
-                    <div class="col-span-2"><span class="text-zinc-500 font-bold tracking-widest">Råemne:</span> <span id="out-job-stock" class="font-black text-black"></span></div>
-                    <div class="col-span-2"><span class="text-zinc-500 font-bold tracking-widest">Opspænding:</span> <span id="out-job-fixture" class="font-black text-black"></span></div>
-                    <div class="col-span-2"><span class="text-zinc-500 font-bold tracking-widest">Nulpunkt:</span> <span id="out-job-zero" class="font-black text-black"></span></div>
-                </div>
-
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 border-b border-zinc-800 pb-4 print:hidden">
-                    <h3 class="text-xl font-black tracking-tighter text-white uppercase italic mb-4 md:mb-0">Setup_Sheet_Log</h3>
-                    
-                    <div class="flex flex-wrap items-center gap-6">
-                        <div class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold bg-zinc-900 px-4 py-2 border border-zinc-800">
-                            Total CAM Tid: <span id="out-total-time" class="text-primary ml-2">0.0 Min</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <button id="btn-print" class="text-[10px] font-mono text-primary hover:text-white transition-colors uppercase tracking-widest font-bold cursor-pointer border border-primary/30 px-3 py-1 bg-primary/10">Print_Ordre</button>
-                            <button id="btn-clear" class="text-[10px] font-mono text-zinc-600 hover:text-red-500 transition-colors uppercase tracking-widest font-bold cursor-pointer">Clear_Log</button>
-                        </div>
+            <div id="setup-sheet-container" class="module-card p-8">
+                <div class="flex justify-between mb-8 border-b border-zinc-800 pb-4 print:hidden italic">
+                    <h3 class="text-xl font-black text-white uppercase tracking-tighter">Setup_Sheet_Log</h3>
+                    <div class="flex gap-4">
+                        <button id="btn-print" class="text-[10px] font-mono text-primary border border-primary/30 px-3 py-1 bg-primary/10 font-bold uppercase tracking-widest">Print_Ordre</button>
+                        <button id="btn-clear" class="text-[10px] font-mono text-zinc-600 font-bold uppercase tracking-widest hover:text-red-500 transition-colors">Slet_Alt</button>
                     </div>
                 </div>
-                
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                <div class="overflow-x-auto tabular-nums">
+                    <table class="w-full text-left">
                         <thead>
-                            <tr class="border-b border-zinc-800 text-[10px] font-mono text-zinc-500 uppercase tracking-widest bg-zinc-900/50">
-                                <th class="p-4 font-bold">WCS</th>
-                                <th class="p-4 font-bold">Assembly</th>
-                                <th class="p-4 font-bold">Strategi</th>
-                                <th class="p-4 font-bold">Køling</th>
-                                <th class="p-4 font-bold">Step / Opt. Load</th>
-                                <th class="p-4 font-bold">Spindel</th>
-                                <th class="p-4 font-bold">Tilsp.</th>
-                                <th class="p-4 font-bold text-primary print:text-black">Tid/QA</th>
-                                <th class="p-4 font-bold text-right print:hidden">Handling</th>
+                            <tr class="border-b border-zinc-800 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                                <th class="p-4 font-bold">WCS</th><th class="p-4 font-bold">Assembly</th><th class="p-4 font-bold">Strategi</th><th class="p-4 font-bold">RPM</th><th class="p-4 font-bold">Vf</th><th class="p-4 font-bold">QA/Tid</th><th class="p-4 text-right print:hidden">Handling</th>
                             </tr>
                         </thead>
-                        <tbody id="setup-table-body">
-                        </tbody>
+                        <tbody id="setup-table-body"></tbody>
                     </table>
-                </div>
-                
-                <div class="hidden print:block mt-8 text-right font-mono text-sm font-black uppercase">
-                    Total Estimeret Cyklustid: <span id="print-total-time" class="border-b-2 border-black pb-1">0.0 Min</span>
                 </div>
             </div>
         </div>
