@@ -25,13 +25,15 @@
         }
     </script>
 </head>
-<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black">
+<body class="bg-[#09090b] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen relative flex flex-col">
+
+    <div class="scanline print:hidden"></div>
 
     <nav class="fixed top-0 w-full z-50 border-b border-zinc-800 bg-black/80 backdrop-blur-md print:hidden">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <div class="flex items-center gap-6">
-                <a href="index.html" class="text-xl font-black tracking-tighter italic uppercase flex items-center gap-3">
-                    <img src="img/logoA.svg" alt="Datum Logo" class="h-8 w-auto">
+                <a href="gateway.html" class="text-xl font-black tracking-tighter italic uppercase flex items-center gap-3">
+                    <img src="img/logoA.svg" alt="Datum Logo" class="h-8 w-auto" onerror="this.style.display='none'">
                     Datum Prototyping
                 </a>
                 <div class="h-4 w-px bg-zinc-800 hidden md:block"></div>
@@ -45,7 +47,7 @@
             </div>
             
             <div class="flex items-center gap-8 text-white">
-                <a href="index.html" class="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] hover:text-primary transition-colors italic">Tilbage_til_Main</a>
+                <a href="gateway.html" class="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em] hover:text-primary transition-colors italic">Afbryd_CNC</a>
             </div>
         </div>
     </nav>
@@ -76,7 +78,7 @@
                     </div>
                     <div class="flex flex-col gap-2 h-full justify-end lg:col-span-2">
                         <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Emne</label>
-                        <input type="text" id="job-part" placeholder="Flame Eater Cylinder" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-zinc-700">
+                        <input type="text" id="job-part" placeholder="Part Navn" class="bg-black border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors placeholder:text-zinc-700">
                     </div>
                     <div class="flex flex-col gap-2 h-full justify-end">
                         <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-bold">Revision</label>
@@ -236,7 +238,7 @@
                                 <div class="flex flex-col gap-2 h-full justify-end lg:col-span-2">
                                     <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Strategi</label>
                                     <select id="cam-strategy" class="bg-[#09090b] border border-zinc-800 p-3 text-white font-mono text-sm focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer">
-                                        </select>
+                                    </select>
                                 </div>
                                 <div class="flex flex-col gap-2 h-full justify-end">
                                     <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Fase</label>

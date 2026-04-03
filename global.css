@@ -21,6 +21,8 @@
     opacity: 0.1;
     position: absolute;
     animation: scan 4s linear infinite;
+    pointer-events: none;
+    z-index: 50;
 }
 
 @keyframes scan {
@@ -58,7 +60,6 @@
         background: #ffffff !important;
     }
 
-    /* Tving absolut sort/hvid og fjern baggrunde */
     body * {
         background: transparent !important;
         color: #000000 !important;
@@ -67,17 +68,14 @@
         box-shadow: none !important;
     }
     
-    /* Skjul irrelevant UI (BEMÆRK: .subtle-grid er fjernet herfra) */
-    nav, header, #tool-crib, #beregner, button {
+    nav, header, #tool-crib, #beregner, button, .scanline {
         display: none !important;
     }
     
-    /* Fjern selve grid-baggrunden i stedet for at skjule elementet */
     .subtle-grid {
         background-image: none !important;
     }
 
-    /* Frigør layoutet fra skærm-restriktioner */
     body, #setup-sheet-section, #setup-sheet-container {
         overflow: visible !important;
         height: auto !important;
@@ -87,7 +85,6 @@
         display: block !important;
     }
 
-    /* Tabellayout for print */
     table {
         width: 100% !important;
         page-break-inside: auto;
@@ -98,12 +95,10 @@
         page-break-after: auto;
     }
 
-    /* Skjul 'Handling' kolonnen under print */
     th:last-child, td:last-child {
         display: none !important;
     }
 
-    /* Injicer en officiel header på papiret */
     #setup-sheet-container::before {
         content: "DATUM PROTOTYPING // SETUP SHEET // DATO: " attr(data-date);
         display: block;

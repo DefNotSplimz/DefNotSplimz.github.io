@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- ELEMENT REFERENCER ---
     const inputs = document.querySelectorAll('#cnc-form input');
     const radios = document.querySelectorAll('input[name="operation"]');
     const workMaterialSelect = document.getElementById('work-material');
@@ -10,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const hsmWrapper = document.getElementById('hsm-wrapper');
     const colAe = document.getElementById('col-ae');
     
-    // Job Kontekst Referencer
     const jobInputs = document.querySelectorAll('#job-form input');
     const outJobProgram = document.getElementById('out-job-program');
     const outJobPart = document.getElementById('out-job-part');
@@ -64,14 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const warningStickout = document.getElementById('warning-stickout');
     const infoRct = document.getElementById('info-rct');
 
-    // --- KONSTANTER & MASTER DATA ---
     const MAX_RPM_MILL = 10000;
     const MAX_RPM_LATHE = 6000;
     const MAX_VF_NO_HSM = 2500;
     
     let currentData = {};
 
-    // Matrix udvidet med optimalLoad (ae_factor) og Stepdown (ap_factor) 
     const cuttingDataMatrix = {
         'HM': {
             'ALU': { vc: 400, fz_base: 0.08, ae_factor: 0.40, ap_factor: 1.5 },
@@ -113,10 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const today = new Date();
     setupSheetContainer.setAttribute('data-date', today.toISOString().split('T')[0]);
-
-    // ==========================================
-    // SYSTEM I/O (EKSPORT / IMPORT)
-    // ==========================================
 
     function exportHubData() {
         saveJobContext(); 
@@ -168,10 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(btnExportJson) btnExportJson.addEventListener('click', exportHubData);
     if(importJsonInput) importJsonInput.addEventListener('change', importHubData);
 
-    // ==========================================
-    // JOB KONTEKST LOGIK
-    // ==========================================
-
     function loadJobContext() {
         const jobData = JSON.parse(localStorage.getItem('datum_job_context')) || {
             program: '', part: '', rev: '01', stock: '', fixture: '', zero: ''
@@ -222,10 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ==========================================
-    // CAM STRATEGI LOGIK
-    // ==========================================
-    
     function updateStrategyDropdown() {
         const op = document.querySelector('input[name="operation"]:checked').value;
         camStrategySelect.innerHTML = '';
@@ -277,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         } else {
             hsmWrapper.style.display = 'none';
-            colAe.style.display = 'none'; // Turning hides Optimal Load (Ae), keeps Max Stepdown (Ap)
+            colAe.style.display = 'none'; 
             labelDia.textContent = 'Emne Dia (D)';
             inputDia.disabled = false;
             inputDia.classList.remove('opacity-50');
@@ -311,10 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         autoFillCuttingData();
     }
-
-    // ==========================================
-    // VÆRKTØJSKRYBBE LOGIK
-    // ==========================================
 
     function saveToolToCrib(e) {
         e.preventDefault();
@@ -391,10 +371,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ==========================================
-    // AUTO-UDFYLD LOGIK & FASE-KOMPENSATION
-    // ==========================================
-
     function autoFillCuttingData() {
         const op = document.querySelector('input[name="operation"]:checked').value;
         const toolMat = hiddenMat.value;
@@ -421,13 +397,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputFz.value = Math.round(scaledFz * 1000) / 1000;
                 setBadgeStatus('badge-fz', 'AUTO');
                 
-                // Auto-kalkuler Optimal Load og Max Stepdown
                 let targetAe = data.ae_factor * d;
                 let targetAp = data.ap_factor * d;
 
                 if (phase === 'slet') {
-                    targetAe = d * 0.02; // 2% radialt indgreb til sletspån
-                    targetAp = d * 1.5;  // Antager fuld aksial sletning
+                    targetAe = d * 0.02; 
+                    targetAp = d * 1.5;  
                 }
 
                 inputAe.value = (Math.round(targetAe * 100) / 100);
@@ -447,10 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         calculate();
     }
-
-    // ==========================================
-    // BEREGNER LOGIK & MRR
-    // ==========================================
 
     function calculate() {
         const op = document.querySelector('input[name="operation"]:checked').value;
@@ -565,10 +536,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // ==========================================
-    // SETUP SHEET LOGIK
-    // ==========================================
-
     function saveOperation() {
         if (!toolSelect.value) {
             alert("Fejl: Vælg et værktøj fra krybben før du gemmer.");
@@ -646,10 +613,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
-    // ==========================================
-    // EVENT LISTENERS
-    // ==========================================
 
     if(toolSelect) {
         toolSelect.addEventListener('change', (e) => {
