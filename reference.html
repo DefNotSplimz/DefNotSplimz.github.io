@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datum Prototyping | Reference Vault</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="stylesheet" href="global.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: "#f59e0b" },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
+
+    <aside class="w-16 md:w-20 bg-black border-r border-zinc-800 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 print:hidden shrink-0">
+        <a href="gateway.html" class="p-2 hover:bg-zinc-900 transition-colors border border-transparent hover:border-primary/20 mb-4">
+            <img src="img/logoA.svg" class="w-8 h-auto" alt="Datum">
+        </a>
+
+        <nav class="flex flex-col gap-3 flex-grow overflow-y-auto no-scrollbar">
+            <a href="hub.html" title="CNC Hub" class="sidebar-nav-item" data-route="01">01</a>
+            <a href="manual.html" title="Manual Shop" class="sidebar-nav-item" data-route="02">02</a>
+            <a href="reference.html" title="Ref Vault" class="sidebar-nav-item" data-route="03">03</a>
+            
+            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div>
+            
+            <a href="metrology.html" title="Inspection" class="sidebar-nav-item" data-route="04">04</a>
+            <a href="geometry.html" title="Geometry" class="sidebar-nav-item" data-route="05">05</a>
+            <a href="assembly.html" title="Assembly" class="sidebar-nav-item" data-route="06">06</a>
+            
+            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div>
+            
+            <a href="analytics.html" title="Machine Health" class="sidebar-nav-item" data-route="07">07</a>
+            <a href="fai.html" title="FAI Reporting" class="sidebar-nav-item" data-route="08">08</a>
+            <a href="mechanisms.html" title="Mechanisms" class="sidebar-nav-item" data-route="09">09</a>
+        </nav>
+
+        <div class="status-dot"></div>
+    </aside>
+
+    <div class="flex-grow flex flex-col min-w-0">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden">
+            <div class="scanline"></div>
+            <div class="max-w-7xl mx-auto relative">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Reference Vault</h1>
+                <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Technical_Standard_Library // Route_03</p>
+            </div>
+        </header>
+
+        <section class="pt-12 px-6 md:px-12 bg-[#0c0c0e] print:hidden">
+            <div class="max-w-7xl mx-auto">
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                        <span class="text-primary font-mono text-xs font-black">SEARCH_</span>
+                    </div>
+                    <input type="text" id="vault-search" placeholder="Søg efter f.eks. 'M2', 'H7', 'G83' eller 'Alu'..." 
+                           class="w-full pl-24 pr-6 py-6 bg-black border border-zinc-800 text-primary font-mono text-lg focus:border-primary transition-all outline-none shadow-2xl">
+                    <div class="absolute inset-y-0 right-0 pr-6 flex items-center pointer-events-none opacity-50">
+                        <span class="text-[10px] font-mono text-zinc-500 uppercase font-black">ISO_Standards_Active</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 space-y-24">
+
+            <section id="threads" class="vault-section space-y-8">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                    <h2 class="text-3xl font-black uppercase italic tracking-tighter">01_Gevind_&_Forboring</h2>
+                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase">Metrisk_&_Mikro</span>
+                </div>
+                <div class="grid lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-8 overflow-x-auto">
+                        <table class="w-full text-left tabular-nums border border-zinc-900">
+                            <thead>
+                                <tr class="bg-zinc-900/50 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                                    <th class="p-4">Størrelse</th><th class="p-4">Stigning</th><th class="p-4 text-primary">Bor (Skær)</th><th class="p-4">Bor (Form)</th><th class="p-4">Kerne-Ø</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-xs font-mono">
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M1</td><td>0.25</td><td class="text-primary font-bold">Ø0.75</td><td>Ø0.88</td><td>0.69</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M1.6</td><td>0.35</td><td class="text-primary font-bold">Ø1.25</td><td>Ø1.45</td><td>1.17</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M2</td><td>0.40</td><td class="text-primary font-bold">Ø1.60</td><td>Ø1.82</td><td>1.51</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M2.5</td><td>0.45</td><td class="text-primary font-bold">Ø2.05</td><td>Ø2.30</td><td>1.95</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M3</td><td>0.50</td><td class="text-primary font-bold">Ø2.50</td><td>Ø2.80</td><td>2.39</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M4</td><td>0.70</td><td class="text-primary font-bold">Ø3.30</td><td>Ø3.70</td><td>3.14</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M5</td><td>0.80</td><td class="text-primary font-bold">Ø4.20</td><td>Ø4.65</td><td>4.02</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M6</td><td>1.00</td><td class="text-primary font-bold">Ø5.00</td><td>Ø5.55</td><td>4.77</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M8</td><td>1.25</td><td class="text-primary font-bold">Ø6.80</td><td>Ø7.45</td><td>6.47</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M10</td><td>1.50</td><td class="text-primary font-bold">Ø8.50</td><td>Ø9.35</td><td>8.16</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="lg:col-span-4 space-y-4">
+                        <div class="module-card p-6 bg-black/40">
+                            <h3 class="text-primary font-mono text-[10px] uppercase font-black mb-4 tracking-widest">// Fin-Gevind (MF)</h3>
+                            <div class="text-[11px] font-mono space-y-2 text-zinc-400">
+                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M8 x 1.0</span><span class="text-white">Ø7.00</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M10 x 1.0</span><span class="text-white">Ø9.00</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M12 x 1.25</span><span class="text-white">Ø10.80</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M12 x 1.5</span><span class="text-white">Ø10.50</span></div>
+                            </div>
+                        </div>
+                        <div class="module-card p-6 bg-black/40">
+                            <h3 class="text-zinc-500 font-mono text-[10px] uppercase font-black mb-4 tracking-widest">// Tomme (UNC/UNF)</h3>
+                            <div class="text-[11px] font-mono space-y-2 text-zinc-400">
+                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>#4-40 UNC</span><span class="text-white">Ø2.35</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>#10-32 UNF</span><span class="text-white">Ø4.10</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>1/4"-20 UNC</span><span class="text-white">Ø5.10</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="iso-fits" class="vault-section space-y-8">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                    <h2 class="text-3xl font-black uppercase italic tracking-tighter">02_ISO_Pasninger_(mm)</h2>
+                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase">Tolerance_Control</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-center tabular-nums border border-zinc-900">
+                        <thead>
+                            <tr class="bg-zinc-900/80 text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black">
+                                <th class="p-4 border-r border-zinc-800">Ø (mm)</th>
+                                <th class="p-4">H6 (Fin-Hul)</th><th class="p-4">H7 (Std-Hul)</th><th class="p-4">js5 (Pas)</th><th class="p-4">h6 (Aksel)</th><th class="p-4">g6 (Glide)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs font-mono text-zinc-400">
+                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">1 - 3</td><td>+0.006 / 0</td><td>+0.010 / 0</td><td>±0.002</td><td>0 / -0.006</td><td>-0.002 / -0.008</td></tr>
+                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">3 - 6</td><td>+0.008 / 0</td><td>+0.012 / 0</td><td>±0.0025</td><td>0 / -0.008</td><td>-0.004 / -0.012</td></tr>
+                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">6 - 10</td><td>+0.009 / 0</td><td>+0.015 / 0</td><td>±0.003</td><td>0 / -0.009</td><td>-0.005 / -0.014</td></tr>
+                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">10 - 18</td><td>+0.011 / 0</td><td>+0.018 / 0</td><td>±0.004</td><td>0 / -0.011</td><td>-0.006 / -0.017</td></tr>
+                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">18 - 30</td><td>+0.013 / 0</td><td>+0.021 / 0</td><td>±0.0045</td><td>0 / -0.013</td><td>-0.007 / -0.020</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="cnc-codes" class="vault-section space-y-8">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                    <h2 class="text-3xl font-black uppercase italic tracking-tighter">03_Haas_G/M-Koder</h2>
+                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase">Programming_Reference</span>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-6">
+                        <h3 class="text-primary font-mono text-[10px] uppercase font-black tracking-widest border-l-2 border-primary pl-4">// G-Koder (Bevægelse)</h3>
+                        <div class="text-[11px] font-mono space-y-2">
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G00 / G01</span><span class="text-zinc-500 italic">Rapid / Lineær</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G02 / G03</span><span class="text-zinc-500 italic">Cirkulær CW / CCW</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G12 / G13</span><span class="text-zinc-500 italic">Cirkulær Pocket CW/CCW</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G41 / G42</span><span class="text-zinc-500 italic">Radius-kompensation</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G83</span><span class="text-zinc-500 italic">Deep Hole Peck Drill</span></div>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <h3 class="text-primary font-mono text-[10px] uppercase font-black tracking-widest border-l-2 border-primary pl-4">// M-Koder (Maskine)</h3>
+                        <div class="text-[11px] font-mono space-y-2">
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M03 / M04 / M05</span><span class="text-zinc-500 italic">Spindel Start/Stop</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M06</span><span class="text-zinc-500 italic">Tool Change</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M08 / M09</span><span class="text-zinc-500 italic">Coolant On / Off</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M19</span><span class="text-zinc-500 italic">Orient Spindle</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M88 / M89</span><span class="text-zinc-500 italic">TSC On / Off</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // Precision_Verification_Active // 2026</div>
+                <div class="text-zinc-800 mt-2 tracking-widest">Global_Search_Enabled_Rev05</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('vault-search');
+            
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const sections = document.querySelectorAll('.vault-section');
+                
+                sections.forEach(section => {
+                    const rows = section.querySelectorAll('tbody tr');
+                    const textDivs = section.querySelectorAll('div > div'); // For G-codes og MF-data
+                    let sectionHasMatch = false;
+
+                    // Filtrer rækker i tabeller
+                    rows.forEach(row => {
+                        const match = row.innerText.toLowerCase().includes(term);
+                        row.style.display = match ? '' : 'none';
+                        if (match) sectionHasMatch = true;
+                    });
+
+                    // Filtrer små data-divs (MF-gevind osv)
+                    textDivs.forEach(div => {
+                        if (div.classList.contains('flex')) {
+                            const match = div.innerText.toLowerCase().includes(term);
+                            div.style.display = match ? 'flex' : 'none';
+                            if (match) sectionHasMatch = true;
+                        }
+                    });
+
+                    // Skjul hele sektionen hvis der ikke er nogen match overhovedet
+                    section.style.display = (sectionHasMatch || term === '') ? '' : 'none';
+                });
+            });
+            
+            // Fokus genvej (Tryk '/' for at søge)
+            window.addEventListener('keydown', (e) => {
+                if (e.key === '/' && document.activeElement !== searchInput) {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

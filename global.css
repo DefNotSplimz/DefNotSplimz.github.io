@@ -1,20 +1,63 @@
 /* =========================================
-   DATUM PROTOTYPING // MACHINING_OS V2
+   DATUM PROTOTYPING // MACHINING_OS V5
    ========================================= */
 
 :root {
     --primary: #f59e0b;
+    --primary-glow: rgba(245, 158, 11, 0.4);
     --bg-dark: #050506;
     --surface: #0c0c0e;
     --border: #1f1f23;
     --text-muted: #71717a;
+    --sidebar-w: 80px;
 }
 
 body {
     background-color: var(--bg-dark);
     color: #e4e4e7;
     letter-spacing: -0.01em;
+    font-feature-settings: "tnum"; /* Tabular numbers overalt */
 }
+
+/* Sidebar Layout */
+aside nav a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+}
+
+/* Sidebar Nav Items */
+.sidebar-nav-item {
+    padding: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid #1f1f23;
+    color: #71717a;
+    transition: all 0.2s ease;
+}
+
+.sidebar-nav-item:hover {
+    background-color: #18181b;
+    border-color: #f59e0b;
+    color: #ffffff;
+}
+
+/* Den aktive rute på den pågældende side */
+.sidebar-nav-item.active {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
+
+/* Skjul scrollbar men bevar funktionalitet */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* Subtil Grid - Forbedret med dybde */
 .subtle-grid {
@@ -28,11 +71,6 @@ body {
 .outline-text {
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
     color: transparent;
-    transition: -webkit-text-stroke 0.3s ease;
-}
-
-h1, h2, h3 {
-    letter-spacing: -0.04em !important;
 }
 
 /* Modulære Kasser */
@@ -40,94 +78,86 @@ h1, h2, h3 {
     background: var(--surface);
     border: 1px solid var(--border);
     position: relative;
-    transition: all 0.2s ease;
 }
 
 .module-card:hover {
-    border-color: rgba(245, 158, 11, 0.4);
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.05);
+    border-color: var(--primary-glow);
 }
 
 /* Forbedrede Inputs */
 input, select {
     background: #000 !important;
     border: 1px solid var(--border) !important;
-    border-radius: 0 !important; /* Industrial square look */
+    border-radius: 0 !important;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    font-variant-numeric: tabular-nums; /* Sikrer at tal står lige under hinanden */
 }
 
 input:focus, select:focus {
     border-color: var(--primary) !important;
-    box-shadow: 0 0 0 1px var(--primary) !important;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.1) !important;
     outline: none;
 }
 
 /* Knapper - High Contrast */
 .btn-industrial {
-    position: relative;
-    overflow: hidden;
     background: rgba(245, 158, 11, 0.05);
     border: 1px solid rgba(245, 158, 11, 0.3);
     color: var(--primary);
     font-weight: 900;
     text-transform: uppercase;
-    transition: all 0.3s ease;
 }
 
 .btn-industrial:hover {
     background: var(--primary);
     color: #000;
-}
-
-/* Scanline - Mere diskret */
-.scanline {
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--primary), transparent);
-    opacity: 0.15;
-    filter: blur(1px);
+    box-shadow: 0 0 20px var(--primary-glow);
 }
 
 /* Status Dots */
 .status-dot {
-    height: 6px;
-    width: 6px;
+    height: 8px;
+    width: 8px;
     border-radius: 50%;
-    display: inline-block;
-    margin-right: 8px;
     background-color: var(--primary);
-    box-shadow: 0 0 8px var(--primary);
+    box-shadow: 0 0 10px var(--primary);
+    animation: pulse 2s infinite;
 }
 
-/* Tabeller - Data-dense layout */
-table {
-    border-spacing: 0;
+@keyframes pulse {
+    0% { opacity: 1; box-shadow: 0 0 10px var(--primary); }
+    50% { opacity: 0.5; box-shadow: 0 0 2px var(--primary); }
+    100% { opacity: 1; box-shadow: 0 0 10px var(--primary); }
 }
 
+/* Tabeller - Finmekanisk Data Density */
+table { border-spacing: 0; width: 100%; }
 th {
     background: #000;
     color: var(--text-muted);
-    font-size: 9px !important;
+    font-size: 10px !important;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    padding: 12px 16px !important;
+    letter-spacing: 0.1em;
+    padding: 12px !important;
+    border-bottom: 2px solid var(--border);
 }
 
 td {
-    padding: 12px 16px !important;
+    padding: 12px !important;
     border-bottom: 1px solid var(--border) !important;
-    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
 }
 
-/* Custom Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); }
 ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 /* Print Optimering */
 @media print {
-    .print-only { display: block !important; }
-    .no-print { display: none !important; }
+    aside, .print:hidden, .scanline { display: none !important; }
     body { background: white !important; color: black !important; }
-    table { border: 1px solid #000 !important; }
+    .module-card { border: 1px solid #ddd !important; background: none !important; }
+    .text-primary { color: black !important; }
+    table { border: 1px solid #000 !important; width: 100%; }
+    th { border-bottom: 2px solid #000 !important; color: black !important; }
 }
