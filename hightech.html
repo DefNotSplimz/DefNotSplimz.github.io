@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <title>Datum Prototyping | High-Tech Systems</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <script>tailwind.config={theme:{extend:{colors:{primary:"#f59e0b"},fontFamily:{mono:['JetBrains Mono','monospace'],sans:['Inter','sans-serif']}}}}</script>
+</head>
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased subtle-grid min-h-screen flex flex-row relative overflow-x-hidden">
+
+    <aside class="w-16 md:w-20 bg-black border-r border-zinc-800 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 print:hidden shrink-0">
+        <a href="gateway.html" class="p-2 hover:bg-zinc-900 transition-colors border border-transparent hover:border-primary/20 mb-4">
+            <img src="img/logoA.svg" class="w-8 h-auto" alt="Datum">
+        </a>
+        <nav class="flex flex-col gap-3 flex-grow overflow-y-auto no-scrollbar">
+            <a href="hub.html" title="CNC Hub" class="sidebar-nav-item" data-route="01">01</a>
+            <a href="manual.html" title="Manual Shop" class="sidebar-nav-item" data-route="02">02</a>
+            <a href="reference.html" title="Ref Vault" class="sidebar-nav-item" data-route="03">03</a>
+            <a href="inventory.html" title="Stock Log" class="sidebar-nav-item" data-route="04">04</a>
+            <div class="h-px w-8 bg-zinc-800 my-1 mx-auto"></div>
+            <a href="metrology.html" title="Inspection" class="sidebar-nav-item" data-route="05">05</a>
+            <a href="geometry.html" title="Geometry" class="sidebar-nav-item" data-route="06">06</a>
+            <a href="assembly.html" title="Assembly" class="sidebar-nav-item" data-route="07">07</a>
+            <a href="surfaces.html" title="Tribology" class="sidebar-nav-item" data-route="08">08</a>
+            <div class="h-px w-8 bg-zinc-800 my-1 mx-auto"></div>
+            <a href="analytics.html" title="Machine Health" class="sidebar-nav-item" data-route="09">09</a>
+            <a href="fai.html" title="FAI Report" class="sidebar-nav-item" data-route="10">10</a>
+            <a href="mechanisms.html" title="Mechanisms" class="sidebar-nav-item" data-route="11">11</a>
+            <a href="electrotech.html" title="Electro-Mech" class="sidebar-nav-item" data-route="12">12</a>
+            <div class="h-px w-8 bg-zinc-800 my-1 mx-auto"></div>
+            <a href="materials.html" title="Materials" class="sidebar-nav-item" data-route="13">13</a>
+            <a href="math.html" title="Shop Math" class="sidebar-nav-item" data-route="14">14</a>
+            <a href="standards.html" title="Hardware" class="sidebar-nav-item" data-route="15">15</a>
+            <a href="hightech.html" title="High-Tech" class="sidebar-nav-item active" data-route="16">16</a>
+        </nav>
+        <div class="status-dot"></div>
+    </aside>
+
+    <div class="flex-grow flex flex-col min-w-0">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black">
+            <div class="scanline opacity-10"></div>
+            <div class="max-w-7xl mx-auto flex justify-between items-end">
+                <div>
+                    <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">High-Tech</h1>
+                    <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Vacuum_Physics_&_Optomechanical_Standards // Route_16</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 space-y-12 py-16">
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <section class="module-card p-8 bg-black shadow-2xl border-primary/5">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Vacuum_Seal_Gland_Engine</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Static_High_Vacuum</span>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase">O-ring Snittykkelse (W)</label>
+                            <select id="vac-oring-w" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm outline-none">
+                                <option value="1.78">1.78 mm</option>
+                                <option value="2.62">2.62 mm</option>
+                                <option value="3.53">3.53 mm</option>
+                                <option value="5.33">5.33 mm</option>
+                            </select>
+                        </div>
+
+                        <div class="mt-8 grid grid-cols-2 gap-4">
+                            <div class="p-6 bg-zinc-900/50 border border-zinc-800">
+                                <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase italic tracking-widest">Spordybde (h)</span>
+                                <span id="vac-h" class="text-3xl font-black text-white italic tabular-nums">0.00</span> <small class="text-[10px] text-zinc-500">mm</small>
+                                <p class="text-[7px] font-mono text-zinc-600 mt-2">25-30% Kompression</p>
+                            </div>
+                            <div class="p-6 bg-zinc-900/50 border border-zinc-800">
+                                <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase italic tracking-widest">Sporbredde (b)</span>
+                                <span id="vac-b" class="text-3xl font-black text-white italic tabular-nums">0.00</span> <small class="text-[10px] text-zinc-500">mm</small>
+                                <p class="text-[7px] font-mono text-zinc-600 mt-2">+15% Fyldningsgrad</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-4 border border-zinc-900 bg-black/40 text-[9px] font-mono text-zinc-500 italic">
+                            NOTE: Overfladeruhed i vakuumspor bør være Ra 0.4 eller bedre. Undgå cirkulære værktøjsmærker på tværs af forseglingsretningen.
+                        </div>
+                    </div>
+                </section>
+
+                <section class="module-card p-8 bg-black shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Optical_Thread_Standards</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold italic font-black">Thorlabs_Ref_Matrix</span>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase">Standard Betegnelse</label>
+                            <select id="optics-select" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-xs outline-none focus:border-primary">
+                                <option value="sm05">SM05 (0.535"-40)</option>
+                                <option value="sm1">SM1 (1.035"-40)</option>
+                                <option value="sm2">SM2 (2.035"-40)</option>
+                                <option value="c-mount">C-Mount (1"-32 UN 2A)</option>
+                            </select>
+                        </div>
+
+                        <div class="mt-8 p-8 bg-zinc-900/30 border border-zinc-800 relative tabular-nums">
+                            <div class="grid grid-cols-2 gap-8">
+                                <div>
+                                    <span class="text-[10px] font-mono text-zinc-600 uppercase font-black italic block mb-2">// Major_Ø</span>
+                                    <div class="text-2xl font-black text-white italic"><span id="opt-major">0.000</span> <small class="text-xs">mm</small></div>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] font-mono text-zinc-600 uppercase font-black italic block mb-2">// Pitch</span>
+                                    <div class="text-2xl font-black text-white italic"><span id="opt-pitch">0.000</span> <small class="text-xs">mm</small></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="module-card p-8 bg-black shadow-2xl">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                    <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Cleanroom_Material_Compatibility</h3>
+                    <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold italic font-black">NASA_ASTM_E595</span>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 font-mono text-[11px]">
+                    <div class="p-4 border border-zinc-900 bg-zinc-900/20">
+                        <span class="text-white font-bold block mb-2 uppercase">Alu 6082/7075</span>
+                        <p class="text-zinc-500">Fremragende til vakuum. Bør være ubehandlet eller hvid-anodiseret (undgå farvestof).</p>
+                    </div>
+                    <div class="p-4 border border-zinc-900 bg-zinc-900/20">
+                        <span class="text-white font-bold block mb-2 uppercase">AISI 316L</span>
+                        <p class="text-zinc-500">Standard for UHV. Kræver elektropolering for minimal desorptionsrate.</p>
+                    </div>
+                    <div class="p-4 border border-zinc-900 bg-zinc-900/20 border-l-primary/40">
+                        <span class="text-primary font-bold block mb-2 uppercase">PEEK / POM-C</span>
+                        <p class="text-zinc-500">Plasttyper med lav outgassing. PEEK er foretrukket til høje temperaturer.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="shared_core.js"></script>
+    <script src="hightech.js"></script>
+</body>
+</html>

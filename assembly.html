@@ -27,16 +27,30 @@
 </head>
 <body class="bg-[#050506] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
 
-    <aside class="w-16 md:w-20 bg-black border-r border-zinc-800 flex flex-col items-center py-8 gap-8 sticky top-0 h-screen z-50 print:hidden shrink-0">
-        <a href="gateway.html" class="p-2 hover:bg-zinc-900 transition-colors border border-transparent hover:border-primary/20"><img src="img/logoA.svg" class="w-8 h-auto" alt="L"></a>
-        <nav class="flex flex-col gap-4 flex-grow">
-            <a href="hub.html" title="CNC Hub" class="p-3 hover:bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white transition-all">01</a>
-            <a href="manual.html" title="Manual Shop" class="p-3 hover:bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white transition-all">02</a>
-            <a href="reference.html" title="Ref Vault" class="p-3 hover:bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white transition-all">03</a>
-            <div class="h-px w-8 bg-zinc-800 my-2"></div>
-            <a href="metrology.html" title="Inspection" class="p-3 hover:bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white transition-all">04</a>
-            <a href="geometry.html" title="Geometry" class="p-3 hover:bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-white transition-all">05</a>
-            <a href="assembly.html" title="Assembly" class="p-3 bg-primary/10 border border-primary text-primary">06</a>
+    <aside class="w-16 md:w-20 bg-black border-r border-zinc-800 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 print:hidden shrink-0">
+        <a href="gateway.html" class="p-2 hover:bg-zinc-900 transition-colors border border-transparent hover:border-primary/20 mb-4">
+            <img src="img/logoA.svg" class="w-8 h-auto" alt="Datum">
+        </a>
+        <nav class="flex flex-col gap-3 flex-grow overflow-y-auto no-scrollbar">
+            <a href="hub.html" title="CNC Hub" class="sidebar-nav-item" data-route="01">01</a>
+            <a href="manual.html" title="Manual Shop" class="sidebar-nav-item" data-route="02">02</a>
+            <a href="reference.html" title="Ref Vault" class="sidebar-nav-item" data-route="03">03</a>
+            <a href="inventory.html" title="Stock Log" class="sidebar-nav-item" data-route="04">04</a>
+            <div class="h-px w-8 bg-zinc-800 my-1 mx-auto"></div>
+            <a href="metrology.html" title="Inspection" class="sidebar-nav-item" data-route="05">05</a>
+            <a href="geometry.html" title="Geometry" class="sidebar-nav-item" data-route="06">06</a>
+            <a href="assembly.html" title="Assembly" class="sidebar-nav-item" data-route="07">07</a>
+            <a href="surfaces.html" title="Tribology" class="sidebar-nav-item" data-route="08">08</a>
+            <div class="h-px w-8 bg-zinc-800 my-1 mx-auto"></div>
+            <a href="analytics.html" title="Machine Health" class="sidebar-nav-item" data-route="09">09</a>
+            <a href="fai.html" title="FAI Report" class="sidebar-nav-item" data-route="10">10</a>
+            <a href="mechanisms.html" title="Mechanisms" class="sidebar-nav-item" data-route="11">11</a>
+            <a href="electrotech.html" title="Electro-Mech" class="sidebar-nav-item" data-route="12">12</a>
+            <div class="h-px w-8 bg-zinc-800 my-1 mx-auto"></div>
+            <a href="materials.html" title="Materials" class="sidebar-nav-item" data-route="13">13</a>
+            <a href="math.html" title="Shop Math" class="sidebar-nav-item" data-route="14">14</a>
+            <a href="standards.html" title="Hardware" class="sidebar-nav-item" data-route="15">15</a>
+            <a href="hightech.html" title="High-Tech" class="sidebar-nav-item active" data-route="16">16</a>
         </nav>
         <div class="status-dot"></div>
     </aside>
