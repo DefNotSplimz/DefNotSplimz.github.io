@@ -37,17 +37,20 @@
         <a href="reference.html" class="sidebar-nav-item" data-route="03">03</a>
         <a href="inventory.html" class="sidebar-nav-item" data-route="04">04</a>
         
-        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="metrology.html" class="sidebar-nav-item" data-route="05">05</a>
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
+        <a href="metrology.html" class="sidebar-nav-item" data-route="05">05</a>
         <a href="geometry.html" class="sidebar-nav-item" data-route="06">06</a>
         <a href="assembly.html" class="sidebar-nav-item" data-route="07">07</a>
         <a href="surfaces.html" class="sidebar-nav-item" data-route="08">08</a>
         
-        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="analytics.html" class="sidebar-nav-item" data-route="09">09</a>
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
+        <a href="analytics.html" class="sidebar-nav-item" data-route="09">09</a>
         <a href="fai.html" class="sidebar-nav-item" data-route="10">10</a>
         <a href="mechanisms.html" class="sidebar-nav-item" data-route="11">11</a>
         <a href="electrotech.html" class="sidebar-nav-item" data-route="12">12</a>
         
-        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="materials.html" class="sidebar-nav-item" data-route="13">13</a>
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
+        <a href="materials.html" class="sidebar-nav-item" data-route="13">13</a>
         <a href="math.html" class="sidebar-nav-item" data-route="14">14</a>
         <a href="standards.html" class="sidebar-nav-item" data-route="15">15</a>
         <a href="hightech.html" class="sidebar-nav-item" data-route="16">16</a>
@@ -77,19 +80,19 @@
                     <form id="job-form" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
                         <div class="flex flex-col gap-3">
                             <label class="label-micro !text-[8px] !before:hidden">Program (O)</label>
-                            <input type="text" id="job-program" class="p-4 text-white font-mono text-sm">
+                            <input type="text" id="job-program" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm focus:border-primary/50 outline-none transition-all">
                         </div>
                         <div class="flex flex-col gap-3 lg:col-span-2">
                             <label class="label-micro !text-[8px] !before:hidden">Emne_Navn</label>
-                            <input type="text" id="job-part" class="p-4 text-white font-mono text-sm font-black italic uppercase">
+                            <input type="text" id="job-part" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm font-black italic uppercase focus:border-primary/50 outline-none transition-all">
                         </div>
                         <div class="flex flex-col gap-3">
                             <label class="label-micro !text-[8px] !before:hidden">Revision</label>
-                            <input type="text" id="job-rev" class="p-4 text-white font-mono text-sm">
+                            <input type="text" id="job-rev" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm focus:border-primary/50 outline-none transition-all">
                         </div>
                         <div class="flex flex-col gap-3 lg:col-span-2">
                             <label class="label-micro !text-[8px] !before:hidden !text-primary">Aktiv_Maskine</label>
-                            <select id="machine-select" class="p-4 text-primary font-mono text-sm font-black appearance-none cursor-pointer"></select>
+                            <select id="machine-select" class="p-4 bg-zinc-900/50 border border-zinc-800 text-primary font-mono text-sm font-black appearance-none cursor-pointer focus:border-primary/50 outline-none transition-all"></select>
                         </div>
                     </form>
                 </div>
@@ -105,11 +108,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div class="flex flex-col gap-3">
                                     <label class="label-micro !text-[8px] !before:hidden">Værktøjs_Krybbe</label>
-                                    <select id="active-tool-select" class="p-4 border-primary/20 text-primary font-black appearance-none cursor-pointer text-sm"></select>
+                                    <select id="active-tool-select" class="p-4 bg-zinc-900/50 border border-primary/20 text-primary font-black appearance-none cursor-pointer text-sm focus:border-primary/50 outline-none transition-all"></select>
                                 </div>
                                 <div class="flex flex-col gap-3">
                                     <label class="label-micro !text-[8px] !before:hidden">Materiale_Legering</label>
-                                    <select id="work-material" class="p-4 text-white appearance-none cursor-pointer text-sm"></select>
+                                    <select id="work-material" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white appearance-none cursor-pointer text-sm focus:border-primary/50 outline-none transition-all"></select>
                                 </div>
                             </div>
 
@@ -118,15 +121,15 @@
                                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                                     <div class="flex flex-col gap-3">
                                         <label class="label-micro !text-[8px] !before:hidden">Operation_Mode</label>
-                                        <select id="cam-strategy" class="p-4 bg-black/50 appearance-none font-bold italic text-sm"></select>
+                                        <select id="cam-strategy" class="p-4 bg-black/50 border border-zinc-800 appearance-none font-bold italic text-sm focus:border-primary/50 outline-none transition-all"></select>
                                     </div>
                                     <div class="flex flex-col gap-3">
                                         <label class="label-micro !text-[8px] !before:hidden">Ae (Radial_mm)</label>
-                                        <input type="number" id="input-ae" step="0.001" class="p-4 bg-black/50 text-white font-mono text-sm text-right">
+                                        <input type="number" id="input-ae" step="0.001" class="p-4 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
                                     </div>
                                     <div class="flex flex-col gap-3">
                                         <label class="label-micro !text-[8px] !before:hidden">Ap (Axial_mm)</label>
-                                        <input type="number" id="input-ap" step="0.001" class="p-4 bg-black/50 text-white font-mono text-sm text-right">
+                                        <input type="number" id="input-ap" step="0.001" class="p-4 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +168,7 @@
                             <div class="group">
                                 <span class="label-micro !text-[9px] mb-4 text-zinc-500 italic uppercase">// Spindel_Command (S)</span>
                                 <div class="flex items-baseline gap-4 relative">
-                                    <span id="out-rpm" class="text-8xl font-black tracking-[ -0.08em] text-white italic leading-none transition-all group-hover:text-primary">0</span>
+                                    <span id="out-rpm" class="text-8xl font-black tracking-[-0.08em] text-white italic leading-none transition-all group-hover:text-primary">0</span>
                                     <span class="text-xs font-mono text-zinc-700 font-black tracking-widest absolute -bottom-6 right-0">RPM_STABLE</span>
                                 </div>
                             </div>
@@ -173,7 +176,7 @@
                             <div class="group">
                                 <span class="label-micro !text-[9px] mb-4 text-zinc-500 italic uppercase">// Feed_Command (F)</span>
                                 <div class="flex items-baseline gap-4 relative">
-                                    <span id="out-vf" class="text-8xl font-black tracking-[ -0.08em] text-white italic leading-none transition-all group-hover:text-primary">0</span>
+                                    <span id="out-vf" class="text-8xl font-black tracking-[-0.08em] text-white italic leading-none transition-all group-hover:text-primary">0</span>
                                     <span class="text-xs font-mono text-zinc-700 font-black tracking-widest absolute -bottom-6 right-0">MM_MIN_FEED</span>
                                 </div>
                             </div>
