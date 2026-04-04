@@ -8,186 +8,202 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="stylesheet" href="global.css">
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        primary: "#f59e0b",
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
+                    colors: { primary: "#f59e0b" },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
                 }
             }
         }
     </script>
     <style>
-        .subtle-grid { 
-            background-image: radial-gradient(circle, #27272a 1px, transparent 1px); 
-            background-size: 20px 20px; 
+        /* DIGITAL OS VIEW */
+        body { background-color: #050506; }
+        .a4-container { 
+            background: rgba(12, 12, 14, 0.9); 
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            position: relative;
         }
 
-        /* Skjuler print-logoet på skærmen som standard */
-        .print-only-logo { display: none; }
-        
+        /* 5000% CLEAN PRINT ENGINE */
         @media print {
+            @page { 
+                size: A4; 
+                margin: 15mm; 
+            }
+            
             * {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
-                color: black !important;
-                background-color: transparent !important;
+                text-shadow: none !important;
                 box-shadow: none !important;
             }
+
             body { 
                 background: white !important; 
-                padding: 0 !important; 
-            }
-            .no-print { display: none !important; }
-            .subtle-grid { background-image: none !important; }
-
-            /* Skifter logoer ved print */
-            .screen-only-logo { display: none !important; }
-            .print-only-logo { display: block !important; }
-
-            .a4-container, section, div, table, tr, td, th {
-                background: white !important;
-                border-color: black !important;
-            }
-            .a4-container {
-                border: 1px solid black !important;
-                width: 100% !important;
-                margin: 0 !important;
-            }
-            header, footer {
-                background: #f0f0f0 !important;
-                border-bottom: 1px solid black !important;
-                border-top: 1px solid black !important;
-            }
-            .text-primary, .text-zinc-500, .text-zinc-400 {
                 color: black !important;
-                font-weight: bold !important;
+                padding: 0 !important; 
+                margin: 0 !important; 
             }
-            .bg-primary {
-                background-color: black !important;
-                color: white !important;
+
+            .no-print, .subtle-grid, .scanline, .status-dot { display: none !important; }
+            
+            .a4-container { 
+                background: white !important; 
+                border: none !important;
+                width: 100% !important;
+                max-width: none !important;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+                padding: 0 !important;
+                color: black !important;
             }
+
+            /* Fjern sorte kasser og gør dem til hvide med tynde rammer */
+            header, footer, section, .module-card, .bg-black\/40 {
+                background: white !important;
+                color: black !important;
+                border-color: #000 !important;
+                backdrop-filter: none !important;
+            }
+
+            /* Særlige rettelser til de sorte bokse fra dit billede */
+            .bg-black\/40 {
+                border: 1px solid #ddd !important;
+                padding: 1.5rem !important;
+            }
+
+            h1, h2, h3, h4, p, span, td, th { 
+                color: black !important; 
+            }
+
+            /* Bevar den gule accent som den eneste farve */
+            .text-primary { color: #f59e0b !important; }
+            .bg-primary { background-color: #f59e0b !important; color: black !important; border: 1px solid black !important; }
+            .text-white { color: black !important; font-weight: 900 !important; }
+            .text-zinc-400, .text-zinc-500, .text-zinc-600 { color: #444 !important; }
+
+            header { 
+                padding: 20px 0 !important; 
+                border-bottom: 3px solid black !important;
+                margin-bottom: 30px !important;
+            }
+            
+            table { border-collapse: collapse !important; width: 100% !important; }
+            th { background: #f4f4f4 !important; border: 1px solid black !important; color: black !important; }
+            td { border: 1px solid #ddd !important; color: black !important; }
+
+            /* Kompakt spacing til print */
+            .p-12 { padding: 0 !important; }
+            .space-y-16 > :not([hidden]) ~ :not([hidden]) { margin-top: 2rem !important; }
         }
     </style>
 </head>
-<body class="bg-[#09090b] text-zinc-100 font-sans antialiased py-12 subtle-grid px-4">
+<body class="antialiased py-16 px-4 uppercase selection:bg-primary selection:text-black">
 
-    <div class="max-w-[210mm] mx-auto mb-6 flex justify-between items-center no-print">
-        <a href="index.html" class="text-[10px] font-mono font-bold text-zinc-500 hover:text-primary transition-colors uppercase tracking-widest flex items-center gap-2 italic">
-            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            System_Portal
+    <div class="subtle-grid no-print"></div>
+    <div class="scanline no-print"></div>
+
+    <nav class="max-w-[210mm] mx-auto mb-10 flex justify-between items-center no-print">
+        <a href="index.html" class="label-micro text-zinc-500 hover:text-primary transition-all italic tracking-[0.4em]">
+            < Return_to_OS_Portal
         </a>
-        <button onclick="window.print()" class="bg-primary text-black px-4 py-2 text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all">
-            Export_as_PDF (A4)
+        <button onclick="window.print()" class="btn-industrial px-8 py-3 text-[11px] font-black italic tracking-widest bg-primary text-black">
+            EXECUTE_CLEAN_PRINT
         </button>
-    </div>
+    </nav>
 
-    <main class="a4-container mx-auto bg-[#0c0c0e] border border-zinc-800 shadow-2xl w-full max-w-[210mm] min-h-[297mm] flex flex-col overflow-hidden relative">
+    <main class="a4-container mx-auto w-full max-w-[210mm] min-h-[297mm] flex flex-col overflow-hidden">
         
-        <header class="border-b border-zinc-800 p-10 flex justify-between items-start bg-zinc-900/30">
+        <header class="border-b border-zinc-800 p-12 flex justify-between items-start bg-black/40 backdrop-blur-md">
             <div>
-                <div class="flex items-center gap-4 mb-6">
-                    <img src="img/LogoA.svg" alt="Datum Logo" class="h-8 w-auto screen-only-logo">
-                    <img src="img/logoB.svg" alt="Datum Logo Print" class="h-8 w-auto print-only-logo">
-                    <div class="h-8 w-[1px] bg-zinc-800 print:bg-black"></div>
-                    <span class="font-bold tracking-[0.3em] text-xs uppercase text-zinc-400 italic">Technical_Validation</span>
+                <div class="flex items-center gap-6 mb-8">
+                    <img src="img/LogoA.svg" alt="Datum Logo" class="h-10 w-auto">
+                    <div class="h-10 w-[1px] bg-zinc-800"></div>
+                    <span class="label-micro !text-zinc-400 !before:hidden italic font-black">Technical_Validation_Protocol</span>
                 </div>
-                <h1 class="text-4xl font-black tracking-tighter uppercase italic leading-none">Technical_Dossier</h1>
-                <p class="text-[10px] font-mono text-primary mt-2 uppercase tracking-widest font-bold italic">Rev_06 // 2026-Q1</p>
+                <h1 class="text-5xl font-black tracking-tighter uppercase italic leading-none">Technical_Dossier</h1>
+                <p class="label-micro !text-primary mt-3 !before:hidden tracking-[0.5em] font-black italic">Rev_06 // 2026-Q1_LOCKED</p>
             </div>
             
-            <div class="text-right border-l border-zinc-800 pl-8 font-mono italic">
-                <div class="text-[9px] leading-tight uppercase font-bold">
-                    <p class="text-zinc-500 mb-1">Audit_Subject</p>
-                    <p class="text-white text-sm font-black italic uppercase">G. Cilinder-Hansen</p>
-                    <p class="text-primary mt-1">ID: 32-SKP-FRB</p>
+            <div class="text-right border-l border-zinc-800 pl-10 font-mono italic">
+                <div class="space-y-2">
+                    <span class="label-micro !text-[7px] !justify-end !before:hidden">Audit_Subject</span>
+                    <p class="text-white text-xl font-black italic tracking-tighter uppercase">G. Cilinder-Hansen</p>
+                    <div class="inline-block px-3 py-1 bg-primary text-black text-[10px] font-black border border-black">ID: 32-SKP-FRB</div>
                 </div>
             </div>
         </header>
 
-        <div class="p-10 space-y-10 flex-grow uppercase italic font-bold">
+        <div class="p-12 space-y-16 flex-grow font-black italic uppercase">
 
             <section>
-                <div class="flex items-center gap-4 mb-6">
-                    <span class="text-[10px] font-mono text-primary font-bold">01</span>
-                    <h2 class="text-[11px] font-bold uppercase tracking-[0.3em] text-zinc-500">Operationel_Kapacitet</h2>
-                    <div class="h-[1px] bg-zinc-800 flex-grow"></div>
+                <div class="flex items-center gap-6 mb-10">
+                    <span class="text-xs font-mono text-primary font-black">01</span>
+                    <h2 class="label-micro !text-[11px] !text-zinc-500 !before:hidden tracking-[0.4em]">Operationel_Kapacitet</h2>
+                    <div class="h-px bg-zinc-900 flex-grow"></div>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-px bg-zinc-800 border border-zinc-800">
-                    <div class="bg-[#09090b] p-6">
-                        <h4 class="text-[9px] font-mono text-zinc-500 mb-2 font-black italic tracking-tighter uppercase">Primary_CNC</h4>
-                        <p class="font-black text-xs text-white">Haas ST10 / Mini Mill</p>
-                        <p class="text-[10px] text-zinc-400 leading-relaxed mt-2 italic normal-case font-bold">Eksekvering via Fusion 360. Optimering af skæredata jf. materiale-spec.</p>
+                <div class="grid grid-cols-2 gap-px bg-zinc-900 border border-zinc-900">
+                    <div class="bg-black/40 p-8">
+                        <h4 class="label-micro !text-[7px] mb-4 !before:hidden text-zinc-600 font-black tracking-widest italic uppercase">/ Primary_CNC</h4>
+                        <p class="text-lg font-black text-white italic tracking-tighter">Haas ST10 / Mini Mill</p>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed mt-4 italic normal-case font-bold border-l border-zinc-800 pl-4">Eksekvering via Fusion 360. Optimering af skæredata jf. materiale-spec.</p>
                     </div>
-                    <div class="bg-[#09090b] p-6">
-                        <h4 class="text-[9px] font-mono text-zinc-500 mb-2 font-black italic tracking-tighter uppercase">Manual_Precision</h4>
-                        <p class="font-black text-xs text-white">Weiler / Deckel</p>
-                        <p class="text-[10px] text-zinc-400 leading-relaxed mt-2 italic normal-case font-bold">Instrumentmageri og manuel bearbejdning med fokus på absolut parallelitet.</p>
+                    <div class="bg-black/40 p-8">
+                        <h4 class="label-micro !text-[7px] mb-4 !before:hidden text-zinc-600 font-black tracking-widest italic uppercase">/ Manual_Precision</h4>
+                        <p class="text-lg font-black text-white italic tracking-tighter">Weiler / Deckel_Control</p>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed mt-4 italic normal-case font-bold border-l border-zinc-800 pl-4">Instrumentmageri og manuel bearbejdning med fokus på absolut parallelitet.</p>
                     </div>
                 </div>
             </section>
 
             <section>
-                <div class="flex items-center gap-4 mb-6">
-                    <span class="text-[10px] font-mono text-primary font-bold">02</span>
-                    <h2 class="text-[11px] font-bold uppercase tracking-[0.3em] text-zinc-500">Materiale_Kapacitet</h2>
-                    <div class="h-[1px] bg-zinc-800 flex-grow"></div>
+                <div class="flex items-center gap-6 mb-10">
+                    <span class="text-xs font-mono text-primary font-black">02</span>
+                    <h2 class="label-micro !text-[11px] !text-zinc-500 !before:hidden tracking-[0.4em]">Materiale_Kapacitet</h2>
+                    <div class="h-px bg-zinc-900 flex-grow"></div>
                 </div>
-                <div class="border border-zinc-800 overflow-hidden text-[10px] font-mono">
-                    <table class="w-full">
-                        <thead class="bg-zinc-900/50 border-b border-zinc-800 italic text-zinc-500 font-black uppercase">
-                            <tr>
-                                <th class="px-4 py-3 text-left">Legering / Polymer</th>
-                                <th class="px-4 py-3 text-left">Bearbejdnings-Audit</th>
-                            </tr>
+                <div class="border border-zinc-900 overflow-hidden">
+                    <table class="w-full text-[11px] font-mono">
+                        <thead class="bg-zinc-950 italic text-zinc-600 font-black uppercase">
+                            <tr><th class="px-6 py-4 text-left">Legering_Polymer</th><th class="px-6 py-4 text-left">Bearbejdnings_Audit</th></tr>
                         </thead>
-                        <tbody class="divide-y divide-zinc-800 text-zinc-400 font-bold italic uppercase">
-                            <tr>
-                                <td class="px-4 py-3 text-white font-black">Rustfast Stål (304/316)</td>
-                                <td class="px-4 py-3">Styring af spånbrydning og kølestrategi.</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 text-white font-black">Alu (6082-T6 / 7075)</td>
-                                <td class="px-4 py-3">Højhastighedsbearbejdning og spændingsfri opspænding.</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-3 text-white font-black">Teknisk Plast (POM/Nylon)</td>
-                                <td class="px-4 py-3">Dimensionsstabilitet og styring af termisk påvirkning.</td>
-                            </tr>
+                        <tbody class="divide-y divide-zinc-900 text-zinc-400 font-bold italic uppercase">
+                            <tr><td class="px-6 py-4 text-white font-black italic">Rustfast Stål (304/316)</td><td class="px-6 py-4">Styring af spånbrydning og kølestrategi.</td></tr>
+                            <tr><td class="px-6 py-4 text-white font-black italic">Alu (6082-T6 / 7075)</td><td class="px-6 py-4">Højhastighedsbearbejdning og spændingsfri opspænding.</td></tr>
+                            <tr><td class="px-6 py-4 text-white font-black italic">Teknisk Plast (POM/Nylon)</td><td class="px-6 py-4">Dimensionsstabilitet og styring af termisk påvirkning.</td></tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
             <section>
-                <div class="flex items-center gap-4 mb-6">
-                    <span class="text-[10px] font-mono text-primary font-bold">03</span>
-                    <h2 class="text-[11px] font-bold uppercase tracking-[0.3em] text-zinc-500">Metrologisk_Protokol</h2>
-                    <div class="h-[1px] bg-zinc-800 flex-grow"></div>
+                <div class="flex items-center gap-6 mb-10">
+                    <span class="text-xs font-mono text-primary font-black">03</span>
+                    <h2 class="label-micro !text-[11px] !text-zinc-500 !before:hidden tracking-[0.4em]">Metrologisk_Protokol</h2>
+                    <div class="h-px bg-zinc-900 flex-grow"></div>
                 </div>
-                
-                <div class="grid grid-cols-12 gap-8 items-center">
+                <div class="grid grid-cols-12 gap-12 items-center">
                     <div class="col-span-8">
-                        <p class="text-[10px] text-zinc-400 leading-relaxed font-bold italic normal-case font-bold">
+                        <p class="text-sm text-zinc-400 leading-relaxed font-bold italic border-l-2 border-primary/30 pl-8">
                             Kvalitetssikring baseres på kalibreret analog metrologi for at sikre taktil føling og eliminere usikkerhed ved sensor-drift v. pasninger under 0.01mm.
                         </p>
                     </div>
-                    <div class="col-span-4 space-y-3 font-mono">
-                        <div class="flex justify-between items-center text-[10px] border-b border-zinc-800 pb-2">
-                            <span class="text-zinc-500 font-black italic uppercase">Analog Mikrometer</span>
-                            <span class="font-mono font-black text-primary italic uppercase">Lvl_04</span>
+                    <div class="col-span-4 space-y-4">
+                        <div class="flex justify-between border-b border-zinc-900 pb-2">
+                            <span class="text-[9px] text-zinc-500 font-black">Analog_Micron</span>
+                            <span class="text-primary font-black uppercase">Lvl_04</span>
                         </div>
-                        <div class="flex justify-between items-center text-[10px] border-b border-zinc-800 pb-2">
-                            <span class="text-zinc-500 font-black italic uppercase">ISO_286 Analysis</span>
-                            <span class="font-mono font-black text-primary italic uppercase">Lvl_05</span>
+                        <div class="flex justify-between border-b border-zinc-900 pb-2">
+                            <span class="text-[9px] text-zinc-500 font-black">ISO_286_Audit</span>
+                            <span class="text-primary font-black uppercase">Lvl_05</span>
                         </div>
                     </div>
                 </div>
@@ -195,13 +211,13 @@
 
         </div>
         
-        <footer class="p-10 mt-auto border-t border-zinc-800 bg-zinc-900/30 uppercase italic font-bold">
+        <footer class="p-12 mt-auto border-t border-zinc-800 bg-zinc-950/50 italic font-bold">
             <div class="flex justify-between items-end">
-                <div class="space-y-1">
-                    <p class="text-[9px] font-mono text-zinc-500 font-black tracking-[0.4em]">Datum Prototyping // Precision_Verified</p>
-                    <p class="text-[8px] text-zinc-600 font-bold uppercase italic">Dokument valideret til industriel brug.</p>
+                <div class="space-y-2">
+                    <p class="label-micro !text-zinc-600 tracking-[0.4em] !before:hidden italic font-bold">Datum Prototyping // Precision_Verified // 2026</p>
+                    <p class="text-[9px] text-zinc-700 font-black uppercase tracking-widest italic">Dokument valideret til industriel brug.</p>
                 </div>
-                <div class="bg-primary text-black px-4 py-1 text-[10px] font-black tracking-tighter italic">
+                <div class="bg-black text-white px-6 py-2 text-xs font-black tracking-tighter italic border border-zinc-800">
                     ID: DATUM-2026-REV06
                 </div>
             </div>
