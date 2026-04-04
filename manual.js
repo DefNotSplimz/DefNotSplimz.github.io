@@ -1,23 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- MACHINE LIBRARY ---
+    const MACHINE_LIBRARY = {
+        'DECKEL': { name: 'Manuel Fræs (Deckel)', maxRpm: 2500, type: 'mill' },
+        'WEILER_MATADOR': { name: 'Manual Drej (Weiler Matador)', maxRpm: 3550, type: 'turn' }
+    };
+
+    // --- MATERIAL DATA ---
+    const MATERIAL_DATA = {
+        'ALU': { name: 'Aluminium', vc: [40, 80], fz: [0.03, 0.10], vc_hm_factor: 3.5 },
+        'MESSING': { name: 'Messing', vc: [30, 50], fz: [0.03, 0.08], vc_hm_factor: 3.0 },
+        'STAAL': { name: 'Stål', vc: [18, 28], fz: [0.02, 0.08], vc_hm_factor: 3.0 },
+        'RUSTFAST': { name: 'Rustfast stål', vc: [8, 14], fz: [0.01, 0.04], vc_hm_factor: 2.5 },
+        'VAERKTOJSSTAAL': { name: 'Værktøjsstål', vc: [6, 12], fz: [0.01, 0.03], vc_hm_factor: 2.5 },
+        'POM': { name: 'POM (Acetal)', vc: [60, 100], fz: [0.05, 0.15], vc_hm_factor: 3.0 },
+        'NYLON': { name: 'Nylon (PA6)', vc: [40, 80], fz: [0.04, 0.12], vc_hm_factor: 3.0 }
+    };
+
     // --- ELEMENT REFERENCER ---
     const machineRadios = document.querySelectorAll('input[name="machine"]');
     const opTypeSelect = document.getElementById('op-type');
     const workMaterialSelect = document.getElementById('work-material');
     const toolMatSelect = document.getElementById('tool-mat');
-    
     const inputDia = document.getElementById('input-dia');
     const inputZ = document.getElementById('input-z');
     const labelDia = document.getElementById('label-dia');
-    const colDia = document.getElementById('col-dia');
     const colZ = document.getElementById('col-z-flutes');
-    
+
     const outVcRange = document.getElementById('out-vc-range');
     const outFzRange = document.getElementById('out-fz-range');
-    const labelFzRange = document.getElementById('label-fz-range');
     const outFzUnit = document.getElementById('out-fz-unit');
+    const labelFzOut = document.getElementById('label-fz-out');
 
     const modSpecial = document.getElementById('module-special');
-    const specialTitle = document.getElementById('special-title');
     const modThread = document.getElementById('mod-thread');
     const threadStandard = document.getElementById('thread-standard');
     const threadSize = document.getElementById('thread-size');
@@ -37,7 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const outVfUnit = document.getElementById('out-vf-unit');
     const labelOutFeed = document.getElementById('label-out-feed');
     const warningRpm = document.getElementById('warning-rpm');
-    
+    const rpmBar = document.getElementById('rpm-bar');
+    const rpmPctText = document.getElementById('rpm-pct');
+
     const outputSpecial = document.getElementById('output-special');
     const labelSpecialOut = document.getElementById('label-special-out');
     const outSpecialVal = document.getElementById('out-special-val');
@@ -50,36 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const tableBody = document.getElementById('setup-table-body');
 
     let currentData = {};
-
-    // --- MASKIN LIMITS ---
-    const MACHINE_LIMITS = {
-        'deckel': 2500,
-        'weiler': 2200,
-        'drill': 3000
-    };
-
-    // --- NY DATA MATRIX (Sikre Intervaller) ---
-    // Indeholder alle 7 materialer fra din HTML
-    const CUTTING_DATA_MATRIX = {
-        'HM': {
-            'ALU': { vc: [150, 300], fz: [0.05, 0.15] },
-            'MESSING': { vc: [80, 150], fz: [0.04, 0.12] },
-            'STAAL': { vc: [70, 130], fz: [0.05, 0.12] },
-            'RUSTFAST': { vc: [40, 70], fz: [0.03, 0.08] },
-            'VAERKTOJSSTAAL': { vc: [30, 60], fz: [0.02, 0.06] },
-            'DELRIN': { vc: [150, 250], fz: [0.10, 0.25] },
-            'NYLON': { vc: [100, 200], fz: [0.08, 0.20] }
-        },
-        'HSS': { 
-            'ALU': { vc: [40, 80], fz: [0.03, 0.10] },
-            'MESSING': { vc: [30, 50], fz: [0.03, 0.08] },
-            'STAAL': { vc: [18, 28], fz: [0.02, 0.08] },
-            'RUSTFAST': { vc: [8, 14], fz: [0.01, 0.04] },
-            'VAERKTOJSSTAAL': { vc: [6, 12], fz: [0.01, 0.03] },
-            'DELRIN': { vc: [60, 100], fz: [0.05, 0.15] },
-            'NYLON': { vc: [40, 80], fz: [0.04, 0.12] }
-        }
-    };
 
     const THREAD_DATA = {
         'M': { 'M3 x 0.5': 2.5, 'M4 x 0.7': 3.3, 'M5 x 0.8': 4.2, 'M6 x 1.0': 5.0, 'M8 x 1.25': 6.8, 'M10 x 1.5': 8.5, 'M12 x 1.75': 10.2, 'M16 x 2.0': 14.0 },
@@ -99,30 +85,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- UI HÅNDTERING ---
     function getActiveMachine() { return document.querySelector('input[name="machine"]:checked').value; }
 
+    function init() {
+        workMaterialSelect.innerHTML = Object.entries(MATERIAL_DATA).map(([k,v]) => `<option value="${k}">${v.name}</option>`).join('');
+        populateOperations();
+    }
+
     function populateOperations() {
-        const machine = getActiveMachine();
+        const mKey = getActiveMachine();
+        const machine = MACHINE_LIBRARY[mKey];
         opTypeSelect.innerHTML = '';
-        if (machine === 'deckel') {
-            opTypeSelect.innerHTML = `<option value="mill_face">Planfræsning</option><option value="mill_std">Spor/Kant Fræsning</option><option value="drill">Boring</option><option value="tap">Gevindboring</option>`;
-            toolMatSelect.value = 'HSS';
-        } else if (machine === 'weiler') {
-            opTypeSelect.innerHTML = `<option value="turn_rough">Skrub Drejning</option><option value="turn_finish">Slet Drejning (Ra)</option><option value="knurl">Rulletering</option><option value="drill">Centrumsboring</option><option value="tap">Gevindboring</option>`;
-            toolMatSelect.value = 'HM';
+        
+        if (machine.type === 'mill') {
+            opTypeSelect.innerHTML = `<option value="mill_std">Fræsning (Spor/Kant)</option><option value="drill">Boring</option><option value="tap">Gevindboring</option>`;
+            colZ.style.display = 'flex';
+            labelDia.textContent = 'Værktøj Dia (D)';
+            labelFzOut.textContent = 'Beregnet fz';
+            outFzUnit.textContent = 'MM/Z';
+            outVfUnit.textContent = 'MM/MIN';
+            labelOutFeed.textContent = '// Bord-Tilspænding';
         } else {
-            opTypeSelect.innerHTML = `<option value="drill">Standard Boring</option><option value="tap">Gevindboring</option>`;
-            toolMatSelect.value = 'HSS';
+            opTypeSelect.innerHTML = `<option value="turn_std">Drejning</option><option value="turn_finish">Slet Drejning (Ra)</option><option value="knurl">Rulletering</option><option value="drill">Centrumsboring</option><option value="tap">Gevindboring</option>`;
+            colZ.style.display = 'none';
+            labelDia.textContent = 'Emne Dia (D)';
+            labelFzOut.textContent = 'Beregnet fn';
+            outFzUnit.textContent = 'MM/REV';
+            outVfUnit.textContent = 'MM/REV';
+            labelOutFeed.textContent = '// Manuel Tilspænding';
         }
         handleOperationChange();
     }
 
     function handleOperationChange() {
         const op = opTypeSelect.value;
-        const machine = getActiveMachine();
-        
         modSpecial.classList.add('hidden');
         modThread.classList.add('hidden'); modKnurl.classList.add('hidden'); modRa.classList.add('hidden');
         outputSpecial.classList.add('hidden'); outputStandard.classList.remove('hidden');
-        colZ.style.display = (machine === 'deckel') ? 'flex' : 'none';
 
         if (op === 'tap') {
             modSpecial.classList.remove('hidden'); modThread.classList.remove('hidden');
@@ -136,33 +133,31 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (op === 'turn_finish') {
             modSpecial.classList.remove('hidden'); modRa.classList.remove('hidden');
         }
-
-        // Labels opdateres efter maskine
-        if (machine === 'deckel') {
-            labelDia.textContent = 'Fræser Dia (D)'; labelFzRange.textContent = '// Anbefalet fz (mm/z)';
-            outFzUnit.textContent = 'MM/Z'; outVfUnit.textContent = 'MM/MIN'; labelOutFeed.textContent = '// Bord-Tilspænding';
-        } else {
-            labelDia.textContent = 'Værktøj/Emne Dia'; labelFzRange.textContent = '// Anbefalet fn (mm/rev)';
-            outFzUnit.textContent = 'MM/REV'; outVfUnit.textContent = 'MM/REV'; labelOutFeed.textContent = '// Manuel Tilspænding';
-        }
         calculate();
     }
 
     function populateThreads() {
         const std = threadStandard.value;
-        threadSize.innerHTML = '';
-        for (const [key, val] of Object.entries(THREAD_DATA[std])) {
-            threadSize.innerHTML += `<option value="${val}" data-name="${key}">${key}</option>`;
-        }
+        threadSize.innerHTML = Object.entries(THREAD_DATA[std]).map(([k,v]) => `<option value="${v}">${k}</option>`).join('');
         calculate();
+    }
+
+    // --- HUD OPDATERING ---
+    function updateVisualHUD(rpm, maxRpm) {
+        const pct = Math.min((rpm / maxRpm) * 100, 100);
+        rpmBar.style.width = `${pct}%`;
+        rpmBar.style.backgroundColor = pct > 90 ? '#ef4444' : (pct > 70 ? '#f59e0b' : '#f59e0b');
+        rpmPctText.textContent = `${Math.round(pct)}%`;
     }
 
     // --- BEREGNER KERNE ---
     function calculate() {
-        const machine = getActiveMachine();
+        const mKey = getActiveMachine();
+        const machine = MACHINE_LIBRARY[mKey];
         const op = opTypeSelect.value;
-        const mat = workMaterialSelect.value;
-        const tool = toolMatSelect.value;
+        const matKey = workMaterialSelect.value;
+        const mat = MATERIAL_DATA[matKey];
+        const toolMat = toolMatSelect.value;
         const d = parseFloat(inputDia.value) || 1;
         const z = parseFloat(inputZ.value) || 1;
 
@@ -170,50 +165,52 @@ document.addEventListener('DOMContentLoaded', () => {
             const drill = parseFloat(threadSize.value).toFixed(1);
             outSpecialVal.textContent = drill;
             infoSpecialDesc.textContent = "Forboring til " + threadSize.options[threadSize.selectedIndex].text;
-            currentData = { machine: machine.toUpperCase(), opStr: "TAP", geomStr: "Ø"+drill, rpm: "Lav", feed: "Manuel", note: "Brug olie" };
+            currentData = { machine: mKey, opStr: "TAP", geomStr: "Ø"+drill, rpm: "Lav", feed: "Manuel", note: "Brug olie" };
             return;
         }
 
         if (op === 'knurl') {
-            const dia = parseFloat(knurlDia.value) || 0;
-            const p = parseFloat(knurlPitch.value);
-            const blank = (dia - (p/3)).toFixed(2);
+            const blank = (parseFloat(knurlDia.value) - (parseFloat(knurlPitch.value)/3)).toFixed(2);
             outSpecialVal.textContent = blank;
             infoSpecialDesc.textContent = "Drej emnet til dette mål før rulletering";
-            currentData = { machine: "WEILER", opStr: "KNURL", geomStr: "Ø"+blank, rpm: "Lav", feed: "Manuel", note: "Massivt tryk" };
+            currentData = { machine: mKey, opStr: "KNURL", geomStr: "Ø"+blank, rpm: "Lav", feed: "Manuel", note: "Massivt tryk" };
             return;
         }
 
-        // Hent data fra matrix
-        const data = CUTTING_DATA_MATRIX[tool][mat];
-        let [vcMin, vcMax] = data.vc;
-        let [fzMin, fzMax] = data.fz;
+        // Vc justering
+        const hmFactor = toolMat === 'HM' ? mat.vc_hm_factor : 1.0;
+        let vcMin = mat.vc[0] * hmFactor;
+        let vcMax = mat.vc[1] * hmFactor;
+        let [fzMin, fzMax] = mat.fz;
 
-        // Justeringer for boring
         if (op.includes('drill')) { vcMin *= 0.7; vcMax *= 0.7; }
+        if (op === 'turn_finish') { 
+            const ra = parseFloat(raTarget.value);
+            const re = parseFloat(raRadius.value);
+            const fn_calc = Math.sqrt((ra * 8 * re) / 1000);
+            fzMin = fn_calc * 0.8; fzMax = fn_calc * 1.2;
+        }
 
-        // Vis intervaller
-        outVcRange.textContent = `${vcMin} - ${vcMax}`;
-        outFzRange.textContent = `${fzMin} - ${fzMax}`;
+        outVcRange.textContent = `${Math.round(vcMin)} - ${Math.round(vcMax)}`;
+        outFzRange.textContent = `${fzMin.toFixed(2)} - ${fzMax.toFixed(2)}`;
 
-        // Beregn Target (Gennemsnit)
         const vcAvg = (vcMin + vcMax) / 2;
         const fzAvg = (fzMin + fzMax) / 2;
         
         let n = (vcAvg * 1000) / (Math.PI * d);
-        const maxRpm = MACHINE_LIMITS[machine];
-        if (n > maxRpm) { n = maxRpm; warningRpm.classList.remove('hidden'); } 
+        if (n > machine.maxRpm) { n = machine.maxRpm; warningRpm.classList.remove('hidden'); } 
         else { warningRpm.classList.add('hidden'); }
 
         outRpm.textContent = Math.round(n);
+        updateVisualHUD(n, machine.maxRpm);
         
-        if (machine === 'deckel') {
+        if (machine.type === 'mill') {
             const vf = n * z * fzAvg;
             outVf.textContent = Math.round(vf);
-            currentData = { machine: "DECKEL", opStr: op + "/" + mat, geomStr: "Ø"+d, rpm: Math.round(n), feed: Math.round(vf) + " mm/min", note: "-" };
+            currentData = { machine: mKey, opStr: op + "/" + matKey, geomStr: "Ø"+d, rpm: Math.round(n), feed: Math.round(vf) + " mm/min", note: "-" };
         } else {
             outVf.textContent = fzAvg.toFixed(3);
-            currentData = { machine: "WEILER", opStr: op + "/" + mat, geomStr: "Ø"+d, rpm: Math.round(n), feed: fzAvg.toFixed(3) + " mm/rev", note: "-" };
+            currentData = { machine: mKey, opStr: op + "/" + matKey, geomStr: "Ø"+d, rpm: Math.round(n), feed: fzAvg.toFixed(3) + " mm/rev", note: "-" };
         }
     }
 
@@ -227,19 +224,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- EVENT LISTENERS ---
     machineRadios.forEach(r => r.addEventListener('change', populateOperations));
     opTypeSelect.addEventListener('change', handleOperationChange);
-    [workMaterialSelect, toolMatSelect, inputDia, inputZ].forEach(el => el.addEventListener('input', calculate));
-    [threadStandard, threadSize, knurlDia, knurlPitch, raTarget, raRadius].forEach(el => el.addEventListener('input', calculate));
+    [workMaterialSelect, toolMatSelect, inputDia, inputZ, threadStandard, threadSize, knurlDia, knurlPitch, raTarget, raRadius].forEach(el => el.addEventListener('input', calculate));
     [isoDia, isoClass].forEach(el => el.addEventListener('input', calculateIso));
 
     btnSave.addEventListener('click', () => {
-        const row = document.createElement('tr');
-        row.className = "border-b border-zinc-800 text-xs font-mono text-zinc-400";
-        row.innerHTML = `<td class="p-4 text-white font-bold">${currentData.machine}</td><td class="p-4">${currentData.opStr}</td><td class="p-4">${currentData.geomStr}</td><td class="p-4 text-primary">${currentData.rpm}</td><td class="p-4">${currentData.feed}</td><td class="p-4 text-primary">${currentData.note}</td><td class="p-4 text-right print:hidden"><button class="text-zinc-600 hover:text-red-500 font-bold" onclick="this.parentElement.parentElement.remove()">SLET</button></td>`;
-        tableBody.appendChild(row);
+        const tr = document.createElement('tr');
+        tr.className = "border-b border-zinc-800 text-xs font-mono text-zinc-400 bg-black/40";
+        tr.innerHTML = `<td class="p-4 font-bold text-white uppercase">${currentData.machine}</td><td class="p-4">${currentData.opStr}</td><td class="p-4">${currentData.geomStr}</td><td class="p-4 text-primary">${currentData.rpm}</td><td class="p-4">${currentData.feed}</td><td class="p-4 text-primary">${currentData.note}</td><td class="p-4 text-right print:hidden"><button onclick="this.parentElement.parentElement.remove()" class="text-zinc-600 hover:text-red-500 font-bold uppercase tracking-widest text-[10px]">SLET</button></td>`;
+        tableBody.appendChild(tr);
     });
 
-    if(btnClear) btnClear.addEventListener('click', () => tableBody.innerHTML = '');
-    if(btnPrint) btnPrint.addEventListener('click', () => window.print());
+    btnClear.addEventListener('click', () => tableBody.innerHTML = '');
+    btnPrint.addEventListener('click', () => window.print());
 
-    populateOperations();
+    init();
 });

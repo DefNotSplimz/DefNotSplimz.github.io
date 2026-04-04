@@ -38,10 +38,7 @@
                 </a>
                 <div class="h-4 w-px bg-zinc-800 hidden md:block"></div>
                 <div class="hidden md:flex items-center gap-2">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                    </span>
+                    <div class="status-dot"></div>
                     <span class="text-[9px] font-mono text-primary uppercase tracking-[0.2em] font-bold">Manual_Mode // Active</span>
                 </div>
             </div>
@@ -55,7 +52,7 @@
     <header class="relative pt-40 pb-16 px-6 overflow-hidden border-b border-zinc-900 bg-black print:hidden">
         <div class="max-w-7xl mx-auto relative">
             <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Manual Machining</h1>
-            <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.3em] mt-4">Analog_Operations_Calculator</p>
+            <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.3em] mt-4 uppercase italic">Machine_Library & Visuel HUD</p>
         </div>
     </header>
 
@@ -64,21 +61,17 @@
             <div class="grid lg:grid-cols-12 gap-px bg-zinc-800 border border-zinc-800 mb-12">
                 
                 <div class="lg:col-span-8 bg-[#09090b] p-6 md:p-8">
-                    <div class="text-primary font-mono text-[10px] font-bold tracking-widest uppercase italic mb-6">/ Parameter_Input</div>
+                    <div class="text-primary font-mono text-[10px] font-bold tracking-widest uppercase italic mb-6">/ Machine_Library & Input</div>
                     
                     <form id="manual-form" class="space-y-6">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 border-b border-zinc-800 pb-6 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-b border-zinc-800 pb-6 mb-6">
                             <label class="cursor-pointer group flex items-center p-3 border border-zinc-800 hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10">
-                                <input type="radio" name="machine" value="deckel" class="sr-only" checked>
-                                <span class="text-xs font-black uppercase italic text-white group-has-[:checked]:text-primary">Fræser (Deckel)</span>
+                                <input type="radio" name="machine" value="DECKEL" class="sr-only" checked>
+                                <span class="text-xs font-black uppercase italic text-white group-has-[:checked]:text-primary">Manuel Fræs (Deckel)</span>
                             </label>
                             <label class="cursor-pointer group flex items-center p-3 border border-zinc-800 hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10">
-                                <input type="radio" name="machine" value="weiler" class="sr-only">
-                                <span class="text-xs font-black uppercase italic text-white group-has-[:checked]:text-primary">Drejebænk (Weiler)</span>
-                            </label>
-                            <label class="cursor-pointer group flex items-center p-3 border border-zinc-800 hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10">
-                                <input type="radio" name="machine" value="drill" class="sr-only">
-                                <span class="text-xs font-black uppercase italic text-white group-has-[:checked]:text-primary">Søjleboremaskine</span>
+                                <input type="radio" name="machine" value="WEILER_MATADOR" class="sr-only">
+                                <span class="text-xs font-black uppercase italic text-white group-has-[:checked]:text-primary">Manual Drej (Weiler Matador)</span>
                             </label>
                         </div>
 
@@ -92,14 +85,7 @@
                                 <div class="flex flex-col gap-2 h-full justify-end">
                                     <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Emne_Mat.</label>
                                     <select id="work-material" class="p-3 text-white font-mono text-sm appearance-none cursor-pointer">
-                                        <option value="ALU">Aluminium</option>
-                                        <option value="MESSING">Messing</option>
-                                        <option value="STAAL">Stål</option>
-                                        <option value="RUSTFAST">Rustfast stål</option>
-                                        <option value="VAERKTOJSSTAAL">Værktøjsstål</option>
-                                        <option value="DELRIN">Delrin (Plast)</option>
-                                        <option value="NYLON">Nylon (Plast)</option>
-                                    </select>
+                                        </select>
                                 </div>
                                 <div class="flex flex-col gap-2 h-full justify-end">
                                     <label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Værktøj_Mat.</label>
@@ -138,8 +124,8 @@
                         <div class="module-card p-5">
                             <h4 class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-4">// 2. ISO Metrologi Opslag</h4>
                             <div class="grid grid-cols-3 gap-4 items-end">
-                                <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Nominel Dia</label><input type="number" id="iso-dia" placeholder="Ex: 20" class="p-3 text-white font-mono text-sm"></div>
-                                <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Toleranceklasse</label><select id="iso-class" class="p-3 text-white font-mono text-sm appearance-none cursor-pointer"><option value="H7">H7</option><option value="h6">h6</option><option value="f7">f7</option><option value="g6">g6</option><option value="m6">m6</option></select></div>
+                                <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase">Nominel Dia</label><input type="number" id="iso-dia" placeholder="Ex: 20" class="p-3 text-white font-mono text-sm"></div>
+                                <div class="flex flex-col gap-2"><label class="text-[10px] font-mono text-zinc-500 uppercase">Toleranceklasse</label><select id="iso-class" class="p-3 text-white font-mono text-sm appearance-none cursor-pointer"><option value="H7">H7</option><option value="h6">h6</option><option value="f7">f7</option><option value="g6">g6</option><option value="m6">m6</option></select></div>
                                 <div class="bg-black border border-zinc-800 p-3 flex items-center justify-center h-[46px]"><span id="iso-result" class="font-mono text-sm font-bold text-primary">- / -</span></div>
                             </div>
                         </div>
@@ -147,6 +133,7 @@
                 </div>
 
                 <div class="lg:col-span-4 bg-black p-8 flex flex-col justify-between relative overflow-hidden tabular-nums">
+                    <div class="scanline opacity-10"></div>
                     <div>
                         <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic">/ Output_Data</div>
                         
@@ -160,24 +147,21 @@
                         </div>
 
                         <div class="space-y-8" id="output-standard">
-                            <div>
-                                <span class="text-[10px] font-mono text-primary tracking-widest block mb-2 uppercase italic font-bold">// Anbefalet Vc (m/min)</span>
-                                <div class="flex items-end gap-2">
-                                    <span id="out-vc-range" class="text-3xl font-black tracking-tighter text-white uppercase italic">0 - 0</span>
-                                    <span class="text-xs font-mono text-zinc-500 font-bold mb-1">M/MIN</span>
+                            <div class="grid grid-cols-2 gap-4 border-b border-zinc-800 pb-6 text-center">
+                                <div>
+                                    <span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Beregnet Vc</span><br>
+                                    <span id="out-vc-range" class="text-xl font-bold text-white italic">0</span>
+                                    <span class="text-[8px] font-mono text-zinc-600 block uppercase">M/MIN</span>
+                                </div>
+                                <div>
+                                    <span id="label-fz-out" class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">Beregnet fz</span><br>
+                                    <span id="out-fz-range" class="text-xl font-bold text-white italic">0</span>
+                                    <span id="out-fz-unit" class="text-[8px] font-mono text-zinc-600 block uppercase">MM/Z</span>
                                 </div>
                             </div>
 
                             <div>
-                                <span id="label-fz-range" class="text-[10px] font-mono text-primary tracking-widest block mb-2 uppercase italic font-bold">// Anbefalet fz (mm/z)</span>
-                                <div class="flex items-end gap-2">
-                                    <span id="out-fz-range" class="text-3xl font-black tracking-tighter text-white uppercase italic">0 - 0</span>
-                                    <span id="out-fz-unit" class="text-xs font-mono text-zinc-500 font-bold mb-1">MM/Z</span>
-                                </div>
-                            </div>
-
-                            <div class="pt-6 border-t border-zinc-800">
-                                <span class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-2 uppercase italic">// Mål_RPM (Optimum)</span>
+                                <span class="text-[10px] font-mono text-zinc-600 uppercase italic font-bold tracking-widest">// Mål_RPM</span>
                                 <div class="flex items-end gap-2">
                                     <span id="out-rpm" class="text-6xl font-black tracking-tighter text-white uppercase italic">0</span>
                                     <span class="text-xs font-mono text-zinc-500 font-bold mb-2">RPM</span>
@@ -186,17 +170,27 @@
                             </div>
 
                             <div>
-                                <span id="label-out-feed" class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-2 uppercase italic">// Mål_Tilspænding</span>
+                                <span id="label-out-feed" class="text-[10px] font-mono text-zinc-600 uppercase italic font-bold tracking-widest">// Tilspænding</span>
                                 <div class="flex items-end gap-2">
                                     <span id="out-vf" class="text-5xl font-black tracking-tighter text-white uppercase italic">0</span>
                                     <span id="out-vf-unit" class="text-xs font-mono text-zinc-500 font-bold mb-1">MM/MIN</span>
+                                </div>
+                            </div>
+
+                            <div id="rpm-gauge-container" class="mt-8 space-y-2 border-t border-zinc-800 pt-6">
+                                <div class="flex justify-between text-[9px] font-mono text-zinc-500 uppercase tracking-widest">
+                                    <span>Spindel Belastning</span>
+                                    <span id="rpm-pct">0%</span>
+                                </div>
+                                <div class="h-1 bg-zinc-900 overflow-hidden">
+                                    <div id="rpm-bar" class="h-full bg-primary transition-all duration-500" style="width: 0%"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <button id="btn-save" class="btn-industrial mt-12 w-full py-4 italic">
-                        <span class="relative z-10">Gem_Til_Log</span>
+                        <span class="relative z-10 uppercase font-black tracking-widest">Gem_Til_Log</span>
                     </button>
                 </div>
             </div>
@@ -210,7 +204,7 @@
                     <h3 class="text-xl font-black tracking-tighter text-white uppercase italic">Manuel_Operations_Log</h3>
                     <div class="flex items-center gap-4">
                         <button id="btn-print" class="text-[10px] font-mono text-primary hover:text-white uppercase tracking-widest font-bold border border-primary/30 px-3 py-1 bg-primary/10">Print_Ordre</button>
-                        <button id="btn-clear" class="text-[10px] font-mono text-zinc-600 hover:text-red-500 uppercase tracking-widest font-bold">Slet_Alt</button>
+                        <button id="btn-clear" class="text-[10px] font-mono text-zinc-600 hover:text-red-500 uppercase tracking-widest font-bold transition-colors">Slet_Alt</button>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -222,7 +216,7 @@
                                 <th class="p-4 font-bold">Geometri</th>
                                 <th class="p-4 font-bold">Mål RPM</th>
                                 <th class="p-4 font-bold">Tilspænding</th>
-                                <th class="p-4 font-bold text-primary">Note</th>
+                                <th class="p-4 font-bold text-primary print:text-black">Note</th>
                                 <th class="p-4 font-bold text-right print:hidden">Handling</th>
                             </tr>
                         </thead>
