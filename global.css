@@ -1,9 +1,9 @@
 /* =========================================
    DATUM PROTOTYPING // MACHINING_OS V5.5
-   "PRECISION GLASS" ENGINE
+   "PRECISION GLASS" ENGINE - FIX: TEXT OVERLAY
    ========================================= */
 
-   :root {
+:root {
     --primary: #f59e0b;
     --primary-glow: rgba(245, 158, 11, 0.25);
     --bg-deep: #050506;
@@ -21,20 +21,21 @@ body {
     letter-spacing: -0.02em;
 }
 
-/* 5000% Background Effects */
+/* FIX: Baggrundseffekter sænket til z-index 1 */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     background: 
-        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%),
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.8) 50%),
         linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.03));
     background-size: 100% 4px, 4px 100%;
     pointer-events: none;
-    z-index: 100;
+    z-index: 1; 
     opacity: 0.6;
 }
 
+/* FIX: Grid sænket til z-index 1 */
 .subtle-grid {
     position: fixed;
     inset: 0;
@@ -45,6 +46,7 @@ body::before {
     z-index: 1;
 }
 
+/* FIX: Animeret scanline sænket til z-index 1 */
 .scanline {
     position: fixed;
     width: 100%;
@@ -52,13 +54,21 @@ body::before {
     background: rgba(255, 255, 255, 0.015);
     top: -10px;
     animation: scan 8s linear infinite;
-    z-index: 101;
+    z-index: 1; 
     pointer-events: none;
+}
+
+/* NY REGEL: Løfter alt indhold over glitteret 
+   Dette fikser læsbarheden på tværs af alle sider
+*/
+nav, header, main, section, footer {
+    position: relative;
+    z-index: 10;
 }
 
 @keyframes scan { from { top: -10px; } to { top: 100%; } }
 
-/* Module Cards (Precision Glass) */
+/* Module Cards */
 .module-card {
     background: var(--panel-bg);
     backdrop-filter: blur(15px) saturate(180%);
@@ -97,7 +107,7 @@ body::before {
 }
 
 .outline-text {
-    -webkit-text-stroke: 1px currentColor;
+    -webkit-text-stroke: 1.5px #ffffff;
     color: transparent;
 }
 
@@ -113,7 +123,7 @@ body::before {
 
 @keyframes statusPulse { 0% { opacity: 0.3; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0.3; transform: scale(0.9); } }
 
-/* Industrial Buttons (Base) */
+/* Industrial Buttons */
 @layer components {
     .btn-industrial {
         @apply font-black uppercase tracking-widest border transition-all;
@@ -121,30 +131,18 @@ body::before {
         border-color: var(--border-bright);
         background: rgba(255, 255, 255, 0.03);
     }
-    
-    .btn-industrial:disabled {
-        @apply opacity-30 cursor-not-allowed;
-        box-shadow: none !important;
-        border-color: var(--border-dim) !important;
-    }
 }
 
-/* =========================================
-   KUN DENNE SEKTION ER OPDATERET SOM ANMODET
-   Redesign af "Teknisk_Dossier" knappen
-   (Optimering til #btn-dossier-nav)
-   ========================================= */
-
+/* Redesign af "Teknisk_Dossier" knappen */
 #btn-dossier-nav {
-    /* "Precision Glass" DNA */
-    background: rgba(245, 158, 11, 0.03) !important; /* Amber base-tint */
+    background: rgba(245, 158, 11, 0.03) !important;
     border: 1px solid rgba(245, 158, 11, 0.1) !important;
     backdrop-filter: blur(8px) !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
     position: relative;
     overflow: hidden;
-    color: var(--primary) !important; /* Amber tekst som base */
-    transform: skewX(-5deg); /* Industrielt snit */
+    color: var(--primary) !important;
+    transform: skewX(-5deg);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
@@ -157,26 +155,18 @@ body::before {
     transition: transform 0.6s ease;
 }
 
-/* Mikro-typografi hover-state */
-#btn-dossier-nav:hover::before {
-    transform: translateX(100%);
-}
+#btn-dossier-nav:hover::before { transform: translateX(100%); }
 
 #btn-dossier-nav:hover {
-    color: #fff !important; /* Hvid tekst på hover */
-    background: rgba(245, 158, 11, 0.08) !important; /* Intensiver amber tint */
+    color: #fff !important;
+    background: rgba(245, 158, 11, 0.08) !important;
     border-color: rgba(245, 158, 11, 0.4) !important;
-    box-shadow: 0 0 20px rgba(245, 158, 11, 0.25) !important; /* Stærk amber glow */
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.25) !important;
     transform: skewX(-5deg) translateY(-1px) !important;
 }
 
-#btn-dossier-nav span {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
+#btn-dossier-nav span { display: inline-flex; align-items: center; gap: 6px; }
 
-/* Taktisk element on hover (">_") */
 #btn-dossier-nav:hover span::before {
     content: ">_";
     font-weight: 700;
