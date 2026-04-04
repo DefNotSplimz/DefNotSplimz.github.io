@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datum Prototyping | Core Operations</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
     <link rel="stylesheet" href="global.css">
     <script>
@@ -20,134 +20,231 @@
         }
     </script>
 </head>
-<body class="bg-[#050506] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black">
-    <nav class="fixed top-0 w-full z-50 border-b border-zinc-800 bg-black/80 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="#" class="text-xl font-black tracking-tighter italic uppercase flex items-center gap-3">
-                    <img src="img/logoA.svg" alt="Datum Logo" class="h-8 w-auto">
-                    Datum Prototyping
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black">
+    <div class="subtle-grid"></div>
+    <div class="scanline"></div>
+
+    <nav class="fixed top-0 w-full z-50 border-b border-zinc-900 bg-black/40 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="#" class="text-2xl font-black tracking-tighter italic uppercase flex items-center gap-4 group">
+                    <img src="img/logoA.svg" alt="Datum Logo" class="h-10 w-auto group-hover:drop-shadow-[0_0_10px_rgba(245,158,11,0.5)] transition-all">
+                    <span class="hidden md:inline">Datum <span class="text-primary">Prototyping</span></span>
                 </a>
-                <div class="h-4 w-px bg-zinc-800 hidden md:block"></div>
-                <div class="hidden md:flex items-center gap-2">
+                <div class="h-6 w-px bg-zinc-800 hidden lg:block"></div>
+                <div class="hidden lg:flex items-center gap-3">
                     <div class="status-dot"></div>
-                    <span class="text-[9px] font-mono text-primary uppercase tracking-[0.2em] font-bold">System_Operational // Rev_06</span>
+                    <span class="label-micro text-primary">System_Operational // Rev_06</span>
                 </div>
             </div>
-            <div class="flex items-center gap-8 text-white">
-                <div class="hidden lg:flex gap-8 text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">
-                    <a href="#kapacitet" class="hover:text-primary transition-colors italic">01_Kapacitet</a>
-                    <a href="#cases" class="hover:text-primary transition-colors italic">02_Eksekvering</a>
-                    <a href="#arkiv" class="hover:text-primary transition-colors italic">03_Arkiv</a>
+            <div class="flex items-center gap-10">
+                <div class="hidden lg:flex gap-10">
+                    <a href="#kapacitet" class="label-micro hover:text-primary transition-all italic">01_Kapacitet</a>
+                    <a href="#cases" class="label-micro hover:text-primary transition-all italic">02_Eksekvering</a>
+                    <a href="#arkiv" class="label-micro hover:text-primary transition-all italic">03_Arkiv</a>
                 </div>
-                <a href="dossier.html" class="btn-industrial px-4 py-2 italic"><span class="relative z-10">Teknisk Dossier</span></a>
+                <a href="dossier.html" class="btn-industrial px-6 py-2.5 italic text-[11px]">
+                    <span class="relative z-10">Teknisk_Dossier</span>
+                </a>
             </div>
         </div>
     </nav>
 
-    <header class="relative pt-48 pb-32 px-6 overflow-hidden border-b border-zinc-900 bg-black">
-        <div class="scanline"></div>
+    <header class="relative pt-64 pb-40 px-6 border-b border-zinc-900 bg-black/20">
         <div class="max-w-7xl mx-auto relative">
-            <div class="flex items-center gap-3 mb-8">
-                <div class="h-[1px] w-12 bg-primary"></div>
-                <span class="text-[10px] font-mono text-primary tracking-[0.4em] uppercase font-bold">Precision_Metric_Verification</span>
+            <div class="inline-flex items-center gap-4 mb-10 group">
+                <div class="h-px w-16 bg-primary group-hover:w-24 transition-all duration-500"></div>
+                <span class="label-micro text-primary">Precision_Metric_Verification</span>
             </div>
-            <h1 class="text-7xl md:text-[120px] font-black tracking-tighter mb-12 leading-[0.85] uppercase italic">
-                Precision is the<br/><span class="outline-text">Only Standard.</span>
+            
+            <h1 class="text-7xl md:text-[150px] font-black tracking-[ -0.05em] mb-16 leading-[0.8] uppercase italic">
+                Precision is<br/><span class="outline-text">The Only Standard.</span>
             </h1>
-            <div class="grid grid-cols-12 gap-12 border-t border-zinc-800 pt-12">
+
+            <div class="grid grid-cols-12 gap-12 border-t border-zinc-900 pt-16">
                 <div class="col-span-12 md:col-span-7">
-                    <span class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-4 uppercase italic">// Profil_Specifikation</span>
-                    <p class="text-zinc-400 text-sm md:text-base leading-relaxed border-l-2 border-zinc-800 pl-6 font-bold max-w-2xl">
-                        Specialiseret i <span class="text-white">prototypeudvikling</span> og <span class="text-primary">R&D</span>. Min profil er optimeret til opgaver, der kræver unikke opspændingsstrategier og absolut metrologisk kontrol.
+                    <span class="label-micro mb-6">// Profil_Specifikation</span>
+                    <p class="text-zinc-400 text-lg md:text-xl leading-relaxed border-l-2 border-primary/30 pl-8 font-medium max-w-3xl">
+                        Specialiseret i <span class="text-white font-black">prototypeudvikling</span> og <span class="text-primary font-black">R&D</span>. 
+                        Min profil er optimeret til opgaver, der kræver unikke opspændingsstrategier og absolut metrologisk kontrol.
                     </p>
                 </div>
-                <div class="col-span-12 md:col-span-5 flex flex-col justify-end items-end font-mono text-[10px] text-zinc-600 gap-1 uppercase italic font-bold">
-                    <span>Audit_Subject: Primary_Operator</span>
-                    <span>Location_Ref: 55.6311 / 12.3533</span>
-                    <span>Timestamp: 2026-Q1_REV06</span>
+                <div class="col-span-12 md:col-span-5 flex flex-col justify-end items-end gap-2 font-mono text-[10px] text-zinc-600 uppercase italic font-bold">
+                    <span class="flex items-center gap-2">Audit_Subject: <span class="text-zinc-400">Primary_Operator</span></span>
+                    <span class="flex items-center gap-2">Location_Ref: <span class="text-zinc-400">55.6311 / 12.3533</span></span>
+                    <span class="flex items-center gap-2">Timestamp: <span class="text-primary">2026-Q1_REV06</span></span>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="kapacitet" class="py-32 px-6 bg-[#0c0c0e]">
+    <section id="kapacitet" class="py-40 px-6 bg-[#08080a] relative overflow-hidden">
         <div class="max-w-7xl mx-auto">
-            <div class="flex items-baseline justify-between mb-20 border-b border-zinc-800 pb-8 uppercase italic">
-                <h2 class="text-4xl font-black tracking-tighter text-white">01_Kapacitets_Audit</h2>
-                <span class="text-[10px] font-mono text-zinc-600 font-bold tracking-[0.3em]">Verified_Capabilities</span>
+            <div class="flex items-baseline justify-between mb-24 border-b border-zinc-900 pb-10 uppercase italic">
+                <h2 class="text-5xl font-black tracking-tighter text-white">01_Kapacitets_Audit</h2>
+                <span class="label-micro">Verified_Capabilities_Stack</span>
             </div>
-            <div class="grid md:grid-cols-3 gap-px bg-zinc-800 border border-zinc-800">
-                <div class="module-card p-12">
-                    <div class="status-dot"></div>
-                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic inline-block">/ Hardware_Ops</div>
-                    <ul class="space-y-6 uppercase italic font-bold text-white">
-                        <li class="flex flex-col gap-1"><span class="text-xs font-black">Haas ST10 / Mini Mill</span><div class="flex justify-between items-center text-[9px] font-mono text-zinc-500"><span>CNC_Execution</span><span class="text-primary">Lvl_05</span></div></li>
-                        <li class="flex flex-col gap-1"><span class="text-xs font-black">Weiler / Deckel Precision</span><div class="flex justify-between items-center text-[9px] font-mono text-zinc-500"><span>Manual_Turning</span><span class="text-primary">Lvl_04</span></div></li>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="module-card p-12 group">
+                    <div class="status-dot mb-8"></div>
+                    <div class="label-micro !text-primary mb-10 italic">/ Hardware_Ops</div>
+                    <ul class="space-y-8 uppercase italic font-black text-white">
+                        <li class="flex flex-col gap-2">
+                            <span class="text-sm font-black tracking-tight">Haas ST10 / Mini Mill</span>
+                            <div class="flex justify-between items-center text-[10px] font-mono text-zinc-600">
+                                <span class="label-micro !text-[7px]">CNC_Execution</span>
+                                <span class="text-primary">Lvl_05</span>
+                            </div>
+                        </li>
+                        <li class="flex flex-col gap-2">
+                            <span class="text-sm font-black tracking-tight">Weiler / Deckel Precision</span>
+                            <div class="flex justify-between items-center text-[10px] font-mono text-zinc-600">
+                                <span class="label-micro !text-[7px]">Manual_Turning</span>
+                                <span class="text-primary">Lvl_04</span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
-                <div class="module-card p-12">
-                    <div class="status-dot"></div>
-                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic inline-block">/ System_Stack</div>
-                    <ul class="space-y-6 uppercase italic font-bold text-white">
-                        <li class="flex flex-col gap-1"><span class="text-xs font-black">Fusion 360 (CAD/CAM)</span><div class="flex justify-between items-center text-[9px] font-mono text-zinc-500"><span>Adaptive_Clearing</span><span class="text-primary">Verified</span></div></li>
-                        <li class="flex flex-col gap-1"><span class="text-xs font-black">G-Code Optimization</span><div class="flex justify-between items-center text-[9px] font-mono text-zinc-500"><span>Cycle_Time_Reduction</span><span class="text-primary">Verified</span></div></li>
+
+                <div class="module-card p-12 group">
+                    <div class="status-dot mb-8"></div>
+                    <div class="label-micro !text-primary mb-10 italic">/ System_Stack</div>
+                    <ul class="space-y-8 uppercase italic font-black text-white">
+                        <li class="flex flex-col gap-2">
+                            <span class="text-sm font-black tracking-tight">Fusion 360 (CAD/CAM)</span>
+                            <div class="flex justify-between items-center text-[10px] font-mono text-zinc-600">
+                                <span class="label-micro !text-[7px]">Adaptive_Clearing</span>
+                                <span class="text-primary tracking-tighter">● Verified</span>
+                            </div>
+                        </li>
+                        <li class="flex flex-col gap-2">
+                            <span class="text-sm font-black tracking-tight">G-Code Optimization</span>
+                            <div class="flex justify-between items-center text-[10px] font-mono text-zinc-600">
+                                <span class="label-micro !text-[7px]">Cycle_Time_Reduction</span>
+                                <span class="text-primary tracking-tighter">● Verified</span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
-                <div class="module-card p-12">
-                    <div class="status-dot"></div>
-                    <div class="text-primary font-mono text-[10px] mb-8 font-bold tracking-widest uppercase italic inline-block">/ Metrologi_QA</div>
-                    <ul class="space-y-6 uppercase italic font-bold text-white">
-                        <li class="flex flex-col gap-1"><span class="text-xs font-black">ISO 286 (H7/f7)</span><div class="flex justify-between items-center text-[9px] font-mono text-zinc-500"><span>Strict_Tolerance</span><span class="text-primary">Certified</span></div></li>
-                        <li class="flex flex-col gap-1"><span class="text-xs font-black">Analog Metrology</span><div class="flex justify-between items-center text-[9px] font-mono text-zinc-500"><span>Manual_Verification</span><span class="text-primary">Certified</span></div></li>
+
+                <div class="module-card p-12 group">
+                    <div class="status-dot mb-8"></div>
+                    <div class="label-micro !text-primary mb-10 italic">/ Metrologi_QA</div>
+                    <ul class="space-y-8 uppercase italic font-black text-white">
+                        <li class="flex flex-col gap-2">
+                            <span class="text-sm font-black tracking-tight">ISO 286 (H7/f7)</span>
+                            <div class="flex justify-between items-center text-[10px] font-mono text-zinc-600">
+                                <span class="label-micro !text-[7px]">Strict_Tolerance</span>
+                                <span class="text-primary tracking-tighter">● Certified</span>
+                            </div>
+                        </li>
+                        <li class="flex flex-col gap-2">
+                            <span class="text-sm font-black tracking-tight">Analog Metrology</span>
+                            <div class="flex justify-between items-center text-[10px] font-mono text-zinc-600">
+                                <span class="label-micro !text-[7px]">Manual_Verification</span>
+                                <span class="text-primary tracking-tighter">● Certified</span>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="cases" class="py-32 px-6">
+    <section id="cases" class="py-40 px-6">
         <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-zinc-800 pb-8 uppercase italic">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-24 border-b border-zinc-900 pb-10 uppercase italic">
                 <div>
-                    <h2 class="text-[10px] font-mono font-bold text-primary uppercase tracking-[0.5em] mb-4">// 02_System_Validering</h2>
-                    <h3 class="text-5xl md:text-7xl font-black tracking-tighter text-white">Flame Eater MK2</h3>
+                    <h2 class="label-micro !text-primary mb-6 tracking-[0.6em]">// 02_System_Validering</h2>
+                    <h3 class="text-6xl md:text-8xl font-black tracking-tighter text-white">Flame Eater MK2</h3>
                 </div>
-                <div class="text-right mt-6 md:mt-0 font-mono text-[10px] text-zinc-500 font-bold">Status: <span class="text-primary">Verificeret_System</span></div>
+                <div class="text-right mt-8 md:mt-0 label-micro">Status: <span class="text-primary italic font-black">Verificeret_System</span></div>
             </div>
-            <div class="grid lg:grid-cols-12 gap-12 mb-32 tabular-nums">
-                <div class="lg:col-span-7 group"><div class="module-card relative aspect-video overflow-hidden"><img src="img/flame-render.png" alt="Flame Eater MK2" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"></div></div>
+            
+            <div class="grid lg:grid-cols-12 gap-16 mb-40 tabular-nums">
+                <div class="lg:col-span-7 group">
+                    <div class="module-card relative aspect-video overflow-hidden border-primary/10">
+                        <img src="img/flame-render.png" alt="Flame Eater MK2" class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    </div>
+                </div>
                 <div class="lg:col-span-5 flex flex-col justify-between py-4 uppercase italic font-bold">
-                    <div class="space-y-8">
-                        <div><span class="text-[10px] font-mono text-zinc-600 tracking-widest block mb-4 uppercase italic">// System_Beskrivelse</span><p class="text-zinc-400 text-sm leading-relaxed border-l-2 border-zinc-800 pl-6 not-italic font-bold">Vakuum-drevet forbrændingsmotor. Konstruktionen kræver absolut kontrol over termisk ekspansion og ISO 286 pasninger.</p></div>
-                        <div><span class="text-[10px] font-mono text-primary tracking-widest block mb-6 uppercase italic">// FAI_Validation_Suite</span>
-                            <div class="space-y-3">
-                                <a href="fai/fai-01.html" class="module-card group flex items-center justify-between p-4 italic"><div class="flex flex-col"><span class="text-[9px] font-mono text-zinc-500">FAI-01</span><span class="text-xs text-white">Cylinder & Stempel</span></div><span class="text-primary">></span></a>
-                                <a href="fai/fai-02-camdisc.html" class="module-card group flex items-center justify-between p-4 italic"><div class="flex flex-col"><span class="text-[9px] font-mono text-zinc-500">FAI-02</span><span class="text-xs text-white">Cam Disc (Knast)</span></div><span class="text-primary">></span></a>
-                                <a href="fai/fai-03-flywheel.html" class="module-card group flex items-center justify-between p-4 italic"><div class="flex flex-col"><span class="text-[9px] font-mono text-zinc-500">FAI-03</span><span class="text-xs text-white">Svinghjul</span></div><span class="text-primary">></span></a>
+                    <div class="space-y-12">
+                        <div>
+                            <span class="label-micro mb-6">// System_Beskrivelse</span>
+                            <p class="text-zinc-400 text-lg leading-relaxed border-l-2 border-primary/30 pl-8 not-italic font-medium">
+                                Vakuum-drevet forbrændingsmotor. Konstruktionen kræver absolut kontrol over termisk ekspansion og ISO 286 pasninger.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="label-micro !text-primary mb-8 tracking-[0.4em]">// FAI_Validation_Suite</span>
+                            <div class="space-y-4">
+                                <a href="fai/fai-01.html" class="module-card group flex items-center justify-between p-6 italic hover:bg-primary/5">
+                                    <div class="flex flex-col">
+                                        <span class="label-micro !text-[7px] group-hover:text-primary">FAI-01</span>
+                                        <span class="text-sm text-white font-black">Cylinder & Stempel</span>
+                                    </div>
+                                    <span class="text-primary font-black group-hover:translate-x-2 transition-transform">EX_01 ></span>
+                                </a>
+                                <a href="fai/fai-02-camdisc.html" class="module-card group flex items-center justify-between p-6 italic hover:bg-primary/5">
+                                    <div class="flex flex-col">
+                                        <span class="label-micro !text-[7px] group-hover:text-primary">FAI-02</span>
+                                        <span class="text-sm text-white font-black">Cam Disc (Knast)</span>
+                                    </div>
+                                    <span class="text-primary font-black group-hover:translate-x-2 transition-transform">EX_02 ></span>
+                                </a>
+                                <a href="fai/fai-03-flywheel.html" class="module-card group flex items-center justify-between p-6 italic hover:bg-primary/5">
+                                    <div class="flex flex-col">
+                                        <span class="label-micro !text-[7px] group-hover:text-primary">FAI-03</span>
+                                        <span class="text-sm text-white font-black">Svinghjul</span>
+                                    </div>
+                                    <span class="text-primary font-black group-hover:translate-x-2 transition-transform">EX_03 ></span>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="arkiv" class="flex items-center gap-4 mb-12 uppercase italic"><h2 class="text-[10px] font-mono font-bold text-zinc-500 tracking-[0.5em] whitespace-nowrap">// 03_R&D_Arkiv</h2><div class="h-[1px] bg-zinc-900 flex-grow"></div></div>
-            <div class="grid md:grid-cols-2 gap-12 tabular-nums">
-                <div class="module-card group p-8 flex flex-col md:flex-row gap-8 italic font-bold">
-                    <div class="w-full md:w-48 aspect-square bg-black border border-zinc-800 overflow-hidden shrink-0"><img src="img/tactable.png" alt="Tac Table" class="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all"></div>
-                    <div class="flex flex-col justify-center space-y-4"><h4 class="text-2xl font-black text-white uppercase">Tac Table</h4><p class="text-zinc-500 text-[10px] not-italic">Optisk monteringsplatform i Alu 6082-T6. Strategisk eliminering af indre spændinger for absolut planhed.</p></div>
+
+            <div id="arkiv" class="flex items-center gap-8 mb-20 uppercase italic">
+                <h2 class="label-micro !text-zinc-500 tracking-[0.6em] whitespace-nowrap">// 03_R&D_Arkiv</h2>
+                <div class="h-px bg-zinc-900 flex-grow"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 tabular-nums font-black italic uppercase">
+                <div class="module-card group p-10 flex flex-col md:flex-row gap-10">
+                    <div class="w-full md:w-56 aspect-square bg-black border border-zinc-900 overflow-hidden shrink-0 relative">
+                        <img src="img/tactable.png" alt="Tac Table" class="w-full h-full object-cover grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                    </div>
+                    <div class="flex flex-col justify-center space-y-6">
+                        <h4 class="text-3xl font-black text-white tracking-tighter">Tac Table</h4>
+                        <p class="text-zinc-500 text-[11px] not-italic font-bold leading-relaxed">
+                            Optisk monteringsplatform i Alu 6082-T6. Strategisk eliminering af indre spændinger for absolut planhed.
+                        </p>
+                    </div>
                 </div>
-                <div class="module-card group p-8 flex flex-col gap-4 italic font-bold relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 text-[80px] font-black italic text-zinc-900/30 pointer-events-none select-none">OS</div>
-                    <div class="relative z-10 flex-grow flex flex-col"><h4 class="text-2xl font-black text-white uppercase mb-4">Datum Operations Hub</h4><p class="text-zinc-500 text-[10px] not-italic">Komplet digital infrastruktur til værkstedsgulvet. Syv integrerede moduler der dikterer CNC/manuelle skæredata, ISO 286 metrologi og dynamiske setup sheets.</p></div>
+                
+                <div class="module-card group p-10 flex flex-col gap-6 relative overflow-hidden bg-primary/[0.02]">
+                    <div class="absolute -top-4 -right-4 p-4 text-[120px] font-black italic text-zinc-900/20 pointer-events-none select-none outline-text">OS</div>
+                    <div class="relative z-10 flex-grow flex flex-col justify-center">
+                        <h4 class="text-3xl font-black text-white tracking-tighter mb-6">Datum Operations Hub</h4>
+                        <p class="text-zinc-500 text-[11px] not-italic font-bold leading-relaxed max-w-md">
+                            Komplet digital infrastruktur til værkstedsgulvet. Seksten integrerede moduler der dikterer CNC/manuelle skæredata, ISO 286 metrologi og dynamiske setup sheets.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // Precision_Verified // 2026</div>
-            <div class="flex gap-12 text-zinc-500 tracking-widest"><span>Ready_for_Integration</span><span class="text-primary">Operational_Status: 100%</span></div>
+    <footer class="py-24 border-t border-zinc-900 bg-black/40 backdrop-blur-md uppercase font-mono italic font-bold text-[10px] text-center">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="text-zinc-700 tracking-[0.6em] label-micro before:hidden italic">Datum Prototyping // Precision_Verified // 2026</div>
+            <div class="flex gap-16 text-zinc-500 tracking-widest italic font-black">
+                <span class="flex items-center gap-3"><div class="status-dot"></div> Ready_for_Integration</span>
+                <span class="text-primary tracking-tighter">Operational_Status: 100%_LOCKED</span>
+            </div>
         </div>
     </footer>
 </body>
