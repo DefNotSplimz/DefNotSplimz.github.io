@@ -1,6 +1,6 @@
 /* =========================================
-   DATUM PROTOTYPING // MACHINING_OS V5.5
-   "PRECISION GLASS" ENGINE - INTERACTION FIX
+   DATUM PROTOTYPING // MACHINING_OS V5.6
+   "PRECISION GLASS" ENGINE - UNIVERSAL LAYER FIX
    ========================================= */
 
 :root {
@@ -21,7 +21,7 @@ body {
     letter-spacing: -0.02em;
 }
 
-/* FIX: pointer-events: none tvinger klik gennem glitteret til knapperne bagved */
+/* Baggrundseffekter holdes strengt i bunden og dræbes for musen */
 body::before {
     content: "";
     position: fixed;
@@ -56,10 +56,17 @@ body::before {
     z-index: 1; 
 }
 
-/* Sikrer at alt interaktivt indhold ligger over baggrundseffekterne */
-nav, header, main, section, footer, aside {
+/* FIX 01: Universelt løft af ALT layout (inkl. generiske <div> wrappere på andre sider) */
+body > *:not(.subtle-grid):not(.scanline) {
     position: relative;
     z-index: 10;
+}
+
+/* FIX 02: Absolut prioritet til alt, der skal kunne klikkes på tværs af systemet */
+a, button, input, select, textarea {
+    position: relative;
+    z-index: 50;
+    pointer-events: auto;
 }
 
 @keyframes scan { from { top: -10px; } to { top: 100%; } }
