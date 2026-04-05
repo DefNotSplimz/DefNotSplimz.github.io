@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic
- * Version: 5.6 (Multi-Operation Compatibility)
+ * Version: 5.7 (Stress-Tested HSM & Safe Mode Logic)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const camStrategySelect = document.getElementById('cam-strategy');
     const inputAe = document.getElementById('input-ae');
     const inputAp = document.getElementById('input-ap');
+    const toggleHsm = document.getElementById('toggle-hsm');
+    const toggleSafe = document.getElementById('toggle-safe');
     const tableBody = document.getElementById('setup-table-body');
 
     const STRATEGIES = {
@@ -32,6 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (camStrategySelect) {
             camStrategySelect.innerHTML = Object.keys(STRATEGIES).map(k => `<option value="${k}">${k.toUpperCase()}</option>`).join('');
         }
+        
+        // Restore local toggle states
+        const state = MachiningOS.getState();
+        if (state.hsmActive !== undefined) toggleHsm.checked = state.hsmActive;
+        if (state.safeActive !== undefined) toggleSafe.checked = state.safeActive;
+
         loadSavedData();
     }
 
@@ -48,14 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
             toolSelect.innerHTML = '<option value="">-- SELECT_INSTRUMENT --</option>' + 
                 tools.sort((a,b) => parseInt(a.t) - parseInt(b.t)).map(t => {
                     const specLabel = t.cat === 'turn' ? `Re${t.re}` : `Ø${t.d}`;
-                    // Hvis det er et drejeværktøj sættes z=1 matematisk for at bevare formlens logik i beregneren
                     const zData = t.cat === 'turn' ? 1 : t.z;
                     return `<option value="${t.t}" data-d="${t.d}" data-z="${zData}" data-mat="${t.mat}" data-cat="${t.cat}">T${t.t} // ${t.type.toUpperCase()} (${specLabel})</option>`;
                 }).join('');
         }
     }
 
-    // --- BEREGNING ---
+    // --- BEREGNING (MATH CORE) ---
     function calculate() {
         const machine = MACHINING_DB.MACHINES[machineSelect.value];
         const mat = MACHINING_DB.MATERIALS[workMaterialSelect.value];
@@ -66,10 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const isHM = document.getElementById('hidden-mat').value === 'HM';
         const baseVc = isHM ? mat.vc_hm : mat.vc_hss;
-        const vc = baseVc * strategy.vc_mult;
+        
+        // Logik: Tjek HSM status
+        const isHSM = toggleHsm.checked;
+        const isSafe = toggleSafe.checked;
+
+        // Hvis HSM er aktiv, brug strategi-multiplier. Hvis ikke, tving 1.0.
+        const activeVcMult = isHSM ? strategy.vc_mult : 1.0;
+        
+        let vc = baseVc * activeVcMult;
+        let fz = mat.fz_ref;
+
+        // Logik: Safe Mode Override (30% reduktion af skæredata for sikkerhed)
+        if (isSafe) {
+            vc *= 0.70;
+            fz *= 0.70;
+        }
         
         const n = Math.min((vc * 1000) / (Math.PI * d), machine.maxRpm);
-        const fz = mat.fz_ref;
         const z = parseFloat(document.getElementById('hidden-z').value) || 1;
         const vf = n * z * fz;
 
@@ -83,12 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
             activeMat: workMaterialSelect.value,
             activeStrategy: camStrategySelect.value,
             ae: inputAe.value,
-            ap: inputAp.value
+            ap: inputAp.value,
+            hsmActive: isHSM,
+            safeActive: isSafe
         });
     }
 
-    [machineSelect, workMaterialSelect, camStrategySelect, inputAe, inputAp].forEach(el => {
-        if(el) el.addEventListener('input', calculate);
+    // Trigger beregning ved input
+    [machineSelect, workMaterialSelect, camStrategySelect, inputAe, inputAp, toggleHsm, toggleSafe].forEach(el => {
+        if(el) el.addEventListener('change', calculate);
+        if(el && el.type === 'number') el.addEventListener('input', calculate);
     });
     
     if(toolSelect) {
@@ -151,11 +176,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("PROTOCOL_ERROR: Ingen værktøj valgt.");
                 return;
             }
-
+            
+            const isSafe = toggleSafe.checked ? " [SAFE_MODE]" : "";
             const entry = {
                 tNum: `T${toolSelect.value}`,
                 desc: `Str. ${document.getElementById('hidden-d').value} ${document.getElementById('hidden-mat').value}`,
-                strategy: camStrategySelect.value,
+                strategy: camStrategySelect.value + isSafe,
                 rpm: document.getElementById('out-rpm').textContent,
                 vf: document.getElementById('out-vf').textContent
             };

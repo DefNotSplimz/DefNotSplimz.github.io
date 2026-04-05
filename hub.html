@@ -134,15 +134,28 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between p-6 border border-zinc-900 bg-primary/[0.02]">
-                                <div class="flex flex-col">
-                                    <span class="label-micro !text-[10px] !before:hidden !text-zinc-300 font-black italic">Haas HSM Control Protocol</span>
-                                    <span class="text-[8px] font-mono text-zinc-600 uppercase mt-1">High_Speed_Machining // Look-Ahead Enabled</span>
+                            <div class="grid grid-cols-1 gap-4">
+                                <div class="flex items-center justify-between p-6 border border-zinc-900 bg-primary/[0.02]">
+                                    <div class="flex flex-col">
+                                        <span class="label-micro !text-[10px] !before:hidden !text-zinc-300 font-black italic">HSM_Protocol</span>
+                                        <span class="text-[8px] font-mono text-zinc-600 uppercase mt-1">High_Speed_Machining // Dynamic_Multipliers_Active</span>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="toggle-hsm" class="sr-only peer" checked>
+                                        <div class="w-14 h-7 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-zinc-600 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-7 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(245,158,11,0.3)]"></div>
+                                    </label>
                                 </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" id="toggle-hsm" class="sr-only peer" checked>
-                                    <div class="w-14 h-7 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-zinc-600 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-7 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(245,158,11,0.3)]"></div>
-                                </label>
+                                
+                                <div class="flex items-center justify-between p-6 border border-zinc-900 bg-red-500/[0.02]">
+                                    <div class="flex flex-col">
+                                        <span class="label-micro !text-[10px] !before:hidden !text-red-500 font-black italic">Safe_Mode_Override</span>
+                                        <span class="text-[8px] font-mono text-zinc-600 uppercase mt-1">Setup_Instability // 70%_Parameter_Cap</span>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="toggle-safe" class="sr-only peer">
+                                        <div class="w-14 h-7 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-red-500 after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-zinc-600 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-7 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(239,68,68,0.3)]"></div>
+                                    </label>
+                                </div>
                             </div>
                             
                             <input type="hidden" id="hidden-d"><input type="hidden" id="hidden-z"><input type="hidden" id="hidden-mat"><input type="hidden" id="hidden-stickout">
