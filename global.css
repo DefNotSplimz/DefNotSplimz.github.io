@@ -177,6 +177,60 @@ body::before {
 
 
 /* =========================================
+   SCROLLBAR OVERRIDE (Skjul default browser scroll)
+   ========================================= */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+/* =========================================
+   SIDEBAR NAVIGATION (Active State Engine)
+   ========================================= */
+.sidebar-nav-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 800;
+    color: #52525b; /* zinc-500 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 14px 0;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border-left: 2px solid transparent;
+}
+
+.sidebar-nav-item:hover {
+    color: #a1a1aa; /* zinc-400 */
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Det aktive modul låses visuelt fast */
+.sidebar-nav-item.active {
+    color: var(--primary) !important;
+    background: rgba(245, 158, 11, 0.05);
+    border-left: 2px solid var(--primary);
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+/* Fysisk markør der peger på elementet */
+.sidebar-nav-item.active::after {
+    content: "◄";
+    position: absolute;
+    right: 12px;
+    font-size: 8px;
+    opacity: 0.8;
+    animation: blink 1.2s infinite;
+}
+
+
+/* =========================================
    PRINT STYLES (Professional Setup Sheet)
    ========================================= */
 @media print {

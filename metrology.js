@@ -1,10 +1,11 @@
 /**
  * Machining_OS | Metrology Logic
- * 500% Optimization: Thermal Compensation & Precision Stacking
+ * Version: 5.7 (Thermal Sync, Sine Bar Protocol & M87 Stack Validation)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- ELEMENT REFERENCER ---
+    // Thermal
     const workMaterialSelect = document.getElementById('work-material');
     const lengthInput = document.getElementById('length-input');
     const tempRange = document.getElementById('temp-range');
@@ -13,42 +14,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const thermalWarning = document.getElementById('thermal-warning');
     const thermalIcon = document.getElementById('thermal-icon');
     
+    // Sine Bar
+    const sineLengthInput = document.getElementById('sine-length');
+    const sineAngleInput = document.getElementById('sine-angle');
+    const sineResultText = document.getElementById('sine-result');
+    const btnSendToStack = document.getElementById('btn-send-to-stack');
+
+    // Gauge Blocks
     const targetDimInput = document.getElementById('target-dim');
     const stackResultContainer = document.getElementById('stack-result');
 
     // --- INITIALISERING ---
     function initMetrology() {
-        // Hent materialer fra global DB
-        workMaterialSelect.innerHTML = Object.entries(MACHINING_DB.MATERIALS)
-            .map(([k, v]) => `<option value="${v.thermal}">${v.name} (${v.thermal} µm)</option>`).join('');
+        if (workMaterialSelect && typeof MACHINING_DB !== 'undefined') {
+            workMaterialSelect.innerHTML = Object.entries(MACHINING_DB.MATERIALS)
+                .map(([k, v]) => `<option value="${v.thermal}" class="bg-zinc-900">${v.name} (${v.thermal} µm)</option>`).join('');
+        }
 
-        // Synkroniser med global state
         const state = MachiningOS.getState();
         if (state['work-material']) {
-            // Find den termiske værdi der matcher materialekoden
             const matCode = state['work-material'];
-            const thermalVal = MACHINING_DB.MATERIALS[matCode].thermal;
-            workMaterialSelect.value = thermalVal;
+            if(MACHINING_DB.MATERIALS[matCode]) {
+                workMaterialSelect.value = MACHINING_DB.MATERIALS[matCode].thermal;
+            }
         }
 
         calcThermal();
+        calcSineBar();
     }
 
     // --- TERMISK LOGIK (PRÆCISION) ---
     function calcThermal() {
-        const alpha = parseFloat(workMaterialSelect.value) / 1000000; // µm/m·K til m/m·K
+        const alpha = parseFloat(workMaterialSelect.value) / 1000000; 
         const L = parseFloat(lengthInput.value) || 0;
         const T = parseFloat(tempRange.value);
-        const dT = T - 20.0; // Difference fra standard 20°C
+        const dT = T - 20.0;
 
-        // ΔL = α * L * ΔT
         const dL = alpha * L * dT;
 
-        // UI Opdatering
         tempValDisplay.textContent = T.toFixed(1) + "°C";
         deltaValText.textContent = (dL >= 0 ? "+" : "") + dL.toFixed(4);
 
-        // Visuel Feedback
         if (Math.abs(dL) < 0.0001) {
             deltaValText.parentElement.className = "text-6xl font-black italic tracking-tighter tabular-nums text-white";
             thermalWarning.textContent = "Nominel reference temperatur. Ingen afvigelse.";
@@ -67,73 +73,95 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- GAUGE BLOCK COMBINATOR (OPTIMAL ALGORITME) ---
-    // En professionel algoritme, der eliminerer decimaler fra højre mod venstre for at minimere stakken.
+    // --- SINUSLINEAL LOGIK (NY) ---
+    function calcSineBar() {
+        const L = parseFloat(sineLengthInput.value);
+        const angleDeg = parseFloat(sineAngleInput.value);
+        
+        if(isNaN(L) || isNaN(angleDeg)) return;
+
+        // Omregn grader til radianer og udregn modstående katete (Højde)
+        const angleRad = angleDeg * (Math.PI / 180);
+        const H = L * Math.sin(angleRad);
+        
+        sineResultText.textContent = H.toFixed(4);
+    }
+
+    // --- GAUGE BLOCK COMBINATOR (M87 STANDARD) ---
     function calculatePrecisionStack() {
         let val = parseFloat(targetDimInput.value);
-        if (isNaN(val) || val <= 0) {
+        if (isNaN(val) || val < 1.0) {
             stackResultContainer.innerHTML = '';
             return;
         }
 
         const stack = [];
-        let remain = Math.round(val * 10000) / 10000;
+        let remain = Math.round(val * 1000) / 1000;
 
-        // 1. Mikron-trin (4. decimal: .0001 - .0009)
-        // Her antages et finmekanisk sæt med 1.0001 trin.
-        let d4 = Math.round((remain % 0.001) * 10000) / 10000;
-        if (d4 > 0) {
-            let block = 1.000 + d4; 
-            stack.push(block);
-            remain = Math.round((remain - block) * 10000) / 10000;
-        }
-
-        // 2. Tusindedele (3. decimal: .001 - .009)
+        // 1. Mikron-serie (1.001 - 1.009)
         let d3 = Math.round((remain % 0.01) * 1000) / 1000;
         if (d3 > 0) {
             let block = 1.000 + d3;
             stack.push(block);
-            remain = Math.round((remain - block) * 10000) / 10000;
+            remain = Math.round((remain - block) * 1000) / 1000;
         }
 
-        // 3. Hundrededele (2. decimal: .01 - .49)
-        let d2 = Math.round((remain % 0.5) * 100) / 100;
-        if (d2 > 0) {
-            let block = 1.00 + d2;
-            if (block < 1.00) block = 1.01; // Sikkerhed for små klodser
-            stack.push(block);
-            remain = Math.round((remain - block) * 10000) / 10000;
+        // 2. Hundrededel-serie (1.01 - 1.49)
+        let decimalPart = Math.round((remain % 1) * 100) / 100; 
+        if (decimalPart > 0 || remain < 0.5) {
+            let block = 0;
+            if (decimalPart >= 0.50) {
+                block = 1.00 + (decimalPart - 0.50);
+            } else {
+                if(decimalPart > 0) {
+                    block = 1.00 + decimalPart;
+                }
+            }
+            if(block >= 1.01 && block <= 1.49) {
+                stack.push(block);
+                remain = Math.round((remain - block) * 1000) / 1000;
+            }
         }
 
-        // 4. Halve og hele (0.5 - 9.5)
-        let d1 = Math.round((remain % 10) * 2) / 2;
-        if (d1 > 0) {
-            stack.push(d1);
-            remain = Math.round((remain - d1) * 10000) / 10000;
+        // 3. Halve (0.50 - 9.50)
+        if (Math.round((remain % 1) * 10) / 10 === 0.5) {
+            let rMod10 = Math.round((remain % 10) * 10) / 10;
+            if (rMod10 > 0) {
+                stack.push(rMod10);
+                remain = Math.round((remain - rMod10) * 1000) / 1000;
+            }
+        } else {
+            let rMod10 = Math.round((remain % 10));
+            if (rMod10 > 0) {
+                stack.push(rMod10);
+                remain = Math.round((remain - rMod10) * 1000) / 1000;
+            }
         }
 
-        // 5. Store klodser (10, 20, 30...)
+        // 4. Tiere (10, 20, 30... 100)
         while (remain >= 10) {
             let block = Math.min(Math.floor(remain / 10) * 10, 100);
             stack.push(block);
-            remain = Math.round((remain - block) * 10000) / 10000;
+            remain = Math.round((remain - block) * 1000) / 1000;
         }
 
-        // Render resultater
+        // Sortering af stakken (Største klods nederst for stabilitet)
+        stack.sort((a,b) => b - a);
+
         stackResultContainer.innerHTML = stack.map(b => `
             <div class="flex justify-between items-center p-4 border border-zinc-800 bg-zinc-900/40 hover:border-primary/40 transition-all group">
                 <div class="flex flex-col">
-                    <span class="text-[8px] font-mono text-zinc-600 uppercase group-hover:text-primary transition-colors">DIN 861 / Grade 0</span>
+                    <span class="text-[8px] font-mono text-zinc-600 uppercase group-hover:text-primary transition-colors">ISO 3650 / Grade 0</span>
                     <span class="text-white font-black font-mono">Måleklods</span>
                 </div>
-                <span class="text-primary font-black font-mono text-xl tracking-tighter">${b.toFixed(4)} <small class="text-[10px]">mm</small></span>
+                <span class="text-primary font-black font-mono text-2xl tracking-tighter">${b.toFixed(3)} <small class="text-[10px]">mm</small></span>
             </div>
         `).join('');
 
-        if (Math.abs(remain) > 0.0001) {
+        if (Math.abs(remain) > 0.001) {
             stackResultContainer.innerHTML += `
-                <div class="p-3 border border-red-500/20 bg-red-500/5 text-red-500 text-[10px] font-mono italic">
-                    ! Advarsel: Restafvigelse på ${remain.toFixed(4)} mm. Klodssæt utilstrækkeligt til denne kombination.
+                <div class="p-3 mt-2 border border-red-500/20 bg-red-500/5 text-red-500 text-[10px] font-mono italic">
+                    ! Advarsel: Restafvigelse på ${remain.toFixed(3)} mm. M87 sæt kan ikke danne denne kombination eksakt.
                 </div>`;
         }
     }
@@ -143,8 +171,24 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('input', calcThermal);
     });
 
+    [sineLengthInput, sineAngleInput].forEach(el => {
+        el.addEventListener('input', calcSineBar);
+    });
+
     targetDimInput.addEventListener('input', calculatePrecisionStack);
 
-    // Initial kørsel
+    btnSendToStack.addEventListener('click', () => {
+        // Hent højde, rund af til 3 decimaler og fyr den i klodsprogrammet
+        const h = parseFloat(sineResultText.textContent);
+        targetDimInput.value = h.toFixed(3);
+        
+        // Blink feedback
+        const origText = btnSendToStack.innerHTML;
+        btnSendToStack.innerHTML = '<span class="text-emerald-500 animate-pulse uppercase">DATA_OVERFØRT_OK</span>';
+        setTimeout(() => btnSendToStack.innerHTML = origText, 1000);
+        
+        calculatePrecisionStack();
+    });
+
     initMetrology();
 });

@@ -22,107 +22,128 @@
         }
     </script>
 </head>
-<body class="bg-[#050506] text-zinc-100 font-sans antialiased subtle-grid selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
 
-    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0">
-    <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
-        <img src="img/logoA.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
-    </a>
+    <div class="subtle-grid"></div>
 
-    <nav class="flex flex-col gap-2 flex-grow overflow-y-auto no-scrollbar">
-        <a href="hub.html" class="sidebar-nav-item" data-route="01">01</a>
-        <a href="manual.html" class="sidebar-nav-item" data-route="02">02</a>
-        <a href="reference.html" class="sidebar-nav-item active" data-route="03">03</a>
-        <a href="inventory.html" class="sidebar-nav-item" data-route="04">04</a>
-        
-        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="metrology.html" class="sidebar-nav-item" data-route="05">05</a>
-        <a href="geometry.html" class="sidebar-nav-item" data-route="06">06</a>
-        <a href="assembly.html" class="sidebar-nav-item" data-route="07">07</a>
-        <a href="surfaces.html" class="sidebar-nav-item" data-route="08">08</a>
-        
-        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="analytics.html" class="sidebar-nav-item" data-route="09">09</a>
-        <a href="fai.html" class="sidebar-nav-item" data-route="10">10</a>
-        <a href="mechanisms.html" class="sidebar-nav-item" data-route="11">11</a>
-        <a href="electrotech.html" class="sidebar-nav-item" data-route="12">12</a>
-        
-        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="materials.html" class="sidebar-nav-item" data-route="13">13</a>
-        <a href="math.html" class="sidebar-nav-item" data-route="14">14</a>
-        <a href="standards.html" class="sidebar-nav-item" data-route="15">15</a>
-        <a href="hightech.html" class="sidebar-nav-item" data-route="16">16</a>
-    </nav>
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden relative z-20">
+        <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
+            <img src="img/logoA.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
+        </a>
 
-    <div class="status-dot mt-auto"></div>
+        <nav class="flex flex-col gap-2 flex-grow overflow-y-auto no-scrollbar">
+            <a href="hub.html" class="sidebar-nav-item" data-route="01">01</a>
+            <a href="manual.html" class="sidebar-nav-item" data-route="02">02</a>
+            <a href="reference.html" class="sidebar-nav-item active" data-route="03">03</a>
+            <a href="inventory.html" class="sidebar-nav-item" data-route="04">04</a>
+            
+            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
+            <a href="metrology.html" class="sidebar-nav-item" data-route="05">05</a>
+            <a href="geometry.html" class="sidebar-nav-item" data-route="06">06</a>
+            <a href="assembly.html" class="sidebar-nav-item" data-route="07">07</a>
+            <a href="surfaces.html" class="sidebar-nav-item" data-route="08">08</a>
+            
+            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
+            <a href="analytics.html" class="sidebar-nav-item" data-route="09">09</a>
+            <a href="fai.html" class="sidebar-nav-item" data-route="10">10</a>
+            <a href="mechanisms.html" class="sidebar-nav-item" data-route="11">11</a>
+            <a href="electrotech.html" class="sidebar-nav-item" data-route="12">12</a>
+            
+            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
+            <a href="materials.html" class="sidebar-nav-item" data-route="13">13</a>
+            <a href="math.html" class="sidebar-nav-item" data-route="14">14</a>
+            <a href="standards.html" class="sidebar-nav-item" data-route="15">15</a>
+            <a href="hightech.html" class="sidebar-nav-item" data-route="16">16</a>
+        </nav>
+        <div class="status-dot mt-auto"></div>
     </aside>
 
-    <div class="flex-grow flex flex-col min-w-0">
-        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden">
+    <div class="flex-grow flex flex-col min-w-0 relative z-10">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden print:hidden">
             <div class="scanline"></div>
-            <div class="max-w-7xl mx-auto relative">
+            <div class="max-w-7xl mx-auto relative z-10">
                 <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Reference Vault</h1>
                 <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Technical_Standard_Library // Route_03</p>
             </div>
         </header>
 
-        <section class="pt-12 px-6 md:px-12 bg-[#0c0c0e] print:hidden">
-            <div class="max-w-7xl mx-auto">
+        <section class="pt-12 px-6 md:px-12 bg-[#0c0c0e] border-b border-zinc-900 print:hidden relative z-20">
+            <div class="max-w-7xl mx-auto mb-12">
                 <div class="relative group">
                     <div class="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
                         <span class="text-primary font-mono text-xs font-black">SEARCH_</span>
                     </div>
-                    <input type="text" id="vault-search" placeholder="Søg efter f.eks. 'M2', 'H7', 'G83' eller 'Alu'..." 
-                           class="w-full pl-24 pr-6 py-6 bg-black border border-zinc-800 text-primary font-mono text-lg focus:border-primary transition-all outline-none shadow-2xl">
+                    <input type="text" id="vault-search" placeholder="Søg efter f.eks. 'M5', 'H7', 'G83' eller 'Ra 1.6'..." 
+                           class="w-full pl-24 pr-6 py-6 bg-black border border-zinc-800 text-primary font-mono text-lg focus:border-primary transition-all outline-none shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)]">
                     <div class="absolute inset-y-0 right-0 pr-6 flex items-center pointer-events-none opacity-50">
-                        <span class="text-[10px] font-mono text-zinc-500 uppercase font-black">ISO_Standards_Active</span>
+                        <span class="text-[10px] font-mono text-zinc-500 uppercase font-black">Press_'_/_'_to_focus</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 space-y-24">
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 space-y-24 relative z-10">
 
             <section id="threads" class="vault-section space-y-8">
                 <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
                     <h2 class="text-3xl font-black uppercase italic tracking-tighter">01_Gevind_&_Forboring</h2>
-                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase">Metrisk_&_Mikro</span>
+                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase tracking-widest">Metric_/_Imperial_/_Pipe</span>
                 </div>
                 <div class="grid lg:grid-cols-12 gap-8">
-                    <div class="lg:col-span-8 overflow-x-auto">
-                        <table class="w-full text-left tabular-nums border border-zinc-900">
-                            <thead>
-                                <tr class="bg-zinc-900/50 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
-                                    <th class="p-4">Størrelse</th><th class="p-4">Stigning</th><th class="p-4 text-primary">Bor (Skær)</th><th class="p-4">Bor (Form)</th><th class="p-4">Kerne-Ø</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-xs font-mono">
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M1</td><td>0.25</td><td class="text-primary font-bold">Ø0.75</td><td>Ø0.88</td><td>0.69</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M1.6</td><td>0.35</td><td class="text-primary font-bold">Ø1.25</td><td>Ø1.45</td><td>1.17</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M2</td><td>0.40</td><td class="text-primary font-bold">Ø1.60</td><td>Ø1.82</td><td>1.51</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M2.5</td><td>0.45</td><td class="text-primary font-bold">Ø2.05</td><td>Ø2.30</td><td>1.95</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M3</td><td>0.50</td><td class="text-primary font-bold">Ø2.50</td><td>Ø2.80</td><td>2.39</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M4</td><td>0.70</td><td class="text-primary font-bold">Ø3.30</td><td>Ø3.70</td><td>3.14</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M5</td><td>0.80</td><td class="text-primary font-bold">Ø4.20</td><td>Ø4.65</td><td>4.02</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M6</td><td>1.00</td><td class="text-primary font-bold">Ø5.00</td><td>Ø5.55</td><td>4.77</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M8</td><td>1.25</td><td class="text-primary font-bold">Ø6.80</td><td>Ø7.45</td><td>6.47</td></tr>
-                                <tr class="border-b border-zinc-900 hover:bg-primary/5"><td class="p-4 text-white font-bold">M10</td><td>1.50</td><td class="text-primary font-bold">Ø8.50</td><td>Ø9.35</td><td>8.16</td></tr>
-                            </tbody>
-                        </table>
+                    <div class="lg:col-span-7 module-card p-0 overflow-hidden bg-black/40">
+                        <div class="p-4 bg-zinc-900/50 border-b border-zinc-800"><h3 class="text-primary font-mono text-[10px] uppercase font-black tracking-widest">// Metrisk (M)</h3></div>
+                        <div class="overflow-x-auto p-4">
+                            <table class="w-full text-left tabular-nums">
+                                <thead>
+                                    <tr class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest border-b border-zinc-900">
+                                        <th class="pb-2">Gevind</th><th class="pb-2">Stigning</th><th class="pb-2 text-primary">Skærebor</th><th class="pb-2">Rullebor</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-xs font-mono search-target">
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M1</td><td>0.25</td><td class="text-primary font-bold">Ø0.75</td><td>Ø0.88</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M1.6</td><td>0.35</td><td class="text-primary font-bold">Ø1.25</td><td>Ø1.45</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M2</td><td>0.40</td><td class="text-primary font-bold">Ø1.60</td><td>Ø1.82</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M2.5</td><td>0.45</td><td class="text-primary font-bold">Ø2.05</td><td>Ø2.30</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M3</td><td>0.50</td><td class="text-primary font-bold">Ø2.50</td><td>Ø2.80</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M4</td><td>0.70</td><td class="text-primary font-bold">Ø3.30</td><td>Ø3.70</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M5</td><td>0.80</td><td class="text-primary font-bold">Ø4.20</td><td>Ø4.65</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M6</td><td>1.00</td><td class="text-primary font-bold">Ø5.00</td><td>Ø5.55</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M8</td><td>1.25</td><td class="text-primary font-bold">Ø6.80</td><td>Ø7.40</td></tr>
+                                    <tr class="border-b border-zinc-900/50 hover:bg-primary/5"><td class="py-2 text-white font-bold">M10</td><td>1.50</td><td class="text-primary font-bold">Ø8.50</td><td>Ø9.30</td></tr>
+                                    <tr class="hover:bg-primary/5"><td class="py-2 text-white font-bold">M12</td><td>1.75</td><td class="text-primary font-bold">Ø10.20</td><td>Ø11.20</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="lg:col-span-4 space-y-4">
+
+                    <div class="lg:col-span-5 space-y-6">
                         <div class="module-card p-6 bg-black/40">
                             <h3 class="text-primary font-mono text-[10px] uppercase font-black mb-4 tracking-widest">// Fin-Gevind (MF)</h3>
-                            <div class="text-[11px] font-mono space-y-2 text-zinc-400">
-                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M8 x 1.0</span><span class="text-white">Ø7.00</span></div>
-                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M10 x 1.0</span><span class="text-white">Ø9.00</span></div>
-                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M12 x 1.25</span><span class="text-white">Ø10.80</span></div>
-                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M12 x 1.5</span><span class="text-white">Ø10.50</span></div>
+                            <div class="text-[11px] font-mono space-y-2 text-zinc-400 search-target">
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>M6 x 0.75</span><span class="text-primary">Ø5.20</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>M8 x 1.0</span><span class="text-primary">Ø7.00</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>M10 x 1.0</span><span class="text-primary">Ø9.00</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>M12 x 1.25</span><span class="text-primary">Ø10.80</span></div>
+                                <div class="flex justify-between pb-1 hover:text-white transition-colors"><span>M12 x 1.5</span><span class="text-primary">Ø10.50</span></div>
                             </div>
                         </div>
                         <div class="module-card p-6 bg-black/40">
-                            <h3 class="text-zinc-500 font-mono text-[10px] uppercase font-black mb-4 tracking-widest">// Tomme (UNC/UNF)</h3>
-                            <div class="text-[11px] font-mono space-y-2 text-zinc-400">
-                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>#4-40 UNC</span><span class="text-white">Ø2.35</span></div>
-                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>#10-32 UNF</span><span class="text-white">Ø4.10</span></div>
-                                <div class="flex justify-between border-b border-zinc-900 pb-1"><span>1/4"-20 UNC</span><span class="text-white">Ø5.10</span></div>
+                            <h3 class="text-zinc-500 font-mono text-[10px] uppercase font-black mb-4 tracking-widest">// Tomme (UNC / UNF)</h3>
+                            <div class="text-[11px] font-mono space-y-2 text-zinc-400 search-target">
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>#4-40 UNC</span><span class="text-primary">Ø2.35</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>#10-32 UNF</span><span class="text-primary">Ø4.10</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>1/4"-20 UNC</span><span class="text-primary">Ø5.10</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>3/8"-16 UNC</span><span class="text-primary">Ø8.00</span></div>
+                                <div class="flex justify-between pb-1 hover:text-white transition-colors"><span>1/2"-13 UNC</span><span class="text-primary">Ø10.80</span></div>
+                            </div>
+                        </div>
+                        <div class="module-card p-6 bg-black/40 border-primary/20">
+                            <h3 class="text-primary font-mono text-[10px] uppercase font-black mb-4 tracking-widest">// Rørgevind (G / BSPP)</h3>
+                            <div class="text-[11px] font-mono space-y-2 text-zinc-400 search-target">
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>G 1/8" - 28</span><span class="text-primary font-bold">Ø8.80</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>G 1/4" - 19</span><span class="text-primary font-bold">Ø11.80</span></div>
+                                <div class="flex justify-between border-b border-zinc-900 pb-1 hover:text-white transition-colors"><span>G 3/8" - 19</span><span class="text-primary font-bold">Ø15.25</span></div>
+                                <div class="flex justify-between pb-1 hover:text-white transition-colors"><span>G 1/2" - 14</span><span class="text-primary font-bold">Ø19.00</span></div>
                             </div>
                         </div>
                     </div>
@@ -132,22 +153,54 @@
             <section id="iso-fits" class="vault-section space-y-8">
                 <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
                     <h2 class="text-3xl font-black uppercase italic tracking-tighter">02_ISO_Pasninger_(mm)</h2>
-                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase">Tolerance_Control</span>
+                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase tracking-widest">Tolerance_Matrix_Sync</span>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-center tabular-nums border border-zinc-900">
+                <div class="module-card p-0 overflow-hidden bg-black/40 overflow-x-auto">
+                    <table class="w-full text-center tabular-nums">
                         <thead>
                             <tr class="bg-zinc-900/80 text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black">
-                                <th class="p-4 border-r border-zinc-800">Ø (mm)</th>
-                                <th class="p-4">H6 (Fin-Hul)</th><th class="p-4">H7 (Std-Hul)</th><th class="p-4">js5 (Pas)</th><th class="p-4">h6 (Aksel)</th><th class="p-4">g6 (Glide)</th>
+                                <th class="p-4 border-r border-zinc-800 border-b border-zinc-800">Ø (mm)</th>
+                                <th class="p-4 border-b border-zinc-800">H6 (Fin-Hul)</th>
+                                <th class="p-4 border-b border-zinc-800 text-primary">H7 (Std-Hul)</th>
+                                <th class="p-4 border-b border-zinc-800">js5 (Pas)</th>
+                                <th class="p-4 border-b border-zinc-800 text-primary">h6 (Aksel)</th>
+                                <th class="p-4 border-b border-zinc-800">g6 (Glide)</th>
                             </tr>
                         </thead>
-                        <tbody class="text-xs font-mono text-zinc-400">
-                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">1 - 3</td><td>+0.006 / 0</td><td>+0.010 / 0</td><td>±0.002</td><td>0 / -0.006</td><td>-0.002 / -0.008</td></tr>
-                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">3 - 6</td><td>+0.008 / 0</td><td>+0.012 / 0</td><td>±0.0025</td><td>0 / -0.008</td><td>-0.004 / -0.012</td></tr>
-                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">6 - 10</td><td>+0.009 / 0</td><td>+0.015 / 0</td><td>±0.003</td><td>0 / -0.009</td><td>-0.005 / -0.014</td></tr>
-                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">10 - 18</td><td>+0.011 / 0</td><td>+0.018 / 0</td><td>±0.004</td><td>0 / -0.011</td><td>-0.006 / -0.017</td></tr>
-                            <tr class="border-b border-zinc-900"><td class="p-4 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">18 - 30</td><td>+0.013 / 0</td><td>+0.021 / 0</td><td>±0.0045</td><td>0 / -0.013</td><td>-0.007 / -0.020</td></tr>
+                        <tbody class="text-xs font-mono text-zinc-400 search-target">
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">1 - 3</td><td>+0.006 / 0</td><td class="text-primary font-bold">+0.010 / 0</td><td>±0.002</td><td class="text-primary font-bold">0 / -0.006</td><td>-0.002 / -0.008</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">3 - 6</td><td>+0.008 / 0</td><td class="text-primary font-bold">+0.012 / 0</td><td>±0.0025</td><td class="text-primary font-bold">0 / -0.008</td><td>-0.004 / -0.012</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">6 - 10</td><td>+0.009 / 0</td><td class="text-primary font-bold">+0.015 / 0</td><td>±0.003</td><td class="text-primary font-bold">0 / -0.009</td><td>-0.005 / -0.014</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">10 - 18</td><td>+0.011 / 0</td><td class="text-primary font-bold">+0.018 / 0</td><td>±0.004</td><td class="text-primary font-bold">0 / -0.011</td><td>-0.006 / -0.017</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">18 - 30</td><td>+0.013 / 0</td><td class="text-primary font-bold">+0.021 / 0</td><td>±0.0045</td><td class="text-primary font-bold">0 / -0.013</td><td>-0.007 / -0.020</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">30 - 50</td><td>+0.016 / 0</td><td class="text-primary font-bold">+0.025 / 0</td><td>±0.0055</td><td class="text-primary font-bold">0 / -0.016</td><td>-0.009 / -0.025</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">50 - 80</td><td>+0.019 / 0</td><td class="text-primary font-bold">+0.030 / 0</td><td>±0.0065</td><td class="text-primary font-bold">0 / -0.019</td><td>-0.010 / -0.029</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">80 - 120</td><td>+0.022 / 0</td><td class="text-primary font-bold">+0.035 / 0</td><td>±0.0075</td><td class="text-primary font-bold">0 / -0.022</td><td>-0.012 / -0.034</td></tr>
+                            <tr class="hover:bg-zinc-900/50 transition-colors"><td class="p-3 border-r border-zinc-800 bg-zinc-900/30 text-white font-black italic">120 - 180</td><td>+0.025 / 0</td><td class="text-primary font-bold">+0.040 / 0</td><td>±0.009</td><td class="text-primary font-bold">0 / -0.025</td><td>-0.014 / -0.039</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="surface-finish" class="vault-section space-y-8">
+                <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                    <h2 class="text-3xl font-black uppercase italic tracking-tighter">03_Overflade_Ruhed</h2>
+                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase tracking-widest">Ra_/_Rz_/_N-Scale</span>
+                </div>
+                <div class="module-card p-0 overflow-hidden bg-black/40 overflow-x-auto">
+                    <table class="w-full text-center tabular-nums">
+                        <thead>
+                            <tr class="bg-zinc-900/80 text-[10px] font-mono text-zinc-500 uppercase tracking-widest font-black border-b border-zinc-800">
+                                <th class="p-4 text-primary">Ra (µm)</th><th class="p-4">Rz (µm)</th><th class="p-4">N-Grade (ISO)</th><th class="p-4">Micro-inch (µin)</th><th class="p-4 text-left">Applikation / Bemærkning</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs font-mono text-zinc-400 search-target">
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 font-bold text-primary">0.4</td><td>1.6</td><td>N5</td><td>16</td><td class="text-left text-zinc-500">Slebet / Diamantdrejet (Lejesøle)</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 font-bold text-primary">0.8</td><td>3.2</td><td>N6</td><td>32</td><td class="text-left text-zinc-500">Fin Sletspån (Standard Pasninger)</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 font-bold text-primary">1.6</td><td>6.3</td><td>N7</td><td>63</td><td class="text-left text-white">Standard Sletspån (Synlige flader)</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 font-bold text-primary">3.2</td><td>12.5</td><td>N8</td><td>125</td><td class="text-left text-zinc-500">Grov Slet / Normal Fræsning</td></tr>
+                            <tr class="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors"><td class="p-3 font-bold text-primary">6.3</td><td>25.0</td><td>N9</td><td>250</td><td class="text-left text-zinc-500">Skrubspån (Tung fræsning)</td></tr>
+                            <tr class="hover:bg-zinc-900/50 transition-colors"><td class="p-3 font-bold text-primary">12.5</td><td>50.0</td><td>N10</td><td>500</td><td class="text-left text-zinc-500">Rå overflade (Støbt/Savet)</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -155,28 +208,38 @@
 
             <section id="cnc-codes" class="vault-section space-y-8">
                 <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
-                    <h2 class="text-3xl font-black uppercase italic tracking-tighter">03_Haas_G/M-Koder</h2>
-                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase">Programming_Reference</span>
+                    <h2 class="text-3xl font-black uppercase italic tracking-tighter">04_Haas_G/M-Koder</h2>
+                    <span class="text-[10px] font-mono text-zinc-600 font-bold uppercase tracking-widest">Programming_Reference</span>
                 </div>
                 <div class="grid md:grid-cols-2 gap-12">
                     <div class="space-y-6">
-                        <h3 class="text-primary font-mono text-[10px] uppercase font-black tracking-widest border-l-2 border-primary pl-4">// G-Koder (Bevægelse)</h3>
-                        <div class="text-[11px] font-mono space-y-2">
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G00 / G01</span><span class="text-zinc-500 italic">Rapid / Lineær</span></div>
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G02 / G03</span><span class="text-zinc-500 italic">Cirkulær CW / CCW</span></div>
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G12 / G13</span><span class="text-zinc-500 italic">Cirkulær Pocket CW/CCW</span></div>
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G41 / G42</span><span class="text-zinc-500 italic">Radius-kompensation</span></div>
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>G83</span><span class="text-zinc-500 italic">Deep Hole Peck Drill</span></div>
+                        <h3 class="text-primary font-mono text-[10px] uppercase font-black tracking-widest border-l-2 border-primary pl-4">// G-Koder (Interpolation & Cyklusser)</h3>
+                        <div class="text-[11px] font-mono space-y-2 search-target">
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G00</span><span class="text-zinc-500 italic">Rapid Motion</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G01</span><span class="text-zinc-500 italic">Linear Interpolation (Feed)</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G02 / G03</span><span class="text-zinc-500 italic">Cirkulær CW / CCW</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G12 / G13</span><span class="text-zinc-500 italic">Cirkulær Pocket Fræsning</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G41 / G42</span><span class="text-zinc-500 italic">Cutter Comp Left/Right</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G54 - G59</span><span class="text-zinc-500 italic">Work Offsets (Nulpunkter)</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G81</span><span class="text-zinc-500 italic">Standard Drill Cycle</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G83</span><span class="text-zinc-500 italic">Deep Hole Peck Drill</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G84</span><span class="text-zinc-500 italic">Tapping Cycle (Gevind)</span></div>
+                            <div class="flex justify-between pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">G90 / G91</span><span class="text-zinc-500 italic">Absolut / Inkrementel</span></div>
                         </div>
                     </div>
                     <div class="space-y-6">
-                        <h3 class="text-primary font-mono text-[10px] uppercase font-black tracking-widest border-l-2 border-primary pl-4">// M-Koder (Maskine)</h3>
-                        <div class="text-[11px] font-mono space-y-2">
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M03 / M04 / M05</span><span class="text-zinc-500 italic">Spindel Start/Stop</span></div>
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M06</span><span class="text-zinc-500 italic">Tool Change</span></div>
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M08 / M09</span><span class="text-zinc-500 italic">Coolant On / Off</span></div>
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M19</span><span class="text-zinc-500 italic">Orient Spindle</span></div>
-                            <div class="flex justify-between border-b border-zinc-900 pb-1"><span>M88 / M89</span><span class="text-zinc-500 italic">TSC On / Off</span></div>
+                        <h3 class="text-primary font-mono text-[10px] uppercase font-black tracking-widest border-l-2 border-primary pl-4">// M-Koder (Maskinkontrol)</h3>
+                        <div class="text-[11px] font-mono space-y-2 search-target">
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M00</span><span class="text-zinc-500 italic">Program Stop</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M01</span><span class="text-zinc-500 italic">Optional Stop</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M03 / M04</span><span class="text-zinc-500 italic">Spindle FWD / REV</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M05</span><span class="text-zinc-500 italic">Spindle Stop</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M06</span><span class="text-zinc-500 italic">Tool Change</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M08 / M09</span><span class="text-zinc-500 italic">Coolant On / Off</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M19</span><span class="text-zinc-500 italic">Orient Spindle</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M30</span><span class="text-zinc-500 italic">Program End & Rewind</span></div>
+                            <div class="flex justify-between border-b border-zinc-900 pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M88 / M89</span><span class="text-zinc-500 italic">Through Spindle Coolant</span></div>
+                            <div class="flex justify-between pb-2 hover:text-white transition-colors"><span class="text-primary font-bold">M97</span><span class="text-zinc-500 italic">Local Sub-Program Call</span></div>
                         </div>
                     </div>
                 </div>
@@ -184,10 +247,10 @@
 
         </main>
 
-        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center">
+        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center print:hidden">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // Precision_Verification_Active // 2026</div>
-                <div class="text-zinc-800 mt-2 tracking-widest">Global_Search_Enabled_Rev05</div>
+                <div class="text-zinc-800 mt-2 tracking-widest">Global_Search_Enabled_Rev06</div>
             </div>
         </footer>
     </div>
@@ -197,32 +260,29 @@
             const searchInput = document.getElementById('vault-search');
             
             searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
+                const term = e.target.value.toLowerCase().trim();
                 const sections = document.querySelectorAll('.vault-section');
                 
                 sections.forEach(section => {
-                    const rows = section.querySelectorAll('tbody tr');
-                    const textDivs = section.querySelectorAll('div > div'); // For G-codes og MF-data
+                    // Målretter kun søgbare rækker/divs for at undgå at ødelægge table headers
+                    const searchTargets = section.querySelectorAll('.search-target tr, .search-target > div');
                     let sectionHasMatch = false;
 
-                    // Filtrer rækker i tabeller
-                    rows.forEach(row => {
-                        const match = row.innerText.toLowerCase().includes(term);
-                        row.style.display = match ? '' : 'none';
+                    searchTargets.forEach(target => {
+                        const match = target.innerText.toLowerCase().includes(term);
+                        
+                        if(target.tagName.toLowerCase() === 'tr') {
+                            target.style.display = match ? '' : 'none';
+                        } else {
+                            // Håndter div rows (som G-code listerne)
+                            target.style.display = match ? 'flex' : 'none';
+                        }
+                        
                         if (match) sectionHasMatch = true;
                     });
 
-                    // Filtrer små data-divs (MF-gevind osv)
-                    textDivs.forEach(div => {
-                        if (div.classList.contains('flex')) {
-                            const match = div.innerText.toLowerCase().includes(term);
-                            div.style.display = match ? 'flex' : 'none';
-                            if (match) sectionHasMatch = true;
-                        }
-                    });
-
-                    // Skjul hele sektionen hvis der ikke er nogen match overhovedet
-                    section.style.display = (sectionHasMatch || term === '') ? '' : 'none';
+                    // Skjul hele sektionen hvis intet matcher
+                    section.style.display = (sectionHasMatch || term === '') ? 'block' : 'none';
                 });
             });
             

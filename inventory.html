@@ -12,25 +12,42 @@
 
     <div class="subtle-grid"></div>
 
-    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0">
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden relative z-20">
         <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
             <img src="img/logoA.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
         </a>
+
         <nav class="flex flex-col gap-2 flex-grow overflow-y-auto no-scrollbar">
             <a href="hub.html" class="sidebar-nav-item" data-route="01">01</a>
             <a href="manual.html" class="sidebar-nav-item" data-route="02">02</a>
             <a href="reference.html" class="sidebar-nav-item" data-route="03">03</a>
             <a href="inventory.html" class="sidebar-nav-item active" data-route="04">04</a>
-            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div>
+            
+            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
             <a href="metrology.html" class="sidebar-nav-item" data-route="05">05</a>
+            <a href="geometry.html" class="sidebar-nav-item" data-route="06">06</a>
+            <a href="assembly.html" class="sidebar-nav-item" data-route="07">07</a>
+            <a href="surfaces.html" class="sidebar-nav-item" data-route="08">08</a>
+            
+            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
+            <a href="analytics.html" class="sidebar-nav-item" data-route="09">09</a>
+            <a href="fai.html" class="sidebar-nav-item" data-route="10">10</a>
+            <a href="mechanisms.html" class="sidebar-nav-item" data-route="11">11</a>
+            <a href="electrotech.html" class="sidebar-nav-item" data-route="12">12</a>
+            
+            <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> 
+            <a href="materials.html" class="sidebar-nav-item" data-route="13">13</a>
+            <a href="math.html" class="sidebar-nav-item" data-route="14">14</a>
+            <a href="standards.html" class="sidebar-nav-item" data-route="15">15</a>
+            <a href="hightech.html" class="sidebar-nav-item" data-route="16">16</a>
         </nav>
         <div class="status-dot mt-auto"></div>
     </aside>
 
-    <div class="flex-grow flex flex-col min-w-0">
-        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black">
+    <div class="flex-grow flex flex-col min-w-0 relative z-10">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden print:hidden">
             <div class="scanline opacity-10"></div>
-            <div class="max-w-7xl mx-auto">
+            <div class="max-w-7xl mx-auto relative z-10">
                 <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic leading-none">Inventory_Hub</h1>
                 <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Stock_Log_&_Instrument_Crib // Route_04</p>
             </div>
@@ -39,107 +56,129 @@
         <main class="relative z-10 max-w-7xl mx-auto w-full p-6 md:p-12 space-y-16 py-16">
             
             <section class="space-y-8">
-                <div class="module-card p-8 bg-black">
+                <div class="module-card p-8 bg-black shadow-2xl border-primary/20">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8 uppercase italic font-black">
                         <h3 class="text-primary font-mono text-[10px] tracking-widest">// Register_New_Instrument</h3>
                     </div>
-                    <form id="tool-form" class="grid grid-cols-12 gap-4 items-end bg-zinc-900/30 p-6 border border-zinc-900">
+                    <form id="tool-form" class="grid grid-cols-12 gap-4 items-end bg-zinc-900/30 p-6 border border-zinc-900 relative z-20">
                         <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
-                            <label class="text-[8px] font-mono text-zinc-500 uppercase">T-Number</label>
-                            <input type="number" id="tool-t" required class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50">
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase font-black text-primary">T-Number</label>
+                            <input type="number" id="tool-t" required class="p-3 bg-black border border-primary/30 text-primary font-black outline-none focus:border-primary">
                         </div>
                         
                         <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
-                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Operation</label>
-                            <select id="tool-cat" class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50">
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Operation</label>
+                            <select id="tool-cat" class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary cursor-pointer">
                                 <option value="mill" class="bg-zinc-900">Fræsning</option>
                                 <option value="turn" class="bg-zinc-900">Drejning</option>
                             </select>
                         </div>
                         
                         <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
-                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Type</label>
-                            <select id="tool-type" class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50">
-                                </select>
-                        </div>
-                        
-                        <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
-                            <label id="label-tool-d" class="text-[8px] font-mono text-zinc-500 uppercase">Ø mm</label>
-                            <input type="number" id="tool-d" step="0.01" required class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50">
-                        </div>
-                        
-                        <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
-                            <label id="label-tool-z" class="text-[8px] font-mono text-zinc-500 uppercase">Teeth (Z)</label>
-                            <input type="number" id="tool-z" step="0.01" required class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50">
-                        </div>
-                        
-                        <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
-                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Material</label>
-                            <select id="tool-mat" class="p-2 bg-black border border-zinc-800 text-xs text-primary font-black outline-none focus:border-primary/50">
-                                <option value="HM" class="bg-zinc-900">HM (Hårdmetal)</option>
-                                <option value="HSS" class="bg-zinc-900">HSS</option>
-                                <option value="Cermet" class="bg-zinc-900">Cermet</option>
-                                <option value="CBN" class="bg-zinc-900">CBN</option>
-                                <option value="PCD" class="bg-zinc-900">PCD</option>
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Type / Profil</label>
+                            <select id="tool-type" class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary cursor-pointer">
                             </select>
                         </div>
-                        <button type="submit" id="btn-submit-tool" class="col-span-12 btn-industrial py-3 mt-2 text-[10px] font-black italic hover:bg-primary/10">COMMIT_INSTRUMENT</button>
+                        
+                        <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
+                            <label id="label-tool-d" class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Ø (mm)</label>
+                            <input type="number" id="tool-d" step="0.01" required class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary">
+                        </div>
+                        
+                        <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
+                            <label id="label-tool-z" class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Teeth (Z)</label>
+                            <input type="number" id="tool-z" step="0.01" required class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary">
+                        </div>
+
+                        <div class="col-span-4 md:col-span-2 flex flex-col gap-1">
+                            <label id="label-tool-lc" class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Skærelængde Lc</label>
+                            <input type="number" id="tool-lc" step="0.01" placeholder="0.00" class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary">
+                        </div>
+                        
+                        <div class="col-span-6 md:col-span-4 flex flex-col gap-1 mt-2">
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Material / Grade</label>
+                            <select id="tool-mat" class="p-3 bg-black border border-zinc-800 text-xs text-white font-black outline-none focus:border-primary cursor-pointer">
+                                <option value="HM" class="bg-zinc-900">HM (Hårdmetal)</option>
+                                <option value="HSS-Co" class="bg-zinc-900">HSS-Co</option>
+                                <option value="Cermet" class="bg-zinc-900">Cermet</option>
+                                <option value="PCD" class="bg-zinc-900">PCD (Diamant)</option>
+                                <option value="Carbide-TiAlN" class="bg-zinc-900">HM m. TiAlN</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" id="btn-submit-tool" class="col-span-6 md:col-span-8 btn-industrial py-3 mt-2 text-[10px] font-black italic">COMMIT_INSTRUMENT</button>
                     </form>
                 </div>
 
-                <div class="module-card p-8 bg-black">
-                    <table class="w-full text-left font-mono text-[11px] tabular-nums">
-                        <thead>
-                            <tr class="text-zinc-600 uppercase border-b border-zinc-800 italic">
-                                <th class="p-4">T_ID</th><th class="p-4">Type</th><th class="p-4">Specifikation</th><th class="p-4">Material</th><th class="p-4 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tool-table-body" class="divide-y divide-zinc-900"></tbody>
-                    </table>
+                <div class="module-card p-8 bg-black shadow-2xl relative z-10">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left font-mono text-[11px] tabular-nums">
+                            <thead>
+                                <tr class="text-zinc-600 uppercase border-b border-zinc-800 italic">
+                                    <th class="p-4">T_ID</th>
+                                    <th class="p-4">Geometri</th>
+                                    <th class="p-4">Specifikationer (D/Z/Lc/Re)</th>
+                                    <th class="p-4">Materiale</th>
+                                    <th class="p-4 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tool-table-body" class="divide-y divide-zinc-900/50"></tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
-            <div class="h-px bg-zinc-900 w-full opacity-50"></div>
+            <div class="h-px bg-zinc-900 w-full opacity-50 my-12"></div>
 
             <section class="space-y-8">
-                <div class="module-card p-8 bg-black">
-                    <form id="stock-form" class="grid grid-cols-12 gap-4 items-end bg-zinc-900/30 p-6 border border-zinc-900">
+                <div class="module-card p-8 bg-black shadow-2xl">
+                    <form id="stock-form" class="grid grid-cols-12 gap-4 items-end bg-zinc-900/30 p-6 border border-zinc-900 relative z-20">
                         <div class="col-span-12 md:col-span-3 flex flex-col gap-1">
-                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Materiale</label>
-                            <select id="work-material" class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50"></select>
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Lager Materiale</label>
+                            <select id="work-material" class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary cursor-pointer"></select>
                         </div>
                         <div class="col-span-6 md:col-span-2 flex flex-col gap-1">
-                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Type</label>
-                            <select id="stock-type" class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50">
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Profil Type</label>
+                            <select id="stock-type" class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary cursor-pointer">
                                 <option value="round" class="bg-zinc-900">Rundstål</option>
-                                <option value="flat" class="bg-zinc-900">Fladstål</option>
+                                <option value="flat" class="bg-zinc-900">Fladstål / Blok</option>
+                                <option value="tube" class="bg-zinc-900 text-primary">Rørstål / Tube</option>
                             </select>
                         </div>
                         <div class="col-span-6 md:col-span-2 flex flex-col gap-1">
-                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Dimension</label>
-                            <input type="text" id="stock-dim" required class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50">
+                            <label id="lbl-stock-dim1" class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Yder-Ø (mm)</label>
+                            <input type="text" id="stock-dim1" placeholder="f.eks. 50" required class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary">
                         </div>
-                        <div class="col-span-6 md:col-span-2 flex flex-col gap-1">
-                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Længde (mm)</label>
-                            <input type="number" id="stock-len" required class="p-2 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary/50">
+                        <div class="col-span-6 md:col-span-2 flex flex-col gap-1 hidden" id="wrapper-stock-dim2">
+                            <label id="lbl-stock-dim2" class="text-[8px] font-mono text-zinc-500 uppercase font-bold text-primary">Godstykkelse (mm)</label>
+                            <input type="text" id="stock-dim2" placeholder="0" class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary">
                         </div>
-                        <button type="submit" id="btn-submit-stock" class="col-span-12 md:col-span-3 btn-industrial py-2 text-[10px] font-black italic hover:bg-primary/10">TILFØJ_LAGER</button>
+                        <div class="col-span-6 md:col-span-3 flex flex-col gap-1">
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase font-bold">Længde Z (mm)</label>
+                            <input type="number" id="stock-len" required class="p-3 bg-black border border-zinc-800 text-xs text-white outline-none focus:border-primary">
+                        </div>
+                        <button type="submit" id="btn-submit-stock" class="col-span-12 btn-industrial py-3 mt-2 text-[10px] font-black italic hover:bg-primary/10">TILFØJ_TIL_LAGER</button>
                     </form>
                 </div>
 
-                <div class="module-card p-8 bg-black">
+                <div class="module-card p-8 bg-black shadow-2xl relative z-10">
                     <div class="flex justify-between border-b border-zinc-800 pb-4 mb-8 items-end">
                         <h3 class="text-zinc-500 font-mono text-[10px] font-black uppercase italic">// Aktuel_Lagerstatus</h3>
-                        <span id="total-stock-weight" class="text-xl font-black text-white italic tabular-nums">0.00 kg</span>
+                        <div class="flex flex-col text-right">
+                            <span class="text-[8px] font-mono text-zinc-600 uppercase font-bold">Total Vægt</span>
+                            <span id="total-stock-weight" class="text-3xl font-black text-white italic tabular-nums leading-none">0.000 <small class="text-sm">kg</small></span>
+                        </div>
                     </div>
-                    <table class="w-full text-left font-mono text-[11px] tabular-nums">
-                        <thead>
-                            <tr class="text-zinc-600 uppercase border-b border-zinc-800 italic">
-                                <th class="p-4">Materiale</th><th class="p-4">Form</th><th class="p-4">Dim</th><th class="p-4">Længde</th><th class="p-4 text-primary">Vægt</th><th class="p-4 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inventory-table-body" class="divide-y divide-zinc-900"></tbody>
-                    </table>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left font-mono text-[11px] tabular-nums">
+                            <thead>
+                                <tr class="text-zinc-600 uppercase border-b border-zinc-800 italic">
+                                    <th class="p-4">Materiale</th><th class="p-4">Profil</th><th class="p-4">Dimensioner (X/Y)</th><th class="p-4">Længde (Z)</th><th class="p-4 text-primary">Masse</th><th class="p-4 text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-table-body" class="divide-y divide-zinc-900/50"></tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
         </main>

@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="global.css">
     <script>tailwind.config={theme:{extend:{colors:{primary:"#f59e0b"},fontFamily:{mono:['JetBrains Mono','monospace'],sans:['Inter','sans-serif']}}}}</script>
 </head>
-<body class="bg-[#050506] text-zinc-100 font-sans subtle-grid min-h-screen flex flex-row relative overflow-x-hidden">
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
 
-    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0">
+    <div class="subtle-grid"></div>
+
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden relative z-20">
     <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
         <img src="img/logoA.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
     </a>
@@ -31,7 +33,7 @@
         <a href="mechanisms.html" class="sidebar-nav-item" data-route="11">11</a>
         <a href="electrotech.html" class="sidebar-nav-item" data-route="12">12</a>
         
-        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="materials.html" class="sidebar-nav-item" data-route="13">13</a>
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="materials.html" class="sidebar-nav-item active" data-route="13">13</a>
         <a href="math.html" class="sidebar-nav-item" data-route="14">14</a>
         <a href="standards.html" class="sidebar-nav-item" data-route="15">15</a>
         <a href="hightech.html" class="sidebar-nav-item" data-route="16">16</a>
@@ -40,48 +42,93 @@
     <div class="status-dot mt-auto"></div>
     </aside>
 
-    <div class="flex-grow flex flex-col min-w-0">
-        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black">
+    <div class="flex-grow flex flex-col min-w-0 relative z-10">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden print:hidden">
             <div class="scanline opacity-10"></div>
-            <div class="max-w-7xl mx-auto">
+            <div class="max-w-7xl mx-auto relative z-10">
                 <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Material Science</h1>
                 <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Metallurgical_Properties_&_Chemical_Logic // Route_13</p>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 grid lg:grid-cols-12 gap-12 py-16">
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 grid lg:grid-cols-12 gap-12 py-16 relative z-10">
             
             <section class="lg:col-span-7 space-y-8">
-                <div class="module-card p-8 bg-black shadow-2xl">
+                <div class="module-card p-8 bg-black shadow-2xl relative z-10 border-primary/20">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Mass_&_Inertia_Engine</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Raw Stock Calculator</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-6 relative z-20">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Materiale (Lokal DB)</label>
+                            <select id="mass-material" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none cursor-pointer"></select>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Emne Geometri</label>
+                            <select id="mass-shape" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none cursor-pointer">
+                                <option value="block">Kvadratisk (Blok)</option>
+                                <option value="cylinder">Rundstål (Cylinder)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="dim-block" class="grid grid-cols-3 gap-4 mt-6 relative z-20 transition-all">
+                        <div class="flex flex-col gap-1"><label class="text-[8px] font-mono text-zinc-500 uppercase">X / Længde (mm)</label><input type="number" id="mass-x" value="100" class="p-2 bg-black border border-zinc-800 text-white font-mono focus:border-primary outline-none"></div>
+                        <div class="flex flex-col gap-1"><label class="text-[8px] font-mono text-zinc-500 uppercase">Y / Bredde (mm)</label><input type="number" id="mass-y" value="100" class="p-2 bg-black border border-zinc-800 text-white font-mono focus:border-primary outline-none"></div>
+                        <div class="flex flex-col gap-1"><label class="text-[8px] font-mono text-zinc-500 uppercase">Z / Højde (mm)</label><input type="number" id="mass-z" value="20" class="p-2 bg-black border border-zinc-800 text-white font-mono focus:border-primary outline-none"></div>
+                    </div>
+
+                    <div id="dim-cyl" class="grid grid-cols-2 gap-4 mt-6 relative z-20 hidden transition-all">
+                        <div class="flex flex-col gap-1"><label class="text-[8px] font-mono text-zinc-500 uppercase">Diameter (mm)</label><input type="number" id="mass-d" value="50" class="p-2 bg-black border border-zinc-800 text-white font-mono focus:border-primary outline-none"></div>
+                        <div class="flex flex-col gap-1"><label class="text-[8px] font-mono text-zinc-500 uppercase">Z / Længde (mm)</label><input type="number" id="mass-cl" value="100" class="p-2 bg-black border border-zinc-800 text-white font-mono focus:border-primary outline-none"></div>
+                    </div>
+
+                    <div class="mt-8 grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-zinc-900/30 border border-zinc-800 text-center">
+                            <span class="text-[8px] font-mono text-zinc-500 block mb-1 uppercase">Specifik Vægt (Density)</span>
+                            <span id="mass-dens-out" class="text-xl font-bold text-zinc-300 italic tabular-nums">0.00 g/cm³</span>
+                        </div>
+                        <div class="p-4 bg-primary/5 border border-primary/30 text-center shadow-[0_0_15px_rgba(245,158,11,0.05)]">
+                            <span class="text-[8px] font-mono text-primary/70 block mb-1 uppercase font-black">Total Emnevægt</span>
+                            <span id="mass-kg-out" class="text-3xl font-black text-primary italic tabular-nums">0.000 kg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card p-8 bg-black shadow-2xl relative z-10">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
                         <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Heat_Treatment_Protocol</h3>
                         <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Hardening_Parameters</span>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-6">
+                    <div class="grid grid-cols-1 gap-6 relative z-20">
                         <div class="flex flex-col gap-2">
-                            <label class="text-[9px] font-mono text-zinc-500 uppercase">Ståltype (DIN/ISO)</label>
-                            <select id="ht-material" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase">Ståltype / Legering</label>
+                            <select id="ht-material" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none cursor-pointer">
                                 <option value="1.2510">1.2510 / O1 (Oliehærdende)</option>
                                 <option value="1.2379">1.2379 / D2 (Lufthærdende)</option>
                                 <option value="1.2842">1.2842 / 90MnCrV8</option>
                                 <option value="1.1730">1.1730 / C45U (Konstruktion)</option>
+                                <option value="17-4PH">17-4 PH Rustfast (H900)</option>
+                                <option value="6082-T6">Alu 6082 (Artificial Aging)</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="mt-8 grid grid-cols-3 gap-4 tabular-nums">
+                    <div class="mt-8 grid grid-cols-3 gap-4 tabular-nums relative z-20">
                         <div class="p-4 bg-zinc-900/50 border border-zinc-800">
-                            <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Hardening_Temp</span>
-                            <span id="ht-temp" class="text-xl font-black text-white italic">780-820°C</span>
+                            <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Hold_Temp</span>
+                            <span id="ht-temp" class="text-lg lg:text-xl font-black text-white italic tracking-tighter">780-820°C</span>
                         </div>
                         <div class="p-4 bg-zinc-900/50 border border-zinc-800">
-                            <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Quenching_Medium</span>
-                            <span id="ht-medium" class="text-xl font-black text-primary italic uppercase">OIL</span>
+                            <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Quenching</span>
+                            <span id="ht-medium" class="text-lg lg:text-xl font-black text-primary italic uppercase tracking-tighter">OIL</span>
                         </div>
                         <div class="p-4 bg-zinc-900/50 border border-zinc-800">
-                            <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Final_Hardness</span>
-                            <span id="ht-hrc" class="text-xl font-black text-white italic">62-64 HRC</span>
+                            <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Final_Target</span>
+                            <span id="ht-hrc" class="text-lg lg:text-xl font-black text-white italic tracking-tighter">62-64 HRC</span>
                         </div>
                     </div>
 
@@ -90,60 +137,72 @@
                     </div>
                 </div>
 
-                <div class="module-card p-8 bg-black border-primary/5">
+                <div class="module-card p-8 bg-black relative z-10 shadow-2xl">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
-                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Physical_Material_Context</h3>
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Machinability_Index</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold" id="phys-mat-name">--</span>
                     </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        <div><span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Density</span><span id="phys-dens" class="text-sm font-bold text-white">--</span></div>
-                        <div><span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Expansion_α</span><span id="phys-alpha" class="text-sm font-bold text-white">--</span></div>
-                        <div><span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Max_Ae_Load</span><span id="phys-ae" class="text-sm font-bold text-primary">--</span></div>
-                        <div><span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Reference_Fz</span><span id="phys-fz" class="text-sm font-bold text-white">--</span></div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 tabular-nums">
+                        <div class="p-4 bg-black border border-zinc-900"><span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase font-bold">Base Vc (m/min)</span><span id="phys-vc" class="text-lg font-black text-white italic tracking-tighter">--</span></div>
+                        <div class="p-4 bg-black border border-zinc-900"><span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase font-bold">Thermal_α</span><span id="phys-alpha" class="text-lg font-black text-white italic tracking-tighter">--</span></div>
+                        <div class="p-4 bg-primary/5 border border-primary/20"><span class="text-[8px] font-mono text-primary/80 block mb-1 uppercase font-bold">Cutting Force (Kc1)</span><span id="phys-kc1" class="text-lg font-black text-primary italic tracking-tighter">--</span></div>
+                        <div class="p-4 bg-black border border-zinc-900"><span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase font-bold">Machinability</span><span id="phys-index" class="text-lg font-black text-white italic tracking-tighter">--</span></div>
                     </div>
                 </div>
             </section>
 
             <section class="lg:col-span-5 space-y-8">
-                <div class="module-card p-8 bg-black shadow-2xl h-full flex flex-col border-primary/20">
+                <div class="module-card p-8 bg-black shadow-2xl h-full flex flex-col relative z-10 border-primary/10">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
                         <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Galvanic_Compatibility_Matrix</h3>
-                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Electrochemical_Risk</span>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">MIL-STD-889 / Anodic Index</span>
                     </div>
 
-                    <div class="space-y-6 flex-grow">
+                    <div class="space-y-6 flex-grow relative z-20">
                         <div class="grid grid-cols-1 gap-4">
                             <div class="flex flex-col gap-2">
-                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black italic">Material_A (Base)</label>
-                                <select id="gal-a" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-xs"></select>
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black italic">Material_A (Base / Anode)</label>
+                                <select id="gal-a" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-xs cursor-pointer"></select>
                             </div>
                             <div class="flex flex-col gap-2">
-                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black italic">Material_B (Fastener/Contact)</label>
-                                <select id="gal-b" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-xs"></select>
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black italic">Material_B (Fastener / Cathode)</label>
+                                <select id="gal-b" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-xs cursor-pointer"></select>
+                            </div>
+                            <div class="flex flex-col gap-2 mt-4">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black italic">Miljøbetingelse</label>
+                                <select id="gal-env" class="p-3 bg-black border border-zinc-800 text-white font-mono text-xs cursor-pointer">
+                                    <option value="0.25">Hårdt / Udendørs / Maritimt (Max 0.25V Δ)</option>
+                                    <option value="0.50">Kontrolleret / Indendørs (Max 0.50V Δ)</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div id="gal-result" class="mt-12 p-8 border border-zinc-800 relative overflow-hidden transition-all duration-500">
+                        <div id="gal-result" class="mt-12 p-8 border border-zinc-800 relative overflow-hidden transition-all duration-500 bg-zinc-900/20">
                             <div class="scanline opacity-10"></div>
                             <div class="flex justify-between items-start mb-4">
-                                <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block">// Compatibility_Status</span>
+                                <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block">// Potentiale_Delta (ΔV)</span>
                                 <div id="gal-indicator" class="w-4 h-4 rounded-full shadow-[0_0_10px_rgba(0,0,0,0.5)]"></div>
                             </div>
-                            <div class="text-4xl font-black italic tracking-tighter text-white" id="gal-status">SELECT_DATA</div>
-                            <p class="text-[9px] font-mono text-zinc-500 mt-6 border-l-2 border-primary/40 pl-4 leading-relaxed uppercase" id="gal-advice">
-                                Analyserer elektrokemisk potentiale mellem valgte legeringer...
+                            <div class="flex items-baseline gap-2">
+                                <div class="text-5xl font-black italic tracking-tighter tabular-nums" id="gal-delta">0.00</div>
+                                <span class="text-sm font-bold font-mono text-zinc-500">V</span>
+                            </div>
+                            <div class="text-lg font-black italic tracking-tighter mt-4" id="gal-status">SELECT_DATA</div>
+                            <p class="text-[9px] font-mono text-zinc-400 mt-4 border-t border-zinc-800 pt-4 leading-relaxed uppercase tracking-widest font-bold" id="gal-advice">
+                                Analyserer elektrokemisk potentiale...
                             </p>
                         </div>
                     </div>
 
-                    <div class="mt-8 pt-6 border-t border-zinc-800 text-[9px] font-mono text-zinc-600 uppercase tracking-widest font-black text-center italic">
-                        Material_Verification_Protocol_Active
+                    <div class="mt-8 pt-6 border-t border-zinc-800 text-[9px] font-mono text-zinc-600 uppercase tracking-widest font-black text-center italic relative z-20">
+                        Electrochemical_Potential_Verified
                     </div>
                 </div>
             </section>
 
         </main>
 
-        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center">
+        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center relative z-20 print:hidden">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // Materials_OS // 2026</div>
                 <div class="text-zinc-800 mt-2 tracking-widest uppercase">Metallurgical_Database_Ready</div>

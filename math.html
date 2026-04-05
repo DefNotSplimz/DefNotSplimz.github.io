@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="global.css">
     <script>tailwind.config={theme:{extend:{colors:{primary:"#f59e0b"},fontFamily:{mono:['JetBrains Mono','monospace'],sans:['Inter','sans-serif']}}}}</script>
 </head>
-<body class="bg-[#050506] text-zinc-100 font-sans antialiased subtle-grid min-h-screen flex flex-row relative overflow-x-hidden">
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
 
-    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0">
+    <div class="subtle-grid"></div>
+
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden relative z-20">
     <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
         <img src="img/logoA.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
     </a>
@@ -40,127 +42,149 @@
     <div class="status-dot mt-auto"></div>
     </aside>
 
-    <div class="flex-grow flex flex-col min-w-0">
-        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black">
+    <div class="flex-grow flex flex-col min-w-0 relative z-10">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden print:hidden">
             <div class="scanline opacity-10"></div>
-            <div class="max-w-7xl mx-auto flex justify-between items-end">
-                <div>
-                    <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Shop Math</h1>
-                    <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Technical_Trigonometry_&_Mass_Logic // Route_14</p>
-                </div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Shop Math</h1>
+                <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Applied_Workshop_Calculus // Route_14</p>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 space-y-12 py-16">
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 grid lg:grid-cols-2 gap-12 py-16 relative z-10">
             
-            <div class="grid lg:grid-cols-2 gap-12">
-                <section class="module-card p-8 bg-black shadow-2xl">
+            <section class="space-y-8">
+                <div class="module-card p-8 bg-black shadow-2xl relative z-10 border-primary/10">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
-                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Triangle_Solver</h3>
-                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Right_Angle_Trig</span>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="space-y-4">
-                            <div class="flex flex-col gap-1">
-                                <label class="text-[8px] font-mono text-zinc-500 uppercase">Modstående katete (a)</label>
-                                <input type="number" id="trig-a" step="0.001" class="trig-input p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm">
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <label class="text-[8px] font-mono text-zinc-500 uppercase">Hosliggende katete (b)</label>
-                                <input type="number" id="trig-b" step="0.001" class="trig-input p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm">
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <label class="text-[8px] font-mono text-zinc-500 uppercase">Hypotenuse (c)</label>
-                                <input type="number" id="trig-c" step="0.001" class="trig-input p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm">
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <label class="text-[8px] font-mono text-zinc-500 uppercase text-primary">Vinkel (v°)</label>
-                                <input type="number" id="trig-v" step="0.001" class="trig-input p-3 bg-zinc-900 border border-primary/30 text-primary font-mono text-sm font-black">
-                            </div>
-                        </div>
-                        <div class="bg-zinc-900/20 border border-zinc-900 flex items-center justify-center p-4 relative">
-                            <span class="absolute top-2 left-2 text-[8px] font-mono text-zinc-600">PREVIEW</span>
-                            <svg viewBox="0 0 100 80" class="w-full h-auto max-w-[150px] opacity-40">
-                                <path d="M 10 70 L 90 70 L 10 10 Z" fill="none" stroke="currentColor" stroke-width="2"/>
-                                <rect x="10" y="60" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1"/>
-                            </svg>
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Trigonometri_Matrix</h3>
+                        <div class="flex gap-4 items-center">
+                            <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Right_Angle_Solver</span>
+                            <button id="trig-reset" class="text-[9px] font-mono font-bold text-red-500 border border-red-500/30 bg-red-500/10 px-3 py-1 uppercase hover:bg-red-500/20 transition-all">Reset</button>
                         </div>
                     </div>
-                </section>
 
-                <section class="module-card p-8 bg-black shadow-2xl border-primary/5">
-                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
-                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Mass_&_Volume_Engine</h3>
-                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold italic font-black">Synced_to_Shared_DB</span>
-                    </div>
-
-                    <div class="space-y-6">
+                    <div class="grid grid-cols-2 gap-6 relative z-20">
                         <div class="flex flex-col gap-2">
-                            <label class="text-[9px] font-mono text-zinc-500 uppercase">Materiale Valg</label>
-                            <select id="mass-material" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-xs outline-none focus:border-primary">
-                                </select>
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold text-primary">Side A (Modstående)</label>
+                            <input type="number" id="trig-a" step="0.001" placeholder="Indtast A..." class="trig-input p-3 bg-black border border-primary/30 text-primary font-mono text-sm focus:border-primary outline-none transition-all">
                         </div>
-
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="flex flex-col gap-2">
-                                <label class="text-[9px] font-mono text-zinc-500 uppercase">Yderdiameter / Bredde (mm)</label>
-                                <input type="number" id="mass-dim1" value="50" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-sm">
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <label class="text-[9px] font-mono text-zinc-500 uppercase">Tykkelse / Længde (mm)</label>
-                                <input type="number" id="mass-dim2" value="100" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-sm">
-                            </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold text-primary">Vinkel Alpha (°)</label>
+                            <input type="number" id="trig-alpha" step="0.001" placeholder="Indtast Vinkel A..." class="trig-input p-3 bg-black border border-primary/30 text-primary font-mono text-sm focus:border-primary outline-none transition-all">
                         </div>
-
-                        <div class="mt-8 p-8 bg-zinc-900/30 border border-zinc-800 relative">
-                            <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-2">// Beregnet_Vægt</span>
-                            <div class="text-6xl font-black italic tracking-tighter text-white tabular-nums">
-                                <span id="mass-out">0.000</span> <small class="text-xs uppercase text-primary">kg</small>
-                            </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Side B (Hosliggende)</label>
+                            <input type="number" id="trig-b" step="0.001" placeholder="Indtast B..." class="trig-input p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none transition-all">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Side C (Hypotenuse)</label>
+                            <input type="number" id="trig-c" step="0.001" placeholder="Indtast C..." class="trig-input p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none transition-all">
                         </div>
                     </div>
-                </section>
-            </div>
-
-            <section class="module-card p-8 bg-black shadow-2xl">
-                <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
-                    <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Production_Blank_Sizing</h3>
-                    <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold italic font-black">Stock_Optimization</span>
-                </div>
-
-                <div class="grid md:grid-cols-4 gap-8">
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[9px] font-mono text-zinc-500 uppercase">Antal emner</label>
-                        <input type="number" id="blank-n" value="10" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-sm">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[9px] font-mono text-zinc-500 uppercase">Færdigmål (mm)</label>
-                        <input type="number" id="blank-l" value="25" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-sm">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[9px] font-mono text-zinc-500 uppercase">Afstik/Snitbredde (mm)</label>
-                        <input type="number" id="blank-cut" value="3" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-sm">
-                    </div>
-                    <div class="flex flex-col gap-2">
-                        <label class="text-[9px] font-mono text-zinc-500 uppercase">Opretning/Ende (mm)</label>
-                        <input type="number" id="blank-face" value="10" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-sm">
+                    <div class="mt-4 p-3 bg-zinc-900/30 border border-zinc-800 text-[9px] font-mono text-zinc-500 italic">
+                        Indtast to vilkårlige kendte værdier. Systemet låser felterne og udregner automatisk den fulde geometri.
                     </div>
                 </div>
 
-                <div class="mt-12 grid grid-cols-2 md:grid-cols-3 gap-6">
-                    <div class="p-6 bg-zinc-900/50 border border-zinc-800">
-                        <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase tracking-widest">Total_Længde</span>
-                        <span id="blank-total" class="text-3xl font-black text-white italic tabular-nums">0</span> <small class="text-[10px] text-zinc-500">mm</small>
+                <div class="module-card p-8 bg-black shadow-2xl relative z-10">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Korde_&_Pilhøjde</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Circular_Segment_Math</span>
                     </div>
-                    <div class="p-6 bg-zinc-900/50 border border-zinc-800">
-                        <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase tracking-widest">Materialespild</span>
-                        <span id="blank-waste" class="text-3xl font-black text-primary italic tabular-nums">0</span> <small class="text-[10px] text-zinc-500">%</small>
+
+                    <div class="grid grid-cols-2 gap-4 relative z-20">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Korde Bredde (W)</label>
+                            <input type="number" id="chord-w" value="50" step="0.01" class="p-2 bg-zinc-900 border border-zinc-800 text-white font-mono focus:border-primary outline-none">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[8px] font-mono text-zinc-500 uppercase">Pilhøjde / Dybde (H)</label>
+                            <input type="number" id="chord-h" value="5" step="0.01" class="p-2 bg-zinc-900 border border-zinc-800 text-white font-mono focus:border-primary outline-none">
+                        </div>
+                    </div>
+
+                    <div class="mt-8 grid grid-cols-2 gap-4 tabular-nums relative z-20">
+                        <div class="p-4 bg-primary/5 border border-primary/20 flex flex-col justify-between items-center text-center">
+                            <span class="text-[8px] font-mono text-primary/70 uppercase font-black tracking-widest">Sand Radius (R)</span>
+                            <div class="text-3xl font-black text-primary italic mt-2"><span id="chord-out-r">65.000</span> <small class="text-sm">mm</small></div>
+                        </div>
+                        <div class="p-4 bg-black border border-zinc-900 flex flex-col justify-between items-center text-center">
+                            <span class="text-[8px] font-mono text-zinc-600 uppercase font-bold tracking-widest">Cirkelbue Vinkel</span>
+                            <div class="text-2xl font-black text-white italic mt-2"><span id="chord-out-ang">45.24</span> <small class="text-sm">°</small></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lg:col-span-1 space-y-8">
+                <div class="module-card p-8 bg-black shadow-2xl h-full flex flex-col relative z-10 border-primary/10">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Bar_Stock_Yield_Optimizer</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Material_Efficiency</span>
+                    </div>
+
+                    <div class="space-y-6 flex-grow relative z-20">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black text-primary">Rå-Stang Længde (mm)</label>
+                                <input type="number" id="bar-length" value="3000" step="1" class="p-4 bg-black border border-primary/30 text-primary font-mono font-black text-lg focus:border-primary outline-none">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black">Emne Længde Z (mm)</label>
+                                <input type="number" id="part-length" value="45" step="0.1" class="p-4 bg-zinc-900 border border-zinc-800 text-white font-mono font-black text-lg focus:border-primary outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black">Sav-snit / Kerf (mm)</label>
+                                <input type="number" id="bar-kerf" value="3" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black">Planfræs/Op (mm)</label>
+                                <input type="number" id="bar-face" value="2" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none">
+                            </div>
+                        </div>
+
+                        <div class="mt-12 p-8 border border-zinc-800 bg-zinc-900/20 relative overflow-hidden group">
+                            <div class="scanline opacity-10"></div>
+                            <div class="flex justify-between items-end mb-8">
+                                <div>
+                                    <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-2">// Max_Producerbare_Emner</span>
+                                    <div class="text-6xl font-black italic tracking-tighter tabular-nums text-white">
+                                        <span id="bar-out-parts">60</span> <small class="text-sm text-zinc-600 uppercase">Stk</small>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-2">Udnyttelse</span>
+                                    <div class="text-4xl font-black italic tracking-tighter tabular-nums text-emerald-500">
+                                        <span id="bar-out-yield">90.0</span><small class="text-sm">%</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4 border-t border-zinc-800 pt-6">
+                                <div>
+                                    <span class="text-[9px] font-mono text-zinc-600 uppercase block font-bold mb-1">Reststump (Scrap)</span>
+                                    <span id="bar-out-scrap" class="text-xl font-black text-red-500 font-mono tabular-nums">0.0 mm</span>
+                                </div>
+                                <div>
+                                    <span class="text-[9px] font-mono text-zinc-600 uppercase block font-bold mb-1">Totalt Forbrug/Emne</span>
+                                    <span id="bar-out-req" class="text-xl font-black text-zinc-400 font-mono tabular-nums">50.0 mm</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
         </main>
+
+        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center relative z-20 print:hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // Math_OS // 2026</div>
+                <div class="text-zinc-800 mt-2 tracking-widest uppercase">Computational_Dynamics_Active</div>
+            </div>
+        </footer>
     </div>
 
     <script src="shared_core.js"></script>

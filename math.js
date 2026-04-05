@@ -1,115 +1,214 @@
 /**
  * Machining_OS | Shop Math Logic
- * Version: 5.0 (Precision Trig & Mass)
+ * Version: 5.1 (Intelligent Trig Solver, Chord Math & Bar Stock Optimizer)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- TRIG ELEMENTER ---
+    
+    // --- ELEMENT REFERENCER: TRIGONOMETRI ---
     const trigA = document.getElementById('trig-a');
     const trigB = document.getElementById('trig-b');
     const trigC = document.getElementById('trig-c');
-    const trigV = document.getElementById('trig-v');
+    const trigAlpha = document.getElementById('trig-alpha');
+    const trigResetBtn = document.getElementById('trig-reset');
+    const trigInputs = [trigA, trigB, trigC, trigAlpha];
 
-    // --- MASS ELEMENTER ---
-    const massMatSelect = document.getElementById('mass-material');
-    const massDim1 = document.getElementById('mass-dim1');
-    const massDim2 = document.getElementById('mass-dim2');
-    const massOut = document.getElementById('mass-out');
+    // --- ELEMENT REFERENCER: KORDE & PILHØJDE ---
+    const chordW = document.getElementById('chord-w');
+    const chordH = document.getElementById('chord-h');
+    const outChordR = document.getElementById('chord-out-r');
+    const outChordAng = document.getElementById('chord-out-ang');
 
-    // --- BLANK ELEMENTER ---
-    const blankN = document.getElementById('blank-n');
-    const blankL = document.getElementById('blank-l');
-    const blankCut = document.getElementById('blank-cut');
-    const blankFace = document.getElementById('blank-face');
-    const blankTotal = document.getElementById('blank-total');
-    const blankWaste = document.getElementById('blank-waste');
+    // --- ELEMENT REFERENCER: BAR STOCK OPTIMIZER ---
+    const barLength = document.getElementById('bar-length');
+    const partLength = document.getElementById('part-length');
+    const barKerf = document.getElementById('bar-kerf');
+    const barFace = document.getElementById('bar-face');
+    const outBarParts = document.getElementById('bar-out-parts');
+    const outBarYield = document.getElementById('bar-out-yield');
+    const outBarScrap = document.getElementById('bar-out-scrap');
+    const outBarReq = document.getElementById('bar-out-req');
 
-    // --- INITIALISERING ---
-    function initMath() {
-        // Populer materialer fra shared_core DB
-        massMatSelect.innerHTML = Object.entries(MACHINING_DB.MATERIALS)
-            .map(([k, v]) => `<option value="${v.density}">${v.name}</option>`).join('');
 
-        // Gendan state
-        const state = MachiningOS.getState();
-        if (state.last_mass_mat) massMatSelect.value = state.last_mass_mat;
-
-        calculateMass();
-        calculateBlank();
+    // --- LOGIK: TRIGONOMETRI SOLVER ---
+    function handleTrigInput() {
+        // Tæl hvor mange inputs der har en værdi
+        let activeInputs = trigInputs.filter(input => input.value !== '');
+        
+        // Når præcis to felter er udfyldt, lås dem og beregn resten
+        if (activeInputs.length === 2) {
+            trigInputs.forEach(input => {
+                if (input.value === '') {
+                    input.readOnly = true;
+                    input.classList.add('bg-zinc-900/50', 'text-zinc-500', 'border-zinc-800/50');
+                    input.classList.remove('text-primary', 'text-white');
+                }
+            });
+            solveTriangle();
+        }
     }
 
-    // --- TRIGONOMETRI LOGIK ---
-    // Løser retvinklede trekanter baseret på to kendte værdier
-    function calculateTrig(changedInput) {
+    function solveTriangle() {
         let a = parseFloat(trigA.value);
         let b = parseFloat(trigB.value);
         let c = parseFloat(trigC.value);
-        let v = parseFloat(trigV.value); // Grader
+        let alpha = parseFloat(trigAlpha.value);
+        
+        const RAD = Math.PI / 180;
+        const DEG = 180 / Math.PI;
 
-        // Vi nulstiller ikke alt, men beregner manglende baseret på hvad der blev ændret
-        // Case: Kendt a og b
-        if (changedInput === 'trig-a' || changedInput === 'trig-b') {
-            if (a > 0 && b > 0) {
-                c = Math.sqrt(a*a + b*b);
-                v = Math.atan(a/b) * (180/Math.PI);
-            }
-        } 
-        // Case: Kendt v og c
-        else if (changedInput === 'trig-v' || changedInput === 'trig-c') {
-            if (v > 0 && c > 0) {
-                let rad = v * (Math.PI/180);
-                a = c * Math.sin(rad);
-                b = c * Math.cos(rad);
-            }
+        // Scenarie 1: Kendt A og B
+        if (!isNaN(a) && !isNaN(b)) {
+            c = Math.sqrt((a*a) + (b*b));
+            alpha = Math.atan(a/b) * DEG;
+            updateTrigUI(a, b, c, alpha);
+        }
+        // Scenarie 2: Kendt A og C
+        else if (!isNaN(a) && !isNaN(c)) {
+            if (a >= c) return alert("Fejl: Hypotenuse (C) skal være længere end katete (A).");
+            b = Math.sqrt((c*c) - (a*a));
+            alpha = Math.asin(a/c) * DEG;
+            updateTrigUI(a, b, c, alpha);
+        }
+        // Scenarie 3: Kendt B og C
+        else if (!isNaN(b) && !isNaN(c)) {
+            if (b >= c) return alert("Fejl: Hypotenuse (C) skal være længere end katete (B).");
+            a = Math.sqrt((c*c) - (b*b));
+            alpha = Math.acos(b/c) * DEG;
+            updateTrigUI(a, b, c, alpha);
+        }
+        // Scenarie 4: Kendt A og Alpha
+        else if (!isNaN(a) && !isNaN(alpha)) {
+            b = a / Math.tan(alpha * RAD);
+            c = a / Math.sin(alpha * RAD);
+            updateTrigUI(a, b, c, alpha);
+        }
+        // Scenarie 5: Kendt B og Alpha
+        else if (!isNaN(b) && !isNaN(alpha)) {
+            a = b * Math.tan(alpha * RAD);
+            c = b / Math.cos(alpha * RAD);
+            updateTrigUI(a, b, c, alpha);
+        }
+        // Scenarie 6: Kendt C og Alpha
+        else if (!isNaN(c) && !isNaN(alpha)) {
+            a = c * Math.sin(alpha * RAD);
+            b = c * Math.cos(alpha * RAD);
+            updateTrigUI(a, b, c, alpha);
+        }
+    }
+
+    function updateTrigUI(a, b, c, alpha) {
+        trigA.value = a.toFixed(3);
+        trigB.value = b.toFixed(3);
+        trigC.value = c.toFixed(3);
+        trigAlpha.value = alpha.toFixed(3);
+    }
+
+    function resetTrig() {
+        trigInputs.forEach(input => {
+            input.value = '';
+            input.readOnly = false;
+            input.classList.remove('bg-zinc-900/50', 'text-zinc-500', 'border-zinc-800/50');
+        });
+        trigA.classList.add('text-primary');
+        trigAlpha.classList.add('text-primary');
+        trigB.classList.add('text-white');
+        trigC.classList.add('text-white');
+    }
+
+
+    // --- LOGIK: KORDE & PILHØJDE (Circular Segment) ---
+    function calcChord() {
+        const w = parseFloat(chordW.value);
+        const h = parseFloat(chordH.value);
+
+        if (isNaN(w) || isNaN(h) || w <= 0 || h <= 0) {
+            outChordR.textContent = "0.000";
+            outChordAng.textContent = "0.00";
+            return;
         }
 
-        // Opdater felter (undtagen det brugeren lige har rettet i)
-        if (changedInput !== 'trig-a') trigA.value = a ? a.toFixed(4) : "";
-        if (changedInput !== 'trig-b') trigB.value = b ? b.toFixed(4) : "";
-        if (changedInput !== 'trig-c') trigC.value = c ? c.toFixed(4) : "";
-        if (changedInput !== 'trig-v') trigV.value = v ? v.toFixed(3) : "";
+        // Radius: R = (W^2 / 8H) + (H / 2)
+        const R = (Math.pow(w, 2) / (8 * h)) + (h / 2);
+        
+        // Vinkel: Theta = 2 * asin((W/2) / R)
+        const thetaRad = 2 * Math.asin((w / 2) / R);
+        const thetaDeg = thetaRad * (180 / Math.PI);
+
+        outChordR.textContent = R.toFixed(3);
+        outChordAng.textContent = thetaDeg.toFixed(2);
+
+        MachiningOS.saveState({ 'chord_w': w, 'chord_h': h });
     }
 
-    // --- MASSE BEREGNING ---
-    function calculateMass() {
-        const density = parseFloat(massMatSelect.value); // g/cm³
-        const d1 = parseFloat(massDim1.value) || 0;
-        const d2 = parseFloat(massDim2.value) || 0;
 
-        // Antag rundstang som standard: (pi * r² * h)
-        const radiusCm = (d1 / 2) / 10;
-        const lengthCm = d2 / 10;
-        const volumeCm3 = Math.PI * Math.pow(radiusCm, 2) * lengthCm;
+    // --- LOGIK: BAR STOCK OPTIMIZER ---
+    function calcBarStock() {
+        const L_bar = parseFloat(barLength.value) || 0;
+        const L_part = parseFloat(partLength.value) || 0;
+        const kerf = parseFloat(barKerf.value) || 0;
+        const face = parseFloat(barFace.value) || 0;
 
-        const weightKg = (volumeCm3 * density) / 1000;
-        massOut.textContent = weightKg.toFixed(3);
+        if (L_bar <= 0 || L_part <= 0) {
+            outBarParts.textContent = "0";
+            outBarYield.textContent = "0.0";
+            outBarScrap.textContent = "0.0 mm";
+            return;
+        }
 
-        MachiningOS.saveState({ 'last_mass_mat': massMatSelect.value });
-    }
+        // Det totale forbrug pr. produceret emne (inkl. sav og afdrejning)
+        const reqPerPart = L_part + kerf + face;
+        
+        // Beregn antal mulige emner (rundet ned)
+        const maxParts = Math.floor(L_bar / reqPerPart);
+        
+        // Beregn rest (Scrap)
+        const totalUsed = maxParts * reqPerPart;
+        const scrap = L_bar - totalUsed;
+        
+        // Beregn udnyttelsesgrad i % (Kun the faktiske emnelængde tæller som "udnyttet" værdi)
+        const yieldPct = ((maxParts * L_part) / L_bar) * 100;
 
-    // --- BLANK SIZE LOGIK ---
-    function calculateBlank() {
-        const n = parseInt(blankN.value) || 0;
-        const l = parseFloat(blankL.value) || 0;
-        const cut = parseFloat(blankCut.value) || 0;
-        const face = parseFloat(blankFace.value) || 0;
+        outBarParts.textContent = maxParts;
+        outBarReq.textContent = reqPerPart.toFixed(1) + " mm";
+        outBarScrap.textContent = scrap.toFixed(1) + " mm";
+        
+        outBarYield.textContent = yieldPct.toFixed(1);
+        
+        // Farveskift baseret på yield
+        outBarYield.parentElement.className = `text-4xl font-black italic tracking-tighter tabular-nums ${yieldPct > 80 ? 'text-emerald-500' : (yieldPct > 60 ? 'text-primary' : 'text-red-500')}`;
 
-        // Total = (l + cut) * n + face
-        const total = ((l + cut) * n) + face;
-        const theoretical = l * n;
-        const wastePercent = total > 0 ? ((total - theoretical) / total) * 100 : 0;
-
-        blankTotal.textContent = Math.ceil(total);
-        blankWaste.textContent = Math.round(wastePercent);
+        MachiningOS.saveState({ 
+            'bar_length': L_bar, 
+            'part_length': L_part, 
+            'bar_kerf': kerf, 
+            'bar_face': face 
+        });
     }
 
     // --- EVENT LISTENERS ---
-    document.querySelectorAll('.trig-input').forEach(el => {
-        el.addEventListener('input', (e) => calculateTrig(e.target.id));
-    });
+    trigInputs.forEach(input => input.addEventListener('input', handleTrigInput));
+    trigResetBtn.addEventListener('click', resetTrig);
 
-    [massMatSelect, massDim1, massDim2].forEach(el => el.addEventListener('input', calculateMass));
-    [blankN, blankL, blankCut, blankFace].forEach(el => el.addEventListener('input', calculateBlank));
+    [chordW, chordH].forEach(el => el.addEventListener('input', calcChord));
 
-    initMath();
+    [barLength, partLength, barKerf, barFace].forEach(el => el.addEventListener('input', calcBarStock));
+
+    // --- INITIALISERING ---
+    function init() {
+        const state = MachiningOS.getState();
+        
+        if (state.chord_w) chordW.value = state.chord_w;
+        if (state.chord_h) chordH.value = state.chord_h;
+        
+        if (state.bar_length) barLength.value = state.bar_length;
+        if (state.part_length) partLength.value = state.part_length;
+        if (state.bar_kerf) barKerf.value = state.bar_kerf;
+        if (state.bar_face) barFace.value = state.bar_face;
+
+        calcChord();
+        calcBarStock();
+    }
+
+    init();
 });

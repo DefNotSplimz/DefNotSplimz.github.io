@@ -8,9 +8,11 @@
     <link rel="stylesheet" href="global.css">
     <script>tailwind.config={theme:{extend:{colors:{primary:"#f59e0b"},fontFamily:{mono:['JetBrains Mono','monospace'],sans:['Inter','sans-serif']}}}}</script>
 </head>
-<body class="bg-[#050506] text-zinc-100 font-sans subtle-grid min-h-screen flex flex-row relative overflow-x-hidden">
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
 
-    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0">
+    <div class="subtle-grid"></div>
+
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden relative z-20">
     <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
         <img src="img/logoA.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
     </a>
@@ -40,61 +42,83 @@
     <div class="status-dot mt-auto"></div>
     </aside>
 
-    <div class="flex-grow flex flex-col min-w-0">
-        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black">
+    <div class="flex-grow flex flex-col min-w-0 relative z-10">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden print:hidden">
             <div class="scanline opacity-10"></div>
-            <div class="max-w-7xl mx-auto">
+            <div class="max-w-7xl mx-auto relative z-10">
                 <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Electro-Mech</h1>
                 <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Precision_Signal_&_Motion_Control // Route_12</p>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 grid lg:grid-cols-2 gap-12 py-16">
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 grid lg:grid-cols-2 gap-12 py-16 relative z-10">
             
             <section class="space-y-8">
-                <div class="module-card p-8 bg-black shadow-2xl border-primary/10">
+                <div class="module-card p-8 bg-black shadow-2xl border-primary/10 relative z-10">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
-                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Encoder_Motion_Resolution</h3>
-                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">PPR to Linear Units</span>
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Axis_Resolution_Protocol</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">CNC Drive Mechanics</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-6 mb-8">
+                    <div class="grid grid-cols-2 gap-6 mb-8 relative z-20">
                         <div class="flex flex-col gap-2">
-                            <label class="text-[9px] font-mono text-zinc-500 uppercase">Pulser pr. Omg. (PPR)</label>
-                            <input type="number" id="enc-ppr" value="1000" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-white">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Motor Steps pr. Omg</label>
+                            <select id="axis-steps" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none">
+                                <option value="200">200 (1.8° Stepper)</option>
+                                <option value="400">400 (0.9° Stepper)</option>
+                                <option value="10000">10.000 (Servo Encoder)</option>
+                            </select>
                         </div>
                         <div class="flex flex-col gap-2">
-                            <label class="text-[9px] font-mono text-zinc-500 uppercase">Spindelstigning (mm/rev)</label>
-                            <input type="number" id="enc-pitch" value="5" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-white">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Driver Microstepping</label>
+                            <select id="axis-micro" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none">
+                                <option value="1">1 (Full Step)</option>
+                                <option value="2">1/2 Step</option>
+                                <option value="4">1/4 Step</option>
+                                <option value="8" selected>1/8 Step</option>
+                                <option value="16">1/16 Step</option>
+                                <option value="32">1/32 Step</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Mekanisk Udveksling (Ratio)</label>
+                            <input type="number" id="axis-ratio" value="1.0" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-white focus:border-primary outline-none">
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Spindel Stigning (mm)</label>
+                            <input type="number" id="axis-pitch" value="5.0" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-white focus:border-primary outline-none">
                         </div>
                     </div>
 
-                    <div class="p-8 bg-zinc-900/30 border border-zinc-800 text-center relative overflow-hidden">
-                        <span class="text-[10px] font-mono text-zinc-600 uppercase font-black italic block mb-2">// Linear_Resolution</span>
+                    <div class="p-8 bg-zinc-900/30 border border-zinc-800 text-center relative overflow-hidden z-20">
+                        <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-2">// Mekanisk_Opløsning</span>
                         <div class="text-5xl font-black italic tracking-tighter text-white tabular-nums">
-                            <span id="enc-res">0.0050</span> <small class="text-xs uppercase text-primary">mm/pulse</small>
+                            <span id="axis-res">0.0031</span> <small class="text-xs uppercase text-primary">mm/pulse</small>
                         </div>
-                        <p class="text-[9px] font-mono text-zinc-500 mt-4 uppercase tracking-widest" id="enc-micron-text">
-                            5.00 Mikron pr. step
+                        <p class="text-[10px] font-mono text-zinc-400 mt-4 uppercase font-bold tracking-widest border-t border-zinc-800 pt-4" id="axis-micron-text">
+                            3.125 Mikron pr. step
                         </p>
                     </div>
                 </div>
 
-                <div class="module-card p-8 bg-black">
+                <div class="module-card p-8 bg-black relative z-10 shadow-2xl">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
-                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// AWG_Metric_Standards</h3>
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// AWG_Wire_Routing_Matrix</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Chassis Wiring</span>
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto relative z-20">
                         <table class="w-full text-left font-mono text-[10px] tabular-nums">
                             <thead>
-                                <tr class="text-zinc-600 uppercase border-b border-zinc-800"><th class="pb-3">AWG #</th><th class="pb-3">mm²</th><th class="pb-3">Max Amps (30°C)</th></tr>
+                                <tr class="text-zinc-500 uppercase border-b border-zinc-800"><th class="pb-3">AWG</th><th class="pb-3">mm²</th><th class="pb-3">Max Strøm</th><th class="pb-3 text-right">CNC Applikation</th></tr>
                             </thead>
                             <tbody class="text-zinc-400">
-                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">24</td><td class="py-2">0.20</td><td class="py-2">2.1 A</td></tr>
-                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">22</td><td class="py-2">0.32</td><td class="py-2">3.0 A</td></tr>
-                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">20</td><td class="py-2">0.52</td><td class="py-2">5.0 A</td></tr>
-                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">18</td><td class="py-2">0.82</td><td class="py-2">7.0 A</td></tr>
-                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">16</td><td class="py-2">1.31</td><td class="py-2">10.0 A</td></tr>
+                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">26</td><td class="py-2">0.13</td><td class="py-2">1.0 A</td><td class="py-2 text-right text-zinc-500">Encodere / Lavvolt signal</td></tr>
+                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">24</td><td class="py-2">0.20</td><td class="py-2">2.1 A</td><td class="py-2 text-right text-zinc-500">Limit Switches / 5V Sensorer</td></tr>
+                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">22</td><td class="py-2">0.32</td><td class="py-2">3.0 A</td><td class="py-2 text-right text-zinc-500">Nema 17 Steppers / Relæer</td></tr>
+                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">20</td><td class="py-2">0.52</td><td class="py-2">5.0 A</td><td class="py-2 text-right text-zinc-500">Nema 23 Steppers / 24V Logik</td></tr>
+                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">18</td><td class="py-2">0.82</td><td class="py-2">7.0 A</td><td class="py-2 text-right text-zinc-500">Nema 34 Steppers / Kølepumper</td></tr>
+                                <tr class="border-b border-zinc-900/50 hover:bg-white/5"><td class="py-2 text-white font-black">14</td><td class="py-2">2.08</td><td class="py-2 text-primary font-bold">15.0 A</td><td class="py-2 text-right text-zinc-500">AC Mains / DC Strømforsyning</td></tr>
+                                <tr class="hover:bg-white/5"><td class="py-2 text-white font-black">10</td><td class="py-2">5.26</td><td class="py-2 text-primary font-bold">30.0 A</td><td class="py-2 text-right text-zinc-500">2.2kW VFD Spindel Fasekabler</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -102,51 +126,54 @@
             </section>
 
             <section class="space-y-8">
-                <div class="module-card p-8 bg-black shadow-2xl h-full flex flex-col border-primary/20">
+                <div class="module-card p-8 bg-black shadow-2xl h-full flex flex-col border-primary/20 relative z-10">
                     <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8 italic uppercase">
-                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest">// Ohm_Motor_Dynamics</h3>
-                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Power_Load_Calculation</span>
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest">// Stepper_Drive_Kinetics</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 font-bold">Geckodrive PSU Engine</span>
                     </div>
 
-                    <div class="space-y-6 flex-grow">
-                        <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-6 flex-grow relative z-20">
+                        <div class="grid grid-cols-2 gap-6">
                             <div class="flex flex-col gap-2">
-                                <label class="text-[9px] font-mono text-zinc-500 uppercase">Spænding (V)</label>
-                                <input type="number" id="ohm-v" value="24" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-white">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Motor Induktans (mH)</label>
+                                <input type="number" id="step-mh" value="2.5" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-white focus:border-primary outline-none">
                             </div>
                             <div class="flex flex-col gap-2">
-                                <label class="text-[9px] font-mono text-zinc-500 uppercase">Strømstyrke (A)</label>
-                                <input type="number" id="ohm-a" value="2.5" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-white">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Max Motor Strøm (A)</label>
+                                <input type="number" id="step-a" value="3.0" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 font-mono text-white focus:border-primary outline-none">
                             </div>
                         </div>
 
                         <div class="mt-8 grid grid-cols-2 gap-4">
-                            <div class="p-6 bg-black border border-zinc-900 text-center">
-                                <span class="text-[8px] font-mono text-zinc-600 block uppercase mb-1">Effekt (Watt)</span>
-                                <div id="ohm-w" class="text-3xl font-black text-white italic tabular-nums">60.0</div>
+                            <div class="p-6 bg-primary/5 border border-primary/30 text-center shadow-[0_0_15px_rgba(245,158,11,0.05)]">
+                                <span class="text-[8px] font-mono text-primary/80 block uppercase mb-1 font-black">Optimal Spænding</span>
+                                <div class="text-3xl font-black text-primary italic tabular-nums"><span id="step-v">50.6</span><small class="text-sm"> VDC</small></div>
                             </div>
                             <div class="p-6 bg-black border border-zinc-900 text-center">
-                                <span class="text-[8px] font-mono text-zinc-600 block uppercase mb-1">Modstand (Ω)</span>
-                                <div id="ohm-r" class="text-3xl font-black text-white italic tabular-nums">9.60</div>
+                                <span class="text-[8px] font-mono text-zinc-600 block uppercase mb-1 font-bold">Nødvendig Effekt / Akse</span>
+                                <div class="text-3xl font-black text-white italic tabular-nums"><span id="step-w">152</span><small class="text-sm"> W</small></div>
                             </div>
                         </div>
+                        <p class="text-[9px] font-mono text-zinc-500 mt-4 italic border-l-2 border-zinc-800 pl-4">
+                            V_opt = 32 * √(L). Højere spænding reducerer moment-tab ved høje omdrejninger. PSU bør dimensioneres til 60-70% af total effekt ved multi-akse systemer pga. switching.
+                        </p>
 
-                        <div class="mt-8 p-6 bg-zinc-900/30 border border-zinc-800">
+                        <div class="mt-12 p-6 bg-zinc-900/30 border border-zinc-800">
                              <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-4">// Torque_Conversion</span>
                              <div class="flex flex-col gap-4">
                                 <div class="flex flex-col gap-2">
-                                    <label class="text-[8px] font-mono text-zinc-600 uppercase">Input oz-in (Standard Nema)</label>
-                                    <input type="number" id="torque-in" value="269" class="p-2 bg-black border border-zinc-800 font-mono text-sm text-primary">
+                                    <label class="text-[8px] font-mono text-zinc-600 uppercase font-bold">Holding Torque (oz-in)</label>
+                                    <input type="number" id="torque-in" value="425" class="p-3 bg-black border border-zinc-800 font-mono text-sm text-white focus:border-primary outline-none">
                                 </div>
-                                <div class="flex justify-between items-end">
-                                    <div><span class="text-[8px] font-mono text-zinc-600 block uppercase">Resultat Nm</span><span id="torque-nm" class="text-2xl font-black text-white">1.90</span></div>
-                                    <div><span class="text-[8px] font-mono text-zinc-600 block uppercase text-right">Resultat Ncm</span><span id="torque-ncm" class="text-2xl font-black text-zinc-400">190.0</span></div>
+                                <div class="flex justify-between items-end mt-2 pt-4 border-t border-zinc-800">
+                                    <div><span class="text-[8px] font-mono text-zinc-500 block uppercase font-bold">Moment (Nm)</span><span id="torque-nm" class="text-2xl font-black text-white tabular-nums">3.00</span></div>
+                                    <div><span class="text-[8px] font-mono text-zinc-500 block uppercase text-right font-bold">Moment (Ncm)</span><span id="torque-ncm" class="text-2xl font-black text-zinc-400 tabular-nums">300.1</span></div>
                                 </div>
                              </div>
                         </div>
                     </div>
 
-                    <div class="mt-8 pt-6 border-t border-zinc-800 text-[9px] font-mono text-zinc-600 uppercase tracking-widest font-black text-center">
+                    <div class="mt-8 pt-6 border-t border-zinc-800 text-[9px] font-mono text-zinc-600 uppercase tracking-widest font-black text-center relative z-20">
                         Precision_Electrotechnical_Verification_Active
                     </div>
                 </div>
@@ -154,7 +181,7 @@
 
         </main>
 
-        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center">
+        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center relative z-20 print:hidden">
             <div class="max-w-7xl mx-auto px-6 text-zinc-800 tracking-widest uppercase">
                 Electro_Mech_Logic // Signal_Stability_Validated
             </div>
