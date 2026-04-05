@@ -26,7 +26,7 @@
 
     <div class="subtle-grid"></div>
 
-    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0">
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden">
     <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
         <img src="img/logoA.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
     </a>
@@ -60,7 +60,7 @@
     </aside>
 
     <div class="flex-grow flex flex-col min-w-0 relative">
-        <header class="relative pt-32 pb-16 px-6 md:px-12 border-b border-zinc-900 bg-black/40 backdrop-blur-md overflow-hidden">
+        <header class="relative pt-32 pb-16 px-6 md:px-12 border-b border-zinc-900 bg-black/40 backdrop-blur-md overflow-hidden print:hidden">
             <div class="scanline"></div>
             <div class="max-w-7xl mx-auto relative">
                 <h1 class="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">Operations Hub</h1>
@@ -68,12 +68,18 @@
             </div>
         </header>
 
-        <section class="pt-12 px-6 md:px-12 bg-transparent print:hidden">
+        <section class="pt-12 px-6 md:px-12 bg-transparent">
             <div class="max-w-7xl mx-auto">
+                
+                <div class="hidden print:block w-full border-b-4 border-black pb-4 mb-8 mt-0 text-center">
+                    <h1 class="text-4xl font-black uppercase italic tracking-tighter">Setup Sheet // Datum Prototyping</h1>
+                    <p class="font-mono text-sm font-bold mt-2 text-zinc-700">CNC_Operations_Log</p>
+                </div>
+
                 <div class="module-card p-10 bg-black/60 shadow-2xl">
                     <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-800 pb-6 mb-10 gap-6 uppercase italic font-bold">
                         <div class="label-micro text-primary italic font-black tracking-[0.3em]">/ Project_Kontekst</div>
-                        <div class="flex gap-4">
+                        <div class="flex gap-4 print:hidden">
                             <button id="btn-export-json" class="btn-industrial px-6 py-2 text-[10px] italic">Eksportér_Session_Data</button>
                         </div>
                     </div>
@@ -91,7 +97,7 @@
                             <input type="text" id="job-rev" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm focus:border-primary/50 outline-none transition-all">
                         </div>
                         <div class="flex flex-col gap-3 lg:col-span-2">
-                            <label class="label-micro !text-[8px] !before:hidden !text-primary">Aktiv_Maskine</label>
+                            <label class="label-micro !text-[8px] !before:hidden !text-primary print:!text-black">Aktiv_Maskine</label>
                             <select id="machine-select" class="p-4 bg-zinc-900/50 border border-zinc-800 text-primary font-mono text-sm font-black appearance-none cursor-pointer focus:border-primary/50 outline-none transition-all"></select>
                         </div>
                     </form>
@@ -123,37 +129,48 @@
                                         <label class="label-micro !text-[8px] !before:hidden">Operation_Mode</label>
                                         <select id="cam-strategy" class="p-4 bg-black/50 border border-zinc-800 appearance-none font-bold italic text-sm focus:border-primary/50 outline-none transition-all"></select>
                                     </div>
-                                    <div class="flex flex-col gap-3">
-                                        <label class="label-micro !text-[8px] !before:hidden">Ae (Radial_mm)</label>
+                                    <div class="flex flex-col gap-3" id="wrapper-ae">
+                                        <label id="label-ae" class="label-micro !text-[8px] !before:hidden text-primary">Ae (Radial_mm)</label>
                                         <input type="number" id="input-ae" step="0.001" class="p-4 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
                                     </div>
-                                    <div class="flex flex-col gap-3">
-                                        <label class="label-micro !text-[8px] !before:hidden">Ap (Axial_mm)</label>
+                                    <div class="flex flex-col gap-3" id="wrapper-ap">
+                                        <label id="label-ap" class="label-micro !text-[8px] !before:hidden text-primary">Ap (Axial_mm)</label>
                                         <input type="number" id="input-ap" step="0.001" class="p-4 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 gap-4">
-                                <div class="flex items-center justify-between p-6 border border-zinc-900 bg-primary/[0.02]">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="flex items-center justify-between p-4 border border-zinc-900 bg-primary/[0.02]">
                                     <div class="flex flex-col">
-                                        <span class="label-micro !text-[10px] !before:hidden !text-zinc-300 font-black italic">HSM_Protocol</span>
-                                        <span class="text-[8px] font-mono text-zinc-600 uppercase mt-1">High_Speed_Machining // Dynamic_Multipliers_Active</span>
+                                        <span class="label-micro !text-[9px] !before:hidden !text-zinc-300 font-black italic">HSM_Protocol</span>
+                                        <span class="text-[7px] font-mono text-zinc-600 uppercase mt-1">Adaptive_Boost</span>
                                     </div>
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" id="toggle-hsm" class="sr-only peer" checked>
-                                        <div class="w-14 h-7 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-zinc-600 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-7 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(245,158,11,0.3)]"></div>
+                                        <div class="w-10 h-5 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-600 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(245,158,11,0.3)]"></div>
+                                    </label>
+                                </div>
+
+                                <div class="flex items-center justify-between p-4 border border-zinc-900 bg-blue-500/[0.02]">
+                                    <div class="flex flex-col">
+                                        <span class="label-micro !text-[9px] !before:hidden !text-blue-500 font-black italic">Finishing_Pass</span>
+                                        <span class="text-[7px] font-mono text-zinc-600 uppercase mt-1">Sletspån (+25% Vc / -50% fz)</span>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="toggle-finish" class="sr-only peer">
+                                        <div class="w-10 h-5 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-blue-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-600 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(59,130,246,0.3)]"></div>
                                     </label>
                                 </div>
                                 
-                                <div class="flex items-center justify-between p-6 border border-zinc-900 bg-red-500/[0.02]">
+                                <div class="flex items-center justify-between p-4 border border-zinc-900 bg-red-500/[0.02]">
                                     <div class="flex flex-col">
-                                        <span class="label-micro !text-[10px] !before:hidden !text-red-500 font-black italic">Safe_Mode_Override</span>
-                                        <span class="text-[8px] font-mono text-zinc-600 uppercase mt-1">Setup_Instability // 70%_Parameter_Cap</span>
+                                        <span class="label-micro !text-[9px] !before:hidden !text-red-500 font-black italic">Safe_Override</span>
+                                        <span class="text-[7px] font-mono text-zinc-600 uppercase mt-1">70%_Parameter_Cap</span>
                                     </div>
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" id="toggle-safe" class="sr-only peer">
-                                        <div class="w-14 h-7 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-red-500 after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-zinc-600 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-7 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(239,68,68,0.3)]"></div>
+                                        <div class="w-10 h-5 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-red-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-600 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(239,68,68,0.3)]"></div>
                                     </label>
                                 </div>
                             </div>
@@ -209,11 +226,11 @@
                     <div class="flex justify-between border-b border-zinc-800 pb-6 mb-10 items-end">
                         <div>
                             <h3 class="text-3xl font-black text-white italic tracking-tighter uppercase leading-none">Setup_Sheet_Log</h3>
-                            <span class="label-micro !text-[7px] mt-2 italic before:hidden">Machine_Configuration_History</span>
+                            <span class="label-micro !text-[7px] mt-2 italic before:hidden print:hidden">Machine_Configuration_History</span>
                         </div>
-                        <div class="flex gap-6">
-                            <button id="btn-print" class="label-micro !text-primary hover:opacity-70 transition-all italic font-black before:hidden uppercase tracking-widest border-b border-primary/20 pb-1">Print_System_Report</button>
-                            <button id="btn-clear" class="label-micro !text-zinc-600 hover:text-red-500 transition-all italic font-black before:hidden uppercase tracking-widest border-b border-zinc-800 pb-1">Wipe_Diagnostic_History</button>
+                        <div class="flex gap-6 print:hidden">
+                            <button id="btn-print" class="label-micro !text-primary hover:opacity-70 transition-all italic font-black before:hidden uppercase tracking-widest border-b border-primary/20 pb-1 cursor-pointer">Print_System_Report</button>
+                            <button id="btn-clear" class="label-micro !text-zinc-600 hover:text-red-500 transition-all italic font-black before:hidden uppercase tracking-widest border-b border-zinc-800 pb-1 cursor-pointer">Wipe_Diagnostic_History</button>
                         </div>
                     </div>
                     <div class="overflow-x-auto tabular-nums">
@@ -231,7 +248,7 @@
             </div>
         </section>
 
-        <footer class="py-20 border-t border-zinc-900 bg-black/20 text-center relative z-20">
+        <footer class="py-20 border-t border-zinc-900 bg-black/20 text-center relative z-20 print:hidden">
             <div class="scanline opacity-10"></div>
             <p class="label-micro opacity-40 justify-center !before:hidden italic font-bold">System_Locked // 2026 // Datum_Prototyping_Core</p>
         </footer>

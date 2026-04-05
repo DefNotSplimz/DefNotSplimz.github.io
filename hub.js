@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic
- * Version: 5.7 (Stress-Tested HSM & Safe Mode Logic)
+ * Version: 5.9 (Print Integration)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,17 +8,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const workMaterialSelect = document.getElementById('work-material');
     const toolSelect = document.getElementById('active-tool-select');
     const camStrategySelect = document.getElementById('cam-strategy');
+    
+    // Dynamiske felter
+    const wrapperAe = document.getElementById('wrapper-ae');
+    const wrapperAp = document.getElementById('wrapper-ap');
+    const labelAe = document.getElementById('label-ae');
+    const labelAp = document.getElementById('label-ap');
     const inputAe = document.getElementById('input-ae');
     const inputAp = document.getElementById('input-ap');
+    
+    // Toggles
     const toggleHsm = document.getElementById('toggle-hsm');
+    const toggleFinish = document.getElementById('toggle-finish');
     const toggleSafe = document.getElementById('toggle-safe');
     const tableBody = document.getElementById('setup-table-body');
 
+    // Komplet F360 Strategi Matrix
     const STRATEGIES = {
-        '2D Adaptive Clearing': { mult_ae: 1.0, mult_ap: 1.0, vc_mult: 1.5 },
-        '2D Pocket': { mult_ae: 0.8, mult_ap: 0.5, vc_mult: 1.0 },
-        '2D Contour (Slet)': { mult_ae: 0.1, mult_ap: 1.5, vc_mult: 1.2 },
-        'Slotting (Fuld spor)': { mult_ae: 2.5, mult_ap: 0.5, vc_mult: 0.8 }
+        '2D Adaptive Clearing': { cat: '2D', vc_mult: 1.5, fz_mult: 1.2, ae_label: 'Optimal_Load (Ae)', ap_label: 'Max_Stepdown (Ap)', show_ae: true, show_ap: true },
+        '2D Pocket': { cat: '2D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Stepover (Ae)', ap_label: 'Max_Stepdown (Ap)', show_ae: true, show_ap: true },
+        '2D Contour': { cat: '2D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Ikke_Relevant', ap_label: 'Multiple_Depths (Ap)', show_ae: false, show_ap: true },
+        'Face (Planfræsning)': { cat: '2D', vc_mult: 1.2, fz_mult: 1.0, ae_label: 'Stepover (Ae)', ap_label: 'Pass_Depth (Ap)', show_ae: true, show_ap: true },
+        'Slotting (Fuld_Spor)': { cat: '2D', vc_mult: 0.8, fz_mult: 0.8, ae_label: 'Ikke_Relevant', ap_label: 'Max_Stepdown (Ap)', show_ae: false, show_ap: true },
+        'Bore (Cirkulær_Fræs)': { cat: '2D', vc_mult: 1.0, fz_mult: 0.5, ae_label: 'Pitch', ap_label: 'Ikke_Relevant', show_ae: true, show_ap: false },
+
+        '3D Adaptive Clearing': { cat: '3D', vc_mult: 1.5, fz_mult: 1.2, ae_label: 'Optimal_Load (Ae)', ap_label: 'Max_Stepdown (Ap)', show_ae: true, show_ap: true },
+        '3D Pocket Clearing': { cat: '3D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Stepover (Ae)', ap_label: 'Max_Stepdown (Ap)', show_ae: true, show_ap: true },
+        'Parallel (3D)': { cat: '3D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Stepover (Ae)', ap_label: 'Ikke_Relevant', show_ae: true, show_ap: false },
+        'Scallop (3D)': { cat: '3D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Stepover (Ae)', ap_label: 'Ikke_Relevant', show_ae: true, show_ap: false },
+        'Contour (3D)': { cat: '3D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Ikke_Relevant', ap_label: 'Max_Stepdown (Ap)', show_ae: false, show_ap: true },
+
+        'Drilling (Standard)': { cat: 'HOLE', vc_mult: 0.8, fz_mult: 1.0, ae_label: 'Ikke_Relevant', ap_label: 'Peck_Depth (Q)', show_ae: false, show_ap: true },
+        'Tapping (Gevind)': { cat: 'HOLE', vc_mult: 0.3, fz_mult: 1.0, ae_label: 'Ikke_Relevant', ap_label: 'Ikke_Relevant', show_ae: false, show_ap: false }
     };
 
     function initHub() {
@@ -32,15 +53,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 .map(([k, m]) => `<option value="${k}">${m.name}</option>`).join('');
         }
         if (camStrategySelect) {
-            camStrategySelect.innerHTML = Object.keys(STRATEGIES).map(k => `<option value="${k}">${k.toUpperCase()}</option>`).join('');
+            camStrategySelect.innerHTML = Object.keys(STRATEGIES).map(k => {
+                const s = STRATEGIES[k];
+                return `<option value="${k}">[${s.cat}] ${k.toUpperCase()}</option>`;
+            }).join('');
         }
         
-        // Restore local toggle states
         const state = MachiningOS.getState();
         if (state.hsmActive !== undefined) toggleHsm.checked = state.hsmActive;
+        if (state.finishActive !== undefined) toggleFinish.checked = state.finishActive;
         if (state.safeActive !== undefined) toggleSafe.checked = state.safeActive;
 
+        updateStrategyUI();
         loadSavedData();
+    }
+
+    function updateStrategyUI() {
+        const strategy = STRATEGIES[camStrategySelect.value];
+        if (!strategy) return;
+
+        labelAe.textContent = strategy.ae_label;
+        labelAp.textContent = strategy.ap_label;
+
+        wrapperAe.style.display = strategy.show_ae ? 'flex' : 'none';
+        wrapperAp.style.display = strategy.show_ap ? 'flex' : 'none';
+        
+        calculate();
     }
 
     function loadSavedData() {
@@ -48,10 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
         renderSetupLog();
     }
 
-    // --- VÆRKTØJSKRYBBE LOGIK ---
     function renderToolCrib() {
         const tools = MachiningOS.getTools();
-        
         if(toolSelect) {
             toolSelect.innerHTML = '<option value="">-- SELECT_INSTRUMENT --</option>' + 
                 tools.sort((a,b) => parseInt(a.t) - parseInt(b.t)).map(t => {
@@ -62,29 +98,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- BEREGNING (MATH CORE) ---
     function calculate() {
         const machine = MACHINING_DB.MACHINES[machineSelect.value];
         const mat = MACHINING_DB.MATERIALS[workMaterialSelect.value];
         const strategy = STRATEGIES[camStrategySelect.value];
         const d = parseFloat(document.getElementById('hidden-d').value) || 0;
         
-        if (d === 0 || !mat) return;
+        if (d === 0 || !mat || !strategy) return;
 
         const isHM = document.getElementById('hidden-mat').value === 'HM';
         const baseVc = isHM ? mat.vc_hm : mat.vc_hss;
         
-        // Logik: Tjek HSM status
         const isHSM = toggleHsm.checked;
+        const isFinish = toggleFinish.checked;
         const isSafe = toggleSafe.checked;
 
-        // Hvis HSM er aktiv, brug strategi-multiplier. Hvis ikke, tving 1.0.
         const activeVcMult = isHSM ? strategy.vc_mult : 1.0;
-        
         let vc = baseVc * activeVcMult;
-        let fz = mat.fz_ref;
+        let fz = mat.fz_ref * strategy.fz_mult;
 
-        // Logik: Safe Mode Override (30% reduktion af skæredata for sikkerhed)
+        if (isFinish) {
+            vc *= 1.25;
+            fz *= 0.50;
+        }
+
         if (isSafe) {
             vc *= 0.70;
             fz *= 0.70;
@@ -106,16 +143,20 @@ document.addEventListener('DOMContentLoaded', () => {
             ae: inputAe.value,
             ap: inputAp.value,
             hsmActive: isHSM,
+            finishActive: isFinish,
             safeActive: isSafe
         });
     }
 
-    // Trigger beregning ved input
-    [machineSelect, workMaterialSelect, camStrategySelect, inputAe, inputAp, toggleHsm, toggleSafe].forEach(el => {
+    [machineSelect, workMaterialSelect, inputAe, inputAp, toggleHsm, toggleFinish, toggleSafe].forEach(el => {
         if(el) el.addEventListener('change', calculate);
         if(el && el.type === 'number') el.addEventListener('input', calculate);
     });
     
+    if(camStrategySelect) {
+        camStrategySelect.addEventListener('change', updateStrategyUI);
+    }
+
     if(toolSelect) {
         toolSelect.addEventListener('change', (e) => {
             const opt = e.target.options[e.target.selectedIndex];
@@ -127,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- SETUP LOG LOGIK ---
     function renderSetupLog() {
         const logs = MachiningOS.getLogs('cnc');
         if(tableBody) {
@@ -139,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td class="p-6">
                         <div class="flex flex-col">
                             <span class="text-xs font-black text-zinc-300 uppercase italic tracking-tight">${entry.desc}</span>
-                            <span class="label-micro !text-[7px] !text-zinc-600 !before:hidden mt-1 uppercase">Validated_Tooling_Protocol</span>
+                            <span class="label-micro !text-[7px] !text-zinc-600 !before:hidden mt-1 uppercase print:hidden">Validated_Tooling_Protocol</span>
                         </div>
                     </td>
                     <td class="p-6">
@@ -177,11 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            const isSafe = toggleSafe.checked ? " [SAFE_MODE]" : "";
+            const isFinish = toggleFinish.checked ? " [FINISH]" : "";
+            const isSafe = toggleSafe.checked ? " [SAFE]" : "";
+            
             const entry = {
                 tNum: `T${toolSelect.value}`,
                 desc: `Str. ${document.getElementById('hidden-d').value} ${document.getElementById('hidden-mat').value}`,
-                strategy: camStrategySelect.value + isSafe,
+                strategy: camStrategySelect.value + isFinish + isSafe,
                 rpm: document.getElementById('out-rpm').textContent,
                 vf: document.getElementById('out-vf').textContent
             };
@@ -201,6 +243,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 MachiningOS.clearLogs('cnc');
                 renderSetupLog();
             }
+        });
+    }
+
+    // FIX: Tilføjet native browser print aktivering
+    const btnPrint = document.getElementById('btn-print');
+    if(btnPrint) {
+        btnPrint.addEventListener('click', () => {
+            window.print();
         });
     }
 

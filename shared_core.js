@@ -1,6 +1,6 @@
 /**
  * Machining_OS | Shared Core Logic
- * Version: 5.5 (Precision Glass // Unified Data Source)
+ * Version: 5.6 (Precision Glass // Unified Data Source & Manual Types)
  */
 
 const MACHINING_DB = {
@@ -57,8 +57,8 @@ const MACHINING_DB = {
     MACHINES: {
         'HAAS_MINI': { name: 'Haas Mini Mill', maxRpm: 10000, maxFeed: 15000, type: 'cnc' },
         'HAAS_ST10': { name: 'Haas ST-10', maxRpm: 6000, maxFeed: 12000, type: 'cnc' },
-        'DECKEL': { name: 'Deckel FP1', maxRpm: 2500, maxFeed: 1000, type: 'manual' },
-        'WEILER': { name: 'Weiler Matador', maxRpm: 3550, maxFeed: 2000, type: 'manual' }
+        'DECKEL': { name: 'Deckel FP1', maxRpm: 2500, maxFeed: 1000, type: 'manual_mill' },
+        'WEILER': { name: 'Weiler Matador', maxRpm: 3550, maxFeed: 2000, type: 'manual_turn' }
     }
 };
 
