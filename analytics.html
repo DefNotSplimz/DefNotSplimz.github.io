@@ -2,7 +2,7 @@
 <html lang="da" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <title>Datum Prototyping | Machine Health</title>
+    <title>Datum Prototyping | Analytics & Dynamics</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="global.css">
@@ -10,7 +10,8 @@
 </head>
 <body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
 
-    <div class="subtle-grid"></div>
+    <div class="subtle-grid fixed inset-0 z-0 pointer-events-none"></div>
+    <div class="scanline fixed inset-0 z-0 pointer-events-none opacity-10"></div>
 
     <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden relative z-20">
     <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
@@ -38,120 +39,230 @@
         <a href="standards.html" class="sidebar-nav-item" data-route="15">15</a>
         <a href="hightech.html" class="sidebar-nav-item" data-route="16">16</a>
     </nav>
-
     <div class="status-dot mt-auto"></div>
     </aside>
 
     <div class="flex-grow flex flex-col min-w-0 relative z-10">
         <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden print:hidden">
-            <div class="scanline"></div>
             <div class="max-w-7xl mx-auto relative z-10">
-                <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Machine Health</h1>
-                <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Geometric_Verificering_&_Service_Log // Route_09</p>
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Analytics</h1>
+                <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">CAM_Dynamics_&_Machine_Health // Route_09</p>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 space-y-12 py-16 relative z-10">
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 space-y-16 py-16 relative z-10">
             
-            <section class="module-card p-8 bg-black shadow-2xl relative z-10">
-                <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
-                    <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Spindel_Runout_Log_(T.I.R.)</h3>
-                    <div class="flex flex-col gap-2 w-1/3">
-                        <select id="machine-select" class="p-2 bg-zinc-900 border border-zinc-800 text-xs font-mono text-white focus:border-primary outline-none cursor-pointer"></select>
-                    </div>
-                </div>
+            <div class="grid lg:grid-cols-12 gap-12">
+                <section class="lg:col-span-7 space-y-8">
+                    <div class="module-card p-8 bg-black shadow-2xl relative z-10 border-primary/20">
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                            <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Tool_&_Material_Parameters</h3>
+                            <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Base Cutting Data</span>
+                        </div>
 
-                <form id="runout-form" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 items-end p-4 bg-zinc-900/50 border border-zinc-900 relative z-20">
-                    <div class="flex flex-col gap-1">
-                        <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Måle-Dorn Længde</label>
-                        <select class="p-2 bg-black border border-zinc-800 text-white font-mono focus:border-primary outline-none">
-                            <option>100 mm (Std)</option>
-                            <option>200 mm</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Måling 0° (µm)</label>
-                        <input type="number" id="tir-0" placeholder="0" required class="p-2 bg-black border border-zinc-800 font-mono text-right text-red-500 font-bold focus:border-primary outline-none tabular-nums">
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Måling 180° (µm)</label>
-                        <input type="number" id="tir-180" placeholder="0" required class="p-2 bg-black border border-zinc-800 font-mono text-right text-red-500 font-bold focus:border-primary outline-none tabular-nums">
-                    </div>
-                    <button type="submit" id="btn-save-tir" class="btn-industrial py-2 text-[10px] uppercase font-black italic cursor-pointer">Log_Måling</button>
-                </form>
-
-                <div class="overflow-x-auto tabular-nums text-[11px] font-mono relative z-20">
-                    <table class="w-full text-left">
-                        <thead><tr class="text-zinc-500 uppercase border-b border-zinc-800"><th class="p-3">Dato</th><th class="p-3 text-primary">Kast (T.I.R.)</th><th class="p-3">Målsted</th><th class="p-3">Status</th><th class="p-3 text-right">Action</th></tr></thead>
-                        <tbody id="runout-table-body" class="divide-y divide-zinc-900/50">
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <div class="grid lg:grid-cols-2 gap-12">
-                <section class="module-card p-8 bg-black shadow-2xl relative z-10">
-                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8 italic uppercase">
-                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest">// Coolant_Health_Engine</h3>
-                        <span class="text-[9px] font-mono text-zinc-600 font-bold">Fluid_Diagnostics</span>
-                    </div>
-                    <div class="space-y-6 relative z-20">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="flex flex-col gap-1">
-                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Refraktometer (Brix %)</label>
-                                <input type="number" id="coolant-brix" placeholder="f.eks. 8.5" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-right focus:border-primary outline-none">
+                        <div class="grid grid-cols-2 gap-6 relative z-20">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Råmateriale (DB Link)</label>
+                                <select id="cam-mat" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none cursor-pointer"></select>
                             </div>
-                            <div class="flex flex-col gap-1">
-                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">pH-Værdi</label>
-                                <input type="number" id="coolant-ph" placeholder="f.eks. 9.0" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-right focus:border-primary outline-none">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Fræser Ø (D)</label>
+                                <input type="number" id="cam-d" value="10" step="1" class="p-3 bg-black border border-primary/30 text-primary font-mono font-black focus:border-primary outline-none">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Antal Skær (Z)</label>
+                                <input type="number" id="cam-z" value="4" step="1" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono focus:border-primary outline-none">
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold text-primary">Skærehastighed Vc (m/min)</label>
+                                <input type="number" id="cam-vc" value="140" step="5" class="p-3 bg-black border border-primary/30 text-primary font-mono font-black focus:border-primary outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="module-card p-8 bg-black shadow-2xl relative z-10">
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                            <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Tool_Path_Engagement</h3>
+                            <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Ap / Ae Matrix</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6 relative z-20">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Radialt Indgreb (Ae)</label>
+                                <input type="number" id="cam-ae" value="1" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono focus:border-primary outline-none">
+                                <span class="text-[8px] font-mono text-zinc-600 uppercase font-bold" id="ae-pct-text">10.0% Stepover</span>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Aksial Dybde (Ap)</label>
+                                <input type="number" id="cam-ap" value="15" step="0.5" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono focus:border-primary outline-none">
+                                <span class="text-[8px] font-mono text-zinc-600 uppercase font-bold" id="ap-ratio-text">1.5xD Dybde</span>
+                            </div>
+                            <div class="flex flex-col gap-2 col-span-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Programmeret Fz (mm/tand)</label>
+                                <input type="number" id="cam-fz" value="0.06" step="0.01" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono focus:border-primary outline-none">
                             </div>
                         </div>
 
-                        <div id="coolant-result" class="p-6 border border-zinc-800 bg-zinc-900/20 text-center transition-all duration-300">
-                            <span class="text-[9px] font-mono text-zinc-500 uppercase font-black block mb-2">// System_Status</span>
-                            <div id="coolant-status" class="text-2xl font-black italic tracking-tighter text-white uppercase">Aventer_Data</div>
-                            <p id="coolant-action" class="text-[10px] font-mono text-zinc-400 mt-3 font-bold uppercase"></p>
+                        <div id="chip-thinning-alert" class="mt-6 p-4 border border-emerald-500/30 bg-emerald-500/10 flex justify-between items-center transition-all hidden">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] font-mono text-emerald-500 uppercase font-black italic tracking-widest">RCT_Kompensation_Aktiv</span>
+                                <span class="text-[9px] font-mono text-zinc-400 mt-1">Ae er under 50%. Tilspænding øges for at opretholde Fz tykkelse.</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[8px] font-mono text-zinc-500 uppercase font-bold block">Kompenseret Fz</span>
+                                <span id="cam-fz-adj" class="text-xl font-black text-emerald-500 tabular-nums italic">0.095</span>
+                            </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="module-card p-8 bg-black shadow-2xl relative z-10">
-                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8 italic uppercase">
-                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest">// Forebyggende_Vedligehold</h3>
-                        <span class="text-[9px] font-mono text-zinc-600 font-bold">Checklist_State</span>
-                    </div>
-                    <div class="space-y-8 text-[11px] font-mono relative z-20">
-                        <div class="space-y-3 p-6 bg-zinc-900/30 border border-zinc-900">
-                            <label class="flex items-center justify-between cursor-pointer group">
-                                <span class="text-zinc-400 font-bold uppercase group-hover:text-white transition-colors">Vangeolie / Centralsmøring Tjekket</span>
-                                <input type="checkbox" id="chk-oil" class="accent-primary w-4 h-4 cursor-pointer">
-                            </label>
-                            <div class="h-px w-full bg-zinc-800/50"></div>
-                            <label class="flex items-center justify-between cursor-pointer group">
-                                <span class="text-zinc-400 font-bold uppercase group-hover:text-white transition-colors">Kølevand Skimmer Kørsel (Tramp Oil)</span>
-                                <input type="checkbox" id="chk-skim" class="accent-primary w-4 h-4 cursor-pointer">
-                            </label>
-                            <div class="h-px w-full bg-zinc-800/50"></div>
-                            <label class="flex items-center justify-between cursor-pointer group">
-                                <span class="text-zinc-400 font-bold uppercase group-hover:text-white transition-colors">Geometrisk X/Y 90° Kalibrering</span>
-                                <input type="checkbox" id="chk-geo" class="accent-primary w-4 h-4 cursor-pointer">
-                            </label>
+                <section class="lg:col-span-5 space-y-8">
+                    <div class="module-card p-8 bg-black shadow-2xl h-full flex flex-col border-primary/10 relative z-10">
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                            <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// CNC_Execution_Data</h3>
+                            <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">G-Code Parameters</span>
                         </div>
-                        <div class="text-center p-6 border border-zinc-900 bg-black/40 relative overflow-hidden group">
-                            <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <span class="text-zinc-600 block mb-2 uppercase tracking-widest font-bold">Næste_Fuld_Service</span>
-                            <span class="text-3xl font-black text-white italic tracking-tighter">Q4 - 2026</span>
+
+                        <div class="space-y-6 flex-grow relative z-20">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="p-4 bg-zinc-900/30 border border-zinc-800 text-center">
+                                    <span class="text-[9px] font-mono text-zinc-500 uppercase font-bold block mb-1">Spindel_RPM (S)</span>
+                                    <div class="text-3xl font-black text-white italic tabular-nums"><span id="out-rpm">4456</span></div>
+                                </div>
+                                <div class="p-4 bg-primary/10 border border-primary/30 text-center shadow-[0_0_15px_rgba(245,158,11,0.05)]">
+                                    <span class="text-[9px] font-mono text-primary/80 uppercase font-black block mb-1">Feedrate (F)</span>
+                                    <div class="text-3xl font-black text-primary italic tabular-nums"><span id="out-feed">1693</span></div>
+                                    <span class="text-[9px] font-mono text-primary/50 uppercase font-bold">mm/min</span>
+                                </div>
+                            </div>
+
+                            <div class="p-6 bg-zinc-900/20 border border-zinc-800 relative overflow-hidden mt-8">
+                                <div class="scanline opacity-10"></div>
+                                <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-2">// Material_Removal_Rate (Q)</span>
+                                <div class="text-5xl font-black italic tracking-tighter text-white tabular-nums flex items-baseline gap-2">
+                                    <span id="out-mrr">25.4</span>
+                                    <span class="text-sm font-bold font-mono text-zinc-500 uppercase">cm³/min</span>
+                                </div>
+                            </div>
+
+                            <div class="p-6 bg-black border border-zinc-900 mt-4 border-l-2 border-l-red-500/50">
+                                <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-2">// Net_Spindle_Power (Pc)</span>
+                                <div class="text-4xl font-black italic tracking-tighter tabular-nums flex items-baseline gap-2" id="power-wrapper">
+                                    <span id="out-power" class="text-white">1.14</span>
+                                    <span class="text-sm font-bold font-mono text-zinc-500 uppercase">kW</span>
+                                </div>
+                                <p class="text-[8px] font-mono text-zinc-600 uppercase mt-2">
+                                    Krævet effekt ved skæret (ekskl. maskintab). Beregnet vha. specifik skærekraft (Kc).
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </section>
+            </div>
+
+            <div class="h-px bg-zinc-900 w-full opacity-50 relative z-10"></div>
+
+            <div class="space-y-12 relative z-10">
+                <section class="module-card p-8 bg-black shadow-2xl relative z-10">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Spindel_Runout_Log_(T.I.R.)</h3>
+                        <div class="flex flex-col gap-2 w-1/3">
+                            <select id="machine-select" class="p-2 bg-zinc-900 border border-zinc-800 text-xs font-mono text-white focus:border-primary outline-none cursor-pointer"></select>
+                        </div>
+                    </div>
+
+                    <form id="runout-form" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 items-end p-4 bg-zinc-900/50 border border-zinc-900 relative z-20">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Måle-Dorn Længde</label>
+                            <select class="p-2 bg-black border border-zinc-800 text-white font-mono focus:border-primary outline-none">
+                                <option>100 mm (Std)</option>
+                                <option>200 mm</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Måling 0° (µm)</label>
+                            <input type="number" id="tir-0" placeholder="0" required class="p-2 bg-black border border-zinc-800 font-mono text-right text-red-500 font-bold focus:border-primary outline-none tabular-nums">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Måling 180° (µm)</label>
+                            <input type="number" id="tir-180" placeholder="0" required class="p-2 bg-black border border-zinc-800 font-mono text-right text-red-500 font-bold focus:border-primary outline-none tabular-nums">
+                        </div>
+                        <button type="submit" id="btn-save-tir" class="btn-industrial py-2 text-[10px] uppercase font-black italic cursor-pointer">Log_Måling</button>
+                    </form>
+
+                    <div class="overflow-x-auto tabular-nums text-[11px] font-mono relative z-20">
+                        <table class="w-full text-left">
+                            <thead><tr class="text-zinc-500 uppercase border-b border-zinc-800"><th class="p-3">Dato</th><th class="p-3 text-primary">Kast (T.I.R.)</th><th class="p-3">Målsted</th><th class="p-3">Status</th><th class="p-3 text-right">Action</th></tr></thead>
+                            <tbody id="runout-table-body" class="divide-y divide-zinc-900/50">
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <section class="module-card p-8 bg-black shadow-2xl relative z-10">
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8 italic uppercase">
+                            <h3 class="text-primary font-mono text-[10px] font-black tracking-widest">// Coolant_Health_Engine</h3>
+                            <span class="text-[9px] font-mono text-zinc-600 font-bold">Fluid_Diagnostics</span>
+                        </div>
+                        <div class="space-y-6 relative z-20">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">Refraktometer (Brix %)</label>
+                                    <input type="number" id="coolant-brix" placeholder="f.eks. 8.5" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-right focus:border-primary outline-none">
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-[9px] font-mono text-zinc-500 uppercase font-bold">pH-Værdi</label>
+                                    <input type="number" id="coolant-ph" placeholder="f.eks. 9.0" step="0.1" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-right focus:border-primary outline-none">
+                                </div>
+                            </div>
+
+                            <div id="coolant-result" class="p-6 border border-zinc-800 bg-zinc-900/20 text-center transition-all duration-300">
+                                <span class="text-[9px] font-mono text-zinc-500 uppercase font-black block mb-2">// System_Status</span>
+                                <div id="coolant-status" class="text-2xl font-black italic tracking-tighter text-white uppercase">Aventer_Data</div>
+                                <p id="coolant-action" class="text-[10px] font-mono text-zinc-400 mt-3 font-bold uppercase"></p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="module-card p-8 bg-black shadow-2xl relative z-10">
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8 italic uppercase">
+                            <h3 class="text-primary font-mono text-[10px] font-black tracking-widest">// Forebyggende_Vedligehold</h3>
+                            <span class="text-[9px] font-mono text-zinc-600 font-bold">Checklist_State</span>
+                        </div>
+                        <div class="space-y-8 text-[11px] font-mono relative z-20">
+                            <div class="space-y-3 p-6 bg-zinc-900/30 border border-zinc-900">
+                                <label class="flex items-center justify-between cursor-pointer group">
+                                    <span class="text-zinc-400 font-bold uppercase group-hover:text-white transition-colors">Vangeolie / Centralsmøring Tjekket</span>
+                                    <input type="checkbox" id="chk-oil" class="accent-primary w-4 h-4 cursor-pointer">
+                                </label>
+                                <div class="h-px w-full bg-zinc-800/50"></div>
+                                <label class="flex items-center justify-between cursor-pointer group">
+                                    <span class="text-zinc-400 font-bold uppercase group-hover:text-white transition-colors">Kølevand Skimmer Kørsel (Tramp Oil)</span>
+                                    <input type="checkbox" id="chk-skim" class="accent-primary w-4 h-4 cursor-pointer">
+                                </label>
+                                <div class="h-px w-full bg-zinc-800/50"></div>
+                                <label class="flex items-center justify-between cursor-pointer group">
+                                    <span class="text-zinc-400 font-bold uppercase group-hover:text-white transition-colors">Geometrisk X/Y 90° Kalibrering</span>
+                                    <input type="checkbox" id="chk-geo" class="accent-primary w-4 h-4 cursor-pointer">
+                                </label>
+                            </div>
+                            <div class="text-center p-6 border border-zinc-900 bg-black/40 relative overflow-hidden group">
+                                <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <span class="text-zinc-600 block mb-2 uppercase tracking-widest font-bold">Næste_Fuld_Service</span>
+                                <span class="text-3xl font-black text-white italic tracking-tighter">Q4 - 2026</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
 
         </main>
 
         <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center relative z-20 print:hidden">
             <div class="max-w-7xl mx-auto px-6">
-                <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // Health_OS // 2026</div>
-                <div class="text-zinc-800 mt-2 tracking-widest uppercase">Diagnostic_Telemetry_Verified</div>
+                <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // OS_Analytics // 2026</div>
+                <div class="text-zinc-800 mt-2 tracking-widest uppercase">CAM_Dynamics_&_Telemetry_Verified</div>
             </div>
         </footer>
     </div>

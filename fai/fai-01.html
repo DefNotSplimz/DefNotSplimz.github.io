@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="da" class="dark">
+<html lang="da" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAI Report | FAI-01-FLAME</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="../global.css">
     <script>
         tailwind.config = {
             theme: {
@@ -19,131 +19,138 @@
     </script>
     <style>
         body { background-color: #050506; }
+        
         .a4-page {
             background: white;
             color: #09090b;
             width: 210mm;
             min-height: 297mm;
-            margin: 2rem auto;
+            margin: 4rem auto;
             padding: 20mm;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             position: relative;
         }
-        .industrial-border { border: 2px solid #000; }
-        .data-label { font-size: 8px; color: #71717a; text-transform: uppercase; font-weight: 900; letter-spacing: 0.1em; }
-        .data-value { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
+
+        .data-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #52525b;
+            letter-spacing: 0.1em;
+        }
+
+        .data-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* --- HARDCORE PRINT OVERRIDE --- */
         @media print {
-            body { background: white; }
-            .a4-page { margin: 0; box-shadow: none; width: 100%; }
-            .no-print { display: none !important; }
+            @page { size: A4; margin: 0; }
+            body { background: white !important; margin: 0; padding: 0; }
+            .subtle-grid, .scanline, .print-btn-container { display: none !important; }
+            .a4-page {
+                margin: 0 !important;
+                padding: 15mm !important;
+                width: 100% !important;
+                min-height: 100% !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
         }
     </style>
 </head>
-<body class="antialiased subtle-grid uppercase">
+<body class="antialiased selection:bg-primary selection:text-black relative overflow-x-hidden min-h-screen">
 
-    <nav class="max-w-[210mm] mx-auto py-6 no-print flex justify-between items-center px-4">
-        <a href="../index.html" class="text-[10px] font-mono font-bold text-zinc-500 hover:text-primary transition-all tracking-[0.3em] italic">
-            < Return_to_OS
-        </a>
-        <button onclick="window.print()" class="btn-industrial px-6 py-2 text-[10px] italic">
-            Execute_Print_Protocol
+    <div class="subtle-grid fixed inset-0 z-0 pointer-events-none"></div>
+    <div class="scanline fixed inset-0 z-0 pointer-events-none opacity-10"></div>
+
+    <div class="print-btn-container fixed bottom-10 right-10 z-50">
+        <button onclick="window.print()" class="btn-industrial bg-primary text-black border-primary px-6 py-3 font-mono text-[11px] font-black italic tracking-widest uppercase hover:bg-white hover:text-black hover:scale-105 transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)] cursor-pointer">
+            [+]_Print_Rapport
         </button>
-    </nav>
+    </div>
 
-    <main class="a4-page flex flex-col">
-        <header class="flex justify-between items-start border-b-4 border-black pb-8 mb-8">
-            <div>
-                <img src="img/logoB.svg" alt="Datum" class="h-10 w-auto mb-4">
-                <h1 class="text-4xl font-black italic tracking-tighter leading-none">FAI_VERIFICATION_REPORT</h1>
-                <p class="font-mono text-[10px] text-zinc-500 mt-2 font-bold tracking-widest italic">Cylinder & Stempel // ISO 286-1</p>
-            </div>
-            <div class="text-right flex flex-col items-end">
-                <div class="border-2 border-black p-2 mb-2">
-                    <span class="data-label block">Report_ID</span>
-                    <span class="text-xl font-black italic">FAI-01-FLAME</span>
+    <div class="relative z-10 w-full py-4">
+        <div class="a4-page flex flex-col">
+            
+            <header class="border-b-4 border-black pb-6 mb-8 flex justify-between items-end">
+                <div>
+                    <h1 class="text-4xl font-black uppercase italic tracking-tighter text-black leading-none">FAI Report</h1>
+                    <p class="font-mono text-xs font-bold mt-2 text-zinc-600 tracking-widest">Datum Prototyping // Quality_Assurance</p>
                 </div>
-                <span class="data-value text-zinc-400">Date: 18.03.2026</span>
-            </div>
-        </header>
-
-        <div class="grid grid-cols-4 border-b-2 border-black mb-8">
-            <div class="border-r border-black p-4">
-                <span class="data-label">Material_Spec</span>
-                <span class="data-value block text-primary font-black">RUSTFAST / 316L</span>
-            </div>
-            <div class="border-r border-black p-4">
-                <span class="data-label">Equipment_ID</span>
-                <span class="data-value block">MITUTOYO_QUANTUMIKE</span>
-            </div>
-            <div class="border-r border-black p-4">
-                <span class="data-label">Temp_Correction</span>
-                <span class="data-value block">20.0°C (ISO_1)</span>
-            </div>
-            <div class="p-4 bg-zinc-50">
-                <span class="data-label">Inspector</span>
-                <span class="data-value block">G. Cilinder-Hansen</span>
-            </div>
-        </div>
-
-        <div class="mb-8">
-            <h2 class="data-label mb-2">// CTQ_Visual_Reference</h2>
-            <div class="industrial-border bg-zinc-50 p-10 flex items-center justify-center grayscale opacity-80">
-                <img src="img/fai-01-drawing.webp" alt="Drawing" class="max-h-[60mm]">
-            </div>
-        </div>
-
-        <div class="flex-grow">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-black text-white italic">
-                        <th class="p-3 text-left data-label text-white w-12 italic">#</th>
-                        <th class="p-3 text-left data-label text-white">Characteristic_Description</th>
-                        <th class="p-3 text-right data-label text-white">Nominal</th>
-                        <th class="p-3 text-right data-label text-white">Actual</th>
-                        <th class="p-3 text-center data-label text-white">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y-2 divide-black">
-                    <tr>
-                        <td class="p-4 data-value text-zinc-300 italic">01</td>
-                        <td class="p-4">
-                            <span class="data-value block text-zinc-950 font-black">Cylinder Boring</span>
-                            <span class="text-[8px] font-mono text-zinc-400 italic">H7 (+0.018/0.000)</span>
-                        </td>
-                        <td class="p-4 data-value text-right">Ø 11.000</td>
-                        <td class="p-4 data-value text-right text-lg underline italic">11.005</td>
-                        <td class="p-4 text-center"><span class="border-2 border-emerald-600 text-emerald-600 px-3 py-1 text-[9px] font-black italic">PASS</span></td>
-                    </tr>
-                    <tr class="bg-zinc-50">
-                        <td class="p-4 data-value text-zinc-300 italic">02</td>
-                        <td class="p-4">
-                            <span class="data-value block text-zinc-950 font-black">Stempel Diameter</span>
-                            <span class="text-[8px] font-mono text-zinc-400 italic">f7 (-0.016/-0.034)</span>
-                        </td>
-                        <td class="p-4 data-value text-right">Ø 11.000</td>
-                        <td class="p-4 data-value text-right text-lg underline italic">10.980</td>
-                        <td class="p-4 text-center"><span class="border-2 border-emerald-600 text-emerald-600 px-3 py-1 text-[9px] font-black italic">PASS</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <footer class="mt-12 pt-8 border-t-4 border-black">
-            <div class="grid grid-cols-2 gap-12 mb-8">
-                <div class="p-4 border-l-4 border-primary bg-zinc-50 font-mono text-[10px] italic leading-relaxed">
-                    <span class="data-label block mb-2 not-italic font-black text-black">// Audit_Commentary</span>
-                    Akklimatiseret v. 20°C standardtemperatur. Spillerum på 0.025 mm sikrer vakuumtæthed uden mekanisk friktion.
+                <div class="text-right">
+                    <div class="data-label">Report_ID</div>
+                    <div class="text-xl font-black font-mono">FAI-01-FLAME</div>
                 </div>
-                <div class="flex flex-col justify-end">
-                    <span class="data-label mb-1">Authorization_Signature</span>
-                    <div class="border-b-2 border-black h-12 flex items-end pb-1 italic font-black text-sm">G. Cilinder-Hansen</div>
+            </header>
+
+            <div class="grid grid-cols-2 gap-8 mb-10 border border-zinc-300 bg-zinc-50 p-6">
+                <div>
+                    <div class="data-label mb-1">Part_Name</div>
+                    <div class="text-lg font-black uppercase">Cylinder & Stempel</div>
+                </div>
+                <div>
+                    <div class="data-label mb-1">Material</div>
+                    <div class="text-lg font-black uppercase">Messing Ms58 / Alu 6082</div>
                 </div>
             </div>
-            <div class="flex justify-between items-center text-[8px] font-mono font-bold text-zinc-400 tracking-widest">
-                <span>DATUM_METROLOGY_SERVICES // DIN_863_VERIFIED</span>
-                <span>SYSTEM_STATUS: PRECISION_LOCKED</span>
+
+            <div class="mb-10 border-2 border-black p-2 bg-white print:border-none print:p-0 print:mb-6">
+                <div class="flex justify-between items-center mb-2 border-b-2 border-black pb-2 print:hidden">
+                    <span class="data-label font-black text-black">// REFERENCE_BLUEPRINT</span>
+                    <span class="data-label">VISUAL_TARGETS</span>
+                </div>
+                <div class="w-full aspect-[21/9] bg-zinc-50 flex items-center justify-center overflow-hidden relative print:bg-transparent print:aspect-auto print:h-auto">
+                    <img src="img/fai-01-drawing.webp" alt="Målskitse FAI-01" class="w-full h-full object-contain mix-blend-multiply relative z-10 print:h-auto print:max-h-[80mm]">
+                </div>
             </div>
-        </footer>
-    </main>
+
+            <div class="flex-grow">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b-2 border-black">
+                            <th class="py-3 data-label text-black font-black">Dimension</th>
+                            <th class="py-3 data-label text-black font-black text-right">Nominel</th>
+                            <th class="py-3 data-label text-black font-black text-right">Tolerance</th>
+                            <th class="py-3 data-label text-black font-black text-right">Aktuelt</th>
+                            <th class="py-3 data-label text-black font-black text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-200">
+                        <tr>
+                            <td class="py-4 font-bold text-sm">Stempel Yder-Ø</td>
+                            <td class="py-4 data-value text-right text-zinc-500">11.000</td>
+                            <td class="py-4 data-value text-right text-zinc-500">-0.020 / -0.040</td>
+                            <td class="py-4 data-value text-right text-lg underline italic text-black">10.980</td>
+                            <td class="py-4 text-center">
+                                <span class="border-2 border-emerald-600 text-emerald-600 px-3 py-1 text-[9px] font-black italic tracking-widest uppercase">Pass</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <footer class="mt-12 pt-8 border-t-4 border-black">
+                <div class="grid grid-cols-2 gap-12 mb-8">
+                    <div class="p-4 border-l-4 border-primary bg-zinc-50 font-mono text-[10px] italic leading-relaxed text-zinc-700">
+                        <span class="data-label block mb-2 not-italic font-black text-black">// Audit_Commentary</span>
+                        Akklimatiseret v. 20°C standardtemperatur. Spillerum på 0.025 mm sikrer vakuumtæthed uden mekanisk friktion.
+                    </div>
+                    <div class="flex flex-col justify-end">
+                        <span class="data-label mb-1">Authorization_Signature</span>
+                        <div class="border-b-2 border-black h-12 flex items-end pb-1 italic font-black text-sm text-black">G. Cilinder-Hansen</div>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center text-[8px] font-mono font-bold text-zinc-400 tracking-widest uppercase">
+                    <span>DATUM_METROLOGY_SERVICES // ISO_CERTIFIED</span>
+                    <span>Side 1 af 1</span>
+                </div>
+            </footer>
+
+        </div>
+    </div>
 </body>
 </html>
