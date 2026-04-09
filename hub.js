@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic
- * Version: 6.0 (Fusion 360 Native Integration)
+ * Version: 6.1 (Spot Drilling + Tapping Bypass)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Scallop (3D)': { cat: '3D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Stepover (Ae)', ap_label: 'Ikke_Relevant', show_ae: true, show_ap: false },
         'Contour (3D)': { cat: '3D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Ikke_Relevant', ap_label: 'Max_Stepdown (Ap)', show_ae: false, show_ap: true },
 
+        'Spot Drill (Centrerboring)': { cat: 'HOLE', vc_mult: 0.8, fz_mult: 0.5, ae_label: 'Ikke_Relevant', ap_label: 'Dybde/Fas (Z)', show_ae: false, show_ap: true },
         'Drilling (Standard)': { cat: 'HOLE', vc_mult: 0.8, fz_mult: 1.0, ae_label: 'Ikke_Relevant', ap_label: 'Peck_Depth (Q)', show_ae: false, show_ap: true },
         'Tapping (Gevind)': { cat: 'HOLE', vc_mult: 0.3, fz_mult: 1.0, ae_label: 'Ikke_Relevant', ap_label: 'Ikke_Relevant', show_ae: false, show_ap: false }
     };
@@ -137,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // For tapping udgør 'fz' gevindets pitch. Antal skær (Z) ignoreres brutalt.
             vf = n * fz; 
         } else {
-            // Standard fræsning
+            // Standard fræsning og standard boring (inkl. Spot Drill)
             vf = n * z * fz;
         }
 
