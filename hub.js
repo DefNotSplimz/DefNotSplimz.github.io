@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic
- * Version: 5.9 (Print Integration)
+ * Version: 6.0 (Fusion 360 Native Integration)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -129,12 +129,41 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const n = Math.min((vc * 1000) / (Math.PI * d), machine.maxRpm);
         const z = parseFloat(document.getElementById('hidden-z').value) || 1;
-        const vf = n * z * fz;
+        
+        let vf = 0;
+        
+        // STRATEGI-BYPASS: Håndtering af Gevindskæring vs. Fræsning
+        if (camStrategySelect.value === 'Tapping (Gevind)') {
+            // For tapping udgør 'fz' gevindets pitch. Antal skær (Z) ignoreres brutalt.
+            vf = n * fz; 
+        } else {
+            // Standard fræsning
+            vf = n * z * fz;
+        }
 
+        // F360 Derivater (Optimeret for maskinel overlevelse)
+        const rampRpm = n;
+        const leadInFeed = vf * 0.80;  // 80% for at reducere chok ved indtræden
+        const leadOutFeed = vf * 0.80; // 80% for rent exit
+        const transFeed = vf * 1.50;   // 150% til repositionering i planet
+        const rampFeed = vf * 0.60;    // 60% for at beskytte bundskær under rampe
+        const plungeFeed = vf * 0.33; 
+        const plungePerRev = plungeFeed / n || 0;
+
+        // Core Updates
         document.getElementById('out-rpm').textContent = Math.round(n).toLocaleString('da-DK');
-        document.getElementById('out-vf').textContent = Math.round(vf).toLocaleString('da-DK');
         document.getElementById('out-vc-range').textContent = Math.round(vc);
+        document.getElementById('out-vf').textContent = Math.round(vf).toLocaleString('da-DK');
         document.getElementById('out-fz-range').textContent = fz.toFixed(4);
+
+        // F360 Matrix Updates
+        document.getElementById('out-ramp-rpm').textContent = Math.round(rampRpm).toLocaleString('da-DK');
+        document.getElementById('out-lead-in').textContent = Math.round(leadInFeed).toLocaleString('da-DK');
+        document.getElementById('out-lead-out').textContent = Math.round(leadOutFeed).toLocaleString('da-DK');
+        document.getElementById('out-trans').textContent = Math.round(transFeed).toLocaleString('da-DK');
+        document.getElementById('out-ramp-feed').textContent = Math.round(rampFeed).toLocaleString('da-DK');
+        document.getElementById('out-plunge').textContent = Math.round(plungeFeed).toLocaleString('da-DK');
+        document.getElementById('out-plunge-rev').textContent = plungePerRev.toFixed(4);
 
         MachiningOS.saveState({
             activeMachine: machineSelect.value,
@@ -246,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // FIX: Tilføjet native browser print aktivering
     const btnPrint = document.getElementById('btn-print');
     if(btnPrint) {
         btnPrint.addEventListener('click', () => {
