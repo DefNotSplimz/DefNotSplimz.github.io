@@ -68,11 +68,6 @@
         <section id="beregner" class="py-12 px-6 md:px-12 bg-transparent print:hidden">
             <div class="max-w-7xl mx-auto">
                 
-                <div class="hidden print:block w-full border-b-4 border-black pb-4 mb-8 mt-0 text-center">
-                    <h1 class="text-4xl font-black uppercase italic tracking-tighter">Setup Sheet // Manual Operations</h1>
-                    <p class="font-mono text-sm font-bold mt-2 text-zinc-700">Datum_Prototyping_Core</p>
-                </div>
-
                 <div class="grid lg:grid-cols-12 gap-6 tabular-nums relative z-10">
                     
                     <div class="lg:col-span-8 module-card p-10 bg-black/60 shadow-2xl relative z-10">
@@ -102,19 +97,20 @@
                                         <select id="work-material" class="p-3 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm focus:border-primary/50 outline-none transition-all"></select>
                                     </div>
                                     <div class="flex flex-col gap-2">
-                                        <label class="text-[9px] font-mono text-zinc-500 uppercase font-black">Værktøj</label>
+                                        <label class="text-[9px] font-mono text-zinc-500 uppercase font-black">Skær / Værktøj</label>
                                         <select id="tool-mat" class="p-3 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm focus:border-primary/50 outline-none transition-all">
-                                            <option value="HSS" class="bg-zinc-900">HSS</option>
-                                            <option value="HM" class="bg-zinc-900">HM</option>
+                                            <option value="HSS" class="bg-zinc-900">HSS / Hurtigstål</option>
+                                            <option value="HM_STEEL" class="bg-zinc-900">HM - Stål (ISO-P)</option>
+                                            <option value="HM_ALU" class="bg-zinc-900">HM - Alu (ISO-N)</option>
                                         </select>
                                     </div>
                                     <div class="flex flex-col gap-2" id="col-dia">
                                         <label class="text-[9px] font-mono text-zinc-500 uppercase font-black" id="label-dia">Dia (D)</label>
                                         <input type="number" id="input-dia" value="10" step="0.001" class="p-3 bg-zinc-900/50 border border-zinc-800 text-white font-mono focus:border-primary/50 outline-none transition-all text-right">
                                     </div>
-                                    <div class="flex flex-col gap-2" id="col-z">
-                                        <label class="text-[9px] font-mono text-zinc-500 uppercase font-black" id="label-z">Tænder (Z)</label>
-                                        <input type="number" id="input-z" value="4" step="1" class="p-3 bg-zinc-900/50 border border-zinc-800 text-white font-mono focus:border-primary/50 outline-none transition-all text-right">
+                                    <div class="flex flex-col gap-2" id="col-z-re">
+                                        <label class="text-[9px] font-mono text-primary uppercase font-black" id="label-z-re">Tænder (Z)</label>
+                                        <input type="number" id="input-z-re" value="4" step="0.1" class="p-3 bg-zinc-900/50 border border-zinc-800 text-white font-mono focus:border-primary/50 outline-none transition-all text-right">
                                     </div>
                                 </div>
                             </div>
@@ -125,9 +121,8 @@
                                     <div class="flex flex-col gap-2"><label class="text-[9px] font-mono text-primary uppercase font-black">Standard</label><select id="thread-standard" class="p-3 bg-black border border-primary/20 text-white focus:border-primary outline-none"><option value="M" class="bg-zinc-900">Metrisk (M)</option><option value="MF" class="bg-zinc-900">Metrisk Fin (MF)</option><option value="UNC" class="bg-zinc-900">UNC / UNF</option></select></div>
                                     <div class="flex flex-col gap-2"><label class="text-[9px] font-mono text-primary uppercase font-black">Gevindstørrelse</label><select id="thread-size" class="p-3 bg-black border border-primary/20 text-white focus:border-primary outline-none"></select></div>
                                 </div>
-                                <div id="mod-ra" class="grid grid-cols-2 gap-6 hidden">
+                                <div id="mod-ra" class="grid grid-cols-1 gap-6 hidden">
                                     <div class="flex flex-col gap-2"><label class="text-[9px] font-mono text-primary uppercase font-black">Mål Ra (µm)</label><select id="ra-target" class="p-3 bg-black border border-primary/20 text-white focus:border-primary outline-none"><option value="3.2" class="bg-zinc-900">3.2 (Grov)</option><option value="1.6" class="bg-zinc-900" selected>1.6 (Fin)</option><option value="0.8" class="bg-zinc-900">0.8 (Slet)</option><option value="0.4" class="bg-zinc-900">0.4 (Mikron)</option></select></div>
-                                    <div class="flex flex-col gap-2"><label class="text-[9px] font-mono text-primary uppercase font-black">Næseradius (Re)</label><select id="ra-radius" class="p-3 bg-black border border-primary/20 text-white focus:border-primary outline-none"><option value="0.1" class="bg-zinc-900">0.1</option><option value="0.2" class="bg-zinc-900">0.2</option><option value="0.4" class="bg-zinc-900" selected>0.4</option><option value="0.8" class="bg-zinc-900">0.8</option></select></div>
                                 </div>
                             </div>
 
@@ -138,7 +133,12 @@
                                     <div class="flex flex-col gap-2"><label class="text-[9px] font-mono text-zinc-500 uppercase font-black">Tolerance</label><select id="iso-class" class="p-3 bg-zinc-900/50 border border-zinc-800 text-white font-mono focus:border-primary/50 transition-all outline-none">
                                         <option value="H7" class="bg-zinc-900">H7 (Hul)</option><option value="H6" class="bg-zinc-900">H6 (Fin)</option><option value="h6" class="bg-zinc-900">h6 (Aksel)</option><option value="js5" class="bg-zinc-900">js5 (Pas)</option><option value="g6" class="bg-zinc-900">g6 (Glide)</option>
                                     </select></div>
-                                    <div class="bg-black border border-primary/30 p-3 flex items-center justify-center h-[46px] shadow-[0_0_15px_rgba(245,158,11,0.05)]"><span id="iso-result" class="font-mono text-sm font-bold text-primary tracking-widest">- / -</span></div>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="bg-black border border-primary/30 p-3 flex items-center justify-center h-[46px] shadow-[0_0_15px_rgba(245,158,11,0.05)]">
+                                            <span id="iso-result" class="font-mono text-sm font-bold text-primary tracking-widest">- / -</span>
+                                        </div>
+                                        <span id="iso-target" class="text-[9px] font-mono text-primary font-black uppercase tracking-widest text-center mt-2">DRO: -</span>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -146,9 +146,14 @@
 
                     <div class="lg:col-span-4 module-card p-10 bg-zinc-950 flex flex-col justify-between relative overflow-hidden border-primary/20 shadow-2xl relative z-10">
                         <div class="scanline opacity-10"></div>
-                        <div class="space-y-16 relative z-10">
+                        <div class="space-y-12 relative z-10">
                             <div class="label-micro text-primary italic font-black tracking-[0.3em]">/ Validated_Outputs</div>
                             
+                            <div id="tool-warning" class="hidden mb-6 border-l-2 border-red-500 pl-4 py-1">
+                                <span class="text-[8px] font-mono text-red-500 uppercase tracking-widest font-black block mb-1">SKÆR_MISMATCH_DETECTED</span>
+                                <p id="tool-warning-text" class="text-[9px] text-zinc-400 font-mono leading-relaxed"></p>
+                            </div>
+
                             <div id="output-special" class="mb-12 pb-8 border-b border-zinc-800 hidden">
                                 <span id="label-special-out" class="label-micro !text-[7px] !text-primary mb-4 italic font-black">// Special_Mål_Verificeret</span>
                                 <div class="flex items-end gap-2">
@@ -158,10 +163,11 @@
                                 <div id="info-special-desc" class="mt-4 text-[9px] font-mono text-zinc-400 uppercase tracking-widest border-l-2 border-primary/30 pl-4 italic"></div>
                             </div>
 
-                            <div class="space-y-12" id="output-standard">
-                                <div class="grid grid-cols-2 gap-8 border-b border-zinc-900 pb-12 text-center">
-                                    <div class="space-y-2"><span class="label-micro !text-[7px] !justify-center before:hidden">Target_Vc</span><span id="out-vc-range" class="text-2xl font-black text-white italic tracking-tighter block">0</span><span class="text-[8px] font-mono text-zinc-600 block mt-1 uppercase">M/MIN</span></div>
-                                    <div class="space-y-2"><span id="label-fz-out" class="label-micro !text-[7px] !justify-center before:hidden">Target_fz</span><span id="out-fz-range" class="text-2xl font-black text-white italic tracking-tighter block">0</span><span id="out-fz-unit" class="text-[8px] font-mono text-zinc-600 block mt-1 uppercase">MM/Z</span></div>
+                            <div class="space-y-10" id="output-standard">
+                                <div class="grid grid-cols-3 gap-4 border-b border-zinc-900 pb-10 text-center">
+                                    <div class="space-y-2"><span class="label-micro !text-[7px] !justify-center before:hidden">Target_Vc</span><span id="out-vc-range" class="text-xl font-black text-white italic tracking-tighter block">0</span><span class="text-[8px] font-mono text-zinc-600 block mt-1 uppercase">M/MIN</span></div>
+                                    <div class="space-y-2"><span id="label-fz-out" class="label-micro !text-[7px] !justify-center before:hidden">Target_fz</span><span id="out-fz-range" class="text-xl font-black text-white italic tracking-tighter block">0</span><span id="out-fz-unit" class="text-[8px] font-mono text-zinc-600 block mt-1 uppercase">MM/Z</span></div>
+                                    <div class="space-y-2"><span id="label-ap-out" class="label-micro !text-[7px] !justify-center before:hidden text-primary">Min_Ap</span><span id="out-ap-min" class="text-xl font-black text-primary italic tracking-tighter block">-</span><span class="text-[8px] font-mono text-primary/50 block mt-1 uppercase">DYBDE (MM)</span></div>
                                 </div>
 
                                 <div class="group">
@@ -180,9 +186,11 @@
                                     </div>
                                 </div>
 
-                                <div id="rpm-gauge-container" class="mt-8 space-y-3 border-t border-zinc-800 pt-8">
-                                    <div class="flex justify-between text-[9px] font-mono text-zinc-500 uppercase tracking-widest font-black"><span>Spindel_Belastning</span><span id="rpm-pct" class="text-primary font-bold">0%</span></div>
-                                    <div class="h-1 bg-zinc-900 overflow-hidden"><div id="rpm-bar" class="h-full bg-primary transition-all duration-700 shadow-[0_0_10px_var(--primary)]" style="width: 0%"></div></div>
+                                <div class="mt-6 border-l-2 border-primary/50 pl-4 py-1">
+                                    <span class="text-[8px] font-mono text-primary uppercase tracking-widest font-black block mb-1">Mekanisk Override // Bemærk</span>
+                                    <p class="text-[9px] text-zinc-500 font-mono leading-relaxed">
+                                        Rund <span class="text-white font-bold">ALTID NED</span> til nærmeste gear for tilspænding. <span id="facing-warning" class="text-red-500 font-bold hidden"><br>VED PLAN-DREJNING: Vc falder mod centrum. Øg omdrejninger undervejs.</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
