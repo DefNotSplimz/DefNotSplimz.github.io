@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic
- * Version: 6.5 (Full Kinematic & Feedrate Restoration - FIXED)
+ * Version: 6.6 (Radial Chip Thinning, Axial Deflection, MRR & 2D Chamfer)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '2D Adaptive Clearing': { cat: '2D', vc_mult: 1.5, fz_mult: 1.2, ae_label: 'Optimal_Load (Ae)', ap_label: 'Max_Stepdown (Ap)', show_ae: true, show_ap: true },
         '2D Pocket': { cat: '2D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Stepover (Ae)', ap_label: 'Max_Stepdown (Ap)', show_ae: true, show_ap: true },
         '2D Contour': { cat: '2D', vc_mult: 1.0, fz_mult: 1.0, ae_label: 'Ikke_Relevant', ap_label: 'Multiple_Depths (Ap)', show_ae: false, show_ap: true },
+        '2D Chamfer (Fas)': { cat: '2D', vc_mult: 1.0, fz_mult: 0.8, ae_label: 'Fas_Bredde (Width)', ap_label: 'Tip_Offset', show_ae: true, show_ap: true },
         'Face (Planfræsning)': { cat: '2D', vc_mult: 1.2, fz_mult: 1.0, ae_label: 'Stepover (Ae)', ap_label: 'Pass_Depth (Ap)', show_ae: true, show_ap: true },
         'Slotting (Fuld_Spor)': { cat: '2D', vc_mult: 0.8, fz_mult: 0.8, ae_label: 'Ikke_Relevant', ap_label: 'Max_Stepdown (Ap)', show_ae: false, show_ap: true },
         'Bore (Cirkulær_Fræs)': { cat: '2D', vc_mult: 1.0, fz_mult: 0.5, ae_label: 'Pitch', ap_label: 'Ikke_Relevant', show_ae: true, show_ap: false },
@@ -114,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (d === 0 || !mat || !strategy) return;
 
-        // Hardware Lockout Check
-        if (strategy.show_ap && ap > cel) {
+        // Hardware Lockout Check (Ignoreres for Chamfer, da Ap er Tip Offset, ikke fysisk dybde i stammen)
+        if (strategy.show_ap && ap > cel && camStrategySelect.value !== '2D Chamfer (Fas)') {
             protocolError.classList.remove('hidden');
             protocolErrorText.innerHTML = `AP (${ap}mm) overstiger Skærlængde/CEL (${cel}mm).<br>Stammen vil friktionssvejse i godset og knække værktøjet.`;
             document.getElementById('out-rpm').textContent = "ERR";
@@ -133,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Chip Thinning
         let thinning_mult = 1.0;
         let true_fz = target_hm;
-        if (strategy.show_ae && ae > 0 && ae < (d * 0.5)) {
+        if (strategy.show_ae && ae > 0 && ae < (d * 0.5) && camStrategySelect.value !== '2D Chamfer (Fas)') {
             thinning_mult = Math.sqrt(d / (4 * ae));
             if (thinning_mult > 4.0) thinning_mult = 4.0;
             true_fz = target_hm * thinning_mult;
@@ -162,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const machine_kw = machine.kw || 5.6; 
         const kc = KC_VALUES[matKey] || 1500;
 
-        if (strategy.show_ae && strategy.show_ap && ae > 0 && ap > 0) {
+        if (strategy.show_ae && strategy.show_ap && ae > 0 && ap > 0 && camStrategySelect.value !== '2D Chamfer (Fas)') {
             mrr = (ae * ap * vf) / 1000;
             power_kw = (mrr * kc) / 60000;
             power_pct = (power_kw / machine_kw) * 100;
@@ -176,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // --- DERIVATIVE FEEDRATES (THE FIX) ---
+        // --- DERIVATIVE FEEDRATES ---
         const rampRpm = n;
         const leadInFeed = vf * 0.80;  
         const leadOutFeed = vf * 0.80; 
@@ -249,10 +250,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if(btnSave) {
         btnSave.addEventListener('click', () => {
             if(!toolSelect.value) return;
+            
+            const isFinish = toggleFinish.checked ? " [FINISH]" : "";
+            const isSafe = toggleSafe.checked ? " [SAFE]" : "";
+            
             const entry = {
                 tNum: `T${toolSelect.value}`,
                 desc: `Str. ${document.getElementById('hidden-d').value} ${document.getElementById('hidden-mat').value}`,
-                strategy: camStrategySelect.value,
+                strategy: camStrategySelect.value + isFinish + isSafe,
                 rpm: document.getElementById('out-rpm').textContent,
                 vf: document.getElementById('out-vf').textContent
             };
