@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic
- * Version: 6.4 (Full Kinematic & Feedrate Restoration)
+ * Version: 6.5 (Full Kinematic & Feedrate Restoration - FIXED)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (d === 0 || !mat || !strategy) return;
 
+        // Hardware Lockout Check
         if (strategy.show_ap && ap > cel) {
             protocolError.classList.remove('hidden');
             protocolErrorText.innerHTML = `AP (${ap}mm) overstiger Skærlængde/CEL (${cel}mm).<br>Stammen vil friktionssvejse i godset og knække værktøjet.`;
@@ -129,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let vc = baseVc * (toggleHsm.checked ? strategy.vc_mult : 1.0);
         let target_hm = mat.fz_ref * strategy.fz_mult; 
         
+        // Chip Thinning
         let thinning_mult = 1.0;
         let true_fz = target_hm;
         if (strategy.show_ae && ae > 0 && ae < (d * 0.5)) {
@@ -137,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             true_fz = target_hm * thinning_mult;
         }
 
+        // Deflection Penalty
         let deflection_mult = 1.0;
         const ld_ratio = stickout / d;
         if (ld_ratio > 3.0 && strategy.cat !== 'HOLE') {
@@ -151,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const n = Math.min((vc * 1000) / (Math.PI * d), machine.maxRpm);
         let vf = (camStrategySelect.value === 'Tapping (Gevind)') ? (n * true_fz) : (n * z * true_fz);
 
+        // Thermodynamics
         let mrr = 0;
         let power_kw = 0;
         let power_pct = 0;
@@ -172,6 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // --- DERIVATIVE FEEDRATES (THE FIX) ---
         const rampRpm = n;
         const leadInFeed = vf * 0.80;  
         const leadOutFeed = vf * 0.80; 
@@ -180,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const plungeFeed = vf * 0.33; 
         const plungePerRev = n > 0 ? plungeFeed / n : 0;
 
+        // --- DOM RENDER ---
         document.getElementById('out-rpm').textContent = Math.round(n).toLocaleString('da-DK');
         document.getElementById('out-vc-range').textContent = Math.round(vc);
         document.getElementById('out-vf').textContent = Math.round(vf).toLocaleString('da-DK');
@@ -229,11 +235,11 @@ document.addEventListener('DOMContentLoaded', () => {
             tableBody.innerHTML = logs.map(entry => `
                 <tr class="border-b border-zinc-900/50 bg-black/20 hover:bg-primary/[0.03] transition-all tabular-nums group" data-id="${entry.id}">
                     <td class="p-6"><span class="text-xl font-black italic tracking-tighter text-white">${entry.tNum}</span></td>
-                    <td class="p-6"><div class="flex flex-col"><span class="text-xs font-black text-zinc-300 uppercase italic tracking-tight">${entry.desc}</span><span class="label-micro !text-[7px] !text-zinc-600 !before:hidden mt-1 uppercase print:hidden">Validated_Tooling_Protocol</span></div></td>
+                    <td class="p-6"><div class="flex flex-col"><span class="text-xs font-black text-zinc-300 uppercase italic tracking-tight">${entry.desc}</span></div></td>
                     <td class="p-6"><span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">${entry.strategy}</span></td>
-                    <td class="p-6"><div class="flex flex-col"><span class="text-lg font-black italic text-primary tracking-tighter">${entry.rpm}</span><span class="text-[8px] font-mono text-primary/40 font-bold tracking-widest uppercase">REV_MIN</span></div></td>
-                    <td class="p-6"><div class="flex flex-col"><span class="text-lg font-black italic text-white tracking-tighter">${entry.vf}</span><span class="text-[8px] font-mono text-zinc-600 font-bold tracking-widest uppercase">MM_MIN</span></div></td>
-                    <td class="p-6 text-right print:hidden"><button onclick="deleteRow('${entry.id}')" class="label-micro !text-zinc-800 hover:!text-red-600 transition-all font-black !before:hidden italic uppercase tracking-widest">Remove_Entry</button></td>
+                    <td class="p-6"><span class="text-lg font-black italic text-primary tracking-tighter">${entry.rpm}</span></td>
+                    <td class="p-6"><span class="text-lg font-black italic text-white tracking-tighter">${entry.vf}</span></td>
+                    <td class="p-6 text-right print:hidden"><button onclick="deleteRow('${entry.id}')" class="label-micro !text-zinc-800 hover:!text-red-600 transition-all font-black !before:hidden italic uppercase tracking-widest">Remove</button></td>
                 </tr>`).join('');
         }
     }
@@ -243,23 +249,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if(btnSave) {
         btnSave.addEventListener('click', () => {
             if(!toolSelect.value) return;
-            
-            const isFinish = toggleFinish.checked ? " [FINISH]" : "";
-            const isSafe = toggleSafe.checked ? " [SAFE]" : "";
-            
             const entry = {
                 tNum: `T${toolSelect.value}`,
                 desc: `Str. ${document.getElementById('hidden-d').value} ${document.getElementById('hidden-mat').value}`,
-                strategy: camStrategySelect.value + isFinish + isSafe,
+                strategy: camStrategySelect.value,
                 rpm: document.getElementById('out-rpm').textContent,
                 vf: document.getElementById('out-vf').textContent
             };
             MachiningOS.saveLogEntry('cnc', entry);
             renderSetupLog();
-            
-            const originalText = btnSave.innerHTML;
-            btnSave.innerHTML = '<span class="text-emerald-500 animate-pulse uppercase tracking-widest italic font-black relative z-10">ENTRY_LOCKED_OK</span>';
-            setTimeout(() => btnSave.innerHTML = originalText, 1500);
         });
     }
 
