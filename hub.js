@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic
- * Version: 6.3 (L/D Ratio, CEL Lockout, Spindle Power kW)
+ * Version: 6.4 (Full Kinematic & Feedrate Restoration)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const protocolErrorText = document.getElementById('protocol-error-text');
     const tableBody = document.getElementById('setup-table-body');
 
-    // Specifik Skærekraft (Kc) i N/mm² for Spindle Power udregning
     const KC_VALUES = {
         'alu': 700,
         'plastic': 200,
@@ -115,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (d === 0 || !mat || !strategy) return;
 
-        // HARDWARE LOCKOUT CHECK
         if (strategy.show_ap && ap > cel) {
             protocolError.classList.remove('hidden');
             protocolErrorText.innerHTML = `AP (${ap}mm) overstiger Skærlængde/CEL (${cel}mm).<br>Stammen vil friktionssvejse i godset og knække værktøjet.`;
@@ -131,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let vc = baseVc * (toggleHsm.checked ? strategy.vc_mult : 1.0);
         let target_hm = mat.fz_ref * strategy.fz_mult; 
         
-        // CHIP THINNING
         let thinning_mult = 1.0;
         let true_fz = target_hm;
         if (strategy.show_ae && ae > 0 && ae < (d * 0.5)) {
@@ -140,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
             true_fz = target_hm * thinning_mult;
         }
 
-        // L/D OVERHANG PENALTY
         let deflection_mult = 1.0;
         const ld_ratio = stickout / d;
         if (ld_ratio > 3.0 && strategy.cat !== 'HOLE') {
@@ -155,18 +151,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const n = Math.min((vc * 1000) / (Math.PI * d), machine.maxRpm);
         let vf = (camStrategySelect.value === 'Tapping (Gevind)') ? (n * true_fz) : (n * z * true_fz);
 
-        // THERMODYNAMICS (MRR & kW)
         let mrr = 0;
         let power_kw = 0;
         let power_pct = 0;
         
-        // Haas Mini Mill estimat = 5.6 kW. Bruger maskinens data hvis den findes, ellers 5.6.
         const machine_kw = machine.kw || 5.6; 
         const kc = KC_VALUES[matKey] || 1500;
 
         if (strategy.show_ae && strategy.show_ap && ae > 0 && ap > 0) {
             mrr = (ae * ap * vf) / 1000;
-            power_kw = (mrr * kc) / 60000; // P_c = (MRR * Kc) / 60000
+            power_kw = (mrr * kc) / 60000;
             power_pct = (power_kw / machine_kw) * 100;
         }
 
@@ -177,6 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('out-vf').textContent = "ERR";
             return;
         }
+
+        const rampRpm = n;
+        const leadInFeed = vf * 0.80;  
+        const leadOutFeed = vf * 0.80; 
+        const transFeed = vf * 1.50;   
+        const rampFeed = vf * 0.60;    
+        const plungeFeed = vf * 0.33; 
+        const plungePerRev = n > 0 ? plungeFeed / n : 0;
 
         document.getElementById('out-rpm').textContent = Math.round(n).toLocaleString('da-DK');
         document.getElementById('out-vc-range').textContent = Math.round(vc);
@@ -193,19 +195,13 @@ document.addEventListener('DOMContentLoaded', () => {
         loadEl.textContent = Math.round(power_pct);
         loadEl.className = `text-xl font-black font-mono italic tracking-tighter ${power_pct > 85 ? 'text-red-500' : 'text-white'}`;
 
-        const rampRpm = n;
-        const leadInFeed = vf * 0.80;  
-        const leadOutFeed = vf * 0.80; 
-
-        // Tjek om elementerne eksisterer i HTML'en før vi opdaterer
-        const outRampRpm = document.getElementById('out-ramp-rpm');
-        if (outRampRpm) outRampRpm.textContent = Math.round(rampRpm).toLocaleString('da-DK');
-        
-        const outLeadIn = document.getElementById('out-lead-in');
-        if (outLeadIn) outLeadIn.textContent = Math.round(leadInFeed).toLocaleString('da-DK');
-        
-        const outLeadOut = document.getElementById('out-lead-out');
-        if (outLeadOut) outLeadOut.textContent = Math.round(leadOutFeed).toLocaleString('da-DK');
+        document.getElementById('out-ramp-rpm').textContent = Math.round(rampRpm).toLocaleString('da-DK');
+        document.getElementById('out-lead-in').textContent = Math.round(leadInFeed).toLocaleString('da-DK');
+        document.getElementById('out-lead-out').textContent = Math.round(leadOutFeed).toLocaleString('da-DK');
+        document.getElementById('out-trans').textContent = Math.round(transFeed).toLocaleString('da-DK');
+        document.getElementById('out-ramp-feed').textContent = Math.round(rampFeed).toLocaleString('da-DK');
+        document.getElementById('out-plunge').textContent = Math.round(plungeFeed).toLocaleString('da-DK');
+        document.getElementById('out-plunge-rev').textContent = plungePerRev.toFixed(4);
     }
 
     [machineSelect, workMaterialSelect, inputAe, inputAp, inputStickout, inputCel, toggleHsm, toggleFinish, toggleSafe].forEach(el => {
