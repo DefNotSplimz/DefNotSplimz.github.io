@@ -111,6 +111,12 @@
                     
                     <div class="lg:col-span-7 module-card p-10 bg-black/60 shadow-2xl">
                         <div class="label-micro text-primary mb-12 italic font-black tracking-[0.3em]">/ Parameter_Protocol</div>
+                        
+                        <div id="protocol-error" class="hidden mb-8 border-l-4 border-red-600 bg-red-950/30 p-4">
+                            <span class="text-[10px] font-mono text-red-500 uppercase tracking-widest font-black block mb-1">CRITICAL_GEOMETRY_LOCKOUT</span>
+                            <p id="protocol-error-text" class="text-xs text-zinc-300 font-mono font-bold"></p>
+                        </div>
+
                         <form id="cnc-form" class="space-y-10">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div class="flex flex-col gap-3">
@@ -124,7 +130,17 @@
                             </div>
 
                             <div class="p-8 bg-zinc-900/20 border border-zinc-900 rounded-sm">
-                                <div class="label-micro !text-[7px] mb-8 italic">// Strategi_&_Engagement_Matrix</div>
+                                <div class="label-micro !text-[7px] mb-8 italic">// Værktøjs_Fysik & Indgreb</div>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 border-b border-zinc-800/50 pb-6">
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-[8px] font-mono text-zinc-500 uppercase font-black">Udhæng (L)</label>
+                                        <input type="number" id="input-stickout" value="25" step="1" class="p-3 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <label class="text-[8px] font-mono text-zinc-500 uppercase font-black">Skærlængde (CEL)</label>
+                                        <input type="number" id="input-cel" value="20" step="1" class="p-3 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
+                                    </div>
+                                </div>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                                     <div class="flex flex-col gap-3">
                                         <label class="label-micro !text-[8px] !before:hidden">Operation_Mode</label>
@@ -176,7 +192,7 @@
                                 </div>
                             </div>
                             
-                            <input type="hidden" id="hidden-d"><input type="hidden" id="hidden-z"><input type="hidden" id="hidden-mat"><input type="hidden" id="hidden-stickout">
+                            <input type="hidden" id="hidden-d"><input type="hidden" id="hidden-z"><input type="hidden" id="hidden-mat">
                         </form>
                     </div>
 
@@ -184,6 +200,28 @@
                         <div class="scanline opacity-10 pointer-events-none"></div>
                         <div class="space-y-6 relative z-10">
                             <div class="label-micro text-primary italic font-black tracking-[0.3em] mb-4">/ Fusion_360_CAM_Data</div>
+
+                            <div class="space-y-3 bg-primary/5 p-4 border border-primary/20 rounded-sm mb-4">
+                                <div class="text-[9px] text-primary font-black uppercase tracking-widest border-b border-primary/20 pb-2 mb-2">Thermodynamics & Kinematics</div>
+                                <div class="grid grid-cols-2 gap-x-2 gap-y-4">
+                                    <div class="group">
+                                        <span class="label-micro !text-[7px] text-primary/80 uppercase before:hidden">Material Removal Rate</span>
+                                        <div class="text-xl font-black text-white font-mono italic tracking-tighter"><span id="out-mrr">0.0</span> <span class="text-[8px] text-zinc-500 uppercase">CM³/MIN</span></div>
+                                    </div>
+                                    <div class="group border-l border-primary/20 pl-4">
+                                        <span class="label-micro !text-[7px] text-primary/80 uppercase before:hidden">Spindle Power Load</span>
+                                        <div class="text-xl font-black text-white font-mono italic tracking-tighter"><span id="out-load">0</span>% <span class="text-[8px] text-zinc-500 uppercase" id="out-power">0 kW</span></div>
+                                    </div>
+                                    <div class="group">
+                                        <span class="label-micro !text-[7px] text-primary/80 uppercase before:hidden">Chip Thinning Boost</span>
+                                        <div class="text-lg font-black text-primary font-mono italic tracking-tighter" id="out-thinning">1.00x</div>
+                                    </div>
+                                    <div class="group border-l border-primary/20 pl-4">
+                                        <span class="label-micro !text-[7px] text-primary/80 uppercase before:hidden">Deflection Penalty</span>
+                                        <div class="text-lg font-black text-red-400 font-mono italic tracking-tighter" id="out-deflection">1.00x</div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="space-y-3 bg-black/40 p-4 border border-zinc-900/50 rounded-sm">
                                 <div class="text-[9px] text-zinc-500 font-black uppercase tracking-widest border-b border-zinc-800 pb-2 mb-2">Speed</div>
@@ -196,10 +234,6 @@
                                         <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Surface Speed</span>
                                         <div class="text-xl font-black text-white font-mono italic tracking-tighter" id="out-vc-range">0</div>
                                     </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Ramp Spindle Speed</span>
-                                        <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-ramp-rpm">0</div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -211,7 +245,7 @@
                                         <div class="text-2xl font-black text-primary font-mono italic tracking-tighter" id="out-vf">0</div>
                                     </div>
                                     <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Feed per Tooth</span>
+                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">True Fz (Compensated)</span>
                                         <div class="text-xl font-black text-white font-mono italic tracking-tighter" id="out-fz-range">0</div>
                                     </div>
                                     <div class="group">
@@ -221,32 +255,6 @@
                                     <div class="group">
                                         <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Lead-out Feedrate</span>
                                         <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-lead-out">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Transition Feedrate</span>
-                                        <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-trans">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Ramp Feedrate</span>
-                                        <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-ramp-feed">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Ramp Angle</span>
-                                        <div class="text-lg font-bold text-zinc-600 font-mono italic tracking-tighter">2°</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="space-y-3 bg-red-950/10 p-4 border border-red-900/30 rounded-sm">
-                                <div class="text-[9px] text-red-500/80 font-black uppercase tracking-widest border-b border-red-900/30 pb-2 mb-2">Vertical Feedrates</div>
-                                <div class="grid grid-cols-2 gap-x-4 gap-y-4">
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-red-500/80 uppercase before:hidden">Plunge Feedrate</span>
-                                        <div class="text-xl font-black text-red-400 font-mono italic tracking-tighter" id="out-plunge">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-red-500/80 uppercase before:hidden">Plunge per Rev</span>
-                                        <div class="text-lg font-bold text-red-400/80 font-mono italic tracking-tighter" id="out-plunge-rev">0</div>
                                     </div>
                                 </div>
                             </div>
@@ -261,16 +269,14 @@
             </div>
         </section>
 
-        <section class="pb-32 px-6 md:px-12 bg-transparent flex-grow">
-            <div class="max-w-7xl mx-auto">
+        <section class="pb-32 px-6 md:px-12 bg-transparent flex-grow print:hidden">
+             <div class="max-w-7xl mx-auto">
                 <div id="setup-sheet-container" class="module-card p-10 bg-black/60 shadow-2xl overflow-hidden">
                     <div class="flex justify-between border-b border-zinc-800 pb-6 mb-10 items-end">
                         <div>
                             <h3 class="text-3xl font-black text-white italic tracking-tighter uppercase leading-none">Setup_Sheet_Log</h3>
-                            <span class="label-micro !text-[7px] mt-2 italic before:hidden print:hidden">Machine_Configuration_History</span>
                         </div>
-                        <div class="flex gap-6 print:hidden">
-                            <button id="btn-print" class="label-micro !text-primary hover:opacity-70 transition-all italic font-black before:hidden uppercase tracking-widest border-b border-primary/20 pb-1 cursor-pointer">Print_System_Report</button>
+                        <div class="flex gap-6">
                             <button id="btn-clear" class="label-micro !text-zinc-600 hover:text-red-500 transition-all italic font-black before:hidden uppercase tracking-widest border-b border-zinc-800 pb-1 cursor-pointer">Wipe_Diagnostic_History</button>
                         </div>
                     </div>
@@ -278,17 +284,16 @@
                         <table class="w-full text-left">
                             <thead>
                                 <tr class="text-zinc-600 uppercase font-black tracking-widest !border-zinc-800 !border-b-2">
-                                    <th class="p-6">T#</th><th class="p-6">Instrument / Tooling</th><th class="p-6">Protocol / Op</th><th class="p-6">S_Command</th><th class="p-6">F_Command</th><th class="p-6 text-right print:hidden">Action</th>
+                                    <th class="p-6">T#</th><th class="p-6">Instrument / Tooling</th><th class="p-6">Protocol / Op</th><th class="p-6">S_Command</th><th class="p-6">F_Command</th><th class="p-6 text-right">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="setup-table-body" class="text-sm font-bold divide-y divide-zinc-900/50">
-                                </tbody>
+                            <tbody id="setup-table-body" class="text-sm font-bold divide-y divide-zinc-900/50"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </section>
-
+        
         <footer class="py-20 border-t border-zinc-900 bg-black/20 text-center relative z-20 print:hidden">
             <div class="scanline opacity-10"></div>
             <p class="label-micro opacity-40 justify-center !before:hidden italic font-bold">System_Locked // 2026 // Datum_Prototyping_Core</p>
