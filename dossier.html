@@ -6,261 +6,236 @@
     <title>CV Dossier | Glen Cilinder-Hansen</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --industrial-gold: #f59e0b; --deep-black: #050506; --tech-gray: #71717a; }
+        :root { 
+            --accent: #3b82f6; /* V13 CAD Blue */
+            --deep-black: #09090b; 
+            --tech-gray: #71717a; 
+            --border-color: #e4e4e7;
+        }
+        
         body { 
             background-color: #f4f4f5; 
             color: var(--deep-black); 
             font-family: 'Inter', sans-serif; 
             margin: 0; padding: 0; 
+            -webkit-font-smoothing: antialiased;
         }
         
+        /* Print Canvas */
         .dossier-container {
             background: white;
             width: 100%;
             max-width: 210mm;
             min-height: 297mm; 
             margin: 20px auto;
-            padding: 15px; 
+            padding: 15mm; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             position: relative;
             box-sizing: border-box;
+            border: 1px solid var(--border-color);
         }
         
         @media (min-width: 768px) {
-            .dossier-container {
-                margin: 40px auto;
-                padding: 20mm; 
-            }
+            .dossier-container { margin: 40px auto; padding: 20mm; }
         }
 
-        .page-mark { position: absolute; bottom: 10mm; right: 10mm; font-family: 'JetBrains Mono'; font-size: 8px; color: var(--tech-gray); }
+        .page-mark { 
+            position: absolute; bottom: 10mm; right: 10mm; 
+            font-family: 'JetBrains Mono', monospace; font-size: 8px; 
+            color: var(--tech-gray); 
+        }
         
         .watermark { 
-            position: absolute; 
-            top: 50%; left: 50%; 
+            position: absolute; top: 50%; left: 50%; 
             transform: translate(-50%, -50%) rotate(-45deg); 
-            font-size: 60px; 
-            font-weight: 900; 
-            color: rgba(0,0,0,0.02); 
-            pointer-events: none; 
-            text-transform: uppercase; 
-            z-index: 0; 
-            white-space: nowrap;
+            font-size: 60px; font-weight: 900; color: rgba(0,0,0,0.02); 
+            pointer-events: none; text-transform: uppercase; 
+            z-index: 0; white-space: nowrap; font-family: 'JetBrains Mono', monospace;
         }
 
-        @media (min-width: 768px) {
-            .watermark { font-size: 100px; }
-        }
+        @media (min-width: 768px) { .watermark { font-size: 100px; } }
 
-        h1, h2, h3, h4 { font-family: 'Inter', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; }
-        .label-micro { font-family: 'JetBrains Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--tech-gray); }
-        .data-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--industrial-gold); }
+        h1, h2, h3, h4 { font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        .label-micro { 
+            font-family: 'JetBrains Mono', monospace; font-size: 9px; 
+            text-transform: uppercase; letter-spacing: 0.1em; color: var(--tech-gray); 
+        }
+        
+        .data-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--accent); }
 
         .print-btn {
             position: fixed; top: 10px; right: 10px;
-            background: var(--deep-black); color: white;
-            border: none; font-family: 'Inter'; font-weight: 800; font-size: 10px; text-transform: uppercase;
+            background: var(--accent); color: white;
+            border: none; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; text-transform: uppercase;
             padding: 10px 16px; cursor: pointer; z-index: 100;
             transition: background 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+            border-radius: 2px;
         }
         @media (min-width: 768px) {
             .print-btn { top: 20px; right: 20px; padding: 12px 24px; }
         }
-        .print-btn:hover { background: #27272a; }
+        .print-btn:hover { background: #2563eb; }
 
-        /* PRINT LOGIK OVERHAUL */
+        /* Tech Table for CV */
+        .tech-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .tech-table td { padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+        .tech-table td:first-child { width: 40%; color: var(--tech-gray); font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; }
+        .tech-table td:last-child { font-weight: 600; text-align: right; }
+        .tech-table tr:last-child td { border-bottom: none; }
+
+        /* PRINT LOGIC */
         @media print {
-            /* Definerer sikker print-margin for at undgå hardware-cutoff */
             @page { size: A4 portrait; margin: 8mm; }
-            
             body { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
             .print-btn, .watermark, .page-mark { display: none !important; }
-            
-            .dossier-container {
-                width: 100% !important; 
-                height: auto !important; /* Lader indholdet diktere højden */
-                min-height: auto !important;
-                margin: 0 !important; 
-                padding: 0 !important;
-                border: none !important; 
-                box-shadow: none !important;
-                page-break-inside: avoid;
-            }
-            
+            .dossier-container { width: 100% !important; height: auto !important; min-height: auto !important; margin: 0 !important; padding: 0 !important; border: none !important; box-shadow: none !important; page-break-inside: avoid; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            .bg-industrial-gold { background-color: #f59e0b !important; }
+            .bg-accent { background-color: #3b82f6 !important; }
+            .text-accent { color: #3b82f6 !important; }
             
-            /* Grid Overrides for Print */
-            .md\:grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)) !important; }
-            .md\:col-span-12 { grid-column: span 12 / span 12 !important; }
-            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-            .md\:flex-row { flex-direction: row !important; }
-            .md\:items-start { align-items: flex-start !important; }
-            .md\:items-end { align-items: flex-end !important; }
-            .md\:text-right { text-align: right !important; }
-            .sm\:flex-row { flex-direction: row !important; }
-
-            /* KOMPRESSION AF VERTIKAL RYTM (For at sikre 1-sides fit) */
+            /* Kompression til 1 side */
             section { margin-bottom: 6mm !important; }
             header { margin-bottom: 6mm !important; padding-bottom: 4mm !important; }
-            .space-y-8 > :not([hidden]) ~ :not([hidden]) { margin-top: 3mm !important; }
-            .space-y-6 > :not([hidden]) ~ :not([hidden]) { margin-top: 2mm !important; }
-            .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 2mm !important; }
-            .gap-y-8 { row-gap: 3mm !important; }
-            .gap-y-6 { row-gap: 2mm !important; }
-            .pb-4 { padding-bottom: 2mm !important; }
-            .pb-6, .pb-8, .pb-10 { padding-bottom: 3mm !important; }
+            .pb-4, .pb-6 { padding-bottom: 2mm !important; }
             .mb-4, .mb-6 { margin-bottom: 2mm !important; }
-            .mt-auto { margin-top: 4mm !important; }
-            .pt-6, .pt-8 { padding-top: 4mm !important; }
             .p-6, .p-8 { padding: 4mm !important; }
-            
-            /* Mindre skriftjusteringer for at redde plads */
-            .text-xs { font-size: 0.7rem !important; line-height: 1.2 !important; }
-            .text-sm { font-size: 0.8rem !important; }
-            .label-micro { font-size: 7px !important; }
-            .leading-relaxed { line-height: 1.3 !important; }
         }
     </style>
 </head>
 <body class="p-2 md:p-10 flex flex-col items-center">
 
-    <button class="print-btn" onclick="window.print()">Print_CV</button>
+    <button class="print-btn" onclick="window.print()">Print Dossier</button>
 
     <div class="dossier-container relative overflow-hidden flex flex-col">
-        <div class="watermark">Aspirant</div>
-        <div class="page-mark hidden md:block">DP_CV_2026 // PG_01</div>
+        <div class="watermark">Operativ</div>
+        <div class="page-mark hidden md:block">GCH_CV_2026 // PG_01</div>
 
-        <header class="flex flex-col md:flex-row justify-between items-start border-b-2 border-zinc-100 pb-6 md:pb-10 mb-8 md:mb-10 relative z-10 gap-6 md:gap-0 shrink-0">
+        <header class="flex flex-col md:flex-row justify-between items-start border-b border-zinc-200 pb-6 md:pb-8 mb-8 relative z-10 shrink-0">
             <div class="flex items-center gap-4 md:gap-6 w-full md:w-auto">
-                <img src="img/favicon.svg" alt="Datum Logo" class="h-10 md:h-12 w-auto">
-                <div class="w-[1px] h-10 md:h-12 bg-zinc-200"></div>
                 <div>
-                    <h1 class="text-xl md:text-2xl font-black italic tracking-tighter uppercase leading-none">CV_Dossier</h1>
-                    <p class="label-micro mt-1">Objective: Søger Læreplads // Opstart: ASAP</p>
+                    <h1 class="text-2xl md:text-3xl font-black tracking-tight uppercase leading-none text-zinc-900">G.C.HANSEN</h1>
+                    <p class="label-micro mt-2">Dossier // Finmekaniker // CNC Specialist</p>
                 </div>
             </div>
-            <div class="text-left md:text-right w-full md:w-auto flex flex-row md:flex-col justify-between md:justify-start items-center md:items-end">
-                <div class="inline-block px-3 py-1 bg-industrial-gold text-black text-[9px] font-bold tracking-[0.2em] uppercase">
-                    Status: Tilgængelig
+            <div class="text-left md:text-right w-full md:w-auto mt-4 md:mt-0">
+                <div class="inline-block px-3 py-1 bg-blue-50 border border-blue-200 text-blue-600 font-mono text-[9px] font-bold tracking-widest uppercase rounded-sm">
+                    Status: Klar til ansættelse
                 </div>
-                <p class="label-micro mt-0 md:mt-4">Opdateret: 2026-04-08</p>
+                <p class="label-micro mt-2">Rev: 2026-04-08</p>
             </div>
         </header>
 
-        <section class="mb-10 md:mb-12 relative z-10 items-center shrink-0">
-            <div class="w-full space-y-6 md:space-y-8">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 border-b border-zinc-100 pb-6 md:pb-8">
-                    <div>
-                        <p class="label-micro mb-1">Full_Name</p>
-                        <p class="text-lg md:text-xl font-extrabold uppercase tracking-tight">Glen Cilinder-Hansen</p>
-                    </div>
-                    <div>
-                        <p class="label-micro mb-1">Email_Kontakt</p>
-                        <a href="mailto:defnotglen@gmail.com" class="data-value text-sm md:text-md hover:text-black transition-colors">defnotglen@gmail.com</a>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-                    <div>
-                        <p class="label-micro mb-1">Primary_Role</p>
-                        <p class="text-xs md:text-sm font-semibold text-zinc-900">Finmekaniker Lærling // CNC-Speciale</p>
-                    </div>
-                    <div>
-                        <p class="label-micro mb-1">Uddannelses_Status</p>
-                        <p class="text-xs md:text-sm font-semibold text-zinc-900">H2 Bestået // Svendeprøve: Apr 2027</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-10 md:mb-12 relative z-10 shrink-0">
-            <h2 class="text-xs md:text-sm font-black text-zinc-950 border-b-2 border-zinc-100 pb-2 mb-4 md:mb-6 tracking-widest uppercase">Competency_Matrix</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 md:gap-y-6">
-                <div class="space-y-3">
-                    <h3 class="label-micro !text-zinc-900 !text-[9px] md:!text-[10px]">// Maskin_Erfaring</h3>
-                    <div class="flex justify-between items-center text-[10px] md:text-xs font-medium"><span>CNC Opsætning (Haas ST10 / Mini)</span><span class="font-bold text-industrial-gold">Haas / Fanuc</span></div>
-                    <div class="w-full h-1.5 bg-zinc-100"><div class="h-full bg-zinc-950 w-[90%]"></div></div>
-                    
-                    <div class="flex justify-between items-center text-[10px] md:text-xs font-medium pt-2"><span>Manuel Bearbejdning</span><span class="font-bold text-industrial-gold">Weiler / Deckel</span></div>
-                    <div class="w-full h-1.5 bg-zinc-100"><div class="h-full bg-zinc-950 w-[85%]"></div></div>
-                </div>
-                <div class="space-y-3">
-                    <h3 class="label-micro !text-zinc-900 !text-[9px] md:!text-[10px]">// Faglig_Viden</h3>
-                    <div class="flex justify-between items-center text-[10px] md:text-xs font-medium border-b border-zinc-100 pb-1.5"><span>Fusion 360 (CAD/CAM)</span><span class="font-bold text-industrial-gold">Fuld forståelse</span></div>
-                    <div class="flex justify-between items-center text-[10px] md:text-xs font-medium border-b border-zinc-100 pb-1.5"><span>Materialer (PEEK, AISI 316L, 7075)</span><span class="font-bold text-industrial-gold">Praktiseret</span></div>
-                    <div class="flex justify-between items-center text-[10px] md:text-xs font-medium border-b border-zinc-100 pb-1.5"><span>Metrologi & Ra (ISO 286, My-måling)</span><span class="font-bold text-industrial-gold">Forstået</span></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 mb-10 md:mb-12 relative z-10 shrink-0">
-            <div class="p-6 md:p-8 border border-zinc-100 bg-zinc-50 space-y-4">
-                <h4 class="label-micro !text-zinc-900">// Profil_&_Motivation</h4>
-                <p class="text-[10px] md:text-xs leading-relaxed text-zinc-600 font-medium">
-                    Jeg har bestået H2 og søger en læreplads i industrien, fordi simulerede skoleopgaver ikke kan erstatte virkelighedens tolerancer og produktionstryk. Jeg drives af at omsætte digitalt design til fysisk præcision. Som finmekaniker forstår jeg værdien af mikron-præcision, korrekt overfladefinish (Ra) og maskinvedligehold. Jeg er mødestabil, arbejdsom og tager teknisk feedback som et redskab til at forbedre slutresultatet.
-                </p>
-            </div>
-            <div class="p-6 md:p-8 border-2 border-industrial-gold bg-industrial-gold/5 flex flex-col justify-between">
+        <section class="mb-10 relative z-10 shrink-0">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 border-b border-zinc-100 pb-6">
                 <div>
-                    <h4 class="label-micro !text-industrial-gold mb-2 md:mb-0">// Fokus_Område</h4>
-                    <p class="text-[8px] text-zinc-500 font-mono italic">Specialisering inden for snævre tolerancer</p>
+                    <p class="label-micro mb-1">Operatør</p>
+                    <p class="text-lg md:text-xl font-bold uppercase tracking-tight">Glen Cilinder-Hansen</p>
                 </div>
-                <div class="flex justify-between items-end mt-4">
-                    <p class="text-[10px] md:text-xs text-zinc-700 font-semibold uppercase w-1/2 leading-tight">Tolerance_Target</p>
-                    <p class="text-3xl md:text-4xl font-black text-zinc-950 italic tracking-tighter leader-none">±0.005 mm</p>
+                <div>
+                    <p class="label-micro mb-1">Kontakt_Data</p>
+                    <a href="mailto:defnotglen@gmail.com" class="font-mono text-sm font-semibold text-blue-500 hover:text-blue-700 transition-colors">defnotglen@gmail.com</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 pt-6">
+                <div>
+                    <p class="label-micro mb-1">Uddannelses_Niveau</p>
+                    <p class="text-sm font-semibold text-zinc-900">1 År til Svendeprøve (H2 Bestået)</p>
+                </div>
+                <div>
+                    <p class="label-micro mb-1">Spindel_Erfaring</p>
+                    <p class="text-sm font-semibold text-zinc-900">+1000 Timer (Industriel Fokus)</p>
                 </div>
             </div>
         </section>
 
-        <section class="mb-10 md:mb-12 relative z-10 shrink-0">
-            <h2 class="text-xs md:text-sm font-black text-zinc-950 border-b-2 border-zinc-100 pb-2 mb-4 md:mb-6 tracking-widest uppercase">Operativ_Historik</h2>
+        <section class="mb-10 relative z-10 shrink-0">
+            <h2 class="text-sm font-bold text-zinc-900 border-b border-zinc-200 pb-2 mb-4 tracking-widest uppercase">Operativ Kapacitet</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                
+                <div>
+                    <h3 class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Software & CAM</h3>
+                    <table class="tech-table">
+                        <tbody>
+                            <tr><td>Fusion 360</td><td class="text-blue-500">Avanceret (2.5D/3D)</td></tr>
+                            <tr><td>Mastercam</td><td>Basis / Under oplæring</td></tr>
+                            <tr><td>Fanuc G-Kode</td><td>Aflæsning & Fejlretning</td></tr>
+                            <tr><td>Haas NGC / Classic</td><td>Fuld Operativ</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <h3 class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Teknisk Bearbejdning</h3>
+                    <table class="tech-table">
+                        <tbody>
+                            <tr><td>Tolerancer</td><td class="text-blue-500">ISO 286 (Pasninger)</td></tr>
+                            <tr><td>Metrologi</td><td>My-Skrue & Geometrisk måling</td></tr>
+                            <tr><td>CNC Platform</td><td>Haas ST10 / Haas Mini Mill</td></tr>
+                            <tr><td>Manuel</td><td>Weiler (Drej) / Deckel (Fræs)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="mb-10 relative z-10 shrink-0 border border-zinc-200 bg-zinc-50 p-6">
+            <h4 class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Profil_Specifikation</h4>
+            <p class="text-xs leading-relaxed text-zinc-700 font-medium">
+                Søger en læreplads i industrien til færdiggørelse af svendebrev. Simulerede skoleopgaver kan ikke erstatte virkelighedens tolerancer og produktionstryk. Jeg drives af at omsætte digital CAM-strategi til fysisk præcision. Som finmekaniker forstår jeg værdien af mikron-præcision, korrekt overfladefinish og maskinvedligehold. Jeg medbringer en stærk fildisciplin fra 4 år som grafisk designer og en rå mødestabilitet fra logistikbranchen. Tager teknisk feedback som et redskab til at optimere næste cyklus.
+            </p>
+        </section>
+
+        <section class="mb-10 relative z-10 shrink-0">
+            <h2 class="text-sm font-bold text-zinc-900 border-b border-zinc-200 pb-2 mb-4 tracking-widest uppercase">Historik</h2>
             <div class="space-y-4">
                 
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-zinc-100 pb-4">
+                <div class="flex justify-between items-start border-b border-zinc-100 pb-3">
                     <div>
-                        <h3 class="text-xs md:text-sm font-bold uppercase text-zinc-900">Finmekaniker (Skolepraktik)</h3>
-                        <p class="text-[10px] md:text-xs text-zinc-600 font-mono">TEC Frederiksberg</p>
-                        <p class="text-[9px] text-zinc-500 mt-1 uppercase tracking-widest">H2 Bestået // CNC-Speciale og Metrologi</p>
+                        <h3 class="text-sm font-bold text-zinc-900">Finmekaniker-lærling (CNC Speciale)</h3>
+                        <p class="text-xs text-zinc-600">TEC Frederiksberg</p>
+                        <p class="font-mono text-[9px] text-zinc-500 mt-1 uppercase">H2 Bestået // +1000 timers maskinerfaring</p>
                     </div>
-                    <div class="text-[10px] font-mono font-bold text-industrial-gold mt-1 md:mt-0">2024 - Nuværende</div>
+                    <div class="font-mono text-[10px] font-bold text-blue-500">2024 - Nuværende</div>
                 </div>
 
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-zinc-100 pb-4">
+                <div class="flex justify-between items-start border-b border-zinc-100 pb-3">
                     <div>
-                        <h3 class="text-xs md:text-sm font-bold uppercase text-zinc-900">Grafisk Designer (Freelance)</h3>
-                        <p class="text-[10px] md:text-xs text-zinc-600 font-mono">Selvstændig // Twitch Platform Solutions</p>
-                        <p class="text-[9px] text-zinc-500 mt-1 uppercase tracking-widest">Levering af visuelle aktiver globalt. Fokus på præcis filhåndtering og software-disciplin.</p>
+                        <h3 class="text-sm font-bold text-zinc-900">Grafisk Designer (Freelance)</h3>
+                        <p class="text-xs text-zinc-600">Twitch Platform Solutions</p>
+                        <p class="font-mono text-[9px] text-zinc-500 mt-1 uppercase">Stærk disciplin i filhåndtering og digitale workflows under deadlines.</p>
                     </div>
-                    <div class="text-[10px] font-mono text-zinc-500 mt-1 md:mt-0">2020 - 2024</div>
+                    <div class="font-mono text-[10px] text-zinc-500">2020 - 2024</div>
                 </div>
 
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-zinc-100 pb-4">
+                <div class="flex justify-between items-start border-b border-zinc-100 pb-3">
                     <div>
-                        <h3 class="text-xs md:text-sm font-bold uppercase text-zinc-900">Rute-omdeler (Logistik)</h3>
-                        <p class="text-[10px] md:text-xs text-zinc-600 font-mono">FK Distribution</p>
-                        <p class="text-[9px] text-zinc-500 mt-1 uppercase tracking-widest">Bevist mødestabilitet og arbejdsmoral under skiftende forhold over to perioder.</p>
+                        <h3 class="text-sm font-bold text-zinc-900">Rute-omdeler</h3>
+                        <p class="text-xs text-zinc-600">FK Distribution</p>
+                        <p class="font-mono text-[9px] text-zinc-500 mt-1 uppercase">Bevist mødestabilitet og arbejdsmoral i al slags vejr.</p>
                     </div>
-                    <div class="text-[10px] font-mono text-zinc-500 mt-1 md:mt-0">2019-2020 & 2023-2024</div>
+                    <div class="font-mono text-[10px] text-zinc-500">2019-2020 & 2023-2024</div>
                 </div>
 
             </div>
         </section>
 
-        <footer class="mt-auto pt-6 md:pt-8 border-t-2 border-zinc-100 relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 sm:gap-0 shrink-0">
-            <div class="space-y-2 md:space-y-1 w-full sm:w-auto">
-                <p class="label-micro !text-zinc-500 !text-[7px]">Datum Prototyping // Glen Cilinder-Hansen</p>
-                <div class="flex flex-wrap gap-x-4 gap-y-2 text-[7px] text-zinc-700 font-bold uppercase tracking-widest">
+        <footer class="mt-auto pt-6 border-t border-zinc-200 relative z-10 flex justify-between items-end shrink-0">
+            <div class="space-y-1">
+                <p class="font-mono text-[8px] text-zinc-500 uppercase tracking-widest">Datum Prototyping // Operatør Dossier</p>
+                <div class="flex gap-4 font-mono text-[8px] text-zinc-800 font-bold uppercase tracking-widest">
                     <span>LOKATION: VESTEGNEN</span>
                     <span>MOBILITET: OFF. TRANSPORT OK</span>
-                    <span>AUTH_KEY: GLEN-CV-2026</span>
                 </div>
             </div>
-            <div class="px-4 py-2 md:px-6 md:py-2 bg-zinc-950 text-industrial-gold font-black italic text-[10px] md:text-xs uppercase tracking-tighter self-start sm:self-auto shadow-md">
-                Klar_Til_Ansættelse
+            <div class="font-mono text-[9px] font-bold text-zinc-400">
+                AUTH: GCH-2026
             </div>
         </footer>
     </div>
