@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glen C. Hansen | CNC Bearbejdning</title>
+    <title>Glen C. Hansen | Finmekanik & Procesoptimering</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -24,7 +24,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Subtle CAD Background Grid */
         .bg-grid {
             background-image: 
                 linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
@@ -34,7 +33,6 @@
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* UI Panels */
         .panel {
             background-color: var(--bg-panel);
             border: 1px solid var(--border-color);
@@ -54,7 +52,6 @@
             align-items: center;
         }
 
-        /* Data Tables (CAM Property Inspector Style) */
         .prop-table { width: 100%; border-collapse: collapse; font-size: 13px; }
         .prop-table tr { border-bottom: 1px solid rgba(255,255,255,0.03); }
         .prop-table tr:last-child { border-bottom: none; }
@@ -67,7 +64,6 @@
         }
         .prop-table td:last-child { font-weight: 500; }
 
-        /* Technical Button */
         .btn-tech {
             display: inline-flex;
             align-items: center;
@@ -101,7 +97,6 @@
             background: rgba(255,255,255,0.05);
         }
 
-        /* Tag */
         .tag {
             display: inline-block;
             font-family: 'JetBrains Mono', monospace;
@@ -113,7 +108,6 @@
             border-radius: 2px;
         }
 
-        /* TBA Slot Styling */
         .tba-slot {
             border-style: dashed;
             opacity: 0.6;
@@ -146,10 +140,10 @@
             <div class="lg:col-span-8">
                 <div class="mb-6"><span class="tag">System_Status: 1 År Til Svendeprøve</span></div>
                 <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-8 leading-tight text-white">
-                    Fra digital CAM-strategi <br>til industriel produktion.
+                    Fra CAM-algoritmer <br>til industriel produktion.
                 </h1>
                 <p class="text-zinc-400 text-lg max-w-2xl leading-relaxed">
-                    Jeg er finmekaniker-lærling med speciale i CNC-bearbejdning. Med bestået H2 og +1000 timers spindeltid søger jeg det værksted, hvor jeg skal færdiggøre min uddannelse. Mit fokus er på dokumenteret præcision, optimerede værktøjsbaner og processtabilitet.
+                    Jeg er finmekaniker-lærling med speciale i CNC-bearbejdning. Med bestået H2 og +1000 timers spindeltid søger jeg det værksted, hvor jeg skal færdiggøre min uddannelse. Jeg kombinerer traditionelt håndværk med moderne bearbejdningsstrategier for at sikre maksimal processtabilitet.
                 </p>
             </div>
             
@@ -193,7 +187,7 @@
                         <div class="p-8">
                             <h3 class="text-3xl font-bold text-white mb-4">Vakuum Motor</h3>
                             <p class="text-zinc-400 text-sm leading-relaxed">
-                                Konstrueret og bearbejdet fra bunden. Den kritiske faktor var håndteringen af termisk ekspansion under drift. Dette krævede en fejlfri ISO 286 pasning (H7/g6) mellem stempel og cylinder, for at bevare absolut vakuumtæthed ved driftstemperatur.
+                                Totalproduktion af funktionsdygtig vakuum-motor. Den primære tekniske udfordring var håndteringen af termisk ekspansion under drift. Projektet krævede konsekvent overholdelse af <strong>ISO 286 pasninger (H7/g6)</strong> mellem stempel og cylinder for at sikre vakuumtæthed uden mekanisk modstand under drift.
                             </p>
                         </div>
                         <table class="prop-table">
@@ -240,7 +234,7 @@
                         <div class="p-8">
                             <h3 class="text-3xl font-bold text-white mb-4">Optisk Platform</h3>
                             <p class="text-zinc-400 text-sm leading-relaxed">
-                                Monteringsplatform til optik. Udfordringen bestod i at mitigere materialespændinger og undgå udbøjning. Jeg designede et 5-operations workflow i CAM for at frigive indre spændinger gradvist og sikre absolut planhed på bundfladen.
+                                Udvikling af opspændingslogik til højpræcisions-platform. Fokus på <strong>stress-mitigering</strong> i Alu 6082-T6. Workflowet blev designet til at frigive indre materialespændinger over 5 operationer, hvilket sikrede absolut planhed efter endt bearbejdning.
                             </p>
                         </div>
                         <table class="prop-table">
@@ -283,13 +277,13 @@
             
             <div class="panel p-3 group hover:border-blue-500 transition-colors">
                 <div class="aspect-square bg-black border border-zinc-800 mb-4 overflow-hidden relative">
-                    <img src="img/ringbender.png" alt="Ring Bukker" class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+                    <img src="img/ringbender.png" alt="Ring Bukker" class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all">
                     <div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 font-mono text-[9px] text-blue-400 border border-blue-500/30">SERIE_04</div>
                 </div>
                 <div class="px-2 pb-2">
                     <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mb-1">Reverse-Engineering // Alu/Stål</span>
-                    <h4 class="font-bold text-sm text-white mb-2">Ring Bukker (GF1)</h4>
-                    <p class="font-mono text-[10px] text-zinc-400 line-clamp-2">Opgradering af knækket plast-værktøj fra Temu. Fræst og drejet i metal til skolebrug.</p>
+                    <h4 class="font-bold text-sm text-white mb-2 uppercase">Ring Bukker (GF1)</h4>
+                    <p class="font-mono text-[10px] text-zinc-400">Opgradering af eksisterende værktøjsgeometri. Projektet er i dag implementeret i skolens undervisning som standard-løsning pga. øget driftssikkerhed.</p>
                 </div>
             </div>
 
@@ -297,11 +291,12 @@
                 <div class="aspect-square bg-black border border-zinc-800 mb-4 overflow-hidden relative">
                     <img src="img/tictactoe-render.png" alt="Kryds og Bolle" class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all">
                     <div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 font-mono text-[9px] text-blue-400 border border-blue-500/30">SERIE_05</div>
+                    <div class="absolute top-2 left-2 tag border-blue-500/50 bg-black/50 font-bold uppercase tracking-widest">Accessibility Case</div>
                 </div>
                 <div class="px-2 pb-2">
-                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mb-1">Materiale-Mix // POM/Alu/Messing</span>
-                    <h4 class="font-bold text-sm text-white mb-2">Kryds og Bolle (TIC-TAC-TOE)</h4>
-                    <p class="font-mono text-[10px] text-zinc-400 line-clamp-2">CNC-fræset bræt i sort POM og kryds i aluminium. Bollerne er manuelt drejet i messing for maksimal finish og kontrast.</p>
+                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mb-1">Materiale-Mix // Specialopgave</span>
+                    <h4 class="font-bold text-sm text-white mb-2 uppercase tracking-tighter">Precision Tic-Tac-Toe</h4>
+                    <p class="font-mono text-[10px] text-zinc-400">Specialopgave med fokus på kognitiv tilgængelighed og taktil feedback. Kombinationen af sort POM, aluminium og messing sikrer maksimal kontrast og en finish på Ra 0.8 for sikker interaktion.</p>
                 </div>
             </div>
 
@@ -311,7 +306,7 @@
                 </div>
                 <div class="px-2 pb-2">
                     <span class="font-mono text-[9px] text-zinc-600 uppercase tracking-widest block mb-1">Status // Afventer</span>
-                    <h4 class="font-bold text-sm text-zinc-500 mb-2">Slot Allokeret</h4>
+                    <h4 class="font-bold text-sm text-zinc-500 mb-2 uppercase">Slot Allokeret</h4>
                     <p class="font-mono text-[10px] text-zinc-600 line-clamp-2">Komponent afventer dokumentation.</p>
                 </div>
             </div>
@@ -322,7 +317,7 @@
                 </div>
                 <div class="px-2 pb-2">
                     <span class="font-mono text-[9px] text-zinc-600 uppercase tracking-widest block mb-1">Status // Afventer</span>
-                    <h4 class="font-bold text-sm text-zinc-500 mb-2">Slot Allokeret</h4>
+                    <h4 class="font-bold text-sm text-zinc-500 mb-2 uppercase">Slot Allokeret</h4>
                     <p class="font-mono text-[10px] text-zinc-600 line-clamp-2">Komponent afventer dokumentation.</p>
                 </div>
             </div>
@@ -333,16 +328,16 @@
     <footer class="mt-24 border-t border-zinc-800 bg-[#050505]">
         <div class="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
-                <h2 class="text-3xl font-bold text-white mb-2">Klar til produktion.</h2>
+                <h2 class="text-3xl font-bold text-white mb-2 tracking-tight uppercase">Klar til produktion.</h2>
                 <p class="text-zinc-400 text-sm max-w-md">
-                    Slutspurten mod svendebrevet er i gang. Værktøjskassen er pakket. Jeg er klar til at levere reel værdi for en mester fra dag ét.
+                    Slutspurten mod svendebrevet er i gang. Værktøjskassen er pakket. Jeg er klar til at levere reel værdi for en mester fra dag ét gennem præcision og procesoptimering.
                 </p>
             </div>
             <div class="flex flex-col items-center md:items-end gap-3">
-                <a href="mailto:defnotglen@gmail.com" class="btn-tech px-12 py-4 text-sm w-full md:w-auto">
+                <a href="mailto:defnotglen@gmail.com" class="btn-tech px-12 py-4 text-sm w-full md:w-auto uppercase tracking-widest font-bold">
                     Kontakt via Email
                 </a>
-                <span class="font-mono text-[10px] text-zinc-500">defnotglen@gmail.com</span>
+                <span class="font-mono text-[10px] text-zinc-500 tracking-widest uppercase">defnotglen@gmail.com</span>
             </div>
         </div>
         
