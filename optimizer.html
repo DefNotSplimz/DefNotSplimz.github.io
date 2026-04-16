@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haas Mini Mill - Fusion 360 Student Optimizer</title>
+    <style>
+        :root {
+            --fusion-bg: #374758; --fusion-panel: #2c3947; --fusion-text: #d1d5d8;
+            --fusion-accent: #f9f9f9; --fusion-input-bg: #1e272f; --fusion-border: #4a5a6a;
+            --highlight: #5a9fd4; --safe-color: #4caf50; --student-color: #9c27b0; --danger: #e63946;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--fusion-bg); color: var(--fusion-text); padding: 10px; font-size: 12px; margin: 0; }
+        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 380px 1fr; gap: 15px; padding: 10px; }
+        
+        /* Input Sektion */
+        .input-panel { background: var(--fusion-panel); padding: 15px; border-radius: 4px; border: 1px solid var(--fusion-border); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        h2 { font-size: 13px; margin: 0 0 15px 0; color: var(--fusion-accent); border-bottom: 1px solid var(--fusion-border); padding-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        label { display: block; margin: 10px 0 3px; font-weight: 600; color: #aaa; }
+        select, input { width: 100%; padding: 7px; background: var(--fusion-input-bg); border: 1px solid var(--fusion-border); color: white; border-radius: 2px; outline: none; box-sizing: border-box; }
+        
+        /* Strategi knapper */
+        .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
+        .toggle-btn { padding: 10px; border: 1px solid var(--fusion-border); background: var(--fusion-input-bg); color: white; cursor: pointer; text-align: center; border-radius: 2px; font-weight: bold; transition: 0.2s; user-select: none; }
+        .toggle-btn.active { background: var(--highlight); border-color: white; color: #fff; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .toggle-btn.student.active { background: var(--student-color); }
+        .toggle-btn.safe.active { background: var(--safe-color); }
+
+        /* Resultat Sektion */
+        .output-panel { display: flex; flex-direction: column; gap: 12px; }
+        .fusion-group { background: var(--fusion-panel); border-radius: 2px; border: 1px solid var(--fusion-border); box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .group-header { background: rgba(255,255,255,0.05); padding: 7px 12px; font-weight: bold; border-bottom: 1px solid var(--fusion-border); color: var(--fusion-accent); font-size: 11px; text-transform: uppercase; }
+        .row { display: flex; justify-content: space-between; padding: 6px 15px; border-bottom: 1px solid rgba(255,255,255,0.03); align-items: center; }
+        .row.highlight-row { background: rgba(90, 159, 212, 0.1); border-left: 4px solid var(--highlight); }
+        .val { color: var(--highlight); font-weight: bold; font-family: 'Consolas', monospace; font-size: 14px; }
+        .unit { color: #777; font-size: 10px; margin-left: 5px; }
+
+        .warn-container { margin-top: 10px; }
+        .warn { padding: 10px 15px; border-radius: 2px; margin-bottom: 5px; font-weight: 600; font-size: 11px; border-left: 4px solid rgba(0,0,0,0.3); }
+        .warn-danger { background: var(--danger); color: white; }
+        .warn-info { background: #2196f3; color: white; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="input-panel">
+        <h2>Setup & Geometry</h2>
+        
+        <label>Emne Materiale</label>
+        <select id="workMat">
+            <optgroup label="Metaller">
+                <option value="ALU">Aluminium</option>
+                <option value="STEEL">Stål (Mild)</option>
+                <option value="SS">Rustfast (316)</option>
+                <option value="TOOL">Værktøjsstål</option>
+                <option value="BRASS">Messing</option>
+            </optgroup>
+            <optgroup label="Plast">
+                <option value="POM">POM (Delrin)</option>
+                <option value="ACRYL">Akryl</option>
+                <option value="NYLON">Nylon</option>
+            </optgroup>
+        </select>
+
+        <label>Værktøj & Profil</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+            <select id="toolType" onchange="updateUI()">
+                <option value="endmill">Fræser</option>
+                <option value="facemill">Planfræser</option>
+                <option value="drill">Bor</option>
+                <option value="tap">Gevindtap</option>
+                <option value="reamer">Reamer</option>
+                <option value="chamfer">Chamfer Mill</option>
+            </select>
+            <select id="toolProfile" onchange="calculate()">
+                <option value="flat">Flat End</option>
+                <option value="ball">Ball End</option>
+            </select>
+        </div>
+
+        <label>Værktøjsmateriale</label>
+        <select id="toolMat">
+            <option value="HM">Hårdmetal (HM)</option>
+            <option value="HSS">High Speed Steel (HSS)</option>
+        </select>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+                <label>Diameter (mm)</label>
+                <input type="number" id="diam" value="10" step="0.5">
+            </div>
+            <div>
+                <label>Tænder (z)</label>
+                <input type="number" id="teeth" value="3">
+            </div>
+        </div>
+
+        <div id="millingFields">
+            <label>ap - Aksial dybde (mm)</label>
+            <input type="number" id="ap" value="2.0" step="0.5">
+            <label>Udhæng fra holder (mm)</label>
+            <input type="number" id="overhang" value="30">
+        </div>
+
+        <div id="tapFields" class="hidden">
+            <label>Gevindstigning (Pitch mm)</label>
+            <input type="number" id="pitch" value="1.25" step="0.05">
+        </div>
+
+        <label>Sikkerhedsstrategi</label>
+        <div class="strategy-grid">
+            <div id="btn-student" class="toggle-btn student active" onclick="toggleMode('student')">Student Mode</div>
+            <div id="btn-safe" class="toggle-btn safe" onclick="toggleMode('safe')">Safe Mode</div>
+            <div id="btn-finish" class="toggle-btn" onclick="toggleMode('finish')" style="grid-column: span 2;">Mode: Skrub</div>
+        </div>
+
+        <div id="warnArea" class="warn-container"></div>
+    </div>
+
+    <div class="output-panel">
+        <div class="fusion-group" style="border: 2px solid var(--highlight);">
+            <div class="group-header" style="background: var(--highlight); color: white;">Primær Optimal Load</div>
+            <div class="row highlight-row">
+                <span>Optimal Load (ae)</span>
+                <span><span id="out-optload" class="val" style="font-size: 18px;">0</span><span class="unit">mm</span></span>
+            </div>
+        </div>
+
+        <div class="fusion-group">
+            <div class="group-header">Speed</div>
+            <div class="row"><span>Spindle speed</span><span><span id="out-n" class="val">0</span><span class="unit">rpm</span></span></div>
+            <div class="row"><span>Surface speed</span><span><span id="out-vc" class="val">0</span><span class="unit">m/min</span></span></div>
+            <div class="row"><span>Ramp spindle speed</span><span><span id="out-rn" class="val">0</span><span class="unit">rpm</span></span></div>
+        </div>
+
+        <div class="fusion-group">
+            <div class="group-header">Feedrates</div>
+            <div class="row"><span>Cutting feedrate</span><span><span id="out-vf" class="val">0</span><span class="unit">mm/min</span></span></div>
+            <div class="row"><span>Feed per tooth (fz)</span><span><span id="out-fz" class="val">0</span><span class="unit">mm</span></span></div>
+            <div class="row"><span>Lead-in / Lead-out feed</span><span><span id="out-vflinout" class="val">0</span><span class="unit">mm/min</span></span></div>
+            <div class="row"><span>Transition feedrate</span><span><span id="out-vftrans" class="val">0</span><span class="unit">mm/min</span></span></div>
+            <div class="row"><span>Ramp feedrate</span><span><span id="out-vframp" class="val">0</span><span class="unit">mm/min</span></span></div>
+            <div class="row"><span>Ramp angle</span><span><span id="out-angle" class="val">2</span><span class="unit">deg</span></span></div>
+        </div>
+
+        <div class="fusion-group">
+            <div class="group-header">Vertical & Machine Load</div>
+            <div class="row"><span>Plunge feedrate</span><span><span id="out-vfplunge" class="val">0</span><span class="unit">mm/min</span></span></div>
+            <div class="row"><span>Plunge feed per rev</span><span><span id="out-frev" class="val">0</span><span class="unit">mm</span></span></div>
+            <div class="row"><span>Estimated Power</span><span><span id="out-power" class="val">0</span><span class="unit">kW</span></span></div>
+            <div class="row"><span>Tool Deflection</span><span><span id="out-defl" class="val">0</span><span class="unit">mm</span></span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+const DB = {
+    ALU:   { vc: 320, fz: 0.06, load: 0.10, kc: 700, angle: 2.5 },
+    STEEL: { vc: 120, fz: 0.04, load: 0.06, kc: 1900, angle: 1.5 },
+    SS:    { vc: 60,  fz: 0.03, load: 0.04, kc: 2450, angle: 1.0 },
+    TOOL:  { vc: 50,  fz: 0.03, load: 0.04, kc: 2700, angle: 1.0 },
+    BRASS: { vc: 160, fz: 0.06, load: 0.12, kc: 750, angle: 2.5 },
+    POM:   { vc: 220, fz: 0.06, load: 0.15, kc: 400, angle: 3.5 },
+    ACRYL: { vc: 150, fz: 0.05, load: 0.10, kc: 400, angle: 2.5 },
+    NYLON: { vc: 140, fz: 0.06, load: 0.15, kc: 450, angle: 3.5 }
+};
+
+let modes = { student: true, safe: false, finish: false };
+
+function toggleMode(m) {
+    modes[m] = !modes[m];
+    document.getElementById(`btn-${m}`).classList.toggle('active');
+    if(m === 'finish') document.getElementById('btn-finish').innerText = modes.finish ? 'Mode: Slet' : 'Mode: Skrub';
+    calculate();
+}
+
+function updateUI() {
+    const type = document.getElementById('toolType').value;
+    document.getElementById('tapFields').classList.toggle('hidden', type !== 'tap');
+    document.getElementById('millingFields').classList.toggle('hidden', type === 'tap');
+    calculate();
+}
+
+function calculate() {
+    const mat = document.getElementById('workMat').value;
+    const type = document.getElementById('toolType').value;
+    const profile = document.getElementById('toolProfile').value;
+    const tMat = document.getElementById('toolMat').value;
+    const d = parseFloat(document.getElementById('diam').value);
+    const z = parseFloat(document.getElementById('teeth').value);
+    const ap = parseFloat(document.getElementById('ap').value);
+    const overhang = parseFloat(document.getElementById('overhang').value);
+    
+    let vc = DB[mat].vc;
+    let baseFz = DB[mat].fz * Math.sqrt(d/10);
+    let optLoad = d * DB[mat].load;
+
+    // Ball Mill Effective Diameter
+    let effD = d;
+    if (profile === 'ball' && ap < d/2 && ap > 0) {
+        effD = 2 * Math.sqrt(d * ap - Math.pow(ap, 2));
+    }
+
+    // Modifiers
+    if (modes.student) { vc *= 0.75; baseFz *= 0.8; optLoad *= 0.8; }
+    if (modes.safe) { vc *= 0.70; baseFz *= 0.75; optLoad *= 0.7; }
+    if (modes.finish) { vc *= 1.15; baseFz *= 0.45; optLoad = d * 0.02; }
+    if (tMat === 'HSS') vc *= 0.35;
+    
+    if (type === 'facemill') { vc *= 1.1; baseFz *= 1.1; optLoad = d * 0.35; }
+    if (type === 'reamer') { vc *= 0.15; baseFz *= 2.0; }
+    if (type === 'drill') { vc *= 0.45; }
+
+    // Speed
+    let n = (vc * 1000) / (Math.PI * effD);
+    if (type === 'tap') n = Math.min(n, 800);
+    if (n > 10000) n = 10000;
+    const realVc = (n * Math.PI * effD) / 1000;
+
+    // Feed
+    let fz_eff, vf;
+    if (type === 'tap') {
+        const pitch = parseFloat(document.getElementById('pitch').value);
+        vf = n * pitch; fz_eff = pitch;
+    } else {
+        let rctf = (optLoad < d/2 && optLoad > 0) ? d / (2 * Math.sqrt(d * optLoad - Math.pow(optLoad, 2))) : 1.0;
+        if (rctf > 2.2) rctf = 2.2;
+        fz_eff = baseFz * rctf;
+        vf = n * z * fz_eff;
+    }
+
+    // Machine Check
+    const mrr = (optLoad * ap * vf) / 1000;
+    const power = (mrr * DB[mat].kc) / (60 * 1000 * 0.6);
+    const eMod = (tMat === 'HM') ? 600000 : 210000;
+    const force = (power * 9550) / (n * (d/2000));
+    const deflection = (force * Math.pow(overhang, 3)) / (3 * eMod * (Math.PI * Math.pow(d, 4) / 64));
+
+    // Update UI
+    document.getElementById('out-optload').innerText = optLoad.toFixed(3);
+    document.getElementById('out-n').innerText = Math.round(n);
+    document.getElementById('out-vc').innerText = Math.round(realVc);
+    document.getElementById('out-rn').innerText = Math.round(n * 0.9);
+    
+    document.getElementById('out-vf').innerText = Math.round(vf);
+    document.getElementById('out-fz').innerText = fz_eff.toFixed(3);
+    document.getElementById('out-vflinout').innerText = Math.round(vf * 0.85);
+    document.getElementById('out-vftrans').innerText = Math.round(vf);
+    document.getElementById('out-vframp').innerText = Math.round(vf * 0.5);
+    document.getElementById('out-angle').innerText = DB[mat].angle;
+
+    const plungeV = (['drill', 'tap'].includes(type)) ? vf : vf * 0.25;
+    document.getElementById('out-vfplunge').innerText = Math.round(plungeV);
+    document.getElementById('out-frev').innerText = (plungeV / n).toFixed(3);
+    document.getElementById('out-power').innerText = power.toFixed(2);
+    document.getElementById('out-defl').innerText = deflection.toFixed(4);
+
+    // Warnings
+    const warnArea = document.getElementById('warnArea');
+    warnArea.innerHTML = '';
+    if (power > 3.0) warnArea.innerHTML += `<div class="warn warn-danger">POWER: ${power.toFixed(1)}kW overstiger student-grænsen. Sænk ap eller ae!</div>`;
+    if (deflection > 0.010) warnArea.innerHTML += `<div class="warn warn-danger">UDBØJNING: ${deflection.toFixed(3)}mm er for højt. Risiko for chatter.</div>`;
+    if (modes.student) warnArea.innerHTML += `<div class="warn warn-info">STUDENT MODE: 25% konservativ reduktion aktiv.</div>`;
+}
+
+document.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calculate));
+calculate();
+</script>
+
+</body>
+</html>
