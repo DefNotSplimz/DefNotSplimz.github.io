@@ -3,133 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAI Report | FAI-02-CAMDISC</title>
+    <title>FAI-02 // Cam Disc // Datum Prototyping</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = { theme: { extend: { colors: { primary: "#f59e0b", deep: "#050506" }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } } }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #e4e4e7; color: #000; }
-        .fai-form { background: #fff; width: 210mm; min-height: 297mm; margin: 2rem auto; padding: 15mm; box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-size: 10px; }
-        .form-border { border: 2px solid #000; }
-        .cell-border { border: 1px solid #000; }
-        .form-label { font-family: 'Inter', sans-serif; font-size: 7px; font-weight: 700; text-transform: uppercase; color: #555; margin-bottom: 2px; display: block; }
-        .th-label { font-family: 'Inter', sans-serif; font-size: 8px; font-weight: 800; text-transform: uppercase; color: #000; vertical-align: middle; }
-        .form-data { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 900; color: #000; }
-        table { border-collapse: collapse; width: 100%; }
+        :root {
+            --bg-main: #09090b; 
+            --bg-panel: #18181b; 
+            --border-color: #27272a; 
+            --text-main: #f4f4f5; 
+            --text-muted: #a1a1aa; 
+            --accent: #3b82f6; 
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Navigationel UI [cite: 2026-03-11] */
+        .ui-btn {
+            position: fixed; top: 20px; background: var(--bg-panel); color: var(--text-main);
+            font-family: 'JetBrains Mono'; font-size: 10px; padding: 10px 16px;
+            z-index: 100; border: 1px solid var(--border-color); border-radius: 2px;
+            text-transform: uppercase; font-weight: bold; transition: all 0.2s;
+            text-decoration: none; display: flex; align-items: center;
+        }
+        .ui-btn:hover { background: var(--border-color); border-color: var(--text-muted); }
+        .btn-left { left: 20px; }
+        .btn-right { right: 20px; background: var(--accent); border-color: var(--accent); }
+
+        /* FAI Formular Lærred [cite: 2026-03-11] */
+        .fai-canvas {
+            background: white; color: black;
+            width: 210mm; min-height: 297mm;
+            margin: 60px auto; padding: 15mm;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .form-border { border: 2px solid black; }
+        .cell-border { border: 1px solid black; }
+        .label-micro { font-size: 7px; font-weight: 800; text-transform: uppercase; color: #555; margin-bottom: 2px; display: block; }
+        .data-text { font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 900; }
+
+        .fai-table { width: 100%; border-collapse: collapse; }
+        .fai-table th { background: #f4f4f5; border: 1px solid black; padding: 8px; font-size: 8px; text-transform: uppercase; font-weight: 900; }
+        .fai-table td { border: 1px solid black; padding: 10px; font-family: 'JetBrains Mono'; font-size: 10px; font-weight: 700; }
+
         @media print {
-            @page { size: A4 portrait; margin: 0; }
-            body { background: white !important; margin: 0; padding: 0; }
-            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; text-shadow: none !important; }
-            .print-hidden { display: none !important; }
-            .fai-form { margin: 0 !important; padding: 10mm !important; box-shadow: none !important; width: 100% !important; }
+            @page { size: A4; margin: 0; }
+            body { background: white !important; background-image: none !important; padding: 0 !important; }
+            .ui-btn { display: none !important; }
+            .fai-canvas { margin: 0 !important; padding: 10mm !important; box-shadow: none !important; width: 100% !important; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
 </head>
-<body class="antialiased selection:bg-primary selection:text-black">
+<body class="p-6">
 
-    <div class="print-hidden fixed top-8 right-8 z-50 flex gap-4">
-        <a href="../index.html" class="px-4 py-2 bg-white border-2 border-black hover:bg-zinc-100 text-black transition-colors font-mono text-[10px] uppercase font-black">< Return</a>
-        <button onclick="window.print()" class="px-4 py-2 bg-black border-2 border-black text-white hover:bg-primary hover:text-black transition-colors font-mono text-[10px] uppercase font-black cursor-pointer">[+] Print_Formular</button>
-    </div>
+    <a href="../index.html" class="ui-btn btn-left">← BACK_TO_SYSTEM</a>
+    <button class="ui-btn btn-right" onclick="window.print()">EXECUTE_PRINT_CMD</button>
 
-    <main class="fai-form">
+    <main class="fai-canvas">
         
         <div class="grid grid-cols-12 form-border mb-4">
-            <div class="col-span-3 cell-border p-3 flex items-center justify-center bg-zinc-50">
-                <img src="../img/favicon.svg" alt="Logo" class="h-10 mix-blend-multiply grayscale">
+            <div class="col-span-3 cell-border p-4 flex items-center justify-center bg-zinc-50 font-black text-xl italic">DP</div>
+            <div class="col-span-6 cell-border p-4 text-center">
+                <h1 class="text-xl font-black uppercase tracking-widest leading-none">First Article Inspection Report</h1>
+                <p class="font-mono text-[8px] font-bold text-zinc-500 mt-2">ISO 9001 / FORM 1: PART ACCOUNTABILITY</p>
             </div>
-            <div class="col-span-6 cell-border p-3 flex flex-col justify-center text-center">
-                <h1 class="text-lg font-black uppercase tracking-widest">First Article Inspection Report</h1>
-                <p class="font-mono text-[8px] font-bold text-zinc-600 mt-1">ISO 9001 / FORM 1: PART ACCOUNTABILITY</p>
-            </div>
-            <div class="col-span-3 cell-border p-3 flex flex-col justify-center">
-                <span class="form-label">Report ID / Tracking</span>
-                <span class="form-data text-sm">FAI-02-CAMDISC</span>
+            <div class="col-span-3 cell-border p-4">
+                <span class="label-micro">Report ID</span>
+                <span class="data-text text-sm uppercase">FAI-02-CAMDISC</span>
             </div>
         </div>
 
         <div class="grid grid-cols-12 form-border mb-4">
-            <div class="col-span-6 cell-border p-2">
-                <span class="form-label">1. Part Name / Description</span>
-                <span class="form-data">Cam Disc (Knast)</span>
-            </div>
-            <div class="col-span-6 cell-border p-2">
-                <span class="form-label">2. Material Specification</span>
-                <span class="form-data">AISI 316L / Rustfast</span>
-            </div>
-            <div class="col-span-4 cell-border p-2">
-                <span class="form-label">3. Date of Inspection</span>
-                <span class="form-data">2026-04-06</span>
-            </div>
-            <div class="col-span-4 cell-border p-2">
-                <span class="form-label">4. Inspector Name</span>
-                <span class="form-data">G. Cilinder-Hansen</span>
-            </div>
-            <div class="col-span-4 cell-border p-2 flex flex-col justify-center">
-                <span class="form-label">5. Overall Result</span>
-                <div><span class="form-data bg-black text-white px-2 py-0.5 inline-block text-[9px]">ACCEPTED</span></div>
-            </div>
+            <div class="col-span-6 cell-border p-3"><span class="label-micro">1. Part Name</span><span class="data-text uppercase">Cam Disc (Knast)</span></div>
+            <div class="col-span-6 cell-border p-3"><span class="label-micro">2. Material Spec</span><span class="data-text uppercase">AISI 316L / Rustfast</span></div>
+            <div class="col-span-4 cell-border p-3"><span class="label-micro">3. Inspection Date</span><span class="data-text">2026.04.06</span></div>
+            <div class="col-span-4 cell-border p-3"><span class="label-micro">4. Inspector</span><span class="data-text uppercase">G. Cilinder-Hansen</span></div>
+            <div class="col-span-4 cell-border p-3 bg-black text-white flex items-center justify-center font-black uppercase">Accepted</div>
         </div>
 
-        <div class="form-border mb-4 flex flex-col">
-            <div class="cell-border p-1.5 bg-zinc-100">
-                <span class="form-label !mb-0">Form 2: Visual Blueprint Reference</span>
+        <div class="form-border mb-4">
+            <div class="bg-zinc-100 p-2 border-b border-black">
+                <span class="label-micro !mb-0">Form 2: Visual Blueprint Reference</span>
             </div>
-            <div class="cell-border p-2 flex justify-center items-center h-48 relative">
+            <div class="p-4 flex justify-center items-center h-64">
                 <img src="img/fai-02-drawing.webp" alt="Målskitse FAI-02" class="max-h-full object-contain mix-blend-multiply">
             </div>
         </div>
 
-        <div class="mb-4">
-            <div class="cell-border p-1.5 bg-zinc-100 form-border border-b-0">
-                <span class="form-label !mb-0">Form 3: Characteristic Accountability</span>
+        <div class="form-border mb-4">
+            <div class="bg-zinc-100 p-2 border-b border-black">
+                <span class="label-micro !mb-0">Form 3: Characteristic Accountability</span>
             </div>
-            <table class="w-full text-left form-border">
-                <thead class="bg-zinc-50 border-b border-black">
+            <table class="fai-table">
+                <thead>
                     <tr>
-                        <th class="cell-border p-2 th-label">Char. No.</th>
-                        <th class="cell-border p-2 th-label">Reference Location</th>
-                        <th class="cell-border p-2 th-label">Requirement / Nominal</th>
-                        <th class="cell-border p-2 th-label">Tolerance Limits</th>
-                        <th class="cell-border p-2 th-label">Actual Measurement</th>
-                        <th class="cell-border p-2 th-label text-center">Status</th>
+                        <th class="w-12">No.</th>
+                        <th class="text-left">Characteristic / Feature</th>
+                        <th>Nominal</th>
+                        <th>Tolerance</th>
+                        <th>Actual</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="cell-border p-2 form-data text-center">1</td>
-                        <td class="cell-border p-2 form-data text-sm">Center Hul Ø</td>
-                        <td class="cell-border p-2 form-data">11.000 mm</td>
-                        <td class="cell-border p-2 form-data">+0.018 / 0 mm (H7)</td>
-                        <td class="cell-border p-2 form-data text-sm underline underline-offset-2">11.000 mm</td>
-                        <td class="cell-border p-2 text-center">
-                            <span class="font-mono text-[9px] font-black border border-black px-1.5 py-0.5">EXACT</span>
-                        </td>
+                        <td class="text-center">1</td>
+                        <td class="uppercase">Center Hul Ø</td>
+                        <td class="text-center font-bold">11.000 mm</td>
+                        <td class="text-center text-[9px]">+0.018 / 0 mm (H7)</td>
+                        <td class="text-center underline underline-offset-2">11.000 mm</td>
+                        <td class="text-center font-black uppercase">Exact</td>
                     </tr>
-                    <tr><td class="cell-border p-3"></td><td class="cell-border p-3"></td><td class="cell-border p-3"></td><td class="cell-border p-3"></td><td class="cell-border p-3"></td><td class="cell-border p-3"></td></tr>
-                    <tr><td class="cell-border p-3"></td><td class="cell-border p-3"></td><td class="cell-border p-3"></td><td class="cell-border p-3"></td><td class="cell-border p-3"></td><td class="cell-border p-3"></td></tr>
                 </tbody>
             </table>
         </div>
 
         <div class="grid grid-cols-12 form-border">
-            <div class="col-span-8 cell-border p-3">
-                <span class="form-label">Audit Commentary / Non-Conformance Details</span>
-                <p class="font-mono text-[10px] leading-tight text-black mt-2">Bearbejdning udført med fokuseret køling for at minimere deformationshærdning i AISI legeringen.</p>
+            <div class="col-span-8 cell-border p-4">
+                <span class="label-micro">Audit Commentary</span>
+                <p class="font-mono text-[10px] mt-2 leading-relaxed uppercase">
+                    Bearbejdning udført med fokuseret køling for at minimere deformationshærdning i AISI legeringen.
+                </p>
             </div>
-            <div class="col-span-4 cell-border p-3 flex flex-col justify-end">
-                <span class="form-label">Authorization Signature & Stamp</span>
-                <div class="border-b border-black mt-8 mb-1 font-mono font-black text-sm">G. Cilinder-Hansen</div>
-                <span class="font-mono text-[7px] text-zinc-500">Quality Assurance Inspector</span>
+            <div class="col-span-4 cell-border p-4 flex flex-col justify-end">
+                <div class="border-b border-black font-bold text-sm uppercase">G. Cilinder-Hansen</div>
+                <span class="label-micro mt-1">Authorized Inspector Signature</span>
             </div>
         </div>
 
-        <div class="mt-4 flex justify-between font-mono text-[7px] text-zinc-500 font-bold uppercase">
+        <footer class="mt-4 flex justify-between font-mono text-[7px] text-zinc-500 font-bold uppercase">
             <span>Datum Prototyping // Document Control</span>
             <span>Page 1 of 1</span>
-        </div>
+        </footer>
 
     </main>
 </body>

@@ -1,305 +1,198 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Setup Sheet | Tac Table</title>
-    
+    <title>Setup Sheet // Tac Table // Datum Prototyping</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --industrial-gold: #f59e0b; --deep-black: #050506; --tech-gray: #71717a; }
-        body { 
-            background-color: #f4f4f5; 
-            color: var(--deep-black); 
-            font-family: 'Inter', sans-serif; 
-            margin: 0; padding: 0; 
-        }
-        
-        .dossier-container {
-            background: white;
-            width: 100%;
-            max-width: 210mm;
-            min-height: 297mm; 
-            margin: 20px auto;
-            padding: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            position: relative;
-            box-sizing: border-box;
-        }
-        
-        @media (min-width: 768px) {
-            .dossier-container {
-                margin: 40px auto;
-                padding: 20mm; 
-            }
+        /* WEB DESIGN (Datum Prototyping Mørkt Tema) */
+        :root {
+            --bg-main: #09090b; 
+            --bg-panel: #18181b; 
+            --border-color: #27272a; 
+            --text-main: #f4f4f5; 
+            --text-muted: #a1a1aa; 
+            --accent: #3b82f6; 
+            --industrial-gold: #f59e0b;
         }
 
-        .page-mark { position: absolute; bottom: 10mm; right: 10mm; font-family: 'JetBrains Mono'; font-size: 8px; color: var(--tech-gray); }
-        
-        .watermark { 
-            position: absolute; 
-            top: 50%; left: 50%; 
-            transform: translate(-50%, -50%) rotate(-45deg); 
-            font-size: 80px; 
-            font-weight: 900; 
-            color: rgba(0,0,0,0.02); 
-            pointer-events: none; 
-            text-transform: uppercase; 
-            z-index: 0; 
-            white-space: nowrap;
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
 
-        h1, h2, h3, h4 { font-family: 'Inter', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -0.02em; }
-        .label-micro { font-family: 'JetBrains Mono', monospace; font-size: 8px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--tech-gray); }
-        .data-value { font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
 
+        /* Navigationel UI [cite: 2026-03-11] */
         .ui-btn {
-            position: fixed; top: 10px;
-            background: var(--deep-black); color: white;
-            border: none; font-family: 'Inter'; font-weight: 800; font-size: 10px; text-transform: uppercase;
-            padding: 10px 16px; cursor: pointer; z-index: 100;
-            transition: background 0.2s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-decoration: none; display: inline-block;
+            position: fixed; top: 20px; background: var(--bg-panel); color: var(--text-main);
+            font-family: 'JetBrains Mono'; font-size: 10px; padding: 10px 16px;
+            z-index: 100; border: 1px solid var(--border-color); border-radius: 2px;
+            text-transform: uppercase; font-weight: bold; transition: all 0.2s;
+            text-decoration: none; display: flex; align-items: center;
         }
-        .btn-print { right: 10px; }
-        .btn-back { left: 10px; background: white; color: var(--deep-black); border: 1px solid #e4e4e7; }
-        
-        @media (min-width: 768px) {
-            .ui-btn { top: 20px; padding: 12px 24px; }
-            .btn-print { right: 20px; }
-            .btn-back { left: 20px; }
-        }
-        .btn-print:hover { background: #27272a; }
-        .btn-back:hover { background: #f4f4f5; }
+        .ui-btn:hover { background: var(--border-color); border-color: var(--text-muted); }
+        .btn-left { left: 20px; }
+        .btn-right { right: 20px; background: var(--accent); border-color: var(--accent); }
 
-        /* PRINT LOGIK OVERHAUL FOR 1-SIDES FIT */
+        /* Setup Canvas */
+        .setup-canvas {
+            background: white; color: black;
+            width: 210mm; min-height: 297mm;
+            margin: 60px auto; padding: 15mm;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .form-border { border: 2px solid black; }
+        .cell-border { border: 1px solid black; }
+        .label-micro { font-size: 7px; font-weight: 800; text-transform: uppercase; color: #555; margin-bottom: 2px; display: block; font-family: 'JetBrains Mono'; }
+        .data-text { font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 900; }
+
+        .tech-table { width: 100%; border-collapse: collapse; }
+        .tech-table th { background: #f4f4f5; border: 1px solid black; padding: 6px 10px; font-size: 8px; text-transform: uppercase; font-weight: 900; text-align: left; }
+        .tech-table td { border: 1px solid black; padding: 8px 10px; font-family: 'JetBrains Mono'; font-size: 10px; font-weight: 700; }
+
+        /* PRINT LOGIK */
         @media print {
-            @page { size: A4 portrait; margin: 5mm; } /* Minimerer den hardware-reserverede margin */
-            body { background: white !important; color: black !important; padding: 0 !important; margin: 0 !important; }
-            .ui-btn, .watermark, .page-mark { display: none !important; }
-            
-            .dossier-container {
-                width: 100% !important; height: auto !important; min-height: auto !important;
-                margin: 0 !important; padding: 0 !important; border: none !important; box-shadow: none !important;
-            }
+            @page { size: A4 portrait; margin: 5mm; }
+            body { background: white !important; background-image: none !important; padding: 0 !important; }
+            .ui-btn { display: none !important; }
+            .setup-canvas { margin: 0 !important; padding: 5mm !important; box-shadow: none !important; width: 100% !important; border: none !important; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-            .bg-industrial-gold { background-color: #f59e0b !important; }
             
-            /* Aggressiv kompression af vertikal rytme */
-            section { margin-bottom: 3mm !important; }
-            header { margin-bottom: 3mm !important; padding-bottom: 2mm !important; }
-            .mb-6 { margin-bottom: 3mm !important; }
-            .mb-3 { margin-bottom: 1.5mm !important; }
-            .gap-4 { gap: 2mm !important; }
-            .gap-6 { gap: 3mm !important; }
-            .p-4 { padding: 2.5mm !important; }
-            
-            /* Tabel komprimering */
-            th, td { padding: 1.5mm 2mm !important; }
-            .p-2, .p-3 { padding: 1.5mm 2mm !important; }
-            .leading-relaxed { line-height: 1.2 !important; } /* Fjerner luft mellem tekstlinjer i tabellen */
-
-            /* Tekst skalering for at spare plads */
-            .text-sm { font-size: 0.75rem !important; }
-            .text-xs { font-size: 0.65rem !important; }
-            .text-\[10px\] { font-size: 8px !important; }
-            .text-\[9px\] { font-size: 7px !important; }
-            .text-\[11px\] { font-size: 9px !important; }
-            .text-2xl { font-size: 1.2rem !important; }
-            .text-xl { font-size: 1rem !important; }
-            
-            /* Låser billedet for at forhindre at det skubber tabeller ned */
-            .aspect-video { aspect-ratio: auto !important; height: 32mm !important; }
-
-            /* Forbyd printeren at brække tabeller og rækker over to sider */
-            table, tr, section { break-inside: avoid !important; page-break-inside: avoid !important; }
+            /* Kompression til print */
+            section { margin-bottom: 4mm !important; }
+            .p-4 { padding: 3mm !important; }
+            .mb-6 { margin-bottom: 4mm !important; }
         }
     </style>
 </head>
-<body class="p-2 md:p-10 flex flex-col items-center">
+<body class="p-6">
 
-    <a href="../index.html#projekter" class="ui-btn btn-back">< Return</a>
-    <button class="ui-btn btn-print" onclick="window.print()">Print_Setup</button>
+    <a href="../index.html#projekter" class="ui-btn btn-left">← BACK_TO_SYSTEM</a>
+    <button class="ui-btn btn-right" onclick="window.print()">EXECUTE_PRINT_CMD</button>
 
-    <div class="dossier-container relative overflow-hidden flex flex-col">
-        <div class="watermark">Setup_O8001</div>
-        <div class="page-mark hidden md:block">DP_SETUP // PG_01</div>
-
-        <header class="flex flex-col md:flex-row justify-between items-start border-b-2 border-zinc-100 pb-6 mb-6 relative z-10 shrink-0 gap-4">
+    <main class="setup-canvas">
+        
+        <header class="flex justify-between items-start border-b-2 border-black pb-6 mb-6">
             <div class="flex items-center gap-4">
-                <img src="../img/favicon.svg" alt="Datum Logo" class="h-10 w-auto">
-                <div class="w-[1px] h-10 bg-zinc-200"></div>
+                <div class="bg-black text-white p-3 font-black text-xl italic leading-none">DP</div>
                 <div>
-                    <h1 class="text-xl md:text-2xl font-black italic tracking-tighter uppercase leading-none">CNC_Setup_Sheet</h1>
+                    <h1 class="text-2xl font-black italic tracking-tighter uppercase leading-none">CNC_Setup_Sheet</h1>
                     <p class="label-micro mt-1">Datum_Operations // Rigg_Documentation</p>
                 </div>
             </div>
-            <div class="text-left md:text-right">
-                <div class="label-micro mb-1">Program_NO</div>
-                <div class="text-2xl font-black font-mono tracking-tighter text-zinc-900">O8001</div>
+            <div class="text-right">
+                <span class="label-micro">Program_NO</span>
+                <span class="text-3xl font-black font-mono tracking-tighter">O8001</span>
             </div>
         </header>
 
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 border border-zinc-200 bg-zinc-50 p-4 relative z-10 shrink-0">
-            <div>
-                <p class="label-micro mb-1">Part_Name</p>
-                <p class="data-value text-sm text-zinc-900">Tac Table</p>
-            </div>
-            <div>
-                <p class="label-micro mb-1">Material</p>
-                <p class="data-value text-sm text-zinc-900">Alu 6082-T6</p>
-            </div>
-            <div>
-                <p class="label-micro mb-1">Stock_Size</p>
-                <p class="data-value text-[11px] text-zinc-900 font-mono mt-1">250 x 112 x 30 mm</p>
-            </div>
-            <div>
-                <p class="label-micro mb-1">Target_Size</p>
-                <p class="data-value text-[11px] text-zinc-900 font-mono mt-1">230 x 89 x 10 mm</p>
-            </div>
+        <section class="grid grid-cols-4 border-2 border-black mb-6">
+            <div class="cell-border p-3"><span class="label-micro">Part_Name</span><span class="data-text uppercase">Tac Table</span></div>
+            <div class="cell-border p-3"><span class="label-micro">Material</span><span class="data-text uppercase">Alu 6082-T6</span></div>
+            <div class="cell-border p-3"><span class="label-micro">Stock_Size</span><span class="data-text">250x112x30mm</span></div>
+            <div class="cell-border p-3"><span class="label-micro">Target_Size</span><span class="data-text">230x89x10mm</span></div>
         </section>
 
-        <section class="flex flex-col md:flex-row gap-6 mb-6 border border-zinc-200 p-4 relative z-10 shrink-0">
-            <div class="w-full md:w-1/3 bg-zinc-100 border border-zinc-200 flex items-center justify-center p-2 relative shrink-0 aspect-video md:aspect-auto">
-                <img src="../img/tactable.png" alt="Opspænding" class="w-full h-full object-cover mix-blend-multiply opacity-60 grayscale">
-                <span class="absolute bottom-2 right-2 text-[7px] font-mono font-bold text-zinc-500 bg-white/90 px-1 border border-zinc-200">Top_Visning</span>
+        <section class="grid grid-cols-12 border-2 border-black mb-6">
+            <div class="col-span-4 cell-border p-2 bg-zinc-50 flex items-center justify-center">
+                <img src="../img/tactable.png" alt="Setup" class="max-h-32 object-contain mix-blend-multiply opacity-60 grayscale">
             </div>
-            <div class="w-full md:w-2/3 flex flex-col justify-center">
-                <h2 class="label-micro !text-zinc-900 border-b border-zinc-200 pb-1 mb-3">// Workholding (Maskinskruestik 200mm)</h2>
-                <div class="space-y-3 font-mono text-[10px] text-zinc-600">
-                    <p><strong class="text-zinc-900 uppercase">Bakker & Klodser:</strong> Hårde bakker. Skiftende parallelklodser for at sikre indspændingsdybde på tværs af operationer.</p>
-                    <p><strong class="text-zinc-900 uppercase">Moment-Kontrol (Kritisk):</strong><br>OP1-OP3: Hård indspænding for skrub.<br>OP4-OP5: Løsn og genbespænd med LAVT moment inden sletspån for at eliminere deformation (Banan-effekt).</p>
+            <div class="col-span-8 cell-border p-4">
+                <h2 class="label-micro border-b border-black/10 pb-1 mb-2">// Workholding (Maskinskruestik 200mm)</h2>
+                <div class="font-mono text-[10px] space-y-2">
+                    <p><strong class="uppercase font-bold">Bakker:</strong> Hårde bakker m. skiftende parallelklodser.</p>
+                    <p><strong class="uppercase font-bold">Moment:</strong> OP1-3: Hård indspænding. OP4-5: Løsn/genbespænd m. LAVT moment før sletspån for at eliminere "banan-effekt".</p>
                 </div>
             </div>
         </section>
 
-        <section class="mb-6 relative z-10 shrink-0">
-            <h2 class="label-micro !text-zinc-900 border-b-2 border-zinc-200 pb-1 mb-3">// Værktøjsliste (Tool_Data)</h2>
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-zinc-50 border-y-2 border-zinc-200">
+        <section class="mb-6">
+            <h2 class="label-micro border-b-2 border-black pb-1 mb-2">// Værktøjsliste (Tool_Data)</h2>
+            <table class="tech-table">
+                <thead>
                     <tr>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900 w-10 text-center">T#</th>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900">Beskrivelse</th>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900 w-16 text-center">Udhæng</th>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900 w-10 text-center">Z</th>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900 w-12 text-center">Holder</th>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900">Primær Funktion</th>
+                        <th class="w-10 text-center">T#</th>
+                        <th>Beskrivelse</th>
+                        <th class="w-20 text-center">Udhæng</th>
+                        <th class="w-10 text-center">Z</th>
+                        <th>Primær Funktion</th>
                     </tr>
                 </thead>
-                <tbody class="font-mono text-[10px] font-medium text-zinc-700 divide-y divide-zinc-100">
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-2 text-center text-sm font-black text-zinc-900">T1</td>
-                        <td class="p-2">Planfræser Ø44mm (HM)</td>
-                        <td class="p-2 text-center font-bold">30 mm</td>
-                        <td class="p-2 text-center">4</td>
-                        <td class="p-2 text-center">ER32</td>
-                        <td class="p-2">Facing af top</td>
+                <tbody>
+                    <tr><td class="text-center">T1</td><td>Planfræser Ø44mm (HM)</td><td class="text-center">30 mm</td><td class="text-center">4</td><td>Facing af top</td></tr>
+                    <tr><td class="text-center">T2</td><td>Pindfræser Ø8mm (HM Alu)</td><td class="text-center">25 mm</td><td class="text-center">3</td><td>Adaptive skrub / 3D Flat</td></tr>
+                    <tr><td class="text-center">T3</td><td>Spotdrill Ø8mm (HSS)</td><td class="text-center">20 mm</td><td class="text-center">2</td><td>0.2mm Chamfer</td></tr>
+                    <tr><td class="text-center">T4</td><td>Pindfræser Ø4mm (HSS)</td><td class="text-center">20 mm</td><td class="text-center">3</td><td>Indvendige spor</td></tr>
+                    <tr><td class="text-center">T5</td><td>Pindfræser Ø10mm (HSS)</td><td class="text-center">35 mm</td><td class="text-center">4</td><td>Sletspån omrids</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="mb-6">
+            <h2 class="label-micro border-b-2 border-black pb-1 mb-2">// CAM_Execution_Sequence (Program Routing)</h2>
+            <table class="tech-table">
+                <thead>
+                    <tr>
+                        <th class="w-16 text-center">Setup</th>
+                        <th class="w-16 text-center">WCS</th>
+                        <th>Operations & Værktøjskald</th>
                     </tr>
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-2 text-center text-sm font-black text-zinc-900">T2</td>
-                        <td class="p-2">Pindfræser Ø8mm (HM Alu Glat)</td>
-                        <td class="p-2 text-center font-bold">25 mm</td>
-                        <td class="p-2 text-center">3</td>
-                        <td class="p-2 text-center">ER32</td>
-                        <td class="p-2">2D Adaptive skrub, 3D Flat (Planhed)</td>
+                </thead>
+                <tbody class="text-[9px]">
+                    <tr>
+                        <td class="text-center font-black">OP1</td>
+                        <td class="text-center font-bold">G54</td>
+                        <td>Facing (T1) → Adaptive Skrub (T2) → Slet Omrids (T5)</td>
                     </tr>
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-2 text-center text-sm font-black text-zinc-900">T3</td>
-                        <td class="p-2">Spotdrill Ø8mm (HSS)</td>
-                        <td class="p-2 text-center font-bold">20 mm</td>
-                        <td class="p-2 text-center">2</td>
-                        <td class="p-2 text-center">ER32</td>
-                        <td class="p-2">0.2mm Chamfer på kanter</td>
+                    <tr>
+                        <td class="text-center font-black">OP2</td>
+                        <td class="text-center font-bold">G55</td>
+                        <td>Pocket Spor (T4) → Slet Spor (T4) → Chamfer (T3) → 3D Flat (T2)</td>
                     </tr>
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-2 text-center text-sm font-black text-zinc-900">T4</td>
-                        <td class="p-2">Pindfræser Ø4mm (HSS)</td>
-                        <td class="p-2 text-center font-bold">20 mm</td>
-                        <td class="p-2 text-center">3</td>
-                        <td class="p-2 text-center">ER32</td>
-                        <td class="p-2">2D Pocket & Contour af indvendige spor</td>
+                    <tr>
+                        <td class="text-center font-black">OP3</td>
+                        <td class="text-center font-bold">G56</td>
+                        <td>Adaptive Skrub & Slet af bund (T2)</td>
                     </tr>
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-2 text-center text-sm font-black text-zinc-900">T5</td>
-                        <td class="p-2">Pindfræser Ø10mm (HSS)</td>
-                        <td class="p-2 text-center font-bold">35 mm</td>
-                        <td class="p-2 text-center">4</td>
-                        <td class="p-2 text-center">ER32</td>
-                        <td class="p-2">2D Contour sletspån (Udvendigt omrids)</td>
+                    <tr>
+                        <td class="text-center font-black">OP4</td>
+                        <td class="text-center font-bold">G57</td>
+                        <td>3D Flat Bund (T2) → Vægtreduktion (T2) → Slet Vægtreduktion (T2)</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center font-black">OP5</td>
+                        <td class="text-center font-bold">G58</td>
+                        <td>Chamfer Bund (T3)</td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <section class="mb-6 relative z-10 shrink-0">
-            <h2 class="label-micro !text-zinc-900 border-b-2 border-zinc-200 pb-1 mb-3">// CAM_Execution_Sequence (Program Routing)</h2>
-            <table class="w-full text-left border-collapse">
-                <thead class="bg-zinc-50 border-y-2 border-zinc-200">
-                    <tr>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900 w-12 text-center">Setup</th>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900 w-16 text-center">WCS</th>
-                        <th class="p-2 label-micro !text-[9px] !text-zinc-900">Operationer & Værktøjskald (Rækkefølge)</th>
-                    </tr>
-                </thead>
-                <tbody class="font-mono text-[10px] text-zinc-700 divide-y divide-zinc-100">
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-3 font-black text-zinc-900 text-center">OP1</td>
-                        <td class="p-3 text-center font-bold text-zinc-900">G54<br><span class="text-[7px] text-zinc-400 block leading-tight font-normal">Top Højre<br>(Råemne)</span></td>
-                        <td class="p-3 leading-relaxed">
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T1</span> Facing (Top) <span class="text-zinc-300 mx-1">-></span> 
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T2</span> 2D Adaptive (Skrub Omrids) <span class="text-zinc-300 mx-1">-></span> 
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T5</span> 2D Contour (Slet Omrids)
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-3 font-black text-zinc-900 text-center">OP2</td>
-                        <td class="p-3 text-center font-bold text-zinc-900">G55<br><span class="text-[7px] text-zinc-400 block leading-tight font-normal">Top Højre<br>(Model)</span></td>
-                        <td class="p-3 leading-relaxed">
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T4</span> 2D Pocket (Skrub Spor) <span class="text-zinc-300 mx-1">-></span> 
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T4</span> 2D Contour (Slet Spor) <br>
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold mt-1 inline-block">T3</span> Chamfer (0.2mm Alle Kanter) <span class="text-zinc-300 mx-1">-></span> 
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold mt-1 inline-block">T2</span> 3D Flat (Sikre total planhed)
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-3 font-black text-zinc-900 text-center">OP3</td>
-                        <td class="p-3 text-center font-bold text-zinc-900">G56<br><span class="text-[7px] text-zinc-400 block leading-tight font-normal">Top Højre<br>(Råemne)</span></td>
-                        <td class="p-3 leading-relaxed">
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T2</span> 2D Adaptive (Skrub & Slet af bund)
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-3 font-black text-zinc-900 text-center">OP4</td>
-                        <td class="p-3 text-center font-bold text-zinc-900">G57<br><span class="text-[7px] text-zinc-400 block leading-tight font-normal">Top Højre<br>(Model)</span></td>
-                        <td class="p-3 leading-relaxed">
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T2</span> 3D Flat (Sikre planhed af bund) <span class="text-zinc-300 mx-1">-></span>
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T2</span> 2D Pocket (Vægtreduktion) <br>
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold mt-1 inline-block">T2</span> 2D Contour (Slet vægtreduktion)
-                        </td>
-                    </tr>
-                    <tr class="hover:bg-zinc-50">
-                        <td class="p-3 font-black text-zinc-900 text-center">OP5</td>
-                        <td class="p-3 text-center font-bold text-zinc-900">G58<br><span class="text-[7px] text-zinc-400 block leading-tight font-normal">Top Højre<br>(Model)</span></td>
-                        <td class="p-3 leading-relaxed">
-                            <span class="bg-zinc-200 px-1 rounded text-zinc-900 font-bold">T3</span> Chamfer (0.2mm Alle kanter i bund)
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="border border-industrial-gold bg-industrial-gold/5 p-4 mt-auto relative z-10 shrink-0">
-            <h2 class="label-micro !text-industrial-gold border-b border-industrial-gold/30 pb-1 mb-2">// Kvalitetskontrol (QA) & Inspektionskrav</h2>
-            <ul class="font-mono text-[10px] space-y-1.5 list-disc pl-4 text-zinc-800 font-medium tracking-tight">
-                <li><strong class="text-zinc-900 font-bold">Kritisk Tolerance:</strong> Planhed. Elementet bærer kikkertsigter/måleudstyr.</li>
-                <li>Opmål planhed med vippeindikator henover hele platformen INDEN den udtages af maskinen efter OP5.</li>
-                <li>Sørg for total spånrensning på parallelklodser ved hver vendingscyklus for at forhindre skævhed.</li>
+        <section class="border-2 border-industrial-gold bg-amber-50/30 p-4">
+            <h2 class="label-micro !text-amber-600 border-b border-amber-200 pb-1 mb-2">// Kvalitetskontrol (QA) & Inspektionskrav</h2>
+            <ul class="font-mono text-[10px] space-y-1 list-disc pl-4 font-bold uppercase tracking-tighter">
+                <li><strong class="text-black">Kritisk:</strong> Planhed. Opmål m. vippeindikator INDEN udtagning efter OP5.</li>
+                <li>Total spånrensning på parallelklodser ved hver vending.</li>
+                <li>Verificer spillerum i vægtreduktionstasker.</li>
             </ul>
         </section>
-        
-    </div>
+
+        <footer class="mt-auto pt-6 flex justify-between font-mono text-[7px] text-zinc-400 font-bold uppercase">
+            <span>Datum Prototyping // Operations Control</span>
+            <span>Setup Version 8.01</span>
+        </footer>
+
+    </main>
 </body>
 </html>

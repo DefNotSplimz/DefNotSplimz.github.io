@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* WEB DESIGN (Mørkt Tema) */
         :root {
             --bg-main: #09090b; 
             --bg-panel: #18181b; 
@@ -22,7 +21,6 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
-            /* Grid implementeret som baggrundsegenskab i stedet for klasse-target [cite: 2026-03-11] */
             background-image: 
                 linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
@@ -48,37 +46,37 @@
         }
         .prop-table td:last-child { font-weight: 600; text-align: right; }
 
-        /* PRINT LOGIK (Lys Version) // FIXET [cite: 2026-03-11] */
+        /* UI Kontrolknapper */
+        .ui-btn {
+            position: fixed; top: 20px; background: var(--bg-panel); color: var(--text-main);
+            font-family: 'JetBrains Mono'; font-size: 10px; padding: 10px 16px;
+            z-index: 100; border: 1px solid var(--border-color); border-radius: 2px;
+            text-transform: uppercase; font-weight: bold; transition: all 0.2s;
+            text-decoration: none; display: flex; align-items: center;
+        }
+        .ui-btn:hover { background: var(--border-color); border-color: var(--text-muted); }
+        .btn-left { left: 20px; }
+        .btn-right { right: 20px; background: var(--accent); border-color: var(--accent); }
+        .btn-right:hover { background: #2563eb; }
+
         @media print {
             @page { size: A4; margin: 15mm; }
-            body { 
-                background: white !important; 
-                background-image: none !important; /* Fjerner grid uden at skjule indholdet */
-                color: black !important; 
-                padding: 0 !important;
-            }
-            .print-btn { display: none !important; }
+            body { background: white !important; background-image: none !important; color: black !important; padding: 0 !important; }
+            .ui-btn { display: none !important; }
             .panel { border: 1px solid #e4e4e7 !important; background: white !important; page-break-inside: avoid; }
             .panel-header { background: #f4f4f5 !important; border-bottom: 1px solid #e4e4e7 !important; color: #71717a !important; }
             .prop-table tr { border-bottom: 1px solid #f4f4f5 !important; }
             .prop-table td:first-child { background: #fafafa !important; color: #71717a !important; border-right: 1px solid #f4f4f5 !important; }
-            
-            /* Tvinger tekstfarver til sort til print [cite: 2026-03-11] */
             .text-white, h1, h2, h3, h4, p, span, td { color: black !important; }
             .text-zinc-400, .text-zinc-500 { color: #52525b !important; }
             .text-blue-400, .text-blue-500 { color: #2563eb !important; }
-        }
-
-        .print-btn {
-            position: fixed; top: 20px; right: 20px; background: var(--accent); color: white;
-            font-family: 'JetBrains Mono'; font-size: 11px; padding: 12px 24px;
-            cursor: pointer; z-index: 100; border: none; font-weight: bold; text-transform: uppercase;
         }
     </style>
 </head>
 <body class="p-6 md:p-12">
 
-    <button class="print-btn" onclick="window.print()">EXECUTE_PRINT_CMD</button>
+    <a href="index.html" class="ui-btn btn-left">← BACK_TO_SYSTEM</a>
+    <button class="ui-btn btn-right" onclick="window.print()">EXECUTE_PRINT_CMD</button>
 
     <div class="max-w-4xl mx-auto">
         <header class="mb-12 border-b border-zinc-800 pb-12">
