@@ -3,175 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datum Prototyping | Teknisk Eksekvering</title>
+    <title>Datum Prototyping | Teknisk Portefølje // G.C.Hansen</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #09090b; 
-            --bg-panel: #18181b; 
-            --border-color: #27272a; 
-            --text-main: #f4f4f5; 
-            --text-muted: #a1a1aa; 
-            --accent: #3b82f6; 
-            --accent-hover: #2563eb;
+            --bg-main: #09090b; --bg-panel: #18181b; --border-color: #27272a; 
+            --text-main: #f4f4f5; --text-muted: #a1a1aa; --accent: #3b82f6; 
         }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .bg-grid {
-            background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
+        body { background-color: var(--bg-main); color: var(--text-main); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .bg-grid { background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 40px 40px; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
-
-        .panel {
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-        }
-        
-        .panel-header {
-            background-color: #1f1f22;
-            border-bottom: 1px solid var(--border-color);
-            padding: 8px 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .prop-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .prop-table tr { border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .prop-table tr:last-child { border-bottom: none; }
-        .prop-table td { padding: 10px 16px; vertical-align: top; }
-        .prop-table td:first-child { 
-            width: 40%; 
-            color: var(--text-muted); 
-            background: rgba(0,0,0,0.2);
-            border-right: 1px solid rgba(255,255,255,0.03);
-        }
-        .prop-table td:last-child { font-weight: 500; }
-
-        .btn-tech {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--accent);
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 10px 24px;
-            transition: background-color 0.2s;
-            border-radius: 2px;
-        }
-        .btn-tech:hover { background-color: var(--accent-hover); }
-
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            padding: 8px 16px;
-            transition: all 0.2s;
-            border-radius: 2px;
-        }
-        .btn-outline:hover {
-            border-color: var(--text-muted);
-            background: rgba(255,255,255,0.05);
-        }
-
-        .tag {
-            display: inline-block;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            padding: 4px 8px;
-            background: rgba(59, 130, 246, 0.1);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 2px;
-        }
-
-        .tba-slot {
-            border-style: dashed;
-            opacity: 0.6;
-        }
+        .panel { background-color: var(--bg-panel); border: 1px solid var(--border-color); }
+        .panel-header { background-color: #1f1f22; border-bottom: 1px solid var(--border-color); padding: 8px 16px; font-family: 'JetBrains Mono'; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); display: flex; justify-content: space-between; }
+        .btn-tech { display: inline-flex; align-items: center; justify-content: center; background-color: var(--accent); color: #fff; font-size: 13px; font-weight: 700; padding: 12px 24px; border-radius: 2px; text-transform: uppercase; transition: background 0.2s; }
+        .btn-tech:hover { background-color: #2563eb; }
+        .btn-outline { display: inline-flex; border: 1px solid var(--border-color); color: var(--text-main); font-family: 'JetBrains Mono'; font-size: 11px; padding: 8px 16px; border-radius: 2px; transition: all 0.2s; text-transform: uppercase; }
+        .btn-outline:hover { background: rgba(255,255,255,0.05); border-color: var(--text-muted); }
+        .tag { font-family: 'JetBrains Mono'; font-size: 9px; padding: 2px 6px; background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
     </style>
 </head>
 <body class="bg-grid">
 
-    <nav class="fixed top-0 w-full z-50 bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-800">
-        <div class="max-w-7xl mx-auto px-6 h-14 flex justify-between items-center">
+    <nav class="fixed top-0 w-full z-50 bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-800 px-6">
+        <div class="max-w-7xl mx-auto h-16 flex justify-between items-center">
             <div class="flex items-center gap-6">
-                <span class="font-bold tracking-[0.2em] text-white uppercase">DATUM PROTOTYPING</span>
-                <div class="h-4 w-px bg-zinc-800"></div>
-                <span class="font-mono text-[11px] text-zinc-400">FINMEKANIK // CNC STRATEGY</span>
+                <span class="font-bold tracking-[0.2em] uppercase text-white">Datum Prototyping</span>
+                <span class="hidden md:block font-mono text-[10px] text-zinc-500 uppercase tracking-widest">Finmekaniker // 2026</span>
             </div>
             <div class="flex items-center gap-4">
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 mr-4">
                     <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                    <span class="font-mono text-[10px] text-emerald-500 uppercase tracking-widest">Klar til ansættelse</span>
+                    <span class="font-mono text-[10px] text-emerald-500 uppercase">Status: Operativ</span>
                 </div>
-                <a href="dossier.html" class="font-mono text-[11px] text-zinc-300 hover:text-white border border-zinc-700 px-3 py-1.5 rounded-sm hover:border-zinc-500 transition-colors">
-                    DOSSIER
-                </a>
-                <a href="mailto:defnotglen@gmail.com" class="font-mono text-[11px] text-zinc-300 hover:text-white border border-zinc-700 px-3 py-1.5 rounded-sm hover:border-zinc-500 transition-colors">
-                    KONTAKT
-                </a>
+                <a href="dossier.html" class="btn-outline border-blue-500/30 text-blue-400">ÅBN_DOSSIER</a>
             </div>
         </div>
     </nav>
 
-    <header class="pt-32 pb-24 px-6 max-w-7xl mx-auto border-b border-zinc-800">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+    <header class="pt-40 pb-24 px-6 max-w-7xl mx-auto border-b border-zinc-800">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div class="lg:col-span-8">
-                <div class="mb-6"><span class="tag uppercase">System_ID: DP_UNIT_01</span></div>
-                <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-8 leading-tight text-white uppercase">
-                    Teknisk Excellence <br>i Spåntagning.
+                <h1 class="text-6xl font-black tracking-tighter mb-8 leading-none text-white uppercase">
+                    Finmekanik & <br><span class="text-blue-500">CNC Strategi.</span>
                 </h1>
                 <p class="text-zinc-400 text-lg max-w-2xl leading-relaxed">
-                    Under identiteten <strong>Datum Prototyping</strong> forener jeg præcisionshåndværk med avanceret bearbejdningsstrategi. Mit fokus ligger i krydsfeltet mellem materialeforståelse og procesoptimering – fra den første digitale bane til den færdige komponent.
+                    Søger udfordringer i præcisionsindustrien. Jeg forener teknisk fildisciplin med +1000 timers praktisk maskinerfaring. Mit fokus er eksekvering af komplekse emner i tolerancer ned til mikron-niveau.
                 </p>
             </div>
-            
-            <div class="lg:col-span-4 flex flex-col gap-4">
-                <div class="panel">
-                    <div class="panel-header">Operativ Kapacitet</div>
-                    <div class="p-5 flex flex-col gap-3 font-mono text-xs text-zinc-300">
-                        <div class="flex justify-between items-center">
-                            <span class="text-zinc-500">Primær CAM</span>
-                            <span class="font-semibold text-white">Fusion 360 / Mastercam</span>
-                        </div>
-                        <div class="flex justify-between items-center border-t border-zinc-800 pt-3">
-                            <span class="text-zinc-500">Styringssystem</span>
-                            <span class="font-semibold text-white">Haas NGC / Fanuc ISO</span>
-                        </div>
-                        <div class="flex justify-between items-center border-t border-zinc-800 pt-3">
-                            <span class="text-zinc-500">Metrologi</span>
-                            <span class="font-semibold text-white">ISO 286 Pasninger</span>
-                        </div>
-                        <div class="pt-2">
-                            <a href="dossier.html" class="btn-outline w-full text-center py-2 bg-blue-500/5 border-blue-500/20 text-blue-400 hover:bg-blue-500/10 uppercase tracking-widest">
-                                Åbn Teknisk Dossier
-                            </a>
-                        </div>
-                    </div>
+            <div class="lg:col-span-4 panel p-6">
+                <span class="font-mono text-[10px] text-zinc-500 uppercase block mb-4">Operativ Kapacitet</span>
+                <div class="space-y-4 font-mono text-xs text-zinc-300">
+                    <div class="flex justify-between border-b border-zinc-800 pb-2"><span>Software</span><span class="text-white">Fusion 360 / Mastercam</span></div>
+                    <div class="flex justify-between border-b border-zinc-800 pb-2"><span>Maskiner</span><span class="text-white">Haas / Fanuc / Heidenhain</span></div>
+                    <div class="flex justify-between border-b border-zinc-800 pb-2"><span>Metrologi</span><span class="text-white">ISO 286 (H7/g6)</span></div>
+                    <div class="flex justify-between"><span>Materiale</span><span class="text-white">AISI 316L / Alu 6082</span></div>
                 </div>
             </div>
         </div>
@@ -179,191 +65,140 @@
 
     <main class="py-24 px-6 max-w-7xl mx-auto">
         
-        <div class="mb-12">
-            <h2 class="text-2xl font-bold tracking-tight text-white uppercase">Teknisk Dokumentation</h2>
-            <p class="font-mono text-xs text-zinc-500 mt-2">VALIDERINGS-PROVISO (H2)</p>
-        </div>
-
         <article class="panel mb-16 overflow-hidden">
-            <div class="panel-header">
-                <span>Dokument-ID: FAI-001</span>
-                <span>Type: Kompleks Samling</span>
-            </div>
+            <div class="panel-header"><span>FAI-001 // Projekt: Vakuum Motor</span><span>Type: Kompleks Samling</span></div>
             <div class="grid grid-cols-1 lg:grid-cols-12">
-                <div class="lg:col-span-5 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-zinc-800">
-                    <div>
-                        <div class="p-8">
-                            <h3 class="text-3xl font-bold text-white mb-4 uppercase">Vakuum Motor</h3>
-                            <p class="text-zinc-400 text-sm leading-relaxed">
-                                Totalproduktion af funktionsdygtig vakuum-motor. Den primære tekniske udfordring var håndteringen af termisk ekspansion under drift. Projektet krævede konsekvent overholdelse af <strong>ISO 286 pasninger (H7/g6)</strong> for at sikre vakuumtæthed ved driftstemperatur.
-                            </p>
-                        </div>
-                        <table class="prop-table">
-                            <tbody>
-                                <tr>
-                                    <td>Materialer</td>
-                                    <td>Alu 6082, Stål S355, Messing MS58</td>
-                                </tr>
-                                <tr>
-                                    <td>Tolerancer</td>
-                                    <td class="text-blue-400">H7/g6 Pasning (Kritisk)</td>
-                                </tr>
-                                <tr>
-                                    <td>Operationer</td>
-                                    <td>Rival-bearbejdning, Gevind, 2D Adaptive</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="p-6 bg-black/20 border-t border-zinc-800 flex flex-col gap-3">
-                        <span class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest text-left">Inspektions-Protokoller</span>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="fai/fai-01.html" class="btn-outline border-blue-500/20 text-blue-400 hover:bg-blue-500/10">
-                                01: Cylinder & Stempel
-                            </a>
-                            <a href="fai/fai-02-camdisc.html" class="btn-outline border-blue-500/20 text-blue-400 hover:bg-blue-500/10">
-                                02: Cam Disc
-                            </a>
-                            <a href="fai/fai-03-flywheel.html" class="btn-outline border-blue-500/20 text-blue-400 hover:bg-blue-500/10">
-                                03: Flywheel
-                            </a>
+                <div class="lg:col-span-5 p-8 border-r border-zinc-800">
+                    <h3 class="text-3xl font-black text-white mb-4 uppercase">Vakuum Motor</h3>
+                    <p class="text-zinc-400 text-sm mb-8 leading-relaxed">
+                        Totalproduktion af funktionsdygtig motor. Kritisk fokus på vakuumtæthed gennem præcisionspasninger (H7/g6) i Ms58 og Alu 6082.
+                    </p>
+                    <div class="space-y-4">
+                        <span class="font-mono text-[10px] text-zinc-500 uppercase block tracking-widest">Inspektions-Protokoller</span>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="fai/fai-01.html" class="btn-outline text-[10px]">01: Cylinder</a>
+                            <a href="fai/fai-02-camdisc.html" class="btn-outline text-[10px]">02: Cam Disc</a>
+                            <a href="fai/fai-03-flywheel.html" class="btn-outline text-[10px]">03: Flywheel</a>
                         </div>
                     </div>
                 </div>
-                <div class="lg:col-span-7 bg-[#050505] p-8 flex items-center justify-center relative">
-                    <img src="img/flame-render.png" alt="Vakuum Motor" class="max-w-full max-h-[450px] object-contain drop-shadow-2xl grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
-                    <div class="absolute top-4 right-4 font-mono text-[10px] text-zinc-600 uppercase">QA: GODKENDT</div>
+                <div class="lg:col-span-7 bg-black/40 p-8 flex items-center justify-center">
+                    <img src="img/flame-render.png" alt="Vakuum Motor" class="max-h-80 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
                 </div>
             </div>
         </article>
 
         <article class="panel mb-24 overflow-hidden">
-            <div class="panel-header">
-                <span>Dokument-ID: SETUP-002</span>
-                <span>Type: Opspændings-Logik (HSM)</span>
-            </div>
+            <div class="panel-header"><span>SETUP-002 // Projekt: Optisk Platform</span><span>Type: HSM Strategi</span></div>
             <div class="grid grid-cols-1 lg:grid-cols-12">
-                <div class="lg:col-span-5 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-zinc-800">
-                    <div>
-                        <div class="p-8">
-                            <h3 class="text-3xl font-bold text-white mb-4 uppercase">Optisk Platform</h3>
-                            <p class="text-zinc-400 text-sm leading-relaxed">
-                                Udvikling af opspændingslogik til højpræcisions-platform i Alu 6082-T6. Workflowet blev designet til at frigive indre materialespændinger over 5 operationer, hvilket sikrede absolut planhed efter endt bearbejdning.
-                            </p>
-                        </div>
-                        <table class="prop-table">
-                            <tbody>
-                                <tr>
-                                    <td>Materiale</td>
-                                    <td>Alu 6082-T6</td>
-                                </tr>
-                                <tr>
-                                    <td>Strategi</td>
-                                    <td>High-Speed Machining (HSM)</td>
-                                </tr>
-                                <tr>
-                                    <td>Opspænding</td>
-                                    <td class="text-blue-400">5-Akset logik i 3-Akse maskine</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="p-6 bg-black/20 border-t border-zinc-800">
-                        <span class="font-mono text-[10px] text-zinc-500 uppercase tracking-widest block mb-3 text-left">Setup Dokumentation</span>
-                        <a href="fai/setup-tactable.html" class="btn-tech w-full uppercase tracking-widest">
-                            Vis Operations Workflow
-                        </a>
+                <div class="lg:col-span-5 p-8 border-r border-zinc-800">
+                    <h3 class="text-3xl font-black text-white mb-4 uppercase">Optisk Platform</h3>
+                    <p class="text-zinc-400 text-sm mb-8 leading-relaxed">
+                        Udvikling af opspændingslogik til højpræcisions-platform i Alu 6082-T6. 5-akset logik eksekveret i 3-akset maskine med fokus på absolut planhed.
+                    </p>
+                    <div class="space-y-4">
+                        <span class="font-mono text-[10px] text-zinc-500 uppercase block tracking-widest">Proces Dokumentation</span>
+                        <a href="fai/setup-tactable.html" class="btn-tech w-full">Vis Operations Workflow</a>
                     </div>
                 </div>
-                <div class="lg:col-span-7 bg-[#050505] p-8 flex items-center justify-center relative">
-                    <img src="img/tactable.png" alt="Tac Table" class="max-w-full max-h-[450px] object-contain drop-shadow-2xl grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
-                    <div class="absolute top-4 right-4 font-mono text-[10px] text-zinc-600 uppercase">QA: GODKENDT</div>
+                <div class="lg:col-span-7 bg-black/40 p-8 flex items-center justify-center">
+                    <img src="img/tactable.png" alt="Tac Table" class="max-h-80 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
                 </div>
             </div>
         </article>
 
-        <div class="mb-8 flex items-end justify-between">
-            <div>
-                <h2 class="text-2xl font-bold tracking-tight text-white uppercase">Komponent-Arkiv</h2>
-                <p class="font-mono text-xs text-zinc-500 mt-2">HVERDAGS-SPÅNTAGNING & PROTOTYPER</p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
-            
-            <div class="panel p-3 group hover:border-blue-500 transition-colors">
-                <div class="aspect-square bg-black border border-zinc-800 mb-4 overflow-hidden relative text-center">
-                    <img src="img/ringbender.png" alt="Ring Bukker" class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all">
-                    <div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 font-mono text-[9px] text-blue-400 border border-blue-500/30 font-bold uppercase">SERIE_04</div>
+        <section class="mb-24">
+            <h2 class="text-xl font-bold text-white uppercase mb-8 tracking-widest border-b border-zinc-800 pb-4">System_Metodik // CAD_TO_FAI</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="panel p-6">
+                    <span class="text-blue-500 font-black text-2xl mb-4 block">01</span>
+                    <h4 class="font-bold text-sm uppercase mb-2">CAD Strategi</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed">Design for Manufacturing (DFM) med fokus på opspændingslogik.</p>
                 </div>
-                <div class="px-2 pb-2">
-                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mb-1 font-bold">Reverse-Engineering</span>
+                <div class="panel p-6">
+                    <span class="text-blue-500 font-black text-2xl mb-4 block">02</span>
+                    <h4 class="font-bold text-sm uppercase mb-2">CAM Optimering</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed">HSM-strategier og procesvalidering gennem simulering.</p>
+                </div>
+                <div class="panel p-6">
+                    <span class="text-blue-500 font-black text-2xl mb-4 block">03</span>
+                    <h4 class="font-bold text-sm uppercase mb-2">Setup & Rigg</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed">Dokumenteret opspænding m. fokus på planhed og moment.</p>
+                </div>
+                <div class="panel p-6">
+                    <span class="text-blue-500 font-black text-2xl mb-4 block">04</span>
+                    <h4 class="font-bold text-sm uppercase mb-2">Metrologi</h4>
+                    <p class="text-xs text-zinc-500 leading-relaxed">FAI-validering af kritiske tolerancer v. 20°C.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-24">
+            <div class="mb-12 flex items-end justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-white uppercase tracking-tight">Komponent-Arkiv</h2>
+                    <p class="font-mono text-xs text-zinc-500 mt-2 uppercase">Hverdags-spåntagning & Protokoller</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="panel p-4 group hover:border-blue-500 transition-colors">
+                    <div class="aspect-square bg-black border border-zinc-800 mb-4 overflow-hidden relative">
+                        <img src="img/ringbender.png" alt="Ring Bukker" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+                        <div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 font-mono text-[9px] text-blue-400 border border-blue-500/30 uppercase">Serie_04</div>
+                    </div>
+                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mb-1">Reverse-Engineering</span>
                     <h4 class="font-bold text-sm text-white mb-2 uppercase">Ring Bukker (GF1)</h4>
-                    <p class="font-mono text-[10px] text-zinc-400">Opgradering fra plast til bearbejdet metal. Implementeret som standard-løsning i undervisningen.</p>
+                    <p class="font-mono text-[10px] text-zinc-400 leading-tight">Opgradering fra plast til bearbejdet metal. Implementeret som standard-løsning.</p>
                 </div>
-            </div>
 
-            <div class="panel p-3 group hover:border-blue-500 transition-colors">
-                <div class="aspect-square bg-black border border-zinc-800 mb-4 overflow-hidden relative text-center">
-                    <img src="img/tictactoe-render.png" alt="Kryds og Bolle" class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 group-hover:opacity-100 group-hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all">
-                    <div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 font-mono text-[9px] text-blue-400 border border-blue-500/30 font-bold uppercase">SERIE_05</div>
-                    <div class="absolute top-2 left-2 tag border-blue-500/50 bg-black/50 font-bold uppercase tracking-widest">Accessibility Case</div>
-                </div>
-                <div class="px-2 pb-2">
-                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mb-1 font-bold">Materiale-Mix</span>
+                <div class="panel p-4 group hover:border-blue-500 transition-colors">
+                    <div class="aspect-square bg-black border border-zinc-800 mb-4 overflow-hidden relative">
+                        <img src="img/tictactoe-render.png" alt="Tic Tac Toe" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all">
+                        <div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 font-mono text-[9px] text-blue-400 border border-blue-500/30 uppercase">Serie_05</div>
+                    </div>
+                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mb-1">Materiale-Mix</span>
                     <h4 class="font-bold text-sm text-white mb-2 uppercase">Precision Tic-Tac-Toe</h4>
-                    <p class="font-mono text-[10px] text-zinc-400">Specialopgave til bruger med svær autisme. Fokus på taktil feedback og finish (Ra 0.8).</p>
+                    <p class="font-mono text-[10px] text-zinc-400 leading-tight">Case til bruger m. autisme. Fokus på taktil feedback og finish (Ra 0.8).</p>
+                </div>
+
+                <div class="panel p-4 border-dashed opacity-50">
+                    <div class="aspect-square bg-zinc-900/50 border border-zinc-800 mb-4 flex items-center justify-center">
+                        <span class="font-mono text-[10px] text-zinc-700 uppercase">[ TBA ]</span>
+                    </div>
+                    <span class="font-mono text-[9px] text-zinc-700 uppercase tracking-widest block mb-1">Status // Afventer</span>
+                    <h4 class="font-bold text-sm text-zinc-600 mb-2 uppercase">Slot Allokeret</h4>
+                    <p class="font-mono text-[10px] text-zinc-700 leading-tight">Komponent afventer dokumentation.</p>
+                </div>
+
+                <div class="panel p-4 border-dashed opacity-50">
+                    <div class="aspect-square bg-zinc-900/50 border border-zinc-800 mb-4 flex items-center justify-center">
+                        <span class="font-mono text-[10px] text-zinc-700 uppercase">[ TBA ]</span>
+                    </div>
+                    <span class="font-mono text-[9px] text-zinc-700 uppercase tracking-widest block mb-1">Status // Afventer</span>
+                    <h4 class="font-bold text-sm text-zinc-600 mb-2 uppercase">Slot Allokeret</h4>
+                    <p class="font-mono text-[10px] text-zinc-700 leading-tight">Komponent afventer dokumentation.</p>
                 </div>
             </div>
+        </section>
 
-            <div class="panel p-3 tba-slot bg-black/20">
-                <div class="aspect-square bg-[#050505] border border-zinc-800 mb-4 flex items-center justify-center relative">
-                    <span class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-bold">[ TBA ]</span>
-                </div>
-                <div class="px-2 pb-2 text-left">
-                    <span class="font-mono text-[9px] text-zinc-600 uppercase tracking-widest block mb-1">Status // Afventer</span>
-                    <h4 class="font-bold text-sm text-zinc-500 mb-2 uppercase">Slot Allokeret</h4>
-                    <p class="font-mono text-[10px] text-zinc-600">Komponent afventer dokumentation.</p>
-                </div>
-            </div>
-
-            <div class="panel p-3 tba-slot bg-black/20">
-                <div class="aspect-square bg-[#050505] border border-zinc-800 mb-4 flex items-center justify-center relative">
-                    <span class="font-mono text-[10px] text-zinc-600 uppercase tracking-widest font-bold">[ TBA ]</span>
-                </div>
-                <div class="px-2 pb-2 text-left">
-                    <span class="font-mono text-[9px] text-zinc-600 uppercase tracking-widest block mb-1">Status // Afventer</span>
-                    <h4 class="font-bold text-sm text-zinc-500 mb-2 uppercase">Slot Allokeret</h4>
-                    <p class="font-mono text-[10px] text-zinc-600">Komponent afventer dokumentation.</p>
-                </div>
-            </div>
-
-        </div>
     </main>
 
-    <footer class="mt-24 border-t border-zinc-800 bg-[#050505]">
-        <div class="max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div class="text-left">
-                <h2 class="text-3xl font-bold text-white mb-2 tracking-tight uppercase">Klar til produktion.</h2>
-                <p class="text-zinc-400 text-sm max-w-md leading-relaxed">
-                    Under brandet <strong>DatumPrototyping</strong> leverer jeg teknisk værdi gennem præcision og procesoptimering. Jeg er klar til at styrke jeres værksted fra dag ét.
-                </p>
+    <footer class="border-t border-zinc-800 py-20 px-6 bg-[#050505]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+            <div>
+                <h2 class="text-4xl font-black text-white uppercase tracking-tighter leading-none">Klar til produktion.</h2>
+                <p class="text-zinc-500 mt-4 max-w-sm">Under brandet Datum Prototyping leverer jeg teknisk værdi og procesoptimering.</p>
             </div>
-            <div class="flex flex-col items-center md:items-end gap-3">
-                <a href="mailto:defnotglen@gmail.com" class="btn-tech px-12 py-4 text-sm w-full md:w-auto uppercase tracking-[0.2em] font-bold">
-                    Kontakt via Email
-                </a>
-                <span class="font-mono text-[10px] text-zinc-500 tracking-widest uppercase">defnotglen@gmail.com // KØBENHAVN_DK</span>
+            <div class="flex flex-col gap-4">
+                <a href="mailto:defnotglen@gmail.com" class="btn-tech">Kontakt via Email</a>
+                <span class="font-mono text-[10px] text-zinc-600 uppercase text-center">Datum // 2026 // Copenhagen</span>
             </div>
         </div>
-        
-        <div class="border-t border-zinc-900">
-            <div class="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center font-mono text-[10px] text-zinc-600 uppercase font-bold tracking-widest">
-                <span>DATUM PROTOTYPING // © 2026</span>
-                <span>SYSTEM VERSION 13.0 // OPERATIV</span>
-            </div>
+        <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-zinc-900 flex justify-between items-center font-mono text-[9px] text-zinc-700 uppercase tracking-widest">
+            <span>System Version 13.0 // Operativ</span>
+            <span>G. Cilinder-Hansen // © 2026</span>
         </div>
     </footer>
-
 </body>
 </html>
