@@ -1,291 +1,129 @@
 <!DOCTYPE html>
-<html lang="da" class="dark scroll-smooth">
+<html lang="da" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machining_OS | CNC Hub</title>
+    <title>Machining_OS | CNC Hub v8.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
-    <link rel="stylesheet" href="global.css">
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: "#f59e0b" }, fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } } }
     </script>
+    <link rel="stylesheet" href="global.css">
 </head>
 <body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
 
-    <div class="subtle-grid"></div>
-
-    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden">
-        <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
-            <img src="img/favicon.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
-        </a>
-        <nav class="flex flex-col gap-2 flex-grow overflow-y-auto no-scrollbar">
-            <a href="hub.html" class="sidebar-nav-item active" data-route="01">01</a>
-            <a href="manual.html" class="sidebar-nav-item" data-route="02">02</a>
-            <a href="reference.html" class="sidebar-nav-item" data-route="03">03</a>
-            <a href="inventory.html" class="sidebar-nav-item" data-route="04">04</a>
-        </nav>
-        <div class="status-dot mt-auto"></div>
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 print:hidden">
+        <a href="gateway.html" class="p-2 mb-4"><img src="img/favicon.svg" class="w-10 h-auto" alt="DP"></a>
+        <nav class="flex flex-col gap-2"><a href="hub.html" class="sidebar-nav-item active">01</a><a href="inventory.html" class="sidebar-nav-item">04</a></nav>
     </aside>
 
-    <div class="flex-grow flex flex-col min-w-0 relative">
-        <header class="relative pt-32 pb-16 px-6 md:px-12 border-b border-zinc-900 bg-black/40 backdrop-blur-md overflow-hidden print:hidden">
-            <div class="scanline"></div>
-            <div class="max-w-7xl mx-auto relative">
-                <h1 class="text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-none">Operations Hub</h1>
-                <div class="label-micro text-primary mt-6 tracking-[0.5em]">High_Precision_HSM_Validation // Route_01</div>
-            </div>
+    <div class="flex-grow flex flex-col min-w-0">
+        <header class="relative pt-32 pb-16 px-12 border-b border-zinc-900 bg-black/40 backdrop-blur-md print:hidden">
+            <h1 class="text-8xl font-black tracking-tighter uppercase italic leading-none">Operations Hub</h1>
+            <div class="label-micro text-primary mt-6 tracking-[0.5em]">Physics_Engine_v8.0 // Hybrid_Mode_Enabled</div>
         </header>
 
-        <section class="pt-12 px-6 md:px-12 bg-transparent">
-            <div class="max-w-7xl mx-auto">
-                <div class="module-card p-10 bg-black/60 shadow-2xl">
-                    <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-zinc-800 pb-6 mb-10 gap-6 uppercase italic font-bold">
-                        <div class="label-micro text-primary italic font-black tracking-[0.3em]">/ Project_Kontekst</div>
-                        <div class="flex gap-4 print:hidden">
-                            <button id="btn-export-json" class="btn-industrial px-6 py-2 text-[10px] italic">Eksportér_Session_Data</button>
-                        </div>
-                    </div>
-                    <form id="job-form" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <section class="pt-12 px-12 max-w-7xl">
+            <div class="module-card p-10 bg-black/60 shadow-2xl">
+                <form id="cnc-form" class="space-y-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div class="flex flex-col gap-3">
-                            <label class="label-micro !text-[8px] !before:hidden">Program (O)</label>
-                            <input type="text" id="job-program" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm focus:border-primary/50 outline-none transition-all">
-                        </div>
-                        <div class="flex flex-col gap-3 lg:col-span-2">
-                            <label class="label-micro !text-[8px] !before:hidden">Emne_Navn</label>
-                            <input type="text" id="job-part" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm font-black italic uppercase focus:border-primary/50 outline-none transition-all">
-                        </div>
-                        <div class="flex flex-col gap-3">
-                            <label class="label-micro !text-[8px] !before:hidden">Revision</label>
-                            <input type="text" id="job-rev" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white font-mono text-sm focus:border-primary/50 outline-none transition-all">
-                        </div>
-                        <div class="flex flex-col gap-3 lg:col-span-2">
-                            <label class="label-micro !text-[8px] !before:hidden !text-primary print:!text-black">Aktiv_Maskine</label>
-                            <select id="machine-select" class="p-4 bg-zinc-900/50 border border-zinc-800 text-primary font-mono text-sm font-black appearance-none cursor-pointer focus:border-primary/50 outline-none transition-all"></select>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <section id="beregner" class="py-12 px-6 md:px-12 bg-transparent print:hidden">
-            <div class="max-w-7xl mx-auto">
-                <div class="grid lg:grid-cols-12 gap-6 tabular-nums">
-                    
-                    <div class="lg:col-span-7 module-card p-10 bg-black/60 shadow-2xl">
-                        <div class="label-micro text-primary mb-12 italic font-black tracking-[0.3em]">/ Parameter_Protocol</div>
-                        
-                        <div id="protocol-error" class="hidden mb-8 border-l-4 border-red-600 bg-red-950/30 p-4">
-                            <span class="text-[10px] font-mono text-red-500 uppercase tracking-widest font-black block mb-1">CRITICAL_GEOMETRY_LOCKOUT</span>
-                            <p id="protocol-error-text" class="text-xs text-zinc-300 font-mono font-bold"></p>
-                        </div>
-
-                        <form id="cnc-form" class="space-y-10">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                <div class="flex flex-col gap-3">
-                                    <label class="label-micro !text-[8px] !before:hidden">Værktøjs_Krybbe</label>
-                                    <select id="active-tool-select" class="p-4 bg-zinc-900/50 border border-primary/20 text-primary font-black appearance-none cursor-pointer text-sm focus:border-primary/50 outline-none transition-all"></select>
-                                </div>
-                                <div class="flex flex-col gap-3">
-                                    <label class="label-micro !text-[8px] !before:hidden">Materiale_Legering</label>
-                                    <select id="work-material" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white appearance-none cursor-pointer text-sm focus:border-primary/50 outline-none transition-all"></select>
-                                </div>
-                            </div>
-
-                            <div class="p-8 bg-zinc-900/20 border border-zinc-900 rounded-sm">
-                                <div class="label-micro !text-[7px] mb-8 italic">// Værktøjs_Fysik & Indgreb</div>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 border-b border-zinc-800/50 pb-6">
-                                    <div class="flex flex-col gap-2">
-                                        <label class="text-[8px] font-mono text-zinc-500 uppercase font-black">Udhæng (L)</label>
-                                        <input type="number" id="input-stickout" value="25" step="1" class="p-3 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
-                                    </div>
-                                    <div class="flex flex-col gap-2">
-                                        <label class="text-[8px] font-mono text-zinc-500 uppercase font-black">Skærlængde (CEL)</label>
-                                        <input type="number" id="input-cel" value="20" step="1" class="p-3 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                    <div class="flex flex-col gap-3">
-                                        <label class="label-micro !text-[8px] !before:hidden">Operation_Mode</label>
-                                        <select id="cam-strategy" class="p-4 bg-black/50 border border-zinc-800 appearance-none font-bold italic text-sm focus:border-primary/50 outline-none transition-all"></select>
-                                    </div>
-                                    <div class="flex flex-col gap-3" id="wrapper-ae">
-                                        <label id="label-ae" class="label-micro !text-[8px] !before:hidden text-primary">Ae (Radial_mm)</label>
-                                        <input type="number" id="input-ae" step="0.001" class="p-4 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
-                                    </div>
-                                    <div class="flex flex-col gap-3" id="wrapper-ap">
-                                        <label id="label-ap" class="label-micro !text-[8px] !before:hidden text-primary">Ap (Axial_mm)</label>
-                                        <input type="number" id="input-ap" step="0.001" class="p-4 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right focus:border-primary/50 outline-none transition-all">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 gap-4">
-                                <div class="flex items-center justify-between p-4 border border-zinc-900 bg-primary/[0.02]">
-                                    <div class="flex flex-col">
-                                        <span class="label-micro !text-[9px] !before:hidden !text-zinc-300 font-black italic">HSM_Protocol</span>
-                                        <span class="text-[7px] font-mono text-zinc-600 uppercase mt-1">Adaptive_Boost (+50% Vc)</span>
-                                    </div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="label-micro !text-[8px] !before:hidden">Værktøjs_Krybbe</label>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[7px] font-mono text-zinc-500 uppercase">Manual_Mode</span>
                                     <label class="relative inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" id="toggle-hsm" class="sr-only peer" checked>
-                                        <div class="w-10 h-5 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-600 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(245,158,11,0.3)]"></div>
-                                    </label>
-                                </div>
-                                <div class="flex items-center justify-between p-4 border border-zinc-900 bg-blue-500/[0.02]">
-                                    <div class="flex flex-col">
-                                        <span class="label-micro !text-[9px] !before:hidden !text-blue-500 font-black italic">Finishing_Pass</span>
-                                        <span class="text-[7px] font-mono text-zinc-600 uppercase mt-1">Sletspån (+25% Vc / -50% fz)</span>
-                                    </div>
-                                    <label class="relative inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" id="toggle-finish" class="sr-only peer">
-                                        <div class="w-10 h-5 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-blue-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-600 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(59,130,246,0.3)]"></div>
-                                    </label>
-                                </div>
-                                <div class="flex items-center justify-between p-4 border border-zinc-900 bg-red-500/[0.02]">
-                                    <div class="flex flex-col">
-                                        <span class="label-micro !text-[9px] !before:hidden !text-red-500 font-black italic">Safe_Override</span>
-                                        <span class="text-[7px] font-mono text-zinc-600 uppercase mt-1">70%_Parameter_Cap</span>
-                                    </div>
-                                    <label class="relative inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" id="toggle-safe" class="sr-only peer">
-                                        <div class="w-10 h-5 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-red-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-600 after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 peer-checked:after:bg-black peer-checked:shadow-[0_0_15px_rgba(239,68,68,0.3)]"></div>
+                                        <input type="checkbox" id="toggle-manual" class="sr-only peer">
+                                        <div class="w-7 h-4 bg-zinc-900 border border-zinc-800 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-600 after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-3"></div>
                                     </label>
                                 </div>
                             </div>
+                            <select id="active-tool-select" class="p-4 bg-zinc-900/50 border border-primary/20 text-primary font-black text-sm outline-none"></select>
                             
-                            <input type="hidden" id="hidden-d"><input type="hidden" id="hidden-z"><input type="hidden" id="hidden-mat">
-                        </form>
-                    </div>
-
-                    <div class="lg:col-span-5 module-card p-8 bg-zinc-950 flex flex-col justify-between relative border border-primary/20 shadow-2xl">
-                        <div class="scanline opacity-10 pointer-events-none"></div>
-                        <div class="space-y-6 relative z-10">
-                            <div class="label-micro text-primary italic font-black tracking-[0.3em] mb-4">/ Fusion_360_CAM_Data</div>
-
-                            <div class="space-y-3 bg-primary/5 p-4 border border-primary/20 rounded-sm mb-4">
-                                <div class="text-[9px] text-primary font-black uppercase tracking-widest border-b border-primary/20 pb-2 mb-2">Thermodynamics & Kinematics</div>
-                                <div class="grid grid-cols-2 gap-x-2 gap-y-4">
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-primary/80 uppercase before:hidden">Material Removal Rate</span>
-                                        <div class="text-xl font-black text-white font-mono italic tracking-tighter"><span id="out-mrr">0.0</span> <span class="text-[8px] text-zinc-500 uppercase">CM³/MIN</span></div>
-                                    </div>
-                                    <div class="group border-l border-primary/20 pl-4">
-                                        <span class="label-micro !text-[7px] text-primary/80 uppercase before:hidden">Spindle Power Load</span>
-                                        <div class="text-xl font-black text-white font-mono italic tracking-tighter"><span id="out-load">0</span>% <span class="text-[8px] text-zinc-500 uppercase" id="out-power">0 kW</span></div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-primary/80 uppercase before:hidden">Chip Thinning Boost</span>
-                                        <div class="text-lg font-black text-primary font-mono italic tracking-tighter" id="out-thinning">1.00x</div>
-                                    </div>
-                                    <div class="group border-l border-primary/20 pl-4">
-                                        <span class="label-micro !text-[7px] text-primary/80 uppercase before:hidden">Deflection Penalty</span>
-                                        <div class="text-lg font-black text-red-400 font-mono italic tracking-tighter" id="out-deflection">1.00x</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="space-y-3 bg-black/40 p-4 border border-zinc-900/50 rounded-sm">
-                                <div class="text-[9px] text-zinc-500 font-black uppercase tracking-widest border-b border-zinc-800 pb-2 mb-2">Speed</div>
-                                <div class="grid grid-cols-2 gap-x-4 gap-y-4">
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Spindle Speed</span>
-                                        <div class="text-2xl font-black text-primary font-mono italic tracking-tighter" id="out-rpm">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Surface Speed</span>
-                                        <div class="text-xl font-black text-white font-mono italic tracking-tighter" id="out-vc-range">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Ramp Spindle Speed</span>
-                                        <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-ramp-rpm">0</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="space-y-3 bg-black/40 p-4 border border-zinc-900/50 rounded-sm">
-                                <div class="text-[9px] text-zinc-500 font-black uppercase tracking-widest border-b border-zinc-800 pb-2 mb-2">Feedrates</div>
-                                <div class="grid grid-cols-2 gap-x-4 gap-y-4">
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Cutting Feedrate</span>
-                                        <div class="text-2xl font-black text-primary font-mono italic tracking-tighter" id="out-vf">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">True Fz (Compensated)</span>
-                                        <div class="text-xl font-black text-white font-mono italic tracking-tighter" id="out-fz-range">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Lead-in Feedrate</span>
-                                        <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-lead-in">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Lead-out Feedrate</span>
-                                        <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-lead-out">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Transition Feedrate</span>
-                                        <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-trans">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-zinc-500 uppercase before:hidden">Ramp Feedrate</span>
-                                        <div class="text-lg font-bold text-zinc-400 font-mono italic tracking-tighter" id="out-ramp-feed">0</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="space-y-3 bg-red-950/10 p-4 border border-red-900/30 rounded-sm">
-                                <div class="text-[9px] text-red-500/80 font-black uppercase tracking-widest border-b border-red-900/30 pb-2 mb-2">Vertical Feedrates</div>
-                                <div class="grid grid-cols-2 gap-x-4 gap-y-4">
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-red-500/80 uppercase before:hidden">Plunge Feedrate</span>
-                                        <div class="text-xl font-black text-red-400 font-mono italic tracking-tighter" id="out-plunge">0</div>
-                                    </div>
-                                    <div class="group">
-                                        <span class="label-micro !text-[7px] text-red-500/80 uppercase before:hidden">Plunge per Rev</span>
-                                        <div class="text-lg font-bold text-red-400/80 font-mono italic tracking-tighter" id="out-plunge-rev">0</div>
-                                    </div>
-                                </div>
+                            <div id="manual-inputs" class="hidden grid grid-cols-3 gap-2 mt-2">
+                                <input type="number" id="manual-d" placeholder="Ø D" class="p-2 bg-black border border-zinc-800 text-[10px] font-mono">
+                                <input type="number" id="manual-z" placeholder="Z #" class="p-2 bg-black border border-zinc-800 text-[10px] font-mono">
+                                <select id="manual-mat" class="p-2 bg-black border border-zinc-800 text-[10px] font-mono">
+                                    <option value="HM">HM</option><option value="HSS">HSS</option>
+                                </select>
                             </div>
                         </div>
-
-                        <button id="btn-save" class="btn-industrial mt-8 w-full py-5 text-[10px] uppercase font-black italic tracking-[0.4em] relative group z-10">
-                            <span class="relative z-10 transition-all group-hover:tracking-[0.5em]">EXECUTE_LOG_ENTRY</span>
-                            <div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-10 transition-opacity"></div>
-                        </button>
+                        <div class="flex flex-col gap-3">
+                            <label class="label-micro !text-[8px] !before:hidden">Materiale_Legering</label>
+                            <select id="work-material" class="p-4 bg-zinc-900/50 border border-zinc-800 text-white text-sm outline-none"></select>
+                        </div>
                     </div>
+
+                    <div class="p-8 bg-zinc-900/20 border border-zinc-900 rounded-sm">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 border-b border-zinc-800/50 pb-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[8px] font-mono text-zinc-500 uppercase font-black">Udhæng (Stickout)</label>
+                                <input type="number" id="input-stickout" value="25" class="p-3 bg-black/50 border border-zinc-800 text-white font-mono text-sm text-right outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="flex flex-col gap-3">
+                                <label class="label-micro !text-[8px] !before:hidden">Operation_Mode</label>
+                                <select id="cam-strategy" class="p-4 bg-black/50 border border-zinc-800 font-bold italic text-sm outline-none"></select>
+                            </div>
+                            <div class="flex flex-col gap-3"><label class="label-micro text-primary">Ae (Radial)</label><input type="number" id="input-ae" step="0.001" class="p-4 bg-black/50 border border-zinc-800 text-white font-mono text-right"></div>
+                            <div class="flex flex-col gap-3"><label class="label-micro text-primary">Ap (Axial)</label><input type="number" id="input-ap" step="0.001" class="p-4 bg-black/50 border border-zinc-800 text-white font-mono text-right"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="flex items-center justify-between p-4 border border-zinc-900 bg-primary/[0.02]">
+                            <span class="label-micro !text-[9px] !text-zinc-300">Adaptive_HSM_Boost</span>
+                            <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="toggle-hsm" class="sr-only peer" checked><div class="w-10 h-5 bg-zinc-900 rounded-full peer peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-600 after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-5 peer-checked:after:bg-black"></div></label>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="hidden-d"><input type="hidden" id="hidden-z"><input type="hidden" id="hidden-mat">
+                </form>
+
+                <div id="protocol-error" class="hidden mt-8 border-l-4 border-red-600 bg-red-950/30 p-4">
+                    <p id="protocol-error-text" class="text-xs text-zinc-300 font-mono font-bold uppercase"></p>
                 </div>
             </div>
         </section>
 
-        <section class="pb-32 px-6 md:px-12 bg-transparent flex-grow print:hidden">
-             <div class="max-w-7xl mx-auto">
-                <div id="setup-sheet-container" class="module-card p-10 bg-black/60 shadow-2xl overflow-hidden">
-                    <div class="flex justify-between border-b border-zinc-800 pb-6 mb-10 items-end">
-                        <div>
-                            <h3 class="text-3xl font-black text-white italic tracking-tighter uppercase leading-none">Setup_Sheet_Log</h3>
-                        </div>
-                        <div class="flex gap-6">
-                            <button id="btn-clear" class="label-micro !text-zinc-600 hover:text-red-500 transition-all italic font-black before:hidden uppercase tracking-widest border-b border-zinc-800 pb-1 cursor-pointer">Wipe_Diagnostic_History</button>
-                        </div>
+        <section class="py-12 px-12 max-w-7xl grid lg:grid-cols-2 gap-6">
+            <div class="module-card p-8 bg-zinc-950 border border-primary/20">
+                <div class="label-micro text-primary mb-4 italic">/ Simulation_Output</div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-black/40 border border-zinc-900">
+                        <span class="label-micro text-zinc-500 before:hidden">Spindle Speed</span>
+                        <div class="text-3xl font-black text-primary font-mono italic" id="out-rpm">0</div>
                     </div>
-                    <div class="overflow-x-auto tabular-nums">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="text-zinc-600 uppercase font-black tracking-widest !border-zinc-800 !border-b-2">
-                                    <th class="p-6">T#</th><th class="p-6">Instrument / Tooling</th><th class="p-6">Protocol / Op</th><th class="p-6">S_Command</th><th class="p-6">F_Command</th><th class="p-6 text-right">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="setup-table-body" class="text-sm font-bold divide-y divide-zinc-900/50"></tbody>
-                        </table>
+                    <div class="p-4 bg-black/40 border border-zinc-900">
+                        <span class="label-micro text-zinc-500 before:hidden">Cutting Feed</span>
+                        <div class="text-3xl font-black text-white font-mono italic" id="out-vf">0</div>
                     </div>
+                    <div class="p-4 bg-primary/5 border border-primary/20">
+                        <span class="label-micro text-primary/80 before:hidden">Deflection Penalty</span>
+                        <div class="text-xl font-black text-red-400 font-mono italic" id="out-deflection">1.00x</div>
+                    </div>
+                    <div class="p-4 bg-primary/5 border border-primary/20">
+                        <span class="label-micro text-primary/80 before:hidden">Power Load</span>
+                        <div class="text-xl font-black text-white font-mono italic"><span id="out-load">0</span>% <span class="text-[8px] text-zinc-500" id="out-power">0 kW</span></div>
+                    </div>
+                </div>
+                <button id="btn-save" class="btn-industrial mt-8 w-full py-5 text-[10px] uppercase font-black italic tracking-[0.4em]">EXECUTE_LOG_ENTRY</button>
+            </div>
+
+            <div class="module-card p-8 bg-black/60">
+                <div class="label-micro text-zinc-500 mb-4">/ Setup_Log</div>
+                <div class="overflow-y-auto max-h-64 tabular-nums text-[10px]">
+                    <table class="w-full text-left">
+                        <thead><tr class="text-zinc-600 uppercase font-black border-b border-zinc-800"><th class="pb-2">T#</th><th class="pb-2">Op</th><th class="pb-2">RPM</th><th class="pb-2">VF</th><th class="pb-2"></th></tr></thead>
+                        <tbody id="setup-table-body" class="divide-y divide-zinc-900/50"></tbody>
+                    </table>
                 </div>
             </div>
         </section>
-        
-        <footer class="py-20 border-t border-zinc-900 bg-black/20 text-center relative z-20 print:hidden">
-            <div class="scanline opacity-10"></div>
-            <p class="label-micro opacity-40 justify-center !before:hidden italic font-bold">System_Locked // 2026 // Datum_Prototyping_Core</p>
-        </footer>
+
+        <footer class="py-10 border-t border-zinc-900 text-center"><p class="label-micro opacity-40 !before:hidden italic font-bold">Datum_Prototyping_Core // v8.0</p></footer>
     </div>
 
     <script src="shared_core.js"></script>
