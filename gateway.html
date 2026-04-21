@@ -2,194 +2,83 @@
 <html lang="da" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Machining_OS | System Gateway</title>
+    <title>DATUM_OS // SYSTEM_GATEWAY</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="global.css">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: { primary: "#f59e0b", deep: "#050506" },
-                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
     <style>
-        /* Milled Pocket fra Index-designet */
-        .milled-pocket {
-            background: linear-gradient(145deg, rgba(12,12,14,0.9) 0%, rgba(5,5,6,0.9) 100%);
-            box-shadow: inset 0 2px 15px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.03);
-        }
-        .optical-marker::before, .optical-marker::after {
-            content: ''; position: absolute; background: var(--primary); opacity: 0.5; pointer-events: none; transition: opacity 0.3s;
-        }
-        .milled-pocket:hover .optical-marker::before, .milled-pocket:hover .optical-marker::after { opacity: 1; }
-        .marker-tl::before { top: 0; left: 0; width: 10px; height: 1px; }
-        .marker-tl::after { top: 0; left: 0; width: 1px; height: 10px; }
-        .marker-br::before { bottom: 0; right: 0; width: 10px; height: 1px; }
-        .marker-br::after { bottom: 0; right: 0; width: 1px; height: 10px; }
+        :root { --p: #f59e0b; --bg: #050506; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #e4e4e7; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-card { background: rgba(12, 12, 14, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.03); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+        .glass-card:hover { border-color: var(--p); box-shadow: 0 0 40px rgba(245,158,11,0.05); transform: translateY(-2px); }
+        .marker { position: absolute; width: 8px; height: 8px; border-color: var(--p); opacity: 0.2; transition: opacity 0.3s; }
+        .glass-card:hover .marker { opacity: 1; }
+        .marker-tl { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+        .marker-br { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
+        .label-micro { font-family: 'JetBrains Mono'; font-size: 8px; text-transform: uppercase; letter-spacing: 0.3em; color: #52525b; font-weight: 800; }
+        .status-dot { width: 6px; height: 6px; background: var(--p); border-radius: 50%; box-shadow: 0 0 10px var(--p); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     </style>
 </head>
-<body class="bg-deep text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen relative overflow-x-hidden">
-    
-    <div class="subtle-grid opacity-30 pointer-events-none"></div>
-    <div class="scanline opacity-20 pointer-events-none"></div>
+<body class="antialiased selection:bg-primary selection:text-black">
+    <div class="fixed inset-0 bg-[radial-gradient(circle_at_50%_-20%,#18181b,transparent)] pointer-events-none"></div>
 
-    <nav class="fixed top-0 w-full z-50 border-b border-zinc-900 bg-deep/80 backdrop-blur-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.9)]">
-        <div class="max-w-[1600px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between relative">
-            <div class="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
-            
-            <div class="flex items-center gap-4 md:gap-8">
-                <img src="img/favicon.svg" alt="Datum Logo" class="h-6 w-auto opacity-80">
-                <div class="h-4 w-px bg-zinc-800 hidden md:block"></div>
-                <div class="label-micro !text-primary tracking-widest uppercase drop-shadow-[0_0_5px_rgba(245,158,11,0.5)]">
-                    SYS_AUTH // ACTIVE
-                </div>
-            </div>
-
-            <div class="flex items-center gap-8">
-                <div id="sys-time" class="label-micro !text-zinc-500 hidden md:flex font-bold tabular-nums tracking-widest">0000-00-00 00:00:00</div>
-                <a href="index.html" class="btn-industrial px-4 py-2 italic text-[9px] group relative overflow-hidden bg-black text-white hover:border-primary">
-                    <span class="relative z-10 transition-colors duration-300">< Return_To_Index</span>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <main class="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 pt-32 pb-20">
-        
-        <header class="mb-12 border-b border-zinc-900 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <main class="relative z-10 max-w-[1600px] mx-auto px-12 pt-32 pb-20">
+        <header class="mb-20 flex flex-col md:flex-row items-end justify-between border-b border-zinc-900 pb-12">
             <div>
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="status-dot shadow-[0_0_12px_rgba(245,158,11,0.8)]"></div>
-                    <span class="label-micro !text-primary tracking-widest">Core_v.5.8_Online</span>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="status-dot"></div>
+                    <span class="label-micro !text-primary">System_Core_v.8.5_Active</span>
                 </div>
-                <h1 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter text-white">System_Gateway</h1>
+                <h1 class="text-8xl font-black italic tracking-tighter uppercase text-white leading-none">Datum_OS</h1>
             </div>
-            <div class="text-left md:text-right">
-                <p class="font-mono text-[10px] font-bold text-zinc-500 tracking-widest uppercase">Select_Module_To_Initialize</p>
+            <div class="text-right font-mono tabular-nums">
+                <p class="label-micro mb-2">Auth_Session // 2026</p>
+                <p id="sys-time" class="text-xs font-bold text-zinc-500 tracking-widest uppercase">0000-00-00 00:00:00 // LIVE</p>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
-            
-            <div class="space-y-4">
-                <h2 class="label-micro !text-zinc-500 border-b border-zinc-800 pb-2 mb-4">// 01_EXECUTION_LEVEL</h2>
-                
-                <a href="hub.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_01</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">CNC Hub</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div class="space-y-6">
+                <h2 class="label-micro !text-zinc-600 border-b border-zinc-900 pb-4">// 01_EXECUTION</h2>
+                <a href="hub.html" class="glass-card p-6 block group">
+                    <div class="marker marker-tl"></div><div class="marker marker-br"></div>
+                    <span class="label-micro group-hover:text-primary transition-colors block mb-4">Route_01</span>
+                    <h3 class="text-xl font-black italic uppercase text-white">CNC Hub</h3>
+                    <p class="text-[9px] text-zinc-600 mt-2 font-mono uppercase">Simulation & Sync</p>
                 </a>
-                
-                <a href="manual.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_02</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Manual</h3>
-                </a>
-                
-                <a href="reference.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_03</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Vault</h3>
-                </a>
-                
-                <a href="inventory.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_04</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Stock</h3>
-                </a>
+                <a href="manual.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Manual</h3></a>
+                <a href="reference.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Vault</h3></a>
+                <a href="inventory.html" class="glass-card p-6 block group"><h3 class="text-xl font-black italic uppercase text-white">Stock</h3></a>
             </div>
-
-            <div class="space-y-4">
-                <h2 class="label-micro !text-zinc-500 border-b border-zinc-800 pb-2 mb-4">// 02_PRECISION_LEVEL</h2>
-                
-                <a href="metrology.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_05</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Inspection</h3>
-                </a>
-                
-                <a href="geometry.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_06</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Geometry</h3>
-                </a>
-                
-                <a href="assembly.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_07</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Assembly</h3>
-                </a>
-                
-                <a href="surfaces.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_08</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Tribology</h3>
-                </a>
+            <div class="space-y-6">
+                <h2 class="label-micro !text-zinc-600 border-b border-zinc-900 pb-4">// 02_PRECISION</h2>
+                <a href="metrology.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Inspection</h3></a>
+                <a href="geometry.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Geometry</h3></a>
+                <a href="assembly.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Assembly</h3></a>
+                <a href="surfaces.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Tribology</h3></a>
             </div>
-
-            <div class="space-y-4">
-                <h2 class="label-micro !text-zinc-500 border-b border-zinc-800 pb-2 mb-4">// 03_DIAGNOSTICS_LEVEL</h2>
-                
-                <a href="analytics.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_09</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Health</h3>
-                </a>
-                
-                <a href="fai.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_10</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">FAI Report</h3>
-                </a>
-                
-                <a href="mechanisms.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_11</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Kinematics</h3>
-                </a>
-                
-                <a href="electrotech.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_12</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Electro</h3>
-                </a>
+            <div class="space-y-6">
+                <h2 class="label-micro !text-zinc-600 border-b border-zinc-900 pb-4">// 03_DIAGNOSTICS</h2>
+                <a href="analytics.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Health</h3></a>
+                <a href="fai.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">FAI Report</h3></a>
+                <a href="mechanisms.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Kinematics</h3></a>
+                <a href="electrotech.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Electro</h3></a>
             </div>
-
-            <div class="space-y-4">
-                <h2 class="label-micro !text-zinc-500 border-b border-zinc-800 pb-2 mb-4">// 04_RESOURCE_LEVEL</h2>
-                
-                <a href="materials.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_13</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Materials</h3>
-                </a>
-                
-                <a href="math.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_14</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Shop Math</h3>
-                </a>
-                
-                <a href="standards.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_15</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">Hardware</h3>
-                </a>
-                
-                <a href="hightech.html" class="block p-5 milled-pocket group hover:border-primary/50 transition-all duration-300 relative optical-marker marker-tl marker-br">
-                    <span class="label-micro !text-[9px] group-hover:text-primary transition-colors mb-2">Route_16</span>
-                    <h3 class="text-lg font-black italic uppercase text-zinc-300 group-hover:text-white transition-colors">High-Tech</h3>
-                </a>
+            <div class="space-y-6">
+                <h2 class="label-micro !text-zinc-600 border-b border-zinc-900 pb-4">// 04_RESOURCE</h2>
+                <a href="materials.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Materials</h3></a>
+                <a href="math.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Shop Math</h3></a>
+                <a href="standards.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Hardware</h3></a>
+                <a href="hightech.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">High-Tech</h3></a>
             </div>
-
         </div>
     </main>
-
-    <div class="fixed left-6 top-1/2 -translate-y-1/2 -rotate-90 origin-left label-micro opacity-20 hidden 2xl:block tracking-[0.4em] pointer-events-none">Terminal_Protocol_0992-X</div>
-    <div class="fixed right-6 top-1/2 -translate-y-1/2 rotate-90 origin-right label-micro opacity-20 hidden 2xl:block tracking-[0.4em] pointer-events-none">Machining_OS_Environment_v.5</div>
-
     <script>
         function updateTime() {
-            const now = new Date();
-            const timeStr = now.toISOString().replace('T', ' ').substring(0, 19);
-            const timeEl = document.getElementById('sys-time');
-            if(timeEl) timeEl.textContent = timeStr + ' // ONLINE';
+            document.getElementById('sys-time').textContent = new Date().toISOString().replace('T', ' ').substring(0, 19) + ' // LIVE';
         }
-        setInterval(updateTime, 1000);
-        updateTime();
+        setInterval(updateTime, 1000); updateTime();
     </script>
-
 </body>
 </html>

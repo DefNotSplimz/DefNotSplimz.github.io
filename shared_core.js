@@ -1,57 +1,40 @@
 /**
- * Machining_OS | Shared Core Logic v8.0
- * Physics Engine & Metrology Data Matrix
+ * Machining_OS | Shared Core Logic v8.7
+ * Physics Engine & Global Route Registry
  */
 
 const MACHINING_DB = {
     PHYSICS: {
-        E_MODULUS_HM: 600,  // GPa (Carbide) [cite: 2026-03-11]
-        E_MODULUS_HSS: 210, // GPa (High Speed Steel) [cite: 2026-03-11]
+        E_MODULUS_HM: 600,  
+        E_MODULUS_HSS: 210, 
         TORQUE_EFFICIENCY: 0.85
     },
+    ROUTES: [
+        { id: "01", name: "Operations Hub", path: "hub.html", level: "EXECUTION" },
+        { id: "02", name: "Manual Mode", path: "manual.html", level: "EXECUTION" },
+        { id: "03", name: "Technical Vault", path: "reference.html", level: "EXECUTION" },
+        { id: "04", name: "Stock Inventory", path: "inventory.html", level: "EXECUTION" },
+        { id: "05", name: "Inspection", path: "metrology.html", level: "PRECISION" },
+        { id: "06", name: "Geometry", path: "geometry.html", level: "PRECISION" },
+        { id: "07", name: "Assembly", path: "assembly.html", level: "PRECISION" },
+        { id: "08", name: "Tribology", path: "surfaces.html", level: "PRECISION" },
+        { id: "09", name: "System Health", path: "analytics.html", level: "DIAGNOSTICS" },
+        { id: "10", name: "FAI Report", path: "fai.html", level: "DIAGNOSTICS" },
+        { id: "11", name: "Kinematics", path: "mechanisms.html", level: "DIAGNOSTICS" },
+        { id: "12", name: "Electro-Tech", path: "electrotech.html", level: "DIAGNOSTICS" },
+        { id: "13", name: "Materials DB", path: "materials.html", level: "RESOURCE" },
+        { id: "14", name: "Shop Math", path: "math.html", level: "RESOURCE" },
+        { id: "15", name: "Hardware", path: "standards.html", level: "RESOURCE" },
+        { id: "16", name: "High-Tech", path: "hightech.html", level: "RESOURCE" }
+    ],
     MATERIALS: {
-        'ALU': { 
-            name: 'Aluminium (6082-T6)', hb: 95, 
-            vc_hm: 450, vc_hss: 90, fz_ref: 0.025, 
-            density: 2.71, kc1: 700, mc: 0.25,
-            thermal: 23.6, ui_color: '#10b981'
-        },
-        'MESSING': { 
-            name: 'Messing (Ms58)', hb: 120, 
-            vc_hm: 180, vc_hss: 45, fz_ref: 0.020, 
-            density: 8.47, kc1: 600, mc: 0.22,
-            thermal: 20.5, ui_color: '#10b981'
-        },
-        'STAAL': { 
-            name: 'Konstruktionsstål (S355)', hb: 170, 
-            vc_hm: 220, vc_hss: 30, fz_ref: 0.015, 
-            density: 7.85, kc1: 1500, mc: 0.25,
-            thermal: 12.0, ui_color: '#3b82f6'
-        },
-        'RUSTFAST': { 
-            name: 'Rustfast (AISI 316L)', hb: 190, 
-            vc_hm: 80, vc_hss: 15, fz_ref: 0.008, 
-            density: 8.00, kc1: 1900, mc: 0.24,
-            thermal: 16.0, ui_color: '#fbbf24'
-        },
-        'VAERKTOJSSTAAL': { 
-            name: 'Værktøjsstål (1.2379)', hb: 230, 
-            vc_hm: 65, vc_hss: 12, fz_ref: 0.006, 
-            density: 7.70, kc1: 2100, mc: 0.25,
-            thermal: 10.5, ui_color: '#1e3a8a'
-        },
-        'POM': { 
-            name: 'POM-C (Acetal)', hb: 30, 
-            vc_hm: 500, vc_hss: 120, fz_ref: 0.040, 
-            density: 1.41, kc1: 150, mc: 0.20,
-            thermal: 110.0, ui_color: '#f4f4f5'
-        },
-        'TITANIUM': { 
-            name: 'Titanium (Gr. 5)', hb: 330, 
-            vc_hm: 45, vc_hss: 10, fz_ref: 0.010, 
-            density: 4.43, kc1: 1300, mc: 0.23,
-            thermal: 8.6, ui_color: '#ef4444'
-        }
+        'ALU': { name: 'Aluminium (6082-T6)', hb: 95, vc_hm: 450, vc_hss: 90, fz_ref: 0.004, density: 2.71, kc1: 700, mc: 0.25, thermal: 23.6, ui_color: '#10b981' },
+        'MESSING': { name: 'Messing (Ms58)', hb: 120, vc_hm: 180, vc_hss: 45, fz_ref: 0.003, density: 8.47, kc1: 600, mc: 0.22, thermal: 20.5, ui_color: '#10b981' },
+        'STAAL': { name: 'Konstruktionsstål (S355)', hb: 170, vc_hm: 220, vc_hss: 30, fz_ref: 0.002, density: 7.85, kc1: 1500, mc: 0.25, thermal: 12.0, ui_color: '#3b82f6' },
+        'RUSTFAST': { name: 'Rustfast (AISI 316L)', hb: 190, vc_hm: 80, vc_hss: 15, fz_ref: 0.001, density: 8.00, kc1: 1900, mc: 0.24, thermal: 16.0, ui_color: '#fbbf24' },
+        'VAERKTOJSSTAAL': { name: 'Værktøjsstål (1.2379)', hb: 230, vc_hm: 65, vc_hss: 12, fz_ref: 0.0008, density: 7.70, kc1: 2100, mc: 0.25, thermal: 10.5, ui_color: '#1e3a8a' },
+        'POM': { name: 'POM-C (Acetal)', hb: 30, vc_hm: 500, vc_hss: 120, fz_ref: 0.005, density: 1.41, kc1: 150, mc: 0.20, thermal: 110.0, ui_color: '#f4f4f5' },
+        'TITANIUM': { name: 'Titanium (Gr. 5)', hb: 330, vc_hm: 45, vc_hss: 10, fz_ref: 0.001, density: 4.43, kc1: 1300, mc: 0.23, thermal: 8.6, ui_color: '#ef4444' }
     },
     MACHINES: {
         'HAAS_MINI': { name: 'Haas Mini Mill', maxRpm: 10000, maxFeed: 15000, kw: 5.6, maxNm: 23, type: 'cnc' },
@@ -80,7 +63,6 @@ const MachiningOS = {
         logs = logs.filter(log => log.id.toString() !== id.toString());
         localStorage.setItem(`machining_os_log_${moduleKey}`, JSON.stringify(logs));
     },
-    clearLogs: (moduleKey) => localStorage.removeItem(`machining_os_log_${moduleKey}`),
     saveTool: (tool) => {
         let tools = JSON.parse(localStorage.getItem('machining_os_tools')) || [];
         const index = tools.findIndex(t => t.t === tool.t);
@@ -107,5 +89,4 @@ const MachiningOS = {
         });
     }
 };
-
 document.addEventListener('DOMContentLoaded', MachiningOS.initSharedFields);
