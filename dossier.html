@@ -46,7 +46,6 @@
         }
         .prop-table td:last-child { font-weight: 600; text-align: right; }
 
-        /* UI Kontrolknapper */
         .ui-btn {
             position: fixed; top: 20px; background: var(--bg-panel); color: var(--text-main);
             font-family: 'JetBrains Mono'; font-size: 10px; padding: 10px 16px;
@@ -57,7 +56,6 @@
         .ui-btn:hover { background: var(--border-color); border-color: var(--text-muted); }
         .btn-left { left: 20px; }
         .btn-right { right: 20px; background: var(--accent); border-color: var(--accent); }
-        .btn-right:hover { background: #2563eb; }
 
         @media print {
             @page { size: A4; margin: 15mm; }
@@ -75,7 +73,6 @@
 </head>
 <body class="p-6 md:p-12">
 
-    <a href="index.html" class="ui-btn btn-left">← BACK_TO_SYSTEM</a>
     <button class="ui-btn btn-right" onclick="window.print()">EXECUTE_PRINT_CMD</button>
 
     <div class="max-w-4xl mx-auto">
@@ -83,11 +80,11 @@
             <div class="flex justify-between items-start">
                 <div>
                     <h1 class="text-5xl font-extrabold tracking-tighter text-white uppercase leading-none">G.C.Hansen</h1>
-                    <p class="font-mono text-[10px] text-zinc-500 mt-4 tracking-widest uppercase">Finmekaniker // CNC Specialist // Operatør Dossier</p>
+                    <p class="font-mono text-[10px] text-zinc-500 mt-4 tracking-widest uppercase">Finmekaniker // CNC Specialist // High-Precision Operator</p>
                 </div>
                 <div class="text-right">
-                    <span class="inline-block px-3 py-1 border border-blue-500/30 text-blue-400 font-mono text-[9px] uppercase tracking-widest">Status: Operativ</span>
-                    <p class="font-mono text-[9px] text-zinc-500 mt-2">Rev: 2026.04.08</p>
+                    <span class="inline-block px-3 py-1 border border-blue-500/30 text-blue-400 font-mono text-[9px] uppercase tracking-widest">Status: Søger Læreplads</span>
+                    <p class="font-mono text-[9px] text-zinc-500 mt-2">Rev: 2026.04.21</p>
                 </div>
             </div>
         </header>
@@ -99,13 +96,14 @@
                     <tr><td>Navn</td><td>Glen Cilinder-Hansen</td></tr>
                     <tr><td>Kontakt</td><td class="text-blue-400">defnotglen@gmail.com</td></tr>
                     <tr><td>Lokation</td><td>København // Vestegnen</td></tr>
+                    <tr><td>Mobilitet</td><td>Kørekort B (Under planlæggelse)</td></tr>
                 </table>
             </div>
             <div class="panel">
-                <div class="panel-header">Kapacitets_Status</div>
+                <div class="panel-header">Uddannelses_Status</div>
                 <table class="prop-table">
-                    <tr><td>Status</td><td>H2 Bestået</td></tr>
-                    <tr><td>Maskin-tid</td><td>+1000 Timer</td></tr>
+                    <tr><td>Niveau</td><td>H2 Bestået (Finmekaniker)</td></tr>
+                    <tr><td>Erfaring</td><td>Skolepraktik (SKP)</td></tr>
                     <tr><td>Svendebrev</td><td>2027 (Estimeret)</td></tr>
                 </table>
             </div>
@@ -114,7 +112,7 @@
         <section class="panel mb-12">
             <div class="panel-header">Profil_Resumé</div>
             <div class="p-8 text-sm leading-relaxed text-zinc-400">
-                Søger en læreplads i industrien til færdiggørelse af svendebrev. Simulerede skoleopgaver kan ikke erstatte virkelighedens tolerancer og produktionstryk. Jeg drives af at omsætte digital CAM-strategi til fysisk præcision. Som finmekaniker forstår jeg værdien af mikron-præcision, korrekt overfladefinish og maskinvedligehold.
+                Jeg er dedikeret til at mestre spændingsfeltet mellem digital CAD/CAM og fysisk mikron-præcision. I min nuværende skolepraktik fokuserer jeg målrettet på at optimere processer og forstå maskinens begrænsninger frem mod min svendeprøve. Jeg søger en læreplads i en højteknologisk produktion, hvor kravene til tolerancer og driftssikkerhed er kompromisløse. Min tilgang er systematisk, og jeg trives bedst med komplekse emner, der kræver både teknisk overblik og finmekanisk flair.
             </div>
         </section>
 
@@ -122,25 +120,36 @@
             <div class="panel">
                 <div class="panel-header">Software_Stack</div>
                 <table class="prop-table">
-                    <tr><td>Fusion 360</td><td class="text-blue-400">Avanceret</td></tr>
-                    <tr><td>Mastercam</td><td>Basis Oplæring</td></tr>
+                    <tr><td>Fusion 360</td><td class="text-blue-400">Avanceret (CAM/CAD)</td></tr>
                     <tr><td>Haas NGC</td><td>Fuld Operativ</td></tr>
-                    <tr><td>Fanuc ISO</td><td>Fejlretning</td></tr>
+                    <tr><td>Fanuc ISO</td><td>Program-redigering</td></tr>
+                    <tr><td>Automatisering</td><td>Grundlæggende forståelse</td></tr>
                 </table>
             </div>
             <div class="panel">
                 <div class="panel-header">Teknisk_Metrologi</div>
                 <table class="prop-table">
                     <tr><td>Tolerancer</td><td class="text-blue-400">ISO 286 (H7/g6)</td></tr>
-                    <tr><td>Måleværktøj</td><td>My-Skrue / Geo</td></tr>
-                    <tr><td>CNC Platform</td><td>Haas ST10 / Mini Mill</td></tr>
+                    <tr><td>Måleværktøj</td><td>Mikrometerskrue / Passtifter</td></tr>
+                    <tr><td>Bearbejdning</td><td>Fræsning & Drejning</td></tr>
                 </table>
             </div>
         </div>
 
+        <section class="panel mb-12">
+            <div class="panel-header">Mål_For_Specialisering</div>
+            <div class="p-8 text-sm leading-relaxed text-zinc-400">
+                <ul class="list-disc ml-4 space-y-2">
+                    <li>Dybdegående kendskab til <strong class="text-white">ubemandet drift</strong> og robotloadere.</li>
+                    <li>Specialisering inden for <strong class="text-white">langdrejning</strong> og mikro-bearbejdning.</li>
+                    <li>Optimering af cyklustider via avanceret <strong class="text-white">CAM-strategi</strong>.</li>
+                </ul>
+            </div>
+        </section>
+
         <footer class="mt-24 border-t border-zinc-800 pt-8 flex justify-between items-center text-zinc-600 font-mono text-[9px] uppercase tracking-widest font-bold">
             <span>Datum Prototyping // Operatør Dossier // GCH-2026</span>
-            <span>System Version 13.0</span>
+            <span>System Version 14.0 (Update: Koatek-Spec)</span>
         </footer>
     </div>
 
