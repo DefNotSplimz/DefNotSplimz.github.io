@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic v8.0
- * Physics-Driven Simulation Engine // BUGFIX: NULL-SAFE
+ * Physics-Driven Simulation Engine // BUGFIX: NULL-SAFE & HYBRID
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Strategi-database
     const STRATEGIES = {
-        '2D Adaptive Clearing': { vc_mult: 1.5, fz_mult: 1.2, show_ae: true, show_ap: true },
-        '2D Pocket': { vc_mult: 1.0, fz_mult: 1.0, show_ae: true, show_ap: true },
-        'Face (Plan)': { vc_mult: 1.2, fz_mult: 1.0, show_ae: true, show_ap: true },
-        'Drilling (Standard)': { vc_mult: 0.8, fz_mult: 1.0, show_ae: false, show_ap: true },
-        'Tapping (Gevind)': { vc_mult: 0.3, fz_mult: 1.0, show_ae: false, show_ap: false }
+        '2D Adaptive Clearing': { vc_mult: 1.5, fz_mult: 1.2 },
+        '2D Pocket': { vc_mult: 1.0, fz_mult: 1.0 },
+        'Face (Plan)': { vc_mult: 1.2, fz_mult: 1.0 },
+        'Drilling (Standard)': { vc_mult: 0.8, fz_mult: 1.0 },
+        'Tapping (Gevind)': { vc_mult: 0.3, fz_mult: 1.0 }
     };
 
     function calculate() {
@@ -26,42 +26,60 @@ document.addEventListener('DOMContentLoaded', () => {
         const protocolErrorText = document.getElementById('protocol-error-text');
         if (protocolError) protocolError.classList.add('hidden');
 
-        // Hent databaser
-        const machine = MACHINING_DB.MACHINES[machineSelect.value];
-        const mat = MACHINING_DB.MATERIALS[workMaterialSelect.value];
-        const strategy = STRATEGIES[camStrategySelect.value];
+        // SIKKERHEDS-CHECK: Maskin-ID
+        const machineId = machineSelect ? machineSelect.value : 'HAAS_MINI';
+        const machine = MACHINING_DB.MACHINES[machineId] || MACHINING_DB.MACHINES.HAAS_MINI;
         
-        // Sikkerhedscheck: Mangler database-referencer? [cite: 2026-03-11]
-        if (!machine || !mat || !strategy) return;
+        const matId = workMaterialSelect ? workMaterialSelect.value : 'ALU';
+        const mat = MACHINING_DB.MATERIALS[matId] || MACHINING_DB.MATERIALS.ALU;
+        
+        const stratId = camStrategySelect ? camStrategySelect.value : '2D Pocket';
+        const strategy = STRATEGIES[stratId] || STRATEGIES['2D Pocket'];
 
-        let d, z, toolMat;
+        let d = 0, z = 1, toolMat = 'HM';
         
         // HYBRID LOGIK: Manuel vs Inventory [cite: 2026-03-11]
         if (toggleManual && toggleManual.checked) {
-            d = parseFloat(document.getElementById('manual-d')?.value) || 0;
-            z = parseFloat(document.getElementById('manual-z')?.value) || 1;
-            toolMat = document.getElementById('manual-mat')?.value || 'HM';
+            const mD = document.getElementById('manual-d');
+            const mZ = document.getElementById('manual-z');
+            const mMat = document.getElementById('manual-mat');
+            
+            d = mD ? parseFloat(mD.value) : 0;
+            z = mZ ? parseFloat(mZ.value) : 1;
+            toolMat = mMat ? mMat.value : 'HM';
+            
             if (toolSelect) toolSelect.disabled = true;
             if (manualInputs) manualInputs.classList.remove('hidden');
         } else {
-            d = parseFloat(document.getElementById('hidden-d')?.value) || 0;
-            z = parseFloat(document.getElementById('hidden-z')?.value) || 1;
-            toolMat = document.getElementById('hidden-mat')?.value || 'HM';
+            const hD = document.getElementById('hidden-d');
+            const hZ = document.getElementById('hidden-z');
+            const hMat = document.getElementById('hidden-mat');
+            
+            d = hD ? parseFloat(hD.value) : 0;
+            z = hZ ? parseFloat(hZ.value) : 1;
+            toolMat = hMat ? hMat.value : 'HM';
+            
             if (toolSelect) toolSelect.disabled = false;
             if (manualInputs) manualInputs.classList.add('hidden');
         }
 
-        const ae = parseFloat(document.getElementById('input-ae')?.value) || 0;
-        const ap = parseFloat(document.getElementById('input-ap')?.value) || 0;
-        const stickout = parseFloat(document.getElementById('input-stickout')?.value) || 0;
+        const aeInput = document.getElementById('input-ae');
+        const apInput = document.getElementById('input-ap');
+        const stInput = document.getElementById('input-stickout');
 
-        // Stop hvis diameter er nul [cite: 2026-03-11]
-        if (d === 0) return;
+        const ae = aeInput ? parseFloat(aeInput.value) : 0;
+        const ap = apInput ? parseFloat(apInput.value) : 0;
+        const stickout = stInput ? parseFloat(stInput.value) : 25;
 
-        // 1. FYSISK SIMULERING: Skærehastighed (Vc) [cite: 2026-03-11]
+        // AFBRYD HVIS DATA MANGLER [cite: 2026-03-11]
+        if (d <= 0) return;
+
+        // 1. FYSISK SIMULERING: Skærehastighed (Vc)
         const hardnessFactor = Math.sqrt(150 / mat.hb);
         let vc = (toolMat === 'HM' ? mat.vc_hm : mat.vc_hss) * hardnessFactor;
-        if (document.getElementById('toggle-hsm')?.checked) vc *= strategy.vc_mult;
+        
+        const hsmToggle = document.getElementById('toggle-hsm');
+        if (hsmToggle && hsmToggle.checked) vc *= strategy.vc_mult;
         
         let n = Math.min((vc * 1000) / (Math.PI * d), machine.maxRpm);
 
@@ -96,11 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- RENDER OUTPUT ---
-        document.getElementById('out-rpm').textContent = Math.round(n).toLocaleString('da-DK');
-        document.getElementById('out-vf').textContent = Math.round(vf).toLocaleString('da-DK');
-        document.getElementById('out-load').textContent = Math.round((power_kw / machine.kw) * 100);
-        document.getElementById('out-deflection').textContent = deflection_penalty.toFixed(2) + 'x';
-        document.getElementById('out-power').textContent = power_kw.toFixed(1) + ' kW';
+        const rpmOut = document.getElementById('out-rpm');
+        const vfOut = document.getElementById('out-vf');
+        const loadOut = document.getElementById('out-load');
+        const defOut = document.getElementById('out-deflection');
+        const powOut = document.getElementById('out-power');
+
+        if (rpmOut) rpmOut.textContent = Math.round(n).toLocaleString('da-DK');
+        if (vfOut) vfOut.textContent = Math.round(vf).toLocaleString('da-DK');
+        if (loadOut) loadOut.textContent = Math.round((power_kw / machine.kw) * 100) || 0;
+        if (defOut) defOut.textContent = deflection_penalty.toFixed(2) + 'x';
+        if (powOut) powOut.textContent = (power_kw || 0).toFixed(1) + ' kW';
     }
 
     // Event Listeners: Reagerer på alle ændringer [cite: 2026-03-11]
@@ -143,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .map(k => `<option value="${k}">${k.toUpperCase()}</option>`).join('');
         }
         loadSavedData();
-        calculate(); // Start første beregning
+        calculate(); 
     }
 
     function loadSavedData() {
@@ -173,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('btn-save')?.addEventListener('click', () => {
         const entry = {
-            tNum: toggleManual?.checked ? 'M-T' : `T${toolSelect.value}`,
+            tNum: (toggleManual && toggleManual.checked) ? 'M-T' : `T${toolSelect.value}`,
             strategy: camStrategySelect.value,
             rpm: document.getElementById('out-rpm').textContent,
             vf: document.getElementById('out-vf').textContent
