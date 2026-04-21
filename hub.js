@@ -1,6 +1,6 @@
 /**
  * Machining_OS | CNC Hub Logic v8.0
- * Intelligent Physics-Driven Hybrid Engine
+ * Physics-Driven Simulation Engine // FIXED LISTENERS
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleManual = document.getElementById('toggle-manual');
     const manualInputs = document.getElementById('manual-inputs');
     
+    // Manual inputs
+    const manualD = document.getElementById('manual-d');
+    const manualZ = document.getElementById('manual-z');
+    const manualMat = document.getElementById('manual-mat');
+
     const inputAe = document.getElementById('input-ae');
     const inputAp = document.getElementById('input-ap');
     const inputStickout = document.getElementById('input-stickout');
@@ -27,23 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'Drilling (Standard)': { vc_mult: 0.8, fz_mult: 1.0, show_ae: false, show_ap: true }
     };
 
-    function initHub() {
-        if (machineSelect) {
-            machineSelect.innerHTML = Object.entries(MACHINING_DB.MACHINES)
-                .filter(([_, m]) => m.type === 'cnc')
-                .map(([k, m]) => `<option value="${k}">${m.name.toUpperCase()}</option>`).join('');
-        }
-        if (workMaterialSelect) {
-            workMaterialSelect.innerHTML = Object.entries(MACHINING_DB.MATERIALS)
-                .map(([k, m]) => `<option value="${k}">${m.name}</option>`).join('');
-        }
-        if (camStrategySelect) {
-            camStrategySelect.innerHTML = Object.keys(STRATEGIES)
-                .map(k => `<option value="${k}">${k.toUpperCase()}</option>`).join('');
-        }
-        loadSavedData();
-    }
-
     function calculate() {
         protocolError.classList.add('hidden');
         const machine = MACHINING_DB.MACHINES[machineSelect.value];
@@ -52,22 +40,29 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let d, z, toolMat;
         if (toggleManual.checked) {
-            d = parseFloat(document.getElementById('manual-d').value) || 0;
-            z = parseFloat(document.getElementById('manual-z').value) || 1;
-            toolMat = document.getElementById('manual-mat').value;
-            toolSelect.disabled = true; manualInputs.classList.remove('hidden');
+            d = parseFloat(manualD.value) || 0;
+            z = parseFloat(manualZ.value) || 1;
+            toolMat = manualMat.value;
+            toolSelect.disabled = true; 
+            manualInputs.classList.remove('hidden');
         } else {
             d = parseFloat(document.getElementById('hidden-d').value) || 0;
             z = parseFloat(document.getElementById('hidden-z').value) || 1;
             toolMat = document.getElementById('hidden-mat').value;
-            toolSelect.disabled = false; manualInputs.classList.add('hidden');
+            toolSelect.disabled = false; 
+            manualInputs.classList.add('hidden');
         }
 
         const ae = parseFloat(inputAe.value) || 0;
         const ap = parseFloat(inputAp.value) || 0;
         const stickout = parseFloat(inputStickout.value) || 0;
 
-        if (d === 0 || !mat) return;
+        // GUARD CLAUSE: Ingen beregning uden diameter eller materiale [cite: 2026-03-11]
+        if (d === 0 || !mat) {
+            document.getElementById('out-rpm').textContent = "0";
+            document.getElementById('out-vf').textContent = "0";
+            return;
+        }
 
         // 1. HARDNESS SCALING (HB) [cite: 2026-03-11]
         const hardnessFactor = Math.sqrt(150 / mat.hb);
@@ -85,7 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const E = (toolMat === 'HM' ? MACHINING_DB.PHYSICS.E_MODULUS_HM : MACHINING_DB.PHYSICS.E_MODULUS_HSS) * 1000;
         const I = (Math.PI * Math.pow(d, 4)) / 64;
         const force_kc = mat.kc1 * Math.pow(true_fz, 1 - mat.mc);
-        const deflection = ((force_kc * ap * ae / d) * Math.pow(stickout, 3)) / (3 * E * I);
+        const force_total = (force_kc * ap * ae) / d;
+        const deflection = (force_total * Math.pow(stickout, 3)) / (3 * E * I);
         
         let deflection_penalty = deflection > 0.02 ? 0.02 / deflection : 1.0;
         if (deflection_penalty < 1.0) {
@@ -101,9 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (torque_nm > (machine.maxNm * MACHINING_DB.PHYSICS.TORQUE_EFFICIENCY)) {
             protocolError.classList.remove('hidden');
-            protocolErrorText.innerHTML = `TORQUE LIMIT: ${torque_nm.toFixed(1)} Nm > Cap. Sænk indgreb.`;
+            protocolErrorText.innerHTML = `TORQUE LIMIT: ${torque_nm.toFixed(1)} Nm overstiger maskinens kapacitet.`;
         }
 
+        // --- RENDER ---
         document.getElementById('out-rpm').textContent = Math.round(n).toLocaleString('da-DK');
         document.getElementById('out-vf').textContent = Math.round(vf).toLocaleString('da-DK');
         document.getElementById('out-load').textContent = Math.round((power_kw / machine.kw) * 100);
@@ -111,9 +108,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('out-power').textContent = power_kw.toFixed(1) + ' kW';
     }
 
-    [toggleManual, machineSelect, workMaterialSelect, inputAe, inputAp, inputStickout, toggleHsm].forEach(el => {
-        el.addEventListener('change', calculate);
-        if(el.type === 'number') el.addEventListener('input', calculate);
+    // ALLE EVENT LISTENERS INKLUDERET [cite: 2026-03-11]
+    const inputs = [
+        toggleManual, manualD, manualZ, manualMat, 
+        machineSelect, workMaterialSelect, toolSelect, 
+        camStrategySelect, inputAe, inputAp, inputStickout, toggleHsm
+    ];
+    
+    inputs.forEach(el => {
+        if(el) {
+            el.addEventListener('change', calculate);
+            if(el.type === 'number') el.addEventListener('input', calculate);
+        }
     });
 
     if(toolSelect) {
@@ -142,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tableBody.innerHTML = logs.map(entry => `
                 <tr class="border-b border-zinc-900/50">
                     <td class="py-3 font-black text-white">${entry.tNum}</td>
-                    <td class="py-3 text-zinc-400 font-mono">${entry.strategy}</td>
+                    <td class="py-3 text-zinc-400 font-mono text-[10px] uppercase">${entry.strategy}</td>
                     <td class="py-3 text-primary font-black italic">${entry.rpm}</td>
                     <td class="py-3 text-white font-black italic">${entry.vf}</td>
                     <td class="py-3 text-right"><button onclick="deleteRow('${entry.id}')" class="text-[8px] text-zinc-700 hover:text-red-500 uppercase">Remove</button></td>
