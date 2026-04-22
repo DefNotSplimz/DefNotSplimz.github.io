@@ -2,14 +2,14 @@
 <html lang="da" class="dark">
 <head>
     <meta charset="UTF-8">
-    <title>DATUM_OS // OPERATIONS_HUB_v8.9</title>
+    <title>DATUM_OS // OPERATIONS_HUB_v9.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --p: #f59e0b; --bg: #050506; }
         body { font-family: 'JetBrains Mono', monospace; background-color: var(--bg); color: #e4e4e7; }
         .glass-panel { background: rgba(12, 12, 14, 0.8); backdrop-filter: blur(20px); border: 1px solid #18181b; }
-        .output-card { background: #0a0a0c; border-left: 2px solid #18181b; transition: all 0.3s; }
+        .output-card { background: #0a0a0c; border-left: 2px solid #18181b; transition: all 0.3s; position: relative; }
         .output-card.active { border-left-color: var(--p); background: linear-gradient(90deg, rgba(245,158,11,0.03) 0%, transparent 100%); }
         .input-tactical { background: #000; border: 1px solid #18181b; padding: 12px; font-size: 11px; color: #fff; width: 100%; outline: none; }
         .input-tactical:focus { border-color: var(--p); }
@@ -17,7 +17,7 @@
         .status-dot { width: 6px; height: 6px; background: var(--p); border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 8px var(--p); }
         #nav-overlay { display: none; position: fixed; inset: 0; background: rgba(5,5,6,0.98); backdrop-filter: blur(40px); z-index: 9999; }
         #nav-overlay.active { display: flex; }
-        .route-card { background: rgba(24,24,27,0.4); border: 1px solid rgba(39,39,42,0.8); transition: all 0.3s; position: relative; overflow: hidden; }
+        .route-card { background: rgba(24,24,27,0.4); border: 1px solid rgba(39,39,42,0.8); transition: all 0.3s; padding: 24px; position: relative; overflow: hidden; }
         .route-card:hover { border-color: var(--p); transform: translateY(-2px); }
     </style>
 </head>
@@ -26,7 +26,7 @@
     <div id="nav-overlay" class="items-center justify-center p-12 md:p-24">
         <div class="max-w-7xl w-full">
             <div class="flex justify-between items-end border-b border-zinc-900 pb-12 mb-12">
-                <div><span class="label-micro !text-primary">System_Navigation_Protocol</span><h2 class="text-6xl font-black italic tracking-tighter uppercase">Terminal_Access</h2></div>
+                <div><span class="label-micro !text-primary">System_Navigation_Protocol</span><h2 class="text-6xl font-black italic tracking-tighter uppercase leading-none">Terminal_Access</h2></div>
                 <button id="close-menu" class="text-[10px] font-black text-zinc-600 hover:text-white uppercase tracking-[0.4em]">Close_Session [ESC]</button>
             </div>
             <div id="route-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
@@ -48,8 +48,8 @@
     <main class="flex-grow flex flex-col">
         <header class="p-12 border-b border-zinc-900 bg-black/20 flex justify-between items-end">
             <div>
-                <div class="flex items-center mb-4"><div class="status-dot"></div><span class="label-micro !text-primary !mb-0">Physics_Engine_v8.9 // Geometric_Analysis_Enabled</span></div>
-                <h1 class="text-7xl font-black italic tracking-tighter uppercase text-white">Operations_Hub</h1>
+                <div class="flex items-center mb-4"><div class="status-dot"></div><span class="label-micro !text-primary !mb-0">Physics_Engine_v9.1 // Bulletproof_Core</span></div>
+                <h1 class="text-7xl font-black italic tracking-tighter uppercase text-white leading-none">Operations_Hub</h1>
             </div>
             <div class="text-right tabular-nums"><span class="label-micro">System_Clock</span><div id="clock" class="text-xs font-bold text-zinc-500">00:00:00</div></div>
         </header>
@@ -66,13 +66,12 @@
                         <div class="flex justify-between items-center mb-4">
                             <label class="label-micro">Instrument_Setup</label>
                             <label class="flex items-center gap-2 cursor-pointer group">
-                                <span class="text-[7px] font-bold text-zinc-600 uppercase group-hover:text-zinc-400">Manual_Override</span>
+                                <span class="text-[7px] font-bold text-zinc-600 uppercase">Manual_Override</span>
                                 <input type="checkbox" id="toggle-manual" class="sr-only peer">
                                 <div class="w-7 h-3.5 bg-zinc-800 rounded-full relative peer-checked:bg-primary transition-all after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-500 after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:after:translate-x-3.5 peer-checked:after:bg-black"></div>
                             </label>
                         </div>
                         <select id="active-tool-select" class="input-tactical mb-4"></select>
-                        
                         <div id="manual-inputs" class="hidden space-y-2">
                             <div class="grid grid-cols-2 gap-2">
                                 <input type="number" id="manual-d" placeholder="Ø Diameter" class="input-tactical">
@@ -87,8 +86,12 @@
 
                     <div class="grid grid-cols-3 gap-4 pt-6 border-t border-zinc-900">
                         <div><label class="label-micro">Stickout</label><input type="number" id="input-stickout" value="25" class="input-tactical"></div>
-                        <div><label class="label-micro">Stepover</label><input type="number" id="input-ae" value="1.0" step="0.1" class="input-tactical text-primary font-bold"></div>
-                        <div><label class="label-micro">Stepdown</label><input type="number" id="input-ap" value="5.0" step="0.5" class="input-tactical text-primary font-bold"></div>
+                        <div class="relative">
+                            <label class="label-micro">Stepover (Ae)</label>
+                            <input type="number" id="input-ae" value="1.0" step="0.1" class="input-tactical text-primary font-bold">
+                            <div class="absolute -bottom-5 left-0 text-[7px] font-bold text-zinc-500 uppercase">Rec: <span id="rec-ae" class="text-zinc-400">0.00</span> mm</div>
+                        </div>
+                        <div><label class="label-micro">Stepdown (Ap)</label><input type="number" id="input-ap" value="5.0" step="0.5" class="input-tactical text-primary font-bold"></div>
                     </div>
 
                     <div><label class="label-micro">Fusion360_Strategy</label><select id="cam-strategy" class="input-tactical !italic !font-bold"></select></div>
@@ -113,7 +116,7 @@
                         <span class="label-micro !text-zinc-600 border-b border-zinc-900 pb-2">// Feed_Parameters</span>
                         <div class="output-card active p-6"><span class="label-micro">Vf (mm/min)</span><div class="text-4xl font-black italic text-white" id="out-vf">0</div></div>
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="output-card p-4"><span class="label-micro">fz</span><div class="text-sm font-bold text-zinc-400" id="out-fz">0.0000</div></div>
+                            <div class="output-card p-4"><span class="label-micro">fz (mm/t)</span><div class="text-sm font-bold text-zinc-400" id="out-fz">0.0000</div></div>
                             <div class="output-card p-4"><span class="label-micro">Plunge</span><div class="text-sm font-bold text-zinc-400" id="out-vf-plunge">0</div></div>
                         </div>
                     </div>
