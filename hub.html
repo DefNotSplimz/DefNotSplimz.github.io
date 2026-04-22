@@ -2,7 +2,7 @@
 <html lang="da" class="dark">
 <head>
     <meta charset="UTF-8">
-    <title>DATUM_OS // OPERATIONS_HUB_v8.7</title>
+    <title>DATUM_OS // OPERATIONS_HUB_v8.9</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
@@ -11,18 +11,14 @@
         .glass-panel { background: rgba(12, 12, 14, 0.8); backdrop-filter: blur(20px); border: 1px solid #18181b; }
         .output-card { background: #0a0a0c; border-left: 2px solid #18181b; transition: all 0.3s; }
         .output-card.active { border-left-color: var(--p); background: linear-gradient(90deg, rgba(245,158,11,0.03) 0%, transparent 100%); }
-        .input-tactical { background: #000; border: 1px solid #18181b; padding: 12px; font-size: 11px; color: #fff; width: 100%; outline: none; transition: border-color 0.2s; }
+        .input-tactical { background: #000; border: 1px solid #18181b; padding: 12px; font-size: 11px; color: #fff; width: 100%; outline: none; }
         .input-tactical:focus { border-color: var(--p); }
         .label-micro { font-size: 8px; text-transform: uppercase; letter-spacing: 0.2em; color: #52525b; font-weight: 800; margin-bottom: 4px; display: block; }
         .status-dot { width: 6px; height: 6px; background: var(--p); border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 8px var(--p); }
-        
-        /* Tactical Menu Overlay Styles [cite: 2026-03-11] */
         #nav-overlay { display: none; position: fixed; inset: 0; background: rgba(5,5,6,0.98); backdrop-filter: blur(40px); z-index: 9999; }
         #nav-overlay.active { display: flex; }
         .route-card { background: rgba(24,24,27,0.4); border: 1px solid rgba(39,39,42,0.8); transition: all 0.3s; position: relative; overflow: hidden; }
-        .route-card:hover { border-color: var(--p); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .route-marker { position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: var(--p); opacity: 0; transition: opacity 0.3s; }
-        .route-card:hover .route-marker { opacity: 1; }
+        .route-card:hover { border-color: var(--p); transform: translateY(-2px); }
     </style>
 </head>
 <body class="flex min-h-screen overflow-x-hidden antialiased">
@@ -30,25 +26,17 @@
     <div id="nav-overlay" class="items-center justify-center p-12 md:p-24">
         <div class="max-w-7xl w-full">
             <div class="flex justify-between items-end border-b border-zinc-900 pb-12 mb-12">
-                <div>
-                    <span class="label-micro !text-primary">System_Navigation_Protocol</span>
-                    <h2 class="text-6xl font-black italic tracking-tighter uppercase">Terminal_Access</h2>
-                </div>
-                <button id="close-menu" class="text-[10px] font-black text-zinc-600 hover:text-white uppercase tracking-[0.4em] transition-colors">Close_Session [ESC]</button>
+                <div><span class="label-micro !text-primary">System_Navigation_Protocol</span><h2 class="text-6xl font-black italic tracking-tighter uppercase">Terminal_Access</h2></div>
+                <button id="close-menu" class="text-[10px] font-black text-zinc-600 hover:text-white uppercase tracking-[0.4em]">Close_Session [ESC]</button>
             </div>
-            <div id="route-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                </div>
+            <div id="route-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
         </div>
     </div>
 
     <aside class="w-20 border-r border-zinc-900 flex flex-col items-center py-10 gap-10 bg-black z-50">
         <a href="gateway.html" class="text-[10px] font-black text-zinc-600 hover:text-primary transition-all uppercase tracking-tighter">OS</a>
         <div class="h-px w-8 bg-zinc-800"></div>
-        <nav class="flex flex-col gap-8">
-            <a href="hub.html" class="text-primary font-black text-xs">01</a>
-            <a href="inventory.html" class="text-zinc-700 hover:text-white text-xs">04</a>
-        </nav>
-        
+        <nav class="flex flex-col gap-8"><a href="hub.html" class="text-primary font-black text-xs">01</a><a href="inventory.html" class="text-zinc-700 hover:text-white text-xs">04</a></nav>
         <button id="open-menu" class="mt-auto w-12 h-12 border border-zinc-900 hover:border-primary flex items-center justify-center group transition-all rounded-sm">
             <div class="grid grid-cols-2 gap-1 group-hover:rotate-90 transition-transform duration-300">
                 <div class="w-1.5 h-1.5 bg-zinc-700 group-hover:bg-primary"></div><div class="w-1.5 h-1.5 bg-zinc-700 group-hover:bg-primary"></div>
@@ -60,16 +48,10 @@
     <main class="flex-grow flex flex-col">
         <header class="p-12 border-b border-zinc-900 bg-black/20 flex justify-between items-end">
             <div>
-                <div class="flex items-center mb-4">
-                    <div class="status-dot"></div>
-                    <span class="label-micro !text-primary !mb-0">Physics_Engine_v8.7 // Tactical_Sync</span>
-                </div>
+                <div class="flex items-center mb-4"><div class="status-dot"></div><span class="label-micro !text-primary !mb-0">Physics_Engine_v8.9 // Geometric_Analysis_Enabled</span></div>
                 <h1 class="text-7xl font-black italic tracking-tighter uppercase text-white">Operations_Hub</h1>
             </div>
-            <div class="text-right tabular-nums">
-                <span class="label-micro">System_Clock</span>
-                <div id="clock" class="text-xs font-bold text-zinc-500">00:00:00</div>
-            </div>
+            <div class="text-right tabular-nums"><span class="label-micro">System_Clock</span><div id="clock" class="text-xs font-bold text-zinc-500">00:00:00</div></div>
         </header>
 
         <div class="p-12 grid grid-cols-1 xl:grid-cols-12 gap-12 max-w-[1800px]">
@@ -90,9 +72,16 @@
                             </label>
                         </div>
                         <select id="active-tool-select" class="input-tactical mb-4"></select>
-                        <div id="manual-inputs" class="hidden grid grid-cols-2 gap-2">
-                            <input type="number" id="manual-d" placeholder="Ø Diameter" class="input-tactical">
-                            <input type="number" id="manual-z" placeholder="Skær (Z)" class="input-tactical">
+                        
+                        <div id="manual-inputs" class="hidden space-y-2">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="number" id="manual-d" placeholder="Ø Diameter" class="input-tactical">
+                                <input type="number" id="manual-z" placeholder="Skær (Z)" class="input-tactical">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="manual-mat" class="input-tactical"><option value="HM">HM</option><option value="HSS">HSS</option><option value="PCD">PCD</option><option value="CERMET">Cermet</option></select>
+                                <select id="manual-type" class="input-tactical"><option value="ENDMILL (SLET)">Endmill</option><option value="CHAMFER">Chamfer</option><option value="DRILL">Drill</option></select>
+                            </div>
                         </div>
                     </div>
 
@@ -102,17 +91,14 @@
                         <div><label class="label-micro">Stepdown</label><input type="number" id="input-ap" value="5.0" step="0.5" class="input-tactical text-primary font-bold"></div>
                     </div>
 
-                    <div>
-                        <label class="label-micro">Fusion360_Strategy</label>
-                        <select id="cam-strategy" class="input-tactical !italic !font-bold"></select>
-                    </div>
+                    <div><label class="label-micro">Fusion360_Strategy</label><select id="cam-strategy" class="input-tactical !italic !font-bold"></select></div>
 
                     <div class="grid grid-cols-3 gap-2 pt-6 border-t border-zinc-900">
-                        <div class="p-3 bg-black/40 border border-zinc-900 text-center"><span class="label-micro">HSM</span><input type="checkbox" id="toggle-hsm" checked class="accent-primary"></div>
-                        <div class="p-3 bg-black/40 border border-zinc-900 text-center"><span class="label-micro">Safe</span><input type="checkbox" id="toggle-safe" class="accent-red-500"></div>
-                        <div class="p-3 bg-black/40 border border-zinc-900 text-center"><span class="label-micro">Finish</span><input type="checkbox" id="toggle-finish" class="accent-blue-500"></div>
+                        <div class="p-3 bg-black/40 border border-zinc-900 text-center rounded-sm"><span class="label-micro">HSM</span><input type="checkbox" id="toggle-hsm" checked class="accent-primary"></div>
+                        <div class="p-3 bg-black/40 border border-zinc-900 text-center rounded-sm"><span class="label-micro">Safe</span><input type="checkbox" id="toggle-safe" class="accent-red-500"></div>
+                        <div class="p-3 bg-black/40 border border-zinc-900 text-center rounded-sm"><span class="label-micro">Finish</span><input type="checkbox" id="toggle-finish" class="accent-blue-500"></div>
                     </div>
-                    <input type="hidden" id="hidden-d" value="0"><input type="hidden" id="hidden-z" value="1"><input type="hidden" id="hidden-mat" value="HM">
+                    <input type="hidden" id="hidden-d" value="0"><input type="hidden" id="hidden-z" value="1"><input type="hidden" id="hidden-mat" value="HM"><input type="hidden" id="hidden-type" value="ENDMILL (SLET)">
                 </div>
             </section>
 
@@ -120,65 +106,29 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="space-y-4">
                         <span class="label-micro !text-zinc-600 border-b border-zinc-900 pb-2">// Speed_Parameters</span>
-                        <div class="output-card active p-6">
-                            <span class="label-micro">Spindle Speed (n)</span>
-                            <div class="text-4xl font-black italic text-primary" id="out-rpm">0</div>
-                        </div>
-                        <div class="output-card p-4">
-                            <span class="label-micro">Surface Speed (Vc)</span>
-                            <div class="text-xl font-bold text-white" id="out-vc">0</div>
-                        </div>
-                        <div class="output-card p-4">
-                            <span class="label-micro">Ramp Spindle Speed</span>
-                            <div class="text-xl font-bold text-zinc-500 italic" id="out-rpm-ramp">0</div>
-                        </div>
+                        <div class="output-card active p-6"><span class="label-micro">n (RPM)</span><div class="text-4xl font-black italic text-primary" id="out-rpm">0</div></div>
+                        <div class="output-card p-4"><span class="label-micro">Vc (m/min)</span><div class="text-xl font-bold text-white" id="out-vc">0</div></div>
                     </div>
-
                     <div class="space-y-4">
                         <span class="label-micro !text-zinc-600 border-b border-zinc-900 pb-2">// Feed_Parameters</span>
-                        <div class="output-card active p-6">
-                            <span class="label-micro">Cutting Feed (Vf)</span>
-                            <div class="text-4xl font-black italic text-white" id="out-vf">0</div>
-                        </div>
+                        <div class="output-card active p-6"><span class="label-micro">Vf (mm/min)</span><div class="text-4xl font-black italic text-white" id="out-vf">0</div></div>
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="output-card p-4"><span class="label-micro">fz (mm/t)</span><div class="text-sm font-bold text-zinc-400" id="out-fz">0.0000</div></div>
-                            <div class="output-card p-4"><span class="label-micro">Lead-in</span><div class="text-sm font-bold text-zinc-400" id="out-vf-lead">0</div></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="output-card p-4"><span class="label-micro">Ramp Feed</span><div class="text-sm font-bold text-zinc-400" id="out-vf-ramp">0</div></div>
-                            <div class="output-card p-4"><span class="label-micro">Ramp Angle</span><div class="text-sm font-bold text-primary italic" id="out-ramp-angle">2.0°</div></div>
+                            <div class="output-card p-4"><span class="label-micro">fz</span><div class="text-sm font-bold text-zinc-400" id="out-fz">0.0000</div></div>
+                            <div class="output-card p-4"><span class="label-micro">Plunge</span><div class="text-sm font-bold text-zinc-400" id="out-vf-plunge">0</div></div>
                         </div>
                     </div>
-
                     <div class="space-y-4">
-                        <span class="label-micro !text-zinc-600 border-b border-zinc-900 pb-2">// Vertical_&_Safety</span>
-                        <div class="output-card active p-6 border-l-red-600">
-                            <span class="label-micro">Plunge Feedrate</span>
-                            <div class="text-4xl font-black italic text-primary" id="out-vf-plunge">0</div>
-                        </div>
-                        <div class="output-card p-4">
-                            <span class="label-micro">Plunge Feed/Rev</span>
-                            <div class="text-sm font-bold text-zinc-400" id="out-f-rev-plunge">0.0000</div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 mt-2">
-                            <div class="p-4 bg-primary/5 border border-primary/20"><span class="label-micro">Deflection</span><div class="text-lg font-black text-red-400" id="out-deflection">1.00x</div></div>
-                            <div class="p-4 bg-primary/5 border border-primary/20"><span class="label-micro">Load</span><div class="text-lg font-black text-white"><span id="out-load">0</span>%</div></div>
-                        </div>
+                        <span class="label-micro !text-zinc-600 border-b border-zinc-900 pb-2">// Physical_Load</span>
+                        <div class="output-card active p-6 border-l-primary/50"><span class="label-micro">Spindle Load</span><div class="text-4xl font-black italic text-white"><span id="out-load">0</span>%</div></div>
+                        <div class="output-card p-4"><span class="label-micro">Deflection</span><div class="text-xl font-black text-red-400" id="out-deflection">1.00x</div></div>
                     </div>
                 </div>
-
-                <div id="protocol-error" class="hidden p-4 bg-red-600 text-black font-black uppercase text-[10px] tracking-widest animate-pulse">Critical: Torque_Overload_Detected</div>
-
                 <button id="btn-save" class="w-full py-6 bg-primary text-black font-black uppercase tracking-[0.6em] hover:bg-white transition-all shadow-[0_0_20px_rgba(245,158,11,0.2)]">Execute_Log_Data</button>
-            </div>
+            </section>
         </div>
     </main>
 
-    <script src="shared_core.js"></script>
-    <script src="hub.js"></script>
-    <script>
-        function updateClock() { const d = new Date(); document.getElementById('clock').textContent = d.toTimeString().split(' ')[0]; }
-        setInterval(updateClock, 1000); updateClock();
-    </script>
+    <script src="shared_core.js"></script><script src="hub.js"></script>
+    <script>function updateClock() { document.getElementById('clock').textContent = new Date().toTimeString().split(' ')[0]; } setInterval(updateClock, 1000); updateClock();</script>
 </body>
 </html>
