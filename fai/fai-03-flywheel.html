@@ -5,73 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAI-03 // Svinghjul // Datum Prototyping</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* M_CORE V10 TACTICAL CSS ARCHITECTURE */
         :root {
-            --bg-main: #09090b; 
-            --bg-panel: #18181b; 
-            --border-color: #27272a; 
-            --text-main: #f4f4f5; 
-            --text-muted: #a1a1aa; 
-            --accent: #3b82f6; 
+            --bg-app: #030406;
+            --bg-surface: #0d111a;
+            --bg-sidebar: #090b10;
+            --border-base: #1e293b;
+            --border-dim: #161d2b;
+            --accent-cnc: #0ea5e9;
+            --stat-success: #10b981;
+            --text-high: #ffffff;
+            --text-mid: #94a3b8;
+            --text-low: #475569;
+            --radius: 2px;
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
+            background-color: var(--bg-app);
+            color: var(--text-high);
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+        }
+
+        .bg-grid {
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* Navigationel UI [cite: 2026-03-11] */
-        .ui-btn {
-            position: fixed; top: 20px; background: var(--bg-panel); color: var(--text-main);
-            font-family: 'JetBrains Mono'; font-size: 10px; padding: 10px 16px;
-            z-index: 100; border: 1px solid var(--border-color); border-radius: 2px;
-            text-transform: uppercase; font-weight: bold; transition: all 0.2s;
-            text-decoration: none; display: flex; align-items: center;
+        /* V10 UI Controls */
+        .ui-controls {
+            position: fixed; top: 20px; right: 20px; z-index: 100;
+            display: flex; gap: 10px;
         }
-        .ui-btn:hover { background: var(--border-color); border-color: var(--text-muted); }
-        .btn-left { left: 20px; }
-        .btn-right { right: 20px; background: var(--accent); border-color: var(--accent); }
+        .ui-btn {
+            display: inline-flex; align-items: center; justify-content: center; 
+            background-color: rgba(14, 165, 233, 0.05); 
+            border: 1px solid var(--accent-cnc);
+            color: var(--accent-cnc); 
+            font-family: 'JetBrains Mono';
+            font-size: 11px; font-weight: 800; 
+            padding: 10px 20px; border-radius: var(--radius); 
+            text-transform: uppercase; letter-spacing: 0.1em;
+            transition: all 0.2s; 
+            box-shadow: inset 0 0 10px rgba(14, 165, 233, 0.1), 0 4px 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .ui-btn:hover { 
+            background-color: var(--accent-cnc); color: #fff; 
+            box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+        }
+        .ui-btn.secondary {
+            border-color: var(--border-base);
+            color: var(--text-mid);
+            background-color: var(--bg-sidebar);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .ui-btn.secondary:hover {
+            border-color: var(--text-high);
+            color: var(--text-high);
+            background-color: var(--border-dim);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        }
 
-        /* FAI Formular Lærred [cite: 2026-03-11] */
+        /* FAI Formular Lærred (M_CORE Dark Mode Version) */
         .fai-canvas {
-            background: white; color: black;
-            width: 210mm; min-height: 297mm;
-            margin: 60px auto; padding: 15mm;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            background-color: var(--bg-sidebar); 
+            color: var(--text-high);
+            width: 100%; max-width: 210mm; min-height: 297mm;
+            margin: 80px auto 40px auto; padding: 15mm;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-base);
             position: relative;
         }
 
-        .form-border { border: 2px solid black; }
-        .cell-border { border: 1px solid black; }
-        .label-micro { font-size: 7px; font-weight: 800; text-transform: uppercase; color: #555; margin-bottom: 2px; display: block; }
-        .data-text { font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 900; }
+        /* Tactical Form Styles */
+        .form-border { border: 2px solid var(--accent-cnc); }
+        .cell-border { border: 1px solid var(--border-dim); }
+        .label-micro { font-family: 'JetBrains Mono'; font-size: 7px; font-weight: 800; text-transform: uppercase; color: var(--accent-cnc); margin-bottom: 2px; display: block; letter-spacing: 0.1em; }
+        .data-text { font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 900; color: var(--text-high); }
 
         .fai-table { width: 100%; border-collapse: collapse; }
-        .fai-table th { background: #f4f4f5; border: 1px solid black; padding: 8px; font-size: 8px; text-transform: uppercase; font-weight: 900; }
-        .fai-table td { border: 1px solid black; padding: 10px; font-family: 'JetBrains Mono'; font-size: 10px; font-weight: 700; }
+        .fai-table th { background: var(--bg-surface); border: 1px solid var(--border-dim); padding: 8px; font-size: 8px; text-transform: uppercase; font-weight: 900; color: var(--text-mid); font-family: 'JetBrains Mono'; }
+        .fai-table td { border: 1px solid var(--border-dim); padding: 10px; font-family: 'JetBrains Mono'; font-size: 10px; font-weight: 700; background: var(--bg-sidebar); color: var(--text-high); }
 
+        /* Override hardcoded tailwind colors for Dark Theme */
+        .bg-zinc-50 { background-color: var(--bg-surface) !important; color: var(--text-mid) !important; }
+        .text-zinc-500 { color: var(--text-low) !important; }
+        .bg-black { background-color: var(--stat-success) !important; color: #000 !important; }
+        .bg-zinc-100 { background-color: var(--bg-surface) !important; border-bottom: 1px solid var(--border-dim) !important; }
+        .border-black { border-color: var(--accent-cnc) !important; }
+        
+        /* Gør tegningen dark-mode venlig på skærmen (Invert + Screen) */
+        .fai-canvas img { filter: invert(1) opacity(0.8); mix-blend-mode: screen; }
+
+        /* PRINT LOGIK (Paper-First) */
         @media print {
             @page { size: A4; margin: 0; }
-            body { background: white !important; background-image: none !important; padding: 0 !important; }
-            .ui-btn { display: none !important; }
-            .fai-canvas { margin: 0 !important; padding: 10mm !important; box-shadow: none !important; width: 100% !important; }
+            body { background: white !important; background-image: none !important; padding: 0 !important; color: black !important; }
+            .bg-grid { background-image: none !important; }
+            .ui-controls { display: none !important; }
+            
+            .fai-canvas { margin: 0 !important; padding: 10mm !important; box-shadow: none !important; width: 100% !important; border: none !important; background: white !important; color: black !important; }
+            
+            .form-border { border: 2px solid black !important; }
+            .cell-border { border: 1px solid black !important; }
+            .label-micro { color: #555 !important; font-family: sans-serif !important; letter-spacing: normal !important;}
+            .data-text { color: black !important; }
+            
+            .fai-table th { background: #f4f4f5 !important; border: 1px solid black !important; color: black !important; font-family: sans-serif !important; }
+            .fai-table td { border: 1px solid black !important; background: white !important; color: black !important; }
+
+            .bg-zinc-50 { background-color: #fafafa !important; color: black !important; }
+            .text-zinc-500 { color: #71717a !important; }
+            .bg-black { background-color: black !important; color: white !important; }
+            .bg-zinc-100 { background-color: #f4f4f5 !important; border-bottom: 1px solid black !important; }
+            .border-black { border-color: black !important; }
+            
+            /* Gendan original tegning på papir */
+            .fai-canvas img { filter: none !important; mix-blend-mode: multiply !important; opacity: 1 !important; }
+            
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            
+            /* Print fixes for Tailwind colors on text */
+            .\text-\[7px\], .\text-\[8px\], .\text-\[9px\], .\text-\[10px\] { color: black !important; }
         }
     </style>
 </head>
-<body class="p-6">
+<body class="bg-grid p-6">
 
-    <a href="../index.html" class="ui-btn btn-left">← BACK_TO_SYSTEM</a>
-    <button class="ui-btn btn-right" onclick="window.print()">EXECUTE_PRINT_CMD</button>
+    <div class="ui-controls">
+        <a href="../index.html" class="ui-btn secondary">← BACK_TO_SYSTEM</a>
+        <button class="ui-btn" onclick="window.print()">EXECUTE_PRINT_CMD</button>
+    </div>
 
     <main class="fai-canvas">
         
