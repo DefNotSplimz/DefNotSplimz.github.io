@@ -16,6 +16,7 @@
             --border-dim: #161d2b;
             --accent-cnc: #0ea5e9;
             --stat-success: #10b981;
+            --stat-warn: #f59e0b;
             --text-high: #ffffff;
             --text-mid: #94a3b8;
             --text-low: #475569;
@@ -132,13 +133,14 @@
         <div class="max-w-7xl mx-auto h-16 flex justify-between items-center">
             <div class="flex items-center gap-6">
                 <span class="font-bold tracking-[0.2em] uppercase text-white font-mono text-sm">Datum Prototyping</span>
-                <span class="hidden md:block font-mono text-[10px] text-[#475569] uppercase tracking-widest">Finmekaniker // 2026</span>
+                <span class="hidden md:block font-mono text-[10px] text-[#475569] uppercase tracking-widest">Finmekaniker // Est. 2027</span>
             </div>
             <div class="flex items-center gap-4">
                 <div class="flex items-center gap-2 mr-4">
                     <div class="w-2 h-2 bg-[#10b981] rounded-[2px] shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></div>
                     <span class="font-mono font-bold text-[10px] text-[#10b981] uppercase tracking-widest">Status: Operativ</span>
                 </div>
+                <a href="https://linkedin.com/in/glenchansen" target="_blank" class="hidden sm:inline-block font-mono text-[11px] font-bold text-[#475569] hover:text-[#0ea5e9] transition-colors mr-2 uppercase tracking-wider">[ Netværk // LinkedIn ]</a>
                 <a href="dossier.html" class="btn-outline border-[#0ea5e9]/30 text-[#0ea5e9] hover:bg-[#0ea5e9]/10 hover:border-[#0ea5e9] hover:text-[#0ea5e9]">ÅBN_DOSSIER</a>
             </div>
         </div>
@@ -151,7 +153,7 @@
                     Finmekanik & <br><span class="text-[#0ea5e9]">CNC Strategi.</span>
                 </h1>
                 <p class="text-[#94a3b8] text-lg max-w-2xl leading-relaxed">
-                    Søger udfordringer i præcisionsindustrien. Jeg forener teknisk fildisciplin med +1000 timers praktisk maskinerfaring. Mit fokus er eksekvering af komplekse emner i tolerancer ned til mikron-niveau.
+                    H2 Finmekaniker under uddannelse (2027). Jeg håndterer i dag størstedelen af afdelingens indgående CNC-opgaver i min skolepraktik – fra reparationer til serieproduktion. For at eliminere gætværk ved maskinen koder jeg pt. mit eget dynamiske beregnersystem (M_CORE) til beregning af fysiske skæredata.
                 </p>
             </div>
             <div class="lg:col-span-4 panel p-6">
@@ -159,10 +161,10 @@
                     <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-[1px]"></span> Operativ Kapacitet
                 </span>
                 <div class="space-y-4 font-mono text-[11px] text-[#94a3b8] font-semibold">
-                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Software</span><span class="text-white">Fusion 360 / Mastercam</span></div>
-                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Maskiner</span><span class="text-white">Haas / Fanuc / Heidenhain</span></div>
-                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Metrologi</span><span class="text-white">ISO 286 (H7/g6)</span></div>
-                    <div class="flex justify-between"><span>Materiale</span><span class="text-white">AISI 316L / Alu 6082</span></div>
+                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Software</span><span class="text-white text-right">Fusion 360 <span class="text-[#475569]">// M_CORE</span></span></div>
+                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Maskiner</span><span class="text-white text-right">Haas CNC / Weiler / Deckel</span></div>
+                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Metrologi</span><span class="text-white text-right">ISO 286 (H7/g6) / FAI</span></div>
+                    <div class="flex justify-between"><span>Materiale</span><span class="text-white text-right">Alu / Rustfast / O1 / Ms / Polymer</span></div>
                 </div>
             </div>
         </div>
@@ -218,28 +220,34 @@
 
         <section class="mb-24">
             <h2 class="text-xl font-bold font-mono text-white uppercase mb-8 tracking-widest border-b border-[#1e293b] pb-4 flex items-center gap-3">
-                <span class="w-2 h-2 bg-[#0ea5e9] rounded-[2px] shadow-[0_0_8px_rgba(14,165,233,0.5)]"></span> System_Metodik // CAD_TO_FAI
+                <span class="w-2 h-2 bg-[#0ea5e9] rounded-[2px] shadow-[0_0_8px_rgba(14,165,233,0.5)] animate-pulse"></span> M_CORE // CNC Kinetisk Beregner
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="panel p-6">
-                    <span class="text-[#0ea5e9] font-black font-mono text-2xl mb-4 block">01</span>
-                    <h4 class="font-bold font-mono text-[11px] text-white uppercase mb-2">CAD Strategi</h4>
-                    <p class="text-[13px] text-[#94a3b8] leading-relaxed">Design for Manufacturing (DFM) med fokus på opspændingslogik.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="panel p-8">
+                    <h3 class="font-bold font-mono text-xl text-white mb-4 uppercase tracking-tight">Fysik > Mavefornemmelse</h3>
+                    <p class="text-[13px] text-[#94a3b8] leading-relaxed mb-6">
+                        Systemet er under aktiv udvikling. M_CORE er et internt HMI-værktøj, jeg koder for at kunne vride maskiner som vores Haas Mini Mill til den absolutte grænse. I stedet for at arbejde med "plejer", udregner systemet dynamiske skæredata ud fra maskinens fysiske realiteter:
+                    </p>
+                    <ul class="font-mono text-[11px] font-bold space-y-3 text-[#94a3b8]">
+                        <li class="flex items-center gap-2"><span class="text-[#0ea5e9]">>></span> Spindel Moment-kurver (Torque/Power limits)</li>
+                        <li class="flex items-center gap-2"><span class="text-[#0ea5e9]">>></span> L/D-Ratio og Værktøjs-udbøjning (Deflection)</li>
+                        <li class="flex items-center gap-2"><span class="text-[#0ea5e9]">>></span> Materialets Termodynamik & Værktøjsslid</li>
+                    </ul>
                 </div>
-                <div class="panel p-6">
-                    <span class="text-[#0ea5e9] font-black font-mono text-2xl mb-4 block">02</span>
-                    <h4 class="font-bold font-mono text-[11px] text-white uppercase mb-2">CAM Optimering</h4>
-                    <p class="text-[13px] text-[#94a3b8] leading-relaxed">HSM-strategier og procesvalidering gennem simulering.</p>
-                </div>
-                <div class="panel p-6">
-                    <span class="text-[#0ea5e9] font-black font-mono text-2xl mb-4 block">03</span>
-                    <h4 class="font-bold font-mono text-[11px] text-white uppercase mb-2">Setup & Rigg</h4>
-                    <p class="text-[13px] text-[#94a3b8] leading-relaxed">Dokumenteret opspænding m. fokus på planhed og moment.</p>
-                </div>
-                <div class="panel p-6">
-                    <span class="text-[#0ea5e9] font-black font-mono text-2xl mb-4 block">04</span>
-                    <h4 class="font-bold font-mono text-[11px] text-white uppercase mb-2">Metrologi</h4>
-                    <p class="text-[13px] text-[#94a3b8] leading-relaxed">FAI-validering af kritiske tolerancer v. 20°C.</p>
+                <div class="panel bg-[#050608] border-[#161d2b] p-6 font-mono text-[11px] text-[#475569] flex flex-col justify-center shadow-[inset_0_0_30px_rgba(0,0,0,0.8)]">
+                    <div class="mb-4 flex justify-between text-[#0ea5e9] border-b border-[#161d2b] pb-2 font-bold">
+                        <span>SYSTEM.M_CORE.EXECUTE()</span><span class="animate-pulse">[RUNNING]</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p>> Fetching Material Data: Alu 6082-T6...</p>
+                        <p>> Calculating Spindle Load Limit...</p>
+                        <p class="text-white font-bold">> TORQUE MAX: 45 Nm @ 1200 RPM</p>
+                        <p>> Evaluating Tool Path Geometry...</p>
+                        <p>> Calculating Tool Deflection (L/D 4.5)...</p>
+                        <p class="text-[#f59e0b] font-bold">> WARN: DEFLECTION HIGH - REDUCING FEED 12%</p>
+                        <p>> Output Parameters Optimized.</p>
+                    </div>
+                    <div class="mt-6 pt-2 text-[#10b981] font-bold">>> READY FOR G-CODE GENERATION_</div>
                 </div>
             </div>
         </section>
@@ -300,13 +308,14 @@
                     </p>
                 </div>
 
-                <div class="panel p-4 border-dashed border-[#161d2b] bg-transparent shadow-none">
-                    <div class="aspect-square bg-[#000000] border border-[#161d2b] mb-4 flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
-                        <span class="font-mono font-bold text-[10px] text-[#161d2b] uppercase">[ TBA ]</span>
+                <div class="panel p-4 border-dashed border-[#1e293b] bg-[#050608] shadow-none group">
+                    <div class="aspect-square bg-[#000000] border border-[#1e293b] mb-4 flex flex-col items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] p-4 text-center">
+                        <span class="w-3 h-3 bg-[#f59e0b] rounded-[2px] mb-3 shadow-[0_0_8px_rgba(245,158,11,0.5)] animate-pulse"></span>
+                        <span class="font-mono font-bold text-[10px] text-[#f59e0b] uppercase tracking-widest">Aktive Opgave<br>Indløb</span>
                     </div>
-                    <span class="tag block w-fit mb-3 !bg-transparent !border-[#161d2b] !text-[#475569]">Status // Afventer</span>
-                    <h4 class="font-bold font-mono text-[11px] text-[#475569] mb-2 uppercase">Slot Allokeret</h4>
-                    <p class="text-[12px] text-[#475569] leading-relaxed">Komponent afventer dokumentation.</p>
+                    <span class="tag block w-fit mb-3 !bg-transparent !border-[#f59e0b] !text-[#f59e0b]">Status // I Maskinen</span>
+                    <h4 class="font-bold font-mono text-[11px] text-white mb-2 uppercase">Ad-Hoc & SKP Produktion</h4>
+                    <p class="text-[12px] text-[#94a3b8] leading-relaxed">Kontinuerlig håndtering af indgående opgaver, akut reverse-engineering og serieproduktion.</p>
                 </div>
             </div>
         </section>
@@ -319,14 +328,14 @@
                 <h2 class="text-4xl font-black font-mono text-white uppercase tracking-tighter leading-none">Klar til produktion.</h2>
                 <p class="text-[#94a3b8] text-[13px] mt-4 max-w-sm">Under brandet Datum Prototyping leverer jeg teknisk værdi og procesoptimering.</p>
             </div>
-            <div class="flex flex-col gap-4">
-                <a href="mailto:defnotglen@gmail.com" class="btn-tech text-[12px]">Kontakt via Email</a>
-                <span class="font-mono font-bold text-[10px] text-[#475569] uppercase text-center tracking-widest">Datum // 2026 // Copenhagen</span>
+            <div class="flex flex-col sm:flex-row gap-4 items-center">
+                <a href="https://linkedin.com/in/glenchansen" target="_blank" class="btn-outline text-[12px] w-full sm:w-auto text-center">FORBIND // LINKEDIN</a>
+                <a href="mailto:defnotglen@gmail.com" class="btn-tech text-[12px] w-full sm:w-auto text-center">KONTAKT // EMAIL</a>
             </div>
         </div>
         <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-[#161d2b] flex justify-between items-center font-mono font-bold text-[9px] text-[#475569] uppercase tracking-widest">
             <span>System Version 13.0 // Operativ</span>
-            <span>G. Cilinder-Hansen // © 2026</span>
+            <span>DatumPrototyping.dk // © 2027</span>
         </div>
     </footer>
 </body>
