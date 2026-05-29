@@ -1,0 +1,362 @@
+/* =========================================
+   DATUM PROTOTYPING // MACHINING_OS V5.7
+   "PRECISION GLASS" ENGINE - LAYER & PRINT FIX
+   ========================================= */
+
+:root {
+    --primary: #f59e0b;
+    --primary-glow: rgba(245, 158, 11, 0.25);
+    --bg-deep: #050506;
+    --panel-bg: rgba(12, 12, 14, 0.8);
+    --border-dim: rgba(255, 255, 255, 0.04);
+    --border-bright: rgba(255, 255, 255, 0.1);
+    --text-dim: #71717a;
+    --mono: 'JetBrains Mono', monospace;
+}
+
+body {
+    background-color: var(--bg-deep);
+    color: #e4e4e7;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+    /* Sikrer at baggrundseffekter kan skubbes om bagved indholdet */
+    position: relative;
+    z-index: 0;
+}
+
+/* =========================================
+   BAGGRUNDSEFFEKTER (Låst fast bag indholdet)
+   ========================================= */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: 
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.8) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.015), rgba(0, 0, 255, 0.03));
+    background-size: 100% 4px, 4px 100%;
+    pointer-events: none !important; 
+    z-index: -1 !important; 
+    opacity: 0.6;
+}
+
+.subtle-grid {
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(var(--border-dim) 1px, transparent 1px), linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+.scanline {
+    position: fixed;
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.015);
+    top: -10px;
+    animation: scan 8s linear infinite;
+    pointer-events: none !important;
+    z-index: -1 !important; 
+}
+
+@keyframes scan { from { top: -10px; } to { top: 100%; } }
+
+/* =========================================
+   UI KOMPONENTER & TYPOGRAFI
+   ========================================= */
+
+/* Module Cards */
+.module-card {
+    background: var(--panel-bg);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid var(--border-dim);
+    border-radius: 2px;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.module-card:hover {
+    border-color: var(--border-bright);
+    box-shadow: 0 15px 40px -10px rgba(0,0,0,0.6);
+    transform: translateY(-2px);
+}
+
+/* Typography */
+.label-micro {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.label-micro::before {
+    content: "";
+    width: 12px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.3;
+}
+
+.outline-text {
+    -webkit-text-stroke: 1.5px #ffffff;
+    color: transparent;
+}
+
+/* Status Dot */
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--primary);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--primary);
+    animation: statusPulse 2.5s infinite;
+}
+
+@keyframes statusPulse { 0% { opacity: 0.3; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0.3; transform: scale(0.9); } }
+
+/* Industrial Buttons */
+@layer components {
+    .btn-industrial {
+        @apply font-black uppercase tracking-widest border transition-all;
+        font-family: var(--mono);
+        border-color: var(--border-bright);
+        background: rgba(255, 255, 255, 0.03);
+    }
+}
+
+/* Redesign af "Teknisk_Dossier" knappen */
+#btn-dossier-nav {
+    background: rgba(245, 158, 11, 0.03) !important;
+    border: 1px solid rgba(245, 158, 11, 0.1) !important;
+    backdrop-filter: blur(8px) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+    position: relative;
+    overflow: hidden;
+    color: var(--primary) !important;
+    transform: skewX(-5deg);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+#btn-dossier-nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+#btn-dossier-nav:hover::before { transform: translateX(100%); }
+
+#btn-dossier-nav:hover {
+    color: #fff !important;
+    background: rgba(245, 158, 11, 0.08) !important;
+    border-color: rgba(245, 158, 11, 0.4) !important;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.25) !important;
+    transform: skewX(-5deg) translateY(-1px) !important;
+}
+
+#btn-dossier-nav span { display: inline-flex; align-items: center; gap: 6px; }
+
+#btn-dossier-nav:hover span::before {
+    content: ">_";
+    font-weight: 700;
+    opacity: 0.7;
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
+
+
+/* =========================================
+   SCROLLBAR OVERRIDE (Skjul default browser scroll)
+   ========================================= */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+/* =========================================
+   SIDEBAR NAVIGATION (Hardware Key Engine)
+   ========================================= */
+
+/* Fjerner scrollbar fuldstændigt og låser menuen fast som et fysisk panel */
+.no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+}
+.no-scrollbar {
+    -ms-overflow-style: none !important;  
+    scrollbar-width: none !important;  
+    overflow: hidden !important; 
+}
+
+/* Hardware Knapper (Inaktiv tilstand) */
+.sidebar-nav-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 900;
+    color: #52525b; /* zinc-500 */
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Gør dem lidt smallere end menuen, så de ligner knapper */
+    width: 80%; 
+    margin: 0 auto 2px auto; 
+    
+    /* Dynamisk padding: Skrumper automatisk på små skærme for at få plads til alle 16 */
+    padding: clamp(4px, 1.2vh, 10px) 0; 
+    
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+/* Hover State - Lyser blødt op */
+.sidebar-nav-item:hover {
+    color: #e4e4e7;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Active State - Milled Pocket (Fysisk trykket ind og belyst) */
+.sidebar-nav-item.active {
+    color: var(--primary) !important;
+    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(245, 158, 11, 0.15) 100%);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.9), 0 1px 0 rgba(255,255,255,0.05);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+    transform: translateY(1px); /* Giver fornemmelsen af at knappen er trykket ned */
+}
+
+/* Vi fjerner den gamle pil, da 3D-dybden nu indikerer den aktive state */
+.sidebar-nav-item.active::after,
+.sidebar-nav-item::after {
+    display: none !important;
+}
+
+/* Skillelinjer (Dividers) gøres super kompakte og får lidt 3D-dybde */
+aside .h-px.w-8 {
+    margin: clamp(1px, 0.5vh, 1px) auto !important;
+    background: rgba(255, 255, 255, 0.05) !important; /* Dæmpet farve */
+    box-shadow: 0 1px 0 rgba(0,0,0,0.8); /* Fysisk indgraveret linje */
+}
+
+.sidebar-nav-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 900;
+    color: #52525b; /* zinc-500 */
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%; 
+    margin: 0 auto 1px auto; /* Mindre margin mellem knapperne */
+    
+    /* Yderligere komprimeret padding: Nu går den helt ned til 2px på små skærme */
+    padding: clamp(2px, 1vh, 8px) 0; 
+    
+    border-radius: 6px;
+    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+/* =========================================
+   PRINT STYLES (Professional Setup Sheet)
+   ========================================= */
+@media print {
+    @page { 
+        margin: 1.5cm; 
+        size: A4 portrait; 
+    }
+    
+    body { 
+        background: #fff !important; 
+        color: #000 !important; 
+    }
+    
+    /* Nedskydning af kosmetisk overflod */
+    .subtle-grid, .scanline, body::before, aside, header, footer, #beregner, button, .print\:hidden {
+        display: none !important;
+    }
+    
+    /* Frigør layout til papirformat */
+    .flex-grow, section {
+        width: 100% !important; 
+        margin: 0 !important; 
+        padding: 0 !important; 
+        display: block !important;
+    }
+    
+    /* Nulstil glas-moduler */
+    .module-card {
+        background: transparent !important; 
+        border: none !important; 
+        box-shadow: none !important;
+        padding: 0 !important; 
+        margin-bottom: 30px !important; 
+        backdrop-filter: none !important;
+    }
+    
+    * { 
+        color: #000 !important; 
+        text-shadow: none !important; 
+        box-shadow: none !important; 
+    }
+    
+    /* Industrielle inputfelter for Project_Kontekst */
+    input, select {
+        background: transparent !important; 
+        border: none !important; 
+        border-bottom: 1px solid #000 !important;
+        border-radius: 0 !important; 
+        padding: 4px 0 !important; 
+        font-size: 12pt !important; 
+        color: #000 !important;
+        -webkit-appearance: none; 
+        appearance: none; 
+        font-weight: bold !important;
+    }
+    
+    /* Tabel-Struktur for læsbarhed på værkstedet */
+    table { 
+        border-collapse: collapse !important; 
+        width: 100% !important; 
+        margin-top: 20px !important; 
+    }
+    th, td { 
+        border-bottom: 1px solid #ccc !important; 
+        padding: 12px 8px !important; 
+        text-align: left !important; 
+    }
+    th { 
+        border-bottom: 2px solid #000 !important; 
+        font-size: 10pt !important; 
+        color: #555 !important; 
+    }
+    
+    .label-micro { 
+        opacity: 1 !important; 
+        color: #555 !important; 
+        font-size: 8pt !important; 
+    }
+    .label-micro::before { 
+        display: none !important; 
+    }
+}

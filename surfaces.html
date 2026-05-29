@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <title>Datum Prototyping | Tribology & Finish</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="global.css">
+    <script>tailwind.config={theme:{extend:{colors:{primary:"#f59e0b"},fontFamily:{mono:['JetBrains Mono','monospace'],sans:['Inter','sans-serif']}}}}</script>
+</head>
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
+
+    <div class="subtle-grid"></div>
+
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden relative z-20">
+    <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
+        <img src="img/favicon.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
+    </a>
+
+    <nav class="flex flex-col gap-2 flex-grow overflow-y-auto no-scrollbar">
+        <a href="hub.html" class="sidebar-nav-item" data-route="01">01</a>
+        <a href="manual.html" class="sidebar-nav-item" data-route="02">02</a>
+        <a href="reference.html" class="sidebar-nav-item" data-route="03">03</a>
+        <a href="inventory.html" class="sidebar-nav-item" data-route="04">04</a>
+        
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="metrology.html" class="sidebar-nav-item" data-route="05">05</a>
+        <a href="geometry.html" class="sidebar-nav-item" data-route="06">06</a>
+        <a href="assembly.html" class="sidebar-nav-item" data-route="07">07</a>
+        <a href="surfaces.html" class="sidebar-nav-item active" data-route="08">08</a>
+        
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="analytics.html" class="sidebar-nav-item" data-route="09">09</a>
+        <a href="fai.html" class="sidebar-nav-item" data-route="10">10</a>
+        <a href="mechanisms.html" class="sidebar-nav-item" data-route="11">11</a>
+        <a href="electrotech.html" class="sidebar-nav-item" data-route="12">12</a>
+        
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="materials.html" class="sidebar-nav-item" data-route="13">13</a>
+        <a href="math.html" class="sidebar-nav-item" data-route="14">14</a>
+        <a href="standards.html" class="sidebar-nav-item" data-route="15">15</a>
+        <a href="hightech.html" class="sidebar-nav-item" data-route="16">16</a>
+    </nav>
+
+    <div class="status-dot mt-auto"></div>
+    </aside>
+
+    <div class="flex-grow flex flex-col min-w-0 relative z-10">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden print:hidden">
+            <div class="scanline"></div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Tribology & Finish</h1>
+                <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Surface_Integrity_&_Lubrication_Systems // Route_08</p>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 grid lg:grid-cols-2 gap-12 py-16 relative z-10">
+            
+            <section class="space-y-8">
+                <div class="module-card p-8 bg-black shadow-2xl border-primary/10 relative z-10">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Roughness_Converter</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">ISO 1302 / DIN 4768</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 mb-12 relative z-20">
+                        <div class="space-y-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[10px] font-mono text-zinc-500 uppercase font-black">Ra Value (µm)</label>
+                                <input type="number" id="input-ra" value="0.8" step="0.1" min="0.025" max="50" 
+                                       class="p-4 bg-zinc-900 border border-zinc-800 text-primary font-mono text-2xl font-black focus:border-primary outline-none tabular-nums">
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/30 border border-zinc-800 p-6 flex flex-col justify-center">
+                            <span class="text-[9px] font-mono text-zinc-600 uppercase font-black mb-2 italic">// ISO_N_Grade</span>
+                            <div id="out-n-grade" class="text-4xl font-black text-white italic">N6</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 relative z-20">
+                        <div class="p-4 bg-black border border-zinc-900 flex flex-col justify-between">
+                            <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Estimated_Rz (µm)</span>
+                            <span id="out-rz" class="text-xl font-bold text-white italic tabular-nums">3.20</span>
+                        </div>
+                        <div class="p-4 bg-black border border-zinc-900 flex flex-col justify-between">
+                            <span class="text-[8px] font-mono text-zinc-600 block mb-1 uppercase">Process_Target</span>
+                            <span id="out-process" class="text-[11px] font-bold text-zinc-400 italic">Grinding / Fine Turning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-card p-8 bg-black relative z-10 shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8 italic">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase">// Abrasive_Precision_Matrix</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold not-italic">FEPA Standard</span>
+                    </div>
+                    <div class="overflow-x-auto relative z-20">
+                        <table class="w-full text-left font-mono text-[10px] tabular-nums">
+                            <thead>
+                                <tr class="text-zinc-500 uppercase border-b border-zinc-900">
+                                    <th class="pb-3">Grit #</th>
+                                    <th class="pb-3">Micron (µm)</th>
+                                    <th class="pb-3">Finish (Ra)</th>
+                                    <th class="pb-3 text-right">Applikation</th>
+                                </tr>
+                            </thead>
+                            <tbody id="abrasive-table-body" class="text-zinc-400">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="space-y-8">
+                <div class="module-card p-8 bg-black shadow-2xl h-full flex flex-col relative z-10">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Lubricant_Selection_Engine</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Process_Fluids</span>
+                    </div>
+
+                    <div class="space-y-6 flex-grow relative z-20">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-[10px] font-mono text-zinc-500 uppercase font-black">Bearbejdnings- / Maskin-Applikation</label>
+                            <select id="lube-app" class="p-4 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none">
+                                <optgroup label="Spåntagning (Køling/Smøring)" class="text-primary italic font-black bg-black">
+                                    <option value="cnc_alu" class="text-white not-italic font-medium">CNC Emulsion - Aluminium (7-10%)</option>
+                                    <option value="cnc_steel" class="text-white not-italic font-medium">CNC Emulsion - Stål/Inox (8-12%)</option>
+                                    <option value="tap_alu" class="text-white not-italic font-medium">Gevindskæring - Aluminium (BUE control)</option>
+                                    <option value="tap_steel" class="text-white not-italic font-medium">Gevindskæring - Hårdt Stål / Rustfast</option>
+                                </optgroup>
+                                <optgroup label="Maskinvedligehold (Tribologi)" class="text-primary italic font-black bg-black">
+                                    <option value="ways" class="text-white not-italic font-medium">Vanger / Machine Ways (Slideway)</option>
+                                    <option value="spindle" class="text-white not-italic font-medium">Spindel-lejer (High-Speed CNC)</option>
+                                </optgroup>
+                                <optgroup label="Special & Finish" class="text-primary italic font-black bg-black">
+                                    <option value="protect" class="text-white not-italic font-medium">Korrosionsbeskyttelse (Storage)</option>
+                                    <option value="clocks" class="text-white not-italic font-medium">Finmekanik / Instrumentering</option>
+                                    <option value="vacuum" class="text-white not-italic font-medium">Vakuum / Clean Room Seals</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div id="lube-result" class="mt-8 p-8 bg-zinc-900/30 border border-zinc-800 relative group overflow-hidden">
+                            <div class="scanline opacity-10"></div>
+                            <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-4">// Recommended_Fluid_Compound</span>
+                            <div class="text-3xl lg:text-4xl font-black italic tracking-tighter text-white uppercase leading-none" id="lube-name">
+                                DATA_PENDING
+                            </div>
+                            <div class="mt-8 grid grid-cols-2 gap-6 text-[10px] font-mono">
+                                <div class="p-3 bg-black border border-zinc-800 border-l-2 border-l-primary">
+                                    <span class="text-zinc-600 block mb-1">SPECIFICATION</span>
+                                    <span id="lube-vg" class="text-primary font-bold">--</span>
+                                </div>
+                                <div class="p-3 bg-black border border-zinc-800 border-l-2 border-l-primary">
+                                    <span class="text-zinc-600 block mb-1">BASE_TYPE</span>
+                                    <span id="lube-base" class="text-white font-bold">--</span>
+                                </div>
+                            </div>
+                            <div class="mt-6 border-t border-zinc-800 pt-4">
+                                <p class="text-[10px] font-mono text-zinc-400 leading-relaxed uppercase font-bold" id="lube-note">
+                                    Aventer parameter-input...
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center relative z-20 print:hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // Tribology_OS // 2026</div>
+                <div class="text-zinc-800 mt-2 tracking-widest uppercase">Surface_Kinetics_Verified</div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="shared_core.js"></script>
+    <script src="surfaces.js"></script>
+</body>
+</html>

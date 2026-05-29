@@ -1,13 +1,342 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Datum Prototyping - CNC Kontrolhub</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="da" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datum Prototyping | Teknisk Portefølje // G.C.Hansen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* M_CORE V10 TACTICAL CSS ARCHITECTURE */
+        :root {
+            --bg-app: #030406;
+            --bg-surface: #0d111a;
+            --bg-sidebar: #090b10;
+            --border-base: #1e293b;
+            --border-dim: #161d2b;
+            --accent-cnc: #0ea5e9;
+            --stat-success: #10b981;
+            --stat-warn: #f59e0b;
+            --text-high: #ffffff;
+            --text-mid: #94a3b8;
+            --text-low: #475569;
+            --radius: 2px;
+        }
 
+        body { 
+            background-color: var(--bg-app); 
+            color: var(--text-high); 
+            font-family: 'Inter', sans-serif; 
+            -webkit-font-smoothing: antialiased; 
+        }
+
+        .bg-grid { 
+            background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); 
+            background-size: 30px 30px; 
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* M_CORE PANEL STYLE */
+        .panel { 
+            background-color: var(--bg-sidebar); 
+            border: 1px solid var(--border-base); 
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        
+        .panel::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+            background: linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px); 
+            background-size: 10px 10px; pointer-events: none; z-index: 0;
+        }
+
+        .panel > * { position: relative; z-index: 1; }
+
+        .panel-header { 
+            background-color: var(--bg-surface); 
+            border-bottom: 1px solid var(--border-base); 
+            padding: 10px 16px; 
+            font-family: 'JetBrains Mono'; 
+            font-size: 10px; 
+            font-weight: 800;
+            text-transform: uppercase; 
+            letter-spacing: 0.15em; 
+            color: var(--accent-cnc); 
+            display: flex; 
+            justify-content: space-between; 
+        }
+
+        /* M_CORE BUTTONS */
+        .btn-tech { 
+            display: inline-flex; align-items: center; justify-content: center; 
+            background-color: rgba(14, 165, 233, 0.05); 
+            border: 1px solid var(--accent-cnc);
+            color: var(--accent-cnc); 
+            font-family: 'JetBrains Mono';
+            font-size: 11px; 
+            font-weight: 800; 
+            padding: 12px 24px; 
+            border-radius: var(--radius); 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em;
+            transition: all 0.2s; 
+            box-shadow: inset 0 0 10px rgba(14, 165, 233, 0.1);
+        }
+        .btn-tech:hover { 
+            background-color: var(--accent-cnc); 
+            color: #fff; 
+            box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+        }
+
+        .btn-outline { 
+            display: inline-flex; 
+            border: 1px solid var(--border-base); 
+            color: var(--text-mid); 
+            font-family: 'JetBrains Mono'; 
+            font-size: 11px; 
+            font-weight: 700;
+            padding: 8px 16px; 
+            border-radius: var(--radius); 
+            transition: all 0.2s; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em;
+        }
+        .btn-outline:hover { 
+            border-color: var(--text-high); 
+            color: var(--text-high); 
+            background-color: var(--bg-surface); 
+        }
+
+        .tag { 
+            font-family: 'JetBrains Mono'; 
+            font-size: 9px; 
+            font-weight: 800;
+            padding: 4px 8px; 
+            background: var(--bg-surface); 
+            color: var(--text-mid); 
+            border: 1px solid var(--border-base); 
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Custom selection color */
+        ::selection { background: var(--accent-cnc); color: #fff; }
+    </style>
+</head>
+<body class="bg-grid">
+
+    <nav class="fixed top-0 w-full z-50 bg-[#030406]/95 backdrop-blur-md border-b border-[#1e293b] px-6">
+        <div class="max-w-7xl mx-auto h-16 flex justify-between items-center">
+            <div class="flex items-center gap-6">
+                <span class="font-bold tracking-[0.2em] uppercase text-white font-mono text-sm">Datum Prototyping</span>
+                <span class="hidden md:block font-mono text-[10px] text-[#475569] uppercase tracking-widest">Finmekaniker // Est. 2027</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 mr-4">
+                    <div class="w-2 h-2 bg-[#10b981] rounded-[2px] shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></div>
+                    <span class="font-mono font-bold text-[10px] text-[#10b981] uppercase tracking-widest">Status: Operativ</span>
+                </div>
+                <a href="https://linkedin.com/in/glenchansen" target="_blank" class="hidden sm:inline-block font-mono text-[11px] font-bold text-[#475569] hover:text-[#0ea5e9] transition-colors mr-2 uppercase tracking-wider">[ Netværk // LinkedIn ]</a>
+                <a href="dossier.html" class="btn-outline border-[#0ea5e9]/30 text-[#0ea5e9] hover:bg-[#0ea5e9]/10 hover:border-[#0ea5e9] hover:text-[#0ea5e9]">ÅBN_DOSSIER</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-40 pb-24 px-6 max-w-7xl mx-auto border-b border-[#1e293b]">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-8">
+                <h1 class="text-6xl font-black tracking-tighter mb-8 leading-none text-white uppercase font-mono">
+                    Finmekanik & <br><span class="text-[#0ea5e9]">CNC Strategi.</span>
+                </h1>
+                <p class="text-[#94a3b8] text-lg max-w-2xl leading-relaxed">
+                    H2 Finmekaniker under uddannelse (2027). Jeg håndterer i dag størstedelen af afdelingens indgående CNC-opgaver i min skolepraktik – fra reparationer til serieproduktion. For at eliminere gætværk ved maskinen koder jeg pt. mit eget dynamiske beregnersystem (M_CORE) til beregning af fysiske skæredata.
+                </p>
+            </div>
+            <div class="lg:col-span-4 panel p-6">
+                <span class="font-mono font-bold text-[10px] text-[#475569] uppercase tracking-widest block mb-4 flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-[1px]"></span> Operativ Kapacitet
+                </span>
+                <div class="space-y-4 font-mono text-[11px] text-[#94a3b8] font-semibold">
+                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Software</span><span class="text-white text-right">Fusion 360 <span class="text-[#475569]">// M_CORE</span></span></div>
+                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Maskiner</span><span class="text-white text-right">Haas CNC / Weiler / Deckel</span></div>
+                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Metrologi</span><span class="text-white text-right">ISO 286 (H7/g6) / FAI</span></div>
+                    <div class="flex justify-between"><span>Materiale</span><span class="text-white text-right">Alu / Rustfast / O1 / Ms / Polymer</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-24 px-6 max-w-7xl mx-auto">
+        
+        <article class="panel mb-16 overflow-hidden">
+            <div class="panel-header"><span>FAI-001 // Projekt: Vakuum Motor</span><span>Type: Kompleks Samling</span></div>
+            <div class="grid grid-cols-1 lg:grid-cols-12">
+                <div class="lg:col-span-5 p-8 border-r border-[#1e293b]">
+                    <h3 class="text-3xl font-black text-white mb-4 uppercase font-mono tracking-tight">Vakuum Motor</h3>
+                    <p class="text-[#94a3b8] text-sm mb-8 leading-relaxed">
+                        Totalproduktion af funktionsdygtig motor. Kritisk fokus på vakuumtæthed gennem præcisionspasninger (H7/g6) i Ms58 og Alu 6082.
+                    </p>
+                    <div class="space-y-4">
+                        <span class="font-mono font-bold text-[10px] text-[#475569] uppercase block tracking-widest flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-[1px]"></span> Inspektions-Protokoller
+                        </span>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="fai/fai-01.html" class="btn-outline text-[10px]">01: Cylinder</a>
+                            <a href="fai/fai-02-camdisc.html" class="btn-outline text-[10px]">02: Cam Disc</a>
+                            <a href="fai/fai-03-flywheel.html" class="btn-outline text-[10px]">03: Flywheel</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 bg-[#000000] p-8 flex items-center justify-center shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
+                    <img src="img/flame-render.png" alt="Vakuum Motor" class="max-h-80 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                </div>
+            </div>
+        </article>
+
+        <article class="panel mb-24 overflow-hidden">
+            <div class="panel-header"><span>SETUP-002 // Projekt: Optisk Platform</span><span>Type: HSM Strategi</span></div>
+            <div class="grid grid-cols-1 lg:grid-cols-12">
+                <div class="lg:col-span-5 p-8 border-r border-[#1e293b]">
+                    <h3 class="text-3xl font-black text-white mb-4 uppercase font-mono tracking-tight">Optisk Platform</h3>
+                    <p class="text-[#94a3b8] text-sm mb-8 leading-relaxed">
+                        Udvikling af opspændingslogik til højpræcisions-platform i Alu 6082-T6. 5-akset logik eksekveret i 3-akset maskine med fokus på absolut planhed.
+                    </p>
+                    <div class="space-y-4">
+                        <span class="font-mono font-bold text-[10px] text-[#475569] uppercase block tracking-widest flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-[1px]"></span> Proces Dokumentation
+                        </span>
+                        <a href="fai/setup-tactable.html" class="btn-tech w-full">Vis Operations Workflow</a>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 bg-[#000000] p-8 flex items-center justify-center shadow-[inset_0_0_40px_rgba(0,0,0,0.8)]">
+                    <img src="img/tactable.png" alt="Tac Table" class="max-h-80 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                </div>
+            </div>
+        </article>
+
+        <section class="mb-24">
+            <h2 class="text-xl font-bold font-mono text-white uppercase mb-8 tracking-widest border-b border-[#1e293b] pb-4 flex items-center gap-3">
+                <span class="w-2 h-2 bg-[#0ea5e9] rounded-[2px] shadow-[0_0_8px_rgba(14,165,233,0.5)] animate-pulse"></span> M_CORE // CNC Kinetisk Beregner
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="panel p-8">
+                    <h3 class="font-bold font-mono text-xl text-white mb-4 uppercase tracking-tight">Fysik > Mavefornemmelse</h3>
+                    <p class="text-[13px] text-[#94a3b8] leading-relaxed mb-6">
+                        Systemet er under aktiv udvikling. M_CORE er et internt HMI-værktøj, jeg koder for at kunne vride maskiner som vores Haas Mini Mill til den absolutte grænse. I stedet for at arbejde med "plejer", udregner systemet dynamiske skæredata ud fra maskinens fysiske realiteter:
+                    </p>
+                    <ul class="font-mono text-[11px] font-bold space-y-3 text-[#94a3b8]">
+                        <li class="flex items-center gap-2"><span class="text-[#0ea5e9]">>></span> Spindel Moment-kurver (Torque/Power limits)</li>
+                        <li class="flex items-center gap-2"><span class="text-[#0ea5e9]">>></span> L/D-Ratio og Værktøjs-udbøjning (Deflection)</li>
+                        <li class="flex items-center gap-2"><span class="text-[#0ea5e9]">>></span> Materialets Termodynamik & Værktøjsslid</li>
+                    </ul>
+                </div>
+                <div class="panel bg-[#050608] border-[#161d2b] p-6 font-mono text-[11px] text-[#475569] flex flex-col justify-center shadow-[inset_0_0_30px_rgba(0,0,0,0.8)]">
+                    <div class="mb-4 flex justify-between text-[#0ea5e9] border-b border-[#161d2b] pb-2 font-bold">
+                        <span>SYSTEM.M_CORE.EXECUTE()</span><span class="animate-pulse">[RUNNING]</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p>> Fetching Material Data: Alu 6082-T6...</p>
+                        <p>> Calculating Spindle Load Limit...</p>
+                        <p class="text-white font-bold">> TORQUE MAX: 45 Nm @ 1200 RPM</p>
+                        <p>> Evaluating Tool Path Geometry...</p>
+                        <p>> Calculating Tool Deflection (L/D 4.5)...</p>
+                        <p class="text-[#f59e0b] font-bold">> WARN: DEFLECTION HIGH - REDUCING FEED 12%</p>
+                        <p>> Output Parameters Optimized.</p>
+                    </div>
+                    <div class="mt-6 pt-2 text-[#10b981] font-bold">>> READY FOR G-CODE GENERATION_</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-24">
+            <div class="mb-12 flex items-end justify-between border-b border-[#1e293b] pb-4">
+                <div>
+                    <h2 class="text-xl font-bold font-mono text-white uppercase tracking-widest flex items-center gap-3">
+                        <span class="w-2 h-2 bg-[#0ea5e9] rounded-[2px] shadow-[0_0_8px_rgba(14,165,233,0.5)]"></span> Komponent-Arkiv
+                    </h2>
+                    <p class="font-mono font-bold text-[10px] text-[#475569] mt-2 uppercase tracking-widest">Hverdags-spåntagning & Protokoller</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="panel p-4 group hover:border-[#0ea5e9] transition-colors">
+                    <div class="aspect-square bg-[#000000] border border-[#1e293b] mb-4 overflow-hidden relative shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
+                        <img src="img/ringbender.png" alt="Ring Bukker" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                        <div class="absolute bottom-2 right-2 bg-[#090b10] px-2 py-1 font-mono font-bold text-[9px] text-[#0ea5e9] border border-[#0ea5e9] uppercase">Serie_04</div>
+                    </div>
+                    <span class="tag block w-fit mb-3">Reverse-Engineering</span>
+                    <h4 class="font-bold font-mono text-[11px] text-white mb-2 uppercase">Ring Bukker (GF1)</h4>
+                    <p class="text-[12px] text-[#94a3b8] leading-relaxed">Opgradering fra plast til bearbejdet metal. Implementeret som standard-løsning.</p>
+                </div>
+
+                <div class="panel p-4 group hover:border-[#0ea5e9] transition-colors">
+                    <div class="aspect-square bg-[#000000] border border-[#1e293b] mb-4 overflow-hidden relative shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
+                        <img src="img/tictactoe-render.png" alt="Tic Tac Toe" class="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                        <div class="absolute bottom-2 right-2 bg-[#090b10] px-2 py-1 font-mono font-bold text-[9px] text-[#0ea5e9] border border-[#0ea5e9] uppercase">Serie_05</div>
+                    </div>
+                    <span class="tag block w-fit mb-3">Materiale-Mix</span>
+                    <h4 class="font-bold font-mono text-[11px] text-white mb-2 uppercase">Precision Tic-Tac-Toe</h4>
+                    <p class="text-[12px] text-[#94a3b8] leading-relaxed">Case til bruger m. autisme. Fokus på taktil feedback og finish (Ra 0.8).</p>
+                </div>
+
+                <div class="panel p-4 group hover:border-[#0ea5e9] transition-colors">
+                    <div class="aspect-square bg-[#000000] border border-[#1e293b] mb-4 overflow-hidden relative flex shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
+                        
+                        <div class="w-1/2 h-full border-r border-[#1e293b] relative flex items-center justify-center overflow-hidden">
+                            <img src="img/mosin-render-1.png" alt="Mosin Nagant Del 1" 
+                                class="w-full h-full object-contain scale-[1.6] grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                            <div class="absolute top-2 left-2 bg-[#090b10] border border-[#1e293b] px-1.5 py-0.5 font-mono font-bold text-[8px] text-[#94a3b8] uppercase tracking-tighter">Part_01</div>
+                        </div>
+
+                        <div class="w-1/2 h-full relative flex items-center justify-center overflow-hidden">
+                            <img src="img/mosin-render-2.png" alt="Mosin Nagant Del 2" 
+                                class="w-full h-full object-contain scale-[1.6] grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300">
+                            <div class="absolute top-2 left-2 bg-[#090b10] border border-[#1e293b] px-1.5 py-0.5 font-mono font-bold text-[8px] text-[#94a3b8] uppercase tracking-tighter">Part_02</div>
+                        </div>
+
+                        <div class="absolute bottom-2 right-2 bg-[#090b10] px-2 py-1 font-mono font-bold text-[9px] text-[#0ea5e9] border border-[#0ea5e9] uppercase">Serie_06</div>
+                    </div>
+
+                    <span class="tag block w-fit mb-3">Præcisions-Restaurering</span>
+                    <h4 class="font-bold font-mono text-[11px] text-white mb-2 uppercase">Mosin Nagant Komponenter</h4>
+                    <p class="text-[12px] text-[#94a3b8] leading-relaxed">
+                        Bearbejdning i Arnestål (O1). 3-akset workflow med specialfremstillede soft-jaws i Alu 6082 for at sikre præcision over 3 opsætninger.
+                    </p>
+                </div>
+
+                <div class="panel p-4 border-dashed border-[#1e293b] bg-[#050608] shadow-none group">
+                    <div class="aspect-square bg-[#000000] border border-[#1e293b] mb-4 flex flex-col items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] p-4 text-center">
+                        <span class="w-3 h-3 bg-[#f59e0b] rounded-[2px] mb-3 shadow-[0_0_8px_rgba(245,158,11,0.5)] animate-pulse"></span>
+                        <span class="font-mono font-bold text-[10px] text-[#f59e0b] uppercase tracking-widest">Aktive Opgave<br>Indløb</span>
+                    </div>
+                    <span class="tag block w-fit mb-3 !bg-transparent !border-[#f59e0b] !text-[#f59e0b]">Status // I Maskinen</span>
+                    <h4 class="font-bold font-mono text-[11px] text-white mb-2 uppercase">Ad-Hoc & SKP Produktion</h4>
+                    <p class="text-[12px] text-[#94a3b8] leading-relaxed">Kontinuerlig håndtering af indgående opgaver, akut reverse-engineering og serieproduktion.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-[#1e293b] py-20 px-6 bg-[#030406]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
+            <div>
+                <h2 class="text-4xl font-black font-mono text-white uppercase tracking-tighter leading-none">Klar til produktion.</h2>
+                <p class="text-[#94a3b8] text-[13px] mt-4 max-w-sm">Under brandet Datum Prototyping leverer jeg teknisk værdi og procesoptimering.</p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 items-center">
+                <a href="https://linkedin.com/in/glenchansen" target="_blank" class="btn-outline text-[12px] w-full sm:w-auto text-center">FORBIND // LINKEDIN</a>
+                <a href="mailto:defnotglen@gmail.com" class="btn-tech text-[12px] w-full sm:w-auto text-center">KONTAKT // EMAIL</a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-[#161d2b] flex justify-between items-center font-mono font-bold text-[9px] text-[#475569] uppercase tracking-widest">
+            <span>System Version 13.0 // Operativ</span>
+            <span>DatumPrototyping.dk // © 2027</span>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datum Prototyping | Assembly & Finish</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="stylesheet" href="global.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: "#f59e0b" },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        .color-swatch { height: 20px; width: 100%; border: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="bg-[#050506] text-zinc-100 font-sans antialiased selection:bg-primary selection:text-black min-h-screen flex flex-row relative overflow-x-hidden">
+
+    <div class="subtle-grid"></div>
+
+    <aside class="w-20 bg-black/40 backdrop-blur-xl border-r border-zinc-900 flex flex-col items-center py-8 gap-6 sticky top-0 h-screen z-50 shrink-0 print:hidden relative z-20">
+    <a href="gateway.html" class="p-2 hover:bg-zinc-900 border border-transparent hover:border-primary/20 transition-all group mb-4">
+        <img src="img/favicon.svg" class="w-10 h-auto group-hover:drop-shadow-[0_0_10px_var(--primary-glow)]" alt="DP">
+    </a>
+
+    <nav class="flex flex-col gap-2 flex-grow overflow-y-auto no-scrollbar">
+        <a href="hub.html" class="sidebar-nav-item" data-route="01">01</a>
+        <a href="manual.html" class="sidebar-nav-item" data-route="02">02</a>
+        <a href="reference.html" class="sidebar-nav-item" data-route="03">03</a>
+        <a href="inventory.html" class="sidebar-nav-item" data-route="04">04</a>
+        
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="metrology.html" class="sidebar-nav-item" data-route="05">05</a>
+        <a href="geometry.html" class="sidebar-nav-item" data-route="06">06</a>
+        <a href="assembly.html" class="sidebar-nav-item active" data-route="07">07</a>
+        <a href="surfaces.html" class="sidebar-nav-item" data-route="08">08</a>
+        
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="analytics.html" class="sidebar-nav-item" data-route="09">09</a>
+        <a href="fai.html" class="sidebar-nav-item" data-route="10">10</a>
+        <a href="mechanisms.html" class="sidebar-nav-item" data-route="11">11</a>
+        <a href="electrotech.html" class="sidebar-nav-item" data-route="12">12</a>
+        
+        <div class="h-px w-8 bg-zinc-800 my-2 mx-auto"></div> <a href="materials.html" class="sidebar-nav-item" data-route="13">13</a>
+        <a href="math.html" class="sidebar-nav-item" data-route="14">14</a>
+        <a href="standards.html" class="sidebar-nav-item" data-route="15">15</a>
+        <a href="hightech.html" class="sidebar-nav-item" data-route="16">16</a>
+    </nav>
+
+    <div class="status-dot mt-auto"></div>
+    </aside>
+
+    <div class="flex-grow flex flex-col min-w-0 relative z-10">
+        <header class="relative pt-24 pb-12 px-6 md:px-12 border-b border-zinc-900 bg-black overflow-hidden print:hidden">
+            <div class="scanline"></div>
+            <div class="max-w-7xl mx-auto relative z-10">
+                <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase italic">Assembly & Finish</h1>
+                <p class="text-[10px] font-mono text-zinc-500 font-bold tracking-[0.4em] mt-4 uppercase italic">Final_Integration_Protocol // Route_07</p>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto w-full p-6 md:p-12 grid lg:grid-cols-12 gap-12 py-16 relative z-10">
+            
+            <section class="lg:col-span-7 space-y-8">
+                <div class="module-card p-8 bg-black shadow-2xl relative z-10">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Moment_Reference_(Nm)</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Standard Fasteners</span>
+                    </div>
+
+                    <div class="overflow-x-auto relative z-20">
+                        <table class="w-full text-left text-[11px] font-mono tabular-nums">
+                            <thead>
+                                <tr class="text-zinc-500 uppercase border-b border-zinc-800">
+                                    <th class="pb-4">Gevind</th>
+                                    <th class="pb-4">Klasse 8.8</th>
+                                    <th class="pb-4">Klasse 10.9</th>
+                                    <th class="pb-4 text-primary">Klasse 12.9</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-zinc-400">
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M1.4</td><td>0.10</td><td>0.14</td><td class="text-primary font-bold">0.17</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M1.6</td><td>0.15</td><td>0.21</td><td class="text-primary font-bold">0.26</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M2</td><td>0.30</td><td>0.43</td><td class="text-primary font-bold">0.51</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M2.5</td><td>0.62</td><td>0.87</td><td class="text-primary font-bold">1.05</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M3</td><td>1.10</td><td>1.55</td><td class="text-primary font-bold">1.85</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M4</td><td>2.60</td><td>3.70</td><td class="text-primary font-bold">4.40</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M5</td><td>5.10</td><td>7.20</td><td class="text-primary font-bold">8.60</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M6</td><td>8.70</td><td>12.5</td><td class="text-primary font-bold">15.0</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M8</td><td>21.0</td><td>31.0</td><td class="text-primary font-bold">36.0</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M10</td><td>42.0</td><td>61.0</td><td class="text-primary font-bold">72.0</td></tr>
+                                <tr class="border-b border-zinc-900 hover:bg-white/5"><td class="py-3 text-white font-black">M12</td><td>73.0</td><td>105.0</td><td class="text-primary font-bold">125.0</td></tr>
+                                <tr class="hover:bg-white/5"><td class="py-3 text-white font-black">M16</td><td>180.0</td><td>260.0</td><td class="text-primary font-bold">310.0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-[9px] font-mono text-zinc-600 mt-6 italic relative z-20">NOTE: Alle værdier er i Nm. Gældende for rene, tørre gevind. Reducer med 20% ved smøring eller Loctite.</p>
+                </div>
+
+                <div class="module-card p-8 bg-black shadow-2xl relative z-10">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Anløbningsfarver_(Temper_Colors)</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Carbon_Steel_Reference</span>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 font-mono text-[10px] relative z-20">
+                        <div class="space-y-1"><div class="color-swatch" style="background: #f3e5ab;"></div><div class="flex justify-between"><span>Lysegul</span><span class="font-bold text-white">220°C</span></div><span class="text-zinc-600">Kørnere, Knive</span></div>
+                        <div class="space-y-1"><div class="color-swatch" style="background: #e6be8a;"></div><div class="flex justify-between"><span>Halmgul</span><span class="font-bold text-white">240°C</span></div><span class="text-zinc-600">Fræsere, Bor</span></div>
+                        <div class="space-y-1"><div class="color-swatch" style="background: #b87333;"></div><div class="flex justify-between"><span>Brun</span><span class="font-bold text-white">260°C</span></div><span class="text-zinc-600">Mejsler, Dorn</span></div>
+                        <div class="space-y-1"><div class="color-swatch" style="background: #6a5acd;"></div><div class="flex justify-between"><span>Mørkeblå</span><span class="font-bold text-white">290°C</span></div><span class="text-zinc-600">Skruetrækkere</span></div>
+                        <div class="space-y-1"><div class="color-swatch" style="background: #add8e6;"></div><div class="flex justify-between"><span>Lyseblå</span><span class="font-bold text-white">320°C</span></div><span class="text-zinc-600">Fjedre (Blødt)</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lg:col-span-5 space-y-8">
+                <div class="module-card p-8 bg-black shadow-2xl h-full flex flex-col border-primary/20 relative z-10">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
+                        <h3 class="text-primary font-mono text-[10px] font-black tracking-widest uppercase italic">// Shrink_&_Press_Fit_Engine</h3>
+                        <span class="text-[9px] font-mono text-zinc-600 uppercase font-bold">Thermal_Interference</span>
+                    </div>
+
+                    <div class="space-y-6 flex-grow relative z-20">
+                        <div class="grid grid-cols-1 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-[9px] font-mono text-zinc-500 uppercase font-black">Materiale (Hus/Yderdel)</label>
+                                <select id="work-material" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none">
+                                    </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-[9px] font-mono text-zinc-500 uppercase font-black">Nominel Ø (mm)</label>
+                                    <input type="number" id="shrink-dia" value="20.000" step="0.001" class="p-3 bg-zinc-900 border border-zinc-800 text-white font-mono text-sm focus:border-primary outline-none text-right">
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-[9px] font-mono text-zinc-500 uppercase font-black text-primary">Overlap (mm)</label>
+                                    <input type="number" id="shrink-overlap" value="0.015" step="0.001" class="p-3 bg-black border border-primary/30 font-mono text-sm text-right text-primary focus:border-primary outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12 p-8 bg-zinc-900/30 border border-zinc-800 relative group overflow-hidden">
+                            <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><img src="img/logoA.svg" class="w-12 h-auto" alt=""></div>
+                            <span class="text-[10px] font-mono text-zinc-500 uppercase font-black italic block mb-4">// Nødvendig_Opvarmning</span>
+                            <div class="flex items-baseline gap-4">
+                                <div class="text-6xl font-black italic tracking-tighter text-white tabular-nums">
+                                    <span id="shrink-res">0</span><small class="text-xs uppercase ml-2 text-primary">°C</small>
+                                </div>
+                            </div>
+                            <p class="text-[9px] font-mono text-zinc-500 mt-6 border-l-2 border-primary/40 pl-4 leading-relaxed uppercase" id="shrink-warning">
+                                Beregnet ud fra 20°C stuetemperatur.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-zinc-800 text-[9px] font-mono text-zinc-600 uppercase tracking-widest font-black text-center">
+                        Precision_Assembly_Validation_Active
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="py-16 border-t border-zinc-900 bg-black uppercase font-mono italic font-bold text-[9px] text-center relative z-20 print:hidden">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-zinc-700 tracking-[0.5em]">Datum Prototyping // Assembly_OS // 2026</div>
+                <div class="text-zinc-800 mt-2 tracking-widest uppercase">Secure_Integration_Rev03</div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="shared_core.js"></script>
+    <script src="assembly.js"></script>
+</body>
+</html>

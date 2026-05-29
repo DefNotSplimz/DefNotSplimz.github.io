@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossier // G.C.Hansen // Datum Prototyping</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* M_CORE V10 TACTICAL CSS ARCHITECTURE */
+        :root {
+            --bg-app: #030406;
+            --bg-surface: #0d111a;
+            --bg-sidebar: #090b10;
+            --border-base: #1e293b;
+            --border-dim: #161d2b;
+            --accent-cnc: #0ea5e9;
+            --text-high: #ffffff;
+            --text-mid: #94a3b8;
+            --text-low: #475569;
+            --radius: 2px;
+        }
+
+        body {
+            background-color: var(--bg-app);
+            color: var(--text-high);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .bg-grid {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* V10 Panels */
+        .panel { 
+            background-color: var(--bg-sidebar); 
+            border: 1px solid var(--border-base); 
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .panel::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+            background: linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px); 
+            background-size: 10px 10px; pointer-events: none; z-index: 0;
+        }
+        .panel > * { position: relative; z-index: 1; }
+        
+        .panel-header {
+            background-color: var(--bg-surface); 
+            border-bottom: 1px solid var(--border-base);
+            padding: 10px 16px; 
+            font-family: 'JetBrains Mono'; 
+            font-size: 10px; font-weight: 800;
+            text-transform: uppercase; 
+            letter-spacing: 0.15em; 
+            color: var(--accent-cnc);
+            display: flex; justify-content: space-between;
+        }
+
+        /* V10 Properties Table */
+        .prop-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .prop-table tr { border-bottom: 1px solid var(--border-dim); }
+        .prop-table tr:last-child { border-bottom: none; }
+        .prop-table td { padding: 10px 16px; }
+        .prop-table td:first-child { 
+            width: 40%; color: var(--text-low); background: rgba(0,0,0,0.3);
+            font-family: 'JetBrains Mono'; font-size: 10px; text-transform: uppercase; font-weight: 800;
+            border-right: 1px solid var(--border-dim);
+        }
+        .prop-table td:last-child { font-weight: 600; text-align: right; color: var(--text-high); }
+        .prop-table td.highlight { color: var(--accent-cnc); font-weight: 700; }
+
+        /* V10 UI Controls */
+        .ui-controls {
+            position: fixed; top: 20px; right: 20px; z-index: 100;
+            display: flex; gap: 10px;
+        }
+        .ui-btn {
+            display: inline-flex; align-items: center; justify-content: center; 
+            background-color: rgba(14, 165, 233, 0.05); 
+            border: 1px solid var(--accent-cnc);
+            color: var(--accent-cnc); 
+            font-family: 'JetBrains Mono';
+            font-size: 11px; font-weight: 800; 
+            padding: 10px 20px; border-radius: var(--radius); 
+            text-transform: uppercase; letter-spacing: 0.1em;
+            transition: all 0.2s; 
+            box-shadow: inset 0 0 10px rgba(14, 165, 233, 0.1), 0 4px 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .ui-btn:hover { 
+            background-color: var(--accent-cnc); color: #fff; 
+            box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+        }
+        .ui-btn.secondary {
+            border-color: var(--border-base);
+            color: var(--text-mid);
+            background-color: var(--bg-sidebar);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .ui-btn.secondary:hover {
+            border-color: var(--text-high);
+            color: var(--text-high);
+            background-color: var(--border-dim);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        }
+
+        /* PAPER PRINT OPTIMIZATION (No dark mode on paper) */
+        @media print {
+            @page { size: A4; margin: 15mm; }
+            body { background: white !important; background-image: none !important; color: black !important; padding: 0 !important; }
+            .bg-grid { background-image: none !important; }
+            
+            .ui-controls { display: none !important; }
+            
+            .panel { border: 1px solid #cbd5e1 !important; background: white !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 20px; }
+            .panel::before { display: none !important; }
+            .panel-header { background: #f8fafc !important; border-bottom: 1px solid #cbd5e1 !important; color: #475569 !important; font-weight: 800; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            
+            .prop-table tr { border-bottom: 1px solid #f1f5f9 !important; }
+            .prop-table td:first-child { background: #f8fafc !important; color: #64748b !important; border-right: 1px solid #e2e8f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .prop-table td:last-child { color: black !important; font-weight: 600 !important; }
+            
+            .highlight { color: #0284c7 !important; font-weight: bold !important; }
+            .text-white, h1, h2, h3, h4, p, span, td { color: black !important; }
+            
+            /* Syntaks rettet for at undgå CSS parser fejl med Tailwinds arbitrære værdier */
+            .\text-\[\#94a3b8\], .\text-\[\#475569\] { color: #334155 !important; }
+            
+            header { border-bottom-color: #cbd5e1 !important; }
+            footer { border-top-color: #cbd5e1 !important; color: #64748b !important; }
+        }
+    </style>
+</head>
+<body class="bg-grid p-6 md:p-12">
+
+    <div class="ui-controls">
+        <a href="index.html" class="ui-btn secondary">RETURN_TO_BASE</a>
+        <button class="ui-btn" onclick="window.print()">EXECUTE_PRINT_CMD</button>
+    </div>
+
+    <div class="max-w-4xl mx-auto">
+        <header class="mb-12 border-b border-[#1e293b] pb-12">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1 class="text-5xl font-extrabold tracking-tighter text-white uppercase leading-none font-mono">G.C.Hansen</h1>
+                    <p class="font-mono font-bold text-[10px] text-[#475569] mt-4 tracking-widest uppercase flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-[1px] print:hidden"></span> Finmekaniker // CNC Specialist // High-Precision Operator
+                    </p>
+                </div>
+                <div class="text-right">
+                    <span class="inline-block px-3 py-1 border border-[#0ea5e9]/50 text-[#0ea5e9] font-mono font-bold text-[9px] uppercase tracking-widest bg-[#0ea5e9]/5 rounded-[2px]">Status: Søger Læreplads</span>
+                    <p class="font-mono font-bold text-[9px] text-[#475569] mt-3">Rev: 2026.04.21</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="panel">
+                <div class="panel-header">Operatør_Data</div>
+                <table class="prop-table">
+                    <tr><td>Navn</td><td>Glen Cilinder-Hansen</td></tr>
+                    <tr><td>Kontakt</td><td class="highlight">defnotglen@gmail.com</td></tr>
+                    <tr><td>Lokation</td><td>København // Vestegnen</td></tr>
+                    <tr><td>Mobilitet</td><td>Kørekort B (Planlagt // Undersøger forløb)</td></tr>
+                </table>
+            </div>
+            <div class="panel">
+                <div class="panel-header">Uddannelses_Status</div>
+                <table class="prop-table">
+                    <tr><td>Niveau</td><td>H2 Bestået (Finmekaniker)</td></tr>
+                    <tr><td>Erfaring</td><td>Skolepraktik (SKP)</td></tr>
+                    <tr><td>Svendebrev</td><td>2027 (Estimeret)</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <section class="panel mb-12">
+            <div class="panel-header">Profil_Resumé</div>
+            <div class="p-8 text-[13px] leading-relaxed text-[#94a3b8]">
+                Jeg er dedikeret til at mestre spændingsfeltet mellem digital CAD/CAM og fysisk mikron-præcision. I min nuværende skolepraktik fokuserer jeg målrettet på at optimere processer og forstå maskinens begrænsninger frem mod min svendeprøve. Jeg søger en læreplads i en højteknologisk produktion, hvor kravene til tolerancer og driftssikkerhed er kompromisløse. Min tilgang er systematisk, og jeg trives bedst med komplekse emner, der kræver både teknisk overblik og finmekanisk flair.
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="panel">
+                <div class="panel-header">Software_Stack</div>
+                <table class="prop-table">
+                    <tr><td>Fusion 360</td><td class="highlight">Avanceret (CAM/CAD)</td></tr>
+                    <tr><td>Haas NGC</td><td>Fuld Operativ</td></tr>
+                    <tr><td>Fanuc ISO</td><td>Program-redigering</td></tr>
+                    <tr><td>Automatisering</td><td>Grundlæggende forståelse</td></tr>
+                </table>
+            </div>
+            <div class="panel">
+                <div class="panel-header">Teknisk_Metrologi</div>
+                <table class="prop-table">
+                    <tr><td>Tolerancer</td><td class="highlight">ISO 286 (H7/g6)</td></tr>
+                    <tr><td>Måleværktøj</td><td>Mikrometerskrue / Passtifter</td></tr>
+                    <tr><td>Bearbejdning</td><td>Fræsning & Drejning</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <section class="panel mb-12">
+            <div class="panel-header">Mål_For_Specialisering</div>
+            <div class="p-8 text-[13px] leading-relaxed text-[#94a3b8]">
+                <ul class="list-disc ml-4 space-y-2">
+                    <li>Dybdegående kendskab til <strong class="text-white">ubemandet drift</strong> og robotloadere.</li>
+                    <li>Specialisering inden for <strong class="text-white">langdrejning</strong> og mikro-bearbejdning.</li>
+                    <li>Optimering af cyklustider via avanceret <strong class="text-white">CAM-strategi</strong>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="mt-24 border-t border-[#1e293b] pt-8 flex justify-between items-center text-[#475569] font-mono font-bold text-[9px] uppercase tracking-widest">
+            <span>Datum Prototyping // Operatør Dossier // GCH-2026</span>
+            <span>System Version 14.0 (Update: Koatek-Spec)</span>
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+{
+  "tools": [
+    {
+      "id": "tool_em_10_hm",
+      "name": "Endefræser Ø10 (Hårdmetal)",
+      "type": "endmill",
+      "diameter_mm": 10.0,
+      "flutes_z": 4,
+      "is_custom": false,
+      "performance_matrix": {
+        "P": { "vc_rec": 120, "fz_rec": 0.06 },
+        "M": { "vc_rec": 70, "fz_rec": 0.04 },
+        "N": { "vc_rec": 400, "fz_rec": 0.10 },
+        "N_Plast": { "vc_rec": 500, "fz_rec": 0.15 }
+      }
+    },
+    {
+      "id": "tool_em_16_alu",
+      "name": "Endefræser Ø16 (Alu-geometri)",
+      "type": "endmill",
+      "diameter_mm": 16.0,
+      "flutes_z": 3,
+      "is_custom": false,
+      "performance_matrix": {
+        "P": { "vc_rec": 0, "fz_rec": 0 },
+        "M": { "vc_rec": 0, "fz_rec": 0 },
+        "N": { "vc_rec": 600, "fz_rec": 0.18 },
+        "N_Plast": { "vc_rec": 650, "fz_rec": 0.20 }
+      }
+    },
+    {
+      "id": "tool_drill_85_hm",
+      "name": "Bor Ø8.5 (M10 Forboring)",
+      "type": "endmill", 
+      "diameter_mm": 8.5,
+      "flutes_z": 2,
+      "is_custom": false,
+      "performance_matrix": {
+        "P": { "vc_rec": 80, "fz_rec": 0.12 },
+        "M": { "vc_rec": 40, "fz_rec": 0.08 },
+        "N": { "vc_rec": 150, "fz_rec": 0.15 },
+        "N_Plast": { "vc_rec": 120, "fz_rec": 0.20 }
+      }
+    },
+    {
+      "id": "tool_turn_cnmg_120408",
+      "name": "Grovdrej - CNMG 120408",
+      "type": "turning_insert",
+      "nose_radius_re": 0.8,
+      "is_custom": false,
+      "performance_matrix": {
+        "P": { "vc_rec": 250, "fn_rec": 0.35 },
+        "M": { "vc_rec": 150, "fn_rec": 0.25 },
+        "N": { "vc_rec": 700, "fn_rec": 0.40 },
+        "N_Plast": { "vc_rec": 600, "fn_rec": 0.40 }
+      }
+    },
+    {
+      "id": "tool_turn_dcmt_11t304",
+      "name": "Sletdrej - DCMT 11T304",
+      "type": "turning_insert",
+      "nose_radius_re": 0.4,
+      "is_custom": false,
+      "performance_matrix": {
+        "P": { "vc_rec": 300, "fn_rec": 0.15 },
+        "M": { "vc_rec": 180, "fn_rec": 0.12 },
+        "N": { "vc_rec": 800, "fn_rec": 0.18 },
+        "N_Plast": { "vc_rec": 800, "fn_rec": 0.20 }
+      }
+    }
+  ]
+}

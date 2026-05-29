@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="da" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <title>DATUM_OS // SYSTEM_GATEWAY</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;900&family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --p: #f59e0b; --bg: #050506; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #e4e4e7; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-card { background: rgba(12, 12, 14, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.03); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+        .glass-card:hover { border-color: var(--p); box-shadow: 0 0 40px rgba(245,158,11,0.05); transform: translateY(-2px); }
+        .marker { position: absolute; width: 8px; height: 8px; border-color: var(--p); opacity: 0.2; transition: opacity 0.3s; }
+        .glass-card:hover .marker { opacity: 1; }
+        .marker-tl { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+        .marker-br { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
+        .label-micro { font-family: 'JetBrains Mono'; font-size: 8px; text-transform: uppercase; letter-spacing: 0.3em; color: #52525b; font-weight: 800; }
+        .status-dot { width: 6px; height: 6px; background: var(--p); border-radius: 50%; box-shadow: 0 0 10px var(--p); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-black">
+    <div class="fixed inset-0 bg-[radial-gradient(circle_at_50%_-20%,#18181b,transparent)] pointer-events-none"></div>
+
+    <main class="relative z-10 max-w-[1600px] mx-auto px-12 pt-32 pb-20">
+        <header class="mb-20 flex flex-col md:flex-row items-end justify-between border-b border-zinc-900 pb-12">
+            <div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="status-dot"></div>
+                    <span class="label-micro !text-primary">System_Core_v.8.5_Active</span>
+                </div>
+                <h1 class="text-8xl font-black italic tracking-tighter uppercase text-white leading-none">Datum_OS</h1>
+            </div>
+            <div class="text-right font-mono tabular-nums">
+                <p class="label-micro mb-2">Auth_Session // 2026</p>
+                <p id="sys-time" class="text-xs font-bold text-zinc-500 tracking-widest uppercase">0000-00-00 00:00:00 // LIVE</p>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div class="space-y-6">
+                <h2 class="label-micro !text-zinc-600 border-b border-zinc-900 pb-4">// 01_EXECUTION</h2>
+                <a href="hub.html" class="glass-card p-6 block group">
+                    <div class="marker marker-tl"></div><div class="marker marker-br"></div>
+                    <span class="label-micro group-hover:text-primary transition-colors block mb-4">Route_01</span>
+                    <h3 class="text-xl font-black italic uppercase text-white">CNC Hub</h3>
+                    <p class="text-[9px] text-zinc-600 mt-2 font-mono uppercase">Simulation & Sync</p>
+                </a>
+                <a href="manual.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Manual</h3></a>
+                <a href="reference.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Vault</h3></a>
+                <a href="inventory.html" class="glass-card p-6 block group"><h3 class="text-xl font-black italic uppercase text-white">Stock</h3></a>
+            </div>
+            <div class="space-y-6">
+                <h2 class="label-micro !text-zinc-600 border-b border-zinc-900 pb-4">// 02_PRECISION</h2>
+                <a href="metrology.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Inspection</h3></a>
+                <a href="geometry.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Geometry</h3></a>
+                <a href="assembly.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Assembly</h3></a>
+                <a href="surfaces.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Tribology</h3></a>
+            </div>
+            <div class="space-y-6">
+                <h2 class="label-micro !text-zinc-600 border-b border-zinc-900 pb-4">// 03_DIAGNOSTICS</h2>
+                <a href="analytics.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Health</h3></a>
+                <a href="fai.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">FAI Report</h3></a>
+                <a href="mechanisms.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Kinematics</h3></a>
+                <a href="electrotech.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Electro</h3></a>
+            </div>
+            <div class="space-y-6">
+                <h2 class="label-micro !text-zinc-600 border-b border-zinc-900 pb-4">// 04_RESOURCE</h2>
+                <a href="materials.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Materials</h3></a>
+                <a href="math.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Shop Math</h3></a>
+                <a href="standards.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">Hardware</h3></a>
+                <a href="hightech.html" class="glass-card p-6 block group opacity-50"><h3 class="text-xl font-black italic uppercase text-white">High-Tech</h3></a>
+            </div>
+        </div>
+    </main>
+    <script>
+        function updateTime() {
+            document.getElementById('sys-time').textContent = new Date().toISOString().replace('T', ' ').substring(0, 19) + ' // LIVE';
+        }
+        setInterval(updateTime, 1000); updateTime();
+    </script>
+</body>
+</html>

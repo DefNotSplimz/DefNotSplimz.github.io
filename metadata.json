@@ -1,8 +1,0 @@
-{
-  "name": "Datum Prototyping",
-  "description": "Personlig skolepraktik-portefølje og DFM-fræseberegner for finmekaniker-elev på www.DatumPrototyping.dk.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}
