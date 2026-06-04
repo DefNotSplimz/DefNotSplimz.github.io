@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datum Prototyping | Teknisk Portefølje // G.C.Hansen</title>
+    <meta name="description" content="Teknisk portefølje for finmekaniker under uddannelse. Fokus på CNC-strategi, HSM, dynamiske skæredata og mikron-tolerancer.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -147,25 +148,54 @@
     </nav>
 
     <header class="pt-40 pb-24 px-6 max-w-7xl mx-auto border-b border-[#1e293b]">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div class="lg:col-span-8">
-                <h1 class="text-6xl font-black tracking-tighter mb-8 leading-none text-white uppercase font-mono">
-                    Finmekanik & <br><span class="text-[#0ea5e9]">CNC Strategi.</span>
-                </h1>
-                <p class="text-[#94a3b8] text-lg max-w-2xl leading-relaxed">
-                    H2 Finmekaniker under uddannelse (2027). Jeg håndterer i dag størstedelen af afdelingens indgående CNC-opgaver i min skolepraktik – fra reparationer til serieproduktion. For at eliminere gætværk ved maskinen koder jeg pt. mit eget dynamiske beregnersystem (M_CORE) til beregning af fysiske skæredata.
-                </p>
-            </div>
-            <div class="lg:col-span-4 panel p-6">
-                <span class="font-mono font-bold text-[10px] text-[#475569] uppercase tracking-widest block mb-4 flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-[1px]"></span> Operativ Kapacitet
-                </span>
-                <div class="space-y-4 font-mono text-[11px] text-[#94a3b8] font-semibold">
-                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Software</span><span class="text-white text-right">Fusion 360 <span class="text-[#475569]">// M_CORE</span></span></div>
-                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Maskiner</span><span class="text-white text-right">Haas CNC / Weiler / Deckel</span></div>
-                    <div class="flex justify-between border-b border-[#161d2b] pb-2"><span>Metrologi</span><span class="text-white text-right">ISO 286 (H7/g6) / FAI</span></div>
-                    <div class="flex justify-between"><span>Materiale</span><span class="text-white text-right">Alu / Rustfast / O1 / Ms / Polymer</span></div>
+        <div class="mb-16">
+            <h1 class="text-6xl font-black tracking-tighter mb-8 leading-none text-white uppercase font-mono">
+                Finmekanik & <br><span class="text-[#0ea5e9]">CNC Strategi.</span>
+            </h1>
+            <p class="text-[#94a3b8] text-lg max-w-2xl leading-relaxed">
+                H2 Finmekaniker under uddannelse (2027). Jeg håndterer i dag størstedelen af afdelingens indgående CNC-opgaver i min skolepraktik – fra reparationer til serieproduktion. For at eliminere gætværk ved maskinen koder jeg pt. mit eget dynamiske beregnersystem (M_CORE) til beregning af fysiske skæredata.
+            </p>
+        </div>
+        
+        <div class="border-t border-[#1e293b] pt-12">
+            <h2 class="text-xl font-bold font-mono text-white uppercase mb-8 tracking-widest flex items-center gap-3">
+                <span class="w-2 h-2 bg-[#0ea5e9] rounded-[2px] shadow-[0_0_8px_rgba(14,165,233,0.5)]"></span> Hardware & Kapacitet
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-8 font-mono text-[11px]">
+                
+                <!-- Kategori 1: Bearbejdningsvolumen -->
+                <div>
+                    <span class="text-[#475569] font-bold uppercase tracking-widest block border-b border-[#161d2b] pb-2 mb-4">Arbejdsområde (Max)</span>
+                    <ul class="space-y-3 text-[#94a3b8]">
+                        <li class="flex justify-between"><span>X-Akse</span><span class="text-white">406 mm</span></li>
+                        <li class="flex justify-between"><span>Y-Akse</span><span class="text-white">305 mm</span></li>
+                        <li class="flex justify-between"><span>Z-Akse</span><span class="text-white">254 mm</span></li>
+                        <li class="flex justify-between text-[#475569] mt-2 pt-2 border-t border-[#161d2b]"><span>Platform</span><span>Haas Mini Mill</span></li>
+                    </ul>
                 </div>
+
+                <!-- Kategori 2: Metrologi -->
+                <div>
+                    <span class="text-[#475569] font-bold uppercase tracking-widest block border-b border-[#161d2b] pb-2 mb-4">QA & Metrologi</span>
+                    <ul class="space-y-3 text-[#94a3b8]">
+                        <li class="flex justify-between"><span>Mikrometri</span><span class="text-white">Mikrometerskruer</span></li>
+                        <li class="flex justify-between"><span>Z-Reference</span><span class="text-white">Højdemåler</span></li>
+                        <li class="flex justify-between"><span>Profilvalidering</span><span class="text-white">Optisk Projektor</span></li>
+                        <li class="flex justify-between text-[#475569] mt-2 pt-2 border-t border-[#161d2b]"><span>Standard</span><span>ISO 286</span></li>
+                    </ul>
+                </div>
+
+                <!-- Kategori 3: Materialer -->
+                <div>
+                    <span class="text-[#475569] font-bold uppercase tracking-widest block border-b border-[#161d2b] pb-2 mb-4">Materialeregister</span>
+                    <ul class="space-y-3 text-[#94a3b8]">
+                        <li class="flex justify-between"><span>Kernekapacitet</span><span class="text-white">Alu / Messing</span></li>
+                        <li class="flex justify-between"><span>Polymer</span><span class="text-white">POM / Nylon / Akryl</span></li>
+                        <li class="flex justify-between"><span>Hårdmetal</span><span class="text-white">Værktøjs- & Rustfrit stål</span></li>
+                        <li class="flex justify-between text-[#475569] mt-2 pt-2 border-t border-[#161d2b]"><span>Standard</span><span>Konstruktionsstål</span></li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </header>
@@ -252,59 +282,82 @@
             </div>
         </section>
 
-        <section class="mb-24">
-            <div class="mb-8 flex items-end justify-between border-b border-zinc-800 pb-4">
+       <section class="mb-24">
+            <div class="mb-8 flex items-end justify-between border-b border-[#1e293b] pb-4">
                 <div>
-                    <h2 class="text-2xl font-bold text-white uppercase tracking-tight">Igangværende Operationer</h2>
-                    <p class="font-mono text-xs text-zinc-500 mt-2 uppercase">Aktuel spåntagning & designfase</p>
-                </div>
-                <div class="flex items-center gap-2 mb-2">
-                    <div class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
-                    <span class="font-mono text-[10px] text-amber-500 uppercase tracking-widest">Status: WIP</span>
+                    <h2 class="text-2xl font-bold text-white uppercase tracking-tight">Operationel Status</h2>
+                    <p class="font-mono text-xs text-[#94a3b8] mt-2 uppercase">Aktiv bearbejdning vs. Pre-produktion</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="panel p-6 border-l-2 border-l-amber-500">
+            <!-- SPOR 1: AKTIV BEARBEJDNING -->
+            <div class="mb-10">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-2 h-2 bg-[#f59e0b] rounded-[2px] shadow-[0_0_8px_rgba(245,158,11,0.8)] animate-pulse"></div>
+                    <span class="font-mono font-bold text-[10px] text-[#f59e0b] uppercase tracking-widest">Aktiv på maskinen // Fysisk Eksekvering</span>
+                </div>
+                
+                <div class="panel p-6 border-l-2 border-l-[#f59e0b]">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="font-mono text-[10px] text-amber-500 uppercase tracking-widest block bg-amber-500/10 px-2 py-1 border border-amber-500/20">Fase: Spåntagning // Rustfri</span>
+                        <span class="font-mono font-bold text-[10px] text-[#f59e0b] uppercase tracking-widest block bg-[#f59e0b]/10 px-2 py-1 border border-[#f59e0b]/20">Fase: Spåntagning // Rustfri</span>
                     </div>
                     <h3 class="font-bold text-lg text-white mb-2 uppercase">Identifikations-Tag</h3>
-                    <p class="text-sm text-zinc-400 mb-6 leading-relaxed">
+                    <p class="text-[13px] text-[#94a3b8] mb-6 leading-relaxed">
                         Custom komponent. Alu-prototyper er valideret. Aktuel status: Fysisk bearbejdning i rustfrit stål pågår i maskinen.
                     </p>
-                    <div class="w-full bg-zinc-900 border border-zinc-800 h-1.5 rounded-full overflow-hidden">
-                        <div class="bg-amber-500 h-full w-[85%]"></div>
+                    <div class="w-full bg-[#050608] border border-[#1e293b] h-1.5 rounded-[2px] overflow-hidden">
+                        <div class="bg-[#f59e0b] h-full w-[85%]"></div>
                     </div>
-                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mt-2 text-right">Progression // 85%</span>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="font-mono font-bold text-[9px] text-[#475569] border border-[#1e293b] px-3 py-1.5 bg-[#0d111a] cursor-not-allowed">DOKUMENTATION_AFVENTER</span>
+                        <span class="font-mono font-bold text-[10px] text-[#94a3b8] uppercase tracking-widest block">Progression // 85%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SPOR 2: DIGITAL FASE & KØ -->
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-2 h-2 bg-[#0ea5e9] rounded-[2px] shadow-[0_0_8px_rgba(14,165,233,0.5)]"></div>
+                    <span class="font-mono font-bold text-[10px] text-[#0ea5e9] uppercase tracking-widest">Digital Fase // Afventer Opsætning</span>
                 </div>
 
-                <div class="panel p-6 border-l-2 border-l-amber-500">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="font-mono text-[10px] text-amber-500 uppercase tracking-widest block bg-amber-500/10 px-2 py-1 border border-amber-500/20">Fase: CAM Programmering</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Projekt 2: M249 -->
+                    <div class="panel p-6 border-l-2 border-l-[#0ea5e9] bg-[#050608] opacity-80 hover:opacity-100 transition-opacity">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-mono font-bold text-[10px] text-[#0ea5e9] uppercase tracking-widest block bg-[#0ea5e9]/10 px-2 py-1 border border-[#0ea5e9]/20">Fase: CAM Programmering</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-white mb-2 uppercase">M249 HPA Komponent</h3>
+                        <p class="text-[13px] text-[#94a3b8] mb-6 leading-relaxed">
+                            Fremstilling af specialdel til M249 platform. CAM-strategi er defineret. Afventer opspænding og eksekvering i Aluminium.
+                        </p>
+                        <div class="w-full bg-[#030406] border border-[#1e293b] h-1.5 rounded-[2px] overflow-hidden">
+                            <div class="bg-[#0ea5e9] h-full w-[45%]"></div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="font-mono font-bold text-[9px] text-[#475569] border border-[#1e293b] px-3 py-1.5 bg-[#0d111a] cursor-not-allowed">DOKUMENTATION_AFVENTER</span>
+                            <span class="font-mono font-bold text-[10px] text-[#94a3b8] uppercase tracking-widest block">Progression // 45%</span>
+                        </div>
                     </div>
-                    <h3 class="font-bold text-lg text-white mb-2 uppercase">M249 HPA Komponent</h3>
-                    <p class="text-sm text-zinc-400 mb-6 leading-relaxed">
-                        Fremstilling af specialdel til M249 HPA platform. Værktøjsbaner og CAM-strategi er defineret. Afventer opspænding og eksekvering i Aluminium.
-                    </p>
-                    <div class="w-full bg-zinc-900 border border-zinc-800 h-1.5 rounded-full overflow-hidden">
-                        <div class="bg-amber-500 h-full w-[45%]"></div>
-                    </div>
-                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mt-2 text-right">Progression // 45%</span>
-                </div>
 
-                <div class="panel p-6 border-l-2 border-l-amber-500">
-                    <div class="flex justify-between items-start mb-4">
-                        <span class="font-mono text-[10px] text-amber-500 uppercase tracking-widest block bg-amber-500/10 px-2 py-1 border border-amber-500/20">Fase: CAD // Fusion 360</span>
+                    <!-- Projekt 3: Diesella Kæber -->
+                    <div class="panel p-6 border-l-2 border-l-[#0ea5e9] bg-[#050608] opacity-80 hover:opacity-100 transition-opacity">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="font-mono font-bold text-[10px] text-[#0ea5e9] uppercase tracking-widest block bg-[#0ea5e9]/10 px-2 py-1 border border-[#0ea5e9]/20">Fase: CAD // Fusion 360</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-white mb-2 uppercase">Custom Kæber // Diesella</h3>
+                        <p class="text-[13px] text-[#94a3b8] mb-6 leading-relaxed">
+                            Udvikling af bløde (Alu) og hårde (Stål) kæber til udvidelse af opspændingskapacitet. Designfase afsluttet i Fusion 360.
+                        </p>
+                        <div class="w-full bg-[#030406] border border-[#1e293b] h-1.5 rounded-[2px] overflow-hidden">
+                            <div class="bg-[#0ea5e9] h-full w-[25%]"></div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="font-mono font-bold text-[9px] text-[#475569] border border-[#1e293b] px-3 py-1.5 bg-[#0d111a] cursor-not-allowed">DOKUMENTATION_AFVENTER</span>
+                            <span class="font-mono font-bold text-[10px] text-[#94a3b8] uppercase tracking-widest block">Progression // 25%</span>
+                        </div>
                     </div>
-                    <h3 class="font-bold text-lg text-white mb-2 uppercase">Custom Kæber // Diesella</h3>
-                    <p class="text-sm text-zinc-400 mb-6 leading-relaxed">
-                        Udvikling af nye bløde (Alu) og hårde (Stål) kæber til udvidelse af intern opspændingskapacitet. Designfase afsluttet i Fusion 360.
-                    </p>
-                    <div class="w-full bg-zinc-900 border border-zinc-800 h-1.5 rounded-full overflow-hidden">
-                        <div class="bg-amber-500 h-full w-[25%]"></div>
-                    </div>
-                    <span class="font-mono text-[9px] text-zinc-500 uppercase tracking-widest block mt-2 text-right">Progression // 25%</span>
                 </div>
             </div>
         </section>
