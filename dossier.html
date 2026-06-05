@@ -7,18 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* M_CORE V10 TACTICAL CSS ARCHITECTURE */
+        /* M_CORE V11 KINETISK CSS ARCHITECTURE */
         :root {
-            --bg-app: #030406;
-            --bg-surface: #0d111a;
-            --bg-sidebar: #090b10;
-            --border-base: #1e293b;
-            --border-dim: #161d2b;
+            --bg-app: #000000;
+            --bg-surface: #0a0a0a;
+            --bg-sidebar: #050505;
+            --border-base: #171717;
+            --border-dim: #121212;
             --accent-cnc: #0ea5e9;
             --text-high: #ffffff;
-            --text-mid: #94a3b8;
-            --text-low: #475569;
-            --radius: 2px;
+            --text-mid: #a1a1aa;
+            --text-low: #52525b;
         }
 
         body {
@@ -28,92 +27,115 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        .bg-grid {
+        /* V11 Grid & Global Scanline Overlay */
+        .bg-grid { 
+            background-color: var(--bg-app);
             background-image: 
-                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-            background-size: 30px 30px;
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), 
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.4) 2px, rgba(0,0,0,0.4) 4px); 
+            background-size: 40px 40px, 40px 40px, 100% 4px;
+            background-attachment: fixed;
         }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-app); border-left: 1px solid var(--border-base); }
+        ::-webkit-scrollbar-thumb { background: var(--border-base); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-low); }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
-        /* V10 Panels */
+        /* M_CORE V11 PANEL STYLE */
         .panel { 
             background-color: var(--bg-sidebar); 
             border: 1px solid var(--border-base); 
-            border-radius: var(--radius);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
             margin-bottom: 24px;
             position: relative;
+            transition: border-color 0s ease, box-shadow 0s ease;
         }
-        .panel::before {
+        
+        .panel::after {
             content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-            background: linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px), 
-                        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px); 
-            background-size: 10px 10px; pointer-events: none; z-index: 0;
+            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.04), transparent 70%);
+            pointer-events: none; z-index: 0; opacity: 0; transition: opacity 0s;
         }
+
+        .panel:hover {
+            border-color: #27272a;
+            box-shadow: 0 10px 40px rgba(0,0,0,1);
+        }
+        
+        .panel:hover::after { opacity: 1; }
+
         .panel > * { position: relative; z-index: 1; }
         
         .panel-header {
             background-color: var(--bg-surface); 
             border-bottom: 1px solid var(--border-base);
-            padding: 10px 16px; 
+            padding: 8px 16px; 
             font-family: 'JetBrains Mono'; 
             font-size: 10px; font-weight: 800;
             text-transform: uppercase; 
             letter-spacing: 0.15em; 
-            color: var(--accent-cnc);
+            color: var(--text-mid);
             display: flex; justify-content: space-between;
+            border-top: 1px solid rgba(255,255,255,0.02);
         }
+        
+        .panel-header span:first-child { color: var(--accent-cnc); }
 
-        /* V10 Properties Table */
+        /* V11 Properties Table */
         .prop-table { width: 100%; border-collapse: collapse; font-size: 13px; }
         .prop-table tr { border-bottom: 1px solid var(--border-dim); }
         .prop-table tr:last-child { border-bottom: none; }
-        .prop-table td { padding: 10px 16px; }
+        .prop-table td { padding: 10px 16px; transition: background-color 0s; }
+        .prop-table tr:hover td { background-color: rgba(255,255,255,0.02); }
         .prop-table td:first-child { 
-            width: 40%; color: var(--text-low); background: rgba(0,0,0,0.3);
+            width: 40%; color: var(--text-low); background: var(--bg-surface);
             font-family: 'JetBrains Mono'; font-size: 10px; text-transform: uppercase; font-weight: 800;
             border-right: 1px solid var(--border-dim);
         }
         .prop-table td:last-child { font-weight: 600; text-align: right; color: var(--text-high); }
         .prop-table td.highlight { color: var(--accent-cnc); font-weight: 700; }
 
-        /* V10 UI Controls */
+        /* V11 UI Controls */
         .ui-controls {
             position: fixed; top: 20px; right: 20px; z-index: 100;
             display: flex; gap: 10px;
         }
         .ui-btn {
             display: inline-flex; align-items: center; justify-content: center; 
-            background-color: rgba(14, 165, 233, 0.05); 
+            background-color: transparent; 
             border: 1px solid var(--accent-cnc);
             color: var(--accent-cnc); 
             font-family: 'JetBrains Mono';
             font-size: 11px; font-weight: 800; 
-            padding: 10px 20px; border-radius: var(--radius); 
+            padding: 10px 20px; 
             text-transform: uppercase; letter-spacing: 0.1em;
-            transition: all 0.2s; 
-            box-shadow: inset 0 0 10px rgba(14, 165, 233, 0.1), 0 4px 10px rgba(0,0,0,0.5);
+            transition: all 0s; 
+            box-shadow: inset 0 0 10px rgba(14, 165, 233, 0.05);
             cursor: pointer;
             text-decoration: none;
         }
         .ui-btn:hover { 
-            background-color: var(--accent-cnc); color: #fff; 
-            box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+            background-color: rgba(14, 165, 233, 0.15); color: #fff; 
+            box-shadow: inset 0 0 20px rgba(14, 165, 233, 0.3), 0 0 15px rgba(14, 165, 233, 0.4);
+            border-color: #fff;
         }
         .ui-btn.secondary {
             border-color: var(--border-base);
             color: var(--text-mid);
             background-color: var(--bg-sidebar);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: none;
         }
         .ui-btn.secondary:hover {
-            border-color: var(--text-high);
+            border-color: var(--text-mid);
             color: var(--text-high);
-            background-color: var(--border-dim);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            background-color: var(--bg-surface);
         }
+
+        ::selection { background: var(--accent-cnc); color: #fff; }
 
         /* PAPER PRINT OPTIMIZATION (No dark mode on paper) */
         @media print {
@@ -124,18 +146,18 @@
             .ui-controls { display: none !important; }
             
             .panel { border: 1px solid #cbd5e1 !important; background: white !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 20px; }
-            .panel::before { display: none !important; }
-            .panel-header { background: #f8fafc !important; border-bottom: 1px solid #cbd5e1 !important; color: #475569 !important; font-weight: 800; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .panel::after { display: none !important; }
+            .panel-header { background: #f8fafc !important; border-bottom: 1px solid #cbd5e1 !important; color: #475569 !important; font-weight: 800; -webkit-print-color-adjust: exact; print-color-adjust: exact; border-top: none !important; }
             
             .prop-table tr { border-bottom: 1px solid #f1f5f9 !important; }
             .prop-table td:first-child { background: #f8fafc !important; color: #64748b !important; border-right: 1px solid #e2e8f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .prop-table td:last-child { color: black !important; font-weight: 600 !important; }
+            .prop-table tr:hover td { background-color: transparent !important; }
             
             .highlight { color: #0284c7 !important; font-weight: bold !important; }
             .text-white, h1, h2, h3, h4, p, span, td { color: black !important; }
             
-            /* Syntaks rettet for at undgå CSS parser fejl med Tailwinds arbitrære værdier */
-            .\text-\[\#94a3b8\], .\text-\[\#475569\] { color: #334155 !important; }
+            .\text-\[\#a1a1aa\], .\text-\[\#52525b\] { color: #334155 !important; }
             
             header { border-bottom-color: #cbd5e1 !important; }
             footer { border-top-color: #cbd5e1 !important; color: #64748b !important; }
@@ -150,82 +172,103 @@
     </div>
 
     <div class="max-w-4xl mx-auto">
-        <header class="mb-12 border-b border-[#1e293b] pb-12">
+        <header class="mb-12 border-b border-[#171717] pb-12">
             <div class="flex justify-between items-start">
                 <div>
                     <h1 class="text-5xl font-extrabold tracking-tighter text-white uppercase leading-none font-mono">G.C.Hansen</h1>
-                    <p class="font-mono font-bold text-[10px] text-[#475569] mt-4 tracking-widest uppercase flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-[1px] print:hidden"></span> Finmekaniker // CNC Specialist // High-Precision Operator
+                    <p class="font-mono font-bold text-[10px] text-[#52525b] mt-4 tracking-widest uppercase flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-none print:hidden"></span> Finmekaniker // CNC Specialist // High-Precision Operator
                     </p>
                 </div>
                 <div class="text-right">
-                    <span class="inline-block px-3 py-1 border border-[#0ea5e9]/50 text-[#0ea5e9] font-mono font-bold text-[9px] uppercase tracking-widest bg-[#0ea5e9]/5 rounded-[2px]">Status: Søger Læreplads</span>
-                    <p class="font-mono font-bold text-[9px] text-[#475569] mt-3">Rev: 2026.04.21</p>
+                    <span class="inline-block px-3 py-1 border border-[#0ea5e9]/50 text-[#0ea5e9] font-mono font-bold text-[9px] uppercase tracking-widest bg-[#0ea5e9]/5 rounded-none">Status: Åben for Dialog</span>
+                    <p class="font-mono font-bold text-[9px] text-[#52525b] mt-3">Rev: 2026.06.05</p>
                 </div>
             </div>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div class="panel">
-                <div class="panel-header">Operatør_Data</div>
+                <div class="panel-header"><span>Operatør_Data</span></div>
                 <table class="prop-table">
                     <tr><td>Navn</td><td>Glen Cilinder-Hansen</td></tr>
                     <tr><td>Kontakt</td><td class="highlight">defnotglen@gmail.com</td></tr>
                     <tr><td>Lokation</td><td>København // Vestegnen</td></tr>
-                    <tr><td>Mobilitet</td><td>Kørekort B (Planlagt // Undersøger forløb)</td></tr>
                 </table>
             </div>
             <div class="panel">
-                <div class="panel-header">Uddannelses_Status</div>
+                <div class="panel-header"><span>Uddannelses_Status</span></div>
                 <table class="prop-table">
                     <tr><td>Niveau</td><td>H2 Bestået (Finmekaniker)</td></tr>
-                    <tr><td>Erfaring</td><td>Skolepraktik (SKP)</td></tr>
-                    <tr><td>Svendebrev</td><td>2027 (Estimeret)</td></tr>
+                    <tr><td>Tiltrædelse</td><td class="highlight">Post-Svendebrev (2027)</td></tr>
+                    <tr><td>Nuværende</td><td>SKP // Produktionsansvar</td></tr>
                 </table>
             </div>
         </div>
 
         <section class="panel mb-12">
-            <div class="panel-header">Profil_Resumé</div>
-            <div class="p-8 text-[13px] leading-relaxed text-[#94a3b8]">
-                Jeg er dedikeret til at mestre spændingsfeltet mellem digital CAD/CAM og fysisk mikron-præcision. I min nuværende skolepraktik fokuserer jeg målrettet på at optimere processer og forstå maskinens begrænsninger frem mod min svendeprøve. Jeg søger en læreplads i en højteknologisk produktion, hvor kravene til tolerancer og driftssikkerhed er kompromisløse. Min tilgang er systematisk, og jeg trives bedst med komplekse emner, der kræver både teknisk overblik og finmekanisk flair.
+            <div class="panel-header"><span>Profil_Resumé</span></div>
+            <div class="p-8 text-[13px] leading-relaxed text-[#a1a1aa]">
+                Jeg driver størstedelen af den interne produktion i min skolepraktik (TEC). Opgaveindløbet består af ad-hoc forespørgsler fra personale, hovedforløbselever og eksterne parter. Udgangspunktet er ofte mangelfuldt – fra håndtegnede skitser til rå 3D-modeller. Jeg tager fuldt ejerskab over processen, koder CAM-strategien fra bunden i Fusion 360 og omsætter data til roterende værktøj. Jeg etablerer kontakt med branchen nu, med henblik på fast tiltrædelse, når svendebrevet er sikret i 2027.
             </div>
         </section>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div class="panel">
-                <div class="panel-header">Software_Stack</div>
+                <div class="panel-header"><span>Software_Stack</span></div>
                 <table class="prop-table">
                     <tr><td>Fusion 360</td><td class="highlight">Avanceret (CAM/CAD)</td></tr>
-                    <tr><td>Haas NGC</td><td>Fuld Operativ</td></tr>
-                    <tr><td>Fanuc ISO</td><td>Program-redigering</td></tr>
+                    <tr><td>Systemlogik</td><td>M_CORE (Egenudviklet)</td></tr>
+                    <tr><td>Styring</td><td>Haas NGC / Fanuc ISO</td></tr>
                     <tr><td>Automatisering</td><td>Grundlæggende forståelse</td></tr>
                 </table>
             </div>
+            
             <div class="panel">
-                <div class="panel-header">Teknisk_Metrologi</div>
+                <div class="panel-header"><span>Maskin_Kapacitet</span></div>
+                <table class="prop-table">
+                    <tr><td>CNC Fræs</td><td class="highlight">Haas Mini Mill</td></tr>
+                    <tr><td>CNC Drej</td><td>Haas ST-10</td></tr>
+                    <tr><td>Man. Drej</td><td>Weiler Matador</td></tr>
+                    <tr><td>Man. Fræs</td><td>Deckel Værktøjsfræser</td></tr>
+                </table>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header"><span>Teknisk_Metrologi</span></div>
                 <table class="prop-table">
                     <tr><td>Tolerancer</td><td class="highlight">ISO 286 (H7/g6)</td></tr>
-                    <tr><td>Måleværktøj</td><td>Mikrometerskrue / Passtifter</td></tr>
-                    <tr><td>Bearbejdning</td><td>Fræsning & Drejning</td></tr>
+                    <tr><td>Mikrometri</td><td>Mikrometerskruer</td></tr>
+                    <tr><td>Z-Reference</td><td>Højdemåler / Passtifter</td></tr>
+                    <tr><td>Profilering</td><td>Optisk Projektor</td></tr>
+                </table>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header"><span>Materiale_Register</span></div>
+                <table class="prop-table">
+                    <tr><td>Letmetal</td><td class="highlight">Alu 6082/7075 / Ms58</td></tr>
+                    <tr><td>Polymer</td><td>POM / Nylon / Akryl</td></tr>
+                    <tr><td>Hårdmetal</td><td>Værktøjsstål (O1)</td></tr>
+                    <tr><td>Rustfri</td><td>AISI 316L / 304</td></tr>
                 </table>
             </div>
         </div>
 
         <section class="panel mb-12">
-            <div class="panel-header">Mål_For_Specialisering</div>
-            <div class="p-8 text-[13px] leading-relaxed text-[#94a3b8]">
+            <div class="panel-header"><span>Operativ_Metodik</span></div>
+            <div class="p-8 text-[13px] leading-relaxed text-[#a1a1aa]">
                 <ul class="list-disc ml-4 space-y-2">
-                    <li>Dybdegående kendskab til <strong class="text-white">ubemandet drift</strong> og robotloadere.</li>
-                    <li>Specialisering inden for <strong class="text-white">langdrejning</strong> og mikro-bearbejdning.</li>
-                    <li>Optimering af cyklustider via avanceret <strong class="text-white">CAM-strategi</strong>.</li>
+                    <li><strong class="text-white">Workflow:</strong> Konvertering af rå data (håndtegninger/modeller) til bearbejdede emner. Jeg håndterer komplet reverse-engineering og selvstændig CAM-programmering uden behov for mikromanagement.</li>
+                    <li><strong class="text-white">M_CORE Integration:</strong> Mit egenudviklede beregnersystem sparer kritisk opsætningstid og genererer et solidt matematisk fundament for skæredata. Dette eliminerer gætværk, hvorefter jeg dynamisk finjusterer parametrene baseret på maskinens og værktøjets feedback.</li>
+                    <li><strong class="text-white">Fokus:</strong> Reduktion af cyklustid gennem optimerede værktøjsbaner og systematisk fejlfinding, før koden rammer styringen.</li>
                 </ul>
             </div>
         </section>
 
-        <footer class="mt-24 border-t border-[#1e293b] pt-8 flex justify-between items-center text-[#475569] font-mono font-bold text-[9px] uppercase tracking-widest">
+        <footer class="mt-24 border-t border-[#171717] pt-8 flex justify-between items-center text-[#52525b] font-mono font-bold text-[9px] uppercase tracking-widest">
             <span>Datum Prototyping // Operatør Dossier // GCH-2026</span>
-            <span>System Version 14.0 (Update: Koatek-Spec)</span>
+            <span>System Version 14.1 (Update: SKP-Protokol)</span>
         </footer>
     </div>
 
