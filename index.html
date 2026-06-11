@@ -378,12 +378,12 @@
                 <div class="lg:col-span-5 flex flex-col justify-center">
                     <h3 class="font-black text-3xl text-white mb-6 uppercase tracking-tight">Fysik > Mavefornemmelse</h3>
                     <p class="text-sm font-light text-[#a1a1aa] leading-relaxed mb-8">
-                        M_CORE er et egenudviklet HMI-værktøj, designet til at presse CNC-maskiner til deres mekaniske grænse. Systemet eliminerer mavefornemmelser og 'plejer'. Det genererer dynamiske skæredata strengt baseret på maskinens og materialets faktiske begrænsninger:
+                        M_CORE er min proprietære og lukkede CNC-motor. Systemet er kodet fra bunden til at fjerne gætværk i spåntagningen. Ved at beregne alt ud fra rå fysik – maskinens moment, materialets egenskaber og værktøjets geometri – sikrer M_CORE deterministiske og optimerede skæredata til mine CAM-strategier.
                     </p>
                     <ul class="font-mono text-xs font-semibold space-y-4 text-[#a1a1aa]">
-                        <li class="flex items-center gap-3"><span class="text-[#52525b]">01</span> Spindel Moment-kurver (Torque Limits)</li>
-                        <li class="flex items-center gap-3"><span class="text-[#52525b]">02</span> L/D-Ratio og Værktøjs-udbøjning</li>
-                        <li class="flex items-center gap-3"><span class="text-[#52525b]">03</span> Materialets Termodynamik & Slid</li>
+                        <li class="flex items-center gap-3"><span class="text-[#52525b]">01</span> Deterministisk Skæredata</li>
+                        <li class="flex items-center gap-3"><span class="text-[#52525b]">02</span> Maskinspecifik Kinematik</li>
+                        <li class="flex items-center gap-3"><span class="text-[#52525b]">03</span> Eliminering af Overbelastning</li>
                     </ul>
                 </div>
                 
@@ -394,18 +394,15 @@
                             <span>SYS.READY</span>
                         </div>
                         <div class="p-8 space-y-3 flex-grow">
-                            <p><span class="text-white">INPUT:</span> > EXECUTE_CALC -MAT "ALU 6082-T6" -TOOL "D8_Z3"</p>
+                            <p><span class="text-white">INPUT:</span> > INITIALIZE M_CORE KERNEL</p>
                             <p class="text-[#52525b]">--------------------------------------------------</p>
-                            <p>> FETCHING MATERIAL DATA... <span class="text-[#10b981] float-right">OK</span></p>
-                            <p>> CALCULATING SPINDLE LIMIT... <span class="text-[#10b981] float-right">OK</span></p>
-                            <p class="text-white">> MAX TORQUE: <span class="text-[#00e5ff]">45 NM @ 1200 RPM</span></p>
+                            <p>> SYNCING MACHINE KINEMATICS... <span class="text-[#10b981] float-right">OK</span></p>
+                            <p>> EVALUATING MATERIAL PROPERTIES... <span class="text-[#10b981] float-right">OK</span></p>
+                            <p>> CALCULATING DYNAMIC TOOLPATH LIMITS... <span class="text-[#10b981] float-right">OK</span></p>
                             <p class="text-[#52525b]">--------------------------------------------------</p>
-                            <p>> EVALUATING L/D RATIO (4.5)...</p>
-                            <p class="text-[#f59e0b]">> WARN: DEFLECTION CRITICAL. REDUCING FEED 12%.</p>
-                            <p class="text-[#52525b]">--------------------------------------------------</p>
-                            <p class="text-white">> OUTPUT PARAMETERS OPTIMIZED.</p>
+                            <p class="text-white">> STATUS: <span class="text-[#f59e0b]">PROPRIETARY DATA ENCRYPTED</span></p>
                             <div class="mt-6 pt-6 border-t border-[#1f1f1f] text-[#00e5ff] font-bold animate-pulse">
-                                AWAITING G-CODE GENERATION_
+                                SYSTEM LOCKED // READY FOR CAM_
                             </div>
                         </div>
                     </div>
