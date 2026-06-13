@@ -1,289 +1,370 @@
 <!DOCTYPE html>
-<html lang="da" class="scroll-smooth">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dossier // G.C.Hansen // Datum Prototyping</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        /* M_CORE V11 KINETISK CSS ARCHITECTURE (Synced med index.html) */
+        /* DATUM PROTOTYPING // TECHNICAL DATA SHEET CSS */
         :root {
-            --bg-app: #000000;
-            --bg-surface: #0a0a0a;
-            --bg-sidebar: #050505;
-            --border-base: #171717;
-            --border-dim: #121212;
-            --accent-cnc: #0ea5e9;
-            --text-high: #ffffff;
-            --text-mid: #a1a1aa;
-            --text-low: #52525b;
+            --bg-base: #030303;
+            --bg-sheet: #0a0a0a;
+            --border-hard: #333333;
+            --border-dim: #1f1f1f;
+            --accent-cyan: #00e5ff;
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --text-dim: #52525b;
         }
 
         body { 
-            background-color: var(--bg-app); 
-            color: var(--text-high); 
+            background-color: var(--bg-base); 
+            color: var(--text-main); 
             font-family: 'Inter', sans-serif; 
             -webkit-font-smoothing: antialiased; 
+            selection-background: var(--accent-cyan);
+            selection-color: #000;
         }
 
-        /* Scanline Grid */
+        ::selection { background: var(--accent-cyan); color: #000; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Background Grid */
         .bg-grid { 
-            background-color: var(--bg-app);
             background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), 
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px),
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.4) 2px, rgba(0,0,0,0.4) 4px); 
-            background-size: 40px 40px, 40px 40px, 100% 4px;
+                linear-gradient(var(--border-dim) 1px, transparent 1px), 
+                linear-gradient(90deg, var(--border-dim) 1px, transparent 1px); 
+            background-size: 48px 48px;
+            background-position: center top;
             background-attachment: fixed;
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg-app); border-left: 1px solid var(--border-base); }
-        ::-webkit-scrollbar-thumb { background: var(--border-base); }
-        ::-webkit-scrollbar-thumb:hover { background: var(--text-low); }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar-thumb { background: var(--border-hard); }
 
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* Avancerede Paneler */
-        .panel { 
-            background-color: var(--bg-sidebar); 
-            border: 1px solid var(--border-base); 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+        /* Engineering Sheet Layout */
+        .spec-sheet {
+            background-color: var(--bg-sheet);
+            border: 2px solid var(--border-hard);
+            padding: 2px;
+            max-width: 1000px;
+            margin: 0 auto;
             position: relative;
-            transition: border-color 0s ease, box-shadow 0s ease;
-            margin-bottom: 24px;
-        }
-        
-        .panel::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.04), transparent 70%);
-            pointer-events: none; z-index: 0; opacity: 0; transition: opacity 0s;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
-        .panel:hover {
-            border-color: #27272a;
-            box-shadow: 0 10px 40px rgba(0,0,0,1);
+        .spec-inner {
+            border: 1px solid var(--border-hard);
+            display: flex;
+            flex-direction: column;
         }
-        
-        .panel:hover::after { opacity: 1; }
-        .panel > * { position: relative; z-index: 1; }
 
-        .panel-header { 
-            background-color: var(--bg-surface); 
-            border-bottom: 1px solid var(--border-base); 
-            padding: 10px 16px; 
-            font-family: 'JetBrains Mono'; 
-            font-size: 10px; 
+        /* Grid Data Tables */
+        .data-grid {
+            display: grid;
+            border-bottom: 1px solid var(--border-hard);
+        }
+        .data-grid:last-child { border-bottom: none; }
+        
+        .data-cell {
+            padding: 12px 16px;
+            border-right: 1px solid var(--border-hard);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .data-cell:last-child { border-right: none; }
+
+        .cell-label {
+            font-family: 'JetBrains Mono';
+            font-size: 9px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+        .cell-value {
+            font-size: 13px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+        .cell-value-mono {
+            font-family: 'JetBrains Mono';
+            font-size: 12px;
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        /* Section Headers */
+        .section-header {
+            background-color: #111;
+            padding: 8px 16px;
+            font-family: 'JetBrains Mono';
+            font-size: 10px;
             font-weight: 800;
-            text-transform: uppercase; 
-            letter-spacing: 0.15em; 
-            color: var(--text-mid); 
-            display: flex; 
-            justify-content: space-between; 
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-hard);
+            display: flex;
             align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.02);
+            gap: 8px;
         }
-        
-        .panel-header span:first-child { color: var(--accent-cnc); }
-
-        /* Datatabeller */
-        .prop-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .prop-table tr { border-bottom: 1px solid var(--border-dim); }
-        .prop-table tr:last-child { border-bottom: none; }
-        .prop-table td { padding: 12px 16px; vertical-align: top;}
-        .prop-table td:first-child { width: 35%; color: var(--text-low); background: transparent; font-family: 'JetBrains Mono'; font-size: 10px; text-transform: uppercase; font-weight: 800; border-right: 1px solid var(--border-dim); }
-        .prop-table td:last-child { font-weight: 600; color: var(--text-high); }
-        .highlight { color: var(--accent-cnc); font-weight: 700; }
-
-        /* Knapper */
-        .btn-outline { 
-            display: inline-flex; border: 1px solid var(--border-base); color: var(--text-mid); 
-            font-family: 'JetBrains Mono'; font-size: 11px; font-weight: 700; padding: 8px 16px; 
-            transition: all 0s; text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg-sidebar); cursor: pointer;
+        .section-header::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 10px;
+            background-color: var(--accent-cyan);
         }
-        .btn-outline:hover { border-color: var(--text-mid); color: var(--text-high); background-color: var(--bg-surface); }
-        
+
+        /* Buttons */
         .btn-tech { 
-            display: inline-flex; align-items: center; justify-content: center; background-color: transparent; 
-            border: 1px solid var(--accent-cnc); color: var(--accent-cnc); font-family: 'JetBrains Mono';
-            font-size: 11px; font-weight: 800; padding: 8px 16px; text-transform: uppercase; letter-spacing: 0.1em;
-            transition: all 0s; box-shadow: inset 0 0 10px rgba(14, 165, 233, 0.05); cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center; 
+            background-color: var(--text-main); color: #000; font-family: 'JetBrains Mono';
+            font-size: 10px; font-weight: 800; padding: 10px 20px; text-transform: uppercase; 
+            letter-spacing: 0.1em; transition: all 0.1s ease; border: 1px solid var(--text-main); cursor: pointer;
         }
-        .btn-tech:hover { 
-            background-color: rgba(14, 165, 233, 0.15); color: #fff; 
-            box-shadow: inset 0 0 20px rgba(14, 165, 233, 0.3), 0 0 15px rgba(14, 165, 233, 0.4); border-color: #fff;
+        .btn-tech:hover { background-color: transparent; color: var(--text-main); }
+
+        .btn-outline { 
+            display: inline-flex; align-items: center; justify-content: center;
+            border: 1px solid var(--border-hard); color: var(--text-muted); font-family: 'JetBrains Mono'; 
+            font-size: 10px; font-weight: 700; padding: 10px 20px; transition: all 0.1s ease; 
+            text-transform: uppercase; letter-spacing: 0.1em; background: var(--bg-sheet); cursor: pointer;
         }
+        .btn-outline:hover { border-color: var(--text-main); color: var(--text-main); }
 
-        ::selection { background: var(--accent-cnc); color: #fff; }
-
-        /* Clean Print Optimerings-lag */
+        /* Print Optimization (A4 CAD Drawing Style) */
         @media print {
-            body { background: #fff; color: #000; }
-            .bg-grid { background-image: none; }
-            .panel { background-color: #fff; border-color: #ddd; box-shadow: none !important; break-inside: avoid; margin-bottom: 16px;}
-            .panel::after { display: none; }
-            .panel-header { background-color: #f5f5f5; border-color: #ddd; color: #333; }
-            .prop-table td { border-color: #eee; }
-            .prop-table td:first-child { background: #fafafa; color: #555; border-color: #eee; }
-            .prop-table td:last-child { color: #000; }
-            .text-white, .text-high { color: #000 !important; }
-            .text-\[\#a1a1aa\] { color: #444 !important; }
-            .text-\[\#52525b\] { color: #666 !important; }
-            .border-\[\#171717\] { border-color: #ddd !important; }
+            @page { size: A4 portrait; margin: 10mm; }
+            body, html { 
+                background: #fff !important; 
+                color: #000 !important; 
+                -webkit-print-color-adjust: exact !important; 
+                print-color-adjust: exact !important; 
+            }
+            .bg-grid { background-image: none !important; background-color: #fff !important; }
+            
+            /* Remove visual offset */
+            .pt-32 { padding-top: 0 !important; }
+            .px-4 { padding-left: 0 !important; padding-right: 0 !important; }
+            
+            /* Core Sheet */
+            .spec-sheet { 
+                background-color: #fff !important; 
+                border: 2px solid #000 !important; 
+                box-shadow: none !important; 
+                margin: 0 !important; 
+                max-width: 100% !important; 
+                padding: 2px !important; 
+            }
+            .spec-inner { border: 1px solid #000 !important; background-color: #fff !important; }
+            
+            /* Enforce Grid layout in Print */
+            .data-grid { display: grid !important; border-bottom: 1px solid #000 !important; break-inside: avoid; }
+            .data-grid:last-child { border-bottom: none !important; }
+            .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            .md\:col-span-2 { grid-column: span 2 / span 2 !important; }
+            .md\:col-span-1 { grid-column: span 1 / span 1 !important; }
+            
+            .data-cell { border-right: 1px solid #000 !important; padding: 10px 14px !important; }
+            .data-cell:last-child { border-right: none !important; }
+            
+            /* Section Headers */
+            .section-header { background-color: #eaeaea !important; color: #000 !important; border-bottom: 1px solid #000 !important; }
+            .section-header::before { background-color: #000 !important; }
+            
+            /* Typography & Colors */
+            h1, h2, h3, h4, p, span, li, div { color: #000 !important; }
+            .cell-label { color: #555 !important; font-weight: 800 !important; }
+            .cell-value-mono { font-weight: 800 !important; }
+            
+            /* Strip Tailwind Dark Mode Borders */
+            [class*="border-[#"] { border-color: #000 !important; }
+            .border-t { border-top-color: #000 !important; }
+            .border-b { border-bottom-color: #000 !important; }
+            
             .print\:hidden { display: none !important; }
-            .highlight { color: #000 !important; font-weight: 800; }
-            * { text-shadow: none !important; box-shadow: none !important; }
-            @page { margin: 1cm; }
         }
     </style>
 </head>
-<body class="bg-grid">
+<body class="bg-grid pb-24">
 
-    <nav class="fixed top-0 w-full z-50 bg-[#000000]/95 backdrop-blur-md border-b border-[#171717] px-6 print:hidden">
+    <!-- NAVIGATION (HIDDEN ON PRINT) -->
+    <nav class="fixed top-0 w-full z-50 bg-[#030303]/90 backdrop-blur-md border-b border-[#1f1f1f] px-6 print:hidden">
         <div class="max-w-7xl mx-auto h-16 flex justify-between items-center">
             <div class="flex items-center gap-6">
-                <span class="font-bold tracking-[0.2em] uppercase text-white font-mono text-sm">Datum Prototyping</span>
-                <span class="hidden md:block font-mono text-[10px] text-[#0ea5e9] uppercase tracking-widest">// Operatør Dossier</span>
+                <span class="font-black tracking-[0.15em] uppercase text-white font-mono text-sm">Datum Prototyping</span>
+                <span class="hidden md:block font-mono text-[10px] text-[#52525b] uppercase tracking-widest pl-6 border-l border-[#1f1f1f]">// Dokumentation</span>
             </div>
             <div class="flex items-center gap-4">
-                <div class="hidden sm:flex items-center gap-2 mr-2">
-                    <div class="w-2 h-2 bg-[#10b981] rounded-none shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></div>
-                    <span class="font-mono font-bold text-[10px] text-[#10b981] uppercase tracking-widest">Status: Operativ</span>
-                </div>
                 <button onclick="window.print()" class="btn-outline hidden sm:inline-flex items-center gap-2">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                    Print PDF
+                    Print / Gem PDF
                 </button>
-                <a href="index.html" class="btn-tech">TILBAGE TIL FRONT</a>
+                <a href="index.html" class="btn-tech">Retur</a>
             </div>
         </div>
     </nav>
 
-    <div class="max-w-5xl mx-auto px-6 md:px-12 pt-32 pb-16">
-        
-        <header class="mb-12 border-b border-[#171717] pb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-            <div>
-                <h1 class="text-6xl font-black tracking-tighter text-white uppercase font-mono leading-none">G.C.Hansen</h1>
-                <p class="font-mono font-bold text-[11px] text-[#0ea5e9] mt-4 tracking-widest uppercase">Finmekaniker-lærling // CNC Specialist // Datum Prototyping</p>
-            </div>
-            <div class="font-mono text-[10px] text-[#a1a1aa] space-y-2 md:text-right">
-                <div><span class="text-[#52525b] uppercase font-bold mr-2">Email:</span> defnotglen@gmail.com</div>
-                <div><span class="text-[#52525b] uppercase font-bold mr-2">Netværk:</span> linkedin.com/in/glenchansen</div>
-                <div><span class="text-[#52525b] uppercase font-bold mr-2">Lokation:</span> København / Sjælland</div>
-            </div>
-        </header>
+    <div class="pt-32 px-4 print:pt-0 print:px-0">
+        <!-- SPEC SHEET CONTAINER -->
+        <div class="spec-sheet">
+            <div class="spec-inner">
+                
+                <!-- TITLE BLOCK (ENGINEERING STYLE) -->
+                <div class="data-grid grid-cols-1 md:grid-cols-4">
+                    <div class="data-cell md:col-span-2 !py-6">
+                        <span class="cell-label">Operatør / Identifikation</span>
+                        <h1 class="text-4xl font-black uppercase tracking-tighter text-white font-mono leading-none">G. C. Hansen</h1>
+                        <span class="font-mono font-bold text-[10px] text-[#00e5ff] mt-2 tracking-[0.15em] uppercase">Finmekaniker // CNC Specialist</span>
+                    </div>
+                    <div class="data-grid grid-cols-1 md:col-span-2">
+                        <div class="data-grid grid-cols-2">
+                            <div class="data-cell">
+                                <span class="cell-label">Dokument Type</span>
+                                <span class="cell-value-mono">Teknisk Dossier / CV</span>
+                            </div>
+                            <div class="data-cell">
+                                <span class="cell-label">Rev. / Dato</span>
+                                <span class="cell-value-mono">14.0 // 2026</span>
+                            </div>
+                        </div>
+                        <div class="data-grid grid-cols-2 border-t border-[#333]">
+                            <div class="data-cell">
+                                <span class="cell-label">Kontakt</span>
+                                <span class="cell-value font-mono text-[11px]">defnotglen@gmail.com</span>
+                            </div>
+                            <div class="data-cell">
+                                <span class="cell-label">Lokation</span>
+                                <span class="cell-value font-mono text-[11px]">København / DK</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <section class="panel border-t-2 border-t-[#0ea5e9]">
-            <div class="panel-header"><span>Operativ_Profil</span><span>Kernefokus</span></div>
-            <div class="p-8">
-                <p class="text-lg leading-relaxed text-white font-medium">
-                    Kombinationen af traditionelt finmekanisk håndværk og moderne datadrevet optimering. Mit fokus er at konvertere CAD/CAM-data til fysiske komponenter med færrest mulige iterationer. Ved hjælp af egenudviklet beregningssoftware (M_CORE) elimineres gætværk ved maskinen for at sikre præcise skæredata, maksimal værktøjsudnyttelse og en skrotprocent nær nul. Opgaven er at reducere cyklustid gennem HSM-strategier, mens ISO 286 tolerancer overholdes kompromisløst.
-                </p>
-            </div>
-        </section>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 mt-8">
-            
-            <div>
-                <section class="panel">
-                    <div class="panel-header"><span>Erhvervserfaring</span><span>Aktuel Status</span></div>
-                    <table class="prop-table">
-                        <tr><td>Stilling</td><td class="highlight">Finmekaniker-lærling</td></tr>
-                        <tr><td>Lokation</td><td>TEC Skolepraktik</td></tr>
-                        <tr><td>Periode</td><td>2024 - Nuværende</td></tr>
-                        <tr><td>Ansvar</td><td class="text-[#a1a1aa]">Drift af afdelingens primære CNC-opgaver. Opsætning, programmering (CAM) og eksekvering. Gennemførelse af FAI-valideringer og reverse-engineering af nedbrudte maskindele.</td></tr>
-                        <tr><td>Resultater</td><td class="text-[#a1a1aa]">Implementering af M_CORE logik der har minimeret skrotprocenten, og standardisering af opspændingsrutiner.</td></tr>
-                    </table>
-                </section>
-
-                <section class="panel">
-                    <div class="panel-header"><span>Uddannelsesforløb</span><span>Tidslinje</span></div>
-                    <table class="prop-table">
-                        <tr><td>Uddannelse</td><td class="highlight">Finmekaniker</td></tr>
-                        <tr><td>Institution</td><td>TEC Frederiksberg</td></tr>
-                        <tr><td>Status</td><td>H2 (Bestået)</td></tr>
-                        <tr><td>Fremtid</td><td>H3 (Okt 2026) <br> Svendeprøve (Apr 2027)</td></tr>
-                    </table>
-                </section>
-
-                <section class="panel">
-                    <div class="panel-header"><span>Operativ_Metodik</span><span>Workflow</span></div>
-                    <div class="p-6 text-[13px] leading-relaxed text-[#a1a1aa]">
-                        <ul class="list-disc ml-4 space-y-3 border-b border-[#171717] pb-4 mb-4">
-                            <li><strong class="text-white">Autonomi:</strong> Selvstændig konvertering af rå data til færdige komponenter uden behov for mikromanagement.</li>
-                            <li><strong class="text-white">Datadrevet:</strong> M_CORE eliminerer tommelfingerregler via maskin-kinematik og dynamiske skæredata.</li>
-                            <li><strong class="text-white">HSM:</strong> Fokus på høj hastighed, optimering af værktøjsbaner og skånsom spåntagning.</li>
-                        </ul>
-                        <p class="font-mono text-[10px] text-[#0ea5e9] uppercase font-bold tracking-widest mt-2 flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 bg-[#0ea5e9] rounded-none"></span>
-                            Mål: 5-Akset bearbejdning & Langdrejning
+                <!-- SECTION 1: PROFIL -->
+                <div class="section-header">01 // Operativ Profil</div>
+                <div class="data-grid grid-cols-1">
+                    <div class="data-cell !py-6">
+                        <span class="cell-label">Kernefokus & Metodik</span>
+                        <p class="cell-value max-w-4xl font-light text-[#a1a1aa]">
+                            Kombinationen af traditionelt finmekanisk håndværk og moderne datadrevet optimering. Mit fokus er at konvertere CAD/CAM-data til fysiske komponenter med færrest mulige iterationer. Ved hjælp af egenudviklet beregningssoftware (M_CORE) elimineres gætværk ved maskinen for at sikre deterministiske skæredata, maksimal værktøjsudnyttelse og en skrotprocent nær nul. Opgaven er at reducere cyklustid gennem HSM-strategier, mens ISO 286 tolerancer overholdes kompromisløst.
                         </p>
                     </div>
-                </section>
-            </div>
+                </div>
 
-            <div>
-                <section class="panel">
-                    <div class="panel-header"><span>Hardware_Kapacitet</span><span>Maskinpark</span></div>
-                    <table class="prop-table">
-                        <tr><td>CNC Fræs</td><td class="highlight">Haas Mini Mill (10K RPM)</td></tr>
-                        <tr><td>CNC Drej</td><td>Haas ST-10 (NGC Styring)</td></tr>
-                        <tr><td>Manuel Fræs</td><td>Deckel Værktøjsfræser</td></tr>
-                        <tr><td>Manuel Drej</td><td>Weiler Matador (Mikron-pasning)</td></tr>
-                    </table>
-                </section>
+                <!-- SECTION 2: ERFARING & UDDANNELSE -->
+                <div class="section-header">02 // Erfaring & Uddannelse</div>
+                <div class="data-grid grid-cols-1 md:grid-cols-4">
+                    <div class="data-cell md:col-span-1">
+                        <span class="cell-label">Institution</span>
+                        <span class="cell-value-mono text-white">TEC Frederiksberg</span>
+                        <span class="text-[11px] text-[#52525b] mt-1 font-mono">Skolepraktik</span>
+                    </div>
+                    <div class="data-cell md:col-span-1">
+                        <span class="cell-label">Tidslinje</span>
+                        <span class="cell-value font-mono text-[11px]">2024 - Nuværende</span>
+                        <span class="text-[10px] text-[#52525b] mt-1 font-mono uppercase">Svendeprøve: Apr 2027</span>
+                    </div>
+                    <div class="data-cell md:col-span-2">
+                        <span class="cell-label">Ansvarsområder & Resultater</span>
+                        <ul class="cell-value text-[12px] font-light text-[#a1a1aa] space-y-2 list-none">
+                            <li><strong class="text-white font-medium">• Produktion:</strong> Drift af afdelingens primære CNC-opgaver. Opsætning, programmering (CAM) og eksekvering.</li>
+                            <li><strong class="text-white font-medium">• QA:</strong> Gennemførelse af FAI-valideringer og reverse-engineering af nedbrudte maskindele.</li>
+                            <li><strong class="text-white font-medium">• Optimering:</strong> Udvikling og implementering af M_CORE logik til reduktion af skrot og standardisering af opspænding.</li>
+                        </ul>
+                    </div>
+                </div>
 
-                <section class="panel">
-                    <div class="panel-header"><span>Teknisk_Metrologi</span><span>QA & Standarder</span></div>
-                    <table class="prop-table">
-                        <tr><td>Tolerancer</td><td class="highlight">ISO 286 (H7/g6)</td></tr>
-                        <tr><td>Dokumentation</td><td>FAI (First Article Inspection)</td></tr>
-                        <tr><td>Udstyr</td><td>Mikrometri, Optisk Projektor, Højdemåler, Vippeur</td></tr>
-                        <tr><td>Materialer</td><td>Alu, Messing, Rustfrit (316L), Arnestål (O1), POM/Nylon</td></tr>
-                    </table>
-                </section>
+                <!-- SECTION 3: SPECIFIKATIONER -->
+                <div class="section-header">03 // Kapacitet & Specifikationer</div>
+                <div class="data-grid grid-cols-1 md:grid-cols-3 border-b border-[#333]">
+                    <!-- Hardware -->
+                    <div class="data-cell">
+                        <span class="cell-label">Operative Platforme</span>
+                        <ul class="cell-value text-[12px] space-y-3 mt-2">
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">Haas Mini Mill</span><span class="text-[#52525b] text-[10px]">3-Akset CNC (10K RPM)</span></li>
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">Haas ST-10</span><span class="text-[#52525b] text-[10px]">CNC Drejebænk (NGC)</span></li>
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">Deckel / Weiler</span><span class="text-[#52525b] text-[10px]">Manuel præcisionsbearbejdning</span></li>
+                        </ul>
+                    </div>
+                    <!-- Metrologi -->
+                    <div class="data-cell">
+                        <span class="cell-label">QA & Standarder</span>
+                        <ul class="cell-value text-[12px] space-y-3 mt-2">
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">ISO 286 (H7/g6)</span><span class="text-[#52525b] text-[10px]">Tolerance & Pasninger</span></li>
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">Udstyr</span><span class="text-[#52525b] text-[10px]">Mikrometri, Vippeur, Projektor</span></li>
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">Dokumentation</span><span class="text-[#52525b] text-[10px]">FAI (First Article Inspection)</span></li>
+                        </ul>
+                    </div>
+                    <!-- Materialer -->
+                    <div class="data-cell">
+                        <span class="cell-label">Materialeregister</span>
+                        <ul class="cell-value text-[12px] space-y-3 mt-2">
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">Letmetaller</span><span class="text-[#52525b] text-[10px]">Alu (6082/7075), Messing</span></li>
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">Hårde Legeringer</span><span class="text-[#52525b] text-[10px]">Rustfri (316L), Værktøjsstål (O1)</span></li>
+                            <li class="flex flex-col"><span class="font-mono text-[11px] text-white">Teknisk Plast</span><span class="text-[#52525b] text-[10px]">POM-C, PA6 Nylon</span></li>
+                        </ul>
+                    </div>
+                </div>
 
-                <section class="panel">
-                    <div class="panel-header"><span>Software_Stack</span><span>Digital Logik</span></div>
-                    <table class="prop-table">
-                        <tr><td>CAD / CAM</td><td class="highlight">Fusion 360 (Advanced)</td></tr>
-                        <tr><td>Kinetik Engine</td><td>M_CORE (Egenudviklet Python/JS logik til Haas-maskiner)</td></tr>
-                        <tr><td>Dokumentation</td><td>Markdown, Git, FAI-protokoller</td></tr>
-                    </table>
-                </section>
+                <!-- SECTION 4: SOFTWARE STACK -->
+                <div class="data-grid grid-cols-1 md:grid-cols-3">
+                    <div class="data-cell">
+                        <span class="cell-label">CAD / CAM</span>
+                        <span class="cell-value-mono text-white">Fusion 360</span>
+                    </div>
+                    <div class="data-cell md:col-span-2">
+                        <span class="cell-label">Kinetik & Beregning</span>
+                        <span class="cell-value font-mono text-[11px] text-[#a1a1aa]"><span class="text-[#00e5ff] font-bold">M_CORE:</span> Egenudviklet software-logik til generering af maskinspecifikke og deterministiske skæredata.</span>
+                    </div>
+                </div>
+
+                <!-- SECTION 5: VALIDEREDE CASES -->
+                <div class="section-header">04 // Validerede Protokoller (Udpluk)</div>
+                <div class="data-grid grid-cols-1 md:grid-cols-2">
+                    
+                    <div class="data-cell !p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-mono font-bold text-white text-[13px] uppercase">Vakuum Motor</h3>
+                            <span class="font-mono text-[9px] text-[#52525b] border border-[#333] px-1.5 uppercase">Prototyping</span>
+                        </div>
+                        <p class="cell-value text-[12px] font-light text-[#a1a1aa] mb-4">
+                            Totalproduktion af samling. Kritisk fokus på vakuumtæthed gennem mikron-pasninger (H7/g6) i Ms58 og Alu 6082. 
+                        </p>
+                        <div class="mt-auto pt-3 border-t border-[#1f1f1f]">
+                            <span class="cell-label !mb-0">Resultat</span>
+                            <span class="font-mono text-[11px] text-white">100% tæthed. FAI Valideret.</span>
+                        </div>
+                    </div>
+
+                    <div class="data-cell !p-6">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-mono font-bold text-white text-[13px] uppercase">Optisk Platform</h3>
+                            <span class="font-mono text-[9px] text-[#52525b] border border-[#333] px-1.5 uppercase">HSM Strategi</span>
+                        </div>
+                        <p class="cell-value text-[12px] font-light text-[#a1a1aa] mb-4">
+                            Udvikling af opspændingslogik for et ekstremt planhedskritisk emne. Implementering af 5-akset HSM-tænkning i et 3-akset miljø for at undgå spændinger.
+                        </p>
+                        <div class="mt-auto pt-3 border-t border-[#1f1f1f]">
+                            <span class="cell-label !mb-0">Resultat</span>
+                            <span class="font-mono text-[11px] text-white">Minimal vridning post-opspænding.</span>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
-
-        <section class="panel mt-4">
-            <div class="panel-header"><span>Bevisførelse</span><span>Udvalgte Cases</span></div>
-            <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#171717]">
-                
-                <div class="p-8">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="font-mono font-bold text-[10px] bg-[#0ea5e9]/10 text-[#0ea5e9] border border-[#0ea5e9]/30 px-2 py-1 uppercase tracking-widest">Case 01</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-2 uppercase font-mono tracking-tight">Vakuum Motor (Prototyping)</h3>
-                    <p class="text-[13px] text-[#a1a1aa] mb-4 leading-relaxed">
-                        Totalproduktion af samling fra bunden. Den primære udfordring var kravet til vakuumtæthed. Jeg eksekverede komplette præcisionspasninger (H7/g6) i Ms58 og Alu 6082. 
-                    </p>
-                    <div class="font-mono text-[10px] text-[#52525b] uppercase font-bold tracking-widest mt-auto border-t border-[#171717] pt-4">Resultat: 100% tæthed. Valideret via FAI.</div>
-                </div>
-
-                <div class="p-8">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="font-mono font-bold text-[10px] bg-[#0ea5e9]/10 text-[#0ea5e9] border border-[#0ea5e9]/30 px-2 py-1 uppercase tracking-widest">Case 02</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-2 uppercase font-mono tracking-tight">Optisk Platform (HSM)</h3>
-                    <p class="text-[13px] text-[#a1a1aa] mb-4 leading-relaxed">
-                        Udvikling af opspændingslogik for et ekstremt planhedskritisk emne i Alu 6082-T6. Implementering af 5-akset HSM-tænkning i et 3-akset miljø for at reducere spændinger i materialet under skrub.
-                    </p>
-                    <div class="font-mono text-[10px] text-[#52525b] uppercase font-bold tracking-widest mt-auto border-t border-[#171717] pt-4">Resultat: Minimal vridning post-opspænding.</div>
-                </div>
-
-            </div>
-        </section>
-
     </div>
 </body>
 </html>
