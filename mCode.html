@@ -11,7 +11,7 @@
         body { background-color: #09090b; color: #f4f4f5; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
-        input:focus { outline: none; box-shadow: none; }
+        input:focus, select:focus { outline: none; box-shadow: none; }
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
@@ -38,14 +38,13 @@
 </head>
 <body class="h-screen w-screen flex flex-col">
 
-    <!-- TOP NAVIGATION -->
     <header class="bg-zinc-950 border-b border-zinc-800 shrink-0 z-20 flex flex-col">
         <div class="px-6 py-4 flex justify-between items-center border-b border-zinc-900">
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 bg-zinc-100 text-zinc-900 rounded-md flex items-center justify-center font-bold text-sm">M_</div>
                 <div class="flex items-baseline gap-2">
                     <span class="text-zinc-100 font-semibold tracking-wide">M_CORE</span>
-                    <span class="text-zinc-500 text-xs">System V28 Absolute</span>
+                    <span class="text-zinc-500 text-xs">System V29 Absolute</span>
                 </div>
             </div>
             <div class="flex gap-6 items-center">
@@ -66,7 +65,6 @@
         </nav>
     </header>
 
-    <!-- CONTEXT BAR -->
     <div class="bg-zinc-900 border-b border-zinc-800 px-6 py-3 shrink-0 flex justify-between items-center z-10">
         <span id="context-label" class="text-sm font-medium text-zinc-500">Aktiv visning: <span class="text-zinc-200" id="lbl-tab">Skæredata</span></span>
         
@@ -82,12 +80,8 @@
         </div>
     </div>
 
-    <!-- MAIN WORKSPACE -->
     <main class="flex-grow w-full max-w-[1600px] mx-auto overflow-hidden flex relative bg-[#09090b]">
 
-        <!-- ========================================== -->
-        <!-- 1. SKÆREDATA ENGINE                        -->
-        <!-- ========================================== -->
         <div id="view-skaeredata" class="w-full flex h-full hidden">
             <aside class="w-72 border-r border-zinc-800 bg-zinc-950/50 flex flex-col h-full shrink-0">
                 <div class="p-4 border-b border-zinc-800 text-xs text-zinc-400 font-medium">Vælg Materiale</div>
@@ -101,14 +95,29 @@
                         <div class="text-sm text-zinc-400" id="sd-note">System afventer input</div>
                     </div>
                     
-                    <div class="flex gap-4 items-end">
+                    <div class="flex gap-4 items-end flex-wrap">
                         <div class="flex flex-col">
-                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Værktøj / Emne Ø (mm)</label>
-                            <input type="number" id="sd-dia" class="bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono px-4 py-2 rounded-lg text-lg w-28 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="10" value="30">
+                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Ø (mm)</label>
+                            <input type="number" id="sd-dia" class="bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono px-3 py-2 rounded-lg text-sm w-20 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors h-[42px]" placeholder="10" value="30">
                         </div>
                         <div class="flex flex-col" id="sd-z-container">
-                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Antal Skær (Z)</label>
-                            <input type="number" id="sd-z" class="bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono px-4 py-2 rounded-lg text-lg w-24 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="4" value="4">
+                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Skær (Z)</label>
+                            <input type="number" id="sd-z" class="bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono px-3 py-2 rounded-lg text-sm w-16 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors h-[42px]" placeholder="4" value="4">
+                        </div>
+                        
+                        <div class="flex flex-col border-l border-zinc-800 pl-4 ml-2">
+                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Ra Krav (Slet)</label>
+                            <select id="sd-ra" class="bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono px-3 py-2 rounded-lg text-sm w-32 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors h-[42px] outline-none cursor-pointer">
+                                <option value="std">DB Std.</option>
+                                <option value="0.4">Ra 0.4 µm</option>
+                                <option value="0.8">Ra 0.8 µm</option>
+                                <option value="1.6">Ra 1.6 µm</option>
+                                <option value="3.2">Ra 3.2 µm</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Næse R</label>
+                            <input type="number" id="sd-re" class="bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono px-3 py-2 rounded-lg text-sm w-20 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors h-[42px]" placeholder="0.4" value="0.4" step="0.1">
                         </div>
                         <div class="flex flex-col border-l border-zinc-800 pl-4 ml-2">
                             <label class="text-xs text-zinc-500 font-medium mb-1.5">Materiale (Værktøj)</label>
@@ -125,9 +134,6 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 2. GEVIND ENGINE                           -->
-        <!-- ========================================== -->
         <div id="view-gevind" class="w-full flex h-full hidden">
             <aside class="w-64 border-r border-zinc-800 bg-zinc-950/50 flex flex-col h-full shrink-0">
                 <div class="p-4 border-b border-zinc-800 text-xs text-zinc-400 font-medium">Gevind Standarder</div>
@@ -139,9 +145,6 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 3. PASNINGER ENGINE                        -->
-        <!-- ========================================== -->
         <div id="view-pasninger" class="w-full flex flex-col h-full hidden p-8 overflow-y-auto">
             <div class="w-full max-w-4xl mx-auto">
                 <div class="text-sm text-zinc-300 font-semibold mb-6 border-b border-zinc-800 pb-3">ISO 286 Pasningskalkulator (Ø1 - Ø120 mm)</div>
@@ -163,16 +166,10 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 4. STATIC GRID (GDT, GCODE, MATERIALE)     -->
-        <!-- ========================================== -->
         <div id="view-grid" class="w-full flex-col h-full hidden overflow-y-auto p-8">
             <div id="static-matrix" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12"></div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 5. TERMINAL ENGINE                         -->
-        <!-- ========================================== -->
         <div id="view-terminal" class="w-full flex-col h-full hidden overflow-y-auto p-8">
             <div class="w-full max-w-5xl mx-auto">
                 <div class="relative flex items-center bg-zinc-900 border border-zinc-700 rounded-xl shadow-sm mb-8 focus-within:ring-2 focus-within:ring-blue-500/30 focus-within:border-blue-500 transition-all">
@@ -975,6 +972,8 @@
                 const data = matData[currentMode][currentOp];
                 const d = parseFloat(document.getElementById('sd-dia').value) || 10;
                 const z = parseFloat(document.getElementById('sd-z').value) || 4;
+                const raKrav = document.getElementById('sd-ra').value;
+                const re = parseFloat(document.getElementById('sd-re').value) || 0.4;
 
                 const cards = [
                     { title: "Skrub", raw: data.rough, color: "text-blue-400" },
@@ -984,7 +983,7 @@
                 ];
 
                 cards.forEach(c => {
-                    const spec = c.raw[currentTool];
+                    let spec = c.raw[currentTool];
                     
                     if(!spec || spec.vc === 0) {
                         out.innerHTML += `
@@ -996,6 +995,21 @@
                         return;
                     }
 
+                    spec = { ...spec };
+                    let cardTitleExtra = "";
+
+                    if (c.title === "Slet" && raKrav !== "std") {
+                        const ra = parseFloat(raKrav);
+                        const fCalc = Math.sqrt((ra * 8 * re) / 1000);
+                        
+                        if (currentOp === 'MILL') {
+                            spec.fz = fCalc;
+                        } else {
+                            spec.f = fCalc;
+                        }
+                        cardTitleExtra = `<span class="ml-3 text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-mono font-medium tracking-normal normal-case">Ra ${ra} µm</span>`;
+                    }
+
                     let rpm = Math.round((spec.vc * 1000) / (Math.PI * d));
                     if(currentMode === 'CNC' && rpm > 10000) rpm = 10000;
                     if(currentMode === 'MAN' && rpm > 3000) rpm = 3000;
@@ -1003,10 +1017,11 @@
                     let feedLabel = "";
                     let feedVal = "";
                     let feedCalc = "";
+                    let fzDec = cardTitleExtra !== "" ? 3 : 2;
 
                     if (c.title === "Boring") {
                         feedLabel = "Tilsp. pr. omdr (f)";
-                        feedVal = `${spec.f.toFixed(2)} mm/o`;
+                        feedVal = `${spec.f.toFixed(fzDec)} mm/o`;
                         if(currentMode === 'CNC' && currentOp === 'MILL') {
                             const vf = Math.round(spec.f * rpm);
                             feedCalc = `<div class="mt-auto pt-4 border-t border-zinc-800/80 flex justify-between items-end"><span class="text-xs text-zinc-400 font-medium">Z-Tilspænding (Vf)</span><span class="text-lg font-mono font-semibold text-zinc-100">${vf} <span class="text-xs text-zinc-500 font-sans">mm/min</span></span></div>`;
@@ -1015,19 +1030,19 @@
                         }
                     } else if (currentOp === 'MILL') {
                         feedLabel = "Tilsp. pr. tand (fz)";
-                        feedVal = `${spec.fz.toFixed(2)} mm`;
+                        feedVal = `${spec.fz.toFixed(fzDec)} mm`;
                         const vf = Math.round(spec.fz * z * rpm);
                         feedCalc = `<div class="mt-auto pt-4 border-t border-zinc-800/80 flex justify-between items-end"><span class="text-xs text-zinc-400 font-medium">Bordtilspænding (Vf)</span><span class="text-lg font-mono font-semibold text-zinc-100">${vf} <span class="text-xs text-zinc-500 font-sans">mm/min</span></span></div>`;
                     } else {
                         feedLabel = "Tilsp. pr. omdr (f)";
-                        feedVal = `${spec.f.toFixed(2)} mm/o`;
+                        feedVal = `${spec.f.toFixed(fzDec)} mm/o`;
                         feedCalc = `<div class="mt-auto pt-4 border-t border-zinc-800/80 flex justify-between items-end"><span class="text-xs text-zinc-400 font-medium">Tilspænding</span><span class="text-xs font-medium text-zinc-500">G99 / Gearkasse</span></div>`;
                     }
 
                     out.innerHTML += `
                         <div class="bg-zinc-800/20 border border-zinc-700/50 p-6 rounded-xl flex flex-col h-full min-h-[220px]">
                             <div class="flex justify-between items-center mb-6">
-                                <span class="text-xs font-semibold uppercase tracking-wider ${c.color}">${c.title}</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider ${c.color} flex items-center">${c.title} ${cardTitleExtra}</span>
                                 <span class="text-[10px] font-medium text-zinc-500 bg-zinc-800/50 px-2 py-0.5 rounded-md">${currentTool}</span>
                             </div>
                             <div class="text-3xl font-semibold font-mono text-zinc-100 mb-1">${rpm} <span class="text-sm text-zinc-500 font-sans font-medium">RPM</span></div>
@@ -1055,6 +1070,8 @@
 
         document.getElementById('sd-dia').addEventListener('input', renderSkaeredata);
         document.getElementById('sd-z').addEventListener('input', renderSkaeredata);
+        document.getElementById('sd-ra').addEventListener('change', renderSkaeredata);
+        document.getElementById('sd-re').addEventListener('input', renderSkaeredata);
 
         // ----------------------------------------------------------------------
         // GEVIND ENGINE
@@ -1254,7 +1271,7 @@
         document.getElementById('iso-shaft').addEventListener('input', calculateISO);
 
         // ----------------------------------------------------------------------
-        // 09. TERMINAL KALKULATOR ENGINE
+        // TERMINAL KALKULATOR ENGINE
         // ----------------------------------------------------------------------
         function parseCommand(q) {
             const output = document.getElementById('calc-output');
@@ -1334,26 +1351,43 @@
                     let blocks = [];
                     let t = Math.round(target * 1000) / 1000;
                     if (t <= 0) return ["Ingen"];
-                    if (t < 0.5) return ["For lav til std. sæt"];
+                    if (t < 0.5) return ["For lav til std. sæt (Brug søgerblade)"];
 
+                    // Tjek 1/1000 (0.001 -> 0.009)
                     let th = Math.round(t * 1000) % 10;
                     if (th > 0) {
                         let b = 1.0 + (th / 1000);
                         if (t >= b) { blocks.push(b); t = Math.round((t - b) * 1000) / 1000; }
                     }
 
+                    // Tjek 1/100 og 1/10 (0.01 -> 0.99)
                     let h = Math.round(t * 100) % 100;
                     if (h > 0) {
                         let b = 1.0;
-                        if (h >= 50 && t >= (1.0 + (h-50)/100)) { b += (h - 50) / 100; }
-                        else if (t >= 1.0 + h/100) { b += h / 100; }
-                        if (b > 1.0 && t >= b) { blocks.push(b); t = Math.round((t - b) * 1000) / 1000; }
+                        if (h >= 50 && t >= (1.0 + (h-50)/100)) { 
+                            b += (h - 50) / 100; 
+                        } else if (t >= 1.0 + h/100) { 
+                            b += h / 100; 
+                        }
+                        if (b > 1.0 && t >= b) { 
+                            blocks.push(b); 
+                            t = Math.round((t - b) * 1000) / 1000; 
+                        }
                     }
 
+                    // Tjek 10'ere og op (10, 20... 100)
                     let tens = Math.floor(t / 10) * 10;
-                    while (tens >= 100) { blocks.push(100); t = Math.round((t - 100) * 1000) / 1000; tens -= 100; }
-                    if (tens > 0 && t >= tens) { blocks.push(tens); t = Math.round((t - tens) * 1000) / 1000; }
+                    while (tens >= 100) { 
+                        blocks.push(100); 
+                        t = Math.round((t - 100) * 1000) / 1000; 
+                        tens -= 100; 
+                    }
+                    if (tens > 0 && t >= tens) { 
+                        blocks.push(tens); 
+                        t = Math.round((t - tens) * 1000) / 1000; 
+                    }
 
+                    // Tjek resterende (0.5, 1, 2, ... 9)
                     if (t > 0) blocks.push(t);
 
                     return blocks.sort((a,b) => b - a).map(n => n.toFixed(3));
@@ -1361,7 +1395,7 @@
 
                 const blockStack = getGaugeBlocks(parseFloat(height)).join(" + ");
 
-                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Sinuslineal</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">Højde = ${height} mm</div><div class="flex gap-8 text-sm text-zinc-400 mb-5"><div>Vinkel: <span class="font-mono">${v}°</span></div><div>Lineal Længde: <span class="font-mono">${l} mm</span></div></div><div class="text-sm text-zinc-300 border-t border-zinc-800/80 pt-4 leading-relaxed"><div class="text-zinc-500 font-medium mb-1">Passklods-Stack (M112/M87)</div><span class="font-mono text-blue-400 text-lg">${blockStack}</span></div></div>`;
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Sinuslineal</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">Højde = ${height} mm</div><div class="flex gap-8 text-sm text-zinc-400 mb-5"><div>Vinkel: <span class="font-mono">${v}°</span></div><div>Lineal Længde: <span class="font-mono">${l} mm</span></div></div><div class="text-sm text-zinc-300 border-t border-zinc-800/80 pt-4 leading-relaxed"><div class="text-zinc-500 font-medium mb-1">Passklods-Stack (M112/M87 sæt):</div><span class="font-mono text-blue-400 text-lg">${blockStack}</span></div></div>`;
                 matchFound = true;
             }
 
