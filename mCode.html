@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="da" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M_CORE // Reference System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+        
+        body { background-color: #09090b; color: #f4f4f5; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        input:focus { outline: none; box-shadow: none; }
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        .tab-btn { padding: 14px 20px; font-size: 14px; font-weight: 500; color: #a1a1aa; border-bottom: 2px solid transparent; transition: all 0.2s; cursor: pointer; white-space: nowrap; }
+        .tab-btn:hover { color: #f4f4f5; }
+        .tab-btn.active { color: #fff; border-bottom-color: #3b82f6; }
+
+        .toggle-btn { transition: all 0.15s; cursor: pointer; font-size: 13px; font-weight: 500; border-radius: 6px; }
+        .toggle-btn.active-cnc { background-color: #0284c7; color: #fff; }
+        .toggle-btn.active-man { background-color: #d97706; color: #fff; }
+        .toggle-btn.active-op { background-color: #3f3f46; color: #fff; }
+        .toggle-btn.inactive { background-color: transparent; color: #a1a1aa; }
+        .toggle-btn.inactive:hover { color: #f4f4f5; background-color: #27272a; }
+
+        .list-item { padding: 12px 16px; border-bottom: 1px solid #18181b; cursor: pointer; font-size: 14px; color: #a1a1aa; transition: all 0.15s; }
+        .list-item:hover { background: #18181b; color: #f4f4f5; }
+        .list-item.active { background: #1e293b; color: #38bdf8; font-weight: 500; border-left: 3px solid #38bdf8; }
+    </style>
+</head>
+<body class="h-screen w-screen flex flex-col">
+
+    <!-- TOP NAVIGATION -->
+    <header class="bg-zinc-950 border-b border-zinc-800 shrink-0 z-20 flex flex-col">
+        <div class="px-6 py-4 flex justify-between items-center border-b border-zinc-900">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-zinc-100 text-zinc-900 rounded-md flex items-center justify-center font-bold text-sm">M_</div>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-zinc-100 font-semibold tracking-wide">M_CORE</span>
+                    <span class="text-zinc-500 text-xs">System V28 Absolute</span>
+                </div>
+            </div>
+            <div class="flex gap-6 items-center">
+                <span id="sw-status" class="text-xs text-zinc-500 flex items-center gap-2 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-zinc-600"></span> Afventer system
+                </span>
+            </div>
+        </div>
+
+        <nav class="flex overflow-x-auto hide-scrollbar px-4 pt-1" id="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('SKÆREDATA')">Skæredata</button>
+            <button class="tab-btn" onclick="switchTab('GEVIND')">Gevind</button>
+            <button class="tab-btn" onclick="switchTab('PASNINGER')">Pasninger (ISO)</button>
+            <button class="tab-btn" onclick="switchTab('GDT')">GDT & ISO</button>
+            <button class="tab-btn" onclick="switchTab('GCODE')">G-Kode</button>
+            <button class="tab-btn" onclick="switchTab('MATERIALE')">Materialer</button>
+            <button class="tab-btn text-zinc-400 hover:text-zinc-100" onclick="switchTab('TERMINAL')">Terminal</button>
+        </nav>
+    </header>
+
+    <!-- CONTEXT BAR -->
+    <div class="bg-zinc-900 border-b border-zinc-800 px-6 py-3 shrink-0 flex justify-between items-center z-10">
+        <span id="context-label" class="text-sm font-medium text-zinc-500">Aktiv visning: <span class="text-zinc-200" id="lbl-tab">Skæredata</span></span>
+        
+        <div class="flex gap-4" id="hardware-toggles">
+            <div class="flex bg-zinc-950 border border-zinc-800 rounded-lg p-1">
+                <button id="btn-cnc" class="toggle-btn active-cnc px-4 py-1.5" onclick="setMode('CNC')">CNC</button>
+                <button id="btn-man" class="toggle-btn inactive px-4 py-1.5" onclick="setMode('MAN')">MANUAL</button>
+            </div>
+            <div class="flex bg-zinc-950 border border-zinc-800 rounded-lg p-1">
+                <button id="btn-mill" class="toggle-btn active-op px-4 py-1.5" onclick="setOp('MILL')">FRÆS</button>
+                <button id="btn-lathe" class="toggle-btn inactive px-4 py-1.5" onclick="setOp('LATHE')">DREJ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="flex-grow w-full max-w-[1600px] mx-auto overflow-hidden flex relative bg-[#09090b]">
+
+        <!-- ========================================== -->
+        <!-- 1. SKÆREDATA ENGINE                        -->
+        <!-- ========================================== -->
+        <div id="view-skaeredata" class="w-full flex h-full hidden">
+            <aside class="w-72 border-r border-zinc-800 bg-zinc-950/50 flex flex-col h-full shrink-0">
+                <div class="p-4 border-b border-zinc-800 text-xs text-zinc-400 font-medium">Vælg Materiale</div>
+                <div class="flex-grow overflow-y-auto" id="mat-list"></div>
+            </aside>
+            <div class="flex-grow flex flex-col h-full overflow-y-auto p-8">
+                
+                <div class="flex justify-between items-end mb-8 pb-4 flex-wrap gap-4 border-b border-zinc-800/50">
+                    <div>
+                        <h2 class="text-2xl font-semibold text-zinc-100 mb-1" id="sd-title">Vælg Materiale</h2>
+                        <div class="text-sm text-zinc-400" id="sd-note">System afventer input</div>
+                    </div>
+                    
+                    <div class="flex gap-4 items-end">
+                        <div class="flex flex-col">
+                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Værktøj / Emne Ø (mm)</label>
+                            <input type="number" id="sd-dia" class="bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono px-4 py-2 rounded-lg text-lg w-28 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="10" value="30">
+                        </div>
+                        <div class="flex flex-col" id="sd-z-container">
+                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Antal Skær (Z)</label>
+                            <input type="number" id="sd-z" class="bg-zinc-900 border border-zinc-700 text-zinc-100 font-mono px-4 py-2 rounded-lg text-lg w-24 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors" placeholder="4" value="4">
+                        </div>
+                        <div class="flex flex-col border-l border-zinc-800 pl-4 ml-2">
+                            <label class="text-xs text-zinc-500 font-medium mb-1.5">Materiale (Værktøj)</label>
+                            <div class="flex bg-zinc-950 border border-zinc-800 rounded-lg p-1 h-[42px]">
+                                <button id="btn-hm" class="toggle-btn active-op px-4 h-full" onclick="setTool('HM')">HM</button>
+                                <button id="btn-hss" class="toggle-btn inactive px-4 h-full" onclick="setTool('HSS')">HSS</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sd-output" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 opacity-0 transition-opacity duration-300">
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 2. GEVIND ENGINE                           -->
+        <!-- ========================================== -->
+        <div id="view-gevind" class="w-full flex h-full hidden">
+            <aside class="w-64 border-r border-zinc-800 bg-zinc-950/50 flex flex-col h-full shrink-0">
+                <div class="p-4 border-b border-zinc-800 text-xs text-zinc-400 font-medium">Gevind Standarder</div>
+                <div class="flex-grow overflow-y-auto" id="thread-list"></div>
+            </aside>
+            <div class="flex-grow flex flex-col h-full overflow-y-auto p-10 items-center justify-center">
+                <div id="thread-output" class="w-full max-w-3xl opacity-0 transition-opacity duration-300">
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 3. PASNINGER ENGINE                        -->
+        <!-- ========================================== -->
+        <div id="view-pasninger" class="w-full flex flex-col h-full hidden p-8 overflow-y-auto">
+            <div class="w-full max-w-4xl mx-auto">
+                <div class="text-sm text-zinc-300 font-semibold mb-6 border-b border-zinc-800 pb-3">ISO 286 Pasningskalkulator (Ø1 - Ø120 mm)</div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-zinc-900/50 border border-zinc-800 p-5 rounded-xl focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
+                        <label class="text-xs text-zinc-500 font-medium mb-3 block">Nominelt Mål (Ø mm)</label>
+                        <input type="number" id="iso-nom" class="w-full bg-transparent text-2xl font-mono text-zinc-100" placeholder="10" autocomplete="off">
+                    </div>
+                    <div class="bg-zinc-900/50 border border-zinc-800 p-5 rounded-xl focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
+                        <label class="text-xs text-zinc-500 font-medium mb-3 block">Hul Tolerance</label>
+                        <input type="text" id="iso-hole" class="w-full bg-transparent text-2xl font-mono text-zinc-100 uppercase" placeholder="H7" autocomplete="off" maxlength="3">
+                    </div>
+                    <div class="bg-zinc-900/50 border border-zinc-800 p-5 rounded-xl focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
+                        <label class="text-xs text-zinc-500 font-medium mb-3 block">Aksel Tolerance</label>
+                        <input type="text" id="iso-shaft" class="w-full bg-transparent text-2xl font-mono text-zinc-100 lowercase" placeholder="g6" autocomplete="off" maxlength="3">
+                    </div>
+                </div>
+                <div id="iso-output" class="grid grid-cols-1 md:grid-cols-2 gap-6 opacity-0 transition-opacity duration-300"></div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 4. STATIC GRID (GDT, GCODE, MATERIALE)     -->
+        <!-- ========================================== -->
+        <div id="view-grid" class="w-full flex-col h-full hidden overflow-y-auto p-8">
+            <div id="static-matrix" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12"></div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 5. TERMINAL ENGINE                         -->
+        <!-- ========================================== -->
+        <div id="view-terminal" class="w-full flex-col h-full hidden overflow-y-auto p-8">
+            <div class="w-full max-w-5xl mx-auto">
+                <div class="relative flex items-center bg-zinc-900 border border-zinc-700 rounded-xl shadow-sm mb-8 focus-within:ring-2 focus-within:ring-blue-500/30 focus-within:border-blue-500 transition-all">
+                    <input type="text" id="calc-cmd" class="w-full bg-transparent py-5 px-6 text-xl font-mono text-zinc-100 placeholder-zinc-500" placeholder="Indtast formel syntaks (fx. vc 120 d 10)..." autocomplete="off" spellcheck="false">
+                </div>
+                
+                <div id="calc-output" class="mb-12"></div>
+                
+                <h3 class="text-sm font-semibold text-zinc-300 border-b border-zinc-800 pb-3 mb-6">Referencemanual & Syntaks</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl cursor-pointer hover:border-zinc-600 transition-colors group" onclick="injectCalc('vc 120 d 10')">
+                        <div class="text-blue-400 font-mono text-sm mb-2 font-semibold group-hover:text-blue-300 transition-colors">vc [m/min] d [Ø i mm]</div>
+                        <div class="text-sm text-zinc-400 mb-4 leading-relaxed">Beregner det korrekte omdrejningstal (RPM) ud fra en given skærehastighed (Vc) og værktøjets diameter (D).</div>
+                        <div class="text-xs text-zinc-500 font-mono border-t border-zinc-800/80 pt-3">Eksempel: vc 120 d 10</div>
+                    </div>
+
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl cursor-pointer hover:border-zinc-600 transition-colors group" onclick="injectCalc('fz 0.1 r 0.4')">
+                        <div class="text-blue-400 font-mono text-sm mb-2 font-semibold group-hover:text-blue-300 transition-colors">fz [mm/o] r [radius i mm]</div>
+                        <div class="text-sm text-zinc-400 mb-4 leading-relaxed">Estimerer den teoretiske overfladeruhed (Ra) baseret på din tilspænding og platten/værktøjets næseradius.</div>
+                        <div class="text-xs text-zinc-500 font-mono border-t border-zinc-800/80 pt-3">Eksempel: fz 0.1 r 0.4</div>
+                    </div>
+
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl cursor-pointer hover:border-zinc-600 transition-colors group" onclick="injectCalc('tid l 150 f 200')">
+                        <div class="text-blue-400 font-mono text-sm mb-2 font-semibold group-hover:text-blue-300 transition-colors">tid l [længde] f [mm/min]</div>
+                        <div class="text-sm text-zinc-400 mb-4 leading-relaxed">Beregner den samlede maskintid for et snit baseret på bearbejdningslængden (L) og bordtilspændingen (Vf).</div>
+                        <div class="text-xs text-zinc-500 font-mono border-t border-zinc-800/80 pt-3">Eksempel: tid l 150 f 200</div>
+                    </div>
+
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl cursor-pointer hover:border-zinc-600 transition-colors group" onclick="injectCalc('p 1.25 s 500')">
+                        <div class="text-blue-400 font-mono text-sm mb-2 font-semibold group-hover:text-blue-300 transition-colors">p [stigning] s [RPM]</div>
+                        <div class="text-sm text-zinc-400 mb-4 leading-relaxed">Udregner den påkrævede Z-akse bordtilspænding (Vf) for at skære et gevind (Rigid Tapping) ved et givent omdrejningstal.</div>
+                        <div class="text-xs text-zinc-500 font-mono border-t border-zinc-800/80 pt-3">Eksempel: p 1.25 s 500</div>
+                    </div>
+
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl cursor-pointer hover:border-zinc-600 transition-colors group" onclick="injectCalc('bor d 10 v 118')">
+                        <div class="text-blue-400 font-mono text-sm mb-2 font-semibold group-hover:text-blue-300 transition-colors">bor d [Ø i mm] v [vinkel i °]</div>
+                        <div class="text-sm text-zinc-400 mb-4 leading-relaxed">Beregner højden på borespidsen. Læg denne Z-værdi til din tegningsdybde for at opnå fuld diameter i bunden af hullet.</div>
+                        <div class="text-xs text-zinc-500 font-mono border-t border-zinc-800/80 pt-3">Eksempel: bor d 10 v 118</div>
+                    </div>
+
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl cursor-pointer hover:border-zinc-600 transition-colors group" onclick="injectCalc('konus d 30 d 20 l 50')">
+                        <div class="text-blue-400 font-mono text-sm mb-2 font-semibold group-hover:text-blue-300 transition-colors">konus d [Stor Ø] d [Lille Ø] l [Længde]</div>
+                        <div class="text-sm text-zinc-400 mb-4 leading-relaxed">Beregner total topvinkel og den halverede indstillingsvinkel til topslæden ved konisk drejning.</div>
+                        <div class="text-xs text-zinc-500 font-mono border-t border-zinc-800/80 pt-3">Eksempel: konus d 30 d 20 l 50</div>
+                    </div>
+
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl cursor-pointer hover:border-zinc-600 transition-colors group" onclick="injectCalc('sinus v 15 l 100')">
+                        <div class="text-blue-400 font-mono text-sm mb-2 font-semibold group-hover:text-blue-300 transition-colors">sinus v [grader] l [længde]</div>
+                        <div class="text-sm text-zinc-400 mb-4 leading-relaxed">Udregner højden for en sinuslineal. Foreslår automatisk den optimale stak af passklodser fra et standard ISO-sæt.</div>
+                        <div class="text-xs text-zinc-500 font-mono border-t border-zinc-800/80 pt-3">Eksempel: sinus v 15 l 100</div>
+                    </div>
+
+                    <div class="bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl cursor-pointer hover:border-zinc-600 transition-colors group" onclick="injectCalc('bolt d 100 n 6')">
+                        <div class="text-blue-400 font-mono text-sm mb-2 font-semibold group-hover:text-blue-300 transition-colors">bolt d [dele-Ø] n [antal huller]</div>
+                        <div class="text-sm text-zinc-400 mb-4 leading-relaxed">Beregner vinkelintervallet mellem huller på en delecirkel. Perfekt til opmærkning på manuelt rundbord.</div>
+                        <div class="text-xs text-zinc-500 font-mono border-t border-zinc-800/80 pt-3">Eksempel: bolt d 100 n 6</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // ==========================================
+        // DATA STRUCTURES
+        // ==========================================
+
+        const cutDB = {
+            "Alu 6082-T6": {
+                coolant: "Emulsion / Sprit", note: "Brug polerede skær (CCGT/DCGT). Undgå ægopbygning.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 400, fz: 0.15}, HSS: {vc: 100, fz: 0.08} },
+                        fin:   { HM: {vc: 600, fz: 0.05}, HSS: {vc: 120, fz: 0.03} },
+                        slot:  { HM: {vc: 300, fz: 0.10}, HSS: {vc: 80,  fz: 0.05} },
+                        drill: { HM: {vc: 150, f: 0.15},  HSS: {vc: 60,  f: 0.10} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 500, f: 0.30},  HSS: {vc: 120, f: 0.15} },
+                        fin:   { HM: {vc: 800, f: 0.08},  HSS: {vc: 150, f: 0.05} },
+                        groove:{ HM: {vc: 300, f: 0.12},  HSS: {vc: 80,  f: 0.06} },
+                        drill: { HM: {vc: 150, f: 0.15},  HSS: {vc: 60,  f: 0.10} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 250, fz: 0.10}, HSS: {vc: 80, fz: 0.08} },
+                        fin:   { HM: {vc: 350, fz: 0.04}, HSS: {vc: 100, fz: 0.02} },
+                        slot:  { HM: {vc: 150, fz: 0.06}, HSS: {vc: 60, fz: 0.04} },
+                        drill: { HM: {vc: 100, f: 0.12},  HSS: {vc: 50, f: 0.10} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 250, f: 0.20},  HSS: {vc: 80, f: 0.12} },
+                        fin:   { HM: {vc: 400, f: 0.05},  HSS: {vc: 100, f: 0.03} },
+                        groove:{ HM: {vc: 150, f: 0.08},  HSS: {vc: 60, f: 0.05} },
+                        drill: { HM: {vc: 100, f: 0.12},  HSS: {vc: 50, f: 0.10} }
+                    }
+                }
+            },
+            "Alu 7075-T6 (Ergal)": {
+                coolant: "Emulsion / Sprit", note: "Aerospace Alu. Nær stål-styrke, kort spån. Slider på HSS.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 350, fz: 0.15}, HSS: {vc: 80, fz: 0.06} },
+                        fin:   { HM: {vc: 500, fz: 0.05}, HSS: {vc: 100, fz: 0.03} },
+                        slot:  { HM: {vc: 250, fz: 0.08}, HSS: {vc: 60,  fz: 0.04} },
+                        drill: { HM: {vc: 120, f: 0.12},  HSS: {vc: 50,  f: 0.08} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 450, f: 0.25},  HSS: {vc: 100, f: 0.12} },
+                        fin:   { HM: {vc: 600, f: 0.08},  HSS: {vc: 120, f: 0.05} },
+                        groove:{ HM: {vc: 250, f: 0.10},  HSS: {vc: 70,  f: 0.05} },
+                        drill: { HM: {vc: 120, f: 0.12},  HSS: {vc: 50,  f: 0.08} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 200, fz: 0.08}, HSS: {vc: 60, fz: 0.06} },
+                        fin:   { HM: {vc: 300, fz: 0.03}, HSS: {vc: 80, fz: 0.02} },
+                        slot:  { HM: {vc: 120, fz: 0.05}, HSS: {vc: 50, fz: 0.03} },
+                        drill: { HM: {vc: 80,  f: 0.10},  HSS: {vc: 40, f: 0.08} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 200, f: 0.15},  HSS: {vc: 60, f: 0.10} },
+                        fin:   { HM: {vc: 300, f: 0.05},  HSS: {vc: 80, f: 0.03} },
+                        groove:{ HM: {vc: 120, f: 0.08},  HSS: {vc: 40, f: 0.04} },
+                        drill: { HM: {vc: 80,  f: 0.10},  HSS: {vc: 40, f: 0.08} }
+                    }
+                }
+            },
+            "Messing Ms58": {
+                coolant: "Tør / Let Emulsion", note: "Slib spånvinkel til 0° på HSS bor, ellers hugger boret fast.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 200, fz: 0.15}, HSS: {vc: 80, fz: 0.10} },
+                        fin:   { HM: {vc: 300, fz: 0.05}, HSS: {vc: 100, fz: 0.05} },
+                        slot:  { HM: {vc: 150, fz: 0.10}, HSS: {vc: 60, fz: 0.06} },
+                        drill: { HM: {vc: 120, f: 0.15},  HSS: {vc: 50, f: 0.12} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 300, f: 0.30},  HSS: {vc: 100, f: 0.15} },
+                        fin:   { HM: {vc: 400, f: 0.05},  HSS: {vc: 120, f: 0.05} },
+                        groove:{ HM: {vc: 200, f: 0.12},  HSS: {vc: 80,  f: 0.08} },
+                        drill: { HM: {vc: 120, f: 0.15},  HSS: {vc: 50,  f: 0.12} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 150, fz: 0.10}, HSS: {vc: 60, fz: 0.08} },
+                        fin:   { HM: {vc: 200, fz: 0.04}, HSS: {vc: 80, fz: 0.03} },
+                        slot:  { HM: {vc: 100, fz: 0.06}, HSS: {vc: 45, fz: 0.05} },
+                        drill: { HM: {vc: 80,  f: 0.12},  HSS: {vc: 40, f: 0.10} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 180, f: 0.20},  HSS: {vc: 80, f: 0.12} },
+                        fin:   { HM: {vc: 250, f: 0.05},  HSS: {vc: 100, f: 0.04} },
+                        groove:{ HM: {vc: 120, f: 0.10},  HSS: {vc: 50, f: 0.06} },
+                        drill: { HM: {vc: 80,  f: 0.12},  HSS: {vc: 40, f: 0.10} }
+                    }
+                }
+            },
+            "Fosforbronze CuSn8": {
+                coolant: "Emulsion", note: "Sejt og slidstærkt. Giver uregelmæssige spåner. Kræver skarpt værktøj.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 140, fz: 0.10}, HSS: {vc: 40, fz: 0.06} },
+                        fin:   { HM: {vc: 180, fz: 0.04}, HSS: {vc: 50, fz: 0.03} },
+                        slot:  { HM: {vc: 100, fz: 0.06}, HSS: {vc: 30, fz: 0.04} },
+                        drill: { HM: {vc: 80,  f: 0.10},  HSS: {vc: 25, f: 0.08} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 200, f: 0.20},  HSS: {vc: 50, f: 0.10} },
+                        fin:   { HM: {vc: 250, f: 0.05},  HSS: {vc: 60, f: 0.05} },
+                        groove:{ HM: {vc: 120, f: 0.08},  HSS: {vc: 35, f: 0.05} },
+                        drill: { HM: {vc: 80,  f: 0.10},  HSS: {vc: 25, f: 0.08} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 100, fz: 0.08}, HSS: {vc: 30, fz: 0.05} },
+                        fin:   { HM: {vc: 130, fz: 0.03}, HSS: {vc: 40, fz: 0.02} },
+                        slot:  { HM: {vc: 70,  fz: 0.05}, HSS: {vc: 20, fz: 0.03} },
+                        drill: { HM: {vc: 60,  f: 0.08},  HSS: {vc: 20, f: 0.06} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 120, f: 0.15},  HSS: {vc: 40, f: 0.08} },
+                        fin:   { HM: {vc: 160, f: 0.04},  HSS: {vc: 50, f: 0.04} },
+                        groove:{ HM: {vc: 80,  f: 0.06},  HSS: {vc: 25, f: 0.04} },
+                        drill: { HM: {vc: 60,  f: 0.08},  HSS: {vc: 20, f: 0.06} }
+                    }
+                }
+            },
+            "Automatstål 11SMn30": {
+                coolant: "Emulsion / Olie", note: "Blylegeret for max bearbejdelighed. Kort spån.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 150, fz: 0.15}, HSS: {vc: 40, fz: 0.08} },
+                        fin:   { HM: {vc: 200, fz: 0.05}, HSS: {vc: 50, fz: 0.04} },
+                        slot:  { HM: {vc: 120, fz: 0.10}, HSS: {vc: 30, fz: 0.05} },
+                        drill: { HM: {vc: 100, f: 0.15},  HSS: {vc: 35, f: 0.10} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 220, f: 0.30},  HSS: {vc: 50, f: 0.15} },
+                        fin:   { HM: {vc: 280, f: 0.08},  HSS: {vc: 60, f: 0.05} },
+                        groove:{ HM: {vc: 150, f: 0.12},  HSS: {vc: 35, f: 0.08} },
+                        drill: { HM: {vc: 100, f: 0.15},  HSS: {vc: 35, f: 0.10} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 100, fz: 0.10}, HSS: {vc: 30, fz: 0.06} },
+                        fin:   { HM: {vc: 130, fz: 0.04}, HSS: {vc: 40, fz: 0.03} },
+                        slot:  { HM: {vc: 80,  fz: 0.06}, HSS: {vc: 20, fz: 0.04} },
+                        drill: { HM: {vc: 70,  f: 0.12},  HSS: {vc: 25, f: 0.08} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 140, f: 0.20},  HSS: {vc: 40, f: 0.12} },
+                        fin:   { HM: {vc: 180, f: 0.05},  HSS: {vc: 50, f: 0.04} },
+                        groove:{ HM: {vc: 100, f: 0.08},  HSS: {vc: 25, f: 0.05} },
+                        drill: { HM: {vc: 70,  f: 0.12},  HSS: {vc: 25, f: 0.08} }
+                    }
+                }
+            },
+            "Konst. stål S355": {
+                coolant: "Emulsion", note: "Standard maskinstål. Bliver sejt og river ved for lave hastigheder.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 110, fz: 0.12}, HSS: {vc: 25, fz: 0.06} },
+                        fin:   { HM: {vc: 150, fz: 0.05}, HSS: {vc: 35, fz: 0.03} },
+                        slot:  { HM: {vc: 80,  fz: 0.08}, HSS: {vc: 20, fz: 0.04} },
+                        drill: { HM: {vc: 70,  f: 0.12},  HSS: {vc: 25, f: 0.08} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 160, f: 0.25},  HSS: {vc: 30, f: 0.12} },
+                        fin:   { HM: {vc: 220, f: 0.08},  HSS: {vc: 40, f: 0.05} },
+                        groove:{ HM: {vc: 110, f: 0.10},  HSS: {vc: 20, f: 0.06} },
+                        drill: { HM: {vc: 70,  f: 0.12},  HSS: {vc: 25, f: 0.08} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 70, fz: 0.08}, HSS: {vc: 20, fz: 0.05} },
+                        fin:   { HM: {vc: 100, fz: 0.03}, HSS: {vc: 28, fz: 0.02} },
+                        slot:  { HM: {vc: 50, fz: 0.05}, HSS: {vc: 15, fz: 0.03} },
+                        drill: { HM: {vc: 50, f: 0.10},  HSS: {vc: 20, f: 0.06} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 100, f: 0.18},  HSS: {vc: 25, f: 0.10} },
+                        fin:   { HM: {vc: 140, f: 0.05},  HSS: {vc: 35, f: 0.04} },
+                        groove:{ HM: {vc: 70,  f: 0.06},  HSS: {vc: 15, f: 0.04} },
+                        drill: { HM: {vc: 50,  f: 0.10},  HSS: {vc: 20, f: 0.06} }
+                    }
+                }
+            },
+            "Støbejern GG25": {
+                coolant: "TØR", note: "Skærevæske danner slibepasta med grafitstøvet. Kør tørt med sug.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 140, fz: 0.15}, HSS: {vc: 35, fz: 0.08} },
+                        fin:   { HM: {vc: 180, fz: 0.06}, HSS: {vc: 45, fz: 0.04} },
+                        slot:  { HM: {vc: 100, fz: 0.10}, HSS: {vc: 25, fz: 0.05} },
+                        drill: { HM: {vc: 90,  f: 0.15},  HSS: {vc: 30, f: 0.10} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 180, f: 0.30},  HSS: {vc: 40, f: 0.15} },
+                        fin:   { HM: {vc: 250, f: 0.10},  HSS: {vc: 50, f: 0.06} },
+                        groove:{ HM: {vc: 120, f: 0.12},  HSS: {vc: 25, f: 0.08} },
+                        drill: { HM: {vc: 90,  f: 0.15},  HSS: {vc: 30, f: 0.10} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 90, fz: 0.10}, HSS: {vc: 25, fz: 0.06} },
+                        fin:   { HM: {vc: 120, fz: 0.04}, HSS: {vc: 35, fz: 0.03} },
+                        slot:  { HM: {vc: 60, fz: 0.06}, HSS: {vc: 18, fz: 0.04} },
+                        drill: { HM: {vc: 60, f: 0.12},  HSS: {vc: 20, f: 0.08} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 110, f: 0.20},  HSS: {vc: 30, f: 0.12} },
+                        fin:   { HM: {vc: 150, f: 0.06},  HSS: {vc: 40, f: 0.05} },
+                        groove:{ HM: {vc: 80,  f: 0.08},  HSS: {vc: 20, f: 0.05} },
+                        drill: { HM: {vc: 60,  f: 0.12},  HSS: {vc: 20, f: 0.08} }
+                    }
+                }
+            },
+            "Sejhærdet 42CrMo4": {
+                coolant: "Emulsion / Olie", note: "Høj trækstyrke. Æder fasen på HSS bor lynhurtigt.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 80,  fz: 0.10}, HSS: {vc: 18, fz: 0.05} },
+                        fin:   { HM: {vc: 110, fz: 0.04}, HSS: {vc: 25, fz: 0.02} },
+                        slot:  { HM: {vc: 60,  fz: 0.06}, HSS: {vc: 12, fz: 0.03} },
+                        drill: { HM: {vc: 50,  f: 0.10},  HSS: {vc: 15, f: 0.06} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 100, f: 0.20},  HSS: {vc: 20, f: 0.10} },
+                        fin:   { HM: {vc: 140, f: 0.06},  HSS: {vc: 30, f: 0.04} },
+                        groove:{ HM: {vc: 70,  f: 0.08},  HSS: {vc: 15, f: 0.05} },
+                        drill: { HM: {vc: 50,  f: 0.10},  HSS: {vc: 15, f: 0.06} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 50, fz: 0.06}, HSS: {vc: 12, fz: 0.04} },
+                        fin:   { HM: {vc: 75, fz: 0.03}, HSS: {vc: 18, fz: 0.02} },
+                        slot:  { HM: {vc: 35, fz: 0.04}, HSS: {vc: 8,  fz: 0.02} },
+                        drill: { HM: {vc: 30, f: 0.08},  HSS: {vc: 10, f: 0.05} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 70, f: 0.15},  HSS: {vc: 15, f: 0.08} },
+                        fin:   { HM: {vc: 100, f: 0.05},  HSS: {vc: 22, f: 0.03} },
+                        groove:{ HM: {vc: 50, f: 0.06},  HSS: {vc: 10, f: 0.04} },
+                        drill: { HM: {vc: 30, f: 0.08},  HSS: {vc: 10, f: 0.05} }
+                    }
+                }
+            },
+            "Værktøjsstål (D2/O1)": {
+                coolant: "Emulsion / Skæreolie", note: "Bearbejdes blødglødet. Ekstremt abrasivt, slider lynhurtigt værktøj.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 50, fz: 0.08}, HSS: {vc: 12, fz: 0.04} },
+                        fin:   { HM: {vc: 70, fz: 0.03}, HSS: {vc: 16, fz: 0.02} },
+                        slot:  { HM: {vc: 35, fz: 0.05}, HSS: {vc: 8,  fz: 0.02} },
+                        drill: { HM: {vc: 40, f: 0.08},  HSS: {vc: 10, f: 0.05} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 70, f: 0.15},  HSS: {vc: 15, f: 0.08} },
+                        fin:   { HM: {vc: 90, f: 0.05},  HSS: {vc: 20, f: 0.03} },
+                        groove:{ HM: {vc: 50, f: 0.06},  HSS: {vc: 10, f: 0.04} },
+                        drill: { HM: {vc: 40, f: 0.08},  HSS: {vc: 10, f: 0.05} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 30, fz: 0.05}, HSS: {vc: 8,  fz: 0.03} },
+                        fin:   { HM: {vc: 45, fz: 0.02}, HSS: {vc: 12, fz: 0.01} },
+                        slot:  { HM: {vc: 20, fz: 0.03}, HSS: {vc: 5,  fz: 0.02} },
+                        drill: { HM: {vc: 25, f: 0.06},  HSS: {vc: 6,  f: 0.04} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 45, f: 0.12},  HSS: {vc: 10, f: 0.06} },
+                        fin:   { HM: {vc: 60, f: 0.04},  HSS: {vc: 15, f: 0.02} },
+                        groove:{ HM: {vc: 35, f: 0.04},  HSS: {vc: 8,  f: 0.03} },
+                        drill: { HM: {vc: 25, f: 0.06},  HSS: {vc: 6,  f: 0.04} }
+                    }
+                }
+            },
+            "Rustfri 304": {
+                coolant: "Emulsion / Tyk Olie", note: "Tendens til klæb på skæret (BUE). Hold altid værktøjet i snit.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 90, fz: 0.08}, HSS: {vc: 18, fz: 0.04} },
+                        fin:   { HM: {vc: 120, fz: 0.04},HSS: {vc: 25, fz: 0.02} },
+                        slot:  { HM: {vc: 70, fz: 0.05}, HSS: {vc: 12, fz: 0.03} },
+                        drill: { HM: {vc: 60, f: 0.10},  HSS: {vc: 15, f: 0.06} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 110, f: 0.20}, HSS: {vc: 20, f: 0.10} },
+                        fin:   { HM: {vc: 150, f: 0.08}, HSS: {vc: 30, f: 0.04} },
+                        groove:{ HM: {vc: 80,  f: 0.08}, HSS: {vc: 15, f: 0.05} },
+                        drill: { HM: {vc: 60,  f: 0.10}, HSS: {vc: 15, f: 0.06} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 60, fz: 0.05}, HSS: {vc: 12, fz: 0.03} },
+                        fin:   { HM: {vc: 80, fz: 0.02}, HSS: {vc: 18, fz: 0.02} },
+                        slot:  { HM: {vc: 45, fz: 0.03}, HSS: {vc: 8,  fz: 0.02} },
+                        drill: { HM: {vc: 40, f: 0.08},  HSS: {vc: 10, f: 0.05} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 70, f: 0.15},  HSS: {vc: 15, f: 0.08} },
+                        fin:   { HM: {vc: 100, f: 0.05}, HSS: {vc: 22, f: 0.03} },
+                        groove:{ HM: {vc: 50, f: 0.05},  HSS: {vc: 10, f: 0.04} },
+                        drill: { HM: {vc: 40, f: 0.08},  HSS: {vc: 10, f: 0.05} }
+                    }
+                }
+            },
+            "Rustfri 316L": {
+                coolant: "Højtryk / Skærepasta", note: "Syrefast. Deformationshærder lynhurtigt ved stilstand i hullet!",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 75, fz: 0.06}, HSS: {vc: 15, fz: 0.03} },
+                        fin:   { HM: {vc: 95, fz: 0.03}, HSS: {vc: 20, fz: 0.02} },
+                        slot:  { HM: {vc: 55, fz: 0.04}, HSS: {vc: 10, fz: 0.02} },
+                        drill: { HM: {vc: 50, f: 0.08},  HSS: {vc: 12, f: 0.05} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 90, f: 0.18},  HSS: {vc: 18, f: 0.08} },
+                        fin:   { HM: {vc: 120, f: 0.06}, HSS: {vc: 25, f: 0.04} },
+                        groove:{ HM: {vc: 65, f: 0.06},  HSS: {vc: 12, f: 0.04} },
+                        drill: { HM: {vc: 50, f: 0.08},  HSS: {vc: 12, f: 0.05} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 45, fz: 0.04}, HSS: {vc: 10, fz: 0.02} },
+                        fin:   { HM: {vc: 60, fz: 0.02}, HSS: {vc: 14, fz: 0.01} },
+                        slot:  { HM: {vc: 30, fz: 0.03}, HSS: {vc: 6,  fz: 0.01} },
+                        drill: { HM: {vc: 30, f: 0.06},  HSS: {vc: 8,  f: 0.04} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 55, f: 0.12},  HSS: {vc: 12, f: 0.06} },
+                        fin:   { HM: {vc: 75, f: 0.04},  HSS: {vc: 18, f: 0.03} },
+                        groove:{ HM: {vc: 40, f: 0.04},  HSS: {vc: 8,  f: 0.03} },
+                        drill: { HM: {vc: 30, f: 0.06},  HSS: {vc: 8,  f: 0.04} }
+                    }
+                }
+            },
+            "Duplex 1.4462": {
+                coolant: "Emulsion / Tyk Olie", note: "Dobbelt-struktur. Voldsomt sejt. Undgå små tilspændinger.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 50, fz: 0.06}, HSS: {vc: 10, fz: 0.03} },
+                        fin:   { HM: {vc: 70, fz: 0.03}, HSS: {vc: 15, fz: 0.02} },
+                        slot:  { HM: {vc: 35, fz: 0.04}, HSS: {vc: 7,  fz: 0.02} },
+                        drill: { HM: {vc: 40, f: 0.08},  HSS: {vc: 8,  f: 0.04} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 65, f: 0.15},  HSS: {vc: 12, f: 0.08} },
+                        fin:   { HM: {vc: 90, f: 0.06},  HSS: {vc: 18, f: 0.04} },
+                        groove:{ HM: {vc: 45, f: 0.06},  HSS: {vc: 8,  f: 0.04} },
+                        drill: { HM: {vc: 40, f: 0.08},  HSS: {vc: 8,  f: 0.04} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 30, fz: 0.04}, HSS: {vc: 6,  fz: 0.02} },
+                        fin:   { HM: {vc: 45, fz: 0.02}, HSS: {vc: 10, fz: 0.01} },
+                        slot:  { HM: {vc: 20, fz: 0.03}, HSS: {vc: 5,  fz: 0.01} },
+                        drill: { HM: {vc: 25, f: 0.05},  HSS: {vc: 6,  f: 0.03} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 40, f: 0.10},  HSS: {vc: 8,  f: 0.06} },
+                        fin:   { HM: {vc: 60, f: 0.04},  HSS: {vc: 12, f: 0.02} },
+                        groove:{ HM: {vc: 30, f: 0.04},  HSS: {vc: 6,  f: 0.03} },
+                        drill: { HM: {vc: 25, f: 0.05},  HSS: {vc: 6,  f: 0.03} }
+                    }
+                }
+            },
+            "Titan G5 (TiAl6V4)": {
+                coolant: "Rigelig Emulsion/Olie", note: "Leder ikke varme, værktøjet optager alt. Brandfare ved tynde spåner.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 50, fz: 0.06}, HSS: {vc: 12, fz: 0.03} },
+                        fin:   { HM: {vc: 70, fz: 0.03}, HSS: {vc: 16, fz: 0.02} },
+                        slot:  { HM: {vc: 35, fz: 0.04}, HSS: {vc: 8,  fz: 0.02} },
+                        drill: { HM: {vc: 40, f: 0.08},  HSS: {vc: 10, f: 0.04} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 60, f: 0.15},  HSS: {vc: 15, f: 0.08} },
+                        fin:   { HM: {vc: 85, f: 0.06},  HSS: {vc: 20, f: 0.04} },
+                        groove:{ HM: {vc: 45, f: 0.06},  HSS: {vc: 10, f: 0.04} },
+                        drill: { HM: {vc: 40, f: 0.08},  HSS: {vc: 10, f: 0.04} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 30, fz: 0.04}, HSS: {vc: 8,  fz: 0.02} },
+                        fin:   { HM: {vc: 45, fz: 0.02}, HSS: {vc: 12, fz: 0.01} },
+                        slot:  { HM: {vc: 20, fz: 0.03}, HSS: {vc: 5,  fz: 0.01} },
+                        drill: { HM: {vc: 25, f: 0.05},  HSS: {vc: 6,  f: 0.03} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 40, f: 0.10},  HSS: {vc: 10, f: 0.06} },
+                        fin:   { HM: {vc: 55, f: 0.04},  HSS: {vc: 14, f: 0.02} },
+                        groove:{ HM: {vc: 30, f: 0.04},  HSS: {vc: 6,  f: 0.03} },
+                        drill: { HM: {vc: 25, f: 0.05},  HSS: {vc: 6,  f: 0.03} }
+                    }
+                }
+            },
+            "Inconel 718": {
+                coolant: "Højtryk (Nødvendigt)", note: "Nikkel superlegering. HSS er komplet ubrugeligt.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 30, fz: 0.03}, HSS: {vc: 0, fz: 0} },
+                        fin:   { HM: {vc: 45, fz: 0.02}, HSS: {vc: 0, fz: 0} },
+                        slot:  { HM: {vc: 20, fz: 0.02}, HSS: {vc: 0, fz: 0} },
+                        drill: { HM: {vc: 20, f: 0.05},  HSS: {vc: 0, f: 0} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 35, f: 0.10},  HSS: {vc: 0, f: 0} },
+                        fin:   { HM: {vc: 50, f: 0.04},  HSS: {vc: 0, f: 0} },
+                        groove:{ HM: {vc: 25, f: 0.04},  HSS: {vc: 0, f: 0} },
+                        drill: { HM: {vc: 20, f: 0.05},  HSS: {vc: 0, f: 0} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 15, fz: 0.02}, HSS: {vc: 0, fz: 0} },
+                        fin:   { HM: {vc: 25, fz: 0.01}, HSS: {vc: 0, fz: 0} },
+                        slot:  { HM: {vc: 10, fz: 0.01}, HSS: {vc: 0, fz: 0} },
+                        drill: { HM: {vc: 10, f: 0.03},  HSS: {vc: 0, f: 0} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 20, f: 0.08},  HSS: {vc: 0, f: 0} },
+                        fin:   { HM: {vc: 30, f: 0.03},  HSS: {vc: 0, f: 0} },
+                        groove:{ HM: {vc: 15, f: 0.03},  HSS: {vc: 0, f: 0} },
+                        drill: { HM: {vc: 10, f: 0.03},  HSS: {vc: 0, f: 0} }
+                    }
+                }
+            },
+            "POM-C (Acetal)": {
+                coolant: "Luft / Vand", note: "Krymper marginalt efter bearbejdning. Brug knivskarpe, positive skær.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 300, fz: 0.15}, HSS: {vc: 100, fz: 0.12} },
+                        fin:   { HM: {vc: 450, fz: 0.06}, HSS: {vc: 150, fz: 0.05} },
+                        slot:  { HM: {vc: 200, fz: 0.10}, HSS: {vc: 80,  fz: 0.08} },
+                        drill: { HM: {vc: 120, f: 0.15},  HSS: {vc: 60,  f: 0.12} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 350, f: 0.25},  HSS: {vc: 120, f: 0.20} },
+                        fin:   { HM: {vc: 500, f: 0.08},  HSS: {vc: 180, f: 0.06} },
+                        groove:{ HM: {vc: 250, f: 0.10},  HSS: {vc: 80,  f: 0.08} },
+                        drill: { HM: {vc: 120, f: 0.15},  HSS: {vc: 60,  f: 0.12} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 150, fz: 0.10}, HSS: {vc: 80,  fz: 0.10} },
+                        fin:   { HM: {vc: 250, fz: 0.04}, HSS: {vc: 120, fz: 0.04} },
+                        slot:  { HM: {vc: 100, fz: 0.06}, HSS: {vc: 50,  fz: 0.06} },
+                        drill: { HM: {vc: 80,  f: 0.12},  HSS: {vc: 40,  f: 0.10} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 200, f: 0.20},  HSS: {vc: 100, f: 0.15} },
+                        fin:   { HM: {vc: 300, f: 0.05},  HSS: {vc: 150, f: 0.05} },
+                        groove:{ HM: {vc: 120, f: 0.08},  HSS: {vc: 60,  f: 0.06} },
+                        drill: { HM: {vc: 80,  f: 0.12},  HSS: {vc: 40,  f: 0.10} }
+                    }
+                }
+            },
+            "PA6 (Nylon)": {
+                coolant: "Emulsion", note: "Smelter let. Vandbaseret køling anbefales for at holde temp nede.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 225, fz: 0.12}, HSS: {vc: 80, fz: 0.10} },
+                        fin:   { HM: {vc: 350, fz: 0.05}, HSS: {vc: 120, fz: 0.04} },
+                        slot:  { HM: {vc: 150, fz: 0.08}, HSS: {vc: 60, fz: 0.06} },
+                        drill: { HM: {vc: 100, f: 0.15},  HSS: {vc: 50, f: 0.12} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 250, f: 0.20},  HSS: {vc: 100, f: 0.15} },
+                        fin:   { HM: {vc: 400, f: 0.06},  HSS: {vc: 150, f: 0.05} },
+                        groove:{ HM: {vc: 180, f: 0.08},  HSS: {vc: 60,  f: 0.06} },
+                        drill: { HM: {vc: 100, f: 0.15},  HSS: {vc: 50,  f: 0.12} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 120, fz: 0.08}, HSS: {vc: 60, fz: 0.08} },
+                        fin:   { HM: {vc: 200, fz: 0.03}, HSS: {vc: 90, fz: 0.03} },
+                        slot:  { HM: {vc: 80,  fz: 0.05}, HSS: {vc: 40, fz: 0.05} },
+                        drill: { HM: {vc: 60,  f: 0.10},  HSS: {vc: 30, f: 0.08} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 150, f: 0.15},  HSS: {vc: 80, f: 0.12} },
+                        fin:   { HM: {vc: 250, f: 0.04},  HSS: {vc: 120, f: 0.04} },
+                        groove:{ HM: {vc: 100, f: 0.06},  HSS: {vc: 40, f: 0.05} },
+                        drill: { HM: {vc: 60,  f: 0.10},  HSS: {vc: 30, f: 0.08} }
+                    }
+                }
+            },
+            "PTFE (Teflon)": {
+                coolant: "Luft / Ingen", note: "Giver ekstremt meget efter for skæretryk. Svært at holde snævre tolerancer.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 250, fz: 0.15}, HSS: {vc: 100, fz: 0.12} },
+                        fin:   { HM: {vc: 400, fz: 0.06}, HSS: {vc: 150, fz: 0.05} },
+                        slot:  { HM: {vc: 180, fz: 0.10}, HSS: {vc: 80,  fz: 0.08} },
+                        drill: { HM: {vc: 120, f: 0.15},  HSS: {vc: 60,  f: 0.12} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 300, f: 0.25},  HSS: {vc: 120, f: 0.20} },
+                        fin:   { HM: {vc: 450, f: 0.08},  HSS: {vc: 180, f: 0.06} },
+                        groove:{ HM: {vc: 200, f: 0.10},  HSS: {vc: 80,  f: 0.08} },
+                        drill: { HM: {vc: 120, f: 0.15},  HSS: {vc: 60,  f: 0.12} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 150, fz: 0.10}, HSS: {vc: 80,  fz: 0.10} },
+                        fin:   { HM: {vc: 250, fz: 0.04}, HSS: {vc: 120, fz: 0.04} },
+                        slot:  { HM: {vc: 100, fz: 0.06}, HSS: {vc: 50,  fz: 0.06} },
+                        drill: { HM: {vc: 80,  f: 0.10},  HSS: {vc: 40,  f: 0.08} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 180, f: 0.20},  HSS: {vc: 100, f: 0.15} },
+                        fin:   { HM: {vc: 300, f: 0.05},  HSS: {vc: 150, f: 0.05} },
+                        groove:{ HM: {vc: 120, f: 0.08},  HSS: {vc: 60,  f: 0.06} },
+                        drill: { HM: {vc: 80,  f: 0.10},  HSS: {vc: 40,  f: 0.08} }
+                    }
+                }
+            },
+            "PEEK": {
+                coolant: "Emulsion / Luft", note: "High-end termoplast. Kræver stor frivinkel for ikke at opbygge varme.",
+                CNC: {
+                    MILL: {
+                        rough: { HM: {vc: 160, fz: 0.10}, HSS: {vc: 50, fz: 0.06} },
+                        fin:   { HM: {vc: 220, fz: 0.04}, HSS: {vc: 70, fz: 0.03} },
+                        slot:  { HM: {vc: 100, fz: 0.06}, HSS: {vc: 35, fz: 0.04} },
+                        drill: { HM: {vc: 80,  f: 0.10},  HSS: {vc: 30, f: 0.06} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 200, f: 0.15},  HSS: {vc: 60, f: 0.10} },
+                        fin:   { HM: {vc: 300, f: 0.05},  HSS: {vc: 80, f: 0.04} },
+                        groove:{ HM: {vc: 120, f: 0.06},  HSS: {vc: 40, f: 0.04} },
+                        drill: { HM: {vc: 80,  f: 0.10},  HSS: {vc: 30, f: 0.06} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        rough: { HM: {vc: 80,  fz: 0.06}, HSS: {vc: 30, fz: 0.04} },
+                        fin:   { HM: {vc: 120, fz: 0.02}, HSS: {vc: 45, fz: 0.02} },
+                        slot:  { HM: {vc: 50,  fz: 0.04}, HSS: {vc: 20, fz: 0.02} },
+                        drill: { HM: {vc: 40,  f: 0.06},  HSS: {vc: 15, f: 0.04} }
+                    },
+                    LATHE: {
+                        rough: { HM: {vc: 100, f: 0.10},  HSS: {vc: 40, f: 0.08} },
+                        fin:   { HM: {vc: 150, f: 0.03},  HSS: {vc: 55, f: 0.03} },
+                        groove:{ HM: {vc: 60,  f: 0.04},  HSS: {vc: 25, f: 0.03} },
+                        drill: { HM: {vc: 40,  f: 0.06},  HSS: {vc: 15, f: 0.04} }
+                    }
+                }
+            }
+        };
+
+        const threadDB = [
+            { id: "M3", type: "M", pitch: 0.50, dCut: 2.50, dRoll: 2.80, ext: 2.90, din76: "1.6 x 0.4", note: "Metrisk Standard" },
+            { id: "M4", type: "M", pitch: 0.70, dCut: 3.30, dRoll: 3.70, ext: 3.90, din76: "2.1 x 0.5", note: "Metrisk Standard" },
+            { id: "M5", type: "M", pitch: 0.80, dCut: 4.20, dRoll: 4.65, ext: 4.90, din76: "2.5 x 0.6", note: "Metrisk Standard" },
+            { id: "M6", type: "M", pitch: 1.00, dCut: 5.00, dRoll: 5.55, ext: 5.90, din76: "3.0 x 0.7", note: "Metrisk Standard" },
+            { id: "M8", type: "M", pitch: 1.25, dCut: 6.80, dRoll: 7.40, ext: 7.85, din76: "4.0 x 0.9", note: "Metrisk Standard" },
+            { id: "M10", type: "M", pitch: 1.50, dCut: 8.50, dRoll: 9.30, ext: 9.85, din76: "4.5 x 1.1", note: "Metrisk Standard" },
+            { id: "M12", type: "M", pitch: 1.75, dCut: 10.20, dRoll: 11.20, ext: 11.80, din76: "5.0 x 1.3", note: "Metrisk Standard" },
+            { id: "M14", type: "M", pitch: 2.00, dCut: 12.00, dRoll: 13.10, ext: 13.80, din76: "6.0 x 1.5", note: "Metrisk Standard" },
+            { id: "M16", type: "M", pitch: 2.00, dCut: 14.00, dRoll: 15.10, ext: 15.80, din76: "6.0 x 1.5", note: "Metrisk Standard" },
+            { id: "M20", type: "M", pitch: 2.50, dCut: 17.50, dRoll: 18.90, ext: 19.80, din76: "7.5 x 1.8", note: "Metrisk Standard" },
+            { id: "M24", type: "M", pitch: 3.00, dCut: 21.00, dRoll: 22.70, ext: 23.80, din76: "9.0 x 2.1", note: "Metrisk Standard" },
+            { id: "M8x1", type: "MF", pitch: 1.00, dCut: 7.00, dRoll: 7.55, ext: 7.90, din76: "-", note: "Finmetrisk" },
+            { id: "M10x1", type: "MF", pitch: 1.00, dCut: 9.00, dRoll: 9.55, ext: 9.90, din76: "-", note: "Finmetrisk" },
+            { id: "M12x1.5", type: "MF", pitch: 1.50, dCut: 10.50, dRoll: 11.30, ext: 11.85, din76: "-", note: "Finmetrisk" },
+            { id: "M16x1.5", type: "MF", pitch: 1.50, dCut: 14.50, dRoll: 15.30, ext: 15.85, din76: "-", note: "Finmetrisk" },
+            { id: "M20x1.5", type: "MF", pitch: 1.50, dCut: 18.50, dRoll: 19.30, ext: 19.85, din76: "-", note: "Finmetrisk" },
+            { id: "G 1/8\"", type: "G", pitch: "0.907 (28 TPI)", dCut: 8.80, dRoll: "-", ext: 9.73, din76: "-", note: "Cylindrisk Rørgevind (BSP)" },
+            { id: "G 1/4\"", type: "G", pitch: "1.337 (19 TPI)", dCut: 11.80, dRoll: "-", ext: 13.16, din76: "-", note: "Cylindrisk Rørgevind (BSP)" },
+            { id: "G 3/8\"", type: "G", pitch: "1.337 (19 TPI)", dCut: 15.25, dRoll: "-", ext: 16.66, din76: "-", note: "Cylindrisk Rørgevind (BSP)" },
+            { id: "G 1/2\"", type: "G", pitch: "1.814 (14 TPI)", dCut: 18.60, dRoll: "-", ext: 20.95, din76: "-", note: "Cylindrisk Rørgevind (BSP)" },
+            { id: "1/4\"-20 UNC", type: "UNC", pitch: "1.270 (20 TPI)", dCut: 5.10, dRoll: 5.80, ext: 6.35, din76: "-", note: "Amerikansk Grov" },
+            { id: "5/16\"-18 UNC", type: "UNC", pitch: "1.411 (18 TPI)", dCut: 6.60, dRoll: 7.30, ext: 7.94, din76: "-", note: "Amerikansk Grov" },
+            { id: "3/8\"-16 UNC", type: "UNC", pitch: "1.588 (16 TPI)", dCut: 8.00, dRoll: 8.80, ext: 9.52, din76: "-", note: "Amerikansk Grov" },
+            { id: "1/2\"-13 UNC", type: "UNC", pitch: "1.954 (13 TPI)", dCut: 10.80, dRoll: 11.80, ext: 12.70, din76: "-", note: "Amerikansk Grov" },
+            { id: "5/8\"-11 UNC", type: "UNC", pitch: "2.309 (11 TPI)", dCut: 13.50, dRoll: 14.80, ext: 15.87, din76: "-", note: "Amerikansk Grov" },
+            { id: "1/4\"-28 UNF", type: "UNF", pitch: "0.907 (28 TPI)", dCut: 5.50, dRoll: 5.95, ext: 6.35, din76: "-", note: "Amerikansk Fin" },
+            { id: "5/16\"-24 UNF", type: "UNF", pitch: "1.058 (24 TPI)", dCut: 6.90, dRoll: 7.45, ext: 7.94, din76: "-", note: "Amerikansk Fin" },
+            { id: "3/8\"-24 UNF", type: "UNF", pitch: "1.058 (24 TPI)", dCut: 8.50, dRoll: 9.05, ext: 9.52, din76: "-", note: "Amerikansk Fin" },
+            { id: "1/2\"-20 UNF", type: "UNF", pitch: "1.270 (20 TPI)", dCut: 11.50, dRoll: 12.10, ext: 12.70, din76: "-", note: "Amerikansk Fin" },
+            { id: "NPT 1/8\"", type: "NPT", pitch: "0.940 (27 TPI)", dCut: 8.50, dRoll: "-", ext: "-", din76: "-", note: "Konisk Rør (Kræver rømmer)" },
+            { id: "NPT 1/4\"", type: "NPT", pitch: "1.411 (18 TPI)", dCut: 11.10, dRoll: "-", ext: "-", din76: "-", note: "Konisk Rør (Kræver rømmer)" },
+            { id: "1/4\" BSW", type: "BSW", pitch: "1.270 (20 TPI)", dCut: 5.10, dRoll: "-", ext: 6.35, din76: "-", note: "Whitworth 55° profil" },
+            { id: "3/8\" BSW", type: "BSW", pitch: "1.588 (16 TPI)", dCut: 7.90, dRoll: "-", ext: 9.52, din76: "-", note: "Whitworth 55° profil" },
+            { id: "1/2\" BSW", type: "BSW", pitch: "2.117 (12 TPI)", dCut: 10.50, dRoll: "-", ext: 12.70, din76: "-", note: "Whitworth 55° profil" },
+            { id: "Tr 16x4", type: "TR", pitch: 4.00, dCut: 12.50, dRoll: "-", ext: 16.00, din76: "-", note: "Trapez gevind 30°" },
+            { id: "Tr 20x4", type: "TR", pitch: 4.00, dCut: 16.50, dRoll: "-", ext: 20.00, din76: "-", note: "Trapez gevind 30°" }
+        ];
+
+        const staticDB = [
+            { cat: "GDT", title: "Form Tolerancer", data: ["Ligehed (▬): Linje på flade", "Planhed (▱): Fladens afvigelse", "Rundhed (○): 2D Tværsnit", "Cylindricitet (⌭): 3D Form"], note: "Formtolerancer refererer ALDRIG til et datum." },
+            { cat: "GDT", title: "Orientering & Placering", data: ["Parallelitet (∥): Ift. Datum", "Vinkelrethed (⊥): 90° ift. Datum", "Position (⌖): Centerets placering", "Koncentricitet (◎): Akser flugter"], note: "Kræver altid en datum-reference." },
+            { cat: "GDT", title: "Overfladeruhed (Ra / Rz)", data: ["N8: Ra 3.2 µm / Rz ~12 µm", "N7: Ra 1.6 µm / Rz ~6 µm", "N6: Ra 0.8 µm / Rz ~3 µm", "N5: Ra 0.4 µm / Rz ~1.5 µm", "N4: Ra 0.2 µm / Rz ~0.8 µm"], note: "Sammenhæng mellem ISO N-skala, gennemsnit (Ra) og max-dybde (Rz)." },
+            { cat: "GCODE", title: "M-Koder (Haas Fræs/Drej)", data: ["M00: Ubetinget Stop", "M01: Optional Stop", "M03: Spindel CW", "M04: Spindel CCW", "M06: Værktøjsskift", "M08/M09: Køling TIL / FRA", "M19: Spindelorientering", "M30: Program Slut"], note: "Maskinspecifikke funktionskoder." },
+            { cat: "GCODE", title: "G-Koder (Bevægelse/Nulpunkt)", data: ["G00: Ilnavigering", "G01: Linæer interpolation", "G02/G03: Cirkulær CW/CCW", "G43: Værktøjslængde Kompensation", "G54-G59: Arbejdsnulpunkter"], note: "Cirkulær interpolation kræver R eller I/K." },
+            { cat: "GCODE", title: "G-Koder (Cykler Fræs/Drej)", data: ["G71: Skrubcyklus (Z-Akse Drej)", "G72: Skrubcyklus (Plan Drej)", "G76: Gevindskæringscyklus (Drej)", "G81: Standard Boring", "G82: Boring m. ophold i bund", "G83: Peck Boring (Udkast)"], note: "Husk G80 for at annullere aktive borecykler." },
+            { cat: "GCODE", title: "M-Koder (Underprogrammer)", data: ["M97: Lokalt underprogramkald", "M98: Eksternt underprogramkald", "M99: Retur fra underprogram / Loop"], note: "Brug 'P' for programnummer og 'L' for antal gentagelser." },
+            { cat: "MATERIALE", title: "Termisk Udvidelse", data: ["Alu: 23.4 µm/(m·K)", "Messing: 20.0 µm/(m·K)", "Rustfri (316): 16.0 µm/(m·K)", "Stål: 12.0 µm/(m·K)"], note: "Krympning: ΔL = α * L * ΔT." },
+            { cat: "MATERIALE", title: "Hårdhed", data: ["20 HRC = 226 HB = 760 N/mm²", "40 HRC = 371 HB = 1250 N/mm²", "60 HRC = 600 HB"], note: "Rockwell C til Trækstyrke." },
+            { cat: "MATERIALE", title: "Vægtfylde (Densitet)", data: ["Stål / Jern: 7.85 g/cm³", "Rustfri Stål: 7.95 g/cm³", "Aluminium: 2.70 g/cm³", "Messing/Bronze: 8.50 g/cm³", "Titanium: 4.50 g/cm³", "POM-C / Acetal: 1.41 g/cm³"], note: "Bruges til beregning af emnevægt. V = L * B * H * Densitet." },
+            { cat: "ISO", title: "Vendeplatter Nomenklatur", data: ["Form: C(80°), D(55°), T(60°), V(35°)", "Frivinkel: N(0°), C(7°), P(11°)", "Tolerance: M (Støbt), G (Sleben)", "Næseradius: 04(R0.4), 08(R0.8)"], note: "Eks. CNMG120408." }
+        ];
+
+        // ----------------------------------------------------------------------
+        // TAB MANAGER & STATE ENGINE
+        // ----------------------------------------------------------------------
+        let currentMode = 'CNC'; 
+        let currentOp = 'MILL';
+        let currentTool = 'HM';
+        let currentTab = 'SKÆREDATA';
+        let activeMaterial = "Alu 6082-T6";
+        let activeThread = "M8";
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if(btn.innerText.toUpperCase().includes(tabName) || (tabName === 'TERMINAL' && btn.innerText.includes('Terminal'))) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            document.getElementById('lbl-tab').innerText = tabName === 'TERMINAL' ? 'Terminal' : (tabName === 'SKÆREDATA' ? 'Skæredata' : (tabName === 'PASNINGER' ? 'Pasninger' : tabName));
+
+            const views = ['view-skaeredata', 'view-gevind', 'view-pasninger', 'view-grid', 'view-terminal'];
+            views.forEach(v => {
+                const el = document.getElementById(v);
+                if(el) { el.classList.add('hidden'); el.classList.remove('flex'); }
+            });
+
+            const hardwareToggles = document.getElementById('hardware-toggles');
+
+            if (tabName === 'SKÆREDATA') {
+                document.getElementById('view-skaeredata').classList.remove('hidden');
+                document.getElementById('view-skaeredata').classList.add('flex');
+                hardwareToggles.classList.remove('opacity-30', 'pointer-events-none');
+                renderMaterialList();
+                renderSkaeredata();
+            } 
+            else if (tabName === 'GEVIND') {
+                document.getElementById('view-gevind').classList.remove('hidden');
+                document.getElementById('view-gevind').classList.add('flex');
+                hardwareToggles.classList.add('opacity-30', 'pointer-events-none');
+                renderThreadList();
+                renderThreadData();
+            }
+            else if (tabName === 'PASNINGER') {
+                document.getElementById('view-pasninger').classList.remove('hidden');
+                document.getElementById('view-pasninger').classList.add('flex');
+                hardwareToggles.classList.add('opacity-30', 'pointer-events-none');
+                document.getElementById('iso-nom').focus();
+            }
+            else if (tabName === 'TERMINAL') {
+                document.getElementById('view-terminal').classList.remove('hidden');
+                document.getElementById('view-terminal').classList.add('flex');
+                hardwareToggles.classList.add('opacity-30', 'pointer-events-none');
+                document.getElementById('calc-cmd').focus();
+            }
+            else {
+                document.getElementById('view-grid').classList.remove('hidden');
+                document.getElementById('view-grid').classList.add('flex');
+                hardwareToggles.classList.add('opacity-30', 'pointer-events-none');
+                renderStaticGrid(tabName);
+            }
+        }
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('btn-cnc').className = mode === 'CNC' ? "toggle-btn active-cnc px-4 py-1.5" : "toggle-btn inactive px-4 py-1.5";
+            document.getElementById('btn-man').className = mode === 'MAN' ? "toggle-btn active-man px-4 py-1.5" : "toggle-btn inactive px-4 py-1.5";
+            if(currentTab === 'SKÆREDATA') renderSkaeredata();
+        }
+
+        function setOp(op) {
+            currentOp = op;
+            document.getElementById('btn-mill').className = op === 'MILL' ? "toggle-btn active-op px-4 py-1.5" : "toggle-btn inactive px-4 py-1.5";
+            document.getElementById('btn-lathe').className = op === 'LATHE' ? "toggle-btn active-op px-4 py-1.5" : "toggle-btn inactive px-4 py-1.5";
+            document.getElementById('sd-z-container').style.display = op === 'LATHE' ? 'none' : 'flex';
+            if(currentTab === 'SKÆREDATA') renderSkaeredata();
+        }
+
+        function setTool(tool) {
+            currentTool = tool;
+            document.getElementById('btn-hm').className = tool === 'HM' ? "toggle-btn active-op px-4 h-full" : "toggle-btn inactive px-4 h-full";
+            document.getElementById('btn-hss').className = tool === 'HSS' ? "toggle-btn active-op px-4 h-full" : "toggle-btn inactive px-4 h-full";
+            if(currentTab === 'SKÆREDATA') renderSkaeredata();
+        }
+
+        // ----------------------------------------------------------------------
+        // SKÆREDATA ENGINE
+        // ----------------------------------------------------------------------
+        function renderMaterialList() {
+            const list = document.getElementById('mat-list');
+            list.innerHTML = "";
+            Object.keys(cutDB).forEach(matName => {
+                const div = document.createElement('div');
+                div.className = `list-item ${matName === activeMaterial ? 'active' : ''}`;
+                div.innerText = matName;
+                div.onclick = () => {
+                    activeMaterial = matName;
+                    renderMaterialList();
+                    renderSkaeredata();
+                };
+                list.appendChild(div);
+            });
+        }
+
+        function renderSkaeredata() {
+            const matData = cutDB[activeMaterial];
+            if(!matData) return;
+
+            document.getElementById('sd-title').innerText = activeMaterial;
+            document.getElementById('sd-note').innerText = matData.note;
+
+            const out = document.getElementById('sd-output');
+            out.classList.remove('opacity-100');
+            
+            setTimeout(() => {
+                out.innerHTML = "";
+                const data = matData[currentMode][currentOp];
+                const d = parseFloat(document.getElementById('sd-dia').value) || 10;
+                const z = parseFloat(document.getElementById('sd-z').value) || 4;
+
+                const cards = [
+                    { title: "Skrub", raw: data.rough, color: "text-blue-400" },
+                    { title: "Slet", raw: data.fin, color: "text-purple-400" },
+                    { title: currentOp === 'MILL' ? "Sporfræsning" : "Stik / Spor", raw: currentOp === 'MILL' ? data.slot : data.groove, color: "text-teal-400" },
+                    { title: "Boring", raw: data.drill, color: "text-amber-400" }
+                ];
+
+                cards.forEach(c => {
+                    const spec = c.raw[currentTool];
+                    
+                    if(!spec || spec.vc === 0) {
+                        out.innerHTML += `
+                            <div class="bg-zinc-800/20 border border-zinc-700/50 p-6 rounded-xl flex flex-col justify-center items-center h-full min-h-[220px]">
+                                <span class="text-xs font-semibold ${c.color} uppercase tracking-wider mb-2">${c.title}</span>
+                                <span class="text-sm font-medium text-zinc-500 uppercase tracking-widest">Ikke Anbefalet</span>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    let rpm = Math.round((spec.vc * 1000) / (Math.PI * d));
+                    if(currentMode === 'CNC' && rpm > 10000) rpm = 10000;
+                    if(currentMode === 'MAN' && rpm > 3000) rpm = 3000;
+
+                    let feedLabel = "";
+                    let feedVal = "";
+                    let feedCalc = "";
+
+                    if (c.title === "Boring") {
+                        feedLabel = "Tilsp. pr. omdr (f)";
+                        feedVal = `${spec.f.toFixed(2)} mm/o`;
+                        if(currentMode === 'CNC' && currentOp === 'MILL') {
+                            const vf = Math.round(spec.f * rpm);
+                            feedCalc = `<div class="mt-auto pt-4 border-t border-zinc-800/80 flex justify-between items-end"><span class="text-xs text-zinc-400 font-medium">Z-Tilspænding (Vf)</span><span class="text-lg font-mono font-semibold text-zinc-100">${vf} <span class="text-xs text-zinc-500 font-sans">mm/min</span></span></div>`;
+                        } else {
+                            feedCalc = `<div class="mt-auto pt-4 border-t border-zinc-800/80 flex justify-between items-end"><span class="text-xs text-zinc-400 font-medium">Tilspænding</span><span class="text-xs font-medium text-zinc-500">G99 / Gearkasse</span></div>`;
+                        }
+                    } else if (currentOp === 'MILL') {
+                        feedLabel = "Tilsp. pr. tand (fz)";
+                        feedVal = `${spec.fz.toFixed(2)} mm`;
+                        const vf = Math.round(spec.fz * z * rpm);
+                        feedCalc = `<div class="mt-auto pt-4 border-t border-zinc-800/80 flex justify-between items-end"><span class="text-xs text-zinc-400 font-medium">Bordtilspænding (Vf)</span><span class="text-lg font-mono font-semibold text-zinc-100">${vf} <span class="text-xs text-zinc-500 font-sans">mm/min</span></span></div>`;
+                    } else {
+                        feedLabel = "Tilsp. pr. omdr (f)";
+                        feedVal = `${spec.f.toFixed(2)} mm/o`;
+                        feedCalc = `<div class="mt-auto pt-4 border-t border-zinc-800/80 flex justify-between items-end"><span class="text-xs text-zinc-400 font-medium">Tilspænding</span><span class="text-xs font-medium text-zinc-500">G99 / Gearkasse</span></div>`;
+                    }
+
+                    out.innerHTML += `
+                        <div class="bg-zinc-800/20 border border-zinc-700/50 p-6 rounded-xl flex flex-col h-full min-h-[220px]">
+                            <div class="flex justify-between items-center mb-6">
+                                <span class="text-xs font-semibold uppercase tracking-wider ${c.color}">${c.title}</span>
+                                <span class="text-[10px] font-medium text-zinc-500 bg-zinc-800/50 px-2 py-0.5 rounded-md">${currentTool}</span>
+                            </div>
+                            <div class="text-3xl font-semibold font-mono text-zinc-100 mb-1">${rpm} <span class="text-sm text-zinc-500 font-sans font-medium">RPM</span></div>
+                            <div class="text-sm text-zinc-400 mb-6 font-mono">Vc = ${spec.vc} <span class="text-xs font-sans">m/min</span></div>
+                            
+                            <div class="flex justify-between items-end mb-4">
+                                <span class="text-sm text-zinc-400">${feedLabel}</span>
+                                <span class="text-sm font-mono font-medium text-zinc-100">${feedVal}</span>
+                            </div>
+                            ${feedCalc}
+                        </div>
+                    `;
+                });
+
+                out.innerHTML += `
+                    <div class="col-span-full mt-2 bg-zinc-900/50 border border-zinc-800/80 p-5 rounded-xl flex items-center justify-between">
+                        <span class="text-sm text-zinc-400 font-medium">Anbefalet Køling</span>
+                        <span class="text-sm text-zinc-100 font-semibold">${matData.coolant}</span>
+                    </div>
+                `;
+
+                out.classList.add('opacity-100');
+            }, 50);
+        }
+
+        document.getElementById('sd-dia').addEventListener('input', renderSkaeredata);
+        document.getElementById('sd-z').addEventListener('input', renderSkaeredata);
+
+        // ----------------------------------------------------------------------
+        // GEVIND ENGINE
+        // ----------------------------------------------------------------------
+        function renderThreadList() {
+            const list = document.getElementById('thread-list');
+            list.innerHTML = "";
+            threadDB.forEach(th => {
+                const div = document.createElement('div');
+                div.className = `list-item ${th.id === activeThread ? 'active' : ''}`;
+                div.innerText = th.id;
+                div.onclick = () => {
+                    activeThread = th.id;
+                    renderThreadList();
+                    renderThreadData();
+                };
+                list.appendChild(div);
+            });
+        }
+
+        function renderThreadData() {
+            const th = threadDB.find(t => t.id === activeThread);
+            if(!th) return;
+
+            const out = document.getElementById('thread-output');
+            out.classList.remove('opacity-100');
+
+            setTimeout(() => {
+                out.innerHTML = `
+                    <div class="bg-zinc-800/30 border border-zinc-700/50 p-8 rounded-xl relative overflow-hidden">
+                        <div class="text-xs text-rose-400 font-semibold tracking-wider uppercase mb-2">Gevind Specifikation</div>
+                        <h2 class="text-4xl font-semibold font-mono text-zinc-100 mb-8">${th.id} <span class="text-lg text-zinc-500 block mt-2 font-sans font-medium">${th.note}</span></h2>
+                        
+                        <div class="grid grid-cols-2 gap-8 mb-8">
+                            <div class="bg-zinc-900/50 p-5 rounded-lg border border-zinc-800/80">
+                                <div class="text-xs text-zinc-500 font-medium mb-1">Skæretap Bor-Ø</div>
+                                <div class="text-3xl font-mono font-semibold text-zinc-100">${th.dCut} <span class="text-sm text-zinc-500 font-sans">mm</span></div>
+                            </div>
+                            <div class="bg-zinc-900/50 p-5 rounded-lg border border-zinc-800/80">
+                                <div class="text-xs text-zinc-500 font-medium mb-1">Rulletap Bor-Ø</div>
+                                <div class="text-3xl font-mono font-semibold ${th.dRoll === '-' ? 'text-zinc-600' : 'text-blue-400'}">${th.dRoll} <span class="text-sm text-zinc-500 font-sans">mm</span></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-6 border-t border-zinc-800/80 pt-8">
+                            <div>
+                                <div class="text-xs text-zinc-500 font-medium mb-1">Stigning (P/TPI)</div>
+                                <div class="text-lg font-mono font-medium text-zinc-300">${th.pitch}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-zinc-500 font-medium mb-1">Udv. Dreje-Ø</div>
+                                <div class="text-lg font-mono font-medium text-zinc-300">${th.ext}</div>
+                            </div>
+                            <div>
+                                <div class="text-xs text-zinc-500 font-medium mb-1">DIN 76 Frigang</div>
+                                <div class="text-lg font-mono font-medium text-zinc-300">${th.din76}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                out.classList.add('opacity-100');
+            }, 50);
+        }
+
+        // ----------------------------------------------------------------------
+        // STATIC GRID ENGINE
+        // ----------------------------------------------------------------------
+        function renderStaticGrid(cat) {
+            const matrix = document.getElementById('static-matrix');
+            matrix.innerHTML = "";
+            const filtered = staticDB.filter(item => item.cat === cat);
+
+            filtered.forEach(item => {
+                const dataLines = item.data.map(line => {
+                    const splitIndex = line.indexOf(":");
+                    if(splitIndex !== -1) {
+                        const label = line.substring(0, splitIndex).trim();
+                        const value = line.substring(splitIndex + 1).trim();
+                        return `<div class="flex justify-between items-end border-b border-zinc-800/50 pb-2 mb-2 last:border-0 last:mb-0 last:pb-0">
+                                    <span class="text-sm text-zinc-400">${label}</span>
+                                    <span class="text-sm font-mono font-medium text-zinc-100 text-right max-w-[60%]">${value}</span>
+                                </div>`;
+                    }
+                    return `<div class="text-sm text-zinc-300 py-1">${line}</div>`;
+                }).join('');
+
+                let catColor = 'text-zinc-400';
+                if(item.cat === 'GCODE') catColor = 'text-pink-400';
+                else if(item.cat === 'GDT' || item.cat === 'ISO') catColor = 'text-amber-400';
+                else if(item.cat === 'MATERIALE') catColor = 'text-slate-400';
+
+                matrix.innerHTML += `
+                    <div class="bg-zinc-800/30 border border-zinc-700/50 p-6 rounded-xl flex flex-col shadow-sm">
+                        <div class="text-xs font-semibold uppercase tracking-wider mb-3 ${catColor}">${item.cat}</div>
+                        <h2 class="text-lg font-semibold text-zinc-100 mb-5">${item.title}</h2>
+                        <div class="flex-grow flex flex-col mb-4">${dataLines}</div>
+                        <div class="text-xs text-zinc-500 pt-4 border-t border-zinc-800/80 mt-auto leading-relaxed">${item.note}</div>
+                    </div>`;
+            });
+        }
+
+        // ----------------------------------------------------------------------
+        // ISO 286 ENGINE
+        // ----------------------------------------------------------------------
+        const IT = {
+            5: [4, 5, 6, 8, 9, 11, 13, 15], 6: [6, 8, 9, 11, 13, 16, 19, 22], 7: [10, 12, 15, 18, 21, 25, 30, 35],
+            8: [14, 18, 22, 27, 33, 39, 46, 54], 9: [25, 30, 36, 43, 52, 62, 74, 87], 10: [40, 48, 58, 70, 84, 100, 120, 140], 11: [60, 75, 90, 110, 130, 160, 190, 220]
+        };
+        const fdShaft = {
+            'd': { t: 'es', v: [-20, -30, -40, -50, -65, -80, -100, -120] }, 'e': { t: 'es', v: [-14, -20, -25, -32, -40, -50, -60, -72] },
+            'f': { t: 'es', v: [-6, -10, -13, -16, -20, -25, -30, -36] }, 'g': { t: 'es', v: [-2, -4, -5, -6, -7, -9, -10, -12] },
+            'h': { t: 'es', v: [0, 0, 0, 0, 0, 0, 0, 0] }, 'j': { t: 'ei', v: [-2, -4, -4, -5, -5, -6, -6, -6] },
+            'k': { t: 'ei', v: [0, 1, 1, 1, 2, 2, 2, 3] }, 'm': { t: 'ei', v: [2, 4, 6, 7, 8, 9, 11, 13] },
+            'n': { t: 'ei', v: [4, 8, 10, 12, 15, 17, 20, 23] }, 'p': { t: 'ei', v: [6, 12, 15, 18, 22, 26, 32, 37] },
+            'r': { t: 'ei', v: [10, 15, 19, 23, 28, 34, 41, 48] }, 's': { t: 'ei', v: [14, 19, 23, 27, 35, 43, 53, 59] }
+        };
+
+        function calculateISO() {
+            const nomStr = document.getElementById('iso-nom').value;
+            const holeStr = document.getElementById('iso-hole').value.trim();
+            const shaftStr = document.getElementById('iso-shaft').value.trim();
+            const output = document.getElementById('iso-output');
+
+            if(!nomStr || isNaN(nomStr) || nomStr <= 0 || nomStr > 120) {
+                output.innerHTML = "<div class='col-span-full text-zinc-500 text-sm'>Venter på nominelt mål (Ø1 - Ø120 mm).</div>";
+                output.classList.add('opacity-100');
+                return;
+            }
+
+            const nom = parseFloat(nomStr);
+            let idx = nom <= 3 ? 0 : nom <= 6 ? 1 : nom <= 10 ? 2 : nom <= 18 ? 3 : nom <= 30 ? 4 : nom <= 50 ? 5 : nom <= 80 ? 6 : 7;
+            let html = "", h_ES = null, h_EI = null, s_es = null, s_ei = null;
+
+            if(holeStr.length >= 2) {
+                const letter = holeStr.charAt(0).toLowerCase();
+                const grade = parseInt(holeStr.slice(1));
+                if(IT[grade] && fdShaft[letter]) {
+                    const it_val = IT[grade][idx], fd = fdShaft[letter].v[idx];
+                    if(fdShaft[letter].t === 'es') { h_EI = -fd; h_ES = h_EI + it_val; } else { h_ES = -fd; h_EI = h_ES - it_val; }
+                    html += generateToleranceCard('Hul', holeStr.toUpperCase(), nom, h_ES, h_EI, 'text-blue-400');
+                }
+            }
+            if(shaftStr.length >= 2) {
+                const letter = shaftStr.charAt(0).toLowerCase();
+                const grade = parseInt(shaftStr.slice(1));
+                if(IT[grade] && fdShaft[letter]) {
+                    const it_val = IT[grade][idx], fd = fdShaft[letter].v[idx];
+                    if(fdShaft[letter].t === 'es') { s_es = fd; s_ei = s_es - it_val; } else { s_ei = fd; s_es = s_ei + it_val; }
+                    html += generateToleranceCard('Aksel', shaftStr.toLowerCase(), nom, s_es, s_ei, 'text-amber-500');
+                }
+            }
+
+            if(h_ES !== null && s_es !== null) {
+                const maxClearance = h_ES - s_ei, minClearance = h_EI - s_es;
+                let fitType = "Overgangspasning", color = "text-purple-400";
+                if(minClearance > 0) { fitType = "Løbe/Glidepasning"; color = "text-teal-400"; }
+                else if(maxClearance < 0) { fitType = "Prespasning"; color = "text-red-400"; }
+                html += `
+                    <div class="col-span-full bg-zinc-800/30 border border-zinc-700/50 p-6 rounded-xl mt-2 shadow-sm flex justify-between items-center">
+                        <div>
+                            <div class="text-xs text-zinc-500 font-medium mb-1">Montage Analyse</div>
+                            <div class="text-xl font-semibold ${color}">${fitType}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm text-zinc-400 mb-1">Max Spillerum: <span class="text-zinc-100 font-mono font-medium">${maxClearance > 0 ? '+' : ''}${maxClearance} µm</span></div>
+                            <div class="text-sm text-zinc-400">Min Spillerum: <span class="text-zinc-100 font-mono font-medium">${minClearance > 0 ? '+' : ''}${minClearance} µm</span></div>
+                        </div>
+                    </div>`;
+            }
+            if(html === "") html = "<div class='col-span-full text-zinc-500 text-sm'>Indtast gyldig tolerance (fx. H7, g6).</div>";
+            output.innerHTML = html;
+            output.classList.add('opacity-100');
+        }
+
+        function generateToleranceCard(type, name, nom, upper, lower, accentClass) {
+            const uStr = upper > 0 ? `+${upper}` : upper, lStr = lower > 0 ? `+${lower}` : lower;
+            const upperAbs = (nom + (upper/1000)).toFixed(3), lowerAbs = (nom + (lower/1000)).toFixed(3);
+            return `
+                <div class="bg-zinc-800/30 border border-zinc-700/50 p-6 rounded-xl shadow-sm">
+                    <div class="text-xs font-semibold tracking-wider uppercase mb-5 ${accentClass}">${type} Tolerance</div>
+                    <div class="flex justify-between items-start mb-6">
+                        <div class="text-3xl font-semibold text-zinc-100 font-mono">Ø${nom} <span class="text-xl text-zinc-400">${name}</span></div>
+                        <div class="text-right font-mono text-sm font-medium flex flex-col justify-end h-10 gap-1">
+                            <div class="${upper > 0 ? 'text-teal-400' : (upper < 0 ? 'text-red-400' : 'text-zinc-400')}">${uStr} µm</div>
+                            <div class="${lower > 0 ? 'text-teal-400' : (lower < 0 ? 'text-red-400' : 'text-zinc-400')}">${lStr} µm</div>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-900/50 p-3 rounded-lg border border-zinc-800/80 font-mono text-sm text-zinc-400 flex justify-between">
+                        <div>Max: <span class="text-zinc-100 font-medium">Ø${upperAbs}</span></div>
+                        <div>Min: <span class="text-zinc-100 font-medium">Ø${lowerAbs}</span></div>
+                    </div>
+                </div>`;
+        }
+
+        document.getElementById('iso-nom').addEventListener('input', calculateISO);
+        document.getElementById('iso-hole').addEventListener('input', calculateISO);
+        document.getElementById('iso-shaft').addEventListener('input', calculateISO);
+
+        // ----------------------------------------------------------------------
+        // 09. TERMINAL KALKULATOR ENGINE
+        // ----------------------------------------------------------------------
+        function parseCommand(q) {
+            const output = document.getElementById('calc-output');
+            output.innerHTML = "";
+            let matchFound = false;
+
+            const rpmMatch = q.match(/(?:vc|v)\s*(\d+\.?\d*)\s*(?:d|ø)\s*(\d+\.?\d*)/);
+            if (rpmMatch) {
+                const vc = parseFloat(rpmMatch[1]);
+                const d = parseFloat(rpmMatch[2]);
+                let rpm = Math.round((vc * 1000) / (Math.PI * d));
+                let warning = (rpm > 10000) ? "<div class='text-red-400 text-sm mt-3'>Bemærk: Haas Mini Mill max RPM (10.000) overskredet.</div>" : "";
+                rpm = rpm > 10000 ? 10000 : rpm;
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Spindelhastighed</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">${rpm} RPM</div><div class="flex gap-8 text-sm text-zinc-400"><div>Mål: <span class="font-mono">Ø${d} mm</span></div><div>Ønsket Vc: <span class="font-mono">${vc} m/min</span></div></div>${warning}</div>`;
+                matchFound = true;
+            }
+
+            const raMatch = q.match(/(?:fz|f)\s*(\d+\.?\d*)\s*(?:re|r)\s*(\d+\.?\d*)/);
+            if (raMatch) {
+                const f = parseFloat(raMatch[1]);
+                const r = parseFloat(raMatch[2]);
+                const ra = ((Math.pow(f, 2) * 1000) / (8 * r)).toFixed(2);
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Overfladeruhed</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">Ra ~${ra} µm</div><div class="flex gap-8 text-sm text-zinc-400"><div>Tilspænding (f): <span class="font-mono">${f} mm/o</span></div><div>Næseradius: <span class="font-mono">${r} mm</span></div></div></div>`;
+                matchFound = true;
+            }
+
+            const timeMatch = q.match(/(?:tid|t)\s*(?:l)\s*(\d+\.?\d*)\s*(?:f|vf)\s*(\d+\.?\d*)/);
+            if(timeMatch) {
+                const l = parseFloat(timeMatch[1]);
+                const vf = parseFloat(timeMatch[2]);
+                const totalMinutes = l / vf;
+                const mins = Math.floor(totalMinutes);
+                const secs = Math.round((totalMinutes - mins) * 60);
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Skæretid</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">${mins} min ${secs} sek</div><div class="flex gap-8 text-sm text-zinc-400"><div>Længde i snit: <span class="font-mono">${l} mm</span></div><div>Bordtilspænding (Vf): <span class="font-mono">${vf} mm/min</span></div></div></div>`;
+                matchFound = true;
+            }
+
+            const tapMatch = q.match(/(?:p|stigning)\s*(\d+\.?\d*)\s*(?:s|rpm|n)\s*(\d+\.?\d*)/);
+            if(tapMatch) {
+                const p = parseFloat(tapMatch[1]);
+                const s = parseFloat(tapMatch[2]);
+                const vf = (p * s).toFixed(1);
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Gevindtilspænding</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">F = ${vf} mm/min</div><div class="flex gap-8 text-sm text-zinc-400"><div>Stigning: <span class="font-mono">${p} mm</span></div><div>Spindel: <span class="font-mono">${s} RPM</span></div></div></div>`;
+                matchFound = true;
+            }
+
+            const tipMatch = q.match(/(?:bor|spids)\s*(?:d|ø)\s*(\d+\.?\d*)\s*(?:v|a)\s*(\d+\.?\d*)/);
+            if(tipMatch) {
+                const d = parseFloat(tipMatch[1]);
+                const v = parseFloat(tipMatch[2]);
+                const rad = (v / 2) * (Math.PI / 180);
+                const depth = ((d / 2) / Math.tan(rad)).toFixed(2);
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Borespids Kompensation</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">Z = ${depth} mm</div><div class="flex gap-8 text-sm text-zinc-400"><div>Bor-Ø: <span class="font-mono">${d} mm</span></div><div>Spidsvinkel: <span class="font-mono">${v}°</span></div></div><div class="text-sm text-zinc-500 mt-4 border-t border-zinc-800/80 pt-3">Læg <span class="font-mono text-zinc-300">${depth} mm</span> til tegningsdybden for at få fuld Ø i bunden.</div></div>`;
+                matchFound = true;
+            }
+
+            const konusMatch = q.match(/(?:konus)\s*(?:d1|d)\s*(\d+\.?\d*)\s*(?:d2|d)\s*(\d+\.?\d*)\s*(?:l)\s*(\d+\.?\d*)/);
+            if(konusMatch) {
+                const D = parseFloat(konusMatch[1]);
+                const d = parseFloat(konusMatch[2]);
+                const L = parseFloat(konusMatch[3]);
+                const rad = Math.atan((D - d) / (2 * L));
+                const degHalf = rad * (180 / Math.PI);
+                const degTotal = degHalf * 2;
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Konus Vinkel</div><div class="text-2xl font-mono font-semibold text-zinc-100 mb-2">Topslæde Indstilling: ${degHalf.toFixed(2)}°</div><div class="text-lg font-mono font-medium text-zinc-400 mb-4">Total Topvinkel: ${degTotal.toFixed(2)}°</div><div class="flex gap-8 text-sm text-zinc-400"><div>Forhold: <span class="font-mono">1 : ${((2*L)/(D-d)).toFixed(1)}</span></div></div></div>`;
+                matchFound = true;
+            }
+
+            const sinMatch = q.match(/(?:sin|sinus)\s*(?:v|a)\s*(\d+\.?\d*)\s*(?:l)\s*(\d+\.?\d*)/);
+            if(sinMatch) {
+                const v = parseFloat(sinMatch[1]);
+                const l = parseFloat(sinMatch[2]);
+                const rad = v * (Math.PI / 180);
+                const height = (Math.sin(rad) * l).toFixed(3);
+
+                function getGaugeBlocks(target) {
+                    let blocks = [];
+                    let t = Math.round(target * 1000) / 1000;
+                    if (t <= 0) return ["Ingen"];
+                    if (t < 0.5) return ["For lav til std. sæt"];
+
+                    let th = Math.round(t * 1000) % 10;
+                    if (th > 0) {
+                        let b = 1.0 + (th / 1000);
+                        if (t >= b) { blocks.push(b); t = Math.round((t - b) * 1000) / 1000; }
+                    }
+
+                    let h = Math.round(t * 100) % 100;
+                    if (h > 0) {
+                        let b = 1.0;
+                        if (h >= 50 && t >= (1.0 + (h-50)/100)) { b += (h - 50) / 100; }
+                        else if (t >= 1.0 + h/100) { b += h / 100; }
+                        if (b > 1.0 && t >= b) { blocks.push(b); t = Math.round((t - b) * 1000) / 1000; }
+                    }
+
+                    let tens = Math.floor(t / 10) * 10;
+                    while (tens >= 100) { blocks.push(100); t = Math.round((t - 100) * 1000) / 1000; tens -= 100; }
+                    if (tens > 0 && t >= tens) { blocks.push(tens); t = Math.round((t - tens) * 1000) / 1000; }
+
+                    if (t > 0) blocks.push(t);
+
+                    return blocks.sort((a,b) => b - a).map(n => n.toFixed(3));
+                }
+
+                const blockStack = getGaugeBlocks(parseFloat(height)).join(" + ");
+
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Sinuslineal</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">Højde = ${height} mm</div><div class="flex gap-8 text-sm text-zinc-400 mb-5"><div>Vinkel: <span class="font-mono">${v}°</span></div><div>Lineal Længde: <span class="font-mono">${l} mm</span></div></div><div class="text-sm text-zinc-300 border-t border-zinc-800/80 pt-4 leading-relaxed"><div class="text-zinc-500 font-medium mb-1">Passklods-Stack (M112/M87)</div><span class="font-mono text-blue-400 text-lg">${blockStack}</span></div></div>`;
+                matchFound = true;
+            }
+
+            const boltMatch = q.match(/(?:bolt|hul)\s*(?:d|ø)\s*(\d+\.?\d*)\s*(?:n)\s*(\d+)/);
+            if(boltMatch) {
+                const d = parseFloat(boltMatch[1]);
+                const n = parseInt(boltMatch[2]);
+                const vinkel = (360 / n).toFixed(2);
+                output.innerHTML = `<div class="bg-zinc-800/40 border border-zinc-700/50 p-6 rounded-xl shadow-sm"><div class="text-xs text-blue-400 font-semibold tracking-wider uppercase mb-4">Resultat: Delecirkel</div><div class="text-3xl font-mono font-semibold text-zinc-100 mb-4">Vinkel: ${vinkel}°</div><div class="flex gap-8 text-sm text-zinc-400"><div>Antal huller: <span class="font-mono">${n}</span></div><div>Delecirkel-Ø: <span class="font-mono">${d} mm</span></div></div></div>`;
+                matchFound = true;
+            }
+
+            if(!matchFound && q !== "") {
+                output.innerHTML = `<div class="bg-zinc-900/50 border border-zinc-800 p-6 rounded-xl flex items-center justify-center h-24"><span class="text-zinc-500 text-sm">Ugyldig syntaks. Se referencemanual.</span></div>`;
+            }
+        }
+
+        function injectCalc(query) {
+            const input = document.getElementById('calc-cmd');
+            input.value = query;
+            input.focus();
+            parseCommand(query);
+        }
+
+        document.getElementById('calc-cmd').addEventListener('input', (e) => parseCommand(e.target.value.toLowerCase()));
+
+        // INITIALIZE
+        if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
+            document.getElementById('sw-status').innerHTML = '<span class="w-2 h-2 rounded-full bg-teal-500"></span> System Aktiv';
+        }
+        switchTab('SKÆREDATA');
+    </script>
+</body>
+</html>
