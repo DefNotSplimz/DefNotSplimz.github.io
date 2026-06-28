@@ -3,331 +3,412 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DatumCore // Telemetry</title>
+    <title>DatumCore // Controller</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap');
         
         :root {
             --bg: #000000;
-            --surface: #0a0a0a;
+            --panel: #0a0a0a;
             --border: #222222;
-            --text: #ffffff;
-            --muted: #666666;
-            --accent: #00fa9a;
+            --border-focus: #444444;
+            --text-info: #ffffff;
+            --text-dim: #666666;
+            --input-color: #ffd700; /* Heidenhain Yellow */
+            --output-primary: #00fa9a; /* Matrix Green */
+            --output-secondary: #00e5ff; /* Cyan */
+            --alert: #ff3366;
         }
+
+        * { font-family: 'JetBrains Mono', monospace; box-sizing: border-box; }
 
         body { 
-            background-color: var(--bg); color: var(--text); 
-            font-family: 'Inter', sans-serif; 
-            -webkit-font-smoothing: antialiased; 
-            overflow: hidden; user-select: none;
+            background-color: var(--bg); color: var(--text-info); 
+            -webkit-font-smoothing: antialiased; overflow: hidden; 
+            user-select: none;
         }
 
-        .mono { font-family: 'JetBrains Mono', monospace; }
-        input, select { user-select: auto; font-family: 'JetBrains Mono', monospace; }
-        ::selection { background: var(--accent); color: #000; }
+        input, select { user-select: auto; }
+        ::selection { background: var(--input-color); color: #000; }
         
+        /* Fjern pile i number inputs */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: #333; }
-        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        ::-webkit-scrollbar-thumb { background: var(--border-focus); }
 
-        /* Rå Navigation */
-        .tab-btn {
-            padding: 12px 24px; font-size: 11px; font-weight: 800; text-transform: uppercase; 
-            letter-spacing: 0.1em; color: var(--muted); border-right: 1px solid var(--border);
-            transition: color 0s; cursor: pointer; background: transparent; outline: none;
+        /* --- CONTROLLER UI --- */
+
+        /* Navigation */
+        .sys-nav {
+            display: flex; background: var(--bg); border-bottom: 2px solid var(--border); overflow-x: auto;
         }
-        .tab-btn:hover { color: #aaa; background: #050505; }
-        .tab-btn.active { color: #000; background: #fff; }
-
-        /* Taktile Inputs */
-        .raw-input {
-            background: transparent; border: none; border-bottom: 2px solid var(--border);
-            color: #fff; padding: 4px 0; font-weight: 700; outline: none; transition: border 0s;
-            border-radius: 0; cursor: pointer; text-transform: uppercase;
+        .sys-btn {
+            flex: 1; min-width: 160px; padding: 20px; text-align: center; font-size: 14px; 
+            font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; border-right: 2px solid var(--border); transition: none; background: transparent;
         }
-        .raw-input:focus { border-bottom-color: var(--accent); }
-        select.raw-input { appearance: none; padding-right: 16px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right center; background-size: 12px; }
+        .sys-btn:hover { background: #111; color: #aaa; }
+        .sys-btn.active { background: var(--input-color); color: #000; border-bottom: 2px solid var(--input-color); }
 
-        /* Toggles */
-        .raw-toggle {
-            padding: 4px 12px; font-size: 11px; font-weight: 800; border: 1px solid var(--border);
-            color: var(--muted); cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em;
+        /* Grid Framework */
+        .module-container { height: calc(100vh - 66px); overflow-y: auto; padding: 24px; display: none; flex-direction: column; gap: 24px; }
+        .module-container.active { display: flex; }
+
+        .dro-grid { display: grid; gap: 2px; background: var(--border); border: 2px solid var(--border); }
+        .dro-cell { background: var(--panel); padding: 20px; display: flex; flex-direction: column; }
+        .dro-cell:focus-within { background: #111; }
+
+        /* Labels */
+        .lbl { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+
+        /* Inputs (Yellow) */
+        .inp-dro {
+            background: #000; border: 2px solid #1a1a1a; color: var(--input-color);
+            padding: 0 16px; height: 64px; font-size: 24px; font-weight: 800;
+            width: 100%; outline: none; text-align: left; border-radius: 0;
+            text-transform: uppercase;
         }
-        .raw-toggle.active { background: #fff; color: #000; border-color: #fff; }
-
-        /* Grid Layouts */
-        .data-grid { display: grid; border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
-        .data-cell { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 24px; background: var(--surface); }
+        .inp-dro.center { text-align: center; }
+        .inp-dro:focus { border-color: var(--input-color); background: #111; }
         
-        .lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
+        select.inp-dro { 
+            appearance: none; cursor: pointer; padding-right: 40px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffd700'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); 
+            background-repeat: no-repeat; background-position: right 16px center; background-size: 16px; 
+        }
+
+        /* Segment Toggles (Yellow) */
+        .tgl-container { display: flex; height: 64px; background: #000; border: 2px solid #1a1a1a; padding: 2px; }
+        .tgl-btn {
+            flex: 1; font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; background: transparent; color: var(--text-dim); border: none;
+        }
+        .tgl-btn.active { background: var(--input-color); color: #000; }
+
+        /* Outputs (Green/Cyan) */
+        .out-huge { font-size: 48px; font-weight: 800; color: var(--output-primary); line-height: 1; tracking-tighter; }
+        .out-large { font-size: 32px; font-weight: 800; color: var(--output-secondary); line-height: 1; }
+        .out-med { font-size: 20px; font-weight: 700; color: var(--text-info); }
+        .unit { font-size: 14px; color: var(--text-dim); font-weight: 700; margin-left: 8px; }
+
+        /* Special States */
+        .alert-text { color: var(--alert); }
+        .bg-alert { background: rgba(255,51,102,0.1); border-color: var(--alert) !important; }
+
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col">
+<body>
 
-    <!-- HEADER & TABS -->
-    <header class="flex border-b border-[#222] bg-[#000] shrink-0 items-stretch h-14">
-        <div class="px-6 flex items-center border-r border-[#222] shrink-0 bg-[#000]">
-            <span class="font-black text-xl tracking-tighter">DATUMCORE<span class="text-[#00fa9a]">_</span></span>
-        </div>
-        <div class="flex flex-1 overflow-x-auto" id="tab-nav">
-            <button class="tab-btn active" data-tab="SKAEREDATA" onclick="switchTab('SKAEREDATA')">Skæredata</button>
-            <button class="tab-btn" data-tab="GEVIND" onclick="switchTab('GEVIND')">Gevind</button>
-            <button class="tab-btn" data-tab="PASNINGER" onclick="switchTab('PASNINGER')">ISO Pasning</button>
-            <button class="tab-btn" data-tab="CALC" onclick="switchTab('CALC')">Kalkulatorer</button>
-            <button class="tab-btn" data-tab="OPSLAG" onclick="switchTab('OPSLAG')">Opslag</button>
-        </div>
-        <div class="px-6 flex items-center border-l border-[#222] bg-[#000] shrink-0">
-            <div class="w-2 h-2 bg-[#00fa9a] mr-2"></div>
-            <span class="text-[10px] font-bold text-[#666] uppercase tracking-widest mono">V6.1 TELEMETRY</span>
-        </div>
-    </header>
+    <!-- SYSTEM NAVIGATION -->
+    <nav class="sys-nav" id="tab-nav">
+        <button class="sys-btn active" data-tab="SKAEREDATA" onclick="switchTab('SKAEREDATA')">Skæredata</button>
+        <button class="sys-btn" data-tab="GEVIND" onclick="switchTab('GEVIND')">Gevind</button>
+        <button class="sys-btn" data-tab="PASNINGER" onclick="switchTab('PASNINGER')">ISO Pasning</button>
+        <button class="sys-btn" data-tab="CALC" onclick="switchTab('CALC')">Kalkulator</button>
+        <button class="sys-btn" data-tab="OPSLAG" onclick="switchTab('OPSLAG')">Reference</button>
+    </nav>
 
-    <!-- VIEW CONTAINER -->
-    <main class="flex-1 relative overflow-y-auto bg-[#000]">
-
-        <!-- ========================================== -->
-        <!-- 1. SKÆREDATA MODULE                        -->
-        <!-- ========================================== -->
-        <div id="view-skaeredata" class="w-full flex-col flex">
+    <!-- ========================================== -->
+    <!-- 1. SKÆREDATA MODULE                        -->
+    <!-- ========================================== -->
+    <div id="view-skaeredata" class="module-container active max-w-[1800px] mx-auto">
+        
+        <!-- INPUT BLOK -->
+        <div class="dro-grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+            <div class="dro-cell xl:col-span-1">
+                <span class="lbl">Materiale</span>
+                <select id="sd-mat" class="inp-dro"></select>
+            </div>
             
-            <!-- MASTER CONFIG BAR -->
-            <div class="flex flex-wrap border-b border-[#222] bg-[#050505]">
-                <div class="p-6 border-r border-[#222] w-full md:w-auto flex-1 md:flex-none">
-                    <label class="lbl">Søg Materiale</label>
-                    <select id="sd-mat" class="raw-input text-xl text-[#00fa9a] w-full min-w-[200px]"></select>
-                </div>
-                <div class="p-6 border-r border-[#222] flex gap-2 items-end">
-                    <div class="flex"><button id="btn-cnc" class="raw-toggle active" onclick="setSDState('plat', 'CNC')">CNC</button><button id="btn-man" class="raw-toggle inactive -ml-px" onclick="setSDState('plat', 'MAN')">MAN</button></div>
-                    <div class="flex ml-4"><button id="btn-mill" class="raw-toggle active" onclick="setSDState('op', 'MILL')">FRÆS</button><button id="btn-lathe" class="raw-toggle inactive -ml-px" onclick="setSDState('op', 'LATHE')">DREJ</button></div>
-                </div>
-                <div class="p-6 border-r border-[#222] flex-1">
-                    <label class="lbl">Værktøj</label>
-                    <select id="sd-tool" class="raw-input text-xl w-full max-w-sm"></select>
-                </div>
-            </div>
-
-            <!-- PARAMETER BAR -->
-            <div class="flex flex-wrap border-b border-[#222] bg-[#000]">
-                <div class="p-4 px-6 border-r border-[#222] w-32">
-                    <label class="lbl">Ø</label>
-                    <input type="number" id="sd-dia" class="raw-input text-xl text-center w-full" value="10">
-                </div>
-                <div class="p-4 px-6 border-r border-[#222] w-32" id="sd-z-container">
-                    <label class="lbl">Z</label>
-                    <input type="number" id="sd-z" class="raw-input text-xl text-center w-full" value="4">
-                </div>
-                <div class="p-4 px-6 border-r border-[#222] w-40">
-                    <label class="lbl">Ra (Slet)</label>
-                    <select id="sd-ra" class="raw-input text-xl text-center w-full">
-                        <option value="std">DB Std.</option>
-                        <option value="0.4">0.4</option>
-                        <option value="0.8">0.8</option>
-                        <option value="1.6">1.6</option>
-                        <option value="3.2">3.2</option>
-                    </select>
-                </div>
-                <div class="p-4 px-6 border-r border-[#222] w-32">
-                    <label class="lbl">Næse R</label>
-                    <input type="number" id="sd-re" class="raw-input text-xl text-center w-full" value="0.4" step="0.1">
-                </div>
-                <div class="p-4 px-6 flex-1 flex flex-col justify-center">
-                    <span class="lbl mb-0">Køling / Note</span>
-                    <div class="flex items-center gap-4 mt-1">
-                        <span id="sd-coolant" class="text-sm font-black text-[#00fa9a] uppercase mono bg-[#111] px-2 py-1">EMULSION</span>
-                        <span id="sd-mat-note" class="text-xs text-[#888] font-bold uppercase tracking-widest">-</span>
+            <div class="dro-cell xl:col-span-1">
+                <span class="lbl">Platform & Operation</span>
+                <div class="flex gap-2 h-full">
+                    <div class="tgl-container flex-1">
+                        <button id="btn-cnc" class="tgl-btn active" onclick="setSDState('plat', 'CNC')">CNC</button>
+                        <button id="btn-man" class="tgl-btn" onclick="setSDState('plat', 'MAN')">MAN</button>
+                    </div>
+                    <div class="tgl-container flex-1">
+                        <button id="btn-mill" class="tgl-btn active" onclick="setSDState('op', 'MILL')">FRÆS</button>
+                        <button id="btn-lathe" class="tgl-btn" onclick="setSDState('op', 'LATHE')">DREJ</button>
                     </div>
                 </div>
             </div>
 
-            <!-- OUTPUT GRID -->
-            <div id="sd-output" class="data-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 bg-[#0a0a0a]">
-                <!-- Genereres af JS -->
+            <div class="dro-cell xl:col-span-2">
+                <span class="lbl">Værktøjstype</span>
+                <select id="sd-tool" class="inp-dro"></select>
+            </div>
+
+            <div class="dro-cell">
+                <span class="lbl">Diameter (Ø)</span>
+                <input type="number" id="sd-dia" class="inp-dro center" value="10">
+            </div>
+            
+            <div class="dro-cell" id="sd-z-container">
+                <span class="lbl">Tænder (Z)</span>
+                <input type="number" id="sd-z" class="inp-dro center" value="4">
+            </div>
+
+            <div class="dro-cell">
+                <span class="lbl">Ra Krav (Slet)</span>
+                <select id="sd-ra" class="inp-dro center">
+                    <option value="std">DB STD</option>
+                    <option value="0.4">RA 0.4</option>
+                    <option value="0.8">RA 0.8</option>
+                    <option value="1.6">RA 1.6</option>
+                    <option value="3.2">RA 3.2</option>
+                </select>
+            </div>
+
+            <div class="dro-cell">
+                <span class="lbl">Næse R</span>
+                <input type="number" id="sd-re" class="inp-dro center" value="0.4" step="0.1">
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 2. GEVIND MODULE                           -->
-        <!-- ========================================== -->
-        <div id="view-gevind" class="w-full hidden flex-col">
-            <div class="border-b border-[#222] p-8 bg-[#050505]">
-                <label class="lbl">Gevind Identifikator</label>
-                <input type="text" id="th-input" class="raw-input text-6xl text-[#00fa9a] uppercase w-full max-w-2xl" placeholder="FX M8, M20X1.5..." autocomplete="off">
+        <!-- INFO BLOK -->
+        <div class="flex justify-between items-end px-2">
+            <div>
+                <div class="text-[10px] text-[#666] font-bold uppercase tracking-widest mb-2">Aktivt Emne</div>
+                <div class="text-3xl font-black text-white uppercase tracking-tighter" id="sd-mat-name">VÆLG MATERIALE</div>
+                <div class="text-xs text-[#00e5ff] font-bold mt-2 uppercase tracking-widest" id="sd-mat-note">-</div>
             </div>
-            <div id="th-output" class="data-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 bg-[#0a0a0a]"></div>
+            <div class="text-right">
+                <div class="text-[10px] text-[#666] font-bold uppercase tracking-widest mb-2">Køling</div>
+                <div id="sd-coolant" class="text-xl font-black text-[#00fa9a] uppercase tracking-widest">EMULSION</div>
+            </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- 3. PASNINGER MODULE                        -->
-        <!-- ========================================== -->
-        <div id="view-pasninger" class="w-full hidden flex-col">
-            <div class="border-b border-[#222] p-8 bg-[#050505] flex gap-8 flex-wrap">
-                <div class="w-48">
-                    <label class="lbl">Nominelt Mål (Ø)</label>
-                    <input type="number" id="iso-nom" class="raw-input text-5xl text-center w-full" placeholder="0" autocomplete="off">
-                </div>
-                <div class="w-32">
-                    <label class="lbl">Hul (Fx H7)</label>
-                    <input type="text" id="iso-hole" class="raw-input text-5xl text-center uppercase w-full" placeholder="-" autocomplete="off" maxlength="3">
-                </div>
-                <div class="w-32">
-                    <label class="lbl">Aksel (Fx g6)</label>
-                    <input type="text" id="iso-shaft" class="raw-input text-5xl text-center lowercase w-full" placeholder="-" autocomplete="off" maxlength="3">
-                </div>
-            </div>
-            <div id="iso-output" class="data-grid grid-cols-1 md:grid-cols-3 bg-[#0a0a0a]"></div>
+        <!-- OUTPUT BLOK -->
+        <div id="sd-output" class="dro-grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 flex-1">
+            <!-- JS Output -->
         </div>
 
-        <!-- ========================================== -->
-        <!-- 4. KALKULATORER MODULE                     -->
-        <!-- ========================================== -->
-        <div id="view-calc" class="w-full hidden flex-col">
-            <div class="data-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full">
-                
-                <!-- RPM -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111]">
-                    <div class="lbl">Spindel RPM</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">Vc</label><input type="number" id="c-rpm-vc" class="raw-input text-xl text-center w-full" value="120"></div>
-                        <div class="flex-1"><label class="lbl">Ø</label><input type="number" id="c-rpm-d" class="raw-input text-xl text-center w-full" value="10"></div>
-                    </div>
-                    <div class="text-5xl font-black mono mt-auto" id="c-rpm-out">0</div>
-                </div>
+    </div>
 
-                <!-- Ra -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111]">
-                    <div class="lbl">Estimeret Ra (µm)</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">f</label><input type="number" id="c-ra-f" class="raw-input text-xl text-center w-full" value="0.1" step="0.05"></div>
-                        <div class="flex-1"><label class="lbl">R</label><input type="number" id="c-ra-r" class="raw-input text-xl text-center w-full" value="0.4" step="0.1"></div>
-                    </div>
-                    <div class="text-5xl font-black mono mt-auto" id="c-ra-out">0.00</div>
-                </div>
+    <!-- ========================================== -->
+    <!-- 2. GEVIND MODULE                           -->
+    <!-- ========================================== -->
+    <div id="view-gevind" class="module-container max-w-[1400px] mx-auto">
+        <div class="dro-grid grid-cols-1">
+            <div class="dro-cell items-center justify-center p-12">
+                <span class="lbl text-center">Gevind Identifikator (Søg)</span>
+                <input type="text" id="th-input" class="inp-dro center !h-24 !text-5xl max-w-3xl border-b-4 border-b-[var(--input-color)] !bg-[#050505]" placeholder="FX M8, M20X1.5" autocomplete="off">
+            </div>
+        </div>
+        <div id="th-output" class="dro-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4"></div>
+    </div>
 
-                <!-- Skæretid -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111]">
-                    <div class="lbl">Skæretid</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">L</label><input type="number" id="c-tid-l" class="raw-input text-xl text-center w-full" value="150"></div>
-                        <div class="flex-1"><label class="lbl">Vf</label><input type="number" id="c-tid-vf" class="raw-input text-xl text-center w-full" value="200"></div>
-                    </div>
-                    <div class="text-5xl font-black mono mt-auto" id="c-tid-out">0m 0s</div>
-                </div>
+    <!-- ========================================== -->
+    <!-- 3. PASNINGER MODULE                        -->
+    <!-- ========================================== -->
+    <div id="view-pasninger" class="module-container max-w-[1400px] mx-auto">
+        <div class="dro-grid grid-cols-1 md:grid-cols-3">
+            <div class="dro-cell !p-8">
+                <span class="lbl text-center">Nominel Ø</span>
+                <input type="number" id="iso-nom" class="inp-dro center !h-24 !text-6xl border-b-4 border-b-[var(--input-color)] !bg-[#050505]" placeholder="0" autocomplete="off">
+            </div>
+            <div class="dro-cell !p-8">
+                <span class="lbl text-center">Hul (Fx H7)</span>
+                <input type="text" id="iso-hole" class="inp-dro center !h-24 !text-6xl uppercase border-b-4 border-b-[var(--input-color)] !bg-[#050505]" placeholder="-" autocomplete="off" maxlength="3">
+            </div>
+            <div class="dro-cell !p-8">
+                <span class="lbl text-center">Aksel (Fx g6)</span>
+                <input type="text" id="iso-shaft" class="inp-dro center !h-24 !text-6xl lowercase border-b-4 border-b-[var(--input-color)] !bg-[#050505]" placeholder="-" autocomplete="off" maxlength="3">
+            </div>
+        </div>
+        <div id="iso-output" class="dro-grid grid-cols-1 md:grid-cols-2 mt-4"></div>
+    </div>
 
-                <!-- Gevindtilspænding -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111]">
-                    <div class="lbl">Gevind Vf (mm/m)</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">P</label><input type="number" id="c-tap-p" class="raw-input text-xl text-center w-full" value="1.25" step="0.25"></div>
-                        <div class="flex-1"><label class="lbl">S</label><input type="number" id="c-tap-s" class="raw-input text-xl text-center w-full" value="500"></div>
-                    </div>
-                    <div class="text-5xl font-black mono mt-auto" id="c-tap-out">0</div>
+    <!-- ========================================== -->
+    <!-- 4. KALKULATORER MODULE                     -->
+    <!-- ========================================== -->
+    <div id="view-calc" class="module-container max-w-[1800px] mx-auto">
+        <div class="dro-grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+            
+            <!-- RPM -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px]">
+                <span class="lbl text-[#00e5ff]">Spindel RPM</span>
+                <div class="flex gap-4 mb-auto">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Vc</span><input type="number" id="c-rpm-vc" class="inp-dro center" value="120"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Ø</span><input type="number" id="c-rpm-d" class="inp-dro center" value="10"></div>
                 </div>
-
-                <!-- Borespids -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111]">
-                    <div class="lbl">Borespids Komp. Z (mm)</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">Ø</label><input type="number" id="c-bor-d" class="raw-input text-xl text-center w-full" value="10"></div>
-                        <div class="flex-1"><label class="lbl">V°</label><input type="number" id="c-bor-v" class="raw-input text-xl text-center w-full" value="118"></div>
-                    </div>
-                    <div class="text-5xl font-black mono mt-auto" id="c-bor-out">0.00</div>
+                <div class="pt-6 mt-6 border-t border-[#222]">
+                    <span class="out-huge" id="c-rpm-out">0</span><span class="unit">RPM</span>
                 </div>
+            </div>
 
-                <!-- Delecirkel Inkrement -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111]">
-                    <div class="lbl">Delecirkel Inkrement (°)</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">Huller</label><input type="number" id="c-bolt-n" class="raw-input text-xl text-center w-full" value="6"></div>
-                    </div>
-                    <div class="text-5xl font-black mono mt-auto" id="c-bolt-out">0.00°</div>
+            <!-- Ra -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px]">
+                <span class="lbl text-[#00e5ff]">Estimeret Ra</span>
+                <div class="flex gap-4 mb-auto">
+                    <div class="flex-1"><span class="lbl !text-[9px]">f</span><input type="number" id="c-ra-f" class="inp-dro center" value="0.1" step="0.05"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">R</span><input type="number" id="c-ra-r" class="inp-dro center" value="0.4" step="0.1"></div>
                 </div>
+                <div class="pt-6 mt-6 border-t border-[#222]">
+                    <span class="out-huge" id="c-ra-out">0.00</span><span class="unit">µm</span>
+                </div>
+            </div>
 
-                <!-- Konus -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111] md:col-span-2">
-                    <div class="lbl">Konus Vinkler</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">Stor Ø</label><input type="number" id="c-kon-D" class="raw-input text-xl text-center w-full" value="30"></div>
-                        <div class="flex-1"><label class="lbl">Lille Ø</label><input type="number" id="c-kon-d" class="raw-input text-xl text-center w-full" value="20"></div>
-                        <div class="flex-1"><label class="lbl">Længde</label><input type="number" id="c-kon-l" class="raw-input text-xl text-center w-full" value="50"></div>
+            <!-- Skæretid -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px]">
+                <span class="lbl text-[#00e5ff]">Skæretid</span>
+                <div class="flex gap-4 mb-auto">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Længde</span><input type="number" id="c-tid-l" class="inp-dro center" value="150"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Vf</span><input type="number" id="c-tid-vf" class="inp-dro center" value="200"></div>
+                </div>
+                <div class="pt-6 mt-6 border-t border-[#222]">
+                    <span class="out-huge" id="c-tid-out">0m 0s</span>
+                </div>
+            </div>
+
+            <!-- Gevindtilspænding -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px]">
+                <span class="lbl text-[#00e5ff]">Gevind Vf</span>
+                <div class="flex gap-4 mb-auto">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Stigning</span><input type="number" id="c-tap-p" class="inp-dro center" value="1.25" step="0.25"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">RPM</span><input type="number" id="c-tap-s" class="inp-dro center" value="500"></div>
+                </div>
+                <div class="pt-6 mt-6 border-t border-[#222]">
+                    <span class="out-huge" id="c-tap-out">0</span><span class="unit">mm/min</span>
+                </div>
+            </div>
+
+            <!-- Borespids -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px]">
+                <span class="lbl text-[#00e5ff]">Borespids Z</span>
+                <div class="flex gap-4 mb-auto">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Bor Ø</span><input type="number" id="c-bor-d" class="inp-dro center" value="10"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Vinkel</span><input type="number" id="c-bor-v" class="inp-dro center" value="118"></div>
+                </div>
+                <div class="pt-6 mt-6 border-t border-[#222]">
+                    <span class="out-huge" id="c-bor-out">0.00</span><span class="unit">mm</span>
+                </div>
+            </div>
+
+            <!-- Delecirkel (Ink) -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px]">
+                <span class="lbl text-[#00e5ff]">Delecirkel Ink.</span>
+                <div class="flex gap-4 mb-auto">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Huller</span><input type="number" id="c-bolt-n" class="inp-dro center" value="6"></div>
+                </div>
+                <div class="pt-6 mt-6 border-t border-[#222]">
+                    <span class="out-huge" id="c-bolt-out">0.00°</span>
+                </div>
+            </div>
+
+            <!-- Korde -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px] md:col-span-2">
+                <span class="lbl text-[#00e5ff]">Cirkelsegment / Korde</span>
+                <div class="flex gap-6 mb-auto w-full max-w-lg">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Ø</span><input type="number" id="c-kor-d" class="inp-dro center" value="100"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Højde</span><input type="number" id="c-kor-h" class="inp-dro center" value="20"></div>
+                </div>
+                <div class="pt-6 mt-6 border-t border-[#222] flex justify-between items-end">
+                    <div>
+                        <span class="lbl !text-[10px] mb-2 text-[#fff]">Kordelængde</span>
+                        <span class="out-huge" id="c-kor-out1">0.000</span><span class="unit">mm</span>
                     </div>
-                    <div class="flex justify-between items-end mt-auto">
-                        <div><span class="lbl">Topslæde</span><span class="text-5xl font-black mono text-[#00e5ff]" id="c-kon-out1">0.00°</span></div>
-                        <div class="text-right"><span class="lbl">Total Vinkel</span><span class="text-2xl font-bold mono text-[#666]" id="c-kon-out2">0.00°</span></div>
+                    <div class="text-right">
+                        <span class="lbl !text-[10px] mb-2 text-[#fff]">Centervinkel</span>
+                        <span class="out-large" id="c-kor-out2">0.00°</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Trekant -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111] md:col-span-2">
-                    <div class="lbl">Retvinklet Trekant</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">Katete A</label><input type="number" id="c-tre-a" class="raw-input text-xl text-center w-full" value="15"></div>
-                        <div class="flex-1"><label class="lbl">Katete B</label><input type="number" id="c-tre-b" class="raw-input text-xl text-center w-full" value="25"></div>
+            <!-- Konus -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px] md:col-span-2 xl:col-span-3 2xl:col-span-2">
+                <span class="lbl text-[#00e5ff]">Konus Vinkler</span>
+                <div class="flex gap-6 mb-auto w-full max-w-2xl">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Stor Ø</span><input type="number" id="c-kon-D" class="inp-dro center" value="30"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Lille Ø</span><input type="number" id="c-kon-d" class="inp-dro center" value="20"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Længde</span><input type="number" id="c-kon-l" class="inp-dro center" value="50"></div>
+                </div>
+                <div class="pt-6 mt-6 border-t border-[#222] flex justify-between items-end">
+                    <div>
+                        <span class="lbl !text-[10px] mb-2 text-[#fff]">Topslæde Vinkel</span>
+                        <span class="out-huge" id="c-kon-out1">0.00°</span>
                     </div>
-                    <div class="flex justify-between items-end mt-auto">
-                        <div><span class="lbl">Hypotenuse C</span><span class="text-5xl font-black mono text-[#f59e0b]" id="c-tre-out1">0.000</span></div>
-                        <div class="text-right"><span class="lbl">Vinkler</span><span class="text-xl font-bold mono text-[#666]" id="c-tre-out2">A:0° B:0°</span></div>
+                    <div class="text-right">
+                        <span class="lbl !text-[10px] mb-2 text-[#fff]">Total Vinkel</span>
+                        <span class="out-large" id="c-kon-out2">0.00°</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Korde -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111] md:col-span-2">
-                    <div class="lbl">Cirkelsegment / Korde</div>
-                    <div class="flex gap-4 mb-8">
-                        <div class="flex-1"><label class="lbl">Cirkel Ø</label><input type="number" id="c-kor-d" class="raw-input text-xl text-center w-full" value="100"></div>
-                        <div class="flex-1"><label class="lbl">Målt Højde (h)</label><input type="number" id="c-kor-h" class="raw-input text-xl text-center w-full" value="20"></div>
+            <!-- Trekant -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px] md:col-span-2">
+                <span class="lbl text-[#00e5ff]">Retvinklet Trekant</span>
+                <div class="flex gap-6 mb-auto w-full max-w-lg">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Katete A</span><input type="number" id="c-tre-a" class="inp-dro center" value="15"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Katete B</span><input type="number" id="c-tre-b" class="inp-dro center" value="25"></div>
+                </div>
+                <div class="pt-6 mt-6 border-t border-[#222] flex justify-between items-end">
+                    <div>
+                        <span class="lbl !text-[10px] mb-2 text-[#fff]">Hypotenuse (C)</span>
+                        <span class="out-huge" id="c-tre-out1">0.000</span>
                     </div>
-                    <div class="flex justify-between items-end mt-auto">
-                        <div><span class="lbl">Kordelængde</span><span class="text-5xl font-black mono text-[#b026ff]" id="c-kor-out1">0.000</span></div>
-                        <div class="text-right"><span class="lbl">Centervinkel</span><span class="text-xl font-bold mono text-[#666]" id="c-kor-out2">0.00°</span></div>
+                    <div class="text-right">
+                        <span class="lbl !text-[10px] mb-2 text-[#fff]">Vinkler</span>
+                        <span class="out-large" id="c-tre-out2">A:0° B:0°</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Sinuslineal -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111] lg:col-span-2 xl:col-span-4">
-                    <div class="lbl">Sinuslineal (Passklodser)</div>
-                    <div class="flex gap-4 mb-8 w-full max-w-md">
-                        <div class="flex-1"><label class="lbl">Vinkel (°)</label><input type="number" id="c-sin-v" class="raw-input text-xl text-center w-full" value="15"></div>
-                        <div class="flex-1"><label class="lbl">Lineal Længde</label><input type="number" id="c-sin-l" class="raw-input text-xl text-center w-full" value="100"></div>
+            <!-- Sinuslineal -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px] md:col-span-2 xl:col-span-3 2xl:col-span-2">
+                <span class="lbl text-[#00e5ff]">Sinuslineal</span>
+                <div class="flex gap-6 mb-auto w-full max-w-lg">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Vinkel (°)</span><input type="number" id="c-sin-v" class="inp-dro center" value="15"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Lineal Længde</span><input type="number" id="c-sin-l" class="inp-dro center" value="100"></div>
+                </div>
+                <div class="pt-6 mt-6 border-t border-[#222] flex justify-between items-end gap-6">
+                    <div class="shrink-0">
+                        <span class="lbl !text-[10px] mb-2 text-[#fff]">Total Højde</span>
+                        <span class="out-huge" id="c-sin-out1">0.000</span><span class="unit">mm</span>
                     </div>
-                    <div class="flex justify-between items-end mt-auto gap-4">
-                        <div class="shrink-0"><span class="lbl">Total Højde</span><span class="text-5xl font-black mono text-white" id="c-sin-out1">0.000</span></div>
-                        <div class="text-right"><span class="lbl">ISO Stak Kombi</span><span class="text-xl font-bold mono text-[#00fa9a]" id="c-sin-out2">-</span></div>
+                    <div class="text-right min-w-0">
+                        <span class="lbl !text-[10px] mb-2 text-[#fff]">ISO Stak (Forslag)</span>
+                        <span class="out-large truncate block !text-[#00e5ff]" id="c-sin-out2">-</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Delecirkel XY -->
-                <div class="data-cell flex flex-col focus-within:bg-[#111] lg:col-span-2 xl:col-span-4">
-                    <div class="lbl">Delecirkel XY Koordinater</div>
-                    <div class="flex gap-4 mb-8 w-full max-w-2xl">
-                        <div class="flex-1"><label class="lbl">Cirkel Ø</label><input type="number" id="c-boltx-d" class="raw-input text-xl text-center w-full" value="100"></div>
-                        <div class="flex-1"><label class="lbl">Antal Huller</label><input type="number" id="c-boltx-n" class="raw-input text-xl text-center w-full" value="6"></div>
-                        <div class="flex-1"><label class="lbl">Start Vinkel (°)</label><input type="number" id="c-boltx-v" class="raw-input text-xl text-center w-full" value="0"></div>
-                    </div>
-                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-0 border-t border-l border-[#222] mt-auto" id="c-boltx-out">
+            <!-- Delecirkel XY -->
+            <div class="dro-cell flex flex-col justify-between h-full min-h-[300px] md:col-span-2 lg:col-span-4 xl:col-span-3 2xl:col-span-4">
+                <span class="lbl text-[#00e5ff]">Delecirkel XY Koordinater</span>
+                <div class="flex gap-6 mb-8 w-full max-w-3xl">
+                    <div class="flex-1"><span class="lbl !text-[9px]">Cirkel Ø</span><input type="number" id="c-boltx-d" class="inp-dro center" value="100"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Antal Huller</span><input type="number" id="c-boltx-n" class="inp-dro center" value="6"></div>
+                    <div class="flex-1"><span class="lbl !text-[9px]">Start Vinkel</span><input type="number" id="c-boltx-v" class="inp-dro center" value="0"></div>
+                </div>
+                <div class="pt-6 mt-auto border-t border-[#222]">
+                    <div class="dro-grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 max-h-[300px] overflow-y-auto" id="c-boltx-out">
                         <!-- JS Output -->
                     </div>
                 </div>
+            </div>
 
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 5. STATIC GRID (GDT, GCODE, MATERIALE)     -->
+    <!-- ========================================== -->
+    <div id="view-opslag" class="module-container max-w-[1800px] mx-auto">
+        <div class="dro-grid grid-cols-1">
+            <div class="dro-cell">
+                <span class="lbl text-center">Søg Reference DB</span>
+                <input type="text" id="op-search" class="inp-dro center !h-24 !text-5xl border-b-4 border-b-[var(--input-color)] !bg-[#050505] w-full max-w-4xl mx-auto" placeholder="SØG..." autocomplete="off">
             </div>
         </div>
-
-        <!-- ========================================== -->
-        <!-- 5. STATIC GRID (GDT, GCODE, MATERIALE)     -->
-        <!-- ========================================== -->
-        <div id="view-opslag" class="w-full hidden flex-col">
-            <div class="border-b border-[#222] p-8 bg-[#050505]">
-                <label class="lbl">Søg i Opslagsværk (ISO, G-Kode, M-Kode)</label>
-                <input type="text" id="op-search" class="raw-input text-4xl w-full max-w-2xl text-[#00e5ff]" placeholder="SØG..." autocomplete="off">
-            </div>
-            <div id="op-matrix" class="data-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-[#0a0a0a]"></div>
-        </div>
+        <div id="op-matrix" class="dro-grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mt-4"></div>
+    </div>
 
     </main>
 
@@ -485,7 +566,7 @@
                 }
             },
             "d2": {
-                name: "Værktøjsstål (D2/O1)", coolant: "Emulsion / Skæreolie", note: "Bearbejdes blødglødet. Ekstremt abrasivt.",
+                name: "Værktøjsstål D2", coolant: "Emulsion / Skæreolie", note: "Bearbejdes blødglødet. Ekstremt abrasivt.",
                 CNC: {
                     MILL: {
                         em_hm: { rough: {vc:[40,80], fz:[0.05,0.10]}, fin: {vc:[60,100], fz:[0.03,0.05]}, slot: {vc:[30,60], fz:[0.04,0.08]} },
@@ -558,8 +639,45 @@
                     }
                 }
             },
+            "316": {
+                name: "Rustfri 316L", coolant: "Højtryk / Skærepasta", note: "Syrefast. Deformationshærder lynhurtigt.",
+                CNC: {
+                    MILL: {
+                        em_hm: { rough: {vc:[75,120], fz:[0.08,0.12]}, fin: {vc:[95,150], fz:[0.03,0.06]}, slot: {vc:[55,90], fz:[0.05,0.10]} },
+                        em_hss: { rough: {vc:[15,22], fz:[0.04,0.08]}, fin: {vc:[20,30], fz:[0.02,0.04]}, slot: {vc:[10,16], fz:[0.03,0.05]} },
+                        fm_hm: { rough: {vc:[85,130], fz:[0.08,0.15]}, fin: {vc:[110,160], fz:[0.03,0.06]} },
+                        ch_hm: { chamfer: {vc:[65,110], fz:[0.03,0.05]} },
+                        dr_hm: { drill: {vc:[50,80], f:[0.08,0.15]} },
+                        dr_hss: { drill: {vc:[12,18], f:[0.06,0.10]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[90,150], f:[0.15,0.25]}, fin: {vc:[120,180], f:[0.05,0.10]} },
+                        tu_hss: { rough: {vc:[18,28], f:[0.08,0.15]}, fin: {vc:[25,35], f:[0.04,0.08]} },
+                        gr_hm: { groove: {vc:[65,100], f:[0.06,0.12]} },
+                        dr_hm: { drill: {vc:[50,80], f:[0.08,0.15]} },
+                        dr_hss: { drill: {vc:[12,18], f:[0.06,0.10]} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        em_hm: { rough: {vc:[45,80], fz:[0.05,0.10]}, fin: {vc:[60,100], fz:[0.02,0.05]}, slot: {vc:[30,60], fz:[0.04,0.08]} },
+                        em_hss: { rough: {vc:[10,15], fz:[0.03,0.06]}, fin: {vc:[14,22], fz:[0.02,0.04]}, slot: {vc:[6,11], fz:[0.02,0.04]} },
+                        fm_hm: { rough: {vc:[50,85], fz:[0.05,0.10]}, fin: {vc:[70,110], fz:[0.02,0.05]} },
+                        ch_hm: { chamfer: {vc:[35,65], fz:[0.02,0.04]} },
+                        dr_hm: { drill: {vc:[30,50], f:[0.06,0.12]} },
+                        dr_hss: { drill: {vc:[8,12], f:[0.04,0.08]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[55,100], f:[0.10,0.20]}, fin: {vc:[75,120], f:[0.04,0.08]} },
+                        tu_hss: { rough: {vc:[12,20], f:[0.06,0.12]}, fin: {vc:[18,25], f:[0.03,0.06]} },
+                        gr_hm: { groove: {vc:[40,70], f:[0.05,0.08]} },
+                        dr_hm: { drill: {vc:[30,50], f:[0.06,0.12]} },
+                        dr_hss: { drill: {vc:[8,12], f:[0.04,0.08]} }
+                    }
+                }
+            },
             "titan": {
-                name: "Titan G5", coolant: "Olie / Rigelig Emulsion", note: "Leder dårligt varme, værktøjet optager alt.",
+                name: "Titan G5", coolant: "Olie / Rigelig Emul", note: "Leder dårligt varme, værktøjet optager alt.",
                 CNC: {
                     MILL: {
                         em_hm: { rough: {vc:[40,70], fz:[0.05,0.08]}, fin: {vc:[60,90], fz:[0.02,0.05]}, slot: {vc:[30,50], fz:[0.04,0.06]} },
@@ -631,6 +749,43 @@
                         dr_hss: { drill: {vc:[40,80], f:[0.10,0.15]} }
                     }
                 }
+            },
+            "peek": {
+                name: "PEEK", coolant: "Luft / Olie", note: "High-end termoplast. Kræver stor frivinkel, smelter let.",
+                CNC: {
+                    MILL: {
+                        em_hm: { rough: {vc:[120,200], fz:[0.08,0.15]}, fin: {vc:[180,280], fz:[0.03,0.06]}, slot: {vc:[80,140], fz:[0.05,0.10]} },
+                        em_hss: { rough: {vc:[40,80], fz:[0.05,0.10]}, fin: {vc:[60,100], fz:[0.02,0.05]}, slot: {vc:[30,50], fz:[0.03,0.06]} },
+                        fm_hm: { rough: {vc:[160,250], fz:[0.10,0.20]}, fin: {vc:[220,350], fz:[0.04,0.08]} },
+                        ch_hm: { chamfer: {vc:[120,200], fz:[0.03,0.06]} },
+                        dr_hm: { drill: {vc:[80,140], f:[0.10,0.20]} },
+                        dr_hss: { drill: {vc:[30,50], f:[0.06,0.12]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[200,300], f:[0.15,0.30]}, fin: {vc:[300,450], f:[0.05,0.12]} },
+                        tu_hss: { rough: {vc:[60,100], f:[0.10,0.20]}, fin: {vc:[80,140], f:[0.04,0.08]} },
+                        gr_hm: { groove: {vc:[120,200], f:[0.06,0.12]} },
+                        dr_hm: { drill: {vc:[80,140], f:[0.10,0.20]} },
+                        dr_hss: { drill: {vc:[30,50], f:[0.06,0.12]} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        em_hm: { rough: {vc:[60,100], fz:[0.05,0.10]}, fin: {vc:[100,150], fz:[0.02,0.04]}, slot: {vc:[40,70], fz:[0.03,0.06]} },
+                        em_hss: { rough: {vc:[25,50], fz:[0.03,0.06]}, fin: {vc:[40,70], fz:[0.01,0.03]}, slot: {vc:[15,30], fz:[0.02,0.04]} },
+                        fm_hm: { rough: {vc:[80,140], fz:[0.06,0.12]}, fin: {vc:[120,180], fz:[0.02,0.05]} },
+                        ch_hm: { chamfer: {vc:[60,100], fz:[0.02,0.04]} },
+                        dr_hm: { drill: {vc:[40,70], f:[0.06,0.12]} },
+                        dr_hss: { drill: {vc:[15,30], f:[0.04,0.08]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[100,160], f:[0.10,0.20]}, fin: {vc:[150,220], f:[0.03,0.08]} },
+                        tu_hss: { rough: {vc:[40,70], f:[0.08,0.15]}, fin: {vc:[55,90], f:[0.03,0.06]} },
+                        gr_hm: { groove: {vc:[60,100], f:[0.04,0.08]} },
+                        dr_hm: { drill: {vc:[40,70], f:[0.06,0.12]} },
+                        dr_hss: { drill: {vc:[15,30], f:[0.04,0.08]} }
+                    }
+                }
             }
         };
 
@@ -655,7 +810,7 @@
             { id: "alu", cat: "MAT", title: "Aluminium Egenskaber", data: ["Termisk Udv.: 23.4 µm", "Densitet: 2.70 g/cm³"], note: "Standard opslag." },
             { id: "ra", cat: "GDT", title: "Ra Skala", data: ["N8: Ra 3.2 µm", "N7: Ra 1.6 µm", "N6: Ra 0.8 µm", "N5: Ra 0.4 µm"], note: "Overfladeruhed." },
             { id: "iso2768", cat: "TOL", title: "ISO 2768-mK", data: ["0.5-3mm: ±0.1", "3-6mm: ±0.1", "6-30mm: ±0.2", "30-120mm: ±0.3", "120-400mm: ±0.5"], note: "Generelle lineære tolerancer iflg. klasse 'm'." },
-            { id: "not", cat: "MECH", title: "DIN 6885 Notspor (Bredde x Dybde)", data: ["Ø10-12: 4x4 (Aksel t1=2.5)", "Ø12-17: 5x5 (Aksel t1=3.0)", "Ø17-22: 6x6 (Aksel t1=3.5)", "Ø22-30: 8x7 (Aksel t1=4.0)"], note: "Standard pasfeder dimensioner for fræsning/stik." }
+            { id: "not", cat: "MECH", title: "DIN 6885 Notspor", data: ["Ø10-12: 4x4 (Aksel t1=2.5)", "Ø12-17: 5x5 (Aksel t1=3.0)", "Ø17-22: 6x6 (Aksel t1=3.5)", "Ø22-30: 8x7 (Aksel t1=4.0)"], note: "Standard pasfeder (Bredde x Dybde)." }
         ];
 
         const IT = { 5: [4, 5, 6, 8, 9, 11, 13, 15], 6: [6, 8, 9, 11, 13, 16, 19, 22], 7: [10, 12, 15, 18, 21, 25, 30, 35] };
@@ -664,31 +819,33 @@
         const state = { plat: 'CNC', op: 'MILL', tool: 'em_hm', dia: 10, z: 4, ra: 'std', re: 0.4 };
 
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => {
+            document.querySelectorAll('.sys-btn').forEach(btn => {
                 if(btn.getAttribute('data-tab') === tabName) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
             const views = ['view-skaeredata', 'view-gevind', 'view-pasninger', 'view-calc', 'view-opslag'];
             views.forEach(v => {
                 const el = document.getElementById(v);
-                if(el) { el.classList.add('hidden'); el.classList.remove('flex'); }
+                if(el) { el.classList.remove('active'); }
             });
             const activeView = document.getElementById('view-' + tabName.toLowerCase());
-            if (activeView) { activeView.classList.remove('hidden'); activeView.classList.add('flex'); }
+            if (activeView) { activeView.classList.add('active'); }
 
             if (tabName === 'SKAEREDATA') { populateSdTools(); updateSdView(); } 
-            else if (tabName === 'OPSLAG') { renderOpslag(""); }
+            else if (tabName === 'GEVIND') { setTimeout(() => document.getElementById('th-input').focus(), 50); }
+            else if (tabName === 'PASNINGER') { setTimeout(() => document.getElementById('iso-nom').focus(), 50); }
+            else if (tabName === 'OPSLAG') { renderOpslag(""); setTimeout(() => document.getElementById('op-search').focus(), 50); }
         }
 
         function setSDState(key, val) {
             state[key] = val;
             if(key === 'plat') {
-                document.getElementById('btn-cnc').className = val === 'CNC' ? 'raw-toggle active' : 'raw-toggle inactive -ml-px';
-                document.getElementById('btn-man').className = val === 'MAN' ? 'raw-toggle active' : 'raw-toggle inactive -ml-px';
+                document.getElementById('btn-cnc').className = val === 'CNC' ? 'tgl-btn active' : 'tgl-btn';
+                document.getElementById('btn-man').className = val === 'MAN' ? 'tgl-btn active' : 'tgl-btn';
             }
             if(key === 'op') {
-                document.getElementById('btn-mill').className = val === 'MILL' ? 'raw-toggle active' : 'raw-toggle inactive -ml-px';
-                document.getElementById('btn-lathe').className = val === 'LATHE' ? 'raw-toggle active' : 'raw-toggle inactive -ml-px';
+                document.getElementById('btn-mill').className = val === 'MILL' ? 'tgl-btn active' : 'tgl-btn';
+                document.getElementById('btn-lathe').className = val === 'LATHE' ? 'tgl-btn active' : 'tgl-btn';
                 document.getElementById('sd-z-container').style.opacity = val === 'LATHE' ? '0.3' : '1';
                 populateSdTools();
             }
@@ -742,12 +899,12 @@
             out.innerHTML = "";
 
             if(!activeToolData) {
-                out.innerHTML = `<div class="col-span-full p-8 text-center text-[#ff3366] font-bold text-xs uppercase tracking-widest bg-[#0a0a0a]">Værktøj ikke understøttet for kombinationen.</div>`;
+                out.innerHTML = `<div class="dro-cell md:col-span-2 xl:col-span-4 bg-alert"><span class="lbl alert-text">SYSTEM FEJL</span><span class="out-med alert-text">Værktøj ikke understøttet for kombination.</span></div>`;
                 return;
             }
 
             const maxLimit = state.plat === 'CNC' ? 10000 : 3000;
-            const opToTitle = { rough: "Skrub", fin: "Slet", slot: "Spor / Fuld indgreb", chamfer: "Fasning", drill: "Boring", groove: "Stik / Spor" };
+            const opToTitle = { rough: "Skrub", fin: "Slet", slot: "Spor", chamfer: "Fas", drill: "Boring", groove: "Stik" };
 
             Object.keys(activeToolData).forEach(opKey => {
                 let spec = { ...activeToolData[opKey] };
@@ -758,7 +915,7 @@
                     const ra = parseFloat(state.ra);
                     const fCalc = Math.sqrt((ra * 8 * state.re) / 1000);
                     if (state.op === 'MILL') spec.fz = [fCalc, fCalc]; else spec.f = [fCalc, fCalc];
-                    cardTitleExtra = `<span class="ml-2 text-[10px] text-white bg-[#111] px-2 py-1 border border-[#333]">Ra ${ra}</span>`;
+                    cardTitleExtra = `<span class="ml-2 text-[10px] bg-[#000] border border-[#00e5ff] text-[#00e5ff] px-2 py-0.5">Ra ${ra}</span>`;
                 }
 
                 let rpm1 = Math.min(Math.round((spec.vc[0] * 1000) / (Math.PI * state.dia)), maxLimit);
@@ -789,24 +946,24 @@
                     } return val.toFixed(decimals);
                 }
 
-                const rpmFontSize = rpmStr.length > 6 ? "text-4xl" : "text-6xl";
+                const rpmFontSize = rpmStr.length > 7 ? "text-5xl" : "out-huge";
 
                 out.innerHTML += `
-                    <div class="data-cell flex flex-col h-full hover:bg-[#111] transition-colors">
-                        <div class="flex items-start justify-between mb-8 gap-2">
-                            <span class="font-bold text-[#888] text-sm uppercase tracking-widest leading-tight">${opTitle} ${cardTitleExtra}</span>
-                            <span class="text-[10px] text-[#00fa9a] font-bold px-2 py-1 bg-[#000] mono border border-[#222]">Vc ${formatRange(spec.vc, 0)}</span>
+                    <div class="dro-cell justify-between">
+                        <div class="flex items-start justify-between mb-8 border-b border-[#222] pb-4 gap-2">
+                            <span class="lbl mb-0">${opTitle} ${cardTitleExtra}</span>
+                            <span class="text-[10px] text-[#fff] font-bold px-2 py-1 bg-[#111]">Vc ${formatRange(spec.vc, 0)}</span>
                         </div>
-                        <div class="${rpmFontSize} font-black text-white mono tracking-tighter mb-8 break-words leading-none">${rpmStr}</div>
+                        <div class="${rpmFontSize} text-[#00fa9a] mb-8 break-words leading-none">${rpmStr}</div>
                         
-                        <div class="mt-auto space-y-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-[11px] text-[#666] font-bold uppercase tracking-widest">${feedLabel}</span>
-                                <span class="text-sm font-bold text-white mono">${feedVal}</span>
+                        <div class="mt-auto pt-6 border-t border-[#222] grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="lbl">${feedLabel}</span>
+                                <span class="out-med">${feedVal}</span>
                             </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-[11px] text-[#666] font-bold uppercase tracking-widest">Vf</span>
-                                <span class="text-lg font-bold text-[#00fa9a] text-right mono">${feedCalc}</span>
+                            <div class="text-right">
+                                <span class="lbl">Vf</span>
+                                <span class="out-med !text-[#00e5ff]">${feedCalc}</span>
                             </div>
                         </div>
                     </div>
@@ -833,7 +990,7 @@
             }
 
             if(!th) {
-                out.innerHTML = `<div class="p-8 text-[#ff3366] text-sm font-bold uppercase tracking-widest bg-[#0a0a0a]">Gevind ikke fundet.</div>`;
+                out.innerHTML = `<div class="dro-cell md:col-span-4 bg-alert"><span class="lbl alert-text">FEJL</span><span class="out-med alert-text">GEVIND IKKE FUNDET I DATABASE</span></div>`;
                 return;
             }
 
@@ -844,42 +1001,45 @@
                 const d2 = (dNum - 0.6495 * pNum).toFixed(3);
                 const d3 = (dNum - 1.2268 * pNum).toFixed(3);
                 extraHtml = `
-                    <div class="data-cell">
-                        <span class="lbl">Dele-Ø (d2)</span>
-                        <span class="text-4xl font-black text-white mono">${d2} mm</span>
+                    <div class="dro-cell">
+                        <span class="lbl !text-[#00e5ff]">Dele-Ø (d2)</span>
+                        <span class="out-large">${d2} <span class="unit">mm</span></span>
                     </div>
-                    <div class="data-cell">
-                        <span class="lbl">Kerne-Ø (d3)</span>
-                        <span class="text-4xl font-black text-white mono">${d3} mm</span>
+                    <div class="dro-cell">
+                        <span class="lbl !text-[#00e5ff]">Kerne-Ø (d3)</span>
+                        <span class="out-large">${d3} <span class="unit">mm</span></span>
                     </div>
                 `;
             }
 
             out.innerHTML = `
-                <div class="data-cell md:col-span-2 lg:col-span-4 bg-[#111]">
-                    <div class="text-[11px] text-[#00fa9a] font-bold tracking-[0.2em] uppercase mb-4">Gevind Opslag</div>
-                    <h2 class="text-6xl font-black text-white tracking-tighter uppercase mono">${th.id}</h2>
+                <div class="dro-cell md:col-span-2 lg:col-span-4 bg-[#111] flex flex-row items-center justify-between border-l-4 border-l-[#00fa9a]">
+                    <div>
+                        <span class="lbl !text-[#00fa9a]">Resultat</span>
+                        <span class="text-6xl font-black text-white tracking-tighter uppercase">${th.id}</span>
+                    </div>
+                    <div class="text-7xl font-black text-[#222] select-none">${th.type}</div>
                 </div>
-                <div class="data-cell">
-                    <span class="lbl text-[#00fa9a]">Skæretap Bor</span>
-                    <span class="text-5xl font-black text-white mono">${th.dCut}</span>
+                <div class="dro-cell border-t-4 border-t-[#00fa9a]">
+                    <span class="lbl !text-[#00fa9a]">Skæretap</span>
+                    <span class="out-huge !text-[#ffffff]">${th.dCut}</span>
                 </div>
-                <div class="data-cell">
-                    <span class="lbl text-[#00e5ff]">Rulletap Bor</span>
-                    <span class="text-5xl font-black ${th.dRoll === '-' ? 'text-[#333]' : 'text-white'} mono">${th.dRoll}</span>
+                <div class="dro-cell border-t-4 border-t-[#00e5ff]">
+                    <span class="lbl !text-[#00e5ff]">Rulletap</span>
+                    <span class="out-huge ${th.dRoll === '-' ? '!text-[#333]' : '!text-[#ffffff]'}">${th.dRoll}</span>
                 </div>
-                <div class="data-cell">
+                <div class="dro-cell">
                     <span class="lbl">Stigning</span>
-                    <span class="text-4xl font-black text-[#ccc] mono">${th.pitch}</span>
+                    <span class="out-large !text-[#ccc]">${th.pitch}</span>
                 </div>
-                <div class="data-cell">
+                <div class="dro-cell">
                     <span class="lbl">Udv. Ø</span>
-                    <span class="text-4xl font-black text-[#ccc] mono">${th.ext} mm</span>
+                    <span class="out-large !text-[#ccc]">${th.ext}</span>
                 </div>
                 ${extraHtml}
-                <div class="data-cell ${extraHtml ? 'md:col-span-2 lg:col-span-2' : 'md:col-span-2 lg:col-span-4'}">
+                <div class="dro-cell ${extraHtml ? 'md:col-span-2' : 'md:col-span-2 lg:col-span-4'}">
                     <span class="lbl">Frigang (DIN 76)</span>
-                    <span class="text-4xl font-black text-[#ccc] mono">${th.din76}</span>
+                    <span class="out-large !text-[#ccc]">${th.din76}</span>
                 </div>
             `;
         }
@@ -922,15 +1082,15 @@
             let html = ``;
 
             function tCard(type, name, upper, lower) {
-                if(upper === null) return ``;
+                if(upper === null) return `<div></div>`;
                 const uStr = upper > 0 ? `+${upper}` : upper, lStr = lower > 0 ? `+${lower}` : lower;
                 return `
-                    <div class="data-cell">
+                    <div class="dro-cell">
                         <span class="lbl">${type} (${name.toUpperCase()})</span>
-                        <div class="text-6xl font-black text-white mono mb-6">Ø${nom}</div>
-                        <div class="flex justify-between items-center pt-4 border-t border-[#222]">
+                        <div class="text-7xl font-black text-white tracking-tighter mb-8">Ø${nom}</div>
+                        <div class="flex justify-between items-center pt-6 border-t border-[#222]">
                             <span class="lbl mb-0">Tol (µm)</span>
-                            <span class="text-xl font-bold text-[#00fa9a] mono">${uStr} / ${lStr}</span>
+                            <span class="text-3xl font-bold text-[#00fa9a] mono">${uStr} / ${lStr}</span>
                         </div>
                     </div>`;
             }
@@ -940,16 +1100,16 @@
 
             if(h_ES !== null && s_es !== null) {
                 const maxClearance = h_ES - s_ei, minClearance = h_EI - s_es;
-                let fitType = "Overgang", color = "text-white";
-                if(minClearance > 0) { fitType = "Glidepasning"; color = "text-[#00e5ff]"; }
-                else if(maxClearance < 0) { fitType = "Prespasning"; color = "text-[#f59e0b]"; }
+                let fitType = "OVERGANG", color = "text-white";
+                if(minClearance > 0) { fitType = "GLIDEPASNING"; color = "text-[#00e5ff]"; }
+                else if(maxClearance < 0) { fitType = "PRESPASNING"; color = "text-[#ff3366]"; }
 
                 html += `
-                    <div class="data-cell bg-[#111] md:col-span-3">
-                        <div class="text-4xl font-black tracking-tighter ${color} uppercase mb-8 mono">${fitType}</div>
-                        <div class="flex gap-12">
-                            <div><span class="lbl">Max Spil</span><span class="text-3xl font-bold text-white mono">${maxClearance>0?'+':''}${maxClearance} µm</span></div>
-                            <div><span class="lbl">Min Spil</span><span class="text-3xl font-bold text-white mono">${minClearance>0?'+':''}${minClearance} µm</span></div>
+                    <div class="dro-cell bg-[#111] md:col-span-2">
+                        <div class="text-5xl font-black tracking-tighter ${color} mb-8">${fitType}</div>
+                        <div class="grid grid-cols-2 gap-8 pt-6 border-t border-[#333]">
+                            <div><span class="lbl">Max Spil</span><span class="text-4xl font-bold text-white mono block">${maxClearance>0?'+':''}${maxClearance} µm</span></div>
+                            <div><span class="lbl">Min Spil</span><span class="text-4xl font-bold text-white mono block">${minClearance>0?'+':''}${minClearance} µm</span></div>
                         </div>
                     </div>`;
             }
@@ -997,7 +1157,7 @@
                 let x = (radC * Math.cos(currentRad)).toFixed(3);
                 let y = (radC * Math.sin(currentRad)).toFixed(3);
                 if(x === "-0.000") x = "0.000"; if(y === "-0.000") y = "0.000";
-                coordsHtml += `<div class="p-3 border-b border-r border-[#222]"><span class="text-[#666]">#${i+1}</span> <span class="text-[#00fa9a] ml-2">X</span>${x} <span class="text-[#00e5ff] ml-2">Y</span>${y}</div>`;
+                coordsHtml += `<div class="p-4 border-b border-r border-[#222] bg-[#000] text-sm"><span class="text-[#666]">#${i+1}</span> <span class="text-[#00fa9a] ml-2">X</span>${x} <span class="text-[#00e5ff] ml-2">Y</span>${y}</div>`;
             }
             outXy.innerHTML = coordsHtml;
 
@@ -1062,22 +1222,22 @@
             }
             
             if(filtered.length === 0) {
-                out.innerHTML = `<div class="col-span-full data-cell text-[#666] font-bold uppercase tracking-widest text-center">Intet fundet.</div>`;
+                out.innerHTML = `<div class="dro-cell col-span-full text-center text-[#666] uppercase">Intet fundet.</div>`;
                 return;
             }
 
             filtered.forEach(item => {
-                const dataLines = item.data.map(line => `<div class="text-base font-bold text-white py-3 border-b border-[#222] last:border-0">${line}</div>`).join('');
+                const dataLines = item.data.map(line => `<div class="text-lg font-bold text-white py-3 border-b border-[#222] last:border-0">${line}</div>`).join('');
                 out.innerHTML += `
-                    <div class="data-cell flex flex-col hover:bg-[#111] transition-colors p-0">
-                        <div class="border-b border-[#222] p-6 flex justify-between items-center gap-2">
+                    <div class="dro-cell p-0 flex flex-col h-full hover:bg-[#111]">
+                        <div class="bg-[#000] border-b border-[#222] p-6 flex justify-between items-center gap-2">
                             <span class="text-white font-black uppercase tracking-widest text-lg">${item.title}</span>
-                            <span class="text-[#888] font-mono font-bold text-[10px] border border-[#333] px-2 py-1 bg-[#000]">${item.cat}</span>
+                            <span class="text-[#00e5ff] font-mono font-bold text-[10px] border border-[#00e5ff] px-2 py-1 bg-[#000]">${item.cat}</span>
                         </div>
                         <div class="p-8 flex-grow">
                             <div class="mb-2">${dataLines}</div>
                         </div>
-                        <div class="p-6 text-xs font-bold text-[#666] uppercase tracking-widest border-t border-[#222] bg-[#000] mt-auto">
+                        <div class="p-6 text-xs font-bold text-[#666] uppercase tracking-widest border-t border-[#222] bg-[#050505] mt-auto">
                             ${item.note}
                         </div>
                     </div>`;
