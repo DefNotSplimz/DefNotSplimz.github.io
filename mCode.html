@@ -3,217 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M_CORE // KERNEL</title>
+    <title>DatumCore // Telemetry</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;600;800&display=swap');
         
         :root {
-            --bg-base: #000000;
-            --bg-panel: #050505;
-            --border-dim: #222222;
-            --text-main: #e5e5e5;
-            --text-muted: #888888;
-            --text-dim: #444444;
-            --prompt: #a1a1aa;
+            --bg: #000000;
+            --surface: #0a0a0a;
+            --border: #222222;
+            --text: #ffffff;
+            --muted: #666666;
+            --accent: #00fa9a;
         }
 
         body { 
-            background-color: var(--bg-base); 
-            color: var(--text-main); 
-            font-family: 'JetBrains Mono', monospace; 
+            background-color: var(--bg); color: var(--text); 
+            font-family: 'Inter', sans-serif; 
             -webkit-font-smoothing: antialiased; 
-            overflow: hidden; 
-            selection-background: #ffffff;
-            selection-color: #000000;
+            overflow: hidden; user-select: none;
         }
 
-        ::selection { background: #ffffff; color: #000; }
-        input:focus, select:focus { outline: none; box-shadow: none; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        input, select { user-select: auto; font-family: 'JetBrains Mono', monospace; }
+        ::selection { background: var(--accent); color: #000; }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type=number] { -moz-appearance: textfield; }
 
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg-base); }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #333; }
         ::-webkit-scrollbar-thumb:hover { background: #555; }
 
-        #log-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        /* Rå Navigation */
+        .tab-btn {
+            padding: 12px 24px; font-size: 11px; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 0.1em; color: var(--muted); border-right: 1px solid var(--border);
+            transition: color 0s; cursor: pointer; background: transparent; outline: none;
         }
+        .tab-btn:hover { color: #aaa; background: #050505; }
+        .tab-btn.active { color: #000; background: #fff; }
 
-        .cmd-echo {
-            color: var(--text-muted);
-            margin-bottom: 4px;
-            font-size: 11px;
-            display: flex;
-            gap: 8px;
-            text-transform: uppercase;
+        /* Taktile Inputs */
+        .raw-input {
+            background: transparent; border: none; border-bottom: 2px solid var(--border);
+            color: #fff; padding: 4px 0; font-weight: 700; outline: none; transition: border 0s;
+            border-radius: 0; cursor: pointer; text-transform: uppercase;
         }
-        .cmd-time { color: var(--text-dim); }
-        .cmd-prompt { color: var(--prompt); }
-        .cmd-text { color: #ffffff; font-weight: bold; }
+        .raw-input:focus { border-bottom-color: var(--accent); }
+        select.raw-input { appearance: none; padding-right: 16px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right center; background-size: 12px; }
 
-        .term-panel {
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-dim);
-            width: 100%;
-            max-width: 64rem;
+        /* Toggles */
+        .raw-toggle {
+            padding: 4px 12px; font-size: 11px; font-weight: 800; border: 1px solid var(--border);
+            color: var(--muted); cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em;
         }
+        .raw-toggle.active { background: #fff; color: #000; border-color: #fff; }
 
-        .term-header {
-            background-color: #0a0a0a;
-            border-bottom: 1px solid var(--border-dim);
-            padding: 8px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        kbd { background-color: #111; border: 1px solid #333; border-radius: 2px; padding: 2px 4px; font-size: 10px; color: #aaa; }
+        /* Grid Layouts */
+        .data-grid { display: grid; border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
+        .data-cell { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 24px; background: var(--surface); }
         
-        /* GUI Form Styles */
-        .gui-label { display: block; font-size: 9px; color: #666; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
-        .gui-input { width: 100%; background: #000; border: 1px solid #333; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 8px 12px; transition: border-color 0.2s; }
-        .gui-input:focus { border-color: #fff; }
+        .lbl { font-size: 10px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col" onclick="if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'SELECT' && e.target.tagName !== 'BUTTON') document.getElementById('cmd-input').focus()">
+<body class="h-screen w-screen flex flex-col">
 
-    <!-- STATUS BAR -->
-    <header class="h-10 border-b border-[#222] flex justify-between items-center px-4 shrink-0 z-20 bg-black text-[10px]">
-        <div class="font-bold text-[#666] uppercase tracking-widest flex items-center gap-2">
-            M_CORE KERNEL V44 // CLI
+    <!-- HEADER & TABS -->
+    <header class="flex border-b border-[#222] bg-[#000] shrink-0 items-stretch h-14">
+        <div class="px-6 flex items-center border-r border-[#222] shrink-0 bg-[#000]">
+            <span class="font-black text-xl tracking-tighter">DATUMCORE<span class="text-[#00fa9a]">_</span></span>
         </div>
-        <div class="flex gap-6 items-center">
-            <div class="hidden sm:flex gap-4 font-bold text-[#666] uppercase tracking-widest" id="env-display">
-                <!-- Udfyldes af JS -->
-            </div>
-            <button onclick="toggleGUI()" class="border border-[#333] bg-[#0a0a0a] hover:bg-[#111] hover:text-white text-[#888] px-3 py-1.5 font-bold uppercase tracking-widest transition-colors flex items-center gap-2">
-                <span class="w-1.5 h-1.5 bg-[#00fa9a] rounded-full"></span> Config UI
-            </button>
+        <div class="flex flex-1 overflow-x-auto" id="tab-nav">
+            <button class="tab-btn active" data-tab="SKAEREDATA" onclick="switchTab('SKAEREDATA')">Skæredata</button>
+            <button class="tab-btn" data-tab="GEVIND" onclick="switchTab('GEVIND')">Gevind</button>
+            <button class="tab-btn" data-tab="PASNINGER" onclick="switchTab('PASNINGER')">ISO Pasning</button>
+            <button class="tab-btn" data-tab="CALC" onclick="switchTab('CALC')">Kalkulatorer</button>
+            <button class="tab-btn" data-tab="OPSLAG" onclick="switchTab('OPSLAG')">Opslag</button>
+        </div>
+        <div class="px-6 flex items-center border-l border-[#222] bg-[#000] shrink-0">
+            <div class="w-2 h-2 bg-[#00fa9a] mr-2"></div>
+            <span class="text-[10px] font-bold text-[#666] uppercase tracking-widest mono">V6.1 TELEMETRY</span>
         </div>
     </header>
 
-    <!-- GUI TACTICAL OVERLAY (Skjult som standard) -->
-    <div id="gui-overlay" class="hidden bg-[#050505] border-b border-[#222] shrink-0 z-10 shadow-2xl p-6">
-        <div class="max-w-4xl mx-auto w-full">
-            <div class="flex justify-between items-center border-b border-[#222] pb-4 mb-6">
-                <span class="text-white font-bold text-xs uppercase tracking-widest">Tactical Config // Override</span>
-                <button onclick="toggleGUI()" class="text-[#666] hover:text-white font-bold text-xs uppercase tracking-widest transition-colors">[ Luk ]</button>
-            </div>
+    <!-- VIEW CONTAINER -->
+    <main class="flex-1 relative overflow-y-auto bg-[#000]">
+
+        <!-- ========================================== -->
+        <!-- 1. SKÆREDATA MODULE                        -->
+        <!-- ========================================== -->
+        <div id="view-skaeredata" class="w-full flex-col flex">
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
-                <div>
-                    <label class="gui-label">Platform</label>
-                    <select id="gui-plat" class="gui-input">
-                        <option value="cnc">CNC</option>
-                        <option value="man">MANUAL</option>
-                    </select>
+            <!-- MASTER CONFIG BAR -->
+            <div class="flex flex-wrap border-b border-[#222] bg-[#050505]">
+                <div class="p-6 border-r border-[#222] w-full md:w-auto flex-1 md:flex-none">
+                    <label class="lbl">Søg Materiale</label>
+                    <select id="sd-mat" class="raw-input text-xl text-[#00fa9a] w-full min-w-[200px]"></select>
                 </div>
-                <div>
-                    <label class="gui-label">Operation</label>
-                    <select id="gui-op" class="gui-input" onchange="updateGuiTools()">
-                        <option value="mill">FRÆS (MILL)</option>
-                        <option value="lathe">DREJ (LATHE)</option>
-                    </select>
+                <div class="p-6 border-r border-[#222] flex gap-2 items-end">
+                    <div class="flex"><button id="btn-cnc" class="raw-toggle active" onclick="setSDState('plat', 'CNC')">CNC</button><button id="btn-man" class="raw-toggle inactive -ml-px" onclick="setSDState('plat', 'MAN')">MAN</button></div>
+                    <div class="flex ml-4"><button id="btn-mill" class="raw-toggle active" onclick="setSDState('op', 'MILL')">FRÆS</button><button id="btn-lathe" class="raw-toggle inactive -ml-px" onclick="setSDState('op', 'LATHE')">DREJ</button></div>
                 </div>
-                <div>
-                    <label class="gui-label">Værktøj</label>
-                    <select id="gui-tool" class="gui-input">
-                        <!-- Udfyldes af JS afhængig af Operation -->
-                    </select>
-                </div>
-                <div>
-                    <label class="gui-label">Ra Krav (Slet)</label>
-                    <select id="gui-ra" class="gui-input">
-                        <option value="std">DB Standard</option>
-                        <option value="0.4">Ra 0.4</option>
-                        <option value="0.8">Ra 0.8</option>
-                        <option value="1.6">Ra 1.6</option>
-                        <option value="3.2">Ra 3.2</option>
-                    </select>
+                <div class="p-6 border-r border-[#222] flex-1">
+                    <label class="lbl">Værktøj</label>
+                    <select id="sd-tool" class="raw-input text-xl w-full max-w-sm"></select>
                 </div>
             </div>
 
-            <div class="grid grid-cols-3 md:grid-cols-4 gap-6 mb-8">
-                <div>
-                    <label class="gui-label">Diameter (Ø mm)</label>
-                    <input type="number" id="gui-dia" class="gui-input" value="10">
+            <!-- PARAMETER BAR -->
+            <div class="flex flex-wrap border-b border-[#222] bg-[#000]">
+                <div class="p-4 px-6 border-r border-[#222] w-32">
+                    <label class="lbl">Ø</label>
+                    <input type="number" id="sd-dia" class="raw-input text-xl text-center w-full" value="10">
                 </div>
-                <div id="gui-z-container">
-                    <label class="gui-label">Tænder (Z)</label>
-                    <input type="number" id="gui-z" class="gui-input" value="4">
+                <div class="p-4 px-6 border-r border-[#222] w-32" id="sd-z-container">
+                    <label class="lbl">Z</label>
+                    <input type="number" id="sd-z" class="raw-input text-xl text-center w-full" value="4">
                 </div>
-                <div>
-                    <label class="gui-label">Næse R (mm)</label>
-                    <input type="number" id="gui-re" class="gui-input" value="0.4" step="0.1">
-                </div>
-            </div>
-
-            <div class="border-t border-[#222] pt-6 flex flex-col sm:flex-row gap-4 justify-between items-end">
-                <div class="w-full sm:w-1/2">
-                    <label class="gui-label">Søg Skæredata Materiale</label>
-                    <select id="gui-mat" class="gui-input uppercase">
-                        <!-- Udfyldes af JS -->
+                <div class="p-4 px-6 border-r border-[#222] w-40">
+                    <label class="lbl">Ra (Slet)</label>
+                    <select id="sd-ra" class="raw-input text-xl text-center w-full">
+                        <option value="std">DB Std.</option>
+                        <option value="0.4">0.4</option>
+                        <option value="0.8">0.8</option>
+                        <option value="1.6">1.6</option>
+                        <option value="3.2">3.2</option>
                     </select>
                 </div>
-                <button onclick="executeGui()" class="w-full sm:w-auto bg-white text-black font-bold uppercase tracking-widest text-xs px-8 py-3.5 hover:bg-[#ccc] transition-colors">Opdater & Beregn</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TERMINAL OUTPUT -->
-    <main class="flex-1 overflow-y-auto px-4 py-6" id="terminal-window">
-        <div id="log-container" class="max-w-4xl mx-auto w-full pb-32">
-            <!-- Initial Boot Message -->
-            <div class="term-panel mb-2">
-                <div class="term-header">
-                    <span class="text-[#888] text-[10px] uppercase tracking-widest">Sys_Boot // Sequence Complete</span>
-                    <span class="text-[#444] text-[10px] uppercase">[OK]</span>
+                <div class="p-4 px-6 border-r border-[#222] w-32">
+                    <label class="lbl">Næse R</label>
+                    <input type="number" id="sd-re" class="raw-input text-xl text-center w-full" value="0.4" step="0.1">
                 </div>
-                <div class="p-6">
-                    <pre class="text-[#ccc] text-xs font-bold leading-tight mb-4">
- __  __    ____ ___  ____  _____ 
-|  \/  |  / ___/ _ \|  _ \| ____|
-| |\/| | | |  | | | | |_) |  _|  
-| |  | | | |__| |_| |  _ <| |___ 
-|_|  |_|  \____\___/|_| \_\_____|
-                    </pre>
-                    <p class="text-[#888] text-xs mb-6 leading-relaxed">
-                        Deterministisk beregningsmiljø aktiveret.<br>
-                        Brug knappen <strong>CONFIG UI</strong> i toppen, eller indtast <span class="text-white font-bold">help</span> for manuel betjening.
-                    </p>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-[10px] uppercase tracking-widest border-t border-[#222] pt-4 mt-2">
-                        <div><span class="text-[#555] block mb-1">Platform</span> <span id="boot-plat" class="text-white font-bold">CNC</span></div>
-                        <div><span class="text-[#555] block mb-1">Operation</span> <span id="boot-op" class="text-white font-bold">MILL</span></div>
-                        <div><span class="text-[#555] block mb-1">Værktøj</span> <span id="boot-tool" class="text-white font-bold">P.FRÆS (HM)</span></div>
-                        <div><span class="text-[#555] block mb-1">Diameter</span> <span class="text-white font-bold">Ø<span id="boot-dia">10</span></span></div>
-                        <div><span class="text-[#555] block mb-1">Tænder</span> <span class="text-white font-bold">Z<span id="boot-z">4</span></span></div>
+                <div class="p-4 px-6 flex-1 flex flex-col justify-center">
+                    <span class="lbl mb-0">Køling / Note</span>
+                    <div class="flex items-center gap-4 mt-1">
+                        <span id="sd-coolant" class="text-sm font-black text-[#00fa9a] uppercase mono bg-[#111] px-2 py-1">EMULSION</span>
+                        <span id="sd-mat-note" class="text-xs text-[#888] font-bold uppercase tracking-widest">-</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
 
-    <!-- TERMINAL INPUT -->
-    <footer class="bg-black border-t border-[#222] shrink-0 z-20">
-        <div class="max-w-4xl mx-auto w-full flex items-center px-4 py-4">
-            <span class="text-[#666] text-lg mr-3 font-bold">>_</span>
-            <input type="text" id="cmd-input" class="w-full bg-transparent text-lg font-bold text-white placeholder-[#333] outline-none uppercase tracking-wider" placeholder="KOMMANDO..." autocomplete="off" spellcheck="false" autofocus>
+            <!-- OUTPUT GRID -->
+            <div id="sd-output" class="data-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 bg-[#0a0a0a]">
+                <!-- Genereres af JS -->
+            </div>
         </div>
-    </footer>
+
+        <!-- ========================================== -->
+        <!-- 2. GEVIND MODULE                           -->
+        <!-- ========================================== -->
+        <div id="view-gevind" class="w-full hidden flex-col">
+            <div class="border-b border-[#222] p-8 bg-[#050505]">
+                <label class="lbl">Gevind Identifikator</label>
+                <input type="text" id="th-input" class="raw-input text-6xl text-[#00fa9a] uppercase w-full max-w-2xl" placeholder="FX M8, M20X1.5..." autocomplete="off">
+            </div>
+            <div id="th-output" class="data-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 bg-[#0a0a0a]"></div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 3. PASNINGER MODULE                        -->
+        <!-- ========================================== -->
+        <div id="view-pasninger" class="w-full hidden flex-col">
+            <div class="border-b border-[#222] p-8 bg-[#050505] flex gap-8 flex-wrap">
+                <div class="w-48">
+                    <label class="lbl">Nominelt Mål (Ø)</label>
+                    <input type="number" id="iso-nom" class="raw-input text-5xl text-center w-full" placeholder="0" autocomplete="off">
+                </div>
+                <div class="w-32">
+                    <label class="lbl">Hul (Fx H7)</label>
+                    <input type="text" id="iso-hole" class="raw-input text-5xl text-center uppercase w-full" placeholder="-" autocomplete="off" maxlength="3">
+                </div>
+                <div class="w-32">
+                    <label class="lbl">Aksel (Fx g6)</label>
+                    <input type="text" id="iso-shaft" class="raw-input text-5xl text-center lowercase w-full" placeholder="-" autocomplete="off" maxlength="3">
+                </div>
+            </div>
+            <div id="iso-output" class="data-grid grid-cols-1 md:grid-cols-3 bg-[#0a0a0a]"></div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 4. KALKULATORER MODULE                     -->
+        <!-- ========================================== -->
+        <div id="view-calc" class="w-full hidden flex-col">
+            <div class="data-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full">
+                
+                <!-- RPM -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111]">
+                    <div class="lbl">Spindel RPM</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">Vc</label><input type="number" id="c-rpm-vc" class="raw-input text-xl text-center w-full" value="120"></div>
+                        <div class="flex-1"><label class="lbl">Ø</label><input type="number" id="c-rpm-d" class="raw-input text-xl text-center w-full" value="10"></div>
+                    </div>
+                    <div class="text-5xl font-black mono mt-auto" id="c-rpm-out">0</div>
+                </div>
+
+                <!-- Ra -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111]">
+                    <div class="lbl">Estimeret Ra (µm)</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">f</label><input type="number" id="c-ra-f" class="raw-input text-xl text-center w-full" value="0.1" step="0.05"></div>
+                        <div class="flex-1"><label class="lbl">R</label><input type="number" id="c-ra-r" class="raw-input text-xl text-center w-full" value="0.4" step="0.1"></div>
+                    </div>
+                    <div class="text-5xl font-black mono mt-auto" id="c-ra-out">0.00</div>
+                </div>
+
+                <!-- Skæretid -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111]">
+                    <div class="lbl">Skæretid</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">L</label><input type="number" id="c-tid-l" class="raw-input text-xl text-center w-full" value="150"></div>
+                        <div class="flex-1"><label class="lbl">Vf</label><input type="number" id="c-tid-vf" class="raw-input text-xl text-center w-full" value="200"></div>
+                    </div>
+                    <div class="text-5xl font-black mono mt-auto" id="c-tid-out">0m 0s</div>
+                </div>
+
+                <!-- Gevindtilspænding -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111]">
+                    <div class="lbl">Gevind Vf (mm/m)</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">P</label><input type="number" id="c-tap-p" class="raw-input text-xl text-center w-full" value="1.25" step="0.25"></div>
+                        <div class="flex-1"><label class="lbl">S</label><input type="number" id="c-tap-s" class="raw-input text-xl text-center w-full" value="500"></div>
+                    </div>
+                    <div class="text-5xl font-black mono mt-auto" id="c-tap-out">0</div>
+                </div>
+
+                <!-- Borespids -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111]">
+                    <div class="lbl">Borespids Komp. Z (mm)</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">Ø</label><input type="number" id="c-bor-d" class="raw-input text-xl text-center w-full" value="10"></div>
+                        <div class="flex-1"><label class="lbl">V°</label><input type="number" id="c-bor-v" class="raw-input text-xl text-center w-full" value="118"></div>
+                    </div>
+                    <div class="text-5xl font-black mono mt-auto" id="c-bor-out">0.00</div>
+                </div>
+
+                <!-- Delecirkel Inkrement -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111]">
+                    <div class="lbl">Delecirkel Inkrement (°)</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">Huller</label><input type="number" id="c-bolt-n" class="raw-input text-xl text-center w-full" value="6"></div>
+                    </div>
+                    <div class="text-5xl font-black mono mt-auto" id="c-bolt-out">0.00°</div>
+                </div>
+
+                <!-- Konus -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111] md:col-span-2">
+                    <div class="lbl">Konus Vinkler</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">Stor Ø</label><input type="number" id="c-kon-D" class="raw-input text-xl text-center w-full" value="30"></div>
+                        <div class="flex-1"><label class="lbl">Lille Ø</label><input type="number" id="c-kon-d" class="raw-input text-xl text-center w-full" value="20"></div>
+                        <div class="flex-1"><label class="lbl">Længde</label><input type="number" id="c-kon-l" class="raw-input text-xl text-center w-full" value="50"></div>
+                    </div>
+                    <div class="flex justify-between items-end mt-auto">
+                        <div><span class="lbl">Topslæde</span><span class="text-5xl font-black mono text-[#00e5ff]" id="c-kon-out1">0.00°</span></div>
+                        <div class="text-right"><span class="lbl">Total Vinkel</span><span class="text-2xl font-bold mono text-[#666]" id="c-kon-out2">0.00°</span></div>
+                    </div>
+                </div>
+
+                <!-- Trekant -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111] md:col-span-2">
+                    <div class="lbl">Retvinklet Trekant</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">Katete A</label><input type="number" id="c-tre-a" class="raw-input text-xl text-center w-full" value="15"></div>
+                        <div class="flex-1"><label class="lbl">Katete B</label><input type="number" id="c-tre-b" class="raw-input text-xl text-center w-full" value="25"></div>
+                    </div>
+                    <div class="flex justify-between items-end mt-auto">
+                        <div><span class="lbl">Hypotenuse C</span><span class="text-5xl font-black mono text-[#f59e0b]" id="c-tre-out1">0.000</span></div>
+                        <div class="text-right"><span class="lbl">Vinkler</span><span class="text-xl font-bold mono text-[#666]" id="c-tre-out2">A:0° B:0°</span></div>
+                    </div>
+                </div>
+
+                <!-- Korde -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111] md:col-span-2">
+                    <div class="lbl">Cirkelsegment / Korde</div>
+                    <div class="flex gap-4 mb-8">
+                        <div class="flex-1"><label class="lbl">Cirkel Ø</label><input type="number" id="c-kor-d" class="raw-input text-xl text-center w-full" value="100"></div>
+                        <div class="flex-1"><label class="lbl">Målt Højde (h)</label><input type="number" id="c-kor-h" class="raw-input text-xl text-center w-full" value="20"></div>
+                    </div>
+                    <div class="flex justify-between items-end mt-auto">
+                        <div><span class="lbl">Kordelængde</span><span class="text-5xl font-black mono text-[#b026ff]" id="c-kor-out1">0.000</span></div>
+                        <div class="text-right"><span class="lbl">Centervinkel</span><span class="text-xl font-bold mono text-[#666]" id="c-kor-out2">0.00°</span></div>
+                    </div>
+                </div>
+
+                <!-- Sinuslineal -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111] lg:col-span-2 xl:col-span-4">
+                    <div class="lbl">Sinuslineal (Passklodser)</div>
+                    <div class="flex gap-4 mb-8 w-full max-w-md">
+                        <div class="flex-1"><label class="lbl">Vinkel (°)</label><input type="number" id="c-sin-v" class="raw-input text-xl text-center w-full" value="15"></div>
+                        <div class="flex-1"><label class="lbl">Lineal Længde</label><input type="number" id="c-sin-l" class="raw-input text-xl text-center w-full" value="100"></div>
+                    </div>
+                    <div class="flex justify-between items-end mt-auto gap-4">
+                        <div class="shrink-0"><span class="lbl">Total Højde</span><span class="text-5xl font-black mono text-white" id="c-sin-out1">0.000</span></div>
+                        <div class="text-right"><span class="lbl">ISO Stak Kombi</span><span class="text-xl font-bold mono text-[#00fa9a]" id="c-sin-out2">-</span></div>
+                    </div>
+                </div>
+
+                <!-- Delecirkel XY -->
+                <div class="data-cell flex flex-col focus-within:bg-[#111] lg:col-span-2 xl:col-span-4">
+                    <div class="lbl">Delecirkel XY Koordinater</div>
+                    <div class="flex gap-4 mb-8 w-full max-w-2xl">
+                        <div class="flex-1"><label class="lbl">Cirkel Ø</label><input type="number" id="c-boltx-d" class="raw-input text-xl text-center w-full" value="100"></div>
+                        <div class="flex-1"><label class="lbl">Antal Huller</label><input type="number" id="c-boltx-n" class="raw-input text-xl text-center w-full" value="6"></div>
+                        <div class="flex-1"><label class="lbl">Start Vinkel (°)</label><input type="number" id="c-boltx-v" class="raw-input text-xl text-center w-full" value="0"></div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-0 border-t border-l border-[#222] mt-auto" id="c-boltx-out">
+                        <!-- JS Output -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- 5. STATIC GRID (GDT, GCODE, MATERIALE)     -->
+        <!-- ========================================== -->
+        <div id="view-opslag" class="w-full hidden flex-col">
+            <div class="border-b border-[#222] p-8 bg-[#050505]">
+                <label class="lbl">Søg i Opslagsværk (ISO, G-Kode, M-Kode)</label>
+                <input type="text" id="op-search" class="raw-input text-4xl w-full max-w-2xl text-[#00e5ff]" placeholder="SØG..." autocomplete="off">
+            </div>
+            <div id="op-matrix" class="data-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-[#0a0a0a]"></div>
+        </div>
+
+    </main>
 
     <script>
         // ==========================================
-        // DATA STRUCTURES (URØRT)
+        // DATA STRUCTURES
         // ==========================================
         const cutDB = {
             "alu": {
                 name: "Alu 6082-T6", coolant: "Emulsion / Sprit", note: "Brug polerede skær. Undgå ægopbygning.",
                 CNC: {
                     MILL: {
-                        em_hm: { rough: {vc:[300,500], fz:[0.08,0.15]}, fin: {vc:[500,800], fz:[0.03,0.08]}, slot: {vc:[200,400], fz:[0.06,0.12]} },
+                        em_hm: { rough: {vc:[300,500], fz:[0.10,0.20]}, fin: {vc:[500,800], fz:[0.03,0.08]}, slot: {vc:[200,400], fz:[0.06,0.12]} },
                         em_hss: { rough: {vc:[80,120], fz:[0.05,0.10]}, fin: {vc:[120,180], fz:[0.02,0.05]}, slot: {vc:[60,90], fz:[0.04,0.08]} },
                         fm_hm: { rough: {vc:[400,800], fz:[0.10,0.25]}, fin: {vc:[800,1200], fz:[0.05,0.10]} },
                         ch_hm: { chamfer: {vc:[300,600], fz:[0.05,0.10]} },
@@ -320,8 +447,82 @@
                     }
                 }
             },
-            "316": {
-                name: "Rustfri 316L", coolant: "Højtryk / Skærepasta", note: "Syrefast. Deformationshærder lynhurtigt ved stilstand!",
+            "42crmo4": {
+                name: "Sejhærdet 42CrMo4", coolant: "Emulsion / Olie", note: "Æder HSS styrefaser lynhurtigt.",
+                CNC: {
+                    MILL: {
+                        em_hm: { rough: {vc:[70,120], fz:[0.06,0.10]}, fin: {vc:[100,150], fz:[0.03,0.06]}, slot: {vc:[50,90], fz:[0.05,0.08]} },
+                        em_hss: { rough: {vc:[15,25], fz:[0.03,0.06]}, fin: {vc:[20,35], fz:[0.02,0.04]}, slot: {vc:[12,20], fz:[0.02,0.04]} },
+                        fm_hm: { rough: {vc:[80,140], fz:[0.08,0.15]}, fin: {vc:[120,180], fz:[0.04,0.08]} },
+                        ch_hm: { chamfer: {vc:[70,120], fz:[0.03,0.06]} },
+                        dr_hm: { drill: {vc:[50,90], f:[0.08,0.15]} },
+                        dr_hss: { drill: {vc:[10,20], f:[0.05,0.10]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[100,180], f:[0.15,0.30]}, fin: {vc:[150,220], f:[0.05,0.12]} },
+                        tu_hss: { rough: {vc:[20,35], f:[0.08,0.15]}, fin: {vc:[25,45], f:[0.04,0.08]} },
+                        gr_hm: { groove: {vc:[80,120], f:[0.08,0.12]} },
+                        dr_hm: { drill: {vc:[50,90], f:[0.08,0.15]} },
+                        dr_hss: { drill: {vc:[10,20], f:[0.05,0.10]} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        em_hm: { rough: {vc:[40,70], fz:[0.04,0.08]}, fin: {vc:[60,90], fz:[0.02,0.04]}, slot: {vc:[30,50], fz:[0.03,0.05]} },
+                        em_hss: { rough: {vc:[10,15], fz:[0.02,0.04]}, fin: {vc:[12,20], fz:[0.01,0.02]}, slot: {vc:[8,12], fz:[0.01,0.03]} },
+                        fm_hm: { rough: {vc:[50,90], fz:[0.05,0.10]}, fin: {vc:[70,110], fz:[0.02,0.05]} },
+                        ch_hm: { chamfer: {vc:[40,70], fz:[0.02,0.04]} },
+                        dr_hm: { drill: {vc:[30,50], f:[0.06,0.10]} },
+                        dr_hss: { drill: {vc:[6,12], f:[0.04,0.08]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[60,100], f:[0.10,0.20]}, fin: {vc:[80,130], f:[0.04,0.08]} },
+                        tu_hss: { rough: {vc:[12,20], f:[0.06,0.12]}, fin: {vc:[15,25], f:[0.03,0.06]} },
+                        gr_hm: { groove: {vc:[50,80], f:[0.06,0.10]} },
+                        dr_hm: { drill: {vc:[30,50], f:[0.06,0.10]} },
+                        dr_hss: { drill: {vc:[6,12], f:[0.04,0.08]} }
+                    }
+                }
+            },
+            "d2": {
+                name: "Værktøjsstål (D2/O1)", coolant: "Emulsion / Skæreolie", note: "Bearbejdes blødglødet. Ekstremt abrasivt.",
+                CNC: {
+                    MILL: {
+                        em_hm: { rough: {vc:[40,80], fz:[0.05,0.10]}, fin: {vc:[60,100], fz:[0.03,0.05]}, slot: {vc:[30,60], fz:[0.04,0.08]} },
+                        em_hss: { rough: {vc:[10,18], fz:[0.03,0.06]}, fin: {vc:[15,22], fz:[0.02,0.04]}, slot: {vc:[8,14], fz:[0.02,0.04]} },
+                        fm_hm: { rough: {vc:[50,90], fz:[0.06,0.12]}, fin: {vc:[70,110], fz:[0.03,0.06]} },
+                        ch_hm: { chamfer: {vc:[40,80], fz:[0.03,0.05]} },
+                        dr_hm: { drill: {vc:[35,60], f:[0.06,0.12]} },
+                        dr_hss: { drill: {vc:[8,15], f:[0.04,0.08]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[60,110], f:[0.10,0.25]}, fin: {vc:[90,130], f:[0.04,0.10]} },
+                        tu_hss: { rough: {vc:[12,20], f:[0.06,0.15]}, fin: {vc:[18,28], f:[0.03,0.06]} },
+                        gr_hm: { groove: {vc:[50,80], f:[0.06,0.10]} },
+                        dr_hm: { drill: {vc:[35,60], f:[0.06,0.12]} },
+                        dr_hss: { drill: {vc:[8,15], f:[0.04,0.08]} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        em_hm: { rough: {vc:[25,45], fz:[0.03,0.06]}, fin: {vc:[35,60], fz:[0.02,0.04]}, slot: {vc:[20,35], fz:[0.02,0.05]} },
+                        em_hss: { rough: {vc:[6,10], fz:[0.02,0.04]}, fin: {vc:[8,14], fz:[0.01,0.02]}, slot: {vc:[5,8], fz:[0.01,0.03]} },
+                        fm_hm: { rough: {vc:[30,60], fz:[0.04,0.08]}, fin: {vc:[50,80], fz:[0.02,0.04]} },
+                        ch_hm: { chamfer: {vc:[25,45], fz:[0.02,0.04]} },
+                        dr_hm: { drill: {vc:[20,40], f:[0.05,0.08]} },
+                        dr_hss: { drill: {vc:[6,12], f:[0.03,0.06]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[40,70], f:[0.08,0.15]}, fin: {vc:[60,90], f:[0.03,0.06]} },
+                        tu_hss: { rough: {vc:[10,16], f:[0.05,0.10]}, fin: {vc:[14,20], f:[0.02,0.04]} },
+                        gr_hm: { groove: {vc:[30,50], f:[0.04,0.08]} },
+                        dr_hm: { drill: {vc:[20,40], f:[0.05,0.08]} },
+                        dr_hss: { drill: {vc:[6,12], f:[0.03,0.06]} }
+                    }
+                }
+            },
+            "304": {
+                name: "Rustfri 304", coolant: "Emulsion", note: "Austenitisk. Tendens til klæb på skæret (BUE).",
                 CNC: {
                     MILL: {
                         em_hm: { rough: {vc:[70,120], fz:[0.06,0.12]}, fin: {vc:[100,150], fz:[0.03,0.05]}, slot: {vc:[50,90], fz:[0.04,0.08]} },
@@ -356,142 +557,147 @@
                         dr_hss: { drill: {vc:[10,16], f:[0.04,0.08]} }
                     }
                 }
+            },
+            "titan": {
+                name: "Titan G5", coolant: "Olie / Rigelig Emulsion", note: "Leder dårligt varme, værktøjet optager alt.",
+                CNC: {
+                    MILL: {
+                        em_hm: { rough: {vc:[40,70], fz:[0.05,0.08]}, fin: {vc:[60,90], fz:[0.02,0.05]}, slot: {vc:[30,50], fz:[0.04,0.06]} },
+                        em_hss: { rough: {vc:[10,15], fz:[0.02,0.05]}, fin: {vc:[14,20], fz:[0.01,0.03]}, slot: {vc:[8,12], fz:[0.02,0.04]} },
+                        fm_hm: { rough: {vc:[50,80], fz:[0.06,0.10]}, fin: {vc:[70,100], fz:[0.03,0.06]} },
+                        ch_hm: { chamfer: {vc:[40,70], fz:[0.02,0.05]} },
+                        dr_hm: { drill: {vc:[40,65], f:[0.08,0.12]} },
+                        dr_hss: { drill: {vc:[10,16], f:[0.04,0.08]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[60,100], f:[0.10,0.20]}, fin: {vc:[85,120], f:[0.05,0.10]} },
+                        tu_hss: { rough: {vc:[15,22], f:[0.06,0.12]}, fin: {vc:[20,28], f:[0.03,0.06]} },
+                        gr_hm: { groove: {vc:[45,75], f:[0.06,0.10]} },
+                        dr_hm: { drill: {vc:[40,65], f:[0.08,0.12]} },
+                        dr_hss: { drill: {vc:[10,16], f:[0.04,0.08]} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        em_hm: { rough: {vc:[25,40], fz:[0.03,0.05]}, fin: {vc:[35,55], fz:[0.01,0.03]}, slot: {vc:[15,30], fz:[0.02,0.04]} },
+                        em_hss: { rough: {vc:[6,10], fz:[0.01,0.03]}, fin: {vc:[8,12], fz:[0.01,0.02]}, slot: {vc:[5,8], fz:[0.01,0.02]} },
+                        fm_hm: { rough: {vc:[30,55], fz:[0.04,0.08]}, fin: {vc:[45,70], fz:[0.02,0.04]} },
+                        ch_hm: { chamfer: {vc:[25,40], fz:[0.01,0.03]} },
+                        dr_hm: { drill: {vc:[25,45], f:[0.05,0.08]} },
+                        dr_hss: { drill: {vc:[6,10], f:[0.03,0.06]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[40,70], f:[0.08,0.15]}, fin: {vc:[55,85], f:[0.03,0.08]} },
+                        tu_hss: { rough: {vc:[10,16], f:[0.05,0.10]}, fin: {vc:[14,20], f:[0.02,0.05]} },
+                        gr_hm: { groove: {vc:[30,50], f:[0.04,0.08]} },
+                        dr_hm: { drill: {vc:[25,45], f:[0.05,0.08]} },
+                        dr_hss: { drill: {vc:[6,10], f:[0.03,0.06]} }
+                    }
+                }
+            },
+            "pom": {
+                name: "POM-C (Acetal)", coolant: "Luft / Vand", note: "Brug knivskarpe, positive skær for bedste finish.",
+                CNC: {
+                    MILL: {
+                        em_hm: { rough: {vc:[250,450], fz:[0.12,0.25]}, fin: {vc:[400,700], fz:[0.05,0.10]}, slot: {vc:[180,350], fz:[0.08,0.18]} },
+                        em_hss: { rough: {vc:[80,180], fz:[0.08,0.15]}, fin: {vc:[120,220], fz:[0.04,0.08]}, slot: {vc:[60,120], fz:[0.06,0.12]} },
+                        fm_hm: { rough: {vc:[300,500], fz:[0.15,0.30]}, fin: {vc:[450,800], fz:[0.06,0.12]} },
+                        ch_hm: { chamfer: {vc:[250,450], fz:[0.05,0.10]} },
+                        dr_hm: { drill: {vc:[120,250], f:[0.15,0.30]} },
+                        dr_hss: { drill: {vc:[60,120], f:[0.12,0.25]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[350,600], f:[0.25,0.50]}, fin: {vc:[500,900], f:[0.08,0.15]} },
+                        tu_hss: { rough: {vc:[120,250], f:[0.15,0.35]}, fin: {vc:[180,300], f:[0.06,0.12]} },
+                        gr_hm: { groove: {vc:[250,450], f:[0.10,0.20]} },
+                        dr_hm: { drill: {vc:[120,250], f:[0.15,0.30]} },
+                        dr_hss: { drill: {vc:[60,120], f:[0.12,0.25]} }
+                    }
+                },
+                MAN: {
+                    MILL: {
+                        em_hm: { rough: {vc:[120,200], fz:[0.08,0.15]}, fin: {vc:[200,350], fz:[0.03,0.06]}, slot: {vc:[80,150], fz:[0.05,0.10]} },
+                        em_hss: { rough: {vc:[50,100], fz:[0.05,0.10]}, fin: {vc:[80,140], fz:[0.02,0.05]}, slot: {vc:[40,80], fz:[0.03,0.08]} },
+                        fm_hm: { rough: {vc:[150,250], fz:[0.10,0.20]}, fin: {vc:[250,400], fz:[0.04,0.08]} },
+                        ch_hm: { chamfer: {vc:[120,200], fz:[0.03,0.06]} },
+                        dr_hm: { drill: {vc:[80,150], f:[0.12,0.20]} },
+                        dr_hss: { drill: {vc:[40,80], f:[0.10,0.15]} }
+                    },
+                    LATHE: {
+                        tu_hm: { rough: {vc:[200,350], f:[0.20,0.35]}, fin: {vc:[300,500], f:[0.05,0.10]} },
+                        tu_hss: { rough: {vc:[100,180], f:[0.15,0.25]}, fin: {vc:[150,220], f:[0.05,0.08]} },
+                        gr_hm: { groove: {vc:[120,200], f:[0.08,0.15]} },
+                        dr_hm: { drill: {vc:[80,150], f:[0.12,0.20]} },
+                        dr_hss: { drill: {vc:[40,80], f:[0.10,0.15]} }
+                    }
+                }
             }
         };
 
         const threadDB = [
-            { id: "m3", type: "M", pitch: 0.50, dCut: 2.50, dRoll: 2.80, ext: 2.90, din76: "1.6 x 0.4" },
-            { id: "m4", type: "M", pitch: 0.70, dCut: 3.30, dRoll: 3.70, ext: 3.90, din76: "2.1 x 0.5" },
-            { id: "m5", type: "M", pitch: 0.80, dCut: 4.20, dRoll: 4.65, ext: 4.90, din76: "2.5 x 0.6" },
-            { id: "m6", type: "M", pitch: 1.00, dCut: 5.00, dRoll: 5.55, ext: 5.90, din76: "3.0 x 0.7" },
-            { id: "m8", type: "M", pitch: 1.25, dCut: 6.80, dRoll: 7.40, ext: 7.85, din76: "4.0 x 0.9" },
-            { id: "m10", type: "M", pitch: 1.50, dCut: 8.50, dRoll: 9.30, ext: 9.85, din76: "4.5 x 1.1" },
-            { id: "m12", type: "M", pitch: 1.75, dCut: 10.20, dRoll: 11.20, ext: 11.80, din76: "5.0 x 1.3" },
-            { id: "g1/8", type: "G", pitch: "0.907 (28)", dCut: 8.80, dRoll: "-", ext: 9.73, din76: "-" },
-            { id: "g1/4", type: "G", pitch: "1.337 (19)", dCut: 11.80, dRoll: "-", ext: 13.16, din76: "-" },
-            { id: "1/4unc", type: "UNC", pitch: "1.270 (20)", dCut: 5.10, dRoll: 5.80, ext: 6.35, din76: "-" }
+            { id: "M3", type: "M", pitch: 0.50, dCut: 2.50, dRoll: 2.80, ext: 2.90, din76: "1.6 x 0.4" },
+            { id: "M4", type: "M", pitch: 0.70, dCut: 3.30, dRoll: 3.70, ext: 3.90, din76: "2.1 x 0.5" },
+            { id: "M5", type: "M", pitch: 0.80, dCut: 4.20, dRoll: 4.65, ext: 4.90, din76: "2.5 x 0.6" },
+            { id: "M6", type: "M", pitch: 1.00, dCut: 5.00, dRoll: 5.55, ext: 5.90, din76: "3.0 x 0.7" },
+            { id: "M8", type: "M", pitch: 1.25, dCut: 6.80, dRoll: 7.40, ext: 7.85, din76: "4.0 x 0.9" },
+            { id: "M10", type: "M", pitch: 1.50, dCut: 8.50, dRoll: 9.30, ext: 9.85, din76: "4.5 x 1.1" },
+            { id: "M12", type: "M", pitch: 1.75, dCut: 10.20, dRoll: 11.20, ext: 11.80, din76: "5.0 x 1.3" },
+            { id: "M16", type: "M", pitch: 2.00, dCut: 14.00, dRoll: 15.10, ext: 15.80, din76: "6.0 x 1.5" },
+            { id: "M20", type: "M", pitch: 2.50, dCut: 17.50, dRoll: 18.90, ext: 19.80, din76: "7.5 x 1.8" },
+            { id: "G 1/8", type: "G", pitch: "0.907 (28)", dCut: 8.80, dRoll: "-", ext: 9.73, din76: "-" },
+            { id: "G 1/4", type: "G", pitch: "1.337 (19)", dCut: 11.80, dRoll: "-", ext: 13.16, din76: "-" },
+            { id: "1/4 UNC", type: "UNC", pitch: "1.270 (20)", dCut: 5.10, dRoll: 5.80, ext: 6.35, din76: "-" }
         ];
 
         const staticDB = [
             { id: "g83", cat: "GCODE", title: "G83 Peck Boring", data: ["G83 Z- R- Q- F-", "Q: Spåndybde pr. ryk"], note: "Dybdeboring med udkast." },
             { id: "g76", cat: "GCODE", title: "G76 Gevind (Drej)", data: ["G76 P- Q- R-", "G76 X- Z- P- Q- F-"], note: "Fler-trins gevindcyklus." },
             { id: "alu", cat: "MAT", title: "Aluminium Egenskaber", data: ["Termisk Udv.: 23.4 µm", "Densitet: 2.70 g/cm³"], note: "Standard opslag." },
-            { id: "ra", cat: "GDT", title: "Ra Skala", data: ["N8: Ra 3.2 µm", "N7: Ra 1.6 µm", "N6: Ra 0.8 µm"], note: "Overfladeruhed." }
+            { id: "ra", cat: "GDT", title: "Ra Skala", data: ["N8: Ra 3.2 µm", "N7: Ra 1.6 µm", "N6: Ra 0.8 µm", "N5: Ra 0.4 µm"], note: "Overfladeruhed." },
+            { id: "iso2768", cat: "TOL", title: "ISO 2768-mK", data: ["0.5-3mm: ±0.1", "3-6mm: ±0.1", "6-30mm: ±0.2", "30-120mm: ±0.3", "120-400mm: ±0.5"], note: "Generelle lineære tolerancer iflg. klasse 'm'." },
+            { id: "not", cat: "MECH", title: "DIN 6885 Notspor (Bredde x Dybde)", data: ["Ø10-12: 4x4 (Aksel t1=2.5)", "Ø12-17: 5x5 (Aksel t1=3.0)", "Ø17-22: 6x6 (Aksel t1=3.5)", "Ø22-30: 8x7 (Aksel t1=4.0)"], note: "Standard pasfeder dimensioner for fræsning/stik." }
         ];
 
-        const IT = {
-            5: [4, 5, 6, 8, 9, 11, 13, 15], 6: [6, 8, 9, 11, 13, 16, 19, 22], 7: [10, 12, 15, 18, 21, 25, 30, 35]
-        };
-        const fdShaft = {
-            'g': { t: 'es', v: [-2, -4, -5, -6, -7, -9, -10, -12] },
-            'h': { t: 'es', v: [0, 0, 0, 0, 0, 0, 0, 0] },
-            'k': { t: 'ei', v: [0, 1, 1, 1, 2, 2, 2, 3] }
-        };
+        const IT = { 5: [4, 5, 6, 8, 9, 11, 13, 15], 6: [6, 8, 9, 11, 13, 16, 19, 22], 7: [10, 12, 15, 18, 21, 25, 30, 35] };
+        const fdShaft = { 'g': { t: 'es', v: [-2, -4, -5, -6, -7, -9, -10, -12] }, 'h': { t: 'es', v: [0, 0, 0, 0, 0, 0, 0, 0] }, 'k': { t: 'ei', v: [0, 1, 1, 1, 2, 2, 2, 3] } };
 
-        const toolDisplayNames = {
-            'em_hm': 'P.FRÆS (HM)', 'em_hss': 'P.FRÆS (HSS)',
-            'fm_hm': 'PLANFRÆS (HM)', 'ch_hm': 'FASFRÆS (HM)',
-            'dr_hm': 'BOR (HM)', 'dr_hss': 'BOR (HSS)',
-            'tu_hm': 'DREJ (HM)', 'tu_hss': 'DREJ (HSS)',
-            'gr_hm': 'STIK (HM)'
-        };
+        const state = { plat: 'CNC', op: 'MILL', tool: 'em_hm', dia: 10, z: 4, ra: 'std', re: 0.4 };
 
-        // ==========================================
-        // TERMINAL KERNEL (STATE & LOGIC)
-        // ==========================================
-        const state = {
-            plat: 'CNC',
-            op: 'MILL',
-            tool: 'em_hm',
-            dia: 10,
-            z: 4,
-            ra: 'std',
-            re: 0.4
-        };
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if(btn.getAttribute('data-tab') === tabName) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            const views = ['view-skaeredata', 'view-gevind', 'view-pasninger', 'view-calc', 'view-opslag'];
+            views.forEach(v => {
+                const el = document.getElementById(v);
+                if(el) { el.classList.add('hidden'); el.classList.remove('flex'); }
+            });
+            const activeView = document.getElementById('view-' + tabName.toLowerCase());
+            if (activeView) { activeView.classList.remove('hidden'); activeView.classList.add('flex'); }
 
-        const history = [];
-        let historyIdx = -1;
-
-        const ui = {
-            log: document.getElementById('log-container'),
-            input: document.getElementById('cmd-input'),
-            env: document.getElementById('env-display')
-        };
-
-        function getTimestamp() {
-            const now = new Date();
-            return `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+            if (tabName === 'SKAEREDATA') { populateSdTools(); updateSdView(); } 
+            else if (tabName === 'OPSLAG') { renderOpslag(""); }
         }
 
-        function updateEnvDisplay() {
-            ui.env.innerHTML = `
-                <span class="text-white">${state.plat}</span>
-                <span class="w-px h-3 bg-[#333]"></span>
-                <span class="text-[#888]">${state.op}</span>
-                <span class="w-px h-3 bg-[#333]"></span>
-                <span class="text-[#888]">${toolDisplayNames[state.tool]}</span>
-                <span class="w-px h-3 bg-[#333]"></span>
-                <span class="text-[#888]">Ø${state.dia}</span>
-                <span class="w-px h-3 bg-[#333]"></span>
-                <span class="text-[#888]">Z${state.z}</span>
-            `;
-            if(document.getElementById('boot-plat')) {
-                document.getElementById('boot-plat').innerText = state.plat;
-                document.getElementById('boot-op').innerText = state.op;
-                document.getElementById('boot-tool').innerText = toolDisplayNames[state.tool];
-                document.getElementById('boot-dia').innerText = state.dia;
-                document.getElementById('boot-z').innerText = state.z;
+        function setSDState(key, val) {
+            state[key] = val;
+            if(key === 'plat') {
+                document.getElementById('btn-cnc').className = val === 'CNC' ? 'raw-toggle active' : 'raw-toggle inactive -ml-px';
+                document.getElementById('btn-man').className = val === 'MAN' ? 'raw-toggle active' : 'raw-toggle inactive -ml-px';
             }
-        }
-
-        function scrollToBottom() {
-            const terminalWindow = document.getElementById('terminal-window');
-            terminalWindow.scrollTop = terminalWindow.scrollHeight;
-        }
-
-        function appendLog(cmd, htmlContent) {
-            const entry = document.createElement('div');
-            entry.className = 'log-entry w-full';
-            if (cmd) {
-                entry.innerHTML = `
-                    <div class="cmd-echo">
-                        <span class="cmd-time">${getTimestamp()}</span>
-                        <span class="cmd-prompt">~/core ❯</span>
-                        <span class="cmd-text">${cmd}</span>
-                    </div>`;
+            if(key === 'op') {
+                document.getElementById('btn-mill').className = val === 'MILL' ? 'raw-toggle active' : 'raw-toggle inactive -ml-px';
+                document.getElementById('btn-lathe').className = val === 'LATHE' ? 'raw-toggle active' : 'raw-toggle inactive -ml-px';
+                document.getElementById('sd-z-container').style.opacity = val === 'LATHE' ? '0.3' : '1';
+                populateSdTools();
             }
-            entry.innerHTML += htmlContent;
-            ui.log.appendChild(entry);
-            scrollToBottom();
+            updateSdView();
         }
 
-        function formatRange(val, decimals = 0) {
-            if(Array.isArray(val)) {
-                if(val[0] === val[1]) return val[0].toFixed(decimals);
-                return `${val[0].toFixed(decimals)} - ${val[1].toFixed(decimals)}`;
-            }
-            return val.toFixed(decimals);
-        }
-
-        // ==========================================
-        // GUI CONFIG OVERLAY LOGIC
-        // ==========================================
-        function toggleGUI() {
-            const gui = document.getElementById('gui-overlay');
-            if (gui.classList.contains('hidden')) {
-                gui.classList.remove('hidden');
-                populateGUI();
-            } else {
-                gui.classList.add('hidden');
-                ui.input.focus();
-            }
-        }
-
-        function updateGuiTools() {
-            const op = document.getElementById('gui-op').value;
-            const toolSelect = document.getElementById('gui-tool');
+        function populateSdTools() {
+            const toolSelect = document.getElementById('sd-tool');
             toolSelect.innerHTML = "";
-            
             const millingTools = [
                 {val: 'em_hm', text: 'Pindfræser (HM)'}, {val: 'em_hss', text: 'Pindfræser (HSS)'},
                 {val: 'fm_hm', text: 'Planfræser (HM)'}, {val: 'ch_hm', text: 'Fasfræser (HM)'},
@@ -499,250 +705,49 @@
             ];
             const turningTools = [
                 {val: 'tu_hm', text: 'Drejestål (HM)'}, {val: 'tu_hss', text: 'Drejestål (HSS)'},
-                {val: 'gr_hm', text: 'Stikstål (HM)'},
-                {val: 'dr_hm', text: 'Bor (HM)'}, {val: 'dr_hss', text: 'Bor (HSS)'}
+                {val: 'gr_hm', text: 'Stikstål (HM)'}, {val: 'dr_hm', text: 'Bor (HM)'}, {val: 'dr_hss', text: 'Bor (HSS)'}
             ];
-
-            const tools = op === 'mill' ? millingTools : turningTools;
+            const tools = state.op === 'MILL' ? millingTools : turningTools;
+            let found = false;
             tools.forEach(t => {
                 const opt = document.createElement('option');
                 opt.value = t.val; opt.text = t.text;
                 toolSelect.add(opt);
+                if(t.val === state.tool) found = true;
             });
-            
-            if(op === state.op.toLowerCase()) toolSelect.value = state.tool.toLowerCase();
+            if(!found) state.tool = tools[0].val;
+            toolSelect.value = state.tool;
         }
 
-        function populateGUI() {
-            document.getElementById('gui-plat').value = state.plat.toLowerCase();
-            document.getElementById('gui-op').value = state.op.toLowerCase();
-            updateGuiTools();
-            document.getElementById('gui-dia').value = state.dia;
-            document.getElementById('gui-z').value = state.z;
-            document.getElementById('gui-ra').value = state.ra;
-            document.getElementById('gui-re').value = state.re;
+        function updateSdView() {
+            const toolEl = document.getElementById('sd-tool');
+            if(toolEl) state.tool = toolEl.value;
+
+            state.dia = parseFloat(document.getElementById('sd-dia').value) || 10;
+            state.z = parseInt(document.getElementById('sd-z').value) || 4;
+            state.ra = document.getElementById('sd-ra').value;
+            state.re = parseFloat(document.getElementById('sd-re').value) || 0.4;
+
+            const matKey = document.getElementById('sd-mat').value;
+            const out = document.getElementById('sd-output');
             
-            document.getElementById('gui-z-container').style.opacity = state.op === 'LATHE' ? '0.3' : '1';
+            if(!matKey) return;
 
-            const matSelect = document.getElementById('gui-mat');
-            matSelect.innerHTML = "<option value=''>Vælg materiale...</option>";
-            Object.keys(cutDB).forEach(k => {
-                const opt = document.createElement('option');
-                opt.value = k; opt.text = cutDB[k].name;
-                matSelect.add(opt);
-            });
-        }
+            const matData = cutDB[matKey];
+            document.getElementById('sd-mat-name').innerText = matData.name;
+            document.getElementById('sd-mat-note').innerText = matData.note;
+            document.getElementById('sd-coolant').innerText = matData.coolant;
 
-        document.getElementById('gui-op').addEventListener('change', (e) => {
-            updateGuiTools();
-            document.getElementById('gui-z-container').style.opacity = e.target.value === 'lathe' ? '0.3' : '1';
-        });
-
-        function executeGui() {
-            const p = document.getElementById('gui-plat').value;
-            const o = document.getElementById('gui-op').value;
-            const t = document.getElementById('gui-tool').value;
-            const d = document.getElementById('gui-dia').value;
-            const z = document.getElementById('gui-z').value;
-            const ra = document.getElementById('gui-ra').value;
-            const re = document.getElementById('gui-re').value;
-            const mat = document.getElementById('gui-mat').value;
-
-            let setCmd = `set plat ${p} op ${o} tool ${t} d ${d} z ${z} ra ${ra} re ${re}`;
-            parseCommand(setCmd);
-
-            if(mat) {
-                parseCommand(`mat ${mat}`);
-            }
-
-            document.getElementById('gui-overlay').classList.add('hidden');
-            ui.input.focus();
-        }
-
-        // ==========================================
-        // COMMAND PARSER
-        // ==========================================
-        function parseCommand(rawCmd) {
-            const cmdStr = rawCmd.trim();
-            if (!cmdStr) return;
-            
-            history.push(cmdStr);
-            historyIdx = history.length;
-            ui.input.value = '';
-
-            const args = cmdStr.toLowerCase().split(/\s+/);
-            const cmd = args[0];
-
-            switch(cmd) {
-                case 'clear':
-                case 'cls':
-                    ui.log.innerHTML = '';
-                    break;
-                case 'help':
-                    renderHelp(cmdStr);
-                    break;
-                case 'set':
-                    handleSet(args, cmdStr);
-                    break;
-                case 'mat':
-                    handleMat(args, cmdStr);
-                    break;
-                case 'thread':
-                    handleThread(args, cmdStr);
-                    break;
-                case 'iso':
-                    handleIso(args, cmdStr);
-                    break;
-                case 'find':
-                    handleFind(args, cmdStr);
-                    break;
-                default:
-                    if(handleCalc(args, cmdStr)) return;
-                    appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Ukendt kommando: ${cmd}. Skriv 'help' for manual.</div>`);
-            }
-        }
-
-        function renderHelp(cmdStr) {
-            const html = `
-                <div class="term-panel w-full max-w-4xl border-[#333]">
-                    <div class="term-header text-[#888]">
-                        <span>Kernel Manual</span>
-                    </div>
-                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 text-[11px]">
-                        <div>
-                            <span class="text-white font-bold text-sm block mb-1">set [var] [val]...</span>
-                            <div class="text-[#888] leading-relaxed">Sætter globale variabler.<br>Vars: plat (cnc/man), op (mill/lathe), tool, d, z, ra, re.<br><span class="text-[#555] mt-1 block">Eks: set plat man d 12</span></div>
-                        </div>
-                        <div>
-                            <span class="text-white font-bold text-sm block mb-1">Værktøjstyper (tool)</span>
-                            <div class="text-[#888] leading-relaxed">
-                                <span class="text-[#555] block">em_hm / em_hss (Pindfræser)</span>
-                                <span class="text-[#555] block">fm_hm (Planfræser) | ch_hm (Fas)</span>
-                                <span class="text-[#555] block">dr_hm / dr_hss (Bor)</span>
-                                <span class="text-[#555] block">tu_hm / tu_hss (Drejestål)</span>
-                                <span class="text-[#555] block">gr_hm (Stikstål)</span>
-                            </div>
-                        </div>
-                        <div>
-                            <span class="text-white font-bold text-sm block mb-1">mat [søg]</span>
-                            <div class="text-[#888] leading-relaxed">Beregner skæredata ud fra aktivt miljø.<br><span class="text-[#555] mt-1 block">Eks: mat alu, mat 316</span></div>
-                        </div>
-                        <div>
-                            <span class="text-white font-bold text-sm block mb-1">thread [gevind]</span>
-                            <div class="text-[#888] leading-relaxed">Opslag for standard/special gevind.<br><span class="text-[#555] mt-1 block">Eks: thread m8, thread m20x1.5</span></div>
-                        </div>
-                        <div>
-                            <span class="text-white font-bold text-sm block mb-1">iso [Ø] [hul] [aksel]</span>
-                            <div class="text-[#888] leading-relaxed">ISO 286 pasningsberegner.<br><span class="text-[#555] mt-1 block">Eks: iso 10 h7 g6</span></div>
-                        </div>
-                        <div>
-                            <span class="text-white font-bold text-sm block mb-1">find [søg]</span>
-                            <div class="text-[#888] leading-relaxed">Søg i statisk M-kode/GDT db.<br><span class="text-[#555] mt-1 block">Eks: find g83</span></div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            appendLog(cmdStr, html);
-        }
-
-        function handleSet(args, cmdStr) {
-            if(args.length < 3 || args.length % 2 === 0) {
-                return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Fejl: Ugyldig syntaks. Eks: 'set op mill d 10'</div>`);
-            }
-
-            let updates = [];
-            let errors = [];
-
-            for(let i = 1; i < args.length; i += 2) {
-                const variable = args[i];
-                const val = args[i+1];
-
-                switch(variable) {
-                    case 'plat':
-                    case 'platform':
-                        if(val === 'cnc' || val === 'man') { state.plat = val.toUpperCase(); updates.push(`PLAT=${state.plat}`); }
-                        else errors.push(`Platform (${val})`);
-                        break;
-                    case 'op':
-                    case 'operation':
-                        if(val === 'mill' || val === 'lathe') { state.op = val.toUpperCase(); updates.push(`OP=${state.op}`); }
-                        else errors.push(`Op (${val})`);
-                        break;
-                    case 'tool':
-                        const validTools = ['em_hm','em_hss','fm_hm','ch_hm','dr_hm','dr_hss','tu_hm','tu_hss','gr_hm'];
-                        if(validTools.includes(val)) { state.tool = val; updates.push(`TOOL=${val}`); }
-                        else errors.push(`Tool (${val})`);
-                        break;
-                    case 'd':
-                    case 'dia':
-                        const dNum = parseFloat(val);
-                        if(!isNaN(dNum)) { state.dia = dNum; updates.push(`Ø=${state.dia}`); }
-                        else errors.push(`Ø (${val})`);
-                        break;
-                    case 'z':
-                        const zNum = parseInt(val);
-                        if(!isNaN(zNum)) { state.z = zNum; updates.push(`Z=${state.z}`); }
-                        else errors.push(`Z (${val})`);
-                        break;
-                    case 'ra':
-                        if(val === 'std' || !isNaN(parseFloat(val))) { state.ra = val; updates.push(`Ra=${state.ra}`); }
-                        else errors.push(`Ra (${val})`);
-                        break;
-                    case 're':
-                    case 'r':
-                        const rNum = parseFloat(val);
-                        if(!isNaN(rNum)) { state.re = rNum; updates.push(`R=${state.re}`); }
-                        else errors.push(`R (${val})`);
-                        break;
-                    default:
-                        errors.push(`Ukendt var (${variable})`);
-                }
-            }
-            
-            updateEnvDisplay();
-            
-            let html = '<div class="term-panel border border-[#333] py-4 w-full max-w-2xl">';
-            if (errors.length > 0) html += `<div class="text-[#888] text-xs font-bold mb-2 uppercase tracking-widest">Fejl: ${errors.join(', ')}</div>`;
-            if (updates.length > 0) html += `<div class="text-white text-xs font-bold uppercase tracking-widest">Opdateret: ${updates.join(' | ')}</div>`;
-            html += '</div>';
-            
-            appendLog(cmdStr, html);
-        }
-
-        function handleMat(args, cmdStr) {
-            if(args.length < 2) {
-                return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Fejl: Angiv materiale. Eks: 'mat alu'</div>`);
-            }
-            
-            const q = args.slice(1).join(" ");
-            const allMats = Object.keys(cutDB);
-            let match = allMats.find(m => m === q || cutDB[m].name.toLowerCase().includes(q));
-
-            if(!match) {
-                return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Materiale '${q}' ikke fundet i db.</div>`);
-            }
-
-            const matData = cutDB[match];
             const activeToolData = matData[state.plat][state.op][state.tool];
+            out.innerHTML = "";
 
             if(!activeToolData) {
-                return appendLog(cmdStr, `<div class="term-panel border-[#333] p-4 text-[#888] text-xs uppercase font-bold tracking-widest">Værktøj '${toolDisplayNames[state.tool]}' eksisterer ikke til ${state.op}.<br><span class="text-[#555] block mt-1">Brug Config UI for at skifte.</span></div>`);
+                out.innerHTML = `<div class="col-span-full p-8 text-center text-[#ff3366] font-bold text-xs uppercase tracking-widest bg-[#0a0a0a]">Værktøj ikke understøttet for kombinationen.</div>`;
+                return;
             }
 
             const maxLimit = state.plat === 'CNC' ? 10000 : 3000;
             const opToTitle = { rough: "Skrub", fin: "Slet", slot: "Spor / Fuld indgreb", chamfer: "Fasning", drill: "Boring", groove: "Stik / Spor" };
-
-            let html = `
-                <div class="term-panel border-[#333] w-full max-w-5xl mb-4 p-0">
-                    <div class="term-header">
-                        <span class="text-white font-bold uppercase tracking-widest">${matData.name || match}</span>
-                        <div class="hidden sm:flex gap-2 text-[#888] font-mono">
-                            <span>[${state.plat}]</span><span>[${state.op}]</span><span>[${toolDisplayNames[state.tool]}]</span><span>[Ø${state.dia}]</span><span>[Z${state.z}]</span>
-                        </div>
-                    </div>
-                    <div class="p-3 text-[10px] text-[#666] border-b border-[#222] uppercase tracking-widest bg-[#000]">${matData.note}</div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#222]">
-            `;
 
             Object.keys(activeToolData).forEach(opKey => {
                 let spec = { ...activeToolData[opKey] };
@@ -752,9 +757,8 @@
                 if (opKey === "fin" && state.ra !== "std") {
                     const ra = parseFloat(state.ra);
                     const fCalc = Math.sqrt((ra * 8 * state.re) / 1000);
-                    if (state.op === 'MILL') spec.fz = [fCalc, fCalc];
-                    else spec.f = [fCalc, fCalc];
-                    cardTitleExtra = `<span class="ml-2 font-mono text-[9px] font-bold text-white border border-[#333] bg-[#111] px-1.5 py-0.5 uppercase tracking-widest">Ra ${ra}</span>`;
+                    if (state.op === 'MILL') spec.fz = [fCalc, fCalc]; else spec.f = [fCalc, fCalc];
+                    cardTitleExtra = `<span class="ml-2 text-[10px] text-white bg-[#111] px-2 py-1 border border-[#333]">Ra ${ra}</span>`;
                 }
 
                 let rpm1 = Math.min(Math.round((spec.vc[0] * 1000) / (Math.PI * state.dia)), maxLimit);
@@ -766,286 +770,344 @@
                 if (opKey === "drill") {
                     feedLabel = "f"; feedVal = `${formatRange(spec.f, 2)} mm/o`;
                     if(state.plat === 'CNC' && state.op === 'MILL') {
-                        let vf1 = Math.round(spec.f[0] * 1 * rpm1);
-                        let vf2 = Math.round(spec.f[1] * 1 * rpm2);
+                        let vf1 = Math.round(spec.f[0] * 1 * rpm1); let vf2 = Math.round(spec.f[1] * 1 * rpm2);
                         feedCalc = vf1===vf2 ? `${vf1}` : `${Math.min(vf1,vf2)}-${Math.max(vf1,vf2)}`;
                     } else feedCalc = "G99";
                 } else if (state.op === 'MILL' && opKey !== "drill") {
                     feedLabel = "fz"; feedVal = `${formatRange(spec.fz, 2)} mm/t`;
-                    let vf1 = Math.round(spec.fz[0] * state.z * rpm1);
-                    let vf2 = Math.round(spec.fz[1] * state.z * rpm2);
+                    let vf1 = Math.round(spec.fz[0] * state.z * rpm1); let vf2 = Math.round(spec.fz[1] * state.z * rpm2);
                     feedCalc = vf1===vf2 ? `${vf1}` : `${Math.min(vf1,vf2)}-${Math.max(vf1,vf2)}`;
                 } else {
                     feedLabel = "f"; feedVal = `${formatRange(spec.f, 2)} mm/o`;
                     feedCalc = "G99";
                 }
 
-                html += `
-                    <div class="p-6 flex flex-col justify-between h-[160px]">
-                        <div class="flex items-center justify-between mb-4 border-b border-[#222] pb-2">
-                            <span class="font-bold text-white text-[11px] uppercase tracking-widest">${opTitle} ${cardTitleExtra}</span>
-                            <span class="text-[9px] text-[#666] font-mono font-bold">Vc ${formatRange(spec.vc, 0)}</span>
+                function formatRange(val, decimals = 0) {
+                    if(Array.isArray(val)) {
+                        if(val[0] === val[1]) return val[0].toFixed(decimals);
+                        return `${val[0].toFixed(decimals)} - ${val[1].toFixed(decimals)}`;
+                    } return val.toFixed(decimals);
+                }
+
+                const rpmFontSize = rpmStr.length > 6 ? "text-4xl" : "text-6xl";
+
+                out.innerHTML += `
+                    <div class="data-cell flex flex-col h-full hover:bg-[#111] transition-colors">
+                        <div class="flex items-start justify-between mb-8 gap-2">
+                            <span class="font-bold text-[#888] text-sm uppercase tracking-widest leading-tight">${opTitle} ${cardTitleExtra}</span>
+                            <span class="text-[10px] text-[#00fa9a] font-bold px-2 py-1 bg-[#000] mono border border-[#222]">Vc ${formatRange(spec.vc, 0)}</span>
                         </div>
-                        <div class="mb-5">
-                            <div class="text-3xl font-black text-white tracking-tighter truncate">${rpmStr}</div>
-                        </div>
+                        <div class="${rpmFontSize} font-black text-white mono tracking-tighter mb-8 break-words leading-none">${rpmStr}</div>
                         
-                        <div class="space-y-1.5 pt-3 mt-auto">
+                        <div class="mt-auto space-y-4">
                             <div class="flex justify-between items-center">
-                                <span class="text-[9px] text-[#666] font-bold uppercase tracking-widest">${feedLabel}</span>
-                                <span class="text-[11px] font-bold text-white">${feedVal}</span>
+                                <span class="text-[11px] text-[#666] font-bold uppercase tracking-widest">${feedLabel}</span>
+                                <span class="text-sm font-bold text-white mono">${feedVal}</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-[9px] text-[#666] font-bold uppercase tracking-widest">Vf</span>
-                                <span class="text-[11px] font-bold text-white text-right">${feedCalc}</span>
+                                <span class="text-[11px] text-[#666] font-bold uppercase tracking-widest">Vf</span>
+                                <span class="text-lg font-bold text-[#00fa9a] text-right mono">${feedCalc}</span>
                             </div>
                         </div>
                     </div>
                 `;
             });
-            
-            html += `</div></div>`;
-            appendLog(cmdStr, html);
         }
 
-        function handleThread(args, cmdStr) {
-            if(args.length < 2) {
-                return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Fejl: Angiv gevind. Eks: 'thread m8'</div>`);
-            }
-            const q = args[1];
-            let th = threadDB.find(t => t.id === q);
+        // ==========================================
+        // GEVIND LOGIC
+        // ==========================================
+        function calculateGevind() {
+            const q = document.getElementById('th-input').value.trim().toLowerCase();
+            const out = document.getElementById('th-output');
             
+            if(!q) { out.innerHTML = ""; return; }
+
+            let th = threadDB.find(t => t.id.toLowerCase() === q);
             if (!th && q.startsWith('m')) {
                 const mMatch = q.match(/^m\s*(\d+(?:\.\d+)?)\s*(?:x|\*)\s*(\d+(?:\.\d+)?)$/i);
                 if (mMatch) {
-                    const d = parseFloat(mMatch[1]);
-                    const p = parseFloat(mMatch[2]);
-                    th = {
-                        id: `M${d}x${p}`, type: "MF", pitch: p.toFixed(2), 
-                        dCut: (d - p).toFixed(2), dRoll: (d - (p/2)).toFixed(2), 
-                        ext: (d - 0.1).toFixed(2), din76: "Standard"
-                    };
+                    const d = parseFloat(mMatch[1]), p = parseFloat(mMatch[2]);
+                    th = { id: `M${d}x${p}`, type: "MF", pitch: p.toFixed(2), dCut: (d - p).toFixed(2), dRoll: (d - (p/2)).toFixed(2), ext: (d - 0.1).toFixed(2), din76: "Standard" };
                 }
             }
 
             if(!th) {
-                return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Gevind ikke fundet.</div>`);
+                out.innerHTML = `<div class="p-8 text-[#ff3366] text-sm font-bold uppercase tracking-widest bg-[#0a0a0a]">Gevind ikke fundet.</div>`;
+                return;
             }
 
-            const html = `
-                <div class="term-panel border-[#333] w-full max-w-2xl mt-2 p-0">
-                    <div class="term-header">
-                        <span class="text-white font-bold uppercase tracking-widest">${th.id}</span>
-                        <span class="text-[#888] font-mono">[${th.type}]</span>
+            let extraHtml = "";
+            if (th.type === 'M' || th.type === 'MF') {
+                const dNum = parseFloat(th.id.replace(/[^\d.]/g, '').split('x')[0] || th.id.replace(/[^\d.]/g, ''));
+                const pNum = parseFloat(th.pitch);
+                const d2 = (dNum - 0.6495 * pNum).toFixed(3);
+                const d3 = (dNum - 1.2268 * pNum).toFixed(3);
+                extraHtml = `
+                    <div class="data-cell">
+                        <span class="lbl">Dele-Ø (d2)</span>
+                        <span class="text-4xl font-black text-white mono">${d2} mm</span>
                     </div>
-                    <div class="p-6">
-                        <div class="grid grid-cols-2 gap-x-8 gap-y-4 text-sm font-mono">
-                            <div class="flex justify-between border-b border-[#222] pb-2">
-                                <span class="text-[#888]">Skæretap Bor</span><span class="text-white font-bold">${th.dCut} mm</span>
-                            </div>
-                            <div class="flex justify-between border-b border-[#222] pb-2">
-                                <span class="text-[#888]">Rulletap Bor</span><span class="text-white font-bold">${th.dRoll} mm</span>
-                            </div>
-                            <div class="flex justify-between border-b border-[#222] pb-2">
-                                <span class="text-[#888]">Stigning</span><span class="text-white font-bold">${th.pitch}</span>
-                            </div>
-                            <div class="flex justify-between border-b border-[#222] pb-2">
-                                <span class="text-[#888]">Udv. Ø</span><span class="text-white font-bold">${th.ext} mm</span>
-                            </div>
-                        </div>
+                    <div class="data-cell">
+                        <span class="lbl">Kerne-Ø (d3)</span>
+                        <span class="text-4xl font-black text-white mono">${d3} mm</span>
                     </div>
+                `;
+            }
+
+            out.innerHTML = `
+                <div class="data-cell md:col-span-2 lg:col-span-4 bg-[#111]">
+                    <div class="text-[11px] text-[#00fa9a] font-bold tracking-[0.2em] uppercase mb-4">Gevind Opslag</div>
+                    <h2 class="text-6xl font-black text-white tracking-tighter uppercase mono">${th.id}</h2>
+                </div>
+                <div class="data-cell">
+                    <span class="lbl text-[#00fa9a]">Skæretap Bor</span>
+                    <span class="text-5xl font-black text-white mono">${th.dCut}</span>
+                </div>
+                <div class="data-cell">
+                    <span class="lbl text-[#00e5ff]">Rulletap Bor</span>
+                    <span class="text-5xl font-black ${th.dRoll === '-' ? 'text-[#333]' : 'text-white'} mono">${th.dRoll}</span>
+                </div>
+                <div class="data-cell">
+                    <span class="lbl">Stigning</span>
+                    <span class="text-4xl font-black text-[#ccc] mono">${th.pitch}</span>
+                </div>
+                <div class="data-cell">
+                    <span class="lbl">Udv. Ø</span>
+                    <span class="text-4xl font-black text-[#ccc] mono">${th.ext} mm</span>
+                </div>
+                ${extraHtml}
+                <div class="data-cell ${extraHtml ? 'md:col-span-2 lg:col-span-2' : 'md:col-span-2 lg:col-span-4'}">
+                    <span class="lbl">Frigang (DIN 76)</span>
+                    <span class="text-4xl font-black text-[#ccc] mono">${th.din76}</span>
                 </div>
             `;
-            appendLog(cmdStr, html);
         }
 
-        function handleIso(args, cmdStr) {
-            if(args.length < 4) {
-                return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Fejl: Syntaks er 'iso [Ø] [hul] [aksel]'. Eks: 'iso 10 h7 g6'</div>`);
+        // ==========================================
+        // ISO LOGIC
+        // ==========================================
+        function calculateIso() {
+            const nomStr = document.getElementById('iso-nom').value;
+            const holeStr = document.getElementById('iso-hole').value.trim().toLowerCase();
+            const shaftStr = document.getElementById('iso-shaft').value.trim().toLowerCase();
+            const out = document.getElementById('iso-output');
+
+            if(!nomStr || isNaN(nomStr) || nomStr <= 0 || nomStr > 120) {
+                out.innerHTML = ""; return;
             }
-            const nom = parseFloat(args[1]);
-            const holeStr = args[2].toLowerCase();
-            const shaftStr = args[3].toLowerCase();
 
-            if(isNaN(nom) || nom <= 0 || nom > 120) return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Ugyldig diameter (1-120).</div>`);
-
+            const nom = parseFloat(nomStr);
             let idx = nom <= 3 ? 0 : nom <= 6 ? 1 : nom <= 10 ? 2 : nom <= 18 ? 3 : nom <= 30 ? 4 : nom <= 50 ? 5 : nom <= 80 ? 6 : 7;
             let h_ES = null, h_EI = null, s_es = null, s_ei = null;
 
-            const letterH = holeStr.charAt(0); const gradeH = parseInt(holeStr.slice(1));
-            if(IT[gradeH] && fdShaft[letterH]) {
-                const it_val = IT[gradeH][idx], fd = fdShaft[letterH].v[idx];
-                if(fdShaft[letterH].t === 'es') { h_EI = -fd; h_ES = h_EI + it_val; } else { h_ES = -fd; h_EI = h_ES - it_val; }
+            if(holeStr.length >= 2) {
+                const letterH = holeStr.charAt(0); const gradeH = parseInt(holeStr.slice(1));
+                if(IT[gradeH] && fdShaft[letterH]) {
+                    const it_val = IT[gradeH][idx], fd = fdShaft[letterH].v[idx];
+                    if(fdShaft[letterH].t === 'es') { h_EI = -fd; h_ES = h_EI + it_val; } else { h_ES = -fd; h_EI = h_ES - it_val; }
+                }
             }
 
-            const letterS = shaftStr.charAt(0); const gradeS = parseInt(shaftStr.slice(1));
-            if(IT[gradeS] && fdShaft[letterS]) {
-                const it_val = IT[gradeS][idx], fd = fdShaft[letterS].v[idx];
-                if(fdShaft[letterS].t === 'es') { s_es = fd; s_ei = s_es - it_val; } else { s_ei = fd; s_es = s_ei + it_val; }
+            if(shaftStr.length >= 2) {
+                const letterS = shaftStr.charAt(0); const gradeS = parseInt(shaftStr.slice(1));
+                if(IT[gradeS] && fdShaft[letterS]) {
+                    const it_val = IT[gradeS][idx], fd = fdShaft[letterS].v[idx];
+                    if(fdShaft[letterS].t === 'es') { s_es = fd; s_ei = s_es - it_val; } else { s_ei = fd; s_es = s_ei + it_val; }
+                }
             }
 
-            if(h_ES === null || s_es === null) return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Ugyldig tolerance givet.</div>`);
+            if(h_ES === null && s_es === null) { out.innerHTML = ""; return; }
 
-            const maxClearance = h_ES - s_ei, minClearance = h_EI - s_es;
-            let fitType = "Overgang", color = "text-white";
-            if(minClearance > 0) { fitType = "Glidepasning"; color = "text-white"; }
-            else if(maxClearance < 0) { fitType = "Prespasning"; color = "text-[#888]"; }
+            let html = ``;
 
             function tCard(type, name, upper, lower) {
+                if(upper === null) return ``;
                 const uStr = upper > 0 ? `+${upper}` : upper, lStr = lower > 0 ? `+${lower}` : lower;
                 return `
-                    <div class="border-b border-[#222] pb-3 mb-3">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-[10px] text-[#666] uppercase tracking-widest font-bold">${type} (${name.toUpperCase()})</span>
-                            <span class="text-base font-bold text-white">Ø${nom}</span>
-                        </div>
-                        <div class="flex justify-between text-[11px] font-mono">
-                            <span class="text-[#555]">Tol:</span>
-                            <span class="text-white text-right">${uStr} / ${lStr} µm</span>
+                    <div class="data-cell">
+                        <span class="lbl">${type} (${name.toUpperCase()})</span>
+                        <div class="text-6xl font-black text-white mono mb-6">Ø${nom}</div>
+                        <div class="flex justify-between items-center pt-4 border-t border-[#222]">
+                            <span class="lbl mb-0">Tol (µm)</span>
+                            <span class="text-xl font-bold text-[#00fa9a] mono">${uStr} / ${lStr}</span>
                         </div>
                     </div>`;
             }
 
-            const html = `
-                <div class="term-panel border-[#333] w-full max-w-md mt-2 p-0">
-                    <div class="term-header">
-                        <span class="text-white font-bold uppercase tracking-widest">ISO 286</span>
-                        <span class="text-[#888] font-mono text-[10px]">[${nom} ${holeStr.toUpperCase()} ${shaftStr.toLowerCase()}]</span>
-                    </div>
-                    <div class="p-6">
-                        ${tCard('Hul', holeStr, h_ES, h_EI)}
-                        ${tCard('Aksel', shaftStr, s_es, s_ei)}
-                        
-                        <div class="mt-4 pt-2">
-                            <div class="text-lg font-bold tracking-tight text-white uppercase mb-2">${fitType}</div>
-                            <div class="flex justify-between text-[11px] text-[#888] font-mono">
-                                <span>Max Spil: <strong class="text-white">${maxClearance>0?'+':''}${maxClearance} µm</strong></span>
-                                <span>Min Spil: <strong class="text-white">${minClearance>0?'+':''}${minClearance} µm</strong></span>
-                            </div>
+            html += tCard('Hul', holeStr, h_ES, h_EI);
+            html += tCard('Aksel', shaftStr, s_es, s_ei);
+
+            if(h_ES !== null && s_es !== null) {
+                const maxClearance = h_ES - s_ei, minClearance = h_EI - s_es;
+                let fitType = "Overgang", color = "text-white";
+                if(minClearance > 0) { fitType = "Glidepasning"; color = "text-[#00e5ff]"; }
+                else if(maxClearance < 0) { fitType = "Prespasning"; color = "text-[#f59e0b]"; }
+
+                html += `
+                    <div class="data-cell bg-[#111] md:col-span-3">
+                        <div class="text-4xl font-black tracking-tighter ${color} uppercase mb-8 mono">${fitType}</div>
+                        <div class="flex gap-12">
+                            <div><span class="lbl">Max Spil</span><span class="text-3xl font-bold text-white mono">${maxClearance>0?'+':''}${maxClearance} µm</span></div>
+                            <div><span class="lbl">Min Spil</span><span class="text-3xl font-bold text-white mono">${minClearance>0?'+':''}${minClearance} µm</span></div>
                         </div>
-                    </div>
-                </div>
-            `;
-            appendLog(cmdStr, html);
+                    </div>`;
+            }
+
+            out.innerHTML = html;
         }
 
-        function handleFind(args, cmdStr) {
-            if(args.length < 2) return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Mangler søgeord.</div>`);
-            const q = args[1].toLowerCase();
+        // ==========================================
+        // MATH CALCULATORS LOGIC
+        // ==========================================
+        function calcMath() {
+            const vc = parseFloat(document.getElementById('c-rpm-vc').value) || 0;
+            const d1 = parseFloat(document.getElementById('c-rpm-d').value) || 1;
+            document.getElementById('c-rpm-out').innerText = `${Math.round((vc * 1000) / (Math.PI * d1))}`;
+
+            const f = parseFloat(document.getElementById('c-ra-f').value) || 0;
+            const r = parseFloat(document.getElementById('c-ra-r').value) || 1;
+            document.getElementById('c-ra-out').innerText = `${((Math.pow(f, 2) * 1000) / (8 * r)).toFixed(2)}`;
+
+            const l = parseFloat(document.getElementById('c-tid-l').value) || 0;
+            const vf1 = parseFloat(document.getElementById('c-tid-vf').value) || 1;
+            const totalMins = l / vf1;
+            document.getElementById('c-tid-out').innerText = `${Math.floor(totalMins)}m ${Math.round((totalMins - Math.floor(totalMins)) * 60)}s`;
+
+            const p = parseFloat(document.getElementById('c-tap-p').value) || 0;
+            const s = parseFloat(document.getElementById('c-tap-s').value) || 0;
+            document.getElementById('c-tap-out').innerText = `${(p * s).toFixed(1)}`;
+
+            const db = parseFloat(document.getElementById('c-bor-d').value) || 0;
+            const vb = parseFloat(document.getElementById('c-bor-v').value) || 118;
+            document.getElementById('c-bor-out').innerText = `${((db / 2) / Math.tan((vb / 2) * (Math.PI / 180))).toFixed(2)}`;
+
+            const dcX = parseFloat(document.getElementById('c-boltx-d').value) || 0;
+            const ncX = parseInt(document.getElementById('c-boltx-n').value) || 1;
+            const vStart = parseFloat(document.getElementById('c-boltx-v').value) || 0;
+            document.getElementById('c-bolt-out').innerText = `${(360 / ncX).toFixed(2)}°`;
             
-            let filtered = staticDB.filter(item => 
-                item.id.includes(q) || item.title.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q)
-            );
+            const outXy = document.getElementById('c-boltx-out');
+            let coordsHtml = "";
+            const radStart = vStart * (Math.PI / 180);
+            const vIncr = (360 / ncX) * (Math.PI / 180);
+            const radC = dcX / 2;
+            for(let i=0; i<ncX; i++) {
+                let currentRad = radStart + (i * vIncr);
+                let x = (radC * Math.cos(currentRad)).toFixed(3);
+                let y = (radC * Math.sin(currentRad)).toFixed(3);
+                if(x === "-0.000") x = "0.000"; if(y === "-0.000") y = "0.000";
+                coordsHtml += `<div class="p-3 border-b border-r border-[#222]"><span class="text-[#666]">#${i+1}</span> <span class="text-[#00fa9a] ml-2">X</span>${x} <span class="text-[#00e5ff] ml-2">Y</span>${y}</div>`;
+            }
+            outXy.innerHTML = coordsHtml;
 
-            if(filtered.length === 0) return appendLog(cmdStr, `<div class="term-panel border-[#333] text-[#888] text-xs font-bold uppercase tracking-widest py-4">Intet fundet.</div>`);
+            const kD = parseFloat(document.getElementById('c-kon-D').value) || 0;
+            const kd = parseFloat(document.getElementById('c-kon-d').value) || 0;
+            const kl = parseFloat(document.getElementById('c-kon-l').value) || 1;
+            const kRad = Math.atan((kD - kd) / (2 * kl));
+            const kDegH = kRad * (180 / Math.PI);
+            document.getElementById('c-kon-out1').innerText = `${kDegH.toFixed(2)}°`;
+            document.getElementById('c-kon-out2').innerText = `${(kDegH * 2).toFixed(2)}°`;
 
-            let html = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">`;
+            const sv = parseFloat(document.getElementById('c-sin-v').value) || 0;
+            const sl = parseFloat(document.getElementById('c-sin-l').value) || 0;
+            const sH = (Math.sin(sv * (Math.PI / 180)) * sl).toFixed(3);
+            document.getElementById('c-sin-out1').innerText = sH;
+            
+            let ts = Math.round(sH * 1000) / 1000;
+            let blocks = [];
+            if (ts > 0 && ts >= 0.5) {
+                let th = Math.round(ts * 1000) % 10;
+                if (th > 0) { let b = 1.0 + (th / 1000); if (ts >= b) { blocks.push(b); ts = Math.round((ts - b) * 1000) / 1000; } }
+                let h = Math.round(ts * 100) % 100;
+                if (h > 0) { let b = 1.0; if (h >= 50 && ts >= (1.0 + (h-50)/100)) b += (h - 50) / 100; else if (ts >= 1.0 + h/100) b += h / 100; if (b > 1.0 && ts >= b) { blocks.push(b); ts = Math.round((ts - b) * 1000) / 1000; } }
+                let tens = Math.floor(ts / 10) * 10;
+                while (tens >= 100) { blocks.push(100); ts = Math.round((ts - 100) * 1000) / 1000; tens -= 100; }
+                if (tens > 0 && ts >= tens) { blocks.push(tens); ts = Math.round((ts - tens) * 1000) / 1000; }
+                if (ts > 0) blocks.push(ts);
+            }
+            document.getElementById('c-sin-out2').innerText = blocks.length > 0 ? blocks.sort((a,b) => b - a).map(n => n.toFixed(3)).join(" + ") : "< 0.5mm";
+
+            const ta = parseFloat(document.getElementById('c-tre-a').value) || 0;
+            const tb = parseFloat(document.getElementById('c-tre-b').value) || 0;
+            const tc = Math.sqrt((ta * ta) + (tb * tb));
+            document.getElementById('c-tre-out1').innerText = tc.toFixed(3);
+            if(tc > 0) {
+                document.getElementById('c-tre-out2').innerText = `A:${(Math.asin(ta / tc) * (180 / Math.PI)).toFixed(2)}° B:${(Math.asin(tb / tc) * (180 / Math.PI)).toFixed(2)}°`;
+            }
+
+            const kd_kor = parseFloat(document.getElementById('c-kor-d').value) || 0;
+            const kh_kor = parseFloat(document.getElementById('c-kor-h').value) || 0;
+            if (kd_kor > 0 && kh_kor >= 0 && kh_kor <= kd_kor) {
+                const korde = 2 * Math.sqrt(kh_kor * (kd_kor - kh_kor));
+                const vinkelK = 2 * Math.acos(1 - (kh_kor / (kd_kor/2))) * (180 / Math.PI);
+                document.getElementById('c-kor-out1').innerText = `${korde.toFixed(3)}`;
+                document.getElementById('c-kor-out2').innerText = `${vinkelK.toFixed(2)}°`;
+            } else {
+                document.getElementById('c-kor-out1').innerText = `0.000`;
+                document.getElementById('c-kor-out2').innerText = `0.00°`;
+            }
+        }
+
+        // ==========================================
+        // OPSLAG LOGIC
+        // ==========================================
+        function renderOpslag(q) {
+            const out = document.getElementById('op-matrix');
+            out.innerHTML = "";
+            let filtered = staticDB;
+            if(q) {
+                const query = q.toLowerCase();
+                filtered = staticDB.filter(i => i.id.includes(query) || i.title.toLowerCase().includes(query) || i.cat.toLowerCase().includes(query));
+            }
+            
+            if(filtered.length === 0) {
+                out.innerHTML = `<div class="col-span-full data-cell text-[#666] font-bold uppercase tracking-widest text-center">Intet fundet.</div>`;
+                return;
+            }
+
             filtered.forEach(item => {
-                const dataLines = item.data.map(line => `<div class="text-xs text-[#a1a1aa] py-1">${line}</div>`).join('');
-                html += `
-                    <div class="term-panel border-[#333] p-0">
-                        <div class="term-header">
-                            <span class="text-white font-bold uppercase tracking-widest">${item.title}</span>
-                            <span class="text-[#888] font-mono text-[10px]">[${item.cat}]</span>
+                const dataLines = item.data.map(line => `<div class="text-base font-bold text-white py-3 border-b border-[#222] last:border-0">${line}</div>`).join('');
+                out.innerHTML += `
+                    <div class="data-cell flex flex-col hover:bg-[#111] transition-colors p-0">
+                        <div class="border-b border-[#222] p-6 flex justify-between items-center gap-2">
+                            <span class="text-white font-black uppercase tracking-widest text-lg">${item.title}</span>
+                            <span class="text-[#888] font-mono font-bold text-[10px] border border-[#333] px-2 py-1 bg-[#000]">${item.cat}</span>
                         </div>
-                        <div class="p-5">
-                            <div class="mb-4">${dataLines}</div>
-                            <div class="text-[10px] text-[#555] uppercase tracking-widest pt-3 border-t border-[#111] leading-relaxed">${item.note}</div>
+                        <div class="p-8 flex-grow">
+                            <div class="mb-2">${dataLines}</div>
+                        </div>
+                        <div class="p-6 text-xs font-bold text-[#666] uppercase tracking-widest border-t border-[#222] bg-[#000] mt-auto">
+                            ${item.note}
                         </div>
                     </div>`;
             });
-            html += `</div>`;
-            appendLog(cmdStr, html);
-        }
-
-        function handleCalc(args, cmdStr) {
-            const q = cmdStr.toLowerCase();
-            let matchFound = false;
-            let html = "";
-
-            const rpmMatch = q.match(/(?:vc|v)\s*(\d+\.?\d*)\s*(?:d|ø)\s*(\d+\.?\d*)/);
-            if (rpmMatch) {
-                const vc = parseFloat(rpmMatch[1]), d = parseFloat(rpmMatch[2]);
-                let rpm = Math.round((vc * 1000) / (Math.PI * d));
-                html = `<div class="term-panel border-[#333] w-full max-w-sm"><div class="text-[10px] text-[#888] font-bold uppercase tracking-widest mb-4">Spindel RPM</div><div class="text-4xl font-black text-white tracking-tighter mb-4">${rpm}</div><div class="text-[10px] text-[#555] uppercase font-bold tracking-widest border-t border-[#111] pt-3">Vc: ${vc} | Ø: ${d}</div></div>`;
-                matchFound = true;
-            }
-
-            const raMatch = q.match(/(?:fz|f)\s*(\d+\.?\d*)\s*(?:re|r)\s*(\d+\.?\d*)/);
-            if (raMatch) {
-                const f = parseFloat(raMatch[1]), r = parseFloat(raMatch[2]);
-                const ra = ((Math.pow(f, 2) * 1000) / (8 * r)).toFixed(2);
-                html = `<div class="term-panel border-[#333] w-full max-w-sm"><div class="text-[10px] text-[#888] font-bold uppercase tracking-widest mb-4">Estimeret Ra</div><div class="text-4xl font-black text-white tracking-tighter mb-4">${ra} <span class="text-lg text-[#888]">µm</span></div><div class="text-[10px] text-[#555] uppercase font-bold tracking-widest border-t border-[#111] pt-3">F: ${f} | R: ${r}</div></div>`;
-                matchFound = true;
-            }
-
-            const timeMatch = q.match(/(?:tid|t)\s*(?:l)\s*(\d+\.?\d*)\s*(?:f|vf)\s*(\d+\.?\d*)/);
-            if(timeMatch) {
-                const l = parseFloat(timeMatch[1]), vf = parseFloat(timeMatch[2]);
-                const totalMins = l / vf;
-                const mins = Math.floor(totalMins); const secs = Math.round((totalMins - mins) * 60);
-                html = `<div class="term-panel border-[#333] w-full max-w-sm"><div class="text-[10px] text-[#888] font-bold uppercase tracking-widest mb-4">Skæretid</div><div class="text-4xl font-black text-white tracking-tighter mb-4">${mins}<span class="text-lg text-[#888]">m</span> ${secs}<span class="text-lg text-[#888]">s</span></div><div class="text-[10px] text-[#555] uppercase font-bold tracking-widest border-t border-[#111] pt-3">L: ${l} | Vf: ${vf}</div></div>`;
-                matchFound = true;
-            }
-
-            const tapMatch = q.match(/(?:p|stigning)\s*(\d+\.?\d*)\s*(?:s|rpm|n)\s*(\d+\.?\d*)/);
-            if(tapMatch) {
-                const p = parseFloat(tapMatch[1]), s = parseFloat(tapMatch[2]);
-                const vf = (p * s).toFixed(1);
-                html = `<div class="term-panel border-[#333] w-full max-w-sm"><div class="text-[10px] text-[#888] font-bold uppercase tracking-widest mb-4">Gevindtilspænding</div><div class="text-4xl font-black text-white tracking-tighter mb-4">F=${vf}</div><div class="text-[10px] text-[#555] uppercase font-bold tracking-widest border-t border-[#111] pt-3">P: ${p} | S: ${s}</div></div>`;
-                matchFound = true;
-            }
-            
-            const tipMatch = q.match(/(?:bor|spids)\s*(?:d|ø)\s*(\d+\.?\d*)\s*(?:v|a)\s*(\d+\.?\d*)/);
-            if(tipMatch) {
-                const d = parseFloat(tipMatch[1]), v = parseFloat(tipMatch[2]);
-                const rad = (v / 2) * (Math.PI / 180);
-                const depth = ((d / 2) / Math.tan(rad)).toFixed(2);
-                html = `<div class="term-panel border-[#333] w-full max-w-sm"><div class="text-[10px] text-[#888] font-bold uppercase tracking-widest mb-4">Borespids Komp.</div><div class="text-4xl font-black text-white tracking-tighter mb-4">Z=${depth}</div><div class="text-[10px] text-[#555] uppercase font-bold tracking-widest border-t border-[#111] pt-3">Ø: ${d} | V: ${v}°</div></div>`;
-                matchFound = true;
-            }
-
-            const sinusMatch = q.match(/(?:sin|sinus)\s*(?:v|a)\s*(\d+\.?\d*)\s*(?:l)\s*(\d+\.?\d*)/);
-            if(sinusMatch) {
-                const v = parseFloat(sinusMatch[1]), l = parseFloat(sinusMatch[2]);
-                const rad = v * (Math.PI / 180);
-                const height = (Math.sin(rad) * l).toFixed(3);
-                html = `<div class="term-panel border-[#333] w-full max-w-sm"><div class="text-[10px] text-[#888] font-bold uppercase tracking-widest mb-4">Sinuslineal Højde</div><div class="text-4xl font-black text-white tracking-tighter mb-4">${height} <span class="text-lg text-[#888]">mm</span></div><div class="text-[10px] text-[#555] uppercase font-bold tracking-widest border-t border-[#111] pt-3">V: ${v}° | L: ${l}</div></div>`;
-                matchFound = true;
-            }
-
-            if(matchFound) appendLog(cmdStr, html);
-            return matchFound;
         }
 
         // ==========================================
         // INIT & EVENT BINDING
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
-            updateEnvDisplay();
+            const matSelect = document.getElementById('sd-mat');
+            matSelect.innerHTML = "";
+            Object.keys(cutDB).forEach(k => {
+                const opt = document.createElement('option');
+                opt.value = k; opt.text = cutDB[k].name;
+                matSelect.add(opt);
+            });
+            matSelect.selectedIndex = 0; 
 
-            const cmdInput = document.getElementById('cmd-input');
-
-            cmdInput.addEventListener('keydown', (e) => {
-                if(e.key === 'Enter') {
-                    parseCommand(cmdInput.value);
-                } else if (e.key === 'ArrowUp') {
-                    e.preventDefault();
-                    if (historyIdx > 0) { historyIdx--; cmdInput.value = history[historyIdx]; }
-                } else if (e.key === 'ArrowDown') {
-                    e.preventDefault();
-                    if (historyIdx < history.length - 1) { historyIdx++; cmdInput.value = history[historyIdx]; }
-                    else { historyIdx = history.length; cmdInput.value = ''; }
-                }
+            document.querySelectorAll('input, select').forEach(el => {
+                el.addEventListener('input', () => { updateSdView(); calculateGevind(); calculateIso(); calcMath(); });
+                el.addEventListener('change', () => { updateSdView(); calculateGevind(); calculateIso(); calcMath(); });
             });
 
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') { 
-                    cmdInput.value = ''; 
-                    document.getElementById('gui-overlay').classList.add('hidden');
-                    cmdInput.focus(); 
-                }
-            });
+            const opSearch = document.getElementById('op-search');
+            if(opSearch) opSearch.addEventListener('input', (e) => renderOpslag(e.target.value));
+
+            setSDState('plat', 'CNC');
+            calcMath();
+            switchTab('SKAEREDATA');
         });
     </script>
 </body>
