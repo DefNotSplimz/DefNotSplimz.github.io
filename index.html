@@ -273,42 +273,58 @@
             </div>
         </section>
 
-        <!-- OPERATIONEL STATUS (QUEUE) -->
-        <section>
+<!-- OPERATIONEL STATUS (QUEUE) -->
+        <section class="relative">
             <div class="font-mono text-[10px] text-[#52525b] font-bold tracking-widest uppercase mb-8 border-b border-[#1f1f1f] pb-4">05 // Operationel Status (Queue)</div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- OVERLAY: 3. HOVEDFORLØB -->
+            <div class="absolute inset-0 top-[50px] z-10 flex items-center justify-center backdrop-blur-sm bg-[#050505]/70">
+                <div class="bg-[#0a0a0a] border border-[#f59e0b] p-8 shadow-2xl max-w-md text-center">
+                    <div class="flex items-center justify-center gap-3 mb-4">
+                        <div class="w-2 h-2 bg-[#f59e0b] animate-pulse"></div>
+                        <span class="font-mono text-[#f59e0b] font-bold text-[10px] uppercase tracking-widest">System Pause // Uddannelse</span>
+                    </div>
+                    <h3 class="text-white text-xl font-black uppercase tracking-tight mb-3">3. Hovedforløb Aktivt</h3>
+                    <p class="text-[#a1a1aa] text-xs font-mono leading-relaxed">
+                        Operationel kapacitet er suspenderet i de kommende 8 uger grundet skoleophold.<br>
+                        Alle forudgående protokoller er eksekveret til 100%.
+                    </p>
+                </div>
+            </div>
+
+            <!-- GRID MED FÆRDIGE PROJEKTER (Sløret/baggrund) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 opacity-30 grayscale pointer-events-none select-none">
                 <!-- Queue 1 -->
-                <div class="panel p-6 border-t-2 border-t-[#00e5ff]">
+                <div class="panel p-6 border-t-2 border-t-[#10b981]">
                     <div class="flex justify-between font-mono text-[10px] uppercase mb-4">
-                        <span class="text-[#00e5ff]">Digital Fase</span>
-                        <span class="text-white">PROG: 5%</span>
+                        <span class="text-[#10b981]">Afsluttet</span>
+                        <span class="text-white">PROG: 100%</span>
                     </div>
                     <h3 class="font-bold text-white text-sm uppercase mb-2">ER16 Spændetænger</h3>
-                    <p class="text-[11px] text-[#a1a1aa] mb-4 h-16">Fremstilling til vindejern. Afventer elevens færdige CAD-design forud for CAM-programmering.</p>
-                    <div class="w-full bg-[#121212] h-1"><div class="bg-[#00e5ff] h-full w-[5%]"></div></div>
+                    <p class="text-[11px] text-[#a1a1aa] mb-4 h-16">Fremstilling til vindejern. CAD/CAM-programmering eksekveret og komponenter produceret i tolerance.</p>
+                    <div class="w-full bg-[#121212] h-1"><div class="bg-[#10b981] h-full w-[100%]"></div></div>
                 </div>
 
                 <!-- Queue 2 -->
-                <div class="panel p-6 border-t-2 border-t-[#333]">
+                <div class="panel p-6 border-t-2 border-t-[#10b981]">
                     <div class="flex justify-between font-mono text-[10px] uppercase mb-4">
-                        <span class="text-[#52525b]">Standby // Mat.</span>
-                        <span class="text-[#a1a1aa]">PROG: 0%</span>
+                        <span class="text-[#10b981]">Afsluttet</span>
+                        <span class="text-white">PROG: 100%</span>
                     </div>
                     <h3 class="font-bold text-white text-sm uppercase mb-2">Våben-Gravering</h3>
-                    <p class="text-[11px] text-[#a1a1aa] mb-4 h-16">Specialgravering af dækplade. Pauseret indtil fysisk plade overdrages og opmåles.</p>
-                    <div class="w-full bg-[#121212] h-1"></div>
+                    <p class="text-[11px] text-[#a1a1aa] mb-4 h-16">Specialgravering af dækplade. Opmåling, opspænding og maskinering afsluttet uden anmærkninger.</p>
+                    <div class="w-full bg-[#121212] h-1"><div class="bg-[#10b981] h-full w-[100%]"></div></div>
                 </div>
 
                 <!-- Queue 3 -->
-                <div class="panel p-6 border-t-2 border-t-[#333]">
+                <div class="panel p-6 border-t-2 border-t-[#10b981]">
                     <div class="flex justify-between font-mono text-[10px] uppercase mb-4">
-                        <span class="text-[#52525b]">Standby // Tid</span>
-                        <span class="text-[#a1a1aa]">PROG: 25%</span>
+                        <span class="text-[#10b981]">Afsluttet</span>
+                        <span class="text-white">PROG: 100%</span>
                     </div>
                     <h3 class="font-bold text-white text-sm uppercase mb-2">Specialkæber Diesella</h3>
-                    <p class="text-[11px] text-[#a1a1aa] mb-4 h-16">CAD afsluttet. Produktion er nedprioriteret til fordel for akutte opgaver.</p>
-                    <div class="w-full bg-[#121212] h-1"><div class="bg-[#333] h-full w-[25%]"></div></div>
+                    <p class="text-[11px] text-[#a1a1aa] mb-4 h-16">Produktion af specialkæber. Projektet er færdigbearbejdet og overdraget til QC.</p>
+                    <div class="w-full bg-[#121212] h-1"><div class="bg-[#10b981] h-full w-[100%]"></div></div>
                 </div>
             </div>
         </section>
