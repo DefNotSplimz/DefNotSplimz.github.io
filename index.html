@@ -442,17 +442,22 @@
                 </div>
                 <div class="reveal rounded-[2rem] bg-paper border border-black/10 p-7 md:p-9 shadow-soft">
                     <div class="tag text-black/40">Kontakt</div>
-                    <a href="mailto:defnotglen@gmail.com"
-                       class="mt-5 block text-2xl md:text-3xl font-semibold hover:text-orange transition">defnotglen@gmail.com</a>
-                    <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" rel="noreferrer"
-                       class="mt-5 inline-block text-black/50 hover:text-black transition">LinkedIn ↗</a>
+                    <div class="mt-5 text-2xl md:text-3xl font-semibold">defnotglen@gmail.com</div>
                     <div class="mt-8 orange-line"></div>
                     <p class="mt-6 text-sm leading-relaxed text-black/55">Næste skridt kan være så simpelt som en fil,
                         et billede eller en besked på tre linjer.</p>
-                    <a href="mailto:defnotglen@gmail.com"
-                       class="btn mt-7 inline-flex w-full items-center justify-between rounded-2xl bg-ink px-5 py-4 font-semibold text-paper">Send
-                        opgaven <span class="text-orange">→</span>
-                    </a>
+                    
+                    <!-- De to knapper til henholdsvis Mail og LinkedIn -->
+                    <div class="mt-7 flex flex-col sm:flex-row gap-3">
+                        <a href="mailto:defnotglen@gmail.com"
+                           class="btn flex-1 inline-flex items-center justify-between rounded-2xl bg-ink px-5 py-4 font-semibold text-paper">
+                           Send mail <span class="text-orange">→</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" rel="noreferrer"
+                           class="btn flex-1 inline-flex items-center justify-between rounded-2xl border border-black/20 bg-white px-5 py-4 font-semibold text-ink hover:bg-black/5">
+                           LinkedIn <span>↗</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
