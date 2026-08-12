@@ -1,489 +1,249 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datum Prototyping</title>
+    <title>Datum Prototyping | Finmekanik & CNC Bearbejdning</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        industrial: {
+                            900: '#0a0a0a',
+                            800: '#171717',
+                            400: '#a3a3a3',
+                            100: '#f5f5f5',
+                            accent: '#ea580c' // Subtil orange til call-to-actions
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --bg-base: #0d0d0f;
-            --bg-surface: #141417;
-            --border-main: #27272a;
-            --border-hover: #3f3f46;
-            --grid-line: #18181b;
-            --text-high: #f4f4f5;
-            --text-mid: #a1a1aa;
-            --text-low: #52525b;
-            --accent: #ea580c; 
-        }
-
-        * {
-            box-sizing: border-box;
-            scrollbar-width: none; 
-        }
-        *::-webkit-scrollbar { display: none; } 
-
         body {
-            background-color: var(--bg-base);
-            color: var(--text-high);
-            font-family: 'Inter', sans-serif;
-            overflow: hidden; 
-            -webkit-font-smoothing: antialiased;
+            background-color: #0a0a0a;
+            color: #f5f5f5;
         }
-
-        .font-display { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-
-        .blueprint-grid {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: 
-                linear-gradient(var(--grid-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: -2;
+        /* Subtil billede-hover */
+        .project-card img {
+            transition: transform 0.5s ease;
         }
-
-        .ui-panel { background: var(--bg-base); border-bottom: 1px solid var(--border-main); }
-        .ui-panel-bottom { background: var(--bg-base); border-top: 1px solid var(--border-main); }
-
-        .progress-track { position: absolute; top: -1px; left: 0; height: 1px; width: 100%; background: transparent; }
-        .progress-fill { height: 2px; width: 0%; background: var(--accent); transition: width 0.1s; }
-
-        #machine-table {
-            display: flex; height: 100vh; width: fit-content;
-            will-change: transform; 
+        .project-card:hover img {
+            transform: scale(1.03);
         }
-
-        .datum-block {
-            width: 100vw; height: 100vh; flex-shrink: 0;
-            display: flex; flex-direction: column; justify-content: center;
-            padding: 0 10vw; position: relative;
-        }
-
-        .tech-card {
-            background: var(--bg-surface); 
-            border: 1px solid var(--border-main);
-            padding: 2.5rem; 
-            position: relative; 
-            transition: border-color 0.2s ease;
-        }
-        .tech-card:hover { border-color: var(--border-hover); }
-
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { 
-            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; 
-            text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-low); 
-            padding: 1rem 0; border-bottom: 1px solid var(--border-main); text-align: left; 
-        }
-        .data-table td { 
-            padding: 1rem 0; font-size: 0.875rem; color: var(--text-mid); 
-            border-bottom: 1px solid var(--border-main); 
-        }
-        .data-table tr:last-child td { border-bottom: none; }
-
-        .btn-primary {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: var(--text-high); color: var(--bg-base);
-            font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 500;
-            padding: 0.875rem 2rem; border-radius: 4px; transition: background 0.2s ease;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .btn-primary:hover { background: #d4d4d8; }
-
-        .btn-secondary {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: var(--bg-surface); color: var(--text-high);
-            font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 500;
-            padding: 0.875rem 2rem; border-radius: 4px; border: 1px solid var(--border-main);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .btn-secondary:hover { border-color: var(--text-mid); background: var(--bg-base); }
-
-        .mat-tag {
-            display: inline-block; border: 1px solid var(--border-main); 
-            font-size: 0.75rem; padding: 0.4rem 0.8rem; color: var(--text-mid);
-            background: var(--bg-surface); margin: 0.25rem 0.25rem 0.25rem 0;
-            border-radius: 2px;
-        }
-
-        .section-divider {
-            position: absolute; right: 0; top: 20vh; bottom: 20vh; width: 1px;
-            background: var(--border-main);
-        }
-
-        /* Gallery specific styles */
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .gallery-btn {
-            background: var(--bg-base);
-            border: 1px solid var(--border-main);
-            color: var(--text-high);
-            width: 32px; height: 32px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .gallery-btn:hover { background: var(--border-hover); }
     </style>
 </head>
-<body>
+<body class="antialiased selection:bg-industrial-accent selection:text-white">
 
-    <div class="blueprint-grid"></div>
-
-    <header class="fixed top-0 w-full h-16 ui-panel z-50 flex justify-between items-center px-8">
-        <div class="flex items-center gap-3">
-            <div class="w-3 h-3 bg-white"></div>
-            <span class="font-display font-semibold text-sm tracking-wide text-white">Datum Prototyping</span>
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 bg-industrial-900/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="font-semibold tracking-tight text-lg flex items-center gap-2 uppercase">
+                <div class="w-2 h-2 bg-industrial-accent rounded-full"></div>
+                Datum Prototyping
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-industrial-400">
+                <a href="#ydelser" class="hover:text-white transition-colors">Ydelser</a>
+                <a href="#portfolio" class="hover:text-white transition-colors">Portefølje</a>
+                <a href="#kontakt" class="hover:text-white transition-colors">Kontakt</a>
+            </div>
+            <div>
+                <a href="dossier.html" class="text-sm font-medium border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all">
+                    Se CV (Dossier)
+                </a>
+            </div>
         </div>
-        <div class="hidden md:flex gap-8 items-center font-mono text-xs text-[var(--text-mid)]">
-            <span>Finmekaniker-Lærling</span>
-            <span class="text-white border-b border-[var(--border-main)] pb-0.5">Svendebrev: April 2027</span>
-            <a href="dossier.html" class="btn-secondary !py-1.5 !px-3 !text-[11px]">Dossier</a>
-        </div>
-    </header>
+    </nav>
 
-    <footer class="fixed bottom-0 w-full h-12 ui-panel-bottom z-50 flex justify-between items-center px-8">
-        <div class="progress-track"><div class="progress-fill" id="progress-bar"></div></div>
-        <div class="font-mono text-xs text-[var(--text-low)] flex gap-8">
-            <span id="scroll-tracker">Pos: 0.00</span>
-        </div>
-        <div class="font-mono text-xs text-[var(--text-low)]">
-            Scroll for at rykke frem &rarr;
-        </div>
-    </footer>
-
-    <main id="machine-table">
-
-        <!-- BLOCK 01: HERO -->
-        <section class="datum-block">
-            <div class="max-w-4xl">
-                <div class="font-mono text-xs text-[var(--text-low)] uppercase tracking-widest mb-6">01 // Start</div>
-                <h1 class="font-display text-5xl md:text-7xl font-bold text-white leading-[1.05] mb-8">
+    <main>
+        <!-- HERO -->
+        <section class="pt-40 pb-20 md:pt-52 md:pb-32 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.05]">
                     Teori er gratis.<br>
-                    <span class="text-[var(--text-mid)]">Maskintid koster.</span>
+                    <span class="text-industrial-400">Maskintid koster.</span>
                 </h1>
-                <p class="font-normal text-lg text-[var(--text-mid)] leading-relaxed max-w-2xl">
-                    Jeg uddanner mig til finmekaniker. Min hverdag er delt lige over mellem CNC og manuel bearbejdning. Det giver en rigtig god føling med, hvordan materialerne faktisk opfører sig, når spånerne knækker. Jeg tror på, at en flot 3D-tegning ikke er noget værd, hvis lortet ikke kan spændes op og fræses i virkeligheden.
+                <p class="text-lg md:text-xl text-industrial-400 max-w-2xl leading-relaxed font-light mb-12">
+                    Jeg uddanner mig til finmekaniker med svendebrev i april 2027. Min hverdag er delt mellem CNC-programmering og manuel bearbejdning. En digital 3D-model er en illusion, indtil den valideres i skruestikken. Min opgave er at fjerne friktionen mellem konstruktion og virkelighed.
                 </p>
-            </div>
-            <div class="section-divider"></div>
-        </section>
-
-        <!-- BLOCK 02: MANIFESTO / PROBLEM -->
-        <section class="datum-block">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center w-full max-w-6xl mx-auto">
-                <div>
-                    <div class="font-mono text-xs text-[var(--text-low)] uppercase tracking-widest mb-6">02 // Hverdagen</div>
-                    <h2 class="font-display text-4xl md:text-5xl font-bold text-white leading-tight mb-8">
-                        Tegning vs.<br>Virkelighed.
-                    </h2>
-                    <div class="space-y-6 text-[var(--text-mid)] leading-relaxed">
-                        <p>
-                            Både på skolen og i praktikken ser jeg det hele tiden: Forældede tegninger med mål, der ikke giver logisk mening, og eksterne folk, der vil have lavet ting, der fysisk ikke kan lade sig gøre.
-                        </p>
-                        <p>
-                            Når en tegning strider imod, hvad der overhovedet kan spændes op i en skruestik, er min opgave ikke bare at trykke på den grønne knap og håbe på det bedste.
-                        </p>
-                        <p class="text-white font-medium">
-                            Min opgave er at tage snakken med kunden, forklare hvorfor det ikke virker, og i stedet designe en løsning, der rent faktisk kan laves.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="tech-card">
-                    <div class="font-mono text-xs text-[var(--text-low)] uppercase tracking-widest border-b border-[var(--border-main)] pb-4 mb-6">Tegningens konsekvens</div>
-                    <div class="space-y-6">
-                        <div class="flex justify-between items-end border-b border-[var(--border-main)] pb-4">
-                            <span class="text-sm text-[var(--text-mid)]">Designet uden tanke for maskinen</span>
-                            <span class="font-display text-xl text-[var(--text-low)] line-through decoration-[var(--accent)]">Spildtid / Kassation</span>
-                        </div>
-                        <div class="flex justify-between items-end pt-2">
-                            <span class="text-sm text-white">Designet tilpasset fræseren</span>
-                            <span class="font-display text-2xl text-white">Klar til produktion</span>
-                        </div>
-                    </div>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#kontakt" class="bg-industrial-accent text-white font-medium px-8 py-4 text-center hover:bg-orange-700 transition-colors">
+                        Book Kapacitet
+                    </a>
+                    <a href="#portfolio" class="border border-white/20 font-medium px-8 py-4 text-center hover:bg-white/5 transition-colors">
+                        Se Arbejde
+                    </a>
                 </div>
             </div>
-            <div class="section-divider"></div>
         </section>
 
-        <!-- BLOCK 03: TECH STACK & MATERIALS -->
-        <section class="datum-block">
-            <div class="w-full max-w-6xl mx-auto">
-                <div class="font-mono text-xs text-[var(--text-low)] uppercase tracking-widest mb-8">03 // Værktøjskassen</div>
-                <h2 class="font-display text-4xl md:text-5xl font-bold text-white leading-tight mb-12 max-w-2xl">
-                    Maskinerne, softwaren<br><span class="text-[var(--text-mid)]">og det rå materiale.</span>
-                </h2>
+        <!-- YDELSER -->
+        <section id="ydelser" class="py-24 bg-industrial-800 px-6 border-y border-white/5">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    
+                    <!-- B2B -->
+                    <div>
+                        <div class="text-industrial-accent text-sm font-semibold uppercase tracking-wider mb-4">Industri & Forsvar</div>
+                        <h2 class="text-3xl font-bold mb-6">Produktionsmodning</h2>
+                        <p class="text-industrial-400 font-light mb-8 leading-relaxed">
+                            Virksomheder bløder kapital på at tvinge teoretisk geometri gennem maskiner. Jeg trykker ikke bare på 'Start'. Jeg identificerer kritiske designfejl forud for bearbejdning og sikrer, at komponenten reelt kan fremstilles.
+                        </p>
+                        <ul class="space-y-4 text-sm font-medium">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-industrial-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                DFM-Optimering før maskintid bestilles.
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-industrial-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Fejlfri overgang fra Fusion 360 til fysisk prototype.
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-industrial-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                FAI (First Article Inspection) klar leverance.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- B2C -->
+                    <div>
+                        <div class="text-industrial-400 text-sm font-semibold uppercase tracking-wider mb-4">Entusiast & Special</div>
+                        <h2 class="text-3xl font-bold mb-6">Unika & Reverse-Eng.</h2>
+                        <p class="text-industrial-400 font-light mb-8 leading-relaxed">
+                            For ingeniører, skabere og restaureringsprojekter, der mangler den mekaniske komponent, som ikke kan købes fra hylden.
+                        </p>
+                        <ul class="space-y-4 text-sm font-medium">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-white/50 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Digitalisering og reproduktion af udgåede dele.
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-white/50 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Udvikling af specialværktøj og fiksturer.
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-white/50 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Omsætning af 3D-printede koncepter til spåntagbart metal.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SPECIFIKATIONER -->
+        <section class="py-24 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold mb-12">Tekniske Specifikationer</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <div class="border border-white/10 p-8 bg-industrial-900/50">
+                        <h3 class="font-semibold text-lg mb-2">Autodesk Fusion 360</h3>
+                        <p class="text-industrial-400 text-sm font-light mb-4">Software</p>
+                        <p class="text-sm font-light leading-relaxed">3D-CAD til part-justering, DFM-analyse og udarbejdelse af MRR-optimerede CAM-værktøjsbaner.</p>
+                    </div>
+
+                    <div class="border border-white/10 p-8 bg-industrial-900/50">
+                        <h3 class="font-semibold text-lg mb-2">Haas NGC</h3>
+                        <p class="text-industrial-400 text-sm font-light mb-4">Kinematik</p>
+                        <p class="text-sm font-light leading-relaxed">Maskinstyring. 3-akset fræsning og 2-akset drejning med absolut fokus på repeterbarhed.</p>
+                    </div>
+
+                    <div class="border border-white/10 p-8 bg-industrial-900/50">
+                        <h3 class="font-semibold text-lg mb-2">Absolut Geometri</h3>
+                        <p class="text-industrial-400 text-sm font-light mb-4">Tolerancer</p>
+                        <p class="text-sm font-light leading-relaxed">Standardkrav på H7/p6 og H7/g6. Verificeret via systematisk opmåling (mikrometerskrue/indre måleur).</p>
+                    </div>
+
+                </div>
+
+                <div class="mt-12 flex flex-wrap items-center gap-3">
+                    <span class="text-sm font-medium mr-4">Løbende produktion i:</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">ALU 6082/7075</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">INOX 316L</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">VÆRKTØJSSTÅL</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">AUTOMATSTÅL</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">MESSING</span>
+                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">POM/NYLON</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO -->
+        <section id="portfolio" class="py-24 bg-industrial-800 px-6 border-t border-white/5">
+            <div class="max-w-6xl mx-auto">
+                <div class="flex justify-between items-end mb-12">
+                    <h2 class="text-3xl font-bold">Fysisk Output & CAD</h2>
+                </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Software & Kinematik -->
-                    <div class="tech-card">
-                        <h3 class="font-display text-xl font-bold text-white mb-6">Programmering & Styring</h3>
-                        <ul class="space-y-5 text-sm text-[var(--text-mid)]">
-                            <li class="flex items-start gap-4">
-                                <div class="w-1.5 h-1.5 bg-white rounded-full mt-1.5 shrink-0"></div>
-                                <div><strong class="text-white font-medium">Autodesk Fusion 360</strong><br>Jeg tegner, retter parter og laver mine CAM-programmer her.</div>
-                            </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-1.5 h-1.5 bg-white rounded-full mt-1.5 shrink-0"></div>
-                                <div><strong class="text-white font-medium">Haas NGC</strong><br>Maskinstyringen jeg arbejder mest i til både 3-akset fræs og 2-akset drejning.</div>
-                            </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-1.5 h-1.5 bg-[var(--text-low)] rounded-full mt-1.5 shrink-0"></div>
-                                <div><strong class="text-white font-medium">Manuel Bearbejdning</strong><br>Halvdelen af min tid går med manuelt arbejde. Det er her, man virkelig lærer faget at kende fra bunden.</div>
-                            </li>
-                        </ul>
+                    
+                    <div class="project-card group cursor-pointer">
+                        <div class="bg-industrial-900 overflow-hidden aspect-[4/3] border border-white/10 mb-4">
+                            <img src="img/flame-render.png" alt="Flame Eater Engine" class="w-full h-full object-contain p-8" onerror="this.src='https://placehold.co/800x600/171717/333333?text=Billede+Mangler'">
+                        </div>
+                        <h3 class="font-semibold text-lg">Flame Eater Engine</h3>
+                        <p class="text-industrial-400 text-sm">Assembly / Konstruktion</p>
                     </div>
 
-                    <!-- Materialer -->
-                    <div class="tech-card">
-                        <h3 class="font-display text-xl font-bold text-white mb-6">Materialer</h3>
-                        <p class="text-sm text-[var(--text-mid)] mb-6">
-                            Man forstår først rigtigt skæredata, når man har haft materialet i hænderne. Jeg kører løbende med følgende:
-                        </p>
-                        <div class="flex flex-wrap">
-                            <span class="mat-tag">Aluminium</span>
-                            <span class="mat-tag">Rustfast Stål</span>
-                            <span class="mat-tag">Værktøjsstål</span>
-                            <span class="mat-tag">Automatstål</span>
-                            <span class="mat-tag">Messing</span>
-                            <span class="mat-tag">POM/Delrin</span>
-                            <span class="mat-tag">Nylon</span>
-                            <span class="mat-tag">Akryl</span>
+                    <div class="project-card group cursor-pointer">
+                        <div class="bg-industrial-900 overflow-hidden aspect-[4/3] border border-white/10 mb-4">
+                            <img src="img/mosin-render-1.png" alt="Mosin Nagant" class="w-full h-full object-contain p-8" onerror="this.src='https://placehold.co/800x600/171717/333333?text=Billede+Mangler'">
                         </div>
+                        <h3 class="font-semibold text-lg">Mosin Nagant (Del A)</h3>
+                        <p class="text-industrial-400 text-sm">Reverse Engineering / Legacy</p>
                     </div>
+
+                    <div class="project-card group cursor-pointer md:col-span-2 md:w-1/2 md:mx-auto">
+                        <div class="bg-industrial-900 overflow-hidden aspect-[4/3] border border-white/10 mb-4">
+                            <img src="img/ringbender.png" alt="Ringbøjer" class="w-full h-full object-contain p-8" onerror="this.src='https://placehold.co/800x600/171717/333333?text=Billede+Mangler'">
+                        </div>
+                        <h3 class="font-semibold text-lg">Ringbøjer Fikstur</h3>
+                        <p class="text-industrial-400 text-sm">Specialværktøj / Jigs</p>
+                    </div>
+
                 </div>
             </div>
-            <div class="section-divider"></div>
         </section>
 
-        <!-- BLOCK 04: CAD & PROJEKTER -->
-        <section class="datum-block">
-            <div class="w-full max-w-7xl mx-auto">
-                <div class="font-mono text-xs text-[var(--text-low)] uppercase tracking-widest mb-8">04 // CAD & Projekter</div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <!-- Tolerancer -->
-                    <div class="tech-card flex flex-col justify-center">
-                        <h3 class="font-display text-2xl font-bold text-white mb-4">Tolerancer & Pasninger</h3>
-                        <p class="text-sm text-[var(--text-mid)] mb-8">
-                            Når jeg står ved maskinen, laver vi rigtig mange pres- og glidepasninger. Det kræver at man har helt styr på både sit måleværktøj, sin opstilling og maskinens nøjagtighed.
-                        </p>
-                        <table class="data-table">
-                            <thead><tr><th>Funktion</th><th>Metode</th><th>Resultat</th></tr></thead>
-                            <tbody>
-                                <tr><td class="text-white">Prespasning</td><td>CNC / Manuel Opmåling</td><td class="text-white font-mono">I tolerance</td></tr>
-                                <tr><td class="text-white">Glidepasning</td><td>Sletkørsel</td><td class="text-white font-mono">I tolerance</td></tr>
-                                <tr><td class="text-white">Boring/Gevind</td><td>NC & Spiralboring</td><td class="text-white font-mono">I tolerance</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Portefølje / Renders -->
-                    <div class="tech-card p-0 flex flex-col relative bg-[var(--bg-base)] overflow-hidden">
-                        
-                        <!-- Top HUD for the Gallery -->
-                        <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-10 bg-gradient-to-b from-black/80 to-transparent">
-                            <span class="font-mono text-[10px] text-white bg-black/60 px-2 py-1 border border-white/10 rounded-sm">GALLERI // FUSION 360</span>
-                            <div class="flex gap-2">
-                                <button onclick="scrollGallery(-1)" class="gallery-btn">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                                </button>
-                                <button onclick="scrollGallery(1)" class="gallery-btn">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Scrollable Container -->
-                        <div id="render-gallery" class="flex w-full h-72 md:h-full min-h-[350px] overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth">
-                            
-                            <!-- Slide 1: Flame Eater -->
-                            <div class="min-w-full h-full relative snap-center flex-shrink-0 bg-[#0d0d0d] flex items-center justify-center">
-                                <img src="img/flame-render.png" alt="Flame Eater" class="absolute inset-0 w-full h-full object-cover opacity-90">
-                                <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-                                    <span class="font-mono text-[10px] text-[var(--accent)] uppercase tracking-widest block mb-1">H2 Projekt</span>
-                                    <span class="text-white font-medium text-base">Flame Eater</span>
-                                </div>
-                            </div>
-
-                            <!-- Slide 2: Mosin Nagant 1 -->
-                            <div class="min-w-full h-full relative snap-center flex-shrink-0 bg-[#0d0d0d] flex items-center justify-center">
-                                <img src="img/mosin-render-1.png" alt="Mosin Nagant Del 1" class="absolute inset-0 w-full h-full object-cover opacity-90">
-                                <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-                                    <span class="font-mono text-[10px] text-[var(--accent)] uppercase tracking-widest block mb-1">Restaurering</span>
-                                    <span class="text-white font-medium text-base">Mosin Nagant (Del 1)</span>
-                                </div>
-                            </div>
-
-                            <!-- Slide 3: Mosin Nagant 2 -->
-                            <div class="min-w-full h-full relative snap-center flex-shrink-0 bg-[#0d0d0d] flex items-center justify-center">
-                                <img src="img/mosin-render-2.png" alt="Mosin Nagant Del 2" class="absolute inset-0 w-full h-full object-cover opacity-90">
-                                <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-                                    <span class="font-mono text-[10px] text-[var(--accent)] uppercase tracking-widest block mb-1">Restaurering</span>
-                                    <span class="text-white font-medium text-base">Mosin Nagant (Del 2)</span>
-                                </div>
-                            </div>
-
-                            <!-- Slide 4: Ringbender -->
-                            <div class="min-w-full h-full relative snap-center flex-shrink-0 bg-[#0d0d0d] flex items-center justify-center">
-                                <img src="img/ringbender.png" alt="Ringbøjer" class="absolute inset-0 w-full h-full object-cover opacity-90">
-                                <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-                                    <span class="font-mono text-[10px] text-[var(--accent)] uppercase tracking-widest block mb-1">Værktøj / GF1</span>
-                                    <span class="text-white font-medium text-base">Ringbøjer</span>
-                                </div>
-                            </div>
-
-                            <!-- Slide 5: TicTacToe -->
-                            <div class="min-w-full h-full relative snap-center flex-shrink-0 bg-[#0d0d0d] flex items-center justify-center">
-                                <img src="img/tictactoe-render.png" alt="Tic Tac Toe" class="absolute inset-0 w-full h-full object-cover opacity-90">
-                                <div class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-                                    <span class="font-mono text-[10px] text-[var(--accent)] uppercase tracking-widest block mb-1">Custom Projekt</span>
-                                    <span class="text-white font-medium text-base">Tic-Tac-Toe Bræt</span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section-divider"></div>
-        </section>
-
-        <!-- BLOCK 05: SERVICES & YDELSER -->
-        <section class="datum-block">
-            <div class="w-full max-w-6xl mx-auto">
-                <div class="font-mono text-xs text-[var(--text-low)] uppercase tracking-widest mb-8">05 // Ydelser & Samarbejde</div>
-                <h2 class="font-display text-4xl md:text-5xl font-bold text-white leading-tight mb-12 max-w-2xl">
-                    Til industrien.<br><span class="text-[var(--text-mid)]">Og til dem der bygger selv.</span>
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- B2B: Industri & Erhverv -->
-                    <div class="tech-card">
-                        <div class="font-mono text-xs text-[var(--accent)] uppercase tracking-widest mb-4">Erhverv & Underleverandør</div>
-                        <h3 class="font-display text-xl font-bold text-white mb-6">Industri & Produktion</h3>
-                        <ul class="space-y-5 text-sm text-[var(--text-mid)]">
-                            <li class="flex items-start gap-4">
-                                <div class="w-1.5 h-1.5 bg-white rounded-full mt-1.5 shrink-0"></div>
-                                <div><strong class="text-white font-medium">DFM-Optimering</strong><br>Gennemgang af tegninger, før spånerne knækker, så fejl og spildtid undgås.</div>
-                            </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-1.5 h-1.5 bg-white rounded-full mt-1.5 shrink-0"></div>
-                                <div><strong class="text-white font-medium">Prototyper & Små serier</strong><br>Hurtig omstilling fra 3D-fil (Fusion 360) til fysisk komponent med stramme tolerancer.</div>
-                            </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-1.5 h-1.5 bg-white rounded-full mt-1.5 shrink-0"></div>
-                                <div><strong class="text-white font-medium">Præcision & Pasninger</strong><br>Specialkomponenter med definerede pres- og glidepasninger i krævende materialer.</div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- B2C: Custom & Entusiaster -->
-                    <div class="tech-card">
-                        <div class="font-mono text-xs text-[var(--accent)] uppercase tracking-widest mb-4">Custom & Entusiaster</div>
-                        <h3 class="font-display text-xl font-bold text-white mb-6">Enkeltstyks & Specialdele</h3>
-                        <p class="text-sm text-[var(--text-mid)] mb-6">
-                            Har du brug for en specialkomponent, som ikke kan købes fra hylden, leverer jeg samme industrielle præcision til private projekter:
-                        </p>
-                        <ul class="space-y-5 text-sm text-[var(--text-mid)]">
-                            <li class="flex items-start gap-4">
-                                <div class="w-1.5 h-1.5 bg-[var(--text-low)] rounded-full mt-1.5 shrink-0"></div>
-                                <div><strong class="text-white font-medium">Reverse-Engineering</strong><br>Opmåling og genskabning af slidte eller udgåede mekaniske dele.</div>
-                            </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-1.5 h-1.5 bg-[var(--text-low)] rounded-full mt-1.5 shrink-0"></div>
-                                <div><strong class="text-white font-medium">Custom Byg & Entusiast-projekt</strong><br>Unikke emner til motorer, mekaniske enheder, våben eller specialværktøj.</div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="section-divider"></div>
-        </section>
-
-        <!-- BLOCK 06: KONTAKT -->
-        <section class="datum-block">
-            <div class="max-w-3xl">
-                <div class="font-mono text-xs text-[var(--text-low)] uppercase tracking-widest mb-6">06 // Afslutning</div>
-                <h2 class="font-display text-5xl md:text-7xl font-bold text-white leading-tight mb-8">
-                    Lad os tage<br>en snak.
-                </h2>
-                <p class="font-normal text-lg text-[var(--text-mid)] leading-relaxed mb-12">
-                    Jeg står med mit svendebrev i hånden i april 2027, og jeg bruger tiden indtil da på at bygge mit netværk. Uanset om du vil nørde bearbejdning, står og mangler en mand ude i fremtiden, eller bare vil sige hej – så ræk endelig ud.
+        <!-- KONTAKT -->
+        <section id="kontakt" class="py-32 px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Lad os starte dialogen.</h2>
+                <p class="text-lg text-industrial-400 font-light mb-12 max-w-2xl mx-auto">
+                    Frem mod mit svendebrev i april 2027 bygger jeg mit professionelle netværk og løser specialopgaver. Står I med et DFM-problem nu, eller søger I en analytisk finmekaniker til fremtiden?
                 </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="mailto:defnotglen@gmail.com" class="btn-primary">Send mig en mail</a>
-                    <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="btn-secondary">Find mig på LinkedIn</a>
-                    <a href="dossier.html" class="btn-secondary">Se Dossier / CV</a>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="mailto:defnotglen@gmail.com" class="bg-white text-black font-semibold px-8 py-4 hover:bg-gray-200 transition-colors">
+                        Kontakt via E-mail
+                    </a>
+                    <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="border border-white/20 font-semibold px-8 py-4 hover:bg-white/5 transition-colors">
+                        Find mig på LinkedIn
+                    </a>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <script>
-        // --- HORIZONTAL SCROLLING LOGIC ---
-        const table = document.getElementById('machine-table');
-        const scrollTracker = document.getElementById('scroll-tracker');
-        const progressBar = document.getElementById('progress-bar');
-        
-        let targetScroll = 0;
-        let currentScroll = 0;
-        
-        const blocks = document.querySelectorAll('.datum-block');
-        let maxScroll = 0;
-        
-        function updateMaxScroll() {
-            maxScroll = (blocks.length - 1) * window.innerWidth;
-        }
-        window.addEventListener('resize', updateMaxScroll);
-        updateMaxScroll();
+    <footer class="border-t border-white/10 bg-industrial-900 px-6 py-8">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-industrial-400">
+            <div>&copy; 2026 Datum Prototyping</div>
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                System Operational
+            </div>
+        </div>
+    </footer>
 
-        // Map mouse wheel to horizontal scrolling
-        window.addEventListener('wheel', (e) => {
-            // Prevent scrolling if hovering over the gallery
-            if (e.target.closest('#render-gallery')) return;
-
-            targetScroll += e.deltaY * 1.2; 
-            
-            if (targetScroll < 0) targetScroll = 0;
-            if (targetScroll > maxScroll) targetScroll = maxScroll;
-            
-            e.preventDefault();
-        }, { passive: false });
-
-        // Physics loop for smooth horizontal scrolling
-        function render() {
-            currentScroll += (targetScroll - currentScroll) * 0.08;
-            
-            table.style.transform = `translate3d(-${currentScroll}px, 0, 0)`;
-            
-            const progressPct = (currentScroll / maxScroll) * 100;
-            progressBar.style.width = `${progressPct}%`;
-            
-            scrollTracker.innerText = `Pos: ${(progressPct).toFixed(1)}%`;
-            
-            requestAnimationFrame(render);
-        }
-        render(); 
-
-        // --- GALLERY LOGIC ---
-        function scrollGallery(direction) {
-            const gallery = document.getElementById('render-gallery');
-            const scrollAmount = gallery.clientWidth; // Scroll one full image width
-            gallery.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
-        }
-    </script>
 </body>
 </html>
