@@ -1,249 +1,488 @@
 <!DOCTYPE html>
 <html lang="da" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datum Prototyping | Finmekanik & CNC Bearbejdning</title>
+    <title>Datum Prototyping — Finmekanik, CNC & Prototyper</title>
+    <meta name="description"
+          content="Datum Prototyping er finmekanik med fokus på CNC-bearbejdning, prototyper, specialdele og produktionsmodning. Fra idé og CAD til en del, der faktisk virker.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+          href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        mono: ['DM Mono', 'monospace']
                     },
                     colors: {
-                        industrial: {
-                            900: '#0a0a0a',
-                            800: '#171717',
-                            400: '#a3a3a3',
-                            100: '#f5f5f5',
-                            accent: '#ea580c' // Subtil orange til call-to-actions
-                        }
+                        ink: '#0b0b0b',
+                        paper: '#f4f1ea',
+                        orange: '#ff641f',
+                        steel: '#9a9a95'
+                    },
+                    boxShadow: {
+                        soft: '0 20px 60px rgba(0,0,0,.08)'
                     }
                 }
             }
         }
     </script>
     <style>
+        :root {
+            --orange: #ff641f;
+            --paper: #f4f1ea;
+            --ink: #0b0b0b;
+        }
+
         body {
-            background-color: #0a0a0a;
-            color: #f5f5f5;
+            background: var(--paper);
+            color: var(--ink);
         }
-        /* Subtil billede-hover */
-        .project-card img {
-            transition: transform 0.5s ease;
+
+        .grain:before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: .05;
+            z-index: 50;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
         }
-        .project-card:hover img {
-            transform: scale(1.03);
+
+        .hero-grid {
+            background-image: linear-gradient(rgba(11, 11, 11, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(11, 11, 11, .07) 1px, transparent 1px);
+            background-size: 42px 42px;
+        }
+
+        .orange-line {
+            height: 3px;
+            background: var(--orange);
+        }
+
+        .tag {
+            font: 500 11px/1 DM Mono, monospace;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity .8s ease, transform .8s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .reveal.show {
+            opacity: 1;
+            transform: none;
+        }
+
+        .case {
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .case:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .12);
+        }
+
+        .case-media {
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            background: rgba(255, 255, 255, .03);
+        }
+
+        .case-media img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 1.2rem;
+        }
+
+        @media (min-width:768px) {
+            .case-media img {
+                padding: 2rem;
+            }
+        }
+
+        .btn {
+            transition: .2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .menu-open {
+            overflow: hidden;
         }
     </style>
 </head>
-<body class="antialiased selection:bg-industrial-accent selection:text-white">
 
-    <!-- NAVIGATION -->
-    <nav class="fixed top-0 w-full z-50 bg-industrial-900/90 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="font-semibold tracking-tight text-lg flex items-center gap-2 uppercase">
-                <div class="w-2 h-2 bg-industrial-accent rounded-full"></div>
-                Datum Prototyping
-            </div>
-            <div class="hidden md:flex gap-8 text-sm font-medium text-industrial-400">
-                <a href="#ydelser" class="hover:text-white transition-colors">Ydelser</a>
-                <a href="#portfolio" class="hover:text-white transition-colors">Portefølje</a>
-                <a href="#kontakt" class="hover:text-white transition-colors">Kontakt</a>
-            </div>
-            <div>
-                <a href="dossier.html" class="text-sm font-medium border border-white/20 px-4 py-2 hover:bg-white hover:text-black transition-all">
-                    Se CV (Dossier)
+<body class="grain font-sans antialiased selection:bg-orange selection:text-white">
+    <header class="fixed top-0 left-0 right-0 z-40">
+        <div class="mx-auto max-w-7xl px-5 lg:px-8 pt-4">
+            <nav
+                 class="flex items-center justify-between rounded-full border border-black/10 bg-paper/90 backdrop-blur-xl px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,.06)]">
+                <a href="#top" class="flex items-center gap-3">
+                    <span class="grid h-9 w-9 place-items-center rounded-full bg-ink text-paper font-bold">D</span>
+                    <span class="font-semibold tracking-tight">Datum Prototyping</span>
+                    <span class="hidden sm:block text-black/40 text-sm">Finmekanik & CNC</span>
                 </a>
+                <div class="hidden md:flex items-center gap-7 text-sm font-medium">
+                    <a href="#loesninger" class="hover:text-orange">Hvad jeg laver</a>
+                    <a href="#arbejde" class="hover:text-orange">Projekter</a>
+                    <a href="#proces" class="hover:text-orange">Sådan arbejder jeg</a>
+                    <a href="#kontakt" class="hover:text-orange">Kontakt</a>
+                </div>
+                <a href="#kontakt"
+                   class="btn hidden sm:inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-paper">Start
+                    en opgave <span>↗</span>
+                </a>
+                <button id="menuBtn"
+                        class="md:hidden rounded-full border border-black/10 px-4 py-2 text-sm">Menu</button>
+            </nav>
+            <div id="mobileMenu"
+                 class="hidden mt-2 rounded-3xl border border-black/10 bg-paper/95 p-4 backdrop-blur-xl">
+                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="#loesninger">Hvad jeg laver</a>
+                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="#arbejde">Projekter</a>
+                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="#proces">Sådan arbejder jeg</a>
+                <a class="block rounded-2xl bg-ink px-4 py-3 text-paper" href="#kontakt">Start en opgave ↗</a>
             </div>
         </div>
-    </nav>
-
-    <main>
-        <!-- HERO -->
-        <section class="pt-40 pb-20 md:pt-52 md:pb-32 px-6">
-            <div class="max-w-6xl mx-auto">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.05]">
-                    Teori er gratis.<br>
-                    <span class="text-industrial-400">Maskintid koster.</span>
-                </h1>
-                <p class="text-lg md:text-xl text-industrial-400 max-w-2xl leading-relaxed font-light mb-12">
-                    Jeg uddanner mig til finmekaniker med svendebrev i april 2027. Min hverdag er delt mellem CNC-programmering og manuel bearbejdning. En digital 3D-model er en illusion, indtil den valideres i skruestikken. Min opgave er at fjerne friktionen mellem konstruktion og virkelighed.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#kontakt" class="bg-industrial-accent text-white font-medium px-8 py-4 text-center hover:bg-orange-700 transition-colors">
-                        Book Kapacitet
-                    </a>
-                    <a href="#portfolio" class="border border-white/20 font-medium px-8 py-4 text-center hover:bg-white/5 transition-colors">
-                        Se Arbejde
-                    </a>
+    </header>
+    <main id="top">
+        <section class="hero-grid min-h-[92vh] px-5 lg:px-8 pt-36 pb-20">
+            <div class="mx-auto max-w-7xl grid lg:grid-cols-[1.08fr_.92fr] gap-12 items-end">
+                <div class="reveal">
+                    <div class="tag flex items-center gap-3 mb-8">
+                        <span class="inline-block w-12 h-[2px] bg-orange"></span> Fra lærling til selvstændig
+                    </div>
+                    <h1
+                        class="text-[clamp(3.8rem,9vw,8.2rem)] leading-[.88] font-extrabold tracking-[-.07em] max-w-5xl">
+                        Jeg laver <br>
+                        <span class="text-orange">dele,</span>
+                        <br>der virker.
+                    </h1>
+                    <p class="mt-9 text-lg md:text-xl leading-relaxed max-w-2xl text-black/65">Finmekanik, CNC og
+                        prototyper for folk, der har brug for mere end endnu en 3D-model. Jeg tager udgangspunkt i
+                        opgaven, tænker produktion ind fra starten og går efter en løsning, der holder i virkeligheden.
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row gap-3">
+                        <a href="#kontakt"
+                           class="btn inline-flex items-center justify-center gap-3 rounded-full bg-orange px-7 py-4 font-semibold text-white">Fortæl
+                            mig om din del <span>→</span>
+                        </a>
+                        <a href="#arbejde"
+                           class="btn inline-flex items-center justify-center rounded-full border border-black/15 px-7 py-4 font-semibold">Se
+                            hvad jeg bygger</a>
+                    </div>
+                    <div class="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm text-black/50">
+                        <span>
+                            <b class="text-black">CNC</b> fræsning & drejning </span>
+                        <span>
+                            <b class="text-black">CAD/CAM</b> i Fusion 360 </span>
+                        <span>
+                            <b class="text-black">DFM</b> & produktionsmodning </span>
+                    </div>
+                </div>
+                <div class="reveal lg:pb-2">
+                    <div
+                         class="relative rounded-[2rem] bg-ink text-paper p-7 md:p-9 overflow-hidden min-h-[420px] flex flex-col justify-between">
+                        <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/10"></div>
+                        <div class="absolute -right-6 -top-6 h-36 w-36 rounded-full border border-orange/50"></div>
+                        <div>
+                            <div class="tag text-white/45">Dato / status</div>
+                            <div class="mt-3 flex items-end justify-between">
+                                <div class="text-5xl md:text-6xl font-bold tracking-tight">2026</div>
+                                <div class="tag text-orange">Building in public</div>
+                            </div>
+                            <div class="orange-line mt-6"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-8">
+                            <div class="rounded-2xl bg-white/5 p-5">
+                                <div class="tag text-white/40">Fokus</div>
+                                <div class="mt-2 font-semibold">Præcision</div>
+                                <p class="mt-2 text-sm leading-relaxed text-white/55">Tolerancer, måling og en
+                                    gennemtænkt proces.</p>
+                            </div>
+                            <div class="rounded-2xl bg-white/5 p-5">
+                                <div class="tag text-white/40">Ambition</div>
+                                <div class="mt-2 font-semibold">Egen forretning</div>
+                                <p class="mt-2 text-sm leading-relaxed text-white/55">At bygge en lille, skarp
+                                    maskinforretning med reel værdi.</p>
+                            </div>
+                        </div>
+                        <p class="mt-8 text-sm text-white/45">Jeg er næsten færdig som finmekaniker. Indtil svendebrevet
+                            er i hus, bygger jeg samtidig erfaring, relationer og de første rigtige kundecases.</p>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- YDELSER -->
-        <section id="ydelser" class="py-24 bg-industrial-800 px-6 border-y border-white/5">
-            <div class="max-w-6xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-                    
-                    <!-- B2B -->
+        <section class="border-y border-black/10 bg-white/40">
+            <div class="mx-auto max-w-7xl px-5 lg:px-8 py-7 grid md:grid-cols-4 gap-6 text-sm">
+                <div>
+                    <div class="tag text-black/40">01</div>
+                    <div class="mt-2 font-semibold">Fra idé til emne</div>
+                </div>
+                <div>
+                    <div class="tag text-black/40">02</div>
+                    <div class="mt-2 font-semibold">CAD til CAM</div>
+                </div>
+                <div>
+                    <div class="tag text-black/40">03</div>
+                    <div class="mt-2 font-semibold">Bearbejdning</div>
+                </div>
+                <div>
+                    <div class="tag text-black/40">04</div>
+                    <div class="mt-2 font-semibold">Måling & aflevering</div>
+                </div>
+            </div>
+        </section>
+        <section id="loesninger" class="px-5 lg:px-8 py-28 md:py-36">
+            <div class="mx-auto max-w-7xl">
+                <div class="grid lg:grid-cols-[.72fr_1.28fr] gap-16">
+                    <div class="reveal">
+                        <div class="tag text-orange">Hvad jeg kan hjælpe med</div>
+                        <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em] leading-[.95]">Ikke bare
+                            <br>maskintid. </h2>
+                        <p class="mt-6 max-w-md text-black/60 leading-relaxed">Det interessante er ikke at få en maskine
+                            til at køre. Det interessante er at finde den rigtige måde at lave delen på — første gang
+                            eller med så lidt spild som muligt.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 reveal">
+                        <article class="rounded-3xl bg-ink text-paper p-7 min-h-[250px] flex flex-col justify-between">
+                            <div class="tag text-orange">01 / CNC</div>
+                            <div>
+                                <h3 class="mt-8 text-2xl font-semibold">Fræsning & drejning</h3>
+                                <p class="mt-3 text-white/55 leading-relaxed">Små serier, enkeltdele, prototyper og de
+                                    opgaver, der kræver en ekstra tanke.</p>
+                            </div>
+                        </article>
+                        <article
+                                 class="rounded-3xl border border-black/10 bg-white p-7 min-h-[250px] flex flex-col justify-between">
+                            <div class="tag text-black/40">02 / CAD-CAM</div>
+                            <div>
+                                <h3 class="mt-8 text-2xl font-semibold">Fra model til værktøjsbane</h3>
+                                <p class="mt-3 text-black/55 leading-relaxed">Fusion 360, fixture-tænkning, værktøjsvalg
+                                    og en plan, der giver mening i maskinen.</p>
+                            </div>
+                        </article>
+                        <article
+                                 class="rounded-3xl border border-black/10 bg-white p-7 min-h-[250px] flex flex-col justify-between">
+                            <div class="tag text-black/40">03 / DFM</div>
+                            <div>
+                                <h3 class="mt-8 text-2xl font-semibold">Gør delen mulig</h3>
+                                <p class="mt-3 text-black/55 leading-relaxed">Jeg kigger efter unødige tolerancer, svære
+                                    opspændinger og geometri, der gør produktionen dyrere end nødvendigt.</p>
+                            </div>
+                        </article>
+                        <article
+                                 class="rounded-3xl bg-orange p-7 min-h-[250px] flex flex-col justify-between text-white">
+                            <div class="tag text-white/65">04 / Special</div>
+                            <div>
+                                <h3 class="mt-8 text-2xl font-semibold">Den del, der ikke findes</h3>
+                                <p class="mt-3 text-white/80 leading-relaxed">Reverse engineering, udgåede komponenter,
+                                    fiksturer og små mekaniske problemløsninger.</p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="arbejde" class="bg-ink text-paper px-5 lg:px-8 py-28 md:py-36">
+            <div class="mx-auto max-w-7xl">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 reveal">
                     <div>
-                        <div class="text-industrial-accent text-sm font-semibold uppercase tracking-wider mb-4">Industri & Forsvar</div>
-                        <h2 class="text-3xl font-bold mb-6">Produktionsmodning</h2>
-                        <p class="text-industrial-400 font-light mb-8 leading-relaxed">
-                            Virksomheder bløder kapital på at tvinge teoretisk geometri gennem maskiner. Jeg trykker ikke bare på 'Start'. Jeg identificerer kritiske designfejl forud for bearbejdning og sikrer, at komponenten reelt kan fremstilles.
-                        </p>
-                        <ul class="space-y-4 text-sm font-medium">
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-industrial-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                DFM-Optimering før maskintid bestilles.
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-industrial-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Fejlfri overgang fra Fusion 360 til fysisk prototype.
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-industrial-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                FAI (First Article Inspection) klar leverance.
-                            </li>
-                        </ul>
+                        <div class="tag text-orange">Projekter & beviser</div>
+                        <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em]">Det jeg bygger <br>skal kunne
+                            ses. </h2>
                     </div>
-
-                    <!-- B2C -->
-                    <div>
-                        <div class="text-industrial-400 text-sm font-semibold uppercase tracking-wider mb-4">Entusiast & Special</div>
-                        <h2 class="text-3xl font-bold mb-6">Unika & Reverse-Eng.</h2>
-                        <p class="text-industrial-400 font-light mb-8 leading-relaxed">
-                            For ingeniører, skabere og restaureringsprojekter, der mangler den mekaniske komponent, som ikke kan købes fra hylden.
-                        </p>
-                        <ul class="space-y-4 text-sm font-medium">
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-white/50 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Digitalisering og reproduktion af udgåede dele.
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-white/50 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Udvikling af specialværktøj og fiksturer.
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-white/50 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Omsætning af 3D-printede koncepter til spåntagbart metal.
-                            </li>
-                        </ul>
-                    </div>
-
+                    <p class="max-w-md text-white/50 leading-relaxed">Jeg vil hellere vise et rigtigt emne, en fikstur
+                        eller en CAD-model end fortælle, hvor dygtig jeg er.</p>
+                </div>
+                <div class="mt-14 grid lg:grid-cols-3 gap-6">
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04]">
+                        <div class="case-media">
+                            <img src="img/flame-render.png" alt="Flame Eater Engine"
+                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25\'>CASE 01 / FLAME EATER</div>'">
+                        </div>
+                        <div class="p-6">
+                            <div class="tag text-orange">Konstruktion / Assembly</div>
+                            <h3 class="mt-3 text-2xl font-semibold">Flame Eater Engine</h3>
+                            <p class="mt-3 text-white/50 text-sm leading-relaxed">Mekanisk konstruktion, samling og
+                                fokus på, at flere dele spiller sammen som én mekanisme.</p>
+                        </div>
+                    </article>
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04]">
+                        <div class="case-media">
+                            <img src="img/mosin-render-1.png" alt="Mosin Nagant del"
+                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25\'>CASE 02 / REVERSE</div>'">
+                        </div>
+                        <div class="p-6">
+                            <div class="tag text-orange">Reverse engineering</div>
+                            <h3 class="mt-3 text-2xl font-semibold">Legacy-komponent</h3>
+                            <p class="mt-3 text-white/50 text-sm leading-relaxed">At tage gammel mekanik fra “den findes
+                                vist ikke længere” til en digital model, der kan arbejdes videre med.</p>
+                        </div>
+                    </article>
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04]">
+                        <div class="case-media">
+                            <img src="img/ringbender.png" alt="Ringbøjer fikstur"
+                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25\'>CASE 03 / FIXTURE</div>'">
+                        </div>
+                        <div class="p-6">
+                            <div class="tag text-orange">Specialværktøj / Jigs</div>
+                            <h3 class="mt-3 text-2xl font-semibold">Ringbøjer-fikstur</h3>
+                            <p class="mt-3 text-white/50 text-sm leading-relaxed">Et eksempel på den slags hjælpemiddel,
+                                der kan gøre en ellers besværlig produktion hurtigere og mere stabil.</p>
+                        </div>
+                    </article>
                 </div>
             </div>
         </section>
-
-        <!-- SPECIFIKATIONER -->
-        <section class="py-24 px-6">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-3xl font-bold mb-12">Tekniske Specifikationer</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    
-                    <div class="border border-white/10 p-8 bg-industrial-900/50">
-                        <h3 class="font-semibold text-lg mb-2">Autodesk Fusion 360</h3>
-                        <p class="text-industrial-400 text-sm font-light mb-4">Software</p>
-                        <p class="text-sm font-light leading-relaxed">3D-CAD til part-justering, DFM-analyse og udarbejdelse af MRR-optimerede CAM-værktøjsbaner.</p>
-                    </div>
-
-                    <div class="border border-white/10 p-8 bg-industrial-900/50">
-                        <h3 class="font-semibold text-lg mb-2">Haas NGC</h3>
-                        <p class="text-industrial-400 text-sm font-light mb-4">Kinematik</p>
-                        <p class="text-sm font-light leading-relaxed">Maskinstyring. 3-akset fræsning og 2-akset drejning med absolut fokus på repeterbarhed.</p>
-                    </div>
-
-                    <div class="border border-white/10 p-8 bg-industrial-900/50">
-                        <h3 class="font-semibold text-lg mb-2">Absolut Geometri</h3>
-                        <p class="text-industrial-400 text-sm font-light mb-4">Tolerancer</p>
-                        <p class="text-sm font-light leading-relaxed">Standardkrav på H7/p6 og H7/g6. Verificeret via systematisk opmåling (mikrometerskrue/indre måleur).</p>
-                    </div>
-
+        <section id="proces" class="px-5 lg:px-8 py-28 md:py-36">
+            <div class="mx-auto max-w-7xl grid lg:grid-cols-[.7fr_1.3fr] gap-16">
+                <div class="reveal">
+                    <div class="tag text-orange">Sådan arbejder jeg</div>
+                    <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em] leading-[.95]">Ingen <br>sort boks.
+                    </h2>
+                    <p class="mt-6 text-black/60 leading-relaxed max-w-md">Du skal kunne følge med i, hvad der skal ske,
+                        hvorfor det skal ske, og hvor vi er på vej hen.</p>
                 </div>
-
-                <div class="mt-12 flex flex-wrap items-center gap-3">
-                    <span class="text-sm font-medium mr-4">Løbende produktion i:</span>
-                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">ALU 6082/7075</span>
-                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">INOX 316L</span>
-                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">VÆRKTØJSSTÅL</span>
-                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">AUTOMATSTÅL</span>
-                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">MESSING</span>
-                    <span class="px-3 py-1 bg-white/5 border border-white/10 text-xs font-mono">POM/NYLON</span>
+                <div class="space-y-2 reveal">
+                    <div
+                         class="group border-t border-black/15 py-7 grid md:grid-cols-[80px_1fr_auto] gap-5 items-start">
+                        <div class="tag text-orange">01</div>
+                        <div>
+                            <h3 class="text-2xl font-semibold">Send det, du har</h3>
+                            <p class="mt-2 text-black/55 max-w-xl">En STEP-fil, tegning, skitse, foto eller bare en
+                                forklaring. Det behøver ikke være perfekt for at starte en snak.</p>
+                        </div>
+                        <span class="text-black/30">↘</span>
+                    </div>
+                    <div
+                         class="group border-t border-black/15 py-7 grid md:grid-cols-[80px_1fr_auto] gap-5 items-start">
+                        <div class="tag text-orange">02</div>
+                        <div>
+                            <h3 class="text-2xl font-semibold">Vi finder den rigtige løsning</h3>
+                            <p class="mt-2 text-black/55 max-w-xl">Materiale, tolerancer, opspænding, antal og tid. Jeg
+                                siger også til, hvis noget kan gøres smartere.</p>
+                        </div>
+                        <span class="text-black/30">↘</span>
+                    </div>
+                    <div
+                         class="group border-t border-black/15 py-7 grid md:grid-cols-[80px_1fr_auto] gap-5 items-start">
+                        <div class="tag text-orange">03</div>
+                        <div>
+                            <h3 class="text-2xl font-semibold">Jeg bygger, måler og justerer</h3>
+                            <p class="mt-2 text-black/55 max-w-xl">Målet er ikke bare en del, der ligner tegningen.
+                                Målet er en del, der fungerer i den virkelige sammenhæng.</p>
+                        </div>
+                        <span class="text-black/30">↘</span>
+                    </div>
+                    <div
+                         class="group border-y border-black/15 py-7 grid md:grid-cols-[80px_1fr_auto] gap-5 items-start">
+                        <div class="tag text-orange">04</div>
+                        <div>
+                            <h3 class="text-2xl font-semibold">Du får noget, du kan bruge</h3>
+                            <p class="mt-2 text-black/55 max-w-xl">En fysisk komponent, prototype, fikstur eller
+                                produktionsklar løsning — med erfaringen gemt til næste iteration.</p>
+                        </div>
+                        <span class="text-black/30">↘</span>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- PORTFOLIO -->
-        <section id="portfolio" class="py-24 bg-industrial-800 px-6 border-t border-white/5">
-            <div class="max-w-6xl mx-auto">
-                <div class="flex justify-between items-end mb-12">
-                    <h2 class="text-3xl font-bold">Fysisk Output & CAD</h2>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    
-                    <div class="project-card group cursor-pointer">
-                        <div class="bg-industrial-900 overflow-hidden aspect-[4/3] border border-white/10 mb-4">
-                            <img src="img/flame-render.png" alt="Flame Eater Engine" class="w-full h-full object-contain p-8" onerror="this.src='https://placehold.co/800x600/171717/333333?text=Billede+Mangler'">
-                        </div>
-                        <h3 class="font-semibold text-lg">Flame Eater Engine</h3>
-                        <p class="text-industrial-400 text-sm">Assembly / Konstruktion</p>
+        <section class="px-5 lg:px-8 pb-28">
+            <div
+                 class="mx-auto max-w-7xl rounded-[2.2rem] bg-black text-paper p-8 md:p-12 lg:p-16 overflow-hidden relative reveal">
+                <div class="absolute right-0 top-0 h-full w-1/2 opacity-30"
+                     style="background:radial-gradient(circle at 70% 30%, rgba(255,100,31,.7), transparent 40%)"></div>
+                <div class="relative max-w-3xl">
+                    <div class="tag text-orange">Hvorfor Datum Prototyping?</div>
+                    <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em]">Lille nok til at gå op i detaljen.
+                        <br>
+                        <span class="text-white/40">Skarp nok til at løse problemet.</span>
+                    </h2>
+                    <p class="mt-7 text-lg text-white/55 leading-relaxed">Jeg er ved at bygge den type virksomhed, jeg
+                        selv ville have lyst til at arbejde sammen med: direkte kommunikation, høj teknisk nysgerrighed
+                        og fokus på at løse opgaven fremfor at sælge timer.</p>
+                    <div class="mt-9 flex flex-wrap gap-3">
+                        <span class="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Direkte
+                            dialog</span>
+                        <span class="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Små
+                            serier</span>
+                        <span
+                              class="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Prototyper</span>
+                        <span class="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">DFM</span>
+                        <span class="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Måling</span>
                     </div>
-
-                    <div class="project-card group cursor-pointer">
-                        <div class="bg-industrial-900 overflow-hidden aspect-[4/3] border border-white/10 mb-4">
-                            <img src="img/mosin-render-1.png" alt="Mosin Nagant" class="w-full h-full object-contain p-8" onerror="this.src='https://placehold.co/800x600/171717/333333?text=Billede+Mangler'">
-                        </div>
-                        <h3 class="font-semibold text-lg">Mosin Nagant (Del A)</h3>
-                        <p class="text-industrial-400 text-sm">Reverse Engineering / Legacy</p>
-                    </div>
-
-                    <div class="project-card group cursor-pointer md:col-span-2 md:w-1/2 md:mx-auto">
-                        <div class="bg-industrial-900 overflow-hidden aspect-[4/3] border border-white/10 mb-4">
-                            <img src="img/ringbender.png" alt="Ringbøjer" class="w-full h-full object-contain p-8" onerror="this.src='https://placehold.co/800x600/171717/333333?text=Billede+Mangler'">
-                        </div>
-                        <h3 class="font-semibold text-lg">Ringbøjer Fikstur</h3>
-                        <p class="text-industrial-400 text-sm">Specialværktøj / Jigs</p>
-                    </div>
-
                 </div>
             </div>
         </section>
-
-        <!-- KONTAKT -->
-        <section id="kontakt" class="py-32 px-6">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-6">Lad os starte dialogen.</h2>
-                <p class="text-lg text-industrial-400 font-light mb-12 max-w-2xl mx-auto">
-                    Frem mod mit svendebrev i april 2027 bygger jeg mit professionelle netværk og løser specialopgaver. Står I med et DFM-problem nu, eller søger I en analytisk finmekaniker til fremtiden?
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="mailto:defnotglen@gmail.com" class="bg-white text-black font-semibold px-8 py-4 hover:bg-gray-200 transition-colors">
-                        Kontakt via E-mail
+        <section id="kontakt" class="px-5 lg:px-8 py-28 md:py-36 bg-white border-t border-black/10">
+            <div class="mx-auto max-w-7xl grid lg:grid-cols-[1fr_.75fr] gap-16 items-start">
+                <div class="reveal">
+                    <div class="tag text-orange">Har du en opgave?</div>
+                    <h2 class="mt-5 text-5xl md:text-7xl font-bold tracking-[-.06em] leading-[.92]">Lad os finde ud af,
+                        <br>
+                        <span class="text-black/35">om jeg kan lave den.</span>
+                    </h2>
+                    <p class="mt-8 max-w-xl text-lg leading-relaxed text-black/60">Du behøver ikke have et færdigt
+                        projekt. Start med at fortælle, hvad delen skal gøre, hvor mange du skal bruge, og hvad du
+                        allerede har.</p>
+                </div>
+                <div class="reveal rounded-[2rem] bg-paper border border-black/10 p-7 md:p-9 shadow-soft">
+                    <div class="tag text-black/40">Kontakt</div>
+                    <a href="mailto:defnotglen@gmail.com"
+                       class="mt-5 block text-2xl md:text-3xl font-semibold hover:text-orange transition">defnotglen@gmail.com</a>
+                    <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" rel="noreferrer"
+                       class="mt-5 inline-block text-black/50 hover:text-black transition">LinkedIn ↗</a>
+                    <div class="mt-8 orange-line"></div>
+                    <p class="mt-6 text-sm leading-relaxed text-black/55">Næste skridt kan være så simpelt som en fil,
+                        et billede eller en besked på tre linjer.</p>
+                    <a href="mailto:defnotglen@gmail.com"
+                       class="btn mt-7 inline-flex w-full items-center justify-between rounded-2xl bg-ink px-5 py-4 font-semibold text-paper">Send
+                        opgaven <span class="text-orange">→</span>
                     </a>
-                    <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" class="border border-white/20 font-semibold px-8 py-4 hover:bg-white/5 transition-colors">
-                        Find mig på LinkedIn
-                    </a>
                 </div>
             </div>
         </section>
-
     </main>
-
-    <footer class="border-t border-white/10 bg-industrial-900 px-6 py-8">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-industrial-400">
-            <div>&copy; 2026 Datum Prototyping</div>
-            <div class="flex items-center gap-2">
-                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-                System Operational
+    <footer class="border-t border-black/10 px-5 lg:px-8 py-10 bg-paper">
+        <div class="mx-auto max-w-7xl flex flex-col md:flex-row justify-between gap-6 text-sm">
+            <div>
+                <div class="font-semibold">Datum Prototyping</div>
+                <div class="mt-1 text-black/45">Finmekanik · CNC · Prototyper</div>
             </div>
+            <div class="text-black/45 max-w-md">En lille maskinforretning under opbygning. Målet er enkelt: at lave gode
+                dele, løse rigtige problemer og bygge noget, der kan stå på egne ben.</div>
+            <div class="tag text-black/35">© 2026</div>
         </div>
     </footer>
-
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+        const observer = new IntersectionObserver(entries => entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('show');
+                observer.unobserve(e.target)
+            }
+        }), {
+            threshold: .12
+        });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
+
 </html>
