@@ -200,29 +200,41 @@
                         <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/10"></div>
                         <div class="absolute -right-6 -top-6 h-36 w-36 rounded-full border border-orange/50"></div>
                         <div>
-                            <div class="tag text-white/45">Dato / status</div>
+                            <div class="tag text-white/45">Operationel Status</div>
                             <div class="mt-3 flex items-end justify-between">
                                 <div class="text-5xl md:text-6xl font-bold tracking-tight">2026</div>
-                                <div class="tag text-orange">Building in public</div>
+                                <div class="tag text-orange">Tidslinje</div>
                             </div>
                             <div class="orange-line mt-6"></div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4 mt-8">
-                            <div class="rounded-2xl bg-white/5 p-5">
-                                <div class="tag text-white/40">Fokus</div>
-                                <div class="mt-2 font-semibold">Præcision</div>
-                                <p class="mt-2 text-sm leading-relaxed text-white/55">Tolerancer, måling og en
-                                    gennemtænkt proces.</p>
-                            </div>
-                            <div class="rounded-2xl bg-white/5 p-5">
-                                <div class="tag text-white/40">Ambition</div>
-                                <div class="mt-2 font-semibold">Egen forretning</div>
-                                <p class="mt-2 text-sm leading-relaxed text-white/55">At bygge en lille, skarp
-                                    maskinforretning med reel værdi.</p>
-                            </div>
+                        
+                        <!-- Rå tidslinje data -->
+                        <div class="mt-8">
+                            <ul class="space-y-4">
+                                <li class="flex items-center justify-between border-b border-white/10 pb-4">
+                                    <div>
+                                        <div class="font-semibold text-lg">3. Hovedforløb</div>
+                                        <div class="text-sm text-white/45 mt-1">Uddannelsesforløb</div>
+                                    </div>
+                                    <div class="tag text-white/40 text-right leading-relaxed">Aug &mdash; Okt<br>2026</div>
+                                </li>
+                                <li class="flex items-center justify-between border-b border-white/10 pb-4">
+                                    <div>
+                                        <div class="font-semibold text-lg text-orange">Skolepraktik</div>
+                                        <div class="text-sm text-white/45 mt-1">Kapacitet tilgængelig</div>
+                                    </div>
+                                    <div class="tag text-orange text-right leading-relaxed">Okt &mdash; Mar<br>2026/27</div>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <div>
+                                        <div class="font-semibold text-lg">Svendeprøve</div>
+                                        <div class="text-sm text-white/45 mt-1">Endelig certificering</div>
+                                    </div>
+                                    <div class="tag text-white/40 text-right leading-relaxed">Mar &mdash; Apr<br>2027</div>
+                                </li>
+                            </ul>
                         </div>
-                        <p class="mt-8 text-sm text-white/45">Jeg er næsten færdig som finmekaniker. Indtil svendebrevet
-                            er i hus, bygger jeg samtidig erfaring, relationer og de første rigtige kundecases.</p>
+                        
                     </div>
                 </div>
             </div>
@@ -403,6 +415,7 @@
             </div>
         </section>
 
+        <!-- SPECIFIKATIONER & DATA -->
         <section id="specifikationer" class="px-5 lg:px-8 pb-28 md:pb-36">
             <div class="mx-auto max-w-7xl border-t border-black/10 pt-28 md:pt-36">
                 <div class="grid lg:grid-cols-[.7fr_1.3fr] gap-16">
@@ -500,6 +513,7 @@
             </div>
         </section>
         
+        <!-- ANSÆTTELSE / REKRUTTERING -->
         <section id="rekruttering" class="px-5 lg:px-8 pb-28 md:pb-36">
             <div class="mx-auto max-w-7xl rounded-[2.2rem] border border-orange/30 bg-orange/5 p-8 md:p-12 lg:p-16 relative reveal overflow-hidden">
                 <div class="absolute right-0 top-0 h-full w-1/3 opacity-20 pointer-events-none"
@@ -529,7 +543,7 @@
             <div class="mx-auto max-w-7xl grid lg:grid-cols-[1fr_.75fr] gap-16 items-start">
                 <div class="reveal">
                     <div class="tag text-orange">Har du en opgave?</div>
-                    <h2 class="mt-5 text-5xl md:text-7xl font-bold tracking-[-.06em] leading-[.92]">Lad os finde ud af,
+                    <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em] leading-[.92]">Lad os finde ud af,
                         <br>
                         <span class="text-black/35">om jeg kan lave den.</span>
                     </h2>
@@ -537,7 +551,7 @@
                         projekt. Start med at fortælle, hvad delen skal gøre, hvor mange du skal bruge, og hvad du
                         allerede har.</p>
                 </div>
-                <div class="reveal rounded-[2rem] bg-paper border border-black/10 p-7 md:p-9 shadow-soft">
+                <div class="reveal rounded-[2rem] bg-paper border border-black/10 p-7 md:p-9 shadow-soft flex flex-col justify-center">
                     <div class="tag text-black/40 mb-6">Kontakt</div>
                     <p class="text-sm leading-relaxed text-black/55 mb-7">Næste skridt kan være så simpelt som en fil,
                         et billede eller en besked på tre linjer.</p>
@@ -552,8 +566,8 @@
                            LinkedIn <span>↗</span>
                         </a>
                     </div>
-                    <p class="mt-6 text-xs text-black/40 text-center sm:text-left">
-                        *Alle filer og forespørgsler behandles strengt fortroligt. Standard NDA accepteres forud for deling af proprietær CAD-data.
+                    <p class="mt-6 text-[11px] text-black/40 text-center sm:text-left leading-relaxed">
+                        *Alle filer behandles strengt fortroligt. Standard NDA accepteres forud for deling af proprietær CAD-data.
                     </p>
                 </div>
             </div>
