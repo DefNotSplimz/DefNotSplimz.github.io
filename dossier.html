@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="da" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dossier // G. C. Hansen // Datum Prototyping</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -16,18 +16,16 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        mono: ['DM Mono', 'monospace']
                     },
                     colors: {
-                        industrial: {
-                            900: '#050505',
-                            800: '#111111',
-                            400: '#a3a3a3',
-                            100: '#f5f5f5',
-                            accent: '#ea580c' 
-                        }
+                        ink: '#0b0b0b',
+                        paper: '#f4f1ea',
+                        orange: '#ff641f',
+                        steel: '#9a9a95'
                     },
-                    animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    boxShadow: {
+                        soft: '0 20px 60px rgba(0,0,0,.08)'
                     }
                 }
             }
@@ -35,98 +33,52 @@
     </script>
     
     <style>
+        :root {
+            --orange: #ff641f;
+            --paper: #f4f1ea;
+            --ink: #0b0b0b;
+        }
+
         body {
-            background-color: #050505;
-            color: #f5f5f5;
-            overflow-x: hidden;
+            background: var(--paper);
+            color: var(--ink);
             line-height: 1.6;
         }
 
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-
-        /* 2026 Ambient Background Glow */
-        body::before {
-            content: '';
+        .grain:before {
+            content: "";
             position: fixed;
-            top: -20%; left: -10%;
-            width: 70vw; height: 70vw;
-            background: radial-gradient(circle, rgba(234, 88, 12, 0.03) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1;
+            inset: 0;
             pointer-events: none;
-        }
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -20%; right: -10%;
-            width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, rgba(0,0,0,0) 70%);
-            z-index: -1;
-            pointer-events: none;
+            opacity: .05;
+            z-index: 50;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
         }
 
-        /* Intersection Observer Fade-in Classes */
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .tag {
+            font: 500 11px/1 DM Mono, monospace;
+            letter-spacing: .12em;
+            text-transform: uppercase;
         }
 
-        /* Glass Cards */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            border-radius: 1rem;
-            transition: all 0.3s ease;
-        }
-        .glass-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.1);
+        .orange-line {
+            height: 3px;
+            background: var(--orange);
         }
 
         /* Tables */
         .data-table { width: 100%; font-size: 0.875rem; border-collapse: collapse; }
-        .data-table th, .data-table td { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: left; }
-        .data-table th { color: #a3a3a3; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 0.05em; }
-        .data-table td { color: #f5f5f5; }
+        .data-table th, .data-table td { padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.1); text-align: left; vertical-align: top; }
+        .data-table td { color: rgba(0,0,0,0.65); }
         .data-table tr:last-child td { border-bottom: none; }
 
-        /* Modern Buttons */
-        .btn-primary {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: #ffffff; color: #050505; border-radius: 999px;
-            font-weight: 600; padding: 0.5rem 1.25rem; font-size: 0.875rem;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 0 0 0 rgba(255,255,255,0.2);
-            cursor: pointer;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255,255,255,0.15);
-        }
-        
-        .btn-outline {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 999px; color: #ffffff;
-            font-weight: 600; padding: 0.5rem 1.25rem; font-size: 0.875rem;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-        }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
+        .btn { transition: .2s ease; cursor: pointer; }
+        .btn:hover { transform: translateY(-2px); }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #171717; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a3a3a3; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
 
         /* Print Optimization */
         @media print {
@@ -134,200 +86,195 @@
             body, html { 
                 background: #fff !important; 
                 color: #000 !important; 
-                overflow: visible !important;
             }
-            body::before, body::after, .print\:hidden, nav { display: none !important; }
+            .grain:before, .print\:hidden, nav { display: none !important; }
             
             h1, h2, h3, h4, p, span, li, div, strong, td, th { color: #000 !important; -webkit-text-fill-color: #000 !important; }
-            .text-industrial-400, .text-industrial-accent { color: #333 !important; }
+            .text-black\/65, .text-black\/60, .text-black\/50, .text-black\/40 { color: #333 !important; }
             
-            .glass-card { 
-                background: #fff !important; 
-                border: 1px solid #ccc !important; 
-                box-shadow: none !important;
-                backdrop-filter: none !important;
-                -webkit-backdrop-filter: none !important;
-                border-radius: 4px !important;
-                break-inside: avoid;
-                padding: 1.5rem !important;
-                transform: none !important;
-            }
-            .border-white\/10, .border-b { border-color: #ccc !important; }
-            .data-table th, .data-table td { border-bottom: 1px solid #eee !important; }
-            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+            .bg-ink { background: #fff !important; color: #000 !important; border: 1px solid #ccc !important; }
+            .bg-white { background: #fff !important; border: 1px solid #ccc !important; box-shadow: none !important; }
+            
+            .rounded-3xl, .rounded-\[2rem\] { border-radius: 4px !important; }
             
             main { padding-top: 0 !important; }
+            section { break-inside: avoid; margin-bottom: 2rem !important; }
         }
     </style>
 </head>
-<body class="selection:bg-industrial-accent selection:text-white">
+
+<body class="grain font-sans antialiased selection:bg-orange selection:text-white">
 
     <!-- NAVIGATION -->
-    <nav class="fixed top-0 w-full z-50 bg-industrial-900/60 backdrop-blur-xl border-b border-white/5 transition-all duration-300 print:hidden" id="navbar">
-        <div class="max-w-5xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="font-semibold tracking-tight text-lg flex items-center gap-3 uppercase">
-                <div class="w-2 h-2 bg-industrial-accent rounded-full animate-pulse-slow shadow-[0_0_8px_rgba(234,88,12,0.6)]"></div>
-                Datum Prototyping
-                <span class="hidden md:block font-mono text-[10px] text-industrial-400 uppercase tracking-widest pl-4 border-l border-white/10 ml-2">// Dossier</span>
-            </div>
-            <div class="flex items-center gap-3">
-                <button onclick="window.print()" class="btn-outline hidden sm:inline-flex gap-2">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                    Print PDF
-                </button>
-                <a href="index.html" class="btn-primary">Platform</a>
+    <nav class="fixed top-0 left-0 right-0 z-40 print:hidden">
+        <div class="mx-auto max-w-4xl px-5 lg:px-8 pt-4">
+            <div class="flex items-center justify-between rounded-full border border-black/10 bg-paper/90 backdrop-blur-xl px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,.06)]">
+                <div class="flex items-center gap-3">
+                    <span class="grid h-9 w-9 place-items-center rounded-full bg-ink text-paper font-bold">D</span>
+                    <span class="font-semibold tracking-tight">Datum Prototyping</span>
+                    <span class="hidden sm:block text-black/40 text-sm font-mono tracking-widest pl-3 border-l border-black/10 uppercase">// Dossier</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="window.print()" class="btn hidden sm:inline-flex items-center gap-2 rounded-full border border-black/20 bg-white px-5 py-2.5 text-sm font-semibold text-ink hover:bg-black/5">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="opacity-50"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        Print PDF
+                    </button>
+                    <a href="index.html" class="btn inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-paper">
+                        Platform <span>↗</span>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
-    <main class="pt-40 pb-24 px-4 sm:px-6 max-w-4xl mx-auto space-y-16 relative z-10">
+    <main class="pt-36 pb-24 px-5 sm:px-8 max-w-4xl mx-auto space-y-16">
 
         <!-- HEADER / IDENTIFIKATION -->
-        <header class="border-b border-white/10 pb-12 reveal">
-            <div class="font-mono text-xs text-industrial-400 uppercase tracking-widest mb-6 flex items-center gap-4">
-                <span class="w-6 h-[1px] bg-industrial-accent"></span> Identifikation
+        <header class="border-b border-black/10 pb-12">
+            <div class="tag flex items-center gap-3 mb-6 text-black/40">
+                <span class="inline-block w-8 h-[2px] bg-orange"></span> Identifikation
             </div>
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-2 uppercase leading-none">
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-[-.05em] mb-3 text-ink leading-none">
                 G. C. Hansen
             </h1>
-            <p class="font-mono text-xs text-industrial-accent font-bold uppercase tracking-widest mb-12">Finmekaniker-Lærling</p>
+            <p class="tag text-orange mb-10">Finmekaniker-Lærling</p>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 font-mono text-[10px] uppercase tracking-widest">
-                <div><span class="text-industrial-400 block mb-1">Dokument Type</span><span class="text-white">Teknisk Dossier / CV</span></div>
-                <div><span class="text-industrial-400 block mb-1">Status</span><span class="text-white">Svendeprøve: Apr 2027</span></div>
-                <div><span class="text-industrial-400 block mb-1">Kontakt</span><span class="text-white lowercase tracking-normal">defnotglen@gmail.com</span></div>
-                <div><span class="text-industrial-400 block mb-1">Lokation</span><span class="text-white">København / DK</span></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 tag text-black/50">
+                <div><span class="block mb-1 text-black/30">Dokument Type</span><span class="text-ink">Teknisk Dossier / CV</span></div>
+                <div><span class="block mb-1 text-black/30">Status</span><span class="text-ink">Svendeprøve: Apr 2027</span></div>
+                <div><span class="block mb-1 text-black/30">Kontakt</span><span class="text-ink lowercase tracking-normal font-sans text-sm">defnotglen@gmail.com</span></div>
+                <div><span class="block mb-1 text-black/30">Lokation</span><span class="text-ink">København / DK</span></div>
             </div>
         </header>
 
         <!-- SECTION 01: PROFIL -->
-        <section class="reveal">
-            <div class="font-mono text-xs text-industrial-400 uppercase tracking-widest mb-6">01 // Operativ Profil</div>
-            <p class="text-industrial-400 text-base max-w-3xl font-light leading-relaxed">
+        <section>
+            <div class="tag text-black/40 mb-5">01 / Operativ Profil</div>
+            <p class="text-lg text-black/65 max-w-3xl leading-relaxed">
                 Finmekaniker-lærling med hænderne skruet rigtigt på. Min hverdag er delt lige over mellem CNC-programmering og konventionel bearbejdning, hvilket giver den nødvendige taktile forståelse for materialer. Fokus ligger på at lukke gabet mellem ingeniørens 3D-tegning og virkeligheden på værkstedet. Arbejder dagligt med at identificere designfejl, redesigne umulige geometrier og konvertere dem til maskinerbare parter, der kan produceres rentabelt.
             </p>
         </section>
 
         <!-- SECTION 02: ERFARING -->
-        <section class="reveal">
-            <div class="font-mono text-xs text-industrial-400 uppercase tracking-widest mb-6">02 // Erfaring & Uddannelse</div>
-            <div class="glass-card p-8">
-                <div class="flex flex-col md:flex-row justify-between mb-6 border-b border-white/5 pb-6">
+        <section>
+            <div class="tag text-black/40 mb-5">02 / Erfaring & Uddannelse</div>
+            <div class="rounded-[2rem] bg-white border border-black/10 p-7 md:p-10 shadow-soft">
+                <div class="flex flex-col md:flex-row justify-between mb-6 border-b border-black/10 pb-6">
                     <div>
-                        <h3 class="font-bold text-white text-xl uppercase tracking-tight">TEC Frederiksberg</h3>
-                        <p class="font-mono text-[10px] text-industrial-400 uppercase mt-1">Skolepraktik</p>
+                        <h3 class="font-bold text-2xl tracking-tight text-ink">TEC Frederiksberg</h3>
+                        <p class="tag text-black/40 mt-2">Skolepraktik</p>
                     </div>
                     <div class="text-left md:text-right mt-4 md:mt-0">
-                        <span class="font-mono text-xs text-white block uppercase">2024 - Nuværende</span>
-                        <span class="font-mono text-[10px] text-industrial-accent uppercase mt-1 block">Svendeprøve: Apr 2027</span>
+                        <span class="tag text-ink block">2024 - Nuværende</span>
+                        <span class="tag text-orange mt-2 block">Svendeprøve: Apr 2027</span>
                     </div>
                 </div>
-                <ul class="text-sm font-light text-industrial-400 space-y-6">
+                <ul class="text-[15px] text-black/65 space-y-6">
                     <li class="flex gap-4">
-                        <span class="w-1.5 h-1.5 rounded-full bg-industrial-accent mt-2 shrink-0"></span>
-                        <div><strong class="text-white font-medium block mb-1">Spåntagning</strong> Opsætning, programmering og drift af CNC-fræser og CNC-drejebænk, samt tungt fokus på manuel bearbejdning.</div>
+                        <span class="w-1.5 h-1.5 rounded-full bg-orange mt-2.5 shrink-0"></span>
+                        <div><strong class="text-ink font-semibold block mb-1">Spåntagning</strong> Opsætning, programmering og drift af CNC-fræser og CNC-drejebænk, samt tungt fokus på manuel bearbejdning.</div>
                     </li>
                     <li class="flex gap-4">
-                        <span class="w-1.5 h-1.5 rounded-full bg-industrial-accent mt-2 shrink-0"></span>
-                        <div><strong class="text-white font-medium block mb-1">Kvalitetskontrol</strong> Manuel opmåling af emner for at sikre, at pres- og glidepasninger samt øvrige tolerancer overholdes i virkeligheden.</div>
+                        <span class="w-1.5 h-1.5 rounded-full bg-orange mt-2.5 shrink-0"></span>
+                        <div><strong class="text-ink font-semibold block mb-1">Kvalitetskontrol</strong> Manuel opmåling af emner for at sikre, at pres- og glidepasninger samt øvrige tolerancer overholdes i virkeligheden.</div>
                     </li>
                     <li class="flex gap-4">
-                        <span class="w-1.5 h-1.5 rounded-full bg-industrial-accent mt-2 shrink-0"></span>
-                        <div><strong class="text-white font-medium block mb-1">Design & CAM (DFM)</strong> Kundedialog, CAD-tegning og udbedring af teoretiske "skrivebordsfejl" direkte i Fusion 360 før spåntagning.</div>
+                        <span class="w-1.5 h-1.5 rounded-full bg-orange mt-2.5 shrink-0"></span>
+                        <div><strong class="text-ink font-semibold block mb-1">Design & CAM (DFM)</strong> Kundedialog, CAD-tegning og udbedring af teoretiske "skrivebordsfejl" direkte i Fusion 360 før spåntagning.</div>
                     </li>
                 </ul>
             </div>
         </section>
 
         <!-- SECTION 03: SPECIFIKATIONER -->
-        <section class="reveal">
-            <div class="font-mono text-xs text-industrial-400 uppercase tracking-widest mb-6">03 // Maskiner & Materialer</div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="glass-card p-6">
-                    <h3 class="font-mono font-bold text-white text-[10px] uppercase tracking-widest border-b border-white/5 pb-3 mb-3">Maskinpark</h3>
+        <section>
+            <div class="tag text-black/40 mb-5">03 / Maskiner & Materialer</div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="rounded-[2rem] bg-white border border-black/10 p-6 shadow-sm">
+                    <h3 class="tag text-ink border-b border-black/10 pb-3 mb-3">Maskinpark</h3>
                     <table class="data-table">
-                        <tr><td><strong class="text-white font-normal block mb-1">Haas Mini Mill</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">3-Akset CNC Fræser</span></td></tr>
-                        <tr><td><strong class="text-white font-normal block mb-1">Haas ST-10</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">2-Akset CNC Drejebænk</span></td></tr>
-                        <tr><td class="border-b-0"><strong class="text-white font-normal block mb-1">Konventionel</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">Manuel fræs og drej</span></td></tr>
+                        <tr><td><strong class="text-ink font-semibold block mb-1">Haas Mini Mill</strong><span class="tag text-black/40">3-Akset CNC Fræser</span></td></tr>
+                        <tr><td><strong class="text-ink font-semibold block mb-1">Haas ST-10</strong><span class="tag text-black/40">2-Akset CNC Drejebænk</span></td></tr>
+                        <tr><td class="border-b-0"><strong class="text-ink font-semibold block mb-1">Konventionel</strong><span class="tag text-black/40">Manuel fræs og drej</span></td></tr>
                     </table>
                 </div>
 
-                <div class="glass-card p-6">
-                    <h3 class="font-mono font-bold text-white text-[10px] uppercase tracking-widest border-b border-white/5 pb-3 mb-3">Opmåling & Tolerancer</h3>
+                <div class="rounded-[2rem] bg-white border border-black/10 p-6 shadow-sm">
+                    <h3 class="tag text-ink border-b border-black/10 pb-3 mb-3">Opmåling & Tolerancer</h3>
                     <table class="data-table">
-                        <tr><td><strong class="text-white font-normal block mb-1">Pasninger</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">Glide- og Prespasninger</span></td></tr>
-                        <tr><td><strong class="text-white font-normal block mb-1">Værktøj</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">Mikrometerskrue, skydelære</span></td></tr>
-                        <tr><td class="border-b-0"><strong class="text-white font-normal block mb-1">Bearbejdning</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">Sletkørsel til tolerance</span></td></tr>
+                        <tr><td><strong class="text-ink font-semibold block mb-1">Pasninger</strong><span class="tag text-black/40">Glide- og Prespasninger</span></td></tr>
+                        <tr><td><strong class="text-ink font-semibold block mb-1">Værktøj</strong><span class="tag text-black/40">Mikrometerskrue, måleur</span></td></tr>
+                        <tr><td class="border-b-0"><strong class="text-ink font-semibold block mb-1">Bearbejdning</strong><span class="tag text-black/40">Sletkørsel til tolerance</span></td></tr>
                     </table>
                 </div>
 
-                <div class="glass-card p-6">
-                    <h3 class="font-mono font-bold text-white text-[10px] uppercase tracking-widest border-b border-white/5 pb-3 mb-3">Materialeregister</h3>
+                <div class="rounded-[2rem] bg-white border border-black/10 p-6 shadow-sm">
+                    <h3 class="tag text-ink border-b border-black/10 pb-3 mb-3">Materialeregister</h3>
                     <table class="data-table">
-                        <tr><td><strong class="text-white font-normal block mb-1">Metaller</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">Alu, Messing, Automatstål</span></td></tr>
-                        <tr><td><strong class="text-white font-normal block mb-1">Hårde Legeringer</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">Rustfast, Værktøjsstål</span></td></tr>
-                        <tr><td class="border-b-0"><strong class="text-white font-normal block mb-1">Teknisk Plast</strong><span class="text-industrial-400 text-[10px] uppercase tracking-widest">POM/Delrin, Nylon, Akryl</span></td></tr>
+                        <tr><td><strong class="text-ink font-semibold block mb-1">Metaller</strong><span class="tag text-black/40">Alu, Messing, Automatstål</span></td></tr>
+                        <tr><td><strong class="text-ink font-semibold block mb-1">Hårde Legeringer</strong><span class="tag text-black/40">Rustfast, Værktøjsstål</span></td></tr>
+                        <tr><td class="border-b-0"><strong class="text-ink font-semibold block mb-1">Teknisk Plast</strong><span class="tag text-black/40">POM/Delrin, Nylon, Akryl</span></td></tr>
                     </table>
                 </div>
             </div>
         </section>
 
         <!-- SECTION 04: SOFTWARE STACK -->
-        <section class="reveal">
-            <div class="font-mono text-xs text-industrial-400 uppercase tracking-widest mb-6">04 // Software & Styring</div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass-card p-8 flex flex-col justify-center">
-                    <h3 class="font-mono font-bold text-industrial-accent text-[10px] uppercase mb-2 tracking-widest">CAD / CAM Arbejdsmiljø</h3>
-                    <span class="text-2xl font-bold uppercase text-white tracking-tight">Autodesk Fusion 360</span>
+        <section>
+            <div class="tag text-black/40 mb-5">04 / Software & Styring</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="rounded-[2rem] bg-ink text-paper p-8 flex flex-col justify-center min-h-[140px]">
+                    <h3 class="tag text-orange mb-2">CAD / CAM Arbejdsmiljø</h3>
+                    <span class="text-2xl font-bold tracking-tight">Autodesk Fusion 360</span>
                 </div>
-                <div class="glass-card p-8 flex flex-col justify-center">
-                    <h3 class="font-mono font-bold text-industrial-accent text-[10px] uppercase mb-2 tracking-widest">Maskinstyring</h3>
-                    <span class="text-2xl font-bold uppercase text-white tracking-tight">Haas NGC</span>
+                <div class="rounded-[2rem] bg-ink text-paper p-8 flex flex-col justify-center min-h-[140px]">
+                    <h3 class="tag text-orange mb-2">Maskinstyring</h3>
+                    <span class="text-2xl font-bold tracking-tight">Haas NGC</span>
                 </div>
             </div>
         </section>
 
         <!-- SECTION 05: CASES -->
-        <section class="reveal">
-            <div class="font-mono text-xs text-industrial-400 uppercase tracking-widest mb-6">05 // Projekter & Praksis (Udpluk)</div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section>
+            <div class="tag text-black/40 mb-5">05 / Projekter & Praksis (Udpluk)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 
-                <div class="glass-card p-8 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-bold text-white text-xl uppercase tracking-tight">Flame Eater</h3>
-                        <span class="font-mono text-[9px] text-industrial-400 border border-white/10 bg-white/5 rounded-md px-3 py-1 uppercase tracking-widest">H2 Projekt</span>
+                <div class="rounded-[2rem] bg-white border border-black/10 p-7 shadow-sm flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-4 gap-4">
+                        <h3 class="font-bold text-xl tracking-tight text-ink">Flame Eater</h3>
+                        <span class="tag text-black/50 border border-black/10 bg-black/5 rounded-md px-2 py-1 shrink-0">H2 Projekt</span>
                     </div>
-                    <p class="text-sm font-light text-industrial-400 mb-6 flex-grow leading-relaxed">
+                    <p class="text-sm text-black/65 mb-2 flex-grow leading-relaxed">
                         Design og bearbejdning af en termisk motor (Flame Eater). Projektet krævede fremstilling af en komplet samling, hvor snævre pasninger var afgørende for maskinens funktionalitet og friktion.
                     </p>
                 </div>
 
-                <div class="glass-card p-8 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-bold text-white text-xl uppercase tracking-tight">Mosin Nagant (Dele)</h3>
-                        <span class="font-mono text-[9px] text-industrial-400 border border-white/10 bg-white/5 rounded-md px-3 py-1 uppercase tracking-widest">Restaurering</span>
+                <div class="rounded-[2rem] bg-white border border-black/10 p-7 shadow-sm flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-4 gap-4">
+                        <h3 class="font-bold text-xl tracking-tight text-ink">Mosin Nagant (Dele)</h3>
+                        <span class="tag text-black/50 border border-black/10 bg-black/5 rounded-md px-2 py-1 shrink-0">Restaurering</span>
                     </div>
-                    <p class="text-sm font-light text-industrial-400 mb-6 flex-grow leading-relaxed">
+                    <p class="text-sm text-black/65 mb-2 flex-grow leading-relaxed">
                         Reverse engineering og maskinering af manglende specialdele til en anden elevs restaureringsprojekt af en historisk riffel fra 2. verdenskrig. 
                     </p>
                 </div>
 
-                <div class="glass-card p-8 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-bold text-white text-xl uppercase tracking-tight">Ringbøjer</h3>
-                        <span class="font-mono text-[9px] text-industrial-400 border border-white/10 bg-white/5 rounded-md px-3 py-1 uppercase tracking-widest">Værktøj / GF1</span>
+                <div class="rounded-[2rem] bg-white border border-black/10 p-7 shadow-sm flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-4 gap-4">
+                        <h3 class="font-bold text-xl tracking-tight text-ink">Ringbøjer</h3>
+                        <span class="tag text-black/50 border border-black/10 bg-black/5 rounded-md px-2 py-1 shrink-0">Værktøj / GF1</span>
                     </div>
-                    <p class="text-sm font-light text-industrial-400 mb-6 flex-grow leading-relaxed">
+                    <p class="text-sm text-black/65 mb-2 flex-grow leading-relaxed">
                         Design og fremstilling af et specialværktøj (ringbøjer) på bestilling fra GF1-læreren. Værktøjet benyttes nu aktivt i undervisningen af nye elever.
                     </p>
                 </div>
 
-                <div class="glass-card p-8 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-bold text-white text-xl uppercase tracking-tight">Tic-Tac-Toe Bræt</h3>
-                        <span class="font-mono text-[9px] text-industrial-400 border border-white/10 bg-white/5 rounded-md px-3 py-1 uppercase tracking-widest">Custom Projekt</span>
+                <div class="rounded-[2rem] bg-white border border-black/10 p-7 shadow-sm flex flex-col h-full">
+                    <div class="flex justify-between items-start mb-4 gap-4">
+                        <h3 class="font-bold text-xl tracking-tight text-ink">Tic-Tac-Toe Bræt</h3>
+                        <span class="tag text-black/50 border border-black/10 bg-black/5 rounded-md px-2 py-1 shrink-0">Custom Projekt</span>
                     </div>
-                    <p class="text-sm font-light text-industrial-400 mb-6 flex-grow leading-relaxed">
+                    <p class="text-sm text-black/65 mb-2 flex-grow leading-relaxed">
                         Selvstændigt design, CAD-modellering og CAM-programmering af et spilbræt. Gennemført fra første streg i Fusion 360 til det færdigfræste produkt.
                     </p>
                 </div>
@@ -337,38 +284,5 @@
 
     </main>
 
-    <!-- INTERSECTION OBSERVER SCRIPT -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const reveals = document.querySelectorAll('.reveal');
-            
-            const revealOnScroll = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        observer.unobserve(entry.target); 
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            });
-
-            reveals.forEach(reveal => {
-                revealOnScroll.observe(reveal);
-            });
-            
-            const navbar = document.getElementById('navbar');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('shadow-lg', 'bg-industrial-900/80');
-                    navbar.classList.remove('bg-industrial-900/60');
-                } else {
-                    navbar.classList.remove('shadow-lg', 'bg-industrial-900/80');
-                    navbar.classList.add('bg-industrial-900/60');
-                }
-            });
-        });
-    </script>
 </body>
 </html>
