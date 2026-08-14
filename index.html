@@ -123,6 +123,24 @@
         .menu-open {
             overflow: hidden;
         }
+        
+        /* Form styling */
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230b0b0b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
+        }
+
+        /* Optgroup styling inside form */
+        optgroup {
+            font-weight: 600;
+            color: #ff641f;
+        }
+        option {
+            color: #0b0b0b;
+        }
     </style>
 </head>
 
@@ -140,9 +158,9 @@
                     <a href="#loesninger" class="hover:text-orange">Hvad jeg laver</a>
                     <a href="#arbejde" class="hover:text-orange">Projekter</a>
                     <a href="#proces" class="hover:text-orange">Sådan arbejder jeg</a>
-                    <a href="#kontakt" class="hover:text-orange">Kontakt</a>
+                    <a href="#generator" class="hover:text-orange">Bestil</a>
                 </div>
-                <a href="#kontakt"
+                <a href="#generator"
                    class="btn hidden sm:inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-paper">Start
                     en opgave <span>↗</span>
                 </a>
@@ -155,7 +173,7 @@
                 <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="#arbejde">Projekter</a>
                 <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="#proces">Sådan arbejder jeg</a>
                 <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="dossier.html">CV / Dossier</a>
-                <a class="block rounded-2xl bg-ink px-4 py-3 text-paper" href="#kontakt">Start en opgave ↗</a>
+                <a class="block rounded-2xl bg-ink px-4 py-3 text-paper" href="#generator">Start en opgave ↗</a>
             </div>
         </div>
     </header>
@@ -177,7 +195,7 @@
                         opgaven, tænker produktion ind fra starten og går efter en løsning, der holder i virkeligheden.
                     </p>
                     <div class="mt-10 flex flex-col sm:flex-row gap-3">
-                        <a href="#kontakt"
+                        <a href="#generator"
                            class="btn inline-flex items-center justify-center gap-3 rounded-full bg-orange px-7 py-4 font-semibold text-white">Fortæl
                             mig om din del <span>→</span>
                         </a>
@@ -536,39 +554,132 @@
             </div>
         </section>
 
-        <section id="kontakt" class="px-5 lg:px-8 py-28 md:py-36 bg-white border-t border-black/10">
-            <div class="mx-auto max-w-7xl grid lg:grid-cols-[1fr_.75fr] gap-16 items-start">
-                <div class="reveal">
-                    <div class="tag text-orange">Har du en opgave?</div>
-                    <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em] leading-[.92]">Lad os finde ud af,
-                        <br>
-                        <span class="text-black/35">om jeg kan lave den.</span>
-                    </h2>
-                    <p class="mt-8 max-w-xl text-lg leading-relaxed text-black/60">Du behøver ikke have et færdigt
-                        projekt. Start med at fortælle, hvad delen skal gøre, hvor mange du skal bruge, og hvad du
-                        allerede har.</p>
-                </div>
-                <div class="reveal rounded-[2rem] bg-paper border border-black/10 p-7 md:p-9 shadow-soft flex flex-col justify-center">
-                    <div class="tag text-black/40 mb-6">Kontakt</div>
-                    <p class="text-sm leading-relaxed text-black/55 mb-7">Næste skridt kan være så simpelt som en fil,
-                        et billede eller en besked på tre linjer.</p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <a href="mailto:defnotglen@gmail.com"
-                           class="btn flex-1 inline-flex items-center justify-between rounded-2xl bg-ink px-5 py-4 font-semibold text-paper">
-                           Send mail <span class="text-orange">→</span>
-                        </a>
-                        <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" rel="noreferrer"
-                           class="btn flex-1 inline-flex items-center justify-between rounded-2xl border border-black/20 bg-white px-5 py-4 font-semibold text-ink hover:bg-black/5">
-                           LinkedIn <span>↗</span>
-                        </a>
+        <!-- OPGAVE GENERATOR / KONTAKT -->
+        <section id="generator" class="px-5 lg:px-8 pb-28 md:pb-36 border-t border-black/10 pt-28 md:pt-36">
+            <div class="mx-auto max-w-7xl">
+                <div class="grid lg:grid-cols-[.7fr_1.3fr] gap-16">
+                    <div class="reveal">
+                        <div class="tag text-orange">RFQ / Tilbudsanmodning</div>
+                        <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em] leading-[.95]">Definér <br>parametrene.</h2>
+                        <p class="mt-6 text-black/60 leading-relaxed max-w-md">Eliminér gætværk. Brug systemet til at generere en præcis forespørgsel. Jo mere data du leverer fra start, desto hurtigere afklarer vi, om opgaven kan eksekveres.</p>
+                        <div class="mt-8 p-5 bg-orange/5 border border-orange/20 rounded-2xl">
+                            <p class="text-sm text-black/70 leading-relaxed">
+                                <strong>Fortrolighed:</strong> Dette ark genererer blot en rå tekstblok lokalt på din maskine. Filer og proprietær data vedhæftes i din egen mailklient. Standard NDA accepteres.
+                            </p>
+                        </div>
                     </div>
-                    <p class="mt-6 text-[11px] text-black/40 text-center sm:text-left leading-relaxed">
-                        *Alle filer behandles strengt fortroligt. Standard NDA accepteres forud for deling af proprietær CAD-data.
-                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-6 reveal" id="kontakt">
+                        <!-- Input Form -->
+                        <div class="flex flex-col gap-4 bg-white border border-black/10 rounded-[2rem] p-7 shadow-soft">
+                            <div>
+                                <label class="block text-[11px] font-semibold text-black/50 uppercase tracking-widest mb-2">Delens navn / Projekt</label>
+                                <input type="text" id="partName" placeholder="F.eks. Sensorhus V2" class="w-full bg-paper border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/50 transition">
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-black/50 uppercase tracking-widest mb-2">Proces</label>
+                                    <select id="processType" class="form-select w-full bg-paper border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/50 transition">
+                                        <option value="Fræsning (CNC)">Fræsning (CNC)</option>
+                                        <option value="Drejning (CNC)">Drejning (CNC)</option>
+                                        <option value="Fræs & Drej">Kombineret Fræs & Drej</option>
+                                        <option value="3D Print (FDM)">3D Print (FDM)</option>
+                                        <option value="Afventer DFM-analyse">Afventer DFM-analyse</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-black/50 uppercase tracking-widest mb-2">CAD / Datagrundlag</label>
+                                    <select id="fileType" class="form-select w-full bg-paper border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/50 transition">
+                                        <option value="3D-model (.STEP / .F3D)">3D-model (.STEP)</option>
+                                        <option value="2D-tegning (.PDF / .DXF)">2D-tegning (.PDF/.DXF)</option>
+                                        <option value="Håndskitse / Billede">Håndskitse / Billede</option>
+                                        <option value="Fysisk del (Kopi)">Fysisk del (Kopi)</option>
+                                        <option value="Kun en idé">Kun en idé</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-black/50 uppercase tracking-widest mb-2">Materiale</label>
+                                    <select id="materialType" class="form-select w-full bg-paper border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/50 transition">
+                                        <optgroup label="Metaller">
+                                            <option value="Aluminium (6082/7075)">Aluminium</option>
+                                            <option value="Rustfast stål">Rustfast stål</option>
+                                            <option value="Automatstål">Automatstål</option>
+                                            <option value="Messing">Messing</option>
+                                            <option value="Værktøjsstål">Værktøjsstål</option>
+                                        </optgroup>
+                                        <optgroup label="Teknisk Plast">
+                                            <option value="POM / Delrin">POM / Delrin</option>
+                                            <option value="Nylon">Nylon</option>
+                                            <option value="Akryl">Akryl</option>
+                                        </optgroup>
+                                        <optgroup label="3D Print">
+                                            <option value="PLA / PETG / ASA">PLA / PETG / ASA</option>
+                                            <option value="Teknisk Filament">Teknisk Filament</option>
+                                        </optgroup>
+                                        <optgroup label="Andet">
+                                            <option value="Specificeres i mail">Specificeres i mail</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-black/50 uppercase tracking-widest mb-2">Overflade</label>
+                                    <select id="surfaceFinish" class="form-select w-full bg-paper border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/50 transition">
+                                        <option value="Standard (As machined)">Standard (As machined)</option>
+                                        <option value="Glasblæst">Glasblæst</option>
+                                        <option value="Anodiseret (Kun Alu)">Anodiseret (Kun Alu)</option>
+                                        <option value="Specificeres i mail">Specificeres i mail</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-[10px] font-semibold text-black/50 uppercase tracking-widest mb-2">Seriestørrelse</label>
+                                    <input type="number" id="quantity" placeholder="1" min="1" class="w-full bg-paper border border-black/10 rounded-xl px-3 py-3 text-sm focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/50 transition">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-semibold text-black/50 uppercase tracking-widest mb-2">Tolerancer</label>
+                                    <select id="tolerances" class="form-select w-full bg-paper border border-black/10 rounded-xl px-2 py-3 text-xs focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/50 transition">
+                                        <option value="Standard (ISO 2768-m)">Standard (ISO 2768-m)</option>
+                                        <option value="Snævre (H7)">Snævre (H7)</option>
+                                        <option value="Ikke kritisk">Ikke kritisk</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] font-semibold text-black/50 uppercase tracking-widest mb-2">Horisont</label>
+                                    <select id="timeline" class="form-select w-full bg-paper border border-black/10 rounded-xl px-2 py-3 text-xs focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/50 transition">
+                                        <option value="Standard">Standard</option>
+                                        <option value="Kritisk / Nedbrud">Kritisk / Nedbrud</option>
+                                        <option value="Fleksibel">Fleksibel</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Output Preview -->
+                        <div class="bg-ink text-paper rounded-[2rem] p-7 flex flex-col justify-between shadow-soft">
+                            <div>
+                                <div class="tag text-orange mb-4">Output / Payload</div>
+                                <pre id="emailPreview" class="text-[11px] font-mono text-white/70 whitespace-pre-wrap leading-relaxed overflow-x-auto"></pre>
+                            </div>
+                            <div class="mt-8 flex flex-col gap-3">
+                                <button id="copyBtn" class="btn w-full inline-flex items-center justify-center rounded-xl border border-white/20 bg-transparent px-5 py-3 font-semibold text-paper hover:bg-white/10">
+                                    Kopiér Data
+                                </button>
+                                <button id="mailBtn" class="btn w-full inline-flex items-center justify-center rounded-xl bg-orange px-5 py-3 font-semibold text-white">
+                                    Åbn i Mailklient →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+
     </main>
     <footer class="border-t border-black/10 px-5 lg:px-8 py-10 bg-paper">
         <div class="mx-auto max-w-7xl flex flex-col md:flex-row justify-between gap-6 text-sm">
@@ -580,20 +691,76 @@
             <div class="tag text-black/35">© 2026</div>
         </div>
     </footer>
+
     <script>
+        // Menu & Reveal Logik
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
         mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+        
         const observer = new IntersectionObserver(entries => entries.forEach(e => {
             if (e.isIntersecting) {
                 e.target.classList.add('show');
                 observer.unobserve(e.target)
             }
-        }), {
-            threshold: .12
-        });
+        }), { threshold: .12 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Generator Logik
+        const partNameInput = document.getElementById('partName');
+        const processInput = document.getElementById('processType');
+        const materialInput = document.getElementById('materialType');
+        const qtyInput = document.getElementById('quantity');
+        const tolInput = document.getElementById('tolerances');
+        const fileInput = document.getElementById('fileType');
+        const surfaceInput = document.getElementById('surfaceFinish');
+        const timeInput = document.getElementById('timeline');
+        
+        const previewEl = document.getElementById('emailPreview');
+        const copyBtn = document.getElementById('copyBtn');
+        const mailBtn = document.getElementById('mailBtn');
+
+        function generateEmailText() {
+            const part = partNameInput.value || "[Udefineret part]";
+            const process = processInput.value;
+            const material = materialInput.value;
+            const qty = qtyInput.value || "[X]";
+            const tol = tolInput.value;
+            const files = fileInput.value;
+            const surface = surfaceInput.value;
+            const timeline = timeInput.value;
+
+            return `Forespørgsel vedr. produktion.\n\n-- PROJEKTDATA --\nPart: ${part}\nSeriestørrelse: ${qty} stk.\nLeveringshorisont: ${timeline}\n\n-- TEKNISKE SPECIFIKATIONER --\nDatagrundlag: ${files}\nProces: ${process}\nMateriale: ${material}\nOverflade: ${surface}\nTolerancer: ${tol}\n\n-- OPGAVEBESKRIVELSE --\n[Indsæt teknisk beskrivelse af partens funktion, kritiske mål, og husk at vedhæfte CAD-data / filer her]\n\nMed venlig hilsen,\n[Dit Navn]`;
+        }
+
+        function updatePreview() {
+            previewEl.textContent = generateEmailText();
+        }
+
+        // Event Listeners for inputs
+        [partNameInput, processInput, materialInput, qtyInput, tolInput, fileInput, surfaceInput, timeInput].forEach(input => {
+            input.addEventListener('input', updatePreview);
+        });
+
+        // Copy functionality
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(generateEmailText()).then(() => {
+                const originalText = copyBtn.innerText;
+                copyBtn.textContent = "Kopieret!";
+                setTimeout(() => { copyBtn.innerText = originalText; }, 2000);
+            });
+        });
+
+        // MailTo functionality
+        mailBtn.addEventListener('click', () => {
+            const subject = encodeURIComponent(`Forespørgsel: ${partNameInput.value || "Maskinbearbejdning"}`);
+            const body = encodeURIComponent(generateEmailText());
+            window.location.href = `mailto:defnotglen@gmail.com?subject=${subject}&body=${body}`;
+        });
+
+        // Initialize
+        updatePreview();
     </script>
 </body>
 
