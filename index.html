@@ -134,21 +134,21 @@
         .modal-active {
             overflow: hidden;
         }
-        #caseModal {
+        .datum-modal {
             visibility: hidden;
             opacity: 0;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         }
-        #caseModal.show {
+        .datum-modal.show {
             visibility: visible;
             opacity: 1;
             transition: opacity 0.3s ease, visibility 0s;
         }
-        #modalPanel {
+        .modal-panel {
             transform: translateY(20px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        #caseModal.show #modalPanel {
+        .datum-modal.show .modal-panel {
             transform: translateY(0);
         }
     </style>
@@ -366,7 +366,7 @@
                 
                 <div class="mt-14 grid lg:grid-cols-3 gap-6">
                     <!-- Kort 1 -->
-                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openModal('flame')">
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openCaseModal('flame')">
                         <div class="case-media">
                             <img src="img/flame-render.png" alt="Flame Eater Engine"
                                  onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
@@ -384,7 +384,7 @@
                     </article>
 
                     <!-- Kort 2 -->
-                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openModal('mosin')">
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openCaseModal('mosin')">
                         <div class="case-media">
                             <img src="img/mosin-render-1.png" alt="Mosin Nagant del"
                                  onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
@@ -403,7 +403,7 @@
                     </article>
 
                     <!-- Kort 3 -->
-                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openModal('ring')">
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openCaseModal('ring')">
                         <div class="case-media">
                             <img src="img/ringbender.png" alt="Ringbøjer fikstur"
                                  onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
@@ -483,62 +483,112 @@
                     <div class="reveal">
                         <div class="tag text-orange">Kapacitet & Data</div>
                         <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em] leading-[.95]">Tekniske <br>rammer.</h2>
-                        <p class="mt-6 text-black/60 leading-relaxed max-w-md">For at eliminere gætværk er her de hårde data på, hvad jeg arbejder i, og hvilke krav jeg kan imødekomme.</p>
+                        <p class="mt-6 text-black/60 leading-relaxed max-w-md">For at eliminere gætværk er her de hårde data på, hvilket hardware der køres på, hvordan data håndteres, og hvordan tolerancer verificeres.</p>
                     </div>
                     <div class="grid sm:grid-cols-2 gap-x-8 gap-y-12 reveal">
                         
+                        <!-- 1. Maskinpark -->
                         <div>
-                            <h3 class="text-xl font-semibold">Fræsning & Drejning</h3>
+                            <h3 class="text-xl font-semibold">Maskinpark & Arbejdsområde</h3>
                             <p class="mt-3 text-sm text-black/60 leading-relaxed">
-                                Løbende produktionserfaring og optimerede skæredata til:
+                                Produktionen afvikles på CNC-maskiner til de komplekse forløb, og high-end konventionelle maskiner til taktil finmekanik og værktøjsfremstilling.
+                            </p>
+                            <div class="mt-5 space-y-4">
+                                
+                                <div>
+                                    <div class="tag text-black/40 mb-3 border-b border-black/5 pb-2">CNC Bearbejdning</div>
+                                    <div class="space-y-3">
+                                        <div class="border border-black/10 rounded-xl p-3 bg-white/50">
+                                            <div class="font-semibold text-sm">Haas Mini Mill <span class="text-black/40 font-normal">— 3-Akset Fræser</span></div>
+                                            <div class="font-mono text-xs text-black/50 mt-1">Vandring: X406 × Y305 × Z254 mm</div>
+                                        </div>
+                                        <div class="border border-black/10 rounded-xl p-3 bg-white/50">
+                                            <div class="font-semibold text-sm">Haas ST-10 <span class="text-black/40 font-normal">— 2-Akset Drejebænk</span></div>
+                                            <div class="font-mono text-xs text-black/50 mt-1">Kapacitet: Max Ø356 × L356 mm</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="tag text-black/40 mb-3 border-b border-black/5 pb-2">Konventionel Finmekanik</div>
+                                    <div class="space-y-3">
+                                        <div class="border border-black/10 rounded-xl p-3 bg-white/50">
+                                            <div class="font-semibold text-sm">Deckel FP1 <span class="text-black/40 font-normal">— Universal Værktøjsfræser</span></div>
+                                        </div>
+                                        <div class="border border-black/10 rounded-xl p-3 bg-white/50">
+                                            <div class="font-semibold text-sm">Weiler Matador <span class="text-black/40 font-normal">— Værktøjsdrejebænk</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- 2. Materialer (Interaktiv) -->
+                        <div>
+                            <h3 class="text-xl font-semibold">Materialeregister</h3>
+                            <p class="mt-3 text-sm text-black/60 leading-relaxed">
+                                Løbende produktionserfaring og optimerede skæredata til spåntagning. Klik på et materiale for at se applikationer og specifikationer.
                             </p>
                             <ul class="mt-4 space-y-2 text-sm text-black/80 font-medium">
-                                <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange"></span> Aluminium & Messing</li>
-                                <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange"></span> Automatstål</li>
-                                <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange"></span> Rustfast / Rustfrit stål</li>
-                                <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange"></span> Værktøjsstål</li>
-                                <li class="flex items-center gap-2"><span class="w-1 h-1 rounded-full bg-orange"></span> POM/Delrin, Nylon & Akryl</li>
+                                <li>
+                                    <button onclick="openMatModal('alu')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Aluminium & Messing</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button onclick="openMatModal('steel_auto')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Automatstål</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button onclick="openMatModal('steel_stain')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Rustfast Stål (316L)</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button onclick="openMatModal('tool')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Værktøjsstål</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button onclick="openMatModal('plast')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                        <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Teknisk Plast (POM/Nylon)</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                    </button>
+                                </li>
                             </ul>
                         </div>
 
+                        <!-- 3. QC & Opmåling -->
                         <div>
-                            <h3 class="text-xl font-semibold">Kvalitetssikring & Pasninger</h3>
+                            <h3 class="text-xl font-semibold">Kvalitetskontrol (QC)</h3>
                             <p class="mt-3 text-sm text-black/60 leading-relaxed">
-                                Tolerancer forudsætter systematisk kontrol. H7-pasninger (og lignende) sikres og verificeres fysisk undervejs i bearbejdningen.
+                                Tolerancer stoles ikke på, de verificeres. Kritiske mål og pasninger (H7/p6) udbedres og verificeres via taktil opmåling under sletkørsel.
                             </p>
                             <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-black/60">
                                 <span class="border border-black/15 rounded px-2 py-1 bg-black/5">Mikrometerskruer</span>
-                                <span class="border border-black/15 rounded px-2 py-1 bg-black/5">2-punkts måleur</span>
-                                <span class="border border-black/15 rounded px-2 py-1 bg-black/5">3-punkts måleur</span>
+                                <span class="border border-black/15 rounded px-2 py-1 bg-black/5">2/3-punkts måleur</span>
+                                <span class="border border-orange/30 rounded px-2 py-1 bg-orange/5 text-orange font-semibold">Målerapport (Option)</span>
                             </div>
                         </div>
 
+                        <!-- 4. Data & IP -->
                         <div>
-                            <h3 class="text-xl font-semibold">3D Print (FDM)</h3>
+                            <h3 class="text-xl font-semibold">CAD-Data & IP-Beskyttelse</h3>
                             <p class="mt-3 text-sm text-black/60 leading-relaxed">
-                                Hurtig iterering af koncepter, test af fiksturer eller produktion af lette emner inden den spåntagende proces.
-                            </p>
-                            <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-black/60">
-                                <span class="border border-black/15 rounded px-2 py-1 bg-black/5">PLA</span>
-                                <span class="border border-black/15 rounded px-2 py-1 bg-black/5">PETG</span>
-                                <span class="border border-black/15 rounded px-2 py-1 bg-black/5">ASA</span>
-                                <span class="border border-black/15 rounded px-2 py-1 bg-black/5">+ div. filamenter</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h3 class="text-xl font-semibold">Filformater</h3>
-                            <p class="mt-3 text-sm text-black/60 leading-relaxed">
-                                For at sikre en gnidningsfri overgang til CAM (Fusion 360) foretrækker jeg følgende 3D/2D CAD-formater:
+                                Proprietær data håndteres med diskretion. Filer slettes efter endt produktion, og kundedele optræder aldrig i porteføljen uden skriftligt samtykke.
                             </p>
                             <div class="mt-4 flex flex-wrap gap-2 text-xs font-mono text-orange font-semibold">
                                 <span class="border border-orange/30 rounded px-2 py-1 bg-orange/5">.STEP</span>
                                 <span class="border border-orange/30 rounded px-2 py-1 bg-orange/5">.F3D</span>
-                                <span class="border border-orange/30 rounded px-2 py-1 bg-orange/5">.DXF (til 2D)</span>
+                                <span class="border border-orange/30 rounded px-2 py-1 bg-orange/5">.DXF</span>
+                                <span class="border border-black/15 rounded px-2 py-1 bg-black/5 text-black/60">Standard NDA Accepteres</span>
                             </div>
-                            <p class="mt-3 text-xs text-black/50">
-                                *Har du kun en PDF-tegning eller håndskitse, tegner jeg gerne 3D-modellen op fra bunden.
-                            </p>
                         </div>
 
                     </div>
@@ -604,7 +654,7 @@
         <section id="generator" class="px-5 lg:px-8 pb-28 md:pb-36 border-t border-black/10 pt-28 md:pt-36">
             <div class="mx-auto max-w-7xl">
                 
-                <!-- Generator Header - Fuld bredde for at undgå compression -->
+                <!-- Generator Header -->
                 <div class="max-w-3xl mb-16 reveal">
                     <div class="tag text-orange">RFQ / Tilbudsanmodning</div>
                     <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em] leading-[.95]">Definér <br>parametrene.</h2>
@@ -616,7 +666,7 @@
                     </div>
                 </div>
 
-                <!-- Generator Grid - 50/50 for maksimal plads -->
+                <!-- Generator Grid -->
                 <div class="grid lg:grid-cols-2 gap-10 reveal" id="kontakt">
                     
                     <!-- Input Form -->
@@ -745,44 +795,56 @@
 
     </main>
 
-    <!-- DATA VAULT MODAL (Skjult indtil kaldet) -->
-    <div id="caseModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 md:p-8" onclick="closeModal(event)">
-        <div id="modalPanel" class="bg-paper text-ink rounded-[2rem] w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
+    <!-- CASE MODAL -->
+    <div id="caseModal" class="datum-modal fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 md:p-8" onclick="closeModal('caseModal', event)">
+        <div class="modal-panel bg-paper text-ink rounded-[2rem] w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
             <div class="sticky top-0 bg-paper/95 backdrop-blur-xl border-b border-black/10 px-8 py-5 flex justify-between items-center z-10">
-                <div class="tag text-black/40" id="modalTag">Datasheet</div>
-                <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition text-ink font-bold">×</button>
+                <div class="tag text-black/40" id="c_modalTag">Datasheet</div>
+                <button onclick="closeModal('caseModal')" class="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition text-ink font-bold">×</button>
             </div>
-            
             <div class="p-8 md:p-12">
-                <h2 id="modalTitle" class="text-3xl md:text-5xl font-bold tracking-tight mb-8">Titel</h2>
-                
+                <h2 id="c_modalTitle" class="text-3xl md:text-5xl font-bold tracking-tight mb-8">Titel</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 border-y border-black/10 py-8">
-                    <div>
-                        <span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Materiale</span>
-                        <span id="modalMat" class="font-medium text-sm">--</span>
-                    </div>
-                    <div>
-                        <span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Tolerancer</span>
-                        <span id="modalTol" class="font-medium text-sm">--</span>
-                    </div>
-                    <div>
-                        <span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Maskine</span>
-                        <span id="modalMac" class="font-medium text-sm">--</span>
-                    </div>
-                    <div>
-                        <span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Status</span>
-                        <span id="modalStat" class="font-medium text-sm text-orange">Udført</span>
-                    </div>
+                    <div><span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Materiale</span><span id="c_modalMat" class="font-medium text-sm">--</span></div>
+                    <div><span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Tolerancer</span><span id="c_modalTol" class="font-medium text-sm">--</span></div>
+                    <div><span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Maskine</span><span id="c_modalMac" class="font-medium text-sm">--</span></div>
+                    <div><span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Status</span><span class="font-medium text-sm text-orange">Udført</span></div>
                 </div>
-
                 <div class="grid md:grid-cols-2 gap-12">
                     <div>
                         <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><span class="w-1.5 h-1.5 bg-black rounded-full"></span> Den Tekniske Udfordring</h3>
-                        <p id="modalChal" class="text-black/65 text-sm leading-relaxed">--</p>
+                        <p id="c_modalChal" class="text-black/65 text-sm leading-relaxed">--</p>
                     </div>
                     <div>
                         <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><span class="w-1.5 h-1.5 bg-orange rounded-full"></span> Løsning & Eksekvering</h3>
-                        <p id="modalSol" class="text-black/65 text-sm leading-relaxed">--</p>
+                        <p id="c_modalSol" class="text-black/65 text-sm leading-relaxed">--</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MATERIAL MODAL -->
+    <div id="matModal" class="datum-modal fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 md:p-8" onclick="closeModal('matModal', event)">
+        <div class="modal-panel bg-ink text-paper rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
+            <div class="sticky top-0 bg-ink/95 backdrop-blur-xl border-b border-white/10 px-8 py-5 flex justify-between items-center z-10">
+                <div class="tag text-orange">Materiale Data</div>
+                <button onclick="closeModal('matModal')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition text-white font-bold">×</button>
+            </div>
+            <div class="p-8 md:p-10">
+                <h2 id="m_modalTitle" class="text-3xl md:text-4xl font-bold tracking-tight mb-6">Titel</h2>
+                <div class="grid grid-cols-2 gap-6 mb-8 border-y border-white/10 py-6">
+                    <div><span class="block text-[11px] font-semibold text-white/40 uppercase tracking-widest mb-1">Bearbejdelighed</span><span id="m_modalMachinability" class="font-medium text-sm text-white/80">--</span></div>
+                    <div><span class="block text-[11px] font-semibold text-white/40 uppercase tracking-widest mb-1">Slidtage (Værktøj)</span><span id="m_modalWear" class="font-medium text-sm text-white/80">--</span></div>
+                </div>
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3 text-orange">Egenskaber & Profil</h3>
+                        <p id="m_modalInfo" class="text-white/60 text-sm leading-relaxed">--</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3 text-white">Industrielle Applikationer</h3>
+                        <p id="m_modalUse" class="text-white/60 text-sm leading-relaxed font-mono">--</p>
                     </div>
                 </div>
             </div>
@@ -867,8 +929,9 @@
         updatePreview();
 
         // ----------------------------------------------------
-        // DATA VAULT LOGIK (Projekter Modal)
+        // DATA VAULT LOGIK (Projekter & Materialer Modal)
         // ----------------------------------------------------
+        
         const projectData = {
             'flame': {
                 tag: 'Skoleprojekt / H2',
@@ -899,36 +962,89 @@
             }
         };
 
-        const modal = document.getElementById('caseModal');
-        
-        function openModal(id) {
+        const materialData = {
+            'alu': {
+                title: 'Aluminium (6082/7075) & Messing',
+                machinability: 'Fremragende',
+                wear: 'Meget lav',
+                info: 'Legeringer med optimal bearbejdelighed og høj termisk ledningsevne. 6082 er den ideelle all-round aluminiumslegering til korrosionsbestandige emner. 7075 bruges når der stilles krav om høj trækstyrke, der nærmer sig stål. Messing vælges typisk for lav friktion i bevægelige dele og nemhed ved opnåelse af snævre pasninger.',
+                use: '> Sensorhuse\n> Pneumatik-blokke\n> Glidekomponenter\n> Letvægtsbeslag'
+            },
+            'steel_auto': {
+                title: 'Automatstål & Konstruktionsstål',
+                machinability: 'Høj',
+                wear: 'Lav',
+                info: 'Legenemt at bearbejde på grund af bly- og svovl-tilsætninger (automatstål), hvilket resulterer i korte spåner, lang værktøjslevetid og pæne overflader direkte fra maskinen. Har dog lav korrosionsbestandighed og vil ruste uden efterfølgende overfladebehandling (som f.eks. brunering eller forzinkning).',
+                use: '> Aksler og bolte\n> Fikstur-komponenter\n> Maskindele til tørre miljøer'
+            },
+            'steel_stain': {
+                title: 'Rustfast Stål (316L m.fl.)',
+                machinability: 'Moderat / Lav',
+                wear: 'Høj',
+                info: 'En sej og arbejdshærdende metallegering, der kræver en stiv maskinopspænding og konservative skæredata for ikke at æde endefræsere. Den høje krom- og nikkel-procent leverer til gengæld uovertruffen korrosionsbestandighed i aggressive og våde miljøer.',
+                use: '> Marineudstyr\n> Medico-komponenter\n> Procesudstyr (Fødevare/Kemi)\n> Vejrbeskyttede beslag'
+            },
+            'tool': {
+                title: 'Værktøjsstål',
+                machinability: 'Lav',
+                wear: 'Meget Høj',
+                info: 'Stål med højt kulstofindhold designet til ekstrem slidstyrke og formstabilitet. Bearbejdes oftest i "blød" tilstand under skrubning, for derefter at blive hærdet og til sidst slet-fræst eller slebet på de tolerancestyrede kontaktflader.',
+                use: '> Stanseværktøj\n> Pressebakker\n> Sliddele i specialfiksturer\n> Skærende komponenter'
+            },
+            'plast': {
+                title: 'Teknisk Plast (POM / Nylon)',
+                machinability: 'Høj',
+                wear: 'Minimal',
+                info: 'POM (også kendt som Delrin) er ekstremt formstabilt, optager næsten ingen fugt og danner fremragende spåner, hvilket gør det til en CNC-favorit. Nylon (PA) er et sejere alternativ med markant højere slagstyrke, men fræser dårligere og suger fugt, hvilket ændrer dimensionerne over tid.',
+                use: '> Tandhjul\n> Glideklodser\n> Elektriske isolatorer\n> Rørbøjninger'
+            }
+        };
+
+        function openCaseModal(id) {
             const data = projectData[id];
             if(!data) return;
 
-            document.getElementById('modalTag').innerText = data.tag;
-            document.getElementById('modalTitle').innerText = data.title;
-            document.getElementById('modalMat').innerText = data.mat;
-            document.getElementById('modalTol').innerText = data.tol;
-            document.getElementById('modalMac').innerText = data.mac;
-            document.getElementById('modalChal').innerText = data.chal;
-            document.getElementById('modalSol').innerText = data.sol;
+            document.getElementById('c_modalTag').innerText = data.tag;
+            document.getElementById('c_modalTitle').innerText = data.title;
+            document.getElementById('c_modalMat').innerText = data.mat;
+            document.getElementById('c_modalTol').innerText = data.tol;
+            document.getElementById('c_modalMac').innerText = data.mac;
+            document.getElementById('c_modalChal').innerText = data.chal;
+            document.getElementById('c_modalSol').innerText = data.sol;
 
             document.body.classList.add('modal-active');
-            modal.classList.add('show');
+            document.getElementById('caseModal').classList.add('show');
         }
 
-        function closeModal(event) {
-            // Hvis event er defineret, luk kun hvis man klikker på baggrunden, ikke selve panelet
-            if (event && event.target !== modal) return;
+        function openMatModal(id) {
+            const data = materialData[id];
+            if(!data) return;
+
+            document.getElementById('m_modalTitle').innerText = data.title;
+            document.getElementById('m_modalMachinability').innerText = data.machinability;
+            document.getElementById('m_modalWear').innerText = data.wear;
+            document.getElementById('m_modalInfo').innerText = data.info;
+            document.getElementById('m_modalUse').innerText = data.use;
+
+            document.body.classList.add('modal-active');
+            document.getElementById('matModal').classList.add('show');
+        }
+
+        function closeModal(modalId, event) {
+            const modalEl = document.getElementById(modalId);
+            if (event && event.target !== modalEl) return;
             
             document.body.classList.remove('modal-active');
-            modal.classList.remove('show');
+            modalEl.classList.remove('show');
         }
         
-        // Luk på Escape-knap
         document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape" && modal.classList.contains('show')) {
-                closeModal();
+            if (event.key === "Escape") {
+                const openModals = document.querySelectorAll('.datum-modal.show');
+                openModals.forEach(m => {
+                    document.body.classList.remove('modal-active');
+                    m.classList.remove('show');
+                });
             }
         });
     </script>
