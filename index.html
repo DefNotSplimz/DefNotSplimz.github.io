@@ -151,10 +151,25 @@
         .datum-modal.show .modal-panel {
             transform: translateY(0);
         }
+
+        /* Skjul pile i number inputs */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
     </style>
 </head>
 
-<body class="grain font-sans antialiased selection:bg-orange selection:text-white">
+<body class="grain font-sans antialiased selection:bg-orange selection:text-white flex flex-col min-h-screen">
     <header class="fixed top-0 left-0 right-0 z-40">
         <div class="mx-auto max-w-7xl px-5 lg:px-8 pt-4">
             <nav
@@ -165,34 +180,35 @@
                     <span class="hidden sm:block text-black/40 text-sm">Finmekanik & CNC</span>
                 </a>
                 <div class="hidden md:flex items-center gap-7 text-sm font-medium">
-                    <a href="#loesninger" class="hover:text-orange">Hvad jeg laver</a>
-                    <a href="#arbejde" class="hover:text-orange">Projekter</a>
-                    <a href="#proces" class="hover:text-orange">Sådan arbejder jeg</a>
-                    <a href="#generator" class="hover:text-orange">Bestil</a>
+                    <a href="#loesninger" class="hover:text-orange transition">Hvad jeg laver</a>
+                    <a href="#arbejde" class="hover:text-orange transition">Projekter</a>
+                    <a href="#proces" class="hover:text-orange transition">Sådan arbejder jeg</a>
+                    <a href="#generator" class="hover:text-orange transition">Bestil</a>
                 </div>
                 <a href="#generator"
                    class="btn hidden sm:inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-paper">Start
                     en opgave <span>↗</span>
                 </a>
-                <button id="menuBtn"
-                        class="md:hidden rounded-full border border-black/10 px-4 py-2 text-sm">Menu</button>
+                <button id="menuBtn" type="button"
+                        class="md:hidden rounded-full border border-black/10 px-4 py-2 text-sm transition hover:bg-black/5">Menu</button>
             </nav>
             <div id="mobileMenu"
                  class="hidden mt-2 rounded-3xl border border-black/10 bg-paper/95 p-4 backdrop-blur-xl">
-                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="#loesninger">Hvad jeg laver</a>
-                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="#arbejde">Projekter</a>
-                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="#proces">Sådan arbejder jeg</a>
-                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5" href="dossier.html">CV / Dossier</a>
-                <a class="block rounded-2xl bg-ink px-4 py-3 text-paper" href="#generator">Start en opgave ↗</a>
+                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5 transition" href="#loesninger">Hvad jeg laver</a>
+                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5 transition" href="#arbejde">Projekter</a>
+                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5 transition" href="#proces">Sådan arbejder jeg</a>
+                <a class="block rounded-2xl px-4 py-3 hover:bg-black/5 transition" href="dossier.html">CV / Dossier</a>
+                <a class="block rounded-2xl bg-ink px-4 py-3 text-paper transition mt-2" href="#generator">Start en opgave ↗</a>
             </div>
         </div>
     </header>
-    <main id="top">
+    
+    <main id="top" class="flex-grow">
         <section class="hero-grid min-h-[92vh] px-5 lg:px-8 pt-36 pb-20">
             <div class="mx-auto max-w-7xl grid lg:grid-cols-[1.08fr_.92fr] gap-12 items-end">
                 <div class="reveal">
                     <div class="tag flex items-center gap-3 mb-8">
-                        <span class="inline-block w-12 h-[2px] bg-orange"></span> Uafhængig finmekaniker
+                        <span class="inline-block w-12 h-[2px] bg-orange"></span> Finmekaniker-lærling & Uafhængig
                     </div>
                     <h1
                         class="text-[clamp(3.8rem,9vw,8.2rem)] leading-[.88] font-extrabold tracking-[-.07em] max-w-5xl">
@@ -200,9 +216,8 @@
                         <span class="text-orange">dele,</span>
                         <br>der virker.
                     </h1>
-                    <p class="mt-9 text-lg md:text-xl leading-relaxed max-w-2xl text-black/65">Finmekanik, CNC og
-                        prototyper for folk, der har brug for mere end endnu en 3D-model. Jeg tager udgangspunkt i
-                        opgaven, tænker produktion ind fra starten og går efter en løsning, der holder i virkeligheden.
+                    <p class="mt-9 text-lg md:text-xl leading-relaxed max-w-2xl text-black/65">
+                        Jeg bygger Datum Prototyping sideløbende med min uddannelse. Det er min platform til at stresse mine DFM-kompetencer på rigtige kunders opgaver, og mit åbne dossier for R&D-afdelinger, der leder efter deres næste finmekaniker.
                     </p>
                     <div class="mt-10 flex flex-col sm:flex-row gap-3">
                         <a href="#generator"
@@ -210,7 +225,7 @@
                             mig om din del <span>→</span>
                         </a>
                         <a href="#arbejde"
-                           class="btn inline-flex items-center justify-center rounded-full border border-black/15 px-7 py-4 font-semibold">Se
+                           class="btn inline-flex items-center justify-center rounded-full border border-black/15 px-7 py-4 font-semibold hover:bg-black/5">Se
                             hvad jeg bygger</a>
                     </div>
                     <div class="mt-10 flex flex-wrap gap-x-7 gap-y-3 text-sm text-black/50">
@@ -237,12 +252,12 @@
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4 mt-8">
-                            <div class="rounded-2xl bg-white/5 p-5">
+                            <div class="rounded-2xl bg-white/5 p-5 border border-white/5">
                                 <div class="tag text-white/40">Ansættelse</div>
                                 <div class="mt-2 font-semibold">Søger Læreplads</div>
                                 <p class="mt-2 text-sm leading-relaxed text-white/55">Klar til at erstatte skolepraktik med en reel in-house R&D afdeling.</p>
                             </div>
-                            <div class="rounded-2xl bg-white/5 p-5">
+                            <div class="rounded-2xl bg-white/5 p-5 border border-white/5">
                                 <div class="tag text-white/40">Kapacitet</div>
                                 <div class="mt-2 font-semibold">Freelance</div>
                                 <p class="mt-2 text-sm leading-relaxed text-white/55">Tager prototyper og specialopgaver ind sideløbende med uddannelsen.</p>
@@ -279,6 +294,7 @@
                 </div>
             </div>
         </section>
+        
         <section class="border-y border-black/10 bg-white/40">
             <div class="mx-auto max-w-7xl px-5 lg:px-8 py-7 grid md:grid-cols-4 gap-6 text-sm">
                 <div>
@@ -299,6 +315,7 @@
                 </div>
             </div>
         </section>
+
         <section id="loesninger" class="px-5 lg:px-8 py-28 md:py-36">
             <div class="mx-auto max-w-7xl">
                 <div class="grid lg:grid-cols-[.72fr_1.28fr] gap-16">
@@ -320,7 +337,7 @@
                             </div>
                         </article>
                         <article
-                                 class="rounded-3xl border border-black/10 bg-white p-7 min-h-[250px] flex flex-col justify-between">
+                                 class="rounded-3xl border border-black/10 bg-white p-7 min-h-[250px] flex flex-col justify-between shadow-sm">
                             <div class="tag text-black/40">02 / CAD-CAM</div>
                             <div>
                                 <h3 class="mt-8 text-2xl font-semibold">Fra model til værktøjsbane</h3>
@@ -329,7 +346,7 @@
                             </div>
                         </article>
                         <article
-                                 class="rounded-3xl border border-black/10 bg-white p-7 min-h-[250px] flex flex-col justify-between">
+                                 class="rounded-3xl border border-black/10 bg-white p-7 min-h-[250px] flex flex-col justify-between shadow-sm">
                             <div class="tag text-black/40">03 / DFM</div>
                             <div>
                                 <h3 class="mt-8 text-2xl font-semibold">Gør delen mulig</h3>
@@ -368,7 +385,7 @@
                     <!-- Kort 1 -->
                     <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openCaseModal('flame')">
                         <div class="case-media">
-                            <img src="img/flame-render.png" alt="Flame Eater Engine"
+                            <img src="img/flame-render.png" alt="Flame Eater Engine" loading="lazy"
                                  onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
@@ -386,7 +403,7 @@
                     <!-- Kort 2 -->
                     <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openCaseModal('mosin')">
                         <div class="case-media">
-                            <img src="img/mosin-render-1.png" alt="Mosin Nagant del"
+                            <img src="img/mosin-render-1.png" alt="Mosin Nagant del" loading="lazy"
                                  onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
@@ -405,7 +422,7 @@
                     <!-- Kort 3 -->
                     <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openCaseModal('ring')">
                         <div class="case-media">
-                            <img src="img/ringbender.png" alt="Ringbøjer fikstur"
+                            <img src="img/ringbender.png" alt="Ringbøjer fikstur" loading="lazy"
                                  onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
@@ -532,33 +549,33 @@
                             </p>
                             <ul class="mt-4 space-y-2 text-sm text-black/80 font-medium">
                                 <li>
-                                    <button onclick="openMatModal('alu')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                    <button type="button" onclick="openMatModal('alu')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
                                         <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Aluminium & Messing</span>
-                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs transition">INFO →</span>
                                     </button>
                                 </li>
                                 <li>
-                                    <button onclick="openMatModal('steel_auto')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                    <button type="button" onclick="openMatModal('steel_auto')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
                                         <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Automatstål</span>
-                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs transition">INFO →</span>
                                     </button>
                                 </li>
                                 <li>
-                                    <button onclick="openMatModal('steel_stain')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                    <button type="button" onclick="openMatModal('steel_stain')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
                                         <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Rustfast Stål (316L)</span>
-                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs transition">INFO →</span>
                                     </button>
                                 </li>
                                 <li>
-                                    <button onclick="openMatModal('tool')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                    <button type="button" onclick="openMatModal('tool')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
                                         <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Værktøjsstål</span>
-                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs transition">INFO →</span>
                                     </button>
                                 </li>
                                 <li>
-                                    <button onclick="openMatModal('plast')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
+                                    <button type="button" onclick="openMatModal('plast')" class="group flex items-center justify-between w-full text-left bg-white/40 hover:bg-white border border-black/5 hover:border-black/15 rounded-xl p-3 transition">
                                         <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-orange"></span> Teknisk Plast (POM/Nylon)</span>
-                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs">INFO →</span>
+                                        <span class="text-black/30 group-hover:text-orange font-mono text-xs transition">INFO →</span>
                                     </button>
                                 </li>
                             </ul>
@@ -598,16 +615,13 @@
         
         <section class="px-5 lg:px-8 pb-28">
             <div
-                 class="mx-auto max-w-7xl rounded-[2.2rem] bg-black text-paper p-8 md:p-12 lg:p-16 overflow-hidden relative reveal">
+                 class="mx-auto max-w-7xl rounded-[2.2rem] bg-black text-paper p-8 md:p-12 lg:p-16 overflow-hidden relative reveal shadow-soft">
                 <div class="absolute right-0 top-0 h-full w-1/2 opacity-30"
                      style="background:radial-gradient(circle at 70% 30%, rgba(255,100,31,.7), transparent 40%)"></div>
                 <div class="relative max-w-3xl">
                     <div class="tag text-orange">Hvorfor Datum Prototyping?</div>
-                    <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em]">Lille nok til at gå op i detaljen.
-                        <br>
-                        <span class="text-white/40">Skarp nok til at løse problemet.</span>
-                    </h2>
-                    <p class="mt-7 text-lg text-white/55 leading-relaxed">Jeg bygger en platform funderet i direkte kommunikation, høj teknisk nysgerrighed og et ubetinget fokus på at løse opgaven fremfor at sælge timer. Datum er beviset på, at jeg kan bære en opgave fra A til Z.</p>
+                    <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em]">En lærling med industrielle standarder.</h2>
+                    <p class="mt-7 text-lg text-white/55 leading-relaxed">Datum er ikke en hobby. Det er et bevis på operationel kapacitet. Kunder får dele af høj kvalitet uden overhead fra en stor fabrik. Fremtidige arbejdsgivere får råt for usødet at se, hvordan jeg håndterer CAD/CAM, tolerancer og maskinering fra A til Z.</p>
                     <div class="mt-9 flex flex-wrap gap-3">
                         <span class="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Direkte
                             dialog</span>
@@ -624,7 +638,7 @@
         
         <!-- ANSÆTTELSE / REKRUTTERING -->
         <section id="rekruttering" class="px-5 lg:px-8 pb-28 md:pb-36">
-            <div class="mx-auto max-w-7xl rounded-[2.2rem] border border-orange/30 bg-orange/5 p-8 md:p-12 lg:p-16 relative reveal overflow-hidden">
+            <div class="mx-auto max-w-7xl rounded-[2.2rem] border border-orange/30 bg-orange/5 p-8 md:p-12 lg:p-16 relative reveal overflow-hidden shadow-sm">
                 <div class="absolute right-0 top-0 h-full w-1/3 opacity-20 pointer-events-none"
                      style="background:radial-gradient(circle at 100% 0%, rgba(255,100,31,0.5), transparent 60%)"></div>
                 
@@ -642,7 +656,7 @@
                         </p>
                     </div>
                     <div class="flex flex-col gap-3 w-full sm:w-auto mt-4 lg:mt-0">
-                        <a href="dossier.html" class="btn inline-flex items-center justify-center rounded-2xl bg-orange px-8 py-5 font-semibold text-white">
+                        <a href="dossier.html" class="btn inline-flex items-center justify-center rounded-2xl bg-orange px-8 py-5 font-semibold text-white shadow-sm">
                             Læs teknisk dossier (CV) <span>→</span>
                         </a>
                     </div>
@@ -658,14 +672,14 @@
                 <div class="max-w-3xl mb-12 reveal">
                     <div class="tag text-orange">RFQ / Tilbudsanmodning</div>
                     <h2 class="mt-5 text-4xl md:text-6xl font-bold tracking-[-.04em] leading-[.95]">Definér parametrene.</h2>
-                    <p class="mt-6 text-black/60 leading-relaxed text-lg">Eliminér gætværk. Brug systemet til at generere en præcis forespørgsel. Jo mere data du leverer fra start, desto hurtigere afklarer vi, om opgaven kan eksekveres.</p>
+                    <p class="mt-6 text-black/60 leading-relaxed text-lg">Eliminér gætværk. Selvom jeg opererer uafhængigt, er min arbejdsgang industriel. Brug systemet til at generere en præcis forespørgsel. Jo mere data du leverer fra start, desto hurtigere afklarer vi, om delen kan fremstilles.</p>
                 </div>
 
                 <!-- Generator Grid - Industrial Look -->
                 <div class="grid lg:grid-cols-2 gap-8 reveal" id="kontakt">
                     
                     <!-- Input Form (Sharp, industrial) -->
-                    <div class="flex flex-col bg-white border border-black/20">
+                    <div class="flex flex-col bg-white border border-black/20 shadow-sm">
                         <div class="border-b border-black/20 px-6 py-4 flex justify-between items-center bg-black/5">
                             <span class="font-mono text-[10px] uppercase tracking-widest text-black/50">Input Parametre</span>
                             <span class="w-2 h-2 bg-orange rounded-full"></span>
@@ -758,7 +772,7 @@
                     </div>
 
                     <!-- Output Preview (Terminal look) -->
-                    <div class="flex flex-col bg-ink border border-black/20 h-full">
+                    <div class="flex flex-col bg-ink border border-white/10 h-full shadow-lg">
                         <div class="border-b border-white/10 px-6 py-4 flex justify-between items-center bg-white/5">
                             <span class="font-mono text-[10px] uppercase tracking-widest text-white/50">Output / Payload</span>
                             <span class="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
@@ -767,10 +781,10 @@
                             <pre id="emailPreview" class="text-xs font-mono text-white/70 whitespace-pre-wrap leading-relaxed overflow-x-auto min-h-[200px]"></pre>
                             
                             <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                                <button id="copyBtn" class="w-full font-mono text-[11px] uppercase tracking-widest inline-flex items-center justify-center border border-white/20 bg-transparent px-5 py-4 text-paper hover:bg-white/10 transition">
+                                <button type="button" id="copyBtn" class="w-full font-mono text-[11px] uppercase tracking-widest inline-flex items-center justify-center border border-white/20 bg-transparent px-5 py-4 text-paper hover:bg-white/10 transition">
                                     [CPY] Kopiér Data
                                 </button>
-                                <button id="mailBtn" class="w-full font-mono text-[11px] uppercase tracking-widest inline-flex items-center justify-center bg-orange px-5 py-4 text-white transition hover:bg-orange/90">
+                                <button type="button" id="mailBtn" class="w-full font-mono text-[11px] uppercase tracking-widest inline-flex items-center justify-center bg-orange px-5 py-4 text-white transition hover:bg-orange/90">
                                     Åbn Mailklient →
                                 </button>
                             </div>
@@ -784,7 +798,7 @@
                         <p class="text-sm text-black/55 leading-relaxed">Brug generatoren ovenfor for at sikre et præcist datagrundlag, eller send en direkte mail for generelle henvendelser.</p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-                        <a href="mailto:defnotglen@gmail.com" class="btn flex-1 inline-flex items-center justify-between rounded-none bg-ink px-6 py-4 text-sm font-semibold text-paper">
+                        <a href="mailto:defnotglen@gmail.com" class="btn flex-1 inline-flex items-center justify-between rounded-none bg-ink px-6 py-4 text-sm font-semibold text-paper hover:bg-ink/90">
                            defnotglen@gmail.com <span class="text-orange ml-4">→</span>
                         </a>
                         <a href="https://www.linkedin.com/in/glenchansen/" target="_blank" rel="noreferrer" class="btn flex-1 inline-flex items-center justify-between rounded-none border border-black/20 bg-white px-6 py-4 text-sm font-semibold text-ink hover:bg-black/5">
@@ -802,7 +816,7 @@
         <div class="modal-panel bg-paper text-ink rounded-[2rem] w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
             <div class="sticky top-0 bg-paper/95 backdrop-blur-xl border-b border-black/10 px-8 py-5 flex justify-between items-center z-10">
                 <div class="tag text-black/40" id="c_modalTag">Datasheet</div>
-                <button onclick="closeModal('caseModal')" class="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition text-ink font-bold">×</button>
+                <button type="button" onclick="closeModal('caseModal')" class="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition text-ink font-bold">×</button>
             </div>
             <div class="p-8 md:p-12">
                 <h2 id="c_modalTitle" class="text-3xl md:text-5xl font-bold tracking-tight mb-8">Titel</h2>
@@ -831,7 +845,7 @@
         <div class="modal-panel bg-ink text-paper rounded-[2rem] w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
             <div class="sticky top-0 bg-ink/95 backdrop-blur-xl border-b border-white/10 px-8 py-5 flex justify-between items-center z-10">
                 <div class="tag text-orange">Materiale Data</div>
-                <button onclick="closeModal('matModal')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition text-white font-bold">×</button>
+                <button type="button" onclick="closeModal('matModal')" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition text-white font-bold">×</button>
             </div>
             <div class="p-8 md:p-10">
                 <h2 id="m_modalTitle" class="text-3xl md:text-4xl font-bold tracking-tight mb-6">Titel</h2>
@@ -950,7 +964,7 @@
                 mat: 'Værktøjsstål',
                 tol: '±0.05 mm',
                 mac: 'Haas Mini Mill',
-                chal: 'En kollega manglede kritiske komponenter til restaureringen af en historisk riffel fra 1940\'erne. Der eksisterede ingen pålidelig CAD-data, og de originale slidte dele kunne ikke bruges som direkte 1:1 reference for pasninger.',
+                chal: 'En kollega manglede kritiske komponenter til restaureringen af en historisk riffel fra 1940\'erne. Der eksisterede ingen pålidelig CAD-data, og de originalt slidte dele kunne ikke bruges som direkte 1:1 reference for pasninger.',
                 sol: 'Komponenterne blev opmålt manuelt, og de kritiske geometrier blev reverse-engineered i Fusion 360 med udgangspunkt i våbnets mekaniske funktion. Delene blev herefter CAM-programmeret og fræst med overmål, før den endelige slibning og indpasning.'
             },
             'ring': {
