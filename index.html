@@ -85,6 +85,7 @@
 
         .case {
             transition: transform .25s ease, box-shadow .25s ease;
+            cursor: pointer;
         }
 
         .case:hover {
@@ -120,10 +121,6 @@
             transform: translateY(-2px);
         }
 
-        .menu-open {
-            overflow: hidden;
-        }
-        
         /* Form styling */
         .form-select {
             appearance: none;
@@ -133,13 +130,26 @@
             background-size: 1.2em;
         }
 
-        /* Optgroup styling inside form */
-        optgroup {
-            font-weight: 600;
-            color: #ff641f;
+        /* Modal classes */
+        .modal-active {
+            overflow: hidden;
         }
-        option {
-            color: #0b0b0b;
+        #caseModal {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+        #caseModal.show {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.3s ease, visibility 0s;
+        }
+        #modalPanel {
+            transform: translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #caseModal.show #modalPanel {
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -340,6 +350,8 @@
                 </div>
             </div>
         </section>
+        
+        <!-- PROJEKTER & DATA-VAULT -->
         <section id="arbejde" class="bg-ink text-paper px-5 lg:px-8 py-28 md:py-36">
             <div class="mx-auto max-w-7xl">
                 <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 reveal">
@@ -351,46 +363,65 @@
                     <p class="max-w-md text-white/50 leading-relaxed">Jeg vil hellere vise et rigtigt emne, en fikstur
                         eller en CAD-model end fortælle, hvor dygtig jeg er.</p>
                 </div>
+                
                 <div class="mt-14 grid lg:grid-cols-3 gap-6">
-                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04]">
+                    <!-- Kort 1 -->
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openModal('flame')">
                         <div class="case-media">
                             <img src="img/flame-render.png" alt="Flame Eater Engine"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25\'>CASE 01 / FLAME EATER</div>'">
+                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
                         </div>
-                        <div class="p-6">
+                        <div class="p-6 flex flex-col flex-grow">
                             <div class="tag text-orange">Konstruktion / Assembly</div>
                             <h3 class="mt-3 text-2xl font-semibold">Flame Eater Engine</h3>
-                            <p class="mt-3 text-white/50 text-sm leading-relaxed">Mekanisk konstruktion, samling og
+                            <p class="mt-3 text-white/50 text-sm leading-relaxed mb-6">Mekanisk konstruktion, samling og
                                 fokus på, at flere dele spiller sammen som én mekanisme.</p>
+                            <div class="mt-auto font-mono text-[10px] text-white/30 uppercase tracking-widest border-t border-white/10 pt-4 flex justify-between">
+                                <span>Teknisk Data</span>
+                                <span class="text-orange">Læs →</span>
+                            </div>
                         </div>
                     </article>
-                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04]">
+
+                    <!-- Kort 2 -->
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openModal('mosin')">
                         <div class="case-media">
                             <img src="img/mosin-render-1.png" alt="Mosin Nagant del"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25\'>CASE 02 / REVERSE</div>'">
+                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
                         </div>
-                        <div class="p-6">
+                        <div class="p-6 flex flex-col flex-grow">
                             <div class="tag text-orange">Reverse engineering</div>
                             <h3 class="mt-3 text-2xl font-semibold">Dele til Mosin Nagant</h3>
-                            <p class="mt-3 text-white/50 text-sm leading-relaxed">Fra tegning, til færdigt produkt, til
+                            <p class="mt-3 text-white/50 text-sm leading-relaxed mb-6">Fra tegning, til færdigt produkt, til
                                 en kollega, som er igang med at restruere en ældre Mosin Nagant fra 1940'erne.
                             </p>
+                            <div class="mt-auto font-mono text-[10px] text-white/30 uppercase tracking-widest border-t border-white/10 pt-4 flex justify-between">
+                                <span>Teknisk Data</span>
+                                <span class="text-orange">Læs →</span>
+                            </div>
                         </div>
                     </article>
-                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04]">
+
+                    <!-- Kort 3 -->
+                    <article class="case rounded-3xl overflow-hidden border border-white/10 bg-white/[.04] flex flex-col" onclick="openModal('ring')">
                         <div class="case-media">
                             <img src="img/ringbender.png" alt="Ringbøjer fikstur"
-                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25\'>CASE 03 / FIXTURE</div>'">
+                                 onerror="this.style.display='none';this.parentElement.innerHTML='<div class=\'tag text-white/25 flex items-center justify-center h-full\'>BILLEDE MANGLER</div>'">
                         </div>
-                        <div class="p-6">
+                        <div class="p-6 flex flex-col flex-grow">
                             <div class="tag text-orange">Specialværktøj / Jigs</div>
                             <h3 class="mt-3 text-2xl font-semibold">Ringbøjer-fikstur</h3>
-                            <p class="mt-3 text-white/50 text-sm leading-relaxed">Et produkt som jeg fik, lavet i PETG, som jeg så fremstillede i Aluminium og Stål, for bedre holdbarhed.</p>
+                            <p class="mt-3 text-white/50 text-sm leading-relaxed mb-6">Et produkt som jeg fik, lavet i PETG, som jeg så fremstillede i Aluminium og Stål, for bedre holdbarhed.</p>
+                            <div class="mt-auto font-mono text-[10px] text-white/30 uppercase tracking-widest border-t border-white/10 pt-4 flex justify-between">
+                                <span>Teknisk Data</span>
+                                <span class="text-orange">Læs →</span>
+                            </div>
                         </div>
                     </article>
                 </div>
             </div>
         </section>
+
         <section id="proces" class="px-5 lg:px-8 pt-28 md:pt-36 pb-14 md:pb-18">
             <div class="mx-auto max-w-7xl grid lg:grid-cols-[.7fr_1.3fr] gap-16">
                 <div class="reveal">
@@ -713,7 +744,52 @@
         </section>
 
     </main>
-    <footer class="border-t border-black/10 px-5 lg:px-8 py-10 bg-paper">
+
+    <!-- DATA VAULT MODAL (Skjult indtil kaldet) -->
+    <div id="caseModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 md:p-8" onclick="closeModal(event)">
+        <div id="modalPanel" class="bg-paper text-ink rounded-[2rem] w-full max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl" onclick="event.stopPropagation()">
+            <div class="sticky top-0 bg-paper/95 backdrop-blur-xl border-b border-black/10 px-8 py-5 flex justify-between items-center z-10">
+                <div class="tag text-black/40" id="modalTag">Datasheet</div>
+                <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 hover:bg-black/10 transition text-ink font-bold">×</button>
+            </div>
+            
+            <div class="p-8 md:p-12">
+                <h2 id="modalTitle" class="text-3xl md:text-5xl font-bold tracking-tight mb-8">Titel</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 border-y border-black/10 py-8">
+                    <div>
+                        <span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Materiale</span>
+                        <span id="modalMat" class="font-medium text-sm">--</span>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Tolerancer</span>
+                        <span id="modalTol" class="font-medium text-sm">--</span>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Maskine</span>
+                        <span id="modalMac" class="font-medium text-sm">--</span>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] font-semibold text-black/40 uppercase tracking-widest mb-1">Status</span>
+                        <span id="modalStat" class="font-medium text-sm text-orange">Udført</span>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><span class="w-1.5 h-1.5 bg-black rounded-full"></span> Den Tekniske Udfordring</h3>
+                        <p id="modalChal" class="text-black/65 text-sm leading-relaxed">--</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3 flex items-center gap-2"><span class="w-1.5 h-1.5 bg-orange rounded-full"></span> Løsning & Eksekvering</h3>
+                        <p id="modalSol" class="text-black/65 text-sm leading-relaxed">--</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-t border-black/10 px-5 lg:px-8 py-10 bg-paper mt-auto">
         <div class="mx-auto max-w-7xl flex flex-col md:flex-row justify-between gap-6 text-sm">
             <div>
                 <div class="font-semibold">Datum Prototyping</div>
@@ -770,12 +846,10 @@
             previewEl.textContent = generateEmailText();
         }
 
-        // Event Listeners for inputs
         [partNameInput, processInput, materialInput, qtyInput, tolInput, fileInput, surfaceInput, timeInput].forEach(input => {
             input.addEventListener('input', updatePreview);
         });
 
-        // Copy functionality
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(generateEmailText()).then(() => {
                 const originalText = copyBtn.innerText;
@@ -784,15 +858,79 @@
             });
         });
 
-        // MailTo functionality
         mailBtn.addEventListener('click', () => {
             const subject = encodeURIComponent(`Forespørgsel: ${partNameInput.value || "Maskinbearbejdning"}`);
             const body = encodeURIComponent(generateEmailText());
             window.location.href = `mailto:defnotglen@gmail.com?subject=${subject}&body=${body}`;
         });
 
-        // Initialize
         updatePreview();
+
+        // ----------------------------------------------------
+        // DATA VAULT LOGIK (Projekter Modal)
+        // ----------------------------------------------------
+        const projectData = {
+            'flame': {
+                tag: 'Skoleprojekt / H2',
+                title: 'Flame Eater Engine',
+                mat: 'Messing, Alu, Stål',
+                tol: 'Glidepasninger',
+                mac: 'Manuel Fræs & Drej',
+                chal: 'Fremstilling af en termisk motor uden stempelringe. Hele systemet drives af et lavt vakuum, hvilket kræver minimal friktion i de mekaniske led, kombineret med en 100% gastæt cylinder/stempel-pasning for at opretholde den nødvendige kompression.',
+                sol: 'Cylinder og stempel blev individuelt tilpasset og sletdrejet med mikrometer-kontrol, fremfor at stole blindt på maskinens aflæsning. Stor fokus på parallelitet for at undgå, at stemplet binder under den termiske udvidelse, når motoren kører.'
+            },
+            'mosin': {
+                tag: 'Reverse Engineering',
+                title: 'Mosin Nagant Dele',
+                mat: 'Værktøjsstål',
+                tol: '±0.05 mm',
+                mac: 'Haas Mini Mill',
+                chal: 'En kollega manglede kritiske komponenter til restaureringen af en historisk riffel fra 1940\'erne. Der eksisterede ingen pålidelig CAD-data, og de originale slidte dele kunne ikke bruges som direkte 1:1 reference for pasninger.',
+                sol: 'Komponenterne blev opmålt manuelt, og de kritiske geometrier blev reverse-engineered i Fusion 360 med udgangspunkt i våbnets mekaniske funktion. Delene blev herefter CAM-programmeret og fræst med overmål, før den endelige slibning og indpasning.'
+            },
+            'ring': {
+                tag: 'Værktøjsfremstilling / GF1',
+                title: 'Ringbøjer-fikstur',
+                mat: 'Aluminium 6082, Stål',
+                tol: 'ISO 2768-m',
+                mac: 'Haas Mini Mill',
+                chal: 'Det eksisterende værktøj, der blev brugt i undervisningen, var 3D-printet i FDM-plast (PETG). Værktøjet deponerede og flekserede under momentet fra metalbøjningen, hvilket resulterede i upræcise buk og ødelagte prints.',
+                sol: 'Geometrien blev redesignet til spåntagning og konverteret til aluminium for basen og stål for de højtbelastede slidflader. CAD/CAM-optimeret til at minimere unødige værktøjsskift og maskintid. Fiksturen overleverer nu plast-varianten med faktor 100.'
+            }
+        };
+
+        const modal = document.getElementById('caseModal');
+        
+        function openModal(id) {
+            const data = projectData[id];
+            if(!data) return;
+
+            document.getElementById('modalTag').innerText = data.tag;
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalMat').innerText = data.mat;
+            document.getElementById('modalTol').innerText = data.tol;
+            document.getElementById('modalMac').innerText = data.mac;
+            document.getElementById('modalChal').innerText = data.chal;
+            document.getElementById('modalSol').innerText = data.sol;
+
+            document.body.classList.add('modal-active');
+            modal.classList.add('show');
+        }
+
+        function closeModal(event) {
+            // Hvis event er defineret, luk kun hvis man klikker på baggrunden, ikke selve panelet
+            if (event && event.target !== modal) return;
+            
+            document.body.classList.remove('modal-active');
+            modal.classList.remove('show');
+        }
+        
+        // Luk på Escape-knap
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape" && modal.classList.contains('show')) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 
