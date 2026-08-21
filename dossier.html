@@ -8,24 +8,32 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['DM Mono', 'monospace']
+                        sans: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
+                        mono: ['"IBM Plex Mono"', 'monospace']
                     },
                     colors: {
-                        ink: '#0b0b0b',
-                        paper: '#f4f1ea',
-                        orange: '#ff641f',
-                        steel: '#9a9a95'
+                        osBg: '#070a0d',
+                        osPanel: '#10171e',
+                        osPanelBottom: '#0c1218',
+                        osLine: '#27333e',
+                        osLine2: '#455565',
+                        osText: '#eef3f7',
+                        osMuted: '#a3b5c3',
+                        osMuted2: '#7d8f9f',
+                        osAccent: '#ff6a24',
+                        osInput: '#0a1016',
+                        osButton: '#111820',
+                        osButtonHover: '#18212a'
                     },
                     boxShadow: {
-                        soft: '0 20px 60px rgba(0,0,0,.08)'
+                        soft: '0 10px 30px rgba(0,0,0,.12)'
                     }
                 }
             }
@@ -33,210 +41,257 @@
     </script>
     
     <style>
-        :root {
-            --orange: #ff641f;
-            --paper: #f4f1ea;
-            --ink: #0b0b0b;
-        }
-
         body {
-            background: var(--paper);
-            color: var(--ink);
+            background-color: #070a0d;
+            color: #eef3f7;
             line-height: 1.6;
         }
 
-        .grain:before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            opacity: .05;
-            z-index: 50;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+        .hero-bg {
+            background: radial-gradient(circle at 50% 0, rgba(255,106,36,.03), transparent 40%),
+                        linear-gradient(180deg, #080c10, #070a0d);
         }
 
         .tag {
-            font: 500 11px/1 DM Mono, monospace;
-            letter-spacing: .12em;
+            font: 600 11px/1 'IBM Plex Mono', monospace;
+            letter-spacing: .05em;
             text-transform: uppercase;
-        }
-
-        .orange-line {
-            height: 3px;
-            background: var(--orange);
         }
 
         /* Tables */
         .data-table { width: 100%; font-size: 0.875rem; border-collapse: collapse; }
-        .data-table th, .data-table td { padding: 0.75rem 0; border-bottom: 1px solid rgba(0,0,0,0.1); text-align: left; vertical-align: top; }
-        .data-table td { color: rgba(0,0,0,0.65); }
+        .data-table th, .data-table td { padding: 0.875rem 0; border-bottom: 1px solid #27333e; text-align: left; vertical-align: top; }
+        .data-table td { color: #a3b5c3; }
         .data-table tr:last-child td { border-bottom: none; }
 
         .btn { transition: .2s ease; cursor: pointer; }
         .btn:hover { transform: translateY(-2px); }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--paper); }
-        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+        ::-webkit-scrollbar { width: 14px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #33414d; border-radius: 99px; border: 3px solid #070a0d; }
+        ::-webkit-scrollbar-thumb:hover { background: #455565; }
 
         /* Print Optimization */
         @media print {
             @page { size: A4 portrait; margin: 15mm; }
-            body, html { 
+            
+            body, html, main { 
                 background: #fff !important; 
                 color: #000 !important; 
             }
-            .grain:before, .print\:hidden, nav { display: none !important; }
+            .hero-bg { background-image: none !important; }
+            .print\:hidden, nav, footer { display: none !important; }
+            main { padding: 0 !important; max-width: 100% !important; }
             
-            h1, h2, h3, h4, p, span, li, div, strong, td, th { color: #000 !important; -webkit-text-fill-color: #000 !important; }
-            .text-black\/65, .text-black\/60, .text-black\/50, .text-black\/40 { color: #333 !important; }
+            /* Tving desktop-layout (da printbredde i browseren er < 768px på A4 portræt) */
+            .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            .md\:flex-row { flex-direction: row !important; }
+            .md\:flex-col { flex-direction: column !important; }
+            .md\:mt-0 { margin-top: 0 !important; }
+            .md\:items-center { align-items: center !important; }
+            .md\:text-right { text-align: right !important; }
+            .md\:pl-8 { padding-left: 2rem !important; }
+            .md\:-left-\[38px\] { left: -38px !important; }
             
-            .bg-ink { background: #fff !important; color: #000 !important; border: 1px solid #ccc !important; }
-            .bg-white { background: #fff !important; border: 1px solid #ccc !important; box-shadow: none !important; }
+            /* Farver og kontraster */
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             
-            .rounded-3xl, .rounded-\[2rem\] { border-radius: 4px !important; }
+            /* Typografi */
+            h1, h2, h3, h4, p, span, li, div, strong, td, th { text-shadow: none !important; }
+            .text-osText, .text-white { color: #000 !important; -webkit-text-fill-color: #000 !important; }
+            .text-osMuted, .text-osMuted2 { color: #444 !important; -webkit-text-fill-color: #444 !important; }
+            .text-osAccent { color: #000 !important; -webkit-text-fill-color: #000 !important; font-weight: 700 !important; }
             
-            main { padding-top: 0 !important; }
-            section { break-inside: avoid; margin-bottom: 2rem !important; }
+            /* Paneler / Kort */
+            .bg-osBg, .bg-osPanel, .bg-osPanelBottom, .bg-\[\#0a0f14\], .bg-\[\#0a1016\], .bg-gradient-to-b { 
+                background: #fff !important; 
+                border: 1px solid #bbb !important; 
+                box-shadow: none !important; 
+            }
+            
+            /* Knapper / Badges */
+            .bg-osButton { background: #f5f5f5 !important; border: 1px solid #bbb !important; color: #000 !important; }
+            .bg-osAccent { background: #000 !important; color: #fff !important; -webkit-text-fill-color: #fff !important; border-color: #000 !important; }
+            .bg-osMuted2 { background: #888 !important; }
+            
+            /* Borders */
+            .border-osLine, .border-osLine2, .border-osAccent { border-color: #ccc !important; }
+            .border-l-2.border-osAccent { border-left: 3px solid #000 !important; }
+            
+            /* Tabeller */
+            .data-table th, .data-table td { border-bottom: 1px solid #ddd !important; color: #000 !important; }
+            
+            /* Tidslinje prikker */
+            .ring-osBg { --tw-ring-color: #fff !important; box-shadow: 0 0 0 4px #fff !important; }
+
+            /* Afstande og page breaks */
+            section { page-break-inside: avoid; margin-bottom: 2.5rem !important; }
+            header { padding-bottom: 1.5rem !important; margin-bottom: 2.5rem !important; }
+            ul, li { page-break-inside: avoid; }
+            
+            /* Ikoner */
+            svg { stroke: #000 !important; }
         }
     </style>
 </head>
 
-<body class="grain font-sans antialiased selection:bg-orange selection:text-white">
+<body class="font-sans antialiased selection:bg-osAccent selection:text-white hero-bg">
 
     <!-- NAVIGATION -->
-    <nav class="fixed top-0 left-0 right-0 z-40 print:hidden">
-        <div class="mx-auto max-w-4xl px-5 lg:px-8 pt-4">
-            <div class="flex items-center justify-between rounded-full border border-black/10 bg-paper/90 backdrop-blur-xl px-4 py-3 shadow-[0_8px_30px_rgba(0,0,0,.06)]">
+    <nav class="fixed top-0 left-0 right-0 z-40 print:hidden bg-osBg/95 backdrop-blur-xl border-b border-osLine h-[72px] flex items-center">
+        <div class="mx-auto w-full max-w-4xl px-5 lg:px-8">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition">
+                    <span class="w-[36px] h-[36px] border border-[#596671] rounded-md grid place-items-center font-bold text-[18px] bg-[#111820] text-white">
+                        <span class="text-osAccent">D</span>
+                    </span>
+                    <div class="flex items-center">
+                        <span class="font-bold text-[16px] tracking-[.02em] leading-tight hidden sm:block">Datum Prototyping</span>
+                        <span class="text-osMuted2 text-[11px] font-mono tracking-widest sm:pl-3 sm:ml-3 sm:border-l sm:border-osLine uppercase">// Dossier</span>
+                    </div>
+                </a>
                 <div class="flex items-center gap-3">
-                    <span class="grid h-9 w-9 place-items-center rounded-full bg-ink text-paper font-bold">D</span>
-                    <span class="font-semibold tracking-tight">Datum Prototyping</span>
-                    <span class="hidden sm:block text-black/40 text-sm font-mono tracking-widest pl-3 border-l border-black/10 uppercase">// Dossier</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="window.print()" class="btn hidden sm:inline-flex items-center gap-2 rounded-full border border-black/20 bg-white px-5 py-2.5 text-sm font-semibold text-ink hover:bg-black/5">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="opacity-50"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-                        Print PDF
+                    <button onclick="window.print()" class="btn inline-flex items-center justify-center gap-2 rounded-md border border-osLine2 bg-osButton px-3 sm:px-4 py-2.5 text-sm font-semibold text-osMuted hover:text-white hover:border-[#5c6e80] hover:bg-osButtonHover min-h-[44px]">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                        <span class="hidden sm:inline">Print PDF</span>
                     </button>
-                    <a href="index.html" class="btn inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-paper">
-                        Platform <span>↗</span>
+                    <a href="index.html" class="btn inline-flex items-center justify-center gap-2 rounded-md border border-osAccent bg-osAccent px-3 sm:px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#ff7f42] min-h-[44px]">
+                        <span class="hidden sm:inline">Platform</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M7 7h10v10"/></svg>
                     </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="pt-36 pb-24 px-5 sm:px-8 max-w-4xl mx-auto space-y-16">
+    <main class="pt-[110px] md:pt-[140px] pb-24 px-5 sm:px-8 max-w-4xl mx-auto space-y-16">
 
         <!-- HEADER / IDENTIFIKATION -->
-        <header class="border-b border-black/10 pb-12">
-            <div class="tag flex items-center gap-3 mb-6 text-black/40">
-                <span class="inline-block w-8 h-[2px] bg-orange"></span> Identifikation
+        <header class="border-b border-osLine pb-10">
+            <div class="flex justify-between items-start mb-6">
+                <div class="tag flex items-center gap-2 text-osMuted2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osAccent"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Personel-Dossier
+                </div>
+                <div class="font-mono text-[10px] text-osMuted text-right uppercase tracking-widest">
+                    ID: GC-2026<br>
+                    Udtrukket: <span id="currentDate"></span>
+                </div>
             </div>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-[-.05em] mb-3 text-ink leading-none">
-                G. C. Hansen
+            
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-3 text-osText leading-none">
+                G. C. Hansen<span class="text-osAccent">.</span>
             </h1>
-            <p class="tag text-orange mb-10">Finmekaniker-Lærling</p>
+            <p class="tag text-osAccent mb-10">Finmekaniker-Lærling</p>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 tag text-black/50">
-                <div><span class="block mb-1 text-black/30">Målsætning</span><span class="text-ink">R&D / Prototyping</span></div>
-                <div><span class="block mb-1 text-black/30">Status</span><span class="text-ink">Svendeprøve: Apr 2027</span></div>
-                <div><span class="block mb-1 text-black/30">Kontakt</span><span class="text-ink lowercase tracking-normal font-sans text-sm">defnotglen@gmail.com</span></div>
-                <div><span class="block mb-1 text-black/30">Lokation</span><span class="text-ink">København / DK</span></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 tag text-osMuted border border-osLine bg-[#0a0f14] rounded-xl p-6 shadow-soft">
+                <div><span class="block mb-2 text-osMuted2 flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Målsætning</span><span class="text-osText font-sans text-sm font-semibold capitalize tracking-normal">R&D / Prototyping</span></div>
+                <div><span class="block mb-2 text-osMuted2 flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Status</span><span class="text-osText font-sans text-sm font-semibold capitalize tracking-normal">Svendeprøve: Apr 2027</span></div>
+                <div><span class="block mb-2 text-osMuted2 flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Kontakt</span><span class="text-osText font-sans text-sm font-semibold lowercase tracking-normal">defnotglen@gmail.com</span></div>
+                <div><span class="block mb-2 text-osMuted2 flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Lokation</span><span class="text-osText font-sans text-sm font-semibold capitalize tracking-normal">København / DK</span></div>
             </div>
         </header>
 
         <!-- SECTION 01: PROFIL -->
         <section>
-            <div class="tag text-black/40 mb-5">01 / Operativ Profil</div>
-            <p class="text-lg text-black/65 max-w-3xl leading-relaxed">
-                Kommende finmekaniker med en kompromisløs tilgang til tolerancer og data. Min hverdag er delt mellem industriel CNC-programmering og high-end konventionel bearbejdning, hvilket sikrer en stærk taktil forståelse for spåntagning. Jeg driver uafhængigt platformen Datum Prototyping for at stresse mine DFM- og CAM-kompetencer på tværs af rigtige kunders projekter. Min ambition er ubetinget at arbejde med R&D, prototyper og specialværktøj, hvor kravet er præcision og problemløsning frem for serieproduktion.
-            </p>
+            <div class="tag text-osMuted2 mb-6">01 / Operativ Profil</div>
+            <div class="border-l-2 border-osAccent pl-5 md:pl-6">
+                <p class="text-base md:text-lg text-osMuted max-w-3xl leading-relaxed">
+                    Kommende finmekaniker med en kompromisløs tilgang til tolerancer og data. Min hverdag er delt mellem industriel CNC-programmering og high-end konventionel bearbejdning, hvilket sikrer en stærk taktil forståelse for spåntagning. Jeg driver uafhængigt platformen <strong class="text-osText font-semibold">Datum Prototyping</strong> for at stresse mine DFM- og CAM-kompetencer på tværs af rigtige kunders projekter. Min ambition er ubetinget at arbejde med R&D, prototyper og specialværktøj, hvor kravet er præcision og problemløsning frem for serieproduktion.
+                </p>
+            </div>
         </section>
 
-        <!-- SECTION 02: ERFARING -->
+        <!-- SECTION 02: ERFARING (TIMELINE) -->
         <section>
-            <div class="tag text-black/40 mb-5">02 / Erfaring & Uddannelse</div>
-            <div class="space-y-6">
+            <div class="tag text-osMuted2 mb-8">02 / Erfaring & Uddannelse</div>
+            
+            <div class="relative border-l border-osLine ml-2 pl-6 md:pl-8 space-y-12">
+                
                 <!-- Datum Prototyping -->
-                <div class="rounded-[2rem] bg-ink text-paper border border-black/10 p-7 md:p-10 shadow-soft">
-                    <div class="flex flex-col md:flex-row justify-between mb-6 border-b border-white/10 pb-6">
+                <div class="relative">
+                    <span class="absolute -left-[30px] md:-left-[38px] top-1.5 w-3 h-3 bg-osAccent rounded-full ring-4 ring-osBg"></span>
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
                         <div>
-                            <h3 class="font-bold text-2xl tracking-tight text-white">Datum Prototyping</h3>
-                            <p class="tag text-orange mt-2">Uafhængig Platform / Freelance</p>
+                            <h3 class="font-bold text-2xl tracking-tight text-osText">Datum Prototyping</h3>
+                            <p class="tag text-osAccent mt-2">Uafhængig Platform / Freelance</p>
                         </div>
-                        <div class="text-left md:text-right mt-4 md:mt-0">
-                            <span class="tag text-paper block">2024 - Nuværende</span>
+                        <div class="mt-3 md:mt-0 font-mono text-xs text-osMuted tracking-widest uppercase bg-osButton border border-osLine2 px-3 py-1.5 rounded-md">
+                            2024 — Nuværende
                         </div>
                     </div>
-                    <ul class="text-[15px] text-white/60 space-y-6">
+                    <ul class="text-[14px] text-osMuted space-y-4 max-w-2xl bg-gradient-to-b from-osPanel to-osPanelBottom border border-osLine rounded-xl p-6 shadow-soft">
                         <li class="flex gap-4">
-                            <span class="w-1.5 h-1.5 rounded-full bg-orange mt-2.5 shrink-0"></span>
-                            <div><strong class="text-white font-semibold block mb-1">R&D / Prototyping</strong> Eksekvering af specialopgaver fra idé til færdig del. Validering af tolerancer og design (DFM) for eksterne parter.</div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2 shrink-0 mt-0.5"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                            <div><strong class="text-osText font-semibold">R&D / Prototyping:</strong> Eksekvering af specialopgaver fra idé til færdig del. Validering af tolerancer og design (DFM) for eksterne parter.</div>
                         </li>
                         <li class="flex gap-4">
-                            <span class="w-1.5 h-1.5 rounded-full bg-orange mt-2.5 shrink-0"></span>
-                            <div><strong class="text-white font-semibold block mb-1">Projektstyring</strong> Håndtering af hele forsyningskæden: Fra CAD-modtagelse og priskalkulation til CAM-programmering, spåntagning og endelig QC.</div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2 shrink-0 mt-0.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+                            <div><strong class="text-osText font-semibold">Projektstyring:</strong> Håndtering af hele forsyningskæden: Fra CAD-modtagelse og priskalkulation til CAM-programmering, spåntagning og endelig QC.</div>
                         </li>
                     </ul>
                 </div>
 
                 <!-- TEC Frederiksberg -->
-                <div class="rounded-[2rem] bg-white border border-black/10 p-7 md:p-10 shadow-soft">
-                    <div class="flex flex-col md:flex-row justify-between mb-6 border-b border-black/10 pb-6">
+                <div class="relative">
+                    <span class="absolute -left-[30px] md:-left-[38px] top-1.5 w-3 h-3 bg-osMuted2 rounded-full ring-4 ring-osBg"></span>
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
                         <div>
-                            <h3 class="font-bold text-2xl tracking-tight text-ink">TEC Frederiksberg</h3>
-                            <p class="tag text-black/40 mt-2">Finmekanikeruddannelsen (Skolepraktik)</p>
+                            <h3 class="font-bold text-2xl tracking-tight text-osText">TEC Frederiksberg</h3>
+                            <p class="tag text-osMuted2 mt-2">Finmekanikeruddannelsen (Skolepraktik)</p>
                         </div>
-                        <div class="text-left md:text-right mt-4 md:mt-0">
-                            <span class="tag text-ink block">2024 - Nuværende</span>
-                            <span class="tag text-orange mt-2 block">Svendeprøve: Apr 2027</span>
+                        <div class="mt-3 md:mt-0 flex flex-col md:items-end gap-2">
+                            <span class="font-mono text-xs text-osMuted tracking-widest uppercase bg-osButton border border-osLine2 px-3 py-1.5 rounded-md">2024 — Nuværende</span>
+                            <span class="tag text-osAccent">Svendeprøve: Apr 2027</span>
                         </div>
                     </div>
-                    <ul class="text-[15px] text-black/65 space-y-6">
+                    <ul class="text-[14px] text-osMuted space-y-4 max-w-2xl bg-gradient-to-b from-osPanel to-osPanelBottom border border-osLine rounded-xl p-6 shadow-soft">
                         <li class="flex gap-4">
-                            <span class="w-1.5 h-1.5 rounded-full bg-orange mt-2.5 shrink-0"></span>
-                            <div><strong class="text-ink font-semibold block mb-1">Spåntagning</strong> Opsætning, programmering og drift af industrielle CNC-maskiner, samt tungt fokus på taktil, konventionel bearbejdning.</div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2 shrink-0 mt-0.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <div><strong class="text-osText font-semibold">Spåntagning:</strong> Opsætning, programmering og drift af industrielle CNC-maskiner, samt tungt fokus på taktil, konventionel bearbejdning.</div>
                         </li>
                         <li class="flex gap-4">
-                            <span class="w-1.5 h-1.5 rounded-full bg-orange mt-2.5 shrink-0"></span>
-                            <div><strong class="text-ink font-semibold block mb-1">Kvalitetskontrol (QC)</strong> Manuel opmåling med mikrometerskruer og måleur for fysisk at verificere H7/p6 pasninger og geometriske tolerancer.</div>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2 shrink-0 mt-0.5"><path d="M14 4V3c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1"/><path d="M3 13v-2c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v2"/><path d="M3 13v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8"/><path d="M15 17c0 1.7-1.3 3-3 3s-3-1.3-3-3"/></svg>
+                            <div><strong class="text-osText font-semibold">Kvalitetskontrol (QC):</strong> Manuel opmåling med mikrometerskruer og måleur for fysisk at verificere H7/p6 pasninger og geometriske tolerancer.</div>
                         </li>
                     </ul>
                 </div>
+
             </div>
         </section>
 
         <!-- SECTION 03: SPECIFIKATIONER -->
         <section>
-            <div class="tag text-black/40 mb-5">03 / Maskiner & Materialer</div>
+            <div class="tag text-osMuted2 mb-5">03 / Maskiner & Materialer</div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <div class="rounded-[2rem] bg-white border border-black/10 p-6 shadow-sm">
-                    <h3 class="tag text-ink border-b border-black/10 pb-3 mb-3">Maskinpark</h3>
+                <div class="rounded-xl bg-[#0a1016] border border-osLine p-6 shadow-sm">
+                    <h3 class="font-semibold text-osText border-b border-osLine pb-3 mb-3 flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg> Maskinpark</h3>
                     <table class="data-table">
-                        <tr><td><strong class="text-ink font-semibold block mb-1">Haas Mini Mill</strong><span class="tag text-black/40">3-Akset CNC Fræser</span></td></tr>
-                        <tr><td><strong class="text-ink font-semibold block mb-1">Haas ST-10</strong><span class="tag text-black/40">2-Akset CNC Drejebænk</span></td></tr>
-                        <tr><td><strong class="text-ink font-semibold block mb-1">Deckel FP1</strong><span class="tag text-black/40">Universal Værktøjsfræser</span></td></tr>
-                        <tr><td class="border-b-0"><strong class="text-ink font-semibold block mb-1">Weiler Matador</strong><span class="tag text-black/40">Værktøjsdrejebænk</span></td></tr>
+                        <tr><td><strong class="text-osText font-semibold block mb-1">Haas Mini Mill</strong><span class="tag text-osMuted2">3-Akset CNC Fræser</span></td></tr>
+                        <tr><td><strong class="text-osText font-semibold block mb-1">Haas ST-10</strong><span class="tag text-osMuted2">2-Akset CNC Drejebænk</span></td></tr>
+                        <tr><td><strong class="text-osText font-semibold block mb-1">Deckel FP1</strong><span class="tag text-osMuted2">Værktøjsfræser</span></td></tr>
+                        <tr><td class="border-b-0"><strong class="text-osText font-semibold block mb-1">Weiler Matador</strong><span class="tag text-osMuted2">Værktøjsdrejebænk</span></td></tr>
                     </table>
                 </div>
 
-                <div class="rounded-[2rem] bg-white border border-black/10 p-6 shadow-sm">
-                    <h3 class="tag text-ink border-b border-black/10 pb-3 mb-3">Opmåling & Tolerancer</h3>
+                <div class="rounded-xl bg-[#0a1016] border border-osLine p-6 shadow-sm">
+                    <h3 class="font-semibold text-osText border-b border-osLine pb-3 mb-3 flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Opmåling & Tol.</h3>
                     <table class="data-table">
-                        <tr><td><strong class="text-ink font-semibold block mb-1">Pasninger</strong><span class="tag text-black/40">ISO (H7, p6) og overgang</span></td></tr>
-                        <tr><td><strong class="text-ink font-semibold block mb-1">Måleværktøj</strong><span class="tag text-black/40">Mikrometer, Indvendig 2/3-pkt</span></td></tr>
-                        <tr><td class="border-b-0"><strong class="text-ink font-semibold block mb-1">Procedurer</strong><span class="tag text-black/40">Sletkørsel, verifikation, First-Article</span></td></tr>
+                        <tr><td><strong class="text-osText font-semibold block mb-1">Pasninger</strong><span class="tag text-osMuted2">ISO (H7, p6) & overgang</span></td></tr>
+                        <tr><td><strong class="text-osText font-semibold block mb-1">Måleværktøj</strong><span class="tag text-osMuted2">Mikrometer, Indv. 2/3-pkt</span></td></tr>
+                        <tr><td class="border-b-0"><strong class="text-osText font-semibold block mb-1">Procedurer</strong><span class="tag text-osMuted2">Sletkørsel, FAI-Rapport</span></td></tr>
                     </table>
                 </div>
 
-                <div class="rounded-[2rem] bg-white border border-black/10 p-6 shadow-sm">
-                    <h3 class="tag text-ink border-b border-black/10 pb-3 mb-3">Materialeregister</h3>
+                <div class="rounded-xl bg-[#0a1016] border border-osLine p-6 shadow-sm">
+                    <h3 class="font-semibold text-osText border-b border-osLine pb-3 mb-3 flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> Materialeregister</h3>
                     <table class="data-table">
-                        <tr><td><strong class="text-ink font-semibold block mb-1">Metaller</strong><span class="tag text-black/40">Aluminium, Messing, Automatstål</span></td></tr>
-                        <tr><td><strong class="text-ink font-semibold block mb-1">Hårde Legeringer</strong><span class="tag text-black/40">Rustfast stål, Værktøjsstål</span></td></tr>
-                        <tr><td class="border-b-0"><strong class="text-ink font-semibold block mb-1">Teknisk Plast</strong><span class="tag text-black/40">POM/Delrin, Nylon, Akryl</span></td></tr>
+                        <tr><td><strong class="text-osText font-semibold block mb-1">Metaller</strong><span class="tag text-osMuted2">Aluminium, Messing</span></td></tr>
+                        <tr><td><strong class="text-osText font-semibold block mb-1">Hårde Legeringer</strong><span class="tag text-osMuted2">Rustfast stål, Værktøjsstål</span></td></tr>
+                        <tr><td class="border-b-0"><strong class="text-osText font-semibold block mb-1">Teknisk Plast</strong><span class="tag text-osMuted2">POM/Delrin, Nylon, Akryl</span></td></tr>
                     </table>
                 </div>
             </div>
@@ -244,65 +299,75 @@
 
         <!-- SECTION 04: SOFTWARE STACK -->
         <section>
-            <div class="tag text-black/40 mb-5">04 / Software & Styring</div>
+            <div class="tag text-osMuted2 mb-5">04 / Software & Styring</div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <div class="rounded-[2rem] bg-ink text-paper p-8 flex flex-col justify-center min-h-[140px]">
-                    <h3 class="tag text-orange mb-2">CAD / DFM</h3>
-                    <span class="text-xl font-bold tracking-tight">Autodesk Fusion 360</span>
+                <div class="rounded-xl bg-[#0a1016] border border-osLine p-6 flex flex-col justify-center shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osAccent"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                        <h3 class="tag text-osMuted2 m-0">CAD / DFM</h3>
+                    </div>
+                    <span class="text-lg font-bold tracking-tight text-osText">Autodesk Fusion 360</span>
                 </div>
-                <div class="rounded-[2rem] bg-ink text-paper p-8 flex flex-col justify-center min-h-[140px]">
-                    <h3 class="tag text-orange mb-2">CAM / Værktøjsbaner</h3>
-                    <span class="text-xl font-bold tracking-tight">Autodesk Fusion 360</span>
+                <div class="rounded-xl bg-[#0a1016] border border-osLine p-6 flex flex-col justify-center shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osAccent"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                        <h3 class="tag text-osMuted2 m-0">CAM / Baner</h3>
+                    </div>
+                    <span class="text-lg font-bold tracking-tight text-osText">Autodesk Fusion 360</span>
                 </div>
-                <div class="rounded-[2rem] bg-ink text-paper p-8 flex flex-col justify-center min-h-[140px]">
-                    <h3 class="tag text-orange mb-2">Maskinstyring</h3>
-                    <span class="text-xl font-bold tracking-tight">Haas NGC / G-Code</span>
+                <div class="rounded-xl bg-[#0a1016] border border-osLine p-6 flex flex-col justify-center shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osAccent"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                        <h3 class="tag text-osMuted2 m-0">Maskinstyring</h3>
+                    </div>
+                    <span class="text-lg font-bold tracking-tight text-osText">Haas NGC / G-Code</span>
                 </div>
             </div>
         </section>
 
         <!-- SECTION 05: CASES -->
         <section>
-            <div class="tag text-black/40 mb-5">05 / Projekter & Praksis (Udpluk)</div>
+            <div class="tag text-osMuted2 mb-5">05 / Projekter & Praksis (Udpluk)</div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 
-                <div class="rounded-[2rem] bg-white border border-black/10 p-7 shadow-sm flex flex-col h-full">
+                <div class="rounded-xl bg-gradient-to-b from-osPanel to-osPanelBottom border border-osLine p-7 shadow-soft flex flex-col h-full hover:border-[#5c6e80] transition">
                     <div class="flex justify-between items-start mb-4 gap-4">
-                        <h3 class="font-bold text-xl tracking-tight text-ink">Flame Eater</h3>
-                        <span class="tag text-black/50 border border-black/10 bg-black/5 rounded-md px-2 py-1 shrink-0">H2 Projekt</span>
+                        <h3 class="font-bold text-xl tracking-tight text-osText flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Flame Eater</h3>
+                        <span class="font-mono text-[10px] text-osMuted border border-osLine2 bg-osButton rounded-md px-2 py-1 shrink-0 uppercase tracking-widest">H2 Projekt</span>
                     </div>
-                    <p class="text-sm text-black/65 mb-2 flex-grow leading-relaxed">
+                    <p class="text-sm text-osMuted mb-2 flex-grow leading-relaxed">
                         Design og bearbejdning af en termisk motor. Projektet krævede fremstilling af en komplet samling, hvor tolerancer var afgørende: 100% gastæt pasning i cylinderen kombineret med absolut minimal friktion. Bearbejdet på konventionelle maskiner.
                     </p>
                 </div>
 
-                <div class="rounded-[2rem] bg-white border border-black/10 p-7 shadow-sm flex flex-col h-full">
+                <div class="rounded-xl bg-gradient-to-b from-osPanel to-osPanelBottom border border-osLine p-7 shadow-soft flex flex-col h-full hover:border-[#5c6e80] transition">
                     <div class="flex justify-between items-start mb-4 gap-4">
-                        <h3 class="font-bold text-xl tracking-tight text-ink">Mosin Nagant (Dele)</h3>
-                        <span class="tag text-black/50 border border-black/10 bg-black/5 rounded-md px-2 py-1 shrink-0">Restaurering</span>
+                        <h3 class="font-bold text-xl tracking-tight text-osText flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Mosin Nagant</h3>
+                        <span class="font-mono text-[10px] text-osMuted border border-osLine2 bg-osButton rounded-md px-2 py-1 shrink-0 uppercase tracking-widest">Restaurering</span>
                     </div>
-                    <p class="text-sm text-black/65 mb-2 flex-grow leading-relaxed">
+                    <p class="text-sm text-osMuted mb-2 flex-grow leading-relaxed">
                         Reverse engineering og maskinering af manglende specialdele i værktøjsstål til en historisk riffel. Fysiske mål blev omsat til CAD, CAM-programmeret og CNC-fræst med overmål forud for endelig slibning.
                     </p>
                 </div>
 
-                <div class="rounded-[2rem] bg-white border border-black/10 p-7 shadow-sm flex flex-col h-full">
+                <div class="rounded-xl bg-gradient-to-b from-osPanel to-osPanelBottom border border-osLine p-7 shadow-soft flex flex-col h-full hover:border-[#5c6e80] transition">
                     <div class="flex justify-between items-start mb-4 gap-4">
-                        <h3 class="font-bold text-xl tracking-tight text-ink">Ringbøjer Fikstur</h3>
-                        <span class="tag text-black/50 border border-black/10 bg-black/5 rounded-md px-2 py-1 shrink-0">Specialværktøj</span>
+                        <h3 class="font-bold text-xl tracking-tight text-osText flex items-center gap-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Ringbøjer</h3>
+                        <span class="font-mono text-[10px] text-osMuted border border-osLine2 bg-osButton rounded-md px-2 py-1 shrink-0 uppercase tracking-widest">Fikstur</span>
                     </div>
-                    <p class="text-sm text-black/65 mb-2 flex-grow leading-relaxed">
+                    <p class="text-sm text-osMuted mb-2 flex-grow leading-relaxed">
                         Redesign og CNC-fremstilling af et specialværktøj til skolen. Den originale 3D-printede version blev kasseret på grund af flex under belastning, og erstattet af et optimeret design i stål og 6082-aluminium.
                     </p>
                 </div>
 
-                <div class="rounded-[2rem] bg-ink text-paper p-7 shadow-sm flex flex-col justify-center items-center h-full text-center min-h-[200px]">
-                    <h3 class="font-bold text-xl tracking-tight mb-3">Flere tekniske cases</h3>
-                    <p class="text-sm text-white/50 mb-6 max-w-xs">
-                        Udforsk det fulde overblik over maskineringstekniske udfordringer og løsninger direkte på platformen.
+                <div class="rounded-xl bg-[#0a1016] border border-osLine p-7 shadow-sm flex flex-col justify-center items-center h-full text-center min-h-[200px] border-dashed print:hidden">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-osMuted2 mb-3"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <h3 class="font-bold text-lg tracking-tight mb-2 text-osText">Flere tekniske cases</h3>
+                    <p class="text-sm text-osMuted mb-6 max-w-xs">
+                        Udforsk det fulde overblik over udfordringer og løsninger direkte på platformen.
                     </p>
-                    <a href="index.html#arbejde" class="btn rounded-full border border-white/20 bg-transparent px-5 py-2.5 text-sm font-semibold text-paper hover:bg-white/10">
-                        Åbn Projekt-Vault
+                    <a href="index.html#arbejde" class="btn rounded-md border border-osLine2 bg-osButton hover:border-[#5c6e80] hover:bg-osButtonHover px-5 py-2.5 text-sm font-semibold text-osText inline-flex items-center justify-center gap-2">
+                        Åbn Vault <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                     </a>
                 </div>
                 
@@ -311,5 +376,22 @@
 
     </main>
 
+    <footer class="border-t border-osLine px-5 lg:px-8 py-8 bg-[#0a0f14] mt-auto print:hidden">
+        <div class="mx-auto max-w-4xl flex flex-col md:flex-row justify-between items-center gap-6 text-sm">
+            <div class="flex items-center gap-4 text-osMuted2">
+                <span class="font-bold text-osText tracking-wide">DATUM PROTOTYPING</span>
+            </div>
+            <div class="tag text-osLine2">Dossier / Lokal Kopi</div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current date
+        const dateEl = document.getElementById('currentDate');
+        if (dateEl) {
+            const today = new Date();
+            dateEl.textContent = today.toISOString().split('T')[0];
+        }
+    </script>
 </body>
 </html>
