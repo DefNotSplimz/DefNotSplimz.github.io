@@ -605,24 +605,30 @@
 
                         <article
                             class="project-card card lg:col-span-5 border border-line bg-black rounded-[28px] overflow-hidden reveal"
-                            data-cat="cad machine"
-                            data-project="reverse"
+                            data-cat="machine"
+                            data-project="mosin"
                         >
-                            <div class="project-image aspect-[16/11]">
+                            <div class="project-image aspect-[16/11] grid grid-cols-2">
                                 <img
                                     src="img/mosin-render-1.png"
-                                    alt="Reverse engineering"
-                                    onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim\'>REVERSE ENGINEERING / IMAGE</div>'"
+                                    alt="Mosin Nagant Del 1"
+                                    style="padding: 16px;"
+                                    onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim text-center\'>MOSIN<br>IMG 1</div>'"
+                                />
+                                <img
+                                    src="img/mosin-render-2.png"
+                                    alt="Mosin Nagant Del 2"
+                                    style="padding: 16px;"
+                                    onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim text-center\'>MOSIN<br>IMG 2</div>'"
                                 />
                             </div>
                             <div class="p-6 md:p-7">
-                                <div class="chip text-dim">03 / REVERSE ENGINEERING</div>
-                                <h3 class="display text-2xl font-medium mt-3">Reverse engineering</h3>
+                                <div class="chip text-dim">03 / RESTAURERING</div>
+                                <h3 class="display text-2xl font-medium mt-3">Mosin Nagant</h3>
                                 <p class="mt-3 text-sm text-muted leading-relaxed">
-                                    Opmåling, rekonstruktion og fremstillingsplan for en del uden brugbar original
-                                    CAD-data.
+                                    Fremstilling af 2 dele til en WWII-riffel ud fra medstuderendes tegninger. Opgraderet til værktøjsstål for at sikre funktionalitet.
                                 </p>
-                                <button class="open-project mt-5 chip text-orange" data-project="reverse">
+                                <button class="open-project mt-5 chip text-orange" data-project="mosin">
                                     Se detaljer →
                                 </button>
                             </div>
@@ -992,14 +998,14 @@
                     chal: "Et tidligere FDM-værktøj gav for meget fleksibilitet under bukning.",
                     sol: "Designet blev ændret til en stivere bearbejdet konstruktion med aluminium og stål på belastede flader.",
                 },
-                reverse: {
-                    tag: "03 / REVERSE ENGINEERING",
-                    title: "Reverse engineering",
-                    mat: "Projektbestemt",
-                    tol: "Projektbestemt",
-                    mac: "CAD + CNC",
-                    chal: "En fysisk del skulle rekonstrueres uden brugbar original CAD-data.",
-                    sol: "Geometrien blev opmålt, genskabt i CAD og omsat til en fremstillingsplan. Detaljer publiceres kun, når de må deles.",
+                mosin: {
+                    tag: "03 / RESTAURERING",
+                    title: "Mosin Nagant",
+                    mat: "Værktøjsstål",
+                    tol: "Tegningsspecifik",
+                    mac: "CNC-bearbejdning",
+                    chal: "Fremstilling af 2 dele til en ældre Mosin Nagant fra 2. verdenskrig, ud fra en medstuderendes egne opmålinger og tegninger.",
+                    sol: "De originale dele var produceret i et ukendt, svagt metal. For at våbnet kunne holde til reel brug, blev delene maskineret i værktøjsstål.",
                 },
             };
             const modal = document.getElementById("projectModal");
