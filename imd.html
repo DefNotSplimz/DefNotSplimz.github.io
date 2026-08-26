@@ -1,301 +1,295 @@
 <!doctype html>
 <html lang="da">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
-<title>Industrial Machining Data</title>
-<style>
-    :root {
-        --bg: #0a0a0a;
-        --surface: #141414;
-        --surface-elevated: #1e1e1e;
-        --fg: #e0e0e0;
-        --fg-muted: #8a8a8a;
-        --border: #2e2e2e;
-        --border-focus: #555555;
-        --warn-bg: #2a1111;
-        --warn-fg: #ff6b6b;
-        --ok-bg: #112a1a;
-        --ok-fg: #6bff9b;
-    }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover">
+    <meta name="theme-color" content="#050607">
+    <title>IMD // Datum Prototyping</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Space Grotesk', 'sans-serif'],
+                        body: ['DM Sans', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace']
+                    },
+                    colors: {
+                        black: '#050607',
+                        graphite: '#0b0d0f',
+                        surface: '#111416',
+                        surface2: '#171a1d',
+                        line: '#252a2e',
+                        line2: '#454b50',
+                        text: '#f2f3f3',
+                        muted: '#9aa1a7',
+                        dim: '#646b71',
+                        orange: '#ff6a1a',
+                        amber: '#ff9b54'
+                    }
+                }
+            }
+        };
+    </script>
+    
+    <style>
+        :root { color-scheme: dark; }
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            background: #050607;
+            color: #f2f3f3;
+            font-family: 'DM Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body { 
-        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-        background: var(--bg); 
-        color: var(--fg); 
-        line-height: 1.4; 
-        padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
-        -webkit-text-size-adjust: 100%;
-        color-scheme: dark;
-    }
+        ::selection { background: #ff6a1a; color: #fff; }
+        a { color: inherit; text-decoration: none; }
 
-    .app-container { max-width: 900px; margin: 0 auto; }
-    
-    header { 
-        position: sticky; 
-        top: 0; 
-        background: rgba(10, 10, 10, 0.9); 
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        z-index: 100; 
-        padding-bottom: 0.75rem; 
-        margin-bottom: 1.5rem; 
-        border-bottom: 1px solid var(--border); 
-    }
-    
-    h1 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: #ffffff; }
-    
-    .layout { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: start; }
-    @media (min-width: 768px) { .layout { grid-template-columns: 1fr 1fr; gap: 4rem; } }
-    
-    /* Formular Elements */
-    .form-group { margin-bottom: 1.25rem; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    
-    label { 
-        display: block; 
-        font-size: 0.7rem; 
-        font-weight: 600; 
-        text-transform: uppercase; 
-        margin-bottom: 0.4rem; 
-        letter-spacing: 0.05em; 
-        color: var(--fg-muted);
-    }
-    
-    select, input { 
-        width: 100%; 
-        border: 1px solid var(--border); 
-        padding: 0.75rem; 
-        border-radius: 4px; 
-        background: var(--surface); 
-        color: var(--fg); 
-        font-family: inherit; 
-        font-size: 16px; 
-        font-weight: 500;
-        appearance: none;
-        -webkit-appearance: none;
-        transition: border-color 0.2s, background-color 0.2s;
-    }
-    
-    /* Hvid pil til dark mode */
-    select { 
-        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a8a8a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); 
-        background-repeat: no-repeat; 
-        background-position: right 0.75rem center; 
-        background-size: 1rem; 
-        padding-right: 2.5rem; 
-    }
+        .display { font-family: 'Space Grotesk', sans-serif; }
+        .mono { font-family: 'IBM Plex Mono', monospace; }
 
-    select:focus, input:focus { 
-        outline: none; 
-        border-color: var(--border-focus); 
-        background: var(--surface-elevated);
-    }
-    
-    input:disabled { 
-        background: var(--bg); 
-        border-color: #1a1a1a; 
-        color: #444; 
-        opacity: 1;
-    }
+        .nav-blur {
+            background: rgba(5, 6, 7, .72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
 
-    /* Output Elements */
-    .output-panel { 
-        background: var(--surface); 
-        padding: 1.5rem;
-        border-radius: 6px;
-        border: 1px solid var(--border);
-    }
-    
-    @media (min-width: 768px) {
-        .output-panel { position: sticky; top: 4rem; }
-    }
+        .grain:after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 80;
+            pointer-events: none;
+            opacity: .028;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
 
-    .data-row { 
-        display: flex; 
-        justify-content: space-between; 
-        align-items: flex-end; 
-        border-bottom: 1px solid var(--border); 
-        padding: 1rem 0; 
-    }
-    
-    .data-row:first-child { padding-top: 0; }
-    
-    .d-label { 
-        font-size: 0.7rem; 
-        font-weight: 600; 
-        text-transform: uppercase; 
-        letter-spacing: 0.05em; 
-        color: var(--fg-muted);
-        width: 50%;
-        padding-right: 1rem;
-    }
-    
-    .d-val { 
-        font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace; 
-        font-size: 1.25rem; 
-        text-align: right; 
-        width: 50%;
-        color: var(--fg);
-    }
-    
-    .d-val.huge { 
-        font-size: 2.25rem; 
-        font-weight: 700; 
-        color: #ffffff;
-        line-height: 1; 
-        padding-bottom: 0.1rem;
-    }
-    
-    .d-unit { 
-        font-size: 0.7rem; 
-        font-family: -apple-system, system-ui, sans-serif; 
-        text-transform: uppercase; 
-        margin-left: 0.3rem; 
-        font-weight: 600; 
-        color: var(--fg-muted);
-    }
-    
-    .alert { 
-        margin-top: 1.5rem; 
-        padding: 1rem; 
-        border-radius: 4px;
-        font-size: 0.75rem; 
-        font-weight: 600; 
-        text-transform: uppercase; 
-        letter-spacing: 0.05em; 
-    }
-    
-    .alert.warn { 
-        background: var(--warn-bg); 
-        color: var(--warn-fg);
-        border: 1px solid rgba(255, 107, 107, 0.2);
-    }
+        .orange-glow {
+            background: radial-gradient(circle, rgba(255, 106, 26, .19), rgba(255, 106, 26, .03) 45%, transparent 72%);
+        }
 
-    .alert.ok {
-        background: var(--ok-bg);
-        color: var(--ok-fg);
-        border: 1px solid rgba(107, 255, 155, 0.2);
-    }
-</style>
+        .chip {
+            font-family: 'IBM Plex Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            font-size: 10px;
+        }
+
+        .input {
+            background: #0b0d0f;
+            border: 1px solid #252a2e;
+            color: #f2f3f3;
+            transition: border-color .2s, background .2s;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #ff6a1a;
+            background: #0f1214;
+        }
+        
+        .input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        select.input { 
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23646b71' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); 
+            background-repeat: no-repeat; 
+            background-position: right 1rem center; 
+            background-size: 1rem; 
+            padding-right: 2.5rem; 
+        }
+
+        .btn { transition: transform .2s, background .2s, border-color .2s; cursor: pointer; }
+        .btn:hover { transform: translateY(-2px); }
+
+        ::-webkit-scrollbar { width: 14px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #252a2e; border-radius: 99px; border: 3px solid #050607; }
+        ::-webkit-scrollbar-thumb:hover { background: #454b50; }
+    </style>
 </head>
-<body>
+<body class="grain">
 
-<div class="app-container">
-    <header>
-        <h1>Machining Core Matrix</h1>
-    </header>
-
-    <div class="layout">
-        <!-- INPUT -->
-        <div>
-            <div class="form-group">
-                <label>Maskine</label>
-                <select id="machine">
-                    <option value="Deckel FP1">Deckel FP1 (Fræs)</option>
-                    <option value="Weiler Matador">Weiler Matador (Drej)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Operation</label>
-                <select id="operation"></select>
-            </div>
-
-            <div class="form-group">
-                <label>Strategi</label>
-                <select id="strategy">
-                    <option value="Skrub">Skrub (Grov bearbejdning)</option>
-                    <option value="Normal" selected>Normal</option>
-                    <option value="Slet">Slet (Finskæring)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Materiale</label>
-                <select id="material">
-                    <optgroup label="Plast & Akryl">
-                        <option value="Akryl">Akryl (PMMA)</option>
-                        <option value="Nylon">Nylon (PA)</option>
-                        <option value="Delrin/POM">Delrin / POM</option>
-                    </optgroup>
-                    <optgroup label="Metaller (Bløde)">
-                        <option value="Aluminium (Ren/Blød)">Aluminium (Ren/Blød)</option>
-                        <option value="Aluminium (Legeret)">Aluminium (Legeret, fx 7075)</option>
-                        <option value="Messing (Automat)">Messing (Automat/Blyholdig)</option>
-                        <option value="Messing (Sej)">Messing (Sej/Bronze)</option>
-                    </optgroup>
-                    <optgroup label="Stål & Jern">
-                        <option value="Sortstål (S235)">Sortstål (Let / S235)</option>
-                        <option value="Sortstål (S355)">Sortstål (Medium / S355)</option>
-                        <option value="Rustfast (304/316)">Rustfast stål (304 / 316)</option>
-                        <option value="Rustfast (Duplex)">Rustfast stål (Syrefast/Duplex)</option>
-                        <option value="Værktøjsstål (Uhærdet)">Værktøjsstål (Uhærdet)</option>
-                        <option value="Værktøjsstål (Hærdet)">Værktøjsstål (Hærdet &lt;45 HRC)</option>
-                    </optgroup>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Værktøj</label>
-                <select id="tool">
-                    <option value="HSS">HSS / HSS-Co</option>
-                    <option value="HM" selected>Hårdmetal (HM)</option>
-                </select>
-            </div>
-
-            <div class="grid-2">
-                <div class="form-group">
-                    <label>Dia (mm)</label>
-                    <input id="d" type="number" value="10" step="0.5" min="0.1" inputmode="decimal">
-                </div>
-                <div class="form-group">
-                    <label>Skær (Z)</label>
-                    <input id="z" type="number" value="4" min="1" inputmode="numeric">
+    <!-- HEADER -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-line h-[78px] flex items-center">
+        <div class="max-w-[1200px] mx-auto w-full px-5 lg:px-8">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full border border-line2 grid place-items-center text-sm font-bold display">
+                        <span class="text-orange">D</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="display font-semibold tracking-[.04em] text-sm hidden sm:block">DATUM PROTOTYPING</div>
+                        <div class="mono text-[9px] text-dim uppercase tracking-[.18em] sm:pl-3 sm:ml-3 sm:border-l sm:border-line mt-1 sm:mt-0">// IMD (SHOP FLOOR)</div>
+                    </div>
+                </a>
+                <div>
+                    <a href="index.html" class="btn inline-flex items-center justify-center gap-2 rounded-full border border-line2 bg-surface2 px-4 py-2.5 text-sm font-semibold text-muted hover:border-white hover:text-white min-h-[44px]">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span class="hidden sm:inline">Tilbage</span>
+                    </a>
                 </div>
             </div>
         </div>
+    </nav>
 
-        <!-- OUTPUT -->
-        <div class="output-panel">
-            <div class="data-row">
-                <div class="d-label">Spindelhastighed (N)</div>
-                <div class="d-val huge" id="rpm">0<span class="d-unit">RPM</span></div>
-            </div>
+    <main class="pt-[110px] md:pt-[130px] pb-24 px-5 sm:px-8 max-w-[1200px] mx-auto relative">
+        <div class="absolute left-[-150px] top-[50px] w-[500px] h-[500px] rounded-full orange-glow blur-3xl pointer-events-none"></div>
+
+        <header class="mb-10 md:mb-14">
+            <h1 class="display text-3xl md:text-5xl font-semibold tracking-tight mb-3">Machining <span class="text-orange">Matrix.</span></h1>
+            <p class="text-muted text-sm md:text-base max-w-xl">Hurtigt opslag af speeds, feeds og strategier til manuel og CNC-bearbejdning. Data er vejledende ud fra maskinernes formåen.</p>
+        </header>
+
+        <div class="grid lg:grid-cols-[1fr_1.1fr] gap-10 md:gap-14 items-start">
             
-            <div class="data-row">
-                <div class="d-label">Tilspænding (F)</div>
-                <div class="d-val huge" id="feed">0<span class="d-unit" id="feed-unit">mm/min</span></div>
+            <!-- INPUTS -->
+            <div class="space-y-6 relative">
+                
+                <div class="grid sm:grid-cols-2 gap-5">
+                    <label class="block">
+                        <span class="chip text-dim block mb-2">MASKINE</span>
+                        <select id="machine" class="input w-full rounded-xl px-4 py-3.5 text-sm font-medium">
+                            <option value="Deckel FP1">Deckel FP1 (Fræs)</option>
+                            <option value="Weiler Matador">Weiler Matador (Drej)</option>
+                        </select>
+                    </label>
+                    <label class="block">
+                        <span class="chip text-dim block mb-2">OPERATION</span>
+                        <select id="operation" class="input w-full rounded-xl px-4 py-3.5 text-sm font-medium"></select>
+                    </label>
+                </div>
+
+                <div class="h-px bg-line w-full my-2"></div>
+
+                <div class="grid sm:grid-cols-2 gap-5">
+                    <label class="block">
+                        <span class="chip text-dim block mb-2">STRATEGI</span>
+                        <select id="strategy" class="input w-full rounded-xl px-4 py-3.5 text-sm font-medium">
+                            <option value="Skrub">Skrub (Grov)</option>
+                            <option value="Normal" selected>Normal</option>
+                            <option value="Slet">Slet (Finskæring)</option>
+                        </select>
+                    </label>
+                    <label class="block">
+                        <span class="chip text-dim block mb-2">VÆRKTØJ</span>
+                        <select id="tool" class="input w-full rounded-xl px-4 py-3.5 text-sm font-medium">
+                            <option value="HSS">HSS / HSS-Co</option>
+                            <option value="HM" selected>Hårdmetal (HM)</option>
+                        </select>
+                    </label>
+                </div>
+
+                <label class="block">
+                    <span class="chip text-dim block mb-2">MATERIALE</span>
+                    <select id="material" class="input w-full rounded-xl px-4 py-3.5 text-sm font-medium">
+                        <optgroup label="Plast & Akryl">
+                            <option value="Akryl">Akryl (PMMA)</option>
+                            <option value="Nylon">Nylon (PA)</option>
+                            <option value="Delrin/POM">Delrin / POM</option>
+                        </optgroup>
+                        <optgroup label="Metaller (Bløde)">
+                            <option value="Aluminium (Ren/Blød)">Aluminium (Ren/Blød)</option>
+                            <option value="Aluminium (Legeret)">Aluminium (Legeret, fx 7075)</option>
+                            <option value="Messing (Automat)">Messing (Automat/Blyholdig)</option>
+                            <option value="Messing (Sej)">Messing (Sej/Bronze)</option>
+                        </optgroup>
+                        <optgroup label="Stål & Jern">
+                            <option value="Sortstål (S235)">Sortstål (Let / S235)</option>
+                            <option value="Sortstål (S355)">Sortstål (Medium / S355)</option>
+                            <option value="Rustfast (304/316)">Rustfast stål (304 / 316)</option>
+                            <option value="Rustfast (Duplex)">Rustfast stål (Syrefast/Duplex)</option>
+                            <option value="Værktøjsstål (Uhærdet)">Værktøjsstål (Uhærdet)</option>
+                            <option value="Værktøjsstål (Hærdet)">Værktøjsstål (Hærdet <45 HRC)</option>
+                        </optgroup>
+                    </select>
+                </label>
+
+                <div class="grid grid-cols-2 gap-5">
+                    <label class="block">
+                        <span class="chip text-dim block mb-2">DIA (MM)</span>
+                        <input id="d" type="number" value="10" step="0.5" min="0.1" inputmode="decimal" class="input w-full rounded-xl px-4 py-3.5 text-sm font-medium">
+                    </label>
+                    <label class="block">
+                        <span class="chip text-dim block mb-2">SKÆR (Z)</span>
+                        <input id="z" type="number" value="4" min="1" inputmode="numeric" class="input w-full rounded-xl px-4 py-3.5 text-sm font-medium">
+                    </label>
+                </div>
+
             </div>
-            
-            <div class="data-row">
-                <div class="d-label">Mål-Vc (inkl. strategi)</div>
-                <div class="d-val" id="vc">0<span class="d-unit">m/min</span></div>
+
+            <!-- OUTPUT -->
+            <div class="bg-black border border-line rounded-[32px] p-7 md:p-10 sticky top-[100px] shadow-2xl">
+                <div class="flex items-center gap-3 mb-8">
+                    <span class="flex h-3 w-3 relative">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange opacity-40"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-orange"></span>
+                    </span>
+                    <span class="chip text-dim">LIVE DATA OUTPUT</span>
+                </div>
+
+                <!-- Primary Data -->
+                <div class="grid sm:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <div class="chip text-dim mb-3 border-b border-line pb-2">SPINDEL (N)</div>
+                        <div class="flex items-baseline gap-2">
+                            <div class="display text-5xl font-semibold text-orange tracking-tight" id="rpm">0</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="chip text-dim mb-3 border-b border-line pb-2">TILSPÆNDING (F)</div>
+                        <div class="flex items-baseline gap-2">
+                            <div class="display text-5xl font-semibold text-f2f3f3 tracking-tight" id="feed">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Data -->
+                <div class="bg-graphite border border-line rounded-2xl p-5 space-y-4">
+                    <div class="flex justify-between items-end border-b border-line pb-3">
+                        <div class="chip text-dim">MÅL-VC (INKL. STRATEGI)</div>
+                        <div class="mono text-base text-f2f3f3" id="vc">0</div>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-line pb-3">
+                        <div class="chip text-dim">FAKTISK VC</div>
+                        <div class="mono text-base text-f2f3f3" id="actual-vc">0</div>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-line pb-3">
+                        <div class="chip text-dim">TILSPÆNDING (FN)</div>
+                        <div class="mono text-base text-f2f3f3" id="rev">0</div>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div class="chip text-dim">MAX MASKIN RPM</div>
+                        <div class="mono text-base text-f2f3f3" id="max-rpm">0</div>
+                    </div>
+                </div>
+
+                <!-- Alert Box -->
+                <div id="alert" class="mt-6 p-4 rounded-xl border border-line bg-graphite chip text-dim text-center flex items-center justify-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i> Data valid.
+                </div>
             </div>
-            
-            <div class="data-row">
-                <div class="d-label">Faktisk Vc</div>
-                <div class="d-val" id="actual-vc">0<span class="d-unit">m/min</span></div>
-            </div>
-            
-            <div class="data-row">
-                <div class="d-label">Tilspænding (fn)</div>
-                <div class="d-val" id="rev">0<span class="d-unit">mm/rev</span></div>
-            </div>
-            
-            <div class="data-row">
-                <div class="d-label">Max Maskin RPM</div>
-                <div class="d-val" id="max-rpm">0<span class="d-unit">RPM</span></div>
-            </div>
-            
-            <div id="alert" class="alert ok">Data valid.</div>
+
         </div>
-    </div>
-</div>
+    </main>
 
 <script>
+lucide.createIcons();
+
 const matData = {
     "Akryl": { HSS: 40, HM: 150 },
     "Nylon": { HSS: 50, HM: 180 },
@@ -401,26 +395,29 @@ function calc() {
     const revFeed = op.useZ ? (baseFn * Z) : baseFn;
     const minuteFeed = rpm * revFeed;
 
-    el.vc.innerHTML = `${targetVc.toFixed(0)}<span class="d-unit">m/min</span>`;
-    el.actualVc.innerHTML = `${actualVc.toFixed(1)}<span class="d-unit">m/min</span>`;
-    el.rev.innerHTML = `${revFeed.toFixed(3)}<span class="d-unit">mm/rev</span>`;
-    el.maxRpm.innerHTML = `${limits.maxRpm}<span class="d-unit">RPM</span>`;
+    el.vc.innerHTML = `${targetVc.toFixed(0)} <span class="chip text-dim ml-1">m/min</span>`;
+    el.actualVc.innerHTML = `${actualVc.toFixed(1)} <span class="chip text-dim ml-1">m/min</span>`;
+    el.rev.innerHTML = `${revFeed.toFixed(3)} <span class="chip text-dim ml-1">mm/rev</span>`;
+    el.maxRpm.innerHTML = `${limits.maxRpm} <span class="chip text-dim ml-1">RPM</span>`;
     
-    el.rpm.innerHTML = `${Math.round(rpm)}<span class="d-unit">RPM</span>`;
+    el.rpm.innerHTML = `${Math.round(rpm)} <span class="chip text-orange ml-1">RPM</span>`;
 
     if (machine === "Weiler Matador" || !op.useZ) {
-        el.feed.innerHTML = `${revFeed.toFixed(3)}<span class="d-unit">mm/rev</span>`;
+        el.feed.innerHTML = `${revFeed.toFixed(3)} <span class="chip text-dim ml-1">mm/rev</span>`;
     } else {
-        el.feed.innerHTML = `${minuteFeed.toFixed(0)}<span class="d-unit">mm/min</span>`;
+        el.feed.innerHTML = `${minuteFeed.toFixed(0)} <span class="chip text-dim ml-1">mm/min</span>`;
     }
 
     if (thRpm > limits.maxRpm) {
-        el.alert.className = 'alert warn';
-        el.alert.textContent = `Begrænset: Teoretisk RPM (${Math.round(thRpm)}) overstiger maskinens max.`;
+        el.alert.className = 'mt-6 p-4 rounded-xl border border-orange bg-orange/10 chip text-orange text-center flex items-center justify-center gap-2';
+        el.alert.innerHTML = `<i data-lucide="alert-triangle" class="w-4 h-4 shrink-0"></i> <span>Begrænset: Teoretisk RPM (${Math.round(thRpm)}) overstiger maskinens max.</span>`;
     } else {
-        el.alert.className = 'alert ok';
-        el.alert.textContent = `Aflæs resultat. Indstil maskine til nærmeste lavere gear.`;
+        el.alert.className = 'mt-6 p-4 rounded-xl border border-line bg-graphite chip text-dim text-center flex items-center justify-center gap-2';
+        el.alert.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 shrink-0"></i> <span>Aflæs resultat. Indstil maskine til nærmeste lavere gear.</span>`;
     }
+    
+    // Refresh icons inside alert
+    lucide.createIcons();
 }
 
 ['change', 'input'].forEach(evt => {
