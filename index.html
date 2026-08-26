@@ -1,761 +1,1043 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="da">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#050607">
-    <title>Datum Prototyping — Engineering, R&D & Prototyper</title>
-    <meta name="description"
-        content="Datum Prototyping — CAD, konstruktion, belastningsanalyse, 3D-print, manuel og CNC-bearbejdning. Fra første idé til fysisk prototype.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        tailwind.config = { theme: { extend: { fontFamily: { display: ['Space Grotesk', 'sans-serif'], body: ['DM Sans', 'sans-serif'], mono: ['IBM Plex Mono', 'monospace'] }, colors: { black: '#050607', graphite: '#0b0d0f', surface: '#111416', surface2: '#171a1d', line: '#252a2e', text: '#f2f3f3', muted: '#9aa1a7', dim: '#646b71', orange: '#ff6a1a', amber: '#ff9b54' } } } };
-    </script>
-    <style>
-        :root {
-            color-scheme: dark
-        }
-
-        * {
-            box-sizing: border-box
-        }
-
-        html {
-            scroll-behavior: smooth
-        }
-
-        body {
-            margin: 0;
-            background: #050607;
-            color: #f2f3f3;
-            font-family: 'DM Sans', sans-serif;
-            overflow-x: hidden
-        }
-
-        ::selection {
-            background: #ff6a1a;
-            color: #fff
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none
-        }
-
-        .display {
-            font-family: 'Space Grotesk', sans-serif
-        }
-
-        .mono {
-            font-family: 'IBM Plex Mono', monospace
-        }
-
-        .nav-blur {
-            background: rgba(5, 6, 7, .72);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px)
-        }
-
-        .grain:after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: 80;
-            pointer-events: none;
-            opacity: .028;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")
-        }
-
-        .hero-grid {
-            background-image: linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
-            background-size: 64px 64px;
-            mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, .75) 38%, transparent 96%)
-        }
-
-        .orange-glow {
-            background: radial-gradient(circle, rgba(255, 106, 26, .19), rgba(255, 106, 26, .03) 45%, transparent 72%)
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity .75s ease, transform .75s cubic-bezier(.16, 1, .3, 1)
-        }
-
-        .reveal.in {
-            opacity: 1;
-            transform: none
-        }
-
-        .card {
-            transition: transform .3s ease, border-color .3s ease, background .3s ease, box-shadow .3s ease
-        }
-
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: #454b50;
-            background: #131719;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, .3)
-        }
-
-        .project-image {
-            background: #0a0c0e;
-            position: relative;
-            overflow: hidden
-        }
-
-        .project-image:before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 45%, rgba(255, 106, 26, .11), transparent 58%)
-        }
-
-        .project-image img {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            padding: 32px;
-            display: block;
-            transition: transform .45s cubic-bezier(.16, 1, .3, 1)
-        }
-
-        .project-card:hover .project-image img {
-            transform: scale(1.035)
-        }
-
-        .line-title {
-            position: relative;
-            padding-left: 30px
-        }
-
-        .line-title:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: .35em;
-            width: 16px;
-            height: 2px;
-            background: #ff6a1a
-        }
-
-        .number {
-            font-family: 'IBM Plex Mono', monospace;
-            color: #646b71;
-            font-size: 12px;
-            letter-spacing: .12em
-        }
-
-        .chip {
-            font-family: 'IBM Plex Mono', monospace;
-            text-transform: uppercase;
-            letter-spacing: .12em;
-            font-size: 10px
-        }
-
-        .divider {
-            height: 1px;
-            background: #252a2e
-        }
-
-        .marquee {
-            border-top: 1px solid #252a2e;
-            border-bottom: 1px solid #252a2e;
-            overflow: hidden;
-            white-space: nowrap
-        }
-
-        .marquee-track {
-            display: inline-flex;
-            gap: 52px;
-            min-width: max-content;
-            animation: scroll 28s linear infinite
-        }
-
-        @keyframes scroll {
-            from {
-                transform: translateX(0)
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#050607" />
+        <title>Datum Prototyping — Engineering, R&D & Prototyper</title>
+        <meta
+            name="description"
+            content="Datum Prototyping — CAD, konstruktion, belastningsanalyse, 3D-print, manuel og CNC-bearbejdning. Fra første idé til fysisk prototype."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            display: ["Space Grotesk", "sans-serif"],
+                            body: ["DM Sans", "sans-serif"],
+                            mono: ["IBM Plex Mono", "monospace"],
+                        },
+                        colors: {
+                            black: "#050607",
+                            graphite: "#0b0d0f",
+                            surface: "#111416",
+                            surface2: "#171a1d",
+                            line: "#252a2e",
+                            text: "#f2f3f3",
+                            muted: "#9aa1a7",
+                            dim: "#646b71",
+                            orange: "#ff6a1a",
+                            amber: "#ff9b54",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            :root {
+                color-scheme: dark;
             }
 
-            to {
-                transform: translateX(-50%)
+            * {
+                box-sizing: border-box;
             }
-        }
 
-        .bento-num {
-            font-family: 'Space Grotesk';
-            font-size: 74px;
-            line-height: .85;
-            color: #1a1e21;
-            font-weight: 700
-        }
+            html {
+                scroll-behavior: smooth;
+            }
 
-        .input {
-            background: #0b0d0f;
-            border: 1px solid #252a2e;
-            color: #f2f3f3;
-            transition: border-color .2s, background .2s
-        }
+            body {
+                margin: 0;
+                background: #050607;
+                color: #f2f3f3;
+                font-family: "DM Sans", sans-serif;
+                overflow-x: hidden;
+            }
 
-        .input:focus {
-            outline: none;
-            border-color: #ff6a1a;
-            background: #0f1214
-        }
+            ::selection {
+                background: #ff6a1a;
+                color: #fff;
+            }
 
-        .btn {
-            transition: transform .2s, background .2s, border-color .2s
-        }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
 
-        .btn:hover {
-            transform: translateY(-2px)
-        }
+            .display {
+                font-family: "Space Grotesk", sans-serif;
+            }
 
-        .modal {
-            opacity: 0;
-            visibility: hidden;
-            transition: .2s
-        }
+            .mono {
+                font-family: "IBM Plex Mono", monospace;
+            }
 
-        .modal.open {
-            opacity: 1;
-            visibility: visible
-        }
+            .nav-blur {
+                background: rgba(5, 6, 7, 0.72);
+                backdrop-filter: blur(18px);
+                -webkit-backdrop-filter: blur(18px);
+            }
 
-        .modal-panel {
-            transform: translateY(18px);
-            transition: .3s cubic-bezier(.16, 1, .3, 1)
-        }
+            .grain:after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                z-index: 80;
+                pointer-events: none;
+                opacity: 0.028;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            }
 
-        .modal.open .modal-panel {
-            transform: none
-        }
-
-        @media(max-width:767px) {
             .hero-grid {
-                background-size: 38px 38px
+                background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+                background-size: 64px 64px;
+                mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.75) 38%, transparent 96%);
+            }
+
+            .orange-glow {
+                background: radial-gradient(
+                    circle,
+                    rgba(255, 106, 26, 0.19),
+                    rgba(255, 106, 26, 0.03) 45%,
+                    transparent 72%
+                );
+            }
+
+            .reveal {
+                opacity: 0;
+                transform: translateY(28px);
+                transition:
+                    opacity 0.75s ease,
+                    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .reveal.in {
+                opacity: 1;
+                transform: none;
+            }
+
+            .card {
+                transition:
+                    transform 0.3s ease,
+                    border-color 0.3s ease,
+                    background 0.3s ease,
+                    box-shadow 0.3s ease;
+            }
+
+            .card:hover {
+                transform: translateY(-6px);
+                border-color: #454b50;
+                background: #131719;
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+            }
+
+            .project-image {
+                background: #0a0c0e;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .project-image:before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle at 50% 45%, rgba(255, 106, 26, 0.11), transparent 58%);
+            }
+
+            .project-image img {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                padding: 32px;
+                display: block;
+                transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .project-card:hover .project-image img {
+                transform: scale(1.035);
+            }
+
+            .line-title {
+                position: relative;
+                padding-left: 30px;
+            }
+
+            .line-title:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0.35em;
+                width: 16px;
+                height: 2px;
+                background: #ff6a1a;
+            }
+
+            .number {
+                font-family: "IBM Plex Mono", monospace;
+                color: #646b71;
+                font-size: 12px;
+                letter-spacing: 0.12em;
+            }
+
+            .chip {
+                font-family: "IBM Plex Mono", monospace;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                font-size: 10px;
+            }
+
+            .divider {
+                height: 1px;
+                background: #252a2e;
+            }
+
+            .marquee {
+                border-top: 1px solid #252a2e;
+                border-bottom: 1px solid #252a2e;
+                overflow: hidden;
+                white-space: nowrap;
             }
 
             .marquee-track {
-                gap: 28px
+                display: inline-flex;
+                gap: 52px;
+                min-width: max-content;
+                animation: scroll 28s linear infinite;
+            }
+
+            @keyframes scroll {
+                from {
+                    transform: translateX(0);
+                }
+
+                to {
+                    transform: translateX(-50%);
+                }
             }
 
             .bento-num {
-                font-size: 58px
+                font-family: "Space Grotesk";
+                font-size: 74px;
+                line-height: 0.85;
+                color: #1a1e21;
+                font-weight: 700;
             }
-        }
-    </style>
-</head>
 
-<body class="grain">
+            .input {
+                background: #0b0d0f;
+                border: 1px solid #252a2e;
+                color: #f2f3f3;
+                transition:
+                    border-color 0.2s,
+                    background 0.2s;
+            }
 
-    <!-- HEADER -->
-    <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-line">
-        <div class="max-w-[1500px] mx-auto px-5 lg:px-8 h-[78px] flex items-center justify-between">
-            <a href="#top" class="flex items-center gap-3">
-                <div
-                    class="w-10 h-10 rounded-full border border-line2 grid place-items-center text-sm font-bold display">
-                    <span class="text-orange">D</span></div>
-                <div>
-                    <div class="display font-semibold tracking-[.04em] text-sm">DATUM PROTOTYPING</div>
-                    <div class="mono text-[9px] text-dim uppercase tracking-[.18em] mt-1">Engineering / R&D</div>
-                </div>
-            </a>
-            <nav class="hidden md:flex items-center gap-8 text-sm text-muted">
-                <a href="#services" class="hover:text-white transition">Kompetencer</a>
-                <a href="#work" class="hover:text-white transition">Cases</a>
-                <a href="#process" class="hover:text-white transition">Arbejdsgang</a>
-                <a href="#contact"
-                    class="btn inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-line2 bg-surface2 hover:border-orange hover:text-white">Start
-                    et projekt <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>
-            </nav>
-            <button id="menuBtn" class="md:hidden w-11 h-11 rounded-full border border-line2 grid place-items-center"
-                aria-label="Menu"><i data-lucide="menu"></i></button>
-        </div>
-        <div id="mobileMenu" class="hidden md:hidden border-t border-line bg-black px-5 py-4">
-            <div class="grid gap-2">
-                <a href="#services" class="py-3 border-b border-line text-sm">Kompetencer</a>
-                <a href="#work" class="py-3 border-b border-line text-sm">Cases</a>
-                <a href="#process" class="py-3 border-b border-line text-sm">Arbejdsgang</a>
-                <a href="#contact" class="py-3 text-orange text-sm font-semibold">Start et projekt →</a>
-            </div>
-        </div>
-    </header>
+            .input:focus {
+                outline: none;
+                border-color: #ff6a1a;
+                background: #0f1214;
+            }
 
-    <main id="top" class="pt-[78px]">
+            .btn {
+                transition:
+                    transform 0.2s,
+                    background 0.2s,
+                    border-color 0.2s;
+            }
 
-        <!-- HERO -->
-        <section class="relative min-h-[calc(100vh-78px)] flex items-center overflow-hidden">
-            <div class="absolute inset-0 hero-grid"></div>
-            <div class="absolute -right-48 -top-32 w-[700px] h-[700px] orange-glow blur-2xl"></div>
-            <div
-                class="absolute left-[7%] top-[18%] mono text-[10px] uppercase tracking-[.2em] text-dim hidden lg:block [writing-mode:vertical-rl]">
-                DATUM / 01 / PROTOTYPING</div>
+            .btn:hover {
+                transform: translateY(-2px);
+            }
 
-            <div
-                class="relative max-w-[1500px] mx-auto w-full px-5 lg:px-16 py-20 lg:py-28 grid lg:grid-cols-[1fr_420px] gap-12 items-end">
-                <div class="reveal">
-                    <div class="mono text-[10px] uppercase tracking-[.2em] text-muted mb-7 flex items-center gap-3">
-                        <span class="w-10 h-px bg-orange"></span> Independent engineering & prototyping</div>
-                    <h1
-                        class="display text-[clamp(4rem,9vw,9rem)] leading-[.82] tracking-[-.065em] font-semibold max-w-6xl">
-                        Design.<br><span class="text-orange">Test.</span><br>Build.</h1>
-                    <p class="mt-9 max-w-2xl text-base md:text-lg text-muted leading-relaxed">Teknisk udvikling fra
-                        første idé til fysisk emne. CAD, konstruktion, belastningsanalyse, 3D-print og machining —
-                        samlet ét sted.</p>
-                    <div class="mt-10 flex flex-col sm:flex-row gap-3">
-                        <a href="#contact"
-                            class="btn inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-4 text-sm font-semibold text-black hover:bg-amber">Start
-                            et projekt <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
-                        <a href="#work"
-                            class="btn inline-flex items-center justify-center gap-2 rounded-full border border-line2 px-6 py-4 text-sm font-semibold hover:border-white">Se
-                            cases <i data-lucide="move-down" class="w-4 h-4"></i></a>
+            .modal {
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.2s;
+            }
+
+            .modal.open {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .modal-panel {
+                transform: translateY(18px);
+                transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+
+            .modal.open .modal-panel {
+                transform: none;
+            }
+
+            @media (max-width: 767px) {
+                .hero-grid {
+                    background-size: 38px 38px;
+                }
+
+                .marquee-track {
+                    gap: 28px;
+                }
+
+                .bento-num {
+                    font-size: 58px;
+                }
+            }
+        </style>
+    </head>
+
+    <body class="grain">
+        <!-- HEADER -->
+        <header class="fixed top-0 left-0 right-0 z-50 nav-blur border-b border-line">
+            <div class="max-w-[1500px] mx-auto px-5 lg:px-8 h-[78px] flex items-center justify-between">
+                <a href="#top" class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full border border-line2 grid place-items-center text-sm font-bold display"
+                    >
+                        <span class="text-orange">D</span>
                     </div>
-                </div>
-
-                <div class="reveal lg:mb-2">
-                    <div class="border border-line bg-graphite/90 backdrop-blur-md rounded-3xl p-6 md:p-7">
-                        <div class="flex items-center justify-between">
-                            <span class="chip text-dim">CURRENT MODE</span>
-                            <span class="inline-flex items-center gap-2 chip text-orange"><span
-                                    class="w-1.5 h-1.5 bg-orange rounded-full"></span> BUILD</span>
-                        </div>
-                        <div class="mt-7 text-4xl display font-semibold tracking-tight">Problem → Prototype</div>
-                        <div class="mt-7 space-y-4">
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-8 h-8 rounded-full border border-orange/50 text-orange grid place-items-center mono text-[10px]">
-                                    01</div>
-                                <div class="text-sm">Forstå funktion & krav</div>
-                            </div>
-                            <div class="h-px bg-line ml-4"></div>
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-8 h-8 rounded-full border border-line2 text-muted grid place-items-center mono text-[10px]">
-                                    02</div>
-                                <div class="text-sm">Konstruér & analysér</div>
-                            </div>
-                            <div class="h-px bg-line ml-4"></div>
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-8 h-8 rounded-full border border-line2 text-muted grid place-items-center mono text-[10px]">
-                                    03</div>
-                                <div class="text-sm">Prototype & iterér</div>
-                            </div>
-                        </div>
-                        <div class="mt-7 pt-5 border-t border-line flex justify-between gap-5"><span
-                                class="chip text-dim">FOCUS</span><span class="text-sm font-medium text-right">Funktion
-                                frem for pynt.</span></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- MOVING STRAP -->
-        <div class="marquee py-3.5 bg-graphite">
-            <div class="marquee-track mono text-[10px] uppercase tracking-[.22em] text-dim">
-                <span>CAD / Konstruktion</span><span>•</span><span>Stress Analysis</span><span>•</span><span>3D
-                    Printing</span><span>•</span><span>CNC
-                    Milling</span><span>•</span><span>Turning</span><span>•</span><span>Fixtures</span><span>•</span><span>DFM</span><span>•</span><span>Reverse
-                    Engineering</span><span>•</span><span>CAD / Konstruktion</span><span>•</span><span>Stress
-                    Analysis</span><span>•</span><span>3D Printing</span><span>•</span><span>CNC
-                    Milling</span><span>•</span><span>Turning</span><span>•</span><span>Fixtures</span><span>•</span><span>DFM</span><span>•</span><span>Reverse
-                    Engineering</span>
-            </div>
-        </div>
-
-        <!-- INTRO / SERVICES -->
-        <section id="services" class="px-5 lg:px-16 py-28 lg:py-36">
-            <div class="max-w-[1500px] mx-auto">
-                <div class="grid lg:grid-cols-[.75fr_1.25fr] gap-14 lg:gap-24">
-                    <div class="reveal">
-                        <div class="number">02 / WHAT I DO</div>
-                        <h2 class="display line-title mt-5 text-4xl md:text-6xl leading-[.95] font-semibold">Jeg hjælper
-                            med<br><span class="text-orange">det svære mellem idé og del.</span></h2>
-                        <p class="mt-7 text-muted max-w-md leading-relaxed">Nogle projekter starter med en STEP-fil.
-                            Andre starter med et problem. Begge dele kan være nok.</p>
-                    </div>
-                    <div class="grid sm:grid-cols-2 gap-px bg-line border border-line reveal">
-                        <article class="bg-black p-7 md:p-8">
-                            <div class="bento-num">01</div>
-                            <div class="mt-7 chip text-orange">CAD / DESIGN</div>
-                            <h3 class="display text-2xl font-medium mt-3">Konstruktion</h3>
-                            <p class="mt-3 text-sm text-muted leading-relaxed">3D-modeller, assemblies, tekniske
-                                tegninger, tolerancer og DFM.</p>
-                        </article>
-                        <article class="bg-black p-7 md:p-8">
-                            <div class="bento-num">02</div>
-                            <div class="mt-7 chip text-dim">ANALYSE</div>
-                            <h3 class="display text-2xl font-medium mt-3">Belastning</h3>
-                            <p class="mt-3 text-sm text-muted leading-relaxed">Tidlig validering af geometri, materiale
-                                og kritiske belastninger.</p>
-                        </article>
-                        <article class="bg-black p-7 md:p-8">
-                            <div class="bento-num">03</div>
-                            <div class="mt-7 chip text-dim">PROTOTYPE</div>
-                            <h3 class="display text-2xl font-medium mt-3">3D-print</h3>
-                            <p class="mt-3 text-sm text-muted leading-relaxed">Hurtige testemner, housings, fixtures og
-                                proof-of-concept iterationer.</p>
-                        </article>
-                        <article class="bg-black p-7 md:p-8">
-                            <div class="bento-num">04</div>
-                            <div class="mt-7 chip text-dim">MACHINING</div>
-                            <h3 class="display text-2xl font-medium mt-3">Fræs & drej</h3>
-                            <p class="mt-3 text-sm text-muted leading-relaxed">Manuel og CNC-bearbejdning af enkeltdele,
-                                prototyper og specialværktøj.</p>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CASES -->
-        <section id="work" class="bg-graphite border-y border-line px-5 lg:px-16 py-28 lg:py-36">
-            <div class="max-w-[1500px] mx-auto">
-                <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 reveal">
                     <div>
-                        <div class="number">03 / SELECTED WORK</div>
-                        <h2 class="display mt-5 text-4xl md:text-6xl font-semibold tracking-tight">Bygget,
-                            testet,<br><span class="text-orange">dokumenteret.</span></h2>
+                        <div class="display font-semibold tracking-[.04em] text-sm">DATUM PROTOTYPING</div>
+                        <div class="mono text-[9px] text-dim uppercase tracking-[.18em] mt-1">Engineering / R&D</div>
                     </div>
-                    <p class="text-muted max-w-md leading-relaxed">Kun projekter, der må vises. Resten bliver mellem
-                        kunden og værkstedet.</p>
+                </a>
+                <nav class="hidden md:flex items-center gap-8 text-sm text-muted">
+                    <a href="#services" class="hover:text-white transition">Kompetencer</a>
+                    <a href="#work" class="hover:text-white transition">Cases</a>
+                    <a href="#process" class="hover:text-white transition">Arbejdsgang</a>
+                    <a
+                        href="#contact"
+                        class="btn inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-line2 bg-surface2 hover:border-orange hover:text-white"
+                        >Start et projekt <i data-lucide="arrow-up-right" class="w-4 h-4"></i
+                    ></a>
+                </nav>
+                <button
+                    id="menuBtn"
+                    class="md:hidden w-11 h-11 rounded-full border border-line2 grid place-items-center"
+                    aria-label="Menu"
+                >
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+            <div id="mobileMenu" class="hidden md:hidden border-t border-line bg-black px-5 py-4">
+                <div class="grid gap-2">
+                    <a href="#services" class="py-3 border-b border-line text-sm">Kompetencer</a>
+                    <a href="#work" class="py-3 border-b border-line text-sm">Cases</a>
+                    <a href="#process" class="py-3 border-b border-line text-sm">Arbejdsgang</a>
+                    <a href="#contact" class="py-3 text-orange text-sm font-semibold">Start et projekt →</a>
+                </div>
+            </div>
+        </header>
+
+        <main id="top" class="pt-[78px]">
+            <!-- HERO -->
+            <section class="relative min-h-[calc(100vh-78px)] flex items-center overflow-hidden">
+                <div class="absolute inset-0 hero-grid"></div>
+                <div class="absolute -right-48 -top-32 w-[700px] h-[700px] orange-glow blur-2xl"></div>
+                <div
+                    class="absolute left-[7%] top-[18%] mono text-[10px] uppercase tracking-[.2em] text-dim hidden lg:block [writing-mode:vertical-rl]"
+                >
+                    DATUM / 01 / PROTOTYPING
                 </div>
 
-                <div class="mt-12 flex flex-wrap gap-2 reveal">
-                    <button class="filter chip px-4 py-2 rounded-full border border-orange bg-orange/10 text-orange"
-                        data-filter="all">Alle</button>
-                    <button class="filter chip px-4 py-2 rounded-full border border-line2 text-muted"
-                        data-filter="cad">CAD</button>
-                    <button class="filter chip px-4 py-2 rounded-full border border-line2 text-muted"
-                        data-filter="machine">Machining</button>
-                    <button class="filter chip px-4 py-2 rounded-full border border-line2 text-muted"
-                        data-filter="fixture">Fikstur</button>
-                </div>
-
-                <div class="mt-5 grid lg:grid-cols-12 gap-5">
-                    <article
-                        class="project-card project-card-xl card lg:col-span-7 border border-line bg-black rounded-[28px] overflow-hidden reveal"
-                        data-cat="cad machine" data-project="flame">
-                        <div class="project-image aspect-[16/10]"><img src="img/flame-render.png"
-                                alt="Flame Eater Engine"
-                                onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim\'>FLAME EATER / IMAGE</div>'">
+                <div
+                    class="relative max-w-[1500px] mx-auto w-full px-5 lg:px-16 py-20 lg:py-28 grid lg:grid-cols-[1fr_420px] gap-12 items-end"
+                >
+                    <div class="reveal">
+                        <div class="mono text-[10px] uppercase tracking-[.2em] text-muted mb-7 flex items-center gap-3">
+                            <span class="w-10 h-px bg-orange"></span> Independent engineering & prototyping
                         </div>
-                        <div class="p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6">
+                        <h1
+                            class="display text-[clamp(4rem,9vw,9rem)] leading-[.82] tracking-[-.065em] font-semibold max-w-6xl"
+                        >
+                            Design.<br /><span class="text-orange">Test.</span><br />Build.
+                        </h1>
+                        <p class="mt-9 max-w-2xl text-base md:text-lg text-muted leading-relaxed">
+                            Teknisk udvikling fra første idé til fysisk emne. CAD, konstruktion, belastningsanalyse,
+                            3D-print og machining — samlet ét sted.
+                        </p>
+                        <div class="mt-10 flex flex-col sm:flex-row gap-3">
+                            <a
+                                href="#contact"
+                                class="btn inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-4 text-sm font-semibold text-black hover:bg-amber"
+                                >Start et projekt <i data-lucide="arrow-right" class="w-4 h-4"></i
+                            ></a>
+                            <a
+                                href="#work"
+                                class="btn inline-flex items-center justify-center gap-2 rounded-full border border-line2 px-6 py-4 text-sm font-semibold hover:border-white"
+                                >Se cases <i data-lucide="move-down" class="w-4 h-4"></i
+                            ></a>
+                        </div>
+                    </div>
+
+                    <div class="reveal lg:mb-2">
+                        <div class="border border-line bg-graphite/90 backdrop-blur-md rounded-3xl p-6 md:p-7">
+                            <div class="flex items-center justify-between">
+                                <span class="chip text-dim">CURRENT MODE</span>
+                                <span class="inline-flex items-center gap-2 chip text-orange"
+                                    ><span class="w-1.5 h-1.5 bg-orange rounded-full"></span> BUILD</span
+                                >
+                            </div>
+                            <div class="mt-7 text-4xl display font-semibold tracking-tight">Problem → Prototype</div>
+                            <div class="mt-7 space-y-4">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full border border-orange/50 text-orange grid place-items-center mono text-[10px]"
+                                    >
+                                        01
+                                    </div>
+                                    <div class="text-sm">Forstå funktion & krav</div>
+                                </div>
+                                <div class="h-px bg-line ml-4"></div>
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full border border-line2 text-muted grid place-items-center mono text-[10px]"
+                                    >
+                                        02
+                                    </div>
+                                    <div class="text-sm">Konstruér & analysér</div>
+                                </div>
+                                <div class="h-px bg-line ml-4"></div>
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-8 h-8 rounded-full border border-line2 text-muted grid place-items-center mono text-[10px]"
+                                    >
+                                        03
+                                    </div>
+                                    <div class="text-sm">Prototype & iterér</div>
+                                </div>
+                            </div>
+                            <div class="mt-7 pt-5 border-t border-line flex justify-between gap-5">
+                                <span class="chip text-dim">FOCUS</span
+                                ><span class="text-sm font-medium text-right">Funktion frem for pynt.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MOVING STRAP -->
+            <div class="marquee py-3.5 bg-graphite">
+                <div class="marquee-track mono text-[10px] uppercase tracking-[.22em] text-dim">
+                    <span>CAD / Konstruktion</span><span>•</span><span>Stress Analysis</span><span>•</span
+                    ><span>3D Printing</span><span>•</span><span>CNC Milling</span><span>•</span><span>Turning</span
+                    ><span>•</span><span>Fixtures</span><span>•</span><span>DFM</span><span>•</span
+                    ><span>Reverse Engineering</span><span>•</span><span>CAD / Konstruktion</span><span>•</span
+                    ><span>Stress Analysis</span><span>•</span><span>3D Printing</span><span>•</span
+                    ><span>CNC Milling</span><span>•</span><span>Turning</span><span>•</span><span>Fixtures</span
+                    ><span>•</span><span>DFM</span><span>•</span><span>Reverse Engineering</span>
+                </div>
+            </div>
+
+            <!-- INTRO / SERVICES -->
+            <section id="services" class="px-5 lg:px-16 py-28 lg:py-36">
+                <div class="max-w-[1500px] mx-auto">
+                    <div class="grid lg:grid-cols-[.75fr_1.25fr] gap-14 lg:gap-24">
+                        <div class="reveal">
+                            <div class="number">02 / WHAT I DO</div>
+                            <h2 class="display line-title mt-5 text-4xl md:text-6xl leading-[.95] font-semibold">
+                                Jeg hjælper med<br /><span class="text-orange">det svære mellem idé og del.</span>
+                            </h2>
+                            <p class="mt-7 text-muted max-w-md leading-relaxed">
+                                Nogle projekter starter med en STEP-fil. Andre starter med et problem. Begge dele kan
+                                være nok.
+                            </p>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-px bg-line border border-line reveal">
+                            <article class="bg-black p-7 md:p-8">
+                                <div class="bento-num">01</div>
+                                <div class="mt-7 chip text-orange">CAD / DESIGN</div>
+                                <h3 class="display text-2xl font-medium mt-3">Konstruktion</h3>
+                                <p class="mt-3 text-sm text-muted leading-relaxed">
+                                    3D-modeller, assemblies, tekniske tegninger, tolerancer og DFM.
+                                </p>
+                            </article>
+                            <article class="bg-black p-7 md:p-8">
+                                <div class="bento-num">02</div>
+                                <div class="mt-7 chip text-dim">ANALYSE</div>
+                                <h3 class="display text-2xl font-medium mt-3">Belastning</h3>
+                                <p class="mt-3 text-sm text-muted leading-relaxed">
+                                    Tidlig validering af geometri, materiale og kritiske belastninger.
+                                </p>
+                            </article>
+                            <article class="bg-black p-7 md:p-8">
+                                <div class="bento-num">03</div>
+                                <div class="mt-7 chip text-dim">PROTOTYPE</div>
+                                <h3 class="display text-2xl font-medium mt-3">3D-print</h3>
+                                <p class="mt-3 text-sm text-muted leading-relaxed">
+                                    Hurtige testemner, housings, fixtures og proof-of-concept iterationer.
+                                </p>
+                            </article>
+                            <article class="bg-black p-7 md:p-8">
+                                <div class="bento-num">04</div>
+                                <div class="mt-7 chip text-dim">MACHINING</div>
+                                <h3 class="display text-2xl font-medium mt-3">Fræs & drej</h3>
+                                <p class="mt-3 text-sm text-muted leading-relaxed">
+                                    Manuel og CNC-bearbejdning af enkeltdele, prototyper og specialværktøj.
+                                </p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CASES -->
+            <section id="work" class="bg-graphite border-y border-line px-5 lg:px-16 py-28 lg:py-36">
+                <div class="max-w-[1500px] mx-auto">
+                    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 reveal">
+                        <div>
+                            <div class="number">03 / SELECTED WORK</div>
+                            <h2 class="display mt-5 text-4xl md:text-6xl font-semibold tracking-tight">
+                                Bygget, testet,<br /><span class="text-orange">dokumenteret.</span>
+                            </h2>
+                        </div>
+                        <p class="text-muted max-w-md leading-relaxed">
+                            Kun projekter, der må vises. Resten bliver mellem kunden og værkstedet.
+                        </p>
+                    </div>
+
+                    <div class="mt-12 flex flex-wrap gap-2 reveal">
+                        <button
+                            class="filter chip px-4 py-2 rounded-full border border-orange bg-orange/10 text-orange"
+                            data-filter="all"
+                        >
+                            Alle
+                        </button>
+                        <button
+                            class="filter chip px-4 py-2 rounded-full border border-line2 text-muted"
+                            data-filter="cad"
+                        >
+                            CAD
+                        </button>
+                        <button
+                            class="filter chip px-4 py-2 rounded-full border border-line2 text-muted"
+                            data-filter="machine"
+                        >
+                            Machining
+                        </button>
+                        <button
+                            class="filter chip px-4 py-2 rounded-full border border-line2 text-muted"
+                            data-filter="fixture"
+                        >
+                            Fikstur
+                        </button>
+                    </div>
+
+                    <div class="mt-5 grid lg:grid-cols-12 gap-5">
+                        <article
+                            class="project-card project-card-xl card lg:col-span-7 border border-line bg-black rounded-[28px] overflow-hidden reveal"
+                            data-cat="cad machine"
+                            data-project="flame"
+                        >
+                            <div class="project-image aspect-[16/10]">
+                                <img
+                                    src="img/flame-render.png"
+                                    alt="Flame Eater Engine"
+                                    onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim\'>FLAME EATER / IMAGE</div>'"
+                                />
+                            </div>
+                            <div class="p-6 md:p-8 flex flex-col md:flex-row justify-between gap-6">
+                                <div>
+                                    <div class="chip text-orange">01 / ENGINEERING PROJECT</div>
+                                    <h3 class="display text-3xl font-medium mt-3">Flame Eater Engine</h3>
+                                    <p class="mt-3 text-sm text-muted max-w-xl leading-relaxed">
+                                        Mekanisk konstruktion og manuel fremstilling, hvor mange individuelle dele skal
+                                        spille sammen som én fungerende mekanisme.
+                                    </p>
+                                </div>
+                                <button
+                                    class="open-project btn shrink-0 self-end inline-flex items-center gap-2 chip text-white border-b border-orange pb-2"
+                                    data-project="flame"
+                                >
+                                    Åbn case <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </article>
+
+                        <article
+                            class="project-card card lg:col-span-5 border border-line bg-black rounded-[28px] overflow-hidden reveal"
+                            data-cat="machine fixture"
+                            data-project="ring"
+                        >
+                            <div class="project-image aspect-[16/11]">
+                                <img
+                                    src="img/ringbender.png"
+                                    alt="Ringbøjer fikstur"
+                                    onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim\'>RINGBØJER / IMAGE</div>'"
+                                />
+                            </div>
+                            <div class="p-6 md:p-7">
+                                <div class="chip text-dim">02 / FIXTURE</div>
+                                <h3 class="display text-2xl font-medium mt-3">Ringbøjer-fikstur</h3>
+                                <p class="mt-3 text-sm text-muted leading-relaxed">
+                                    Fra fleksibelt FDM-værktøj til stiv, bearbejdet løsning i aluminium og stål.
+                                </p>
+                                <button class="open-project mt-5 chip text-orange" data-project="ring">
+                                    Se detaljer →
+                                </button>
+                            </div>
+                        </article>
+
+                        <article
+                            class="project-card card lg:col-span-5 border border-line bg-black rounded-[28px] overflow-hidden reveal"
+                            data-cat="cad machine"
+                            data-project="reverse"
+                        >
+                            <div class="project-image aspect-[16/11]">
+                                <img
+                                    src="img/mosin-render-1.png"
+                                    alt="Reverse engineering"
+                                    onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim\'>REVERSE ENGINEERING / IMAGE</div>'"
+                                />
+                            </div>
+                            <div class="p-6 md:p-7">
+                                <div class="chip text-dim">03 / REVERSE ENGINEERING</div>
+                                <h3 class="display text-2xl font-medium mt-3">Reverse engineering</h3>
+                                <p class="mt-3 text-sm text-muted leading-relaxed">
+                                    Opmåling, rekonstruktion og fremstillingsplan for en del uden brugbar original
+                                    CAD-data.
+                                </p>
+                                <button class="open-project mt-5 chip text-orange" data-project="reverse">
+                                    Se detaljer →
+                                </button>
+                            </div>
+                        </article>
+
+                        <article
+                            class="lg:col-span-7 rounded-[28px] border border-line bg-black p-7 md:p-9 reveal flex flex-col justify-between min-h-[280px]"
+                        >
+                            <div class="flex justify-between items-start">
+                                <div class="chip text-dim">04 / MORE TO COME</div>
+                                <i data-lucide="plus" class="text-dim"></i>
+                            </div>
                             <div>
-                                <div class="chip text-orange">01 / ENGINEERING PROJECT</div>
-                                <h3 class="display text-3xl font-medium mt-3">Flame Eater Engine</h3>
-                                <p class="mt-3 text-sm text-muted max-w-xl leading-relaxed">Mekanisk konstruktion og
-                                    manuel fremstilling, hvor mange individuelle dele skal spille sammen som én
-                                    fungerende mekanisme.</p>
-                            </div><button
-                                class="open-project btn shrink-0 self-end inline-flex items-center gap-2 chip text-white border-b border-orange pb-2"
-                                data-project="flame">Åbn case <i data-lucide="arrow-up-right"
-                                    class="w-4 h-4"></i></button>
-                        </div>
-                    </article>
+                                <h3 class="display text-3xl md:text-4xl font-medium">
+                                    Portfolioen vokser<br /><span class="text-orange">med hver prototype.</span>
+                                </h3>
+                                <p class="mt-4 max-w-xl text-sm text-muted leading-relaxed">
+                                    Nye projekter bliver tilføjet, når de er færdige — med billeder, CAD, proces og det
+                                    vigtigste: hvad der faktisk blev lært.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
 
-                    <article
-                        class="project-card card lg:col-span-5 border border-line bg-black rounded-[28px] overflow-hidden reveal"
-                        data-cat="machine fixture" data-project="ring">
-                        <div class="project-image aspect-[16/11]"><img src="img/ringbender.png" alt="Ringbøjer fikstur"
-                                onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim\'>RINGBØJER / IMAGE</div>'">
+            <!-- PROCESS -->
+            <section id="process" class="px-5 lg:px-16 py-28 lg:py-36">
+                <div class="max-w-[1500px] mx-auto">
+                    <div class="grid lg:grid-cols-[.7fr_1.3fr] gap-14 lg:gap-24">
+                        <div class="reveal">
+                            <div class="number">04 / WORKFLOW</div>
+                            <h2 class="display line-title mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">
+                                Fra rod i hovedet<br /><span class="text-orange">til noget i hånden.</span>
+                            </h2>
+                            <p class="mt-7 max-w-md text-muted leading-relaxed">
+                                Du behøver ikke levere en perfekt brief. Målet er at gøre den tekniske vej tydelig og
+                                kort.
+                            </p>
                         </div>
-                        <div class="p-6 md:p-7">
-                            <div class="chip text-dim">02 / FIXTURE</div>
-                            <h3 class="display text-2xl font-medium mt-3">Ringbøjer-fikstur</h3>
-                            <p class="mt-3 text-sm text-muted leading-relaxed">Fra fleksibelt FDM-værktøj til stiv,
-                                bearbejdet løsning i aluminium og stål.</p><button
-                                class="open-project mt-5 chip text-orange" data-project="ring">Se detaljer →</button>
+                        <div class="border-t border-line reveal">
+                            <div class="grid md:grid-cols-[78px_1fr_170px] gap-6 py-8 border-b border-line items-start">
+                                <div class="display text-5xl text-dim">01</div>
+                                <div>
+                                    <h3 class="display text-2xl font-medium">Definér problemet</h3>
+                                    <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">
+                                        Funktion, mål, plads, materiale, belastning, budget og hvad der allerede findes.
+                                    </p>
+                                </div>
+                                <div class="chip text-dim md:text-right">BRIEF / INPUT</div>
+                            </div>
+                            <div class="grid md:grid-cols-[78px_1fr_170px] gap-6 py-8 border-b border-line items-start">
+                                <div class="display text-5xl text-dim">02</div>
+                                <div>
+                                    <h3 class="display text-2xl font-medium">Konstruér & analyser</h3>
+                                    <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">
+                                        CAD, tolerancer, materialer og tidlig validering af om løsningen giver mening
+                                        fysisk.
+                                    </p>
+                                </div>
+                                <div class="chip text-dim md:text-right">CAD / FEA / DFM</div>
+                            </div>
+                            <div class="grid md:grid-cols-[78px_1fr_170px] gap-6 py-8 border-b border-line items-start">
+                                <div class="display text-5xl text-dim">03</div>
+                                <div>
+                                    <h3 class="display text-2xl font-medium">Prototype & test</h3>
+                                    <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">
+                                        3D-print, manuel bearbejdning eller CNC afhængigt af hvad der giver den
+                                        hurtigste og mest relevante test.
+                                    </p>
+                                </div>
+                                <div class="chip text-dim md:text-right">BUILD / TEST</div>
+                            </div>
+                            <div class="grid md:grid-cols-[78px_1fr_170px] gap-6 py-8 border-b border-line items-start">
+                                <div class="display text-5xl text-orange">04</div>
+                                <div>
+                                    <h3 class="display text-2xl font-medium">Færdig del</h3>
+                                    <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">
+                                        Den løsning, der kan bruges — og data nok til at gøre næste version lettere.
+                                    </p>
+                                </div>
+                                <div class="chip text-orange md:text-right">RESULT</div>
+                            </div>
                         </div>
-                    </article>
+                    </div>
+                </div>
+            </section>
 
-                    <article
-                        class="project-card card lg:col-span-5 border border-line bg-black rounded-[28px] overflow-hidden reveal"
-                        data-cat="cad machine" data-project="reverse">
-                        <div class="project-image aspect-[16/11]"><img src="img/mosin-render-1.png"
-                                alt="Reverse engineering"
-                                onerror="this.outerHTML='<div class=\'h-full grid place-items-center mono text-[10px] text-dim\'>REVERSE ENGINEERING / IMAGE</div>'">
+            <!-- CAPABILITIES -->
+            <section class="bg-graphite border-y border-line px-5 lg:px-16 py-28 lg:py-36">
+                <div class="max-w-[1500px] mx-auto">
+                    <div class="grid lg:grid-cols-2 gap-14 lg:gap-24">
+                        <div class="reveal">
+                            <div class="number">05 / TECHNICAL BASE</div>
+                            <h2 class="display mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">
+                                Digitalt hoved.<br /><span class="text-orange">Fysisk hænder.</span>
+                            </h2>
+                            <p class="mt-7 text-muted max-w-xl leading-relaxed">
+                                Finmekanikeruddannelsen har givet det vigtigste ekstra lag: forståelsen for hvad der
+                                sker, når CAD-filen forlader skærmen og møder værktøjet.
+                            </p>
                         </div>
-                        <div class="p-6 md:p-7">
-                            <div class="chip text-dim">03 / REVERSE ENGINEERING</div>
-                            <h3 class="display text-2xl font-medium mt-3">Reverse engineering</h3>
-                            <p class="mt-3 text-sm text-muted leading-relaxed">Opmåling, rekonstruktion og
-                                fremstillingsplan for en del uden brugbar original CAD-data.</p><button
-                                class="open-project mt-5 chip text-orange" data-project="reverse">Se detaljer →</button>
+                        <div class="grid sm:grid-cols-2 gap-4 reveal">
+                            <div class="border border-line bg-black rounded-2xl p-6">
+                                <div class="chip text-orange">CAD / CAM</div>
+                                <div class="display text-2xl mt-4">Fusion 360</div>
+                                <p class="text-sm text-muted mt-2 leading-relaxed">
+                                    Konstruktion, assemblies, tegninger og CAM-strategier.
+                                </p>
+                            </div>
+                            <div class="border border-line bg-black rounded-2xl p-6">
+                                <div class="chip text-dim">CNC</div>
+                                <div class="display text-2xl mt-4">Haas</div>
+                                <p class="text-sm text-muted mt-2 leading-relaxed">
+                                    Mini Mill og ST-10 til fræsning og drejning.
+                                </p>
+                            </div>
+                            <div class="border border-line bg-black rounded-2xl p-6">
+                                <div class="chip text-dim">MANUEL</div>
+                                <div class="display text-2xl mt-4">Deckel + Weiler</div>
+                                <p class="text-sm text-muted mt-2 leading-relaxed">
+                                    Manuel fræsning, drejning, pasninger og finmekanik.
+                                </p>
+                            </div>
+                            <div class="border border-line bg-black rounded-2xl p-6">
+                                <div class="chip text-dim">MATERIALER</div>
+                                <div class="display text-2xl mt-4">Metal + polymer</div>
+                                <p class="text-sm text-muted mt-2 leading-relaxed">
+                                    Bl.a. aluminium, stål, rustfast, messing, POM og nylon.
+                                </p>
+                            </div>
                         </div>
-                    </article>
+                    </div>
+                </div>
+            </section>
 
-                    <article
-                        class="lg:col-span-7 rounded-[28px] border border-line bg-black p-7 md:p-9 reveal flex flex-col justify-between min-h-[280px]">
-                        <div class="flex justify-between items-start">
-                            <div class="chip text-dim">04 / MORE TO COME</div><i data-lucide="plus"
-                                class="text-dim"></i>
+            <!-- ABOUT -->
+            <section class="px-5 lg:px-16 py-28 lg:py-36">
+                <div
+                    class="max-w-[1500px] mx-auto border border-line rounded-[32px] p-8 md:p-12 lg:p-16 relative overflow-hidden reveal bg-black"
+                >
+                    <div
+                        class="absolute right-[-100px] top-[-130px] w-[480px] h-[480px] rounded-full orange-glow blur-3xl"
+                    ></div>
+                    <div class="relative grid lg:grid-cols-[1fr_330px] gap-12 items-end">
+                        <div>
+                            <div class="number">06 / DATUM</div>
+                            <h2 class="display mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">
+                                Et lille setup.<br /><span class="text-orange">Store spørgsmål.</span>
+                            </h2>
+                            <p class="mt-7 max-w-2xl text-muted leading-relaxed">
+                                Datum Prototyping er stedet, hvor jeg bygger videre på det, uddannelsen har lært mig: at
+                                forstå en del både som geometri, som proces og som fysisk mekanik.
+                            </p>
+                        </div>
+                        <div class="border-l border-line pl-6">
+                            <div class="chip text-dim">PRINCIPLE</div>
+                            <div class="display text-2xl mt-3">Make it real.</div>
+                            <p class="text-sm text-muted mt-2 leading-relaxed">
+                                Hellere en testbar prototype end 50 siders teori.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTACT -->
+            <section id="contact" class="bg-graphite border-t border-line px-5 lg:px-16 py-28 lg:py-36">
+                <div class="max-w-[1500px] mx-auto grid lg:grid-cols-[.75fr_1.25fr] gap-14 lg:gap-24">
+                    <div class="reveal">
+                        <div class="number">07 / LET'S BUILD</div>
+                        <h2 class="display mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">
+                            Har du noget,<br /><span class="text-orange">der skal blive til?</span>
+                        </h2>
+                        <p class="mt-7 max-w-md text-muted leading-relaxed">
+                            Du behøver ikke vide præcis, hvilken proces der skal bruges. Beskriv problemet — så tager vi
+                            det derfra.
+                        </p>
+                        <div class="mt-8 space-y-3 mono text-[10px] uppercase tracking-[.15em] text-dim">
+                            <div>→ CAD / DESIGN</div>
+                            <div>→ STRESS / VALIDATION</div>
+                            <div>→ 3D PRINT / PROTOTYPE</div>
+                            <div>→ MACHINING / FIXTURES</div>
+                            <div>→ R&D / TECHNICAL SPARRING</div>
+                        </div>
+                    </div>
+                    <form id="contactForm" class="reveal border border-line rounded-3xl bg-black p-6 md:p-8">
+                        <div class="grid sm:grid-cols-2 gap-5">
+                            <label
+                                ><span class="chip text-dim block mb-2">NAVN</span
+                                ><input
+                                    id="name"
+                                    required
+                                    class="input w-full rounded-xl px-4 py-3.5 text-sm"
+                                    placeholder="Dit navn"
+                            /></label>
+                            <label
+                                ><span class="chip text-dim block mb-2">E-MAIL</span
+                                ><input
+                                    id="email"
+                                    type="email"
+                                    required
+                                    class="input w-full rounded-xl px-4 py-3.5 text-sm"
+                                    placeholder="navn@firma.dk"
+                            /></label>
+                        </div>
+                        <label class="block mt-5"
+                            ><span class="chip text-dim block mb-2">OMRÅDE</span
+                            ><select id="service" class="input w-full rounded-xl px-4 py-3.5 text-sm">
+                                <option>CAD / konstruktion</option>
+                                <option>Belastningsanalyse</option>
+                                <option>3D-print / prototype</option>
+                                <option>Fræsning / drejning</option>
+                                <option>Fikstur / specialværktøj</option>
+                                <option>R&D / teknisk sparring</option>
+                            </select></label
+                        >
+                        <label class="block mt-5"
+                            ><span class="chip text-dim block mb-2">FORTÆL OM PROJEKTET</span
+                            ><textarea
+                                id="message"
+                                required
+                                rows="8"
+                                class="input w-full rounded-xl px-4 py-3.5 text-sm resize-y"
+                                placeholder="Hvad har du, hvad er problemet, og hvad vil du gerne ende med?"
+                            ></textarea>
+                        </label>
+                        <div class="mt-5 flex flex-col sm:flex-row gap-3">
+                            <button
+                                type="submit"
+                                class="btn flex-1 rounded-full bg-orange text-black font-semibold px-6 py-4 hover:bg-amber"
+                            >
+                                Kopier skabelon <i data-lucide="copy" class="inline w-4 h-4 ml-1"></i></button
+                            ><a
+                                href="mailto:defnotglen@gmail.com"
+                                class="btn inline-flex items-center justify-center rounded-full border border-line2 px-6 py-4 text-sm font-semibold hover:border-white"
+                                >Skriv direkte</a
+                            >
+                        </div>
+                        <p id="formNote" class="mt-4 text-xs text-dim"></p>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer class="border-t border-line px-5 lg:px-16 py-8 bg-black">
+            <div class="max-w-[1500px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-5">
+                <div>
+                    <div class="display font-semibold">DATUM PROTOTYPING</div>
+                    <div class="mono text-[9px] text-dim uppercase tracking-[.17em] mt-1">
+                        Engineering / R&D / Prototyping
+                    </div>
+                </div>
+                <div class="mono text-[9px] uppercase tracking-[.17em] text-dim">© 2026 / BUILDING IN PUBLIC</div>
+            </div>
+        </footer>
+
+        <!-- MODAL -->
+        <div
+            id="projectModal"
+            class="modal fixed inset-0 z-[70] bg-black/85 backdrop-blur-sm p-4 md:p-8 flex items-center justify-center"
+        >
+            <div
+                class="modal-panel max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-line rounded-3xl bg-graphite"
+                onclick="event.stopPropagation()"
+            >
+                <div class="px-6 md:px-8 py-5 border-b border-line flex items-center justify-between">
+                    <div id="modalTag" class="chip text-dim"></div>
+                    <button
+                        id="closeModal"
+                        class="w-10 h-10 rounded-full border border-line2 grid place-items-center"
+                        aria-label="Luk"
+                    >
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                <div class="p-6 md:p-8">
+                    <h3 id="modalTitle" class="display text-4xl font-semibold"></h3>
+                    <div class="grid sm:grid-cols-3 gap-5 mt-7 py-6 border-y border-line">
+                        <div>
+                            <div class="chip text-dim">MATERIALE</div>
+                            <div id="modalMat" class="text-sm font-medium mt-2"></div>
                         </div>
                         <div>
-                            <h3 class="display text-3xl md:text-4xl font-medium">Portfolioen vokser<br><span
-                                    class="text-orange">med hver prototype.</span></h3>
-                            <p class="mt-4 max-w-xl text-sm text-muted leading-relaxed">Nye projekter bliver tilføjet,
-                                når de er færdige — med billeder, CAD, proces og det vigtigste: hvad der faktisk blev
-                                lært.</p>
+                            <div class="chip text-dim">TOLERANCE</div>
+                            <div id="modalTol" class="text-sm font-medium mt-2"></div>
                         </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- PROCESS -->
-        <section id="process" class="px-5 lg:px-16 py-28 lg:py-36">
-            <div class="max-w-[1500px] mx-auto">
-                <div class="grid lg:grid-cols-[.7fr_1.3fr] gap-14 lg:gap-24">
-                    <div class="reveal">
-                        <div class="number">04 / WORKFLOW</div>
-                        <h2 class="display line-title mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">Fra rod i
-                            hovedet<br><span class="text-orange">til noget i hånden.</span></h2>
-                        <p class="mt-7 max-w-md text-muted leading-relaxed">Du behøver ikke levere en perfekt brief.
-                            Målet er at gøre den tekniske vej tydelig og kort.</p>
-                    </div>
-                    <div class="border-t border-line reveal">
-                        <div class="grid md:grid-cols-[78px_1fr_170px] gap-6 py-8 border-b border-line items-start">
-                            <div class="display text-5xl text-dim">01</div>
-                            <div>
-                                <h3 class="display text-2xl font-medium">Definér problemet</h3>
-                                <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">Funktion, mål, plads,
-                                    materiale, belastning, budget og hvad der allerede findes.</p>
-                            </div>
-                            <div class="chip text-dim md:text-right">BRIEF / INPUT</div>
-                        </div>
-                        <div class="grid md:grid-cols-[78px_1fr_170px] gap-6 py-8 border-b border-line items-start">
-                            <div class="display text-5xl text-dim">02</div>
-                            <div>
-                                <h3 class="display text-2xl font-medium">Konstruér & analyser</h3>
-                                <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">CAD, tolerancer, materialer
-                                    og tidlig validering af om løsningen giver mening fysisk.</p>
-                            </div>
-                            <div class="chip text-dim md:text-right">CAD / FEA / DFM</div>
-                        </div>
-                        <div class="grid md:grid-cols-[78px_1fr_170px] gap-6 py-8 border-b border-line items-start">
-                            <div class="display text-5xl text-dim">03</div>
-                            <div>
-                                <h3 class="display text-2xl font-medium">Prototype & test</h3>
-                                <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">3D-print, manuel
-                                    bearbejdning eller CNC afhængigt af hvad der giver den hurtigste og mest relevante
-                                    test.</p>
-                            </div>
-                            <div class="chip text-dim md:text-right">BUILD / TEST</div>
-                        </div>
-                        <div class="grid md:grid-cols-[78px_1fr_170px] gap-6 py-8 border-b border-line items-start">
-                            <div class="display text-5xl text-orange">04</div>
-                            <div>
-                                <h3 class="display text-2xl font-medium">Færdig del</h3>
-                                <p class="mt-2 text-sm text-muted leading-relaxed max-w-2xl">Den løsning, der kan bruges
-                                    — og data nok til at gøre næste version lettere.</p>
-                            </div>
-                            <div class="chip text-orange md:text-right">RESULT</div>
+                        <div>
+                            <div class="chip text-dim">PROCESS</div>
+                            <div id="modalMac" class="text-sm font-medium mt-2"></div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CAPABILITIES -->
-        <section class="bg-graphite border-y border-line px-5 lg:px-16 py-28 lg:py-36">
-            <div class="max-w-[1500px] mx-auto">
-                <div class="grid lg:grid-cols-2 gap-14 lg:gap-24">
-                    <div class="reveal">
-                        <div class="number">05 / TECHNICAL BASE</div>
-                        <h2 class="display mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">Digitalt
-                            hoved.<br><span class="text-orange">Fysisk hænder.</span></h2>
-                        <p class="mt-7 text-muted max-w-xl leading-relaxed">Finmekanikeruddannelsen har givet det
-                            vigtigste ekstra lag: forståelsen for hvad der sker, når CAD-filen forlader skærmen og møder
-                            værktøjet.</p>
-                    </div>
-                    <div class="grid sm:grid-cols-2 gap-4 reveal">
-                        <div class="border border-line bg-black rounded-2xl p-6">
-                            <div class="chip text-orange">CAD / CAM</div>
-                            <div class="display text-2xl mt-4">Fusion 360</div>
-                            <p class="text-sm text-muted mt-2 leading-relaxed">Konstruktion, assemblies, tegninger og
-                                CAM-strategier.</p>
+                    <div class="grid md:grid-cols-2 gap-8 mt-8">
+                        <div>
+                            <div class="chip text-dim">UDFORDRING</div>
+                            <p id="modalChal" class="text-sm text-muted leading-relaxed mt-3"></p>
                         </div>
-                        <div class="border border-line bg-black rounded-2xl p-6">
-                            <div class="chip text-dim">CNC</div>
-                            <div class="display text-2xl mt-4">Haas</div>
-                            <p class="text-sm text-muted mt-2 leading-relaxed">Mini Mill og ST-10 til fræsning og
-                                drejning.</p>
+                        <div>
+                            <div class="chip text-orange">LØSNING</div>
+                            <p id="modalSol" class="text-sm text-muted leading-relaxed mt-3"></p>
                         </div>
-                        <div class="border border-line bg-black rounded-2xl p-6">
-                            <div class="chip text-dim">MANUEL</div>
-                            <div class="display text-2xl mt-4">Deckel + Weiler</div>
-                            <p class="text-sm text-muted mt-2 leading-relaxed">Manuel fræsning, drejning, pasninger og
-                                finmekanik.</p>
-                        </div>
-                        <div class="border border-line bg-black rounded-2xl p-6">
-                            <div class="chip text-dim">MATERIALER</div>
-                            <div class="display text-2xl mt-4">Metal + polymer</div>
-                            <p class="text-sm text-muted mt-2 leading-relaxed">Bl.a. aluminium, stål, rustfast, messing,
-                                POM og nylon.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ABOUT -->
-        <section class="px-5 lg:px-16 py-28 lg:py-36">
-            <div
-                class="max-w-[1500px] mx-auto border border-line rounded-[32px] p-8 md:p-12 lg:p-16 relative overflow-hidden reveal bg-black">
-                <div class="absolute right-[-100px] top-[-130px] w-[480px] h-[480px] rounded-full orange-glow blur-3xl">
-                </div>
-                <div class="relative grid lg:grid-cols-[1fr_330px] gap-12 items-end">
-                    <div>
-                        <div class="number">06 / DATUM</div>
-                        <h2 class="display mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">Et lille
-                            setup.<br><span class="text-orange">Store spørgsmål.</span></h2>
-                        <p class="mt-7 max-w-2xl text-muted leading-relaxed">Datum Prototyping er stedet, hvor jeg
-                            bygger videre på det, uddannelsen har lært mig: at forstå en del både som geometri, som
-                            proces og som fysisk mekanik.</p>
-                    </div>
-                    <div class="border-l border-line pl-6">
-                        <div class="chip text-dim">PRINCIPLE</div>
-                        <div class="display text-2xl mt-3">Make it real.</div>
-                        <p class="text-sm text-muted mt-2 leading-relaxed">Hellere en testbar prototype end 50 siders
-                            teori.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTACT -->
-        <section id="contact" class="bg-graphite border-t border-line px-5 lg:px-16 py-28 lg:py-36">
-            <div class="max-w-[1500px] mx-auto grid lg:grid-cols-[.75fr_1.25fr] gap-14 lg:gap-24">
-                <div class="reveal">
-                    <div class="number">07 / LET'S BUILD</div>
-                    <h2 class="display mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">Har du noget,<br><span
-                            class="text-orange">der skal blive til?</span></h2>
-                    <p class="mt-7 max-w-md text-muted leading-relaxed">Du behøver ikke vide præcis, hvilken proces der
-                        skal bruges. Beskriv problemet — så tager vi det derfra.</p>
-                    <div class="mt-8 space-y-3 mono text-[10px] uppercase tracking-[.15em] text-dim">
-                        <div>→ CAD / DESIGN</div>
-                        <div>→ STRESS / VALIDATION</div>
-                        <div>→ 3D PRINT / PROTOTYPE</div>
-                        <div>→ MACHINING / FIXTURES</div>
-                        <div>→ R&D / TECHNICAL SPARRING</div>
-                    </div>
-                </div>
-                <form id="contactForm" class="reveal border border-line rounded-3xl bg-black p-6 md:p-8">
-                    <div class="grid sm:grid-cols-2 gap-5">
-                        <label><span class="chip text-dim block mb-2">NAVN</span><input id="name" required
-                                class="input w-full rounded-xl px-4 py-3.5 text-sm" placeholder="Dit navn"></label>
-                        <label><span class="chip text-dim block mb-2">E-MAIL</span><input id="email" type="email"
-                                required class="input w-full rounded-xl px-4 py-3.5 text-sm"
-                                placeholder="navn@firma.dk"></label>
-                    </div>
-                    <label class="block mt-5"><span class="chip text-dim block mb-2">OMRÅDE</span><select id="service"
-                            class="input w-full rounded-xl px-4 py-3.5 text-sm">
-                            <option>CAD / konstruktion</option>
-                            <option>Belastningsanalyse</option>
-                            <option>3D-print / prototype</option>
-                            <option>Fræsning / drejning</option>
-                            <option>Fikstur / specialværktøj</option>
-                            <option>R&D / teknisk sparring</option>
-                        </select></label>
-                    <label class="block mt-5"><span class="chip text-dim block mb-2">FORTÆL OM PROJEKTET</span><textarea
-                            id="message" required rows="8" class="input w-full rounded-xl px-4 py-3.5 text-sm resize-y"
-                            placeholder="Hvad har du, hvad er problemet, og hvad vil du gerne ende med?"></textarea></label>
-                    <div class="mt-5 flex flex-col sm:flex-row gap-3"><button type="submit"
-                            class="btn flex-1 rounded-full bg-orange text-black font-semibold px-6 py-4 hover:bg-amber">Åbn
-                            projektmail <i data-lucide="send" class="inline w-4 h-4 ml-1"></i></button><a
-                            href="mailto:defnotglen@gmail.com"
-                            class="btn inline-flex items-center justify-center rounded-full border border-line2 px-6 py-4 text-sm font-semibold hover:border-white">Skriv
-                            direkte</a></div>
-                    <p id="formNote" class="mt-4 text-xs text-dim"></p>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <footer class="border-t border-line px-5 lg:px-16 py-8 bg-black">
-        <div class="max-w-[1500px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-5">
-            <div>
-                <div class="display font-semibold">DATUM PROTOTYPING</div>
-                <div class="mono text-[9px] text-dim uppercase tracking-[.17em] mt-1">Engineering / R&D / Prototyping
-                </div>
-            </div>
-            <div class="mono text-[9px] uppercase tracking-[.17em] text-dim">© 2026 / BUILDING IN PUBLIC</div>
-        </div>
-    </footer>
-
-    <!-- MODAL -->
-    <div id="projectModal"
-        class="modal fixed inset-0 z-[70] bg-black/85 backdrop-blur-sm p-4 md:p-8 flex items-center justify-center">
-        <div class="modal-panel max-w-3xl w-full max-h-[90vh] overflow-y-auto border border-line rounded-3xl bg-graphite"
-            onclick="event.stopPropagation()">
-            <div class="px-6 md:px-8 py-5 border-b border-line flex items-center justify-between">
-                <div id="modalTag" class="chip text-dim"></div><button id="closeModal"
-                    class="w-10 h-10 rounded-full border border-line2 grid place-items-center" aria-label="Luk"><i
-                        data-lucide="x"></i></button>
-            </div>
-            <div class="p-6 md:p-8">
-                <h3 id="modalTitle" class="display text-4xl font-semibold"></h3>
-                <div class="grid sm:grid-cols-3 gap-5 mt-7 py-6 border-y border-line">
-                    <div>
-                        <div class="chip text-dim">MATERIALE</div>
-                        <div id="modalMat" class="text-sm font-medium mt-2"></div>
-                    </div>
-                    <div>
-                        <div class="chip text-dim">TOLERANCE</div>
-                        <div id="modalTol" class="text-sm font-medium mt-2"></div>
-                    </div>
-                    <div>
-                        <div class="chip text-dim">PROCESS</div>
-                        <div id="modalMac" class="text-sm font-medium mt-2"></div>
-                    </div>
-                </div>
-                <div class="grid md:grid-cols-2 gap-8 mt-8">
-                    <div>
-                        <div class="chip text-dim">UDFORDRING</div>
-                        <p id="modalChal" class="text-sm text-muted leading-relaxed mt-3"></p>
-                    </div>
-                    <div>
-                        <div class="chip text-orange">LØSNING</div>
-                        <p id="modalSol" class="text-sm text-muted leading-relaxed mt-3"></p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        lucide.createIcons();
-        const mb = document.getElementById('menuBtn'), mm = document.getElementById('mobileMenu');
-        mb.addEventListener('click', () => { mm.classList.toggle('hidden'); mb.innerHTML = mm.classList.contains('hidden') ? '<i data-lucide="menu"></i>' : '<i data-lucide="x"></i>'; lucide.createIcons() });
-        mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mm.classList.add('hidden')));
-        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } }), { threshold: .05, rootMargin: '0px 0px -40px 0px' });
-        document.querySelectorAll('.reveal').forEach(e => io.observe(e)); setTimeout(() => document.querySelectorAll('.reveal').forEach(e => e.classList.add('in')), 1500);
+        <script>
+            lucide.createIcons();
+            const mb = document.getElementById("menuBtn"),
+                mm = document.getElementById("mobileMenu");
+            mb.addEventListener("click", () => {
+                mm.classList.toggle("hidden");
+                mb.innerHTML = mm.classList.contains("hidden")
+                    ? '<i data-lucide="menu"></i>'
+                    : '<i data-lucide="x"></i>';
+                lucide.createIcons();
+            });
+            mm.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => mm.classList.add("hidden")));
+            const io = new IntersectionObserver(
+                (es) =>
+                    es.forEach((e) => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add("in");
+                            io.unobserve(e.target);
+                        }
+                    }),
+                { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
+            );
+            document.querySelectorAll(".reveal").forEach((e) => io.observe(e));
+            setTimeout(() => document.querySelectorAll(".reveal").forEach((e) => e.classList.add("in")), 1500);
 
-        document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('.filter').forEach(b => { b.classList.remove('text-orange', 'border-orange', 'bg-orange/10'); b.classList.add('text-muted', 'border-line2') }); btn.classList.add('text-orange', 'border-orange', 'bg-orange/10'); btn.classList.remove('text-muted', 'border-line2'); const f = btn.dataset.filter; document.querySelectorAll('.project-card').forEach(card => card.style.display = f === 'all' || card.dataset.cat.split(' ').includes(f) ? '' : 'none') }));
+            document.querySelectorAll(".filter").forEach((btn) =>
+                btn.addEventListener("click", () => {
+                    document.querySelectorAll(".filter").forEach((b) => {
+                        b.classList.remove("text-orange", "border-orange", "bg-orange/10");
+                        b.classList.add("text-muted", "border-line2");
+                    });
+                    btn.classList.add("text-orange", "border-orange", "bg-orange/10");
+                    btn.classList.remove("text-muted", "border-line2");
+                    const f = btn.dataset.filter;
+                    document
+                        .querySelectorAll(".project-card")
+                        .forEach(
+                            (card) =>
+                                (card.style.display =
+                                    f === "all" || card.dataset.cat.split(" ").includes(f) ? "" : "none")
+                        );
+                })
+            );
 
-        const data = {
-            flame: { tag: '01 / ENGINEERING PROJECT', title: 'Flame Eater Engine', mat: 'Messing · aluminium · stål', tol: 'Glidepasninger', mac: 'Manuel fræs & drej', chal: 'En termisk motor hvor mange individuelle dele skal passe sammen med lav friktion og korrekt gastæthed.', sol: 'Delene blev fremstillet og tilpasset med fokus på pasninger, parallelitet og løbende kontrol af kritiske mål.' },
-            ring: { tag: '02 / FIXTURE', title: 'Ringbøjer-fikstur', mat: 'Aluminium 6082 · stål', tol: 'ISO 2768-m', mac: 'Haas Mini Mill', chal: 'Et tidligere FDM-værktøj gav for meget fleksibilitet under bukning.', sol: 'Designet blev ændret til en stivere bearbejdet konstruktion med aluminium og stål på belastede flader.' },
-            reverse: { tag: '03 / REVERSE ENGINEERING', title: 'Reverse engineering', mat: 'Projektbestemt', tol: 'Projektbestemt', mac: 'CAD + CNC', chal: 'En fysisk del skulle rekonstrueres uden brugbar original CAD-data.', sol: 'Geometrien blev opmålt, genskabt i CAD og omsat til en fremstillingsplan. Detaljer publiceres kun, når de må deles.' }
-        };
-        const modal = document.getElementById('projectModal');
-        function openProject(k) { const d = data[k]; if (!d) return;[['modalTag', d.tag], ['modalTitle', d.title], ['modalMat', d.mat], ['modalTol', d.tol], ['modalMac', d.mac], ['modalChal', d.chal], ['modalSol', d.sol]].forEach(([id, v]) => document.getElementById(id).textContent = v); modal.classList.add('open'); document.body.classList.add('overflow-hidden') }
-        function closeProject() { modal.classList.remove('open'); document.body.classList.remove('overflow-hidden') }
-        document.querySelectorAll('.open-project').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); openProject(b.dataset.project) }));
-        document.getElementById('closeModal').addEventListener('click', closeProject); modal.addEventListener('click', e => { if (e.target === modal) closeProject() }); document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProject() });
+            const data = {
+                flame: {
+                    tag: "01 / ENGINEERING PROJECT",
+                    title: "Flame Eater Engine",
+                    mat: "Messing · aluminium · stål",
+                    tol: "Glidepasninger",
+                    mac: "Manuel fræs & drej",
+                    chal: "En termisk motor hvor mange individuelle dele skal passe sammen med lav friktion og korrekt gastæthed.",
+                    sol: "Delene blev fremstillet og tilpasset med fokus på pasninger, parallelitet og løbende kontrol af kritiske mål.",
+                },
+                ring: {
+                    tag: "02 / FIXTURE",
+                    title: "Ringbøjer-fikstur",
+                    mat: "Aluminium 6082 · stål",
+                    tol: "ISO 2768-m",
+                    mac: "Haas Mini Mill",
+                    chal: "Et tidligere FDM-værktøj gav for meget fleksibilitet under bukning.",
+                    sol: "Designet blev ændret til en stivere bearbejdet konstruktion med aluminium og stål på belastede flader.",
+                },
+                reverse: {
+                    tag: "03 / REVERSE ENGINEERING",
+                    title: "Reverse engineering",
+                    mat: "Projektbestemt",
+                    tol: "Projektbestemt",
+                    mac: "CAD + CNC",
+                    chal: "En fysisk del skulle rekonstrueres uden brugbar original CAD-data.",
+                    sol: "Geometrien blev opmålt, genskabt i CAD og omsat til en fremstillingsplan. Detaljer publiceres kun, når de må deles.",
+                },
+            };
+            const modal = document.getElementById("projectModal");
+            function openProject(k) {
+                const d = data[k];
+                if (!d) return;
+                [
+                    ["modalTag", d.tag],
+                    ["modalTitle", d.title],
+                    ["modalMat", d.mat],
+                    ["modalTol", d.tol],
+                    ["modalMac", d.mac],
+                    ["modalChal", d.chal],
+                    ["modalSol", d.sol],
+                ].forEach(([id, v]) => (document.getElementById(id).textContent = v));
+                modal.classList.add("open");
+                document.body.classList.add("overflow-hidden");
+            }
+            function closeProject() {
+                modal.classList.remove("open");
+                document.body.classList.remove("overflow-hidden");
+            }
+            document.querySelectorAll(".open-project").forEach((b) =>
+                b.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    openProject(b.dataset.project);
+                })
+            );
+            document.getElementById("closeModal").addEventListener("click", closeProject);
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) closeProject();
+            });
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") closeProject();
+            });
 
-        document.getElementById('contactForm').addEventListener('submit', e => { e.preventDefault(); const n = document.getElementById('name').value.trim(), em = document.getElementById('email').value.trim(), s = document.getElementById('service').value, m = document.getElementById('message').value.trim(); const subject = encodeURIComponent('Projektforespørgsel — ' + s); const body = encodeURIComponent(`Hej Glen,\n\nJeg vil gerne høre om hjælp til et projekt.\n\nNavn: ${n}\nE-mail: ${em}\nOmråde: ${s}\n\nBeskrivelse:\n${m}\n\nVenlig hilsen\n${n}`); document.getElementById('formNote').textContent = 'Din mailklient åbnes med forespørgslen klar.'; window.location.href = `mailto:defnotglen@gmail.com?subject=${subject}&body=${body}` });
-    </script>
-</body>
+            document.getElementById("contactForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const n = document.getElementById("name").value.trim(),
+                    em = document.getElementById("email").value.trim(),
+                    s = document.getElementById("service").value,
+                    m = document.getElementById("message").value.trim();
 
+                const textToCopy = `Emne: Projektforespørgsel — ${s}\n\nHej Glen,\n\nJeg vil gerne høre om hjælp til et projekt.\n\nNavn: ${n}\nE-mail: ${em}\nOmråde: ${s}\n\nBeskrivelse:\n${m}\n\nVenlig hilsen\n${n}`;
+
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                    document.getElementById("formNote").textContent = "Skabelonen er kopieret til din udklipsholder.";
+                    lucide.createIcons();
+                } catch (err) {
+                    document.getElementById("formNote").textContent = "Fejl: Kunne ikke kopiere teksten.";
+                }
+            });
+        </script>
+    </body>
 </html>
