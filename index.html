@@ -931,6 +931,13 @@
                             <p id="modalSol" class="text-sm text-muted leading-relaxed mt-3"></p>
                         </div>
                     </div>
+                    
+                    <!-- DOKUMENT CONTAINER -->
+                    <div id="modalDocsContainer" class="hidden mt-8 pt-6 border-t border-line">
+                        <div class="chip text-dim mb-4">TILKNYTTEDE DOKUMENTER & DATA</div>
+                        <div id="modalDocs" class="flex flex-wrap gap-3"></div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -988,6 +995,11 @@
                     mac: "Manuel fræs & drej",
                     chal: "En termisk motor hvor mange individuelle dele skal passe sammen med lav friktion og korrekt gastæthed.",
                     sol: "Delene blev fremstillet og tilpasset med fokus på pasninger, parallelitet og løbende kontrol af kritiske mål.",
+                    docs: [
+                        { label: "FAI-01: Cylinder & Stempel", url: "fai-01.html", icon: "file-check-2" },
+                        { label: "FAI-02: Cam Disc", url: "fai-02.html", icon: "file-check-2" },
+                        { label: "FAI-03: Svinghjul", url: "fai-03.html", icon: "file-check-2" }
+                    ]
                 },
                 ring: {
                     tag: "02 / FIXTURE",
@@ -1012,6 +1024,8 @@
             function openProject(k) {
                 const d = data[k];
                 if (!d) return;
+                
+                // Indsæt tekst-data
                 [
                     ["modalTag", d.tag],
                     ["modalTitle", d.title],
@@ -1021,8 +1035,24 @@
                     ["modalChal", d.chal],
                     ["modalSol", d.sol],
                 ].forEach(([id, v]) => (document.getElementById(id).textContent = v));
+                
+                // Håndter dokumenter dynamisk
+                const docsContainer = document.getElementById("modalDocsContainer");
+                const docsWrapper = document.getElementById("modalDocs");
+                
+                if (d.docs && d.docs.length > 0) {
+                    docsWrapper.innerHTML = d.docs.map(doc => 
+                        `<a href="${doc.url}" target="_blank" class="btn inline-flex items-center gap-2 rounded-full border border-line2 bg-black px-4 py-2.5 text-xs font-semibold text-muted hover:border-orange hover:text-orange transition"><i data-lucide="${doc.icon}" class="w-4 h-4"></i> ${doc.label}</a>`
+                    ).join('');
+                    docsContainer.classList.remove("hidden");
+                } else {
+                    docsContainer.classList.add("hidden");
+                    docsWrapper.innerHTML = "";
+                }
+
                 modal.classList.add("open");
                 document.body.classList.add("overflow-hidden");
+                lucide.createIcons(); // Genindlæser ikonerne for de nye knapper
             }
             function closeProject() {
                 modal.classList.remove("open");
