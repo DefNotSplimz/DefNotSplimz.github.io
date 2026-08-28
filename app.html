@@ -36,6 +36,7 @@
                         orange: "#ff6a1a",
                         amber: "#ff9b54",
                         red: "#ff3333",
+                        emerald: { 500: "#10b981" }
                     },
                 },
             },
@@ -93,13 +94,13 @@
                 <i data-lucide="wrench" class="w-5 h-5"></i>
                 <span class="chip !text-[9px]">Tools</span>
             </button>
-            <button onclick="router.navigate('materials')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="materials">
-                <i data-lucide="layers" class="w-5 h-5"></i>
-                <span class="chip !text-[9px]">Lager</span>
-            </button>
             <button onclick="router.navigate('sop')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="sop">
                 <i data-lucide="book-open" class="w-5 h-5"></i>
-                <span class="chip !text-[9px]">SOP</span>
+                <span class="chip !text-[9px]">SOP & MATH</span>
+            </button>
+            <button onclick="router.navigate('qc')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="qc">
+                <i data-lucide="ruler" class="w-5 h-5"></i>
+                <span class="chip !text-[9px]">QC</span>
             </button>
         </div>
     </nav>
@@ -377,38 +378,9 @@
                     </div>
                 `
             },
-            materials: {
-                title: 'MATERIAL VAULT',
-                sub: 'Råvarelager',
-                icon: 'layers',
-                html: `
-                    <div class="px-4 max-w-lg mx-auto pb-24 pt-3">
-                        <div class="border border-line bg-black rounded-xl p-3 mb-4">
-                            <div class="chip text-dim mb-2 border-b border-line pb-1.5">TILFØJ RÅMATERIALE</div>
-                            <div class="grid grid-cols-[1fr_90px] gap-2 mb-2">
-                                <input id="mat-alloy" type="text" placeholder="Legering (fx Alu 6082)" class="input w-full rounded-lg px-3 py-2 text-xs font-bold uppercase" />
-                                <select id="mat-form" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold">
-                                    <option value="Rundstang">Stang</option>
-                                    <option value="Klodser">Blok</option>
-                                    <option value="Plade">Plade</option>
-                                    <option value="Sekskant">Sekskant</option>
-                                    <option value="Rør">Rør</option>
-                                </select>
-                            </div>
-                            <div class="grid grid-cols-[1fr_70px] gap-2 mb-3">
-                                <input id="mat-dims" type="text" placeholder="Dimensioner (fx Ø50 x 500)" class="input w-full rounded-lg px-3 py-2 text-xs font-mono" />
-                                <input id="mat-qty" type="number" min="0" inputmode="numeric" placeholder="Antal" value="1" class="input w-full rounded-lg px-1 py-2 text-xs text-center font-bold" />
-                            </div>
-                            <button id="btn-save-mat" class="btn w-full border border-orange bg-orange/10 text-orange hover:bg-orange hover:text-black transition font-semibold rounded-lg py-2.5 text-[10px] uppercase tracking-wider">Gem på lager</button>
-                        </div>
-                        <div class="chip text-dim mb-2 pl-1">LAGERBEHOLDNING</div>
-                        <div id="mat-list" class="space-y-2"></div>
-                    </div>
-                `
-            },
             sop: {
-                title: 'OPSLAGSVÆRK',
-                sub: 'Tolerancer & Standarder',
+                title: 'REFERENCE',
+                sub: 'SOP & Geometri',
                 icon: 'book-open',
                 html: `
                     <div class="px-4 max-w-lg mx-auto pb-24 pt-2 space-y-3">
@@ -419,20 +391,20 @@
                                 <span>GEVIND & FORBORING</span>
                                 <span class="text-[8px] text-orange">METRISK (M)</span>
                             </div>
-                            <div class="grid grid-cols-[1fr_80px] gap-2 mb-2">
+                            <div class="grid grid-cols-[1fr_1fr] gap-2 mb-2">
                                 <label class="block">
                                     <span class="text-[9px] font-semibold text-muted block mb-1">NOMINEL Ø (mm)</span>
-                                    <input id="sop-thr-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="8" oninput="calcSop()" />
+                                    <input id="sop-thr-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2 text-sm font-bold" placeholder="8" oninput="calcSop()" />
                                 </label>
                                 <label class="block">
                                     <span class="text-[9px] font-semibold text-muted block mb-1">STIGNING (P)</span>
-                                    <input id="sop-thr-p" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2.5 text-sm font-bold text-center focus:border-orange" placeholder="1.25" oninput="calcSop()" />
+                                    <input id="sop-thr-p" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center focus:border-orange" placeholder="1.25" oninput="calcSop()" />
                                 </label>
                             </div>
                             
-                            <div class="mb-3">
-                                <select id="sop-thr-std" class="input w-full rounded-lg px-3 py-2 text-[10px] font-semibold text-dim uppercase" onchange="applyStdThread()">
-                                    <option value="">Vælg standard gevind (Auto-udfyld)</option>
+                            <div class="grid grid-cols-2 gap-2 mb-3">
+                                <select id="sop-thr-std" class="input w-full rounded-lg px-2 py-2 text-[10px] font-semibold text-dim uppercase" onchange="applyStdThread()">
+                                    <option value="">Vælg standard (Auto)</option>
                                     <option value="3,0.5">M3 x 0.50</option>
                                     <option value="4,0.7">M4 x 0.70</option>
                                     <option value="5,0.8">M5 x 0.80</option>
@@ -444,12 +416,16 @@
                                     <option value="20,2.5">M20 x 2.50</option>
                                     <option value="24,3.0">M24 x 3.00</option>
                                 </select>
+                                <select id="sop-thr-mat" class="input w-full rounded-lg px-2 py-2 text-[10px] font-semibold text-dim border-line2 uppercase" onchange="calcSop()">
+                                    <option value="norm">Normal (Alu/Stål) ~75%</option>
+                                    <option value="hard">Sejt (Rustfast/Ti) ~65%</option>
+                                </select>
                             </div>
 
                             <div class="my-3 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
                                 <div>
                                     <div class="text-[9px] font-semibold text-muted uppercase">Skæretap (Spåntagende)</div>
-                                    <div class="text-[10px] font-mono text-dim">Anbefalet Bor Ø</div>
+                                    <div class="text-[10px] font-mono text-dim" id="sop-thr-desc">Standard indgreb</div>
                                 </div>
                                 <div class="display text-2xl font-bold text-orange tracking-tight">
                                     Ø <span id="sop-cut-out">0.00</span>
@@ -574,7 +550,142 @@
                             </div>
                         </div>
 
-                        <!-- 04 / HAAS REFERENCE -->
+                        <!-- 04 / FAS & Z-DYBDE -->
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="chip text-dim mb-3 border-b border-line pb-2">FASFRÆSNING (Z-DYBDE)</div>
+                            <div class="grid grid-cols-2 gap-2 mb-3">
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">FAS-BREDDE (C) [mm]</span>
+                                    <input id="math-chamfer-c" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="2.5" oninput="calcMath()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">VÆRKTØJSVINKEL</span>
+                                    <select id="math-chamfer-a" class="input w-full rounded-lg px-2 py-2.5 text-sm font-bold" onchange="calcMath()">
+                                        <option value="90">90° (Standard)</option>
+                                        <option value="60">60°</option>
+                                        <option value="120">120°</option>
+                                        <option value="82">82° (Countersink)</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="my-2 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
+                                <div>
+                                    <div class="text-[9px] font-semibold text-muted uppercase">Nødvendig Z-Dybde</div>
+                                </div>
+                                <div class="display text-2xl font-bold text-orange tracking-tight">
+                                    Z <span id="math-chamfer-z">0.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 05 / BOLTHULSCIRKEL -->
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
+                                <span>BOLTHULSCIRKEL (BHC)</span>
+                                <span class="text-[8px] text-orange">X/Y KOORDINATER</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mb-3">
+                                <label class="block">
+                                    <span class="text-[8px] font-semibold text-muted block mb-1">CIRKEL Ø</span>
+                                    <input id="math-bhc-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="100" oninput="calcMath()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[8px] font-semibold text-muted block mb-1">ANTAL (N)</span>
+                                    <input id="math-bhc-n" type="number" min="1" inputmode="numeric" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="6" oninput="calcMath()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[8px] font-semibold text-muted block mb-1">START VINKEL</span>
+                                    <input id="math-bhc-a" type="number" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="0" value="0" oninput="calcMath()" />
+                                </label>
+                            </div>
+                            <div class="bg-surface/50 rounded border border-line/50 p-2 max-h-[140px] overflow-y-auto overflow-x-hidden">
+                                <div id="math-bhc-list" class="space-y-1">
+                                    <div class="text-[10px] font-mono text-dim text-center py-2">Indtast BHC parametre for at generere liste</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 06 / KONUS VINKEL -->
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
+                                <span>KONUSDREJNING (VINKEL)</span>
+                                <span class="text-[8px] text-orange">TOPSLÆDE / CAM</span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <select id="math-cone-std" class="input w-full rounded-lg px-3 py-2 text-[10px] font-semibold text-dim uppercase" onchange="applyStdTaper()">
+                                    <option value="">Vælg standard konus (Auto-udfyld)</option>
+                                    <optgroup label="Morse Konus (MK/MT)">
+                                        <option value="9.045,6.4,50">MK0 / MT0</option>
+                                        <option value="12.065,9.4,53.5">MK1 / MT1</option>
+                                        <option value="17.78,14.534,64">MK2 / MT2</option>
+                                        <option value="23.825,19.812,81">MK3 / MT3</option>
+                                        <option value="31.267,25.933,102.5">MK4 / MT4</option>
+                                        <option value="44.399,37.584,129.5">MK5 / MT5</option>
+                                        <option value="63.348,53.859,182">MK6 / MT6</option>
+                                        <option value="83.058,70.138,250">MK7 / MT7</option>
+                                    </optgroup>
+                                    <optgroup label="ISO / SK / BT (7:24)">
+                                        <option value="31.75,17.808,47.8">ISO 30 (DIN 2080)</option>
+                                        <option value="44.45,24.500,68.4">ISO 40 (DIN 2080)</option>
+                                        <option value="69.85,40.158,101.8">ISO 50 (DIN 2080)</option>
+                                        <option value="107.95,60.200,161.8">ISO 60 (DIN 2080)</option>
+                                    </optgroup>
+                                    <optgroup label="Jacobs Konus (Borepatron)">
+                                        <option value="6.35,5.802,11.112">JT0</option>
+                                        <option value="9.754,8.469,16.669">JT1</option>
+                                        <option value="14.199,12.386,22.225">JT2</option>
+                                        <option value="20.599,18.951,30.956">JT3</option>
+                                        <option value="28.55,26.066,42.069">JT4</option>
+                                        <option value="35.89,33.422,47.625">JT5</option>
+                                        <option value="17.17,15.852,25.4">JT6</option>
+                                        <option value="15.85,14.237,25.4">JT33</option>
+                                    </optgroup>
+                                    <optgroup label="B&S (Brown & Sharpe)">
+                                        <option value="15.319,12.751,60.3">B&S 5</option>
+                                        <option value="18.303,15.267,71.4">B&S 7</option>
+                                        <option value="27.026,22.86,95.3">B&S 9</option>
+                                        <option value="33.251,28.46,111.1">B&S 10</option>
+                                    </optgroup>
+                                    <optgroup label="Standard Ratios (Kegler/Stifter)">
+                                        <option value="20,10,100">1:10</option>
+                                        <option value="20,15,100">1:20</option>
+                                        <option value="20,18,100">1:50 (Standard Stift)</option>
+                                        <option value="20,19,100">1:100</option>
+                                    </optgroup>
+                                    <optgroup label="Specials">
+                                        <option value="31.75,24.1,25.826">R8 (Bridgeport)</option>
+                                        <option value="17,16,16">NPT (1:16)</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mb-3">
+                                <label class="block">
+                                    <span class="text-[8px] font-semibold text-muted block mb-1">STOR Ø (D)</span>
+                                    <input id="math-cone-D" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="50" oninput="calcMath()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[8px] font-semibold text-muted block mb-1">LILLE Ø (d)</span>
+                                    <input id="math-cone-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="30" oninput="calcMath()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[8px] font-semibold text-muted block mb-1">LÆNGDE (L)</span>
+                                    <input id="math-cone-l" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="40" oninput="calcMath()" />
+                                </label>
+                            </div>
+                            <div class="my-2 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
+                                <div>
+                                    <div class="text-[9px] font-semibold text-muted uppercase">Indstillingsvinkel</div>
+                                    <div class="text-[10px] font-mono text-dim">Topslæde vinkel (a/2)</div>
+                                </div>
+                                <div class="display text-2xl font-bold text-orange tracking-tight">
+                                    <span id="math-cone-a">0.00</span>°
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 07 / HAAS REFERENCE -->
                         <div class="border border-line bg-black rounded-xl p-3">
                             <div class="chip text-dim mb-3 border-b border-line pb-2">HAAS REFERENCE (G/M CODES)</div>
                             <div class="grid grid-cols-2 gap-x-2 gap-y-3 text-[10px] font-mono leading-tight">
@@ -586,6 +697,67 @@
                                 <div><span class="text-orange">M09</span> Coolant OFF</div>
                                 <div><span class="text-orange">M97</span> Local Sub-prog</div>
                                 <div><span class="text-orange">M99</span> Sub-prog Return</div>
+                            </div>
+                        </div>
+
+                    </div>
+                `
+            },
+            qc: {
+                title: 'QC / KVALITET',
+                sub: 'First Article Inspection',
+                icon: 'ruler',
+                html: `
+                    <div class="px-4 max-w-lg mx-auto pb-24 pt-2 space-y-3">
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="chip text-dim mb-3 border-b border-line pb-2">FAI ANALYSE (TOLERANCE TJEK)</div>
+                            
+                            <!-- TEGNINGSDATA -->
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">NOMINELT MÅL (mm)</span>
+                                    <input id="qc-nom" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="25" oninput="calcQc()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block flex justify-between mb-1"><span>ISO PASNING</span><span class="text-[8px] text-orange lowercase">Valgfri</span></span>
+                                    <input id="qc-iso" type="text" class="input w-full rounded-lg px-2 py-2.5 text-sm font-bold text-center focus:border-orange" placeholder="F.eks. H7" oninput="calcQc()" />
+                                </label>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 mb-3">
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">TOLERANCE (+)</span>
+                                    <input id="qc-tup" type="number" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold text-center text-orange transition-colors" placeholder="0.05" oninput="calcQc(true)" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">TOLERANCE (-)</span>
+                                    <input id="qc-tlow" type="number" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold text-center text-orange transition-colors" placeholder="-0.02" oninput="calcQc(true)" />
+                                </label>
+                            </div>
+
+                            <!-- MÅLT VÆRDI -->
+                            <div class="mb-4 pt-3 border-t border-line">
+                                <label class="block relative">
+                                    <span class="text-[10px] font-semibold text-f2f3f3 block mb-2 uppercase tracking-wider">MÅLT VÆRDI (MIKROMETER)</span>
+                                    <input id="qc-meas" type="number" step="any" inputmode="decimal" class="input w-full rounded-lg px-4 py-4 text-xl font-bold text-center border-orange/50 focus:border-orange bg-graphite" placeholder="Indtast faktisk mål..." oninput="calcQc()" />
+                                </label>
+                            </div>
+
+                            <!-- OUTPUT: STATUS -->
+                            <div id="qc-status-box" class="my-3 py-3 px-3 bg-surface/50 border border-line rounded-lg flex items-center justify-between transition-colors duration-300">
+                                <div>
+                                    <div class="text-[10px] font-semibold text-muted uppercase">Status</div>
+                                    <div id="qc-status-text" class="text-xl font-bold text-dim mt-0.5">AFVENTER</div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-[9px] font-mono text-muted uppercase">Afvigelse fra Target</div>
+                                    <div id="qc-dev" class="text-lg font-mono font-bold text-dim">0.000 mm</div>
+                                </div>
+                            </div>
+
+                            <!-- OUTPUT: HANDLING -->
+                            <div class="bg-black border border-line rounded-lg p-3 text-center">
+                                <div class="text-[9px] font-semibold text-muted uppercase mb-1">KORREKTION (VÆRKTØJS OFFSET)</div>
+                                <div id="qc-action" class="text-sm font-mono text-dim">Indtast data for at beregne offset...</div>
                             </div>
                         </div>
                     </div>
@@ -616,12 +788,15 @@
                 lucide.createIcons();
                 
                 if (viewKey === 'tools') renderToolList();
-                if (viewKey === 'materials') renderMatList();
                 if (viewKey === 'imd') {
                     initMaterials();
-                    calc(true); // Tvinger autoudregning ved load
+                    calc(true);
                 }
-                if (viewKey === 'sop') calcSop();
+                if (viewKey === 'sop') {
+                    calcSop();
+                    calcMath();
+                }
+                if (viewKey === 'qc') calcQc();
             }
         };
 
@@ -670,52 +845,6 @@
                 localStorage.setItem('datum_tools', JSON.stringify(toolsList));
                 renderToolList();
             }
-
-            // --- MATERIAL VAULT LOGIK ---
-            if (e.target.closest('#btn-save-mat')) {
-                const alloy = document.getElementById('mat-alloy').value.toUpperCase();
-                const form = document.getElementById('mat-form').value;
-                const dims = document.getElementById('mat-dims').value;
-                const qty = parseInt(document.getElementById('mat-qty').value) || 1;
-
-                if (!alloy || !dims) {
-                    alert("Udfyld legering og dimensioner.");
-                    return;
-                }
-
-                let matList = JSON.parse(localStorage.getItem('datum_materials')) || [];
-                matList.push({ id: Date.now(), alloy: alloy, form: form, dims: dims, qty: qty });
-                localStorage.setItem('datum_materials', JSON.stringify(matList));
-
-                document.getElementById('mat-alloy').value = '';
-                document.getElementById('mat-dims').value = '';
-                document.getElementById('mat-qty').value = '1';
-                renderMatList();
-            }
-
-            if (e.target.closest('.delete-mat')) {
-                const id = parseInt(e.target.closest('.delete-mat').dataset.id);
-                let matList = JSON.parse(localStorage.getItem('datum_materials')) || [];
-                matList = matList.filter(m => m.id !== id);
-                localStorage.setItem('datum_materials', JSON.stringify(matList));
-                renderMatList();
-            }
-
-            if (e.target.closest('.mat-qty-btn')) {
-                const btn = e.target.closest('.mat-qty-btn');
-                const id = parseInt(btn.dataset.id);
-                const change = parseInt(btn.dataset.change);
-                
-                let matList = JSON.parse(localStorage.getItem('datum_materials')) || [];
-                const matIndex = matList.findIndex(m => m.id === id);
-                
-                if (matIndex > -1) {
-                    matList[matIndex].qty += change;
-                    if (matList[matIndex].qty < 0) matList[matIndex].qty = 0; 
-                    localStorage.setItem('datum_materials', JSON.stringify(matList));
-                    renderMatList();
-                }
-            }
         });
 
         // --- FUNKTIONER ---
@@ -726,6 +855,17 @@
                 document.getElementById('sop-thr-d').value = parts[0];
                 document.getElementById('sop-thr-p').value = parts[1];
                 calcSop();
+            }
+        }
+
+        function applyStdTaper() {
+            const val = document.getElementById('math-cone-std').value;
+            if(val) {
+                const parts = val.split(',');
+                document.getElementById('math-cone-D').value = parts[0];
+                document.getElementById('math-cone-d').value = parts[1];
+                document.getElementById('math-cone-l').value = parts[2];
+                calcMath();
             }
         }
 
@@ -765,53 +905,6 @@
                         </div>
                     </div>
                     <button class="delete-tool w-8 h-8 rounded border border-line2 text-dim hover:text-red hover:border-red/50 grid place-items-center shrink-0" data-id="${t.id}"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
-                </div>
-            `}).join('');
-            lucide.createIcons();
-        }
-
-        function renderMatList() {
-            const list = document.getElementById('mat-list');
-            if(!list) return;
-            
-            let matList = JSON.parse(localStorage.getItem('datum_materials')) || [];
-
-            if(matList.length === 0) {
-                list.innerHTML = `<div class="border border-dashed border-line2 rounded-xl p-4 text-center"><div class="text-[10px] uppercase font-mono text-dim">Lageret er tomt.</div></div>`;
-                return;
-            }
-            
-            list.innerHTML = matList.map(m => {
-                let icon = 'box';
-                if(m.form === 'Rundstang' || m.form === 'Rør') icon = 'cylinder';
-                if(m.form === 'Plade') icon = 'square';
-                if(m.form === 'Sekskant') icon = 'hexagon';
-
-                const qtyColor = m.qty === 0 ? 'text-red' : 'text-f2f3f3';
-                const opacity = m.qty === 0 ? 'opacity-50' : 'opacity-100';
-
-                return `
-                <div class="border border-line bg-graphite rounded-lg p-2.5 flex gap-3 items-center justify-between transition hover:border-line2 ${opacity}">
-                    <div class="flex items-center gap-3 w-full">
-                        <div class="w-10 h-10 rounded bg-black border border-line flex items-center justify-center shrink-0">
-                            <i data-lucide="${icon}" class="w-5 h-5 text-dim"></i>
-                        </div>
-                        <div class="flex-grow min-w-0">
-                            <div class="text-xs font-bold text-f2f3f3 truncate leading-tight">${m.alloy}</div>
-                            <div class="text-[9px] font-mono text-muted uppercase mt-0.5">${m.form}</div>
-                            <div class="mt-1.5">
-                                <span class="text-[10px] font-mono text-orange border border-orange/20 bg-orange/10 px-1.5 py-0.5 rounded truncate inline-block max-w-full">${m.dims}</span>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-end gap-1.5 shrink-0">
-                            <div class="flex items-center gap-1.5 bg-black border border-line rounded p-0.5">
-                                <button class="mat-qty-btn w-6 h-6 rounded bg-surface hover:bg-line2 text-dim flex items-center justify-center transition active:bg-orange" data-id="${m.id}" data-change="-1"><i data-lucide="minus" class="w-3 h-3"></i></button>
-                                <span class="text-xs font-mono font-bold ${qtyColor} w-4 text-center">${m.qty}</span>
-                                <button class="mat-qty-btn w-6 h-6 rounded bg-surface hover:bg-line2 text-dim flex items-center justify-center transition active:bg-orange" data-id="${m.id}" data-change="1"><i data-lucide="plus" class="w-3 h-3"></i></button>
-                            </div>
-                            <button class="delete-mat text-[8px] font-mono text-dim hover:text-red transition uppercase tracking-widest" data-id="${m.id}">Slet</button>
-                        </div>
-                    </div>
                 </div>
             `}).join('');
             lucide.createIcons();
@@ -1136,21 +1229,34 @@
         }
 
         function calcSop() {
-            // Gevind / Forboring
             const thrD = parseFloat(document.getElementById('sop-thr-d')?.value) || 0;
             const thrP = parseFloat(document.getElementById('sop-thr-p')?.value) || 0;
+            const thrMat = document.getElementById('sop-thr-mat')?.value || 'norm';
             
             if(thrD > 0 && thrP > 0) {
-                document.getElementById('sop-cut-out').textContent = (thrD - thrP).toFixed(2);
+                let cutBor;
+                if (thrMat === 'hard') {
+                    cutBor = thrD - (thrP * 0.85); 
+                    document.getElementById('sop-thr-desc').textContent = "Reduceret indgreb (65%)";
+                    document.getElementById('sop-thr-mat').classList.add('text-orange', 'border-orange/30');
+                    document.getElementById('sop-thr-mat').classList.remove('text-dim', 'border-line2');
+                } else {
+                    cutBor = thrD - thrP; 
+                    document.getElementById('sop-thr-desc').textContent = "Standard indgreb (75%)";
+                    document.getElementById('sop-thr-mat').classList.remove('text-orange', 'border-orange/30');
+                    document.getElementById('sop-thr-mat').classList.add('text-dim', 'border-line2');
+                }
+
+                document.getElementById('sop-cut-out').textContent = cutBor.toFixed(2);
                 document.getElementById('sop-form-out').textContent = (thrD - (thrP / 2)).toFixed(2);
                 document.getElementById('sop-thr-depth').textContent = (thrD * 1.5).toFixed(1);
             } else {
                 document.getElementById('sop-cut-out').textContent = "0.00";
                 document.getElementById('sop-form-out').textContent = "0.00";
                 document.getElementById('sop-thr-depth').textContent = "0.0";
+                document.getElementById('sop-thr-desc').textContent = "Standard indgreb";
             }
 
-            // Teoretisk Overfladeruhed (Ra og Rz i µm) + N-Skala
             const raRe = parseFloat(document.getElementById('sop-ra-re')?.value) || 0;
             const raF = parseFloat(document.getElementById('sop-ra-f')?.value) || 0;
             
@@ -1182,7 +1288,6 @@
                 document.getElementById('sop-ra-n').textContent = "N/A";
             }
             
-            // ISO 286 Pasninger & Sigtetal
             const isoD = parseFloat(document.getElementById('sop-iso-d')?.value) || 0;
             const isoClass = document.getElementById('sop-iso-c')?.value.trim();
             
@@ -1243,10 +1348,139 @@
             }
         }
 
+        function calcMath() {
+            const chamferC = parseFloat(document.getElementById('math-chamfer-c')?.value) || 0;
+            const chamferA = parseFloat(document.getElementById('math-chamfer-a')?.value) || 90;
+            const zOut = document.getElementById('math-chamfer-z');
+            if(chamferC > 0) {
+                const z = chamferC / Math.tan((chamferA / 2) * (Math.PI / 180));
+                zOut.textContent = z.toFixed(3);
+            } else {
+                zOut.textContent = "0.000";
+            }
+
+            const coneD = parseFloat(document.getElementById('math-cone-D')?.value) || 0;
+            const coned = parseFloat(document.getElementById('math-cone-d')?.value) || 0;
+            const coneL = parseFloat(document.getElementById('math-cone-l')?.value) || 0;
+            const aOut = document.getElementById('math-cone-a');
+            if(coneD > 0 && coned >= 0 && coneL > 0 && coneD > coned) {
+                const angle = Math.atan((coneD - coned) / (2 * coneL)) * (180 / Math.PI);
+                aOut.textContent = angle.toFixed(2);
+            } else {
+                aOut.textContent = "0.00";
+            }
+
+            const bhcD = parseFloat(document.getElementById('math-bhc-d')?.value) || 0;
+            const bhcN = parseInt(document.getElementById('math-bhc-n')?.value) || 0;
+            const bhcA = parseFloat(document.getElementById('math-bhc-a')?.value) || 0;
+            const listOut = document.getElementById('math-bhc-list');
+            
+            if(bhcD > 0 && bhcN > 0) {
+                let html = '';
+                const r = bhcD / 2;
+                for(let i = 0; i < bhcN; i++) {
+                    const angleDeg = bhcA + (i * (360 / bhcN));
+                    const angleRad = angleDeg * (Math.PI / 180);
+                    let x = r * Math.cos(angleRad);
+                    let y = r * Math.sin(angleRad);
+                    
+                    if(Math.abs(x) < 0.0001) x = 0;
+                    if(Math.abs(y) < 0.0001) y = 0;
+
+                    html += `
+                    <div class="flex justify-between items-center bg-black/50 border border-line rounded px-2 py-1">
+                        <span class="text-[9px] font-bold text-dim">H${i+1}</span>
+                        <div class="text-xs font-mono text-f2f3f3">X ${x.toFixed(3)}</div>
+                        <div class="text-xs font-mono text-f2f3f3">Y ${y.toFixed(3)}</div>
+                    </div>`;
+                }
+                listOut.innerHTML = html;
+            } else {
+                listOut.innerHTML = `<div class="text-[10px] font-mono text-dim text-center py-2">Indtast BHC parametre for at generere liste</div>`;
+            }
+        }
+
+        function calcQc(isManualTol = false) {
+            const nomInput = document.getElementById('qc-nom');
+            const isoInput = document.getElementById('qc-iso');
+            const tUpInput = document.getElementById('qc-tup');
+            const tLowInput = document.getElementById('qc-tlow');
+            const measInput = document.getElementById('qc-meas');
+
+            if (isManualTol && isoInput) {
+                isoInput.value = '';
+            }
+
+            const nom = parseFloat(nomInput?.value);
+            const isoClass = isoInput?.value.trim();
+
+            if (isoClass && !isManualTol && nom > 0) {
+                let rangeIdx = -1;
+                for (let i = 0; i < iso286Data.ranges.length; i++) {
+                    if (nom <= iso286Data.ranges[i]) {
+                        rangeIdx = i;
+                        break;
+                    }
+                }
+
+                if (rangeIdx !== -1 && iso286Data.classes[isoClass]) {
+                    const limits = iso286Data.classes[isoClass];
+                    tUpInput.value = (limits[rangeIdx][0] / 1000).toFixed(3);
+                    tLowInput.value = (limits[rangeIdx][1] / 1000).toFixed(3);
+                    tUpInput.classList.add('bg-orange/10');
+                    tLowInput.classList.add('bg-orange/10');
+                } else {
+                    tUpInput.classList.remove('bg-orange/10');
+                    tLowInput.classList.remove('bg-orange/10');
+                }
+            } else {
+                if (tUpInput) tUpInput.classList.remove('bg-orange/10');
+                if (tLowInput) tLowInput.classList.remove('bg-orange/10');
+            }
+
+            const tUp = parseFloat(tUpInput?.value) || 0;
+            const tLow = parseFloat(tLowInput?.value) || 0;
+            const meas = parseFloat(measInput?.value);
+
+            const statusBox = document.getElementById('qc-status-box');
+            const statusText = document.getElementById('qc-status-text');
+            const devOut = document.getElementById('qc-dev');
+            const actionOut = document.getElementById('qc-action');
+
+            if(!isNaN(nom) && !isNaN(meas)) {
+                const max = nom + tUp;
+                const min = nom + tLow;
+                const target = nom + ((tUp + tLow) / 2);
+                const dev = meas - target;
+                
+                devOut.textContent = (dev > 0 ? '+' : '') + dev.toFixed(3) + " mm";
+
+                if(meas <= max && meas >= min) {
+                    statusBox.className = "my-3 py-3 px-3 bg-emerald-500/10 border border-emerald-500/50 rounded-lg flex items-center justify-between transition-colors duration-300";
+                    statusText.textContent = "GO (I TOLERANCE)";
+                    statusText.className = "text-xl font-bold text-emerald-500 mt-0.5";
+                } else {
+                    statusBox.className = "my-3 py-3 px-3 bg-red/10 border border-red/50 rounded-lg flex items-center justify-between transition-colors duration-300";
+                    statusText.textContent = "NO-GO (KASSERET)";
+                    statusText.className = "text-xl font-bold text-red mt-0.5";
+                }
+
+                const offset = target - meas;
+                actionOut.innerHTML = `Ret Værktøjs-Offset med: <br><span class="text-xl font-bold text-orange mt-1 block">${(offset > 0 ? '+' : '') + offset.toFixed(3)} mm</span>`;
+
+            } else {
+                statusBox.className = "my-3 py-3 px-3 bg-surface/50 border border-line rounded-lg flex items-center justify-between transition-colors duration-300";
+                statusText.textContent = "AFVENTER";
+                statusText.className = "text-xl font-bold text-dim mt-0.5";
+                devOut.textContent = "0.000 mm";
+                actionOut.textContent = "Indtast data for at beregne offset...";
+            }
+        }
+
         // Boot-sekvens
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            router.navigate('imd'); 
+            router.navigate('sop');
         });
     </script>
 </body>
