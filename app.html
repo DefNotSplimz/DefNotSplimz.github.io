@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#050607" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Shop Floor — Datum Prototyping</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ["Space Grotesk", "sans-serif"],
+                        body: ["DM Sans", "sans-serif"],
+                        mono: ["IBM Plex Mono", "monospace"],
+                    },
+                    colors: {
+                        black: "#050607",
+                        graphite: "#0b0d0f",
+                        line: "#252a2e",
+                        text: "#f2f3f3",
+                        muted: "#9aa1a7",
+                        dim: "#646b71",
+                        orange: "#ff6a1a",
+                        red: "#ff3333",
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body { background: #050607; color: #f2f3f3; font-family: "DM Sans", sans-serif; -webkit-tap-highlight-color: transparent; }
+        .nav-blur { background: rgba(5, 6, 7, 0.85); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+        .grain:after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="grain h-screen flex flex-col overflow-hidden">
+    
+    <!-- TOP HEADER -->
+    <header class="nav-blur border-b border-line px-5 py-4 flex-shrink-0 flex justify-between items-center z-50">
+        <div>
+            <div id="header-title" class="font-display font-semibold text-sm">IMD / M-CORE</div>
+            <div id="header-sub" class="font-mono text-[10px] text-dim uppercase tracking-widest mt-0.5">Kalkulator</div>
+        </div>
+        <div class="font-mono text-[10px] text-orange border border-orange/20 bg-orange/10 px-2 py-1 rounded tracking-widest">APP</div>
+    </header>
+
+    <!-- INJEKTIONS-RODEN (Her skiftes alt indhold) -->
+    <main id="app-root" class="flex-grow overflow-y-auto pb-24 pt-4 px-5">
+        <!-- JS overtager -->
+    </main>
+
+    <!-- BUND-NAVIGATION -->
+    <nav class="fixed bottom-0 left-0 right-0 nav-blur border-t border-line pb-safe z-50">
+        <div class="flex justify-around items-center px-2 py-3">
+            <button onclick="router.navigate('imd')" class="nav-btn text-orange flex flex-col items-center gap-1 w-16" data-target="imd">
+                <i data-lucide="cpu" class="w-6 h-6"></i>
+                <span class="font-mono text-[9px] uppercase tracking-wider">IMD</span>
+            </button>
+            <button onclick="router.navigate('tools')" class="nav-btn text-dim hover:text-f2f3f3 transition flex flex-col items-center gap-1 w-16" data-target="tools">
+                <i data-lucide="wrench" class="w-6 h-6"></i>
+                <span class="font-mono text-[9px] uppercase tracking-wider">Værktøj</span>
+            </button>
+            <button onclick="router.navigate('materials')" class="nav-btn text-dim hover:text-f2f3f3 transition flex flex-col items-center gap-1 w-16" data-target="materials">
+                <i data-lucide="layers" class="w-6 h-6"></i>
+                <span class="font-mono text-[9px] uppercase tracking-wider">Lager</span>
+            </button>
+            <button onclick="router.navigate('sop')" class="nav-btn text-dim hover:text-f2f3f3 transition flex flex-col items-center gap-1 w-16" data-target="sop">
+                <i data-lucide="book-open" class="w-6 h-6"></i>
+                <span class="font-mono text-[9px] uppercase tracking-wider">SOP</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ROUTER & LOGIK -->
+    <script>
+        // 1. TEMPLATES (De isolerede moduler)
+        const views = {
+            imd: {
+                title: 'IMD / M-CORE',
+                sub: 'Kalkulator & Telemetri',
+                html: `<div class="text-center text-dim mt-10 font-mono text-xs">Her indsættes IMD-motoren og HTML'en.</div>`
+            },
+            tools: {
+                title: 'TOOL CRIB',
+                sub: 'Lokal Værktøjsdatabase',
+                html: `
+                    <div class="border border-line bg-graphite rounded-xl p-4 mb-4">
+                        <div class="font-mono text-[10px] text-dim mb-3 border-b border-line pb-2">TILFØJ NYT VÆRKTØJ</div>
+                        <input id="tool-name" type="text" placeholder="F.eks. T12: Ø10 HM Endmill" class="w-full bg-black border border-line text-f2f3f3 rounded-lg px-4 py-3 text-sm mb-3 focus:outline-none focus:border-orange" />
+                        <button id="btn-save-tool" class="w-full bg-line hover:bg-orange hover:text-black transition text-f2f3f3 font-semibold rounded-lg py-3 text-sm">Gem i Databasen</button>
+                    </div>
+                    <div id="tool-list" class="space-y-2"></div>
+                `
+            },
+            materials: {
+                title: 'MATERIAL VAULT',
+                sub: 'Råvarelager',
+                html: `<div class="text-center text-dim mt-10 font-mono text-xs">Materiale-infrastruktur skrives her.</div>`
+            },
+            sop: {
+                title: 'OPSLAGSVÆRK',
+                sub: 'Tolerancer & Standarder',
+                html: `<div class="text-center text-dim mt-10 font-mono text-xs">ISO 286 Database skrives her.</div>`
+            }
+        };
+
+        // 2. ROUTER MOTOREN
+        const router = {
+            navigate: function(viewKey) {
+                const view = views[viewKey];
+                if (!view) return;
+
+                document.getElementById('header-title').textContent = view.title;
+                document.getElementById('header-sub').textContent = view.sub;
+                document.getElementById('app-root').innerHTML = view.html;
+
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    if (btn.dataset.target === viewKey) {
+                        btn.classList.replace('text-dim', 'text-orange');
+                        btn.classList.remove('hover:text-f2f3f3');
+                    } else {
+                        btn.classList.replace('text-orange', 'text-dim');
+                        btn.classList.add('hover:text-f2f3f3');
+                    }
+                });
+
+                lucide.createIcons();
+
+                // Trigger modul-specifik logik
+                if (viewKey === 'tools') renderToolList();
+            }
+        };
+
+        // 3. EVENT DELEGATION (Kernen i SPA-styringen)
+        document.getElementById('app-root').addEventListener('click', function(e) {
+            
+            // Gem Værktøj (localStorage Persistens)
+            if (e.target.closest('#btn-save-tool')) {
+                const name = document.getElementById('tool-name').value;
+                if (!name) return;
+                
+                let tools = JSON.parse(localStorage.getItem('datum_tools')) || [];
+                tools.push({ id: Date.now(), name: name });
+                localStorage.setItem('datum_tools', JSON.stringify(tools));
+                
+                document.getElementById('tool-name').value = '';
+                renderToolList();
+            }
+
+            // Slet Værktøj
+            if (e.target.closest('.delete-tool')) {
+                const id = parseInt(e.target.closest('.delete-tool').dataset.id);
+                let tools = JSON.parse(localStorage.getItem('datum_tools')) || [];
+                tools = tools.filter(t => t.id !== id);
+                localStorage.setItem('datum_tools', JSON.stringify(tools));
+                renderToolList();
+            }
+        });
+
+        // 4. DATABASE KALD
+        function renderToolList() {
+            const list = document.getElementById('tool-list');
+            if(!list) return;
+            
+            const tools = JSON.parse(localStorage.getItem('datum_tools')) || [];
+            if(tools.length === 0) {
+                list.innerHTML = '<div class="text-dim text-xs font-mono text-center py-4">Ingen værktøjer registreret lokalt.</div>';
+                return;
+            }
+
+            list.innerHTML = tools.map(t => `
+                <div class="flex justify-between items-center bg-black border border-line rounded-lg px-4 py-3">
+                    <span class="text-sm font-semibold">${t.name}</span>
+                    <button class="delete-tool text-dim hover:text-red transition p-2" data-id="${t.id}">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Initier Appen
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            router.navigate('imd');
+        });
+    </script>
+</body>
+</html>
