@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#050607" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="robots" content="noindex, nofollow" />
     <title>Shop Floor — Datum Prototyping</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,7 +56,7 @@
         .input:focus { outline: none; border-color: #ff6a1a; background: #0f1214; }
         .btn { transition: transform 0.2s, background 0.2s, border-color 0.2s; }
         ::-webkit-scrollbar { display: none; }
-        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23646b71' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23646b71' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
         input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         optgroup { background: #050607; color: #ff6a1a; font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 11px; text-transform: uppercase; }
         option { color: #f2f3f3; font-family: "DM Sans", sans-serif; font-size: 14px; }
@@ -66,9 +67,9 @@
     <div class="absolute inset-0 hero-grid pointer-events-none fixed"></div>
     <div class="absolute right-[-20%] top-[-10%] w-[350px] h-[350px] orange-glow blur-2xl pointer-events-none fixed"></div>
 
-    <header class="nav-blur border-b border-line px-5 py-4 flex-shrink-0 flex justify-between items-center z-50 relative">
+    <header class="nav-blur border-b border-line px-4 py-3 flex-shrink-0 flex justify-between items-center z-50 relative">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full border border-line2 grid place-items-center bg-black">
+            <div class="w-9 h-9 rounded-full border border-line2 grid place-items-center bg-black">
                 <i id="header-icon" data-lucide="cpu" class="w-4 h-4 text-orange"></i>
             </div>
             <div>
@@ -79,11 +80,11 @@
         <div class="chip text-orange border border-orange/20 bg-orange/10 px-2 py-1 rounded">APP</div>
     </header>
 
-    <main id="app-root" class="flex-grow overflow-y-auto pt-4 relative z-10 w-full">
+    <main id="app-root" class="flex-grow overflow-y-auto relative z-10 w-full">
     </main>
 
     <nav class="fixed bottom-0 left-0 right-0 nav-blur border-t border-line pb-safe z-50">
-        <div class="flex justify-around items-center px-2 py-4">
+        <div class="flex justify-around items-center px-2 py-3">
             <button onclick="router.navigate('imd')" class="nav-btn text-orange flex flex-col items-center gap-1.5 w-16 transition" data-target="imd">
                 <i data-lucide="activity" class="w-5 h-5"></i>
                 <span class="chip !text-[9px]">IMD</span>
@@ -104,6 +105,7 @@
     </nav>
 
     <script>
+        // --- GLOBALE DATABASER ---
         const strategyMods = {
             'skrub': { vc: 0.85, fz: 1.25, ae: 0.40, ap: 1.50 },
             'normal': { vc: 1.00, fz: 1.00, ae: 0.15, ap: 1.00 },
@@ -152,6 +154,22 @@
             }
         };
 
+        const iso286Data = {
+            ranges: [3, 6, 10, 18, 30, 50, 80, 120, 180, 250],
+            classes: {
+                'H6': [[6,0], [8,0], [9,0], [11,0], [13,0], [16,0], [19,0], [22,0], [25,0], [29,0]],
+                'H7': [[10,0], [12,0], [15,0], [18,0], [21,0], [25,0], [30,0], [35,0], [40,0], [46,0]],
+                'H8': [[14,0], [18,0], [22,0], [27,0], [33,0], [39,0], [46,0], [54,0], [63,0], [72,0]],
+                'f7': [[-6,-16], [-10,-22], [-13,-28], [-16,-34], [-20,-41], [-25,-50], [-30,-60], [-36,-71], [-43,-83], [-50,-96]],
+                'g6': [[-2,-8], [-4,-12], [-5,-14], [-6,-17], [-7,-20], [-9,-25], [-10,-29], [-12,-34], [-14,-39], [-15,-44]],
+                'h6': [[0,-6], [0,-8], [0,-9], [0,-11], [0,-13], [0,-16], [0,-19], [0,-22], [0,-25], [0,-29]],
+                'h7': [[0,-10], [0,-12], [0,-15], [0,-18], [0,-21], [0,-25], [0,-30], [0,-35], [0,-40], [0,-46]],
+                'j6': [[4,-2], [6,-2], [7,-2], [8,-3], [9,-4], [11,-5], [12,-7], [13,-9], [14,-11], [16,-13]],
+                'k6': [[6,0], [9,1], [10,1], [12,1], [15,2], [18,2], [21,2], [25,3], [28,3], [33,4]],
+                'p6': [[12,6], [20,12], [24,15], [29,18], [35,22], [42,26], [51,32], [59,37], [68,43], [79,50]]
+            }
+        };
+
         const geomLabels = {
             'endmill': 'Pindfræser',
             'bullnose': 'Hjørneradius',
@@ -180,140 +198,130 @@
             'hm_dia': 'HM CVD',
             'iso_p': 'ISO P (Stål)',
             'iso_m': 'ISO M (Rustfast)',
-            'iso_k': 'ISO K (Støbejern)',
+            'iso_k': 'ISO K (Støb)',
             'iso_n': 'ISO N (Alu)',
             'iso_s': 'ISO S (Titanium)'
         };
 
         const HTML_GEOM_OPTIONS = `
             <optgroup label="FRÆSNING">
-                <option value="endmill">Pindfræser (Endmill)</option>
-                <option value="bullnose">Hjørneradius (Bullnose)</option>
-                <option value="ballnose">Kuglefræser (Ballnose)</option>
-                <option value="facemill">Planfræser (Facemill)</option>
-                <option value="chamfer">Fasfræser (Chamfer)</option>
-                <option value="undercut">T-Not / Svalehale</option>
+                <option value="endmill">Pindfræser</option>
+                <option value="bullnose">Hjørneradius</option>
+                <option value="ballnose">Kuglefræser</option>
+                <option value="facemill">Planfræser</option>
+                <option value="chamfer">Fasfræser</option>
+                <option value="undercut">T-Not/Svalehale</option>
                 <option value="threadmill">Gevindfræser</option>
                 <option value="slittingsaw">Skivefræser</option>
             </optgroup>
             <optgroup label="HULBEARBEJDNING">
-                <option value="drill">Bor (Twist Drill)</option>
-                <option value="spotdrill">Centrerbor (Spot)</option>
-                <option value="tap">Gevindtap (Tap)</option>
-                <option value="reamer">Rival (Reamer)</option>
+                <option value="drill">Bor (Drill)</option>
+                <option value="spotdrill">Centrerbor</option>
+                <option value="tap">Gevindtap</option>
+                <option value="reamer">Rival</option>
                 <option value="boringhead">Udborehoved</option>
             </optgroup>
             <optgroup label="DREJNING">
-                <option value="turn_ext">Udvendig Drejestål</option>
-                <option value="turn_int">Indvendig Udborestål</option>
-                <option value="turn_groove">Stikstål / Afstikning</option>
+                <option value="turn_ext">Udvendig Drej</option>
+                <option value="turn_int">Indvendig Drej</option>
+                <option value="turn_groove">Stikstål</option>
                 <option value="turn_thread">Gevindstål</option>
             </optgroup>
         `;
 
+        // --- HTML SKABELONER ---
         const views = {
             imd: {
                 title: 'IMD / KERNESYSTEM',
                 sub: 'Kalkulator & Telemetri',
                 icon: 'activity',
                 html: `
-                    <div class="px-5 max-w-lg mx-auto space-y-4 pb-[220px]">
-                        <div class="border border-line bg-black rounded-xl p-4">
-                            <div class="chip text-dim mb-4 border-b border-line pb-2 flex justify-between">
-                                <span>01 / HARDWARE & MATERIALE</span>
-                            </div>
-                            <div class="space-y-3">
-                                <select id="machine" class="input w-full rounded-lg px-4 py-3 text-sm font-medium" onchange="updateUI()">
-                                    <option value="haas-mill-hsm" data-type="mill" data-rpm="10000">Haas Mini Mill + HSM (10k RPM)</option>
-                                    <option value="haas-mill" data-type="mill" data-rpm="10000">Haas Mini Mill (10k RPM)</option>
-                                    <option value="haas-lathe" data-type="turn" data-rpm="4000">Haas ST-10 (4k RPM)</option>
-                                    <option value="deckel" data-type="mill" data-rpm="2000">Deckel FP1 (2k RPM)</option>
-                                    <option value="weiler" data-type="turn" data-rpm="3000">Weiler Matador (3k RPM)</option>
+                    <div class="px-4 max-w-lg mx-auto space-y-3 pb-[220px] pt-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <select id="machine" class="input w-full rounded-xl px-3 py-2.5 text-[11px] font-semibold" onchange="updateUI()">
+                                <option value="haas-mill-hsm" data-type="mill" data-rpm="10000">Mini Mill + HSM (10k)</option>
+                                <option value="haas-mill" data-type="mill" data-rpm="10000">Mini Mill (10k)</option>
+                                <option value="haas-lathe" data-type="turn" data-rpm="4000">ST-10 (4k)</option>
+                                <option value="deckel" data-type="mill" data-rpm="2000">Deckel FP1 (2k)</option>
+                                <option value="weiler" data-type="turn" data-rpm="3000">Weiler Matador</option>
+                            </select>
+                            <select id="mat" class="input w-full rounded-xl px-3 py-2.5 text-[11px] font-semibold" onchange="updateUI()"></select>
+                        </div>
+
+                        <div class="border border-line bg-black rounded-xl p-3 relative">
+                            <button id="reset-btn" onclick="resetDirty()" class="hidden absolute top-3 right-3 text-orange text-[9px] font-mono tracking-widest hover:text-white transition z-10">GENDAN AUTO</button>
+                            <div class="chip text-dim mb-2 border-b border-line pb-1.5">VÆRKTØJ & STRATEGI</div>
+                            
+                            <select id="toolData" class="input w-full rounded-lg px-2 py-2 text-xs font-semibold mb-2" onchange="handleCribSelection()"></select>
+
+                            <div class="grid grid-cols-3 gap-2" id="strategy-grid">
+                                <select id="toolGeometry" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold text-orange border-orange/30 focus:border-orange" onchange="handleGeometryChange()">
+                                    \${HTML_GEOM_OPTIONS}
                                 </select>
-                                <select id="mat" class="input w-full rounded-lg px-4 py-3 text-sm font-medium" onchange="updateUI()"></select>
+                                <select id="operation" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold" onchange="handleOperationChange()">
+                                    <option value="profil">Side/Profil</option>
+                                    <option value="spor">Sporfræsning</option>
+                                    <option value="bor">Boring (Z)</option>
+                                </select>
+                                <select id="strategy" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold" onchange="hardUpdateUI()">
+                                    <option value="normal">Normal</option>
+                                    <option value="skrub">Skrub (MRR)</option>
+                                    <option value="slet">Slet (Finish)</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="border border-line bg-black rounded-xl p-4">
-                            <div class="chip text-dim mb-4 border-b border-line pb-2 flex justify-between">
-                                <span>02 / PROCES & STRATEGI</span>
-                                <button id="reset-btn" onclick="resetDirty()" class="hidden text-orange hover:text-white transition">GENDAN AUTO-LOGIK</button>
-                            </div>
-                            
-                            <div class="space-y-3 mb-4">
-                                <select id="toolData" class="input w-full rounded-lg px-4 py-3 text-sm font-medium" onchange="handleCribSelection()"></select>
-
-                                <select id="toolGeometry" class="input w-full rounded-lg px-4 py-3 text-sm font-medium text-orange border-orange/30 focus:border-orange" onchange="handleGeometryChange()">
-                                    ${HTML_GEOM_OPTIONS}
-                                </select>
-
-                                <div class="grid grid-cols-2 gap-3" id="strategy-grid">
-                                    <select id="operation" class="input w-full rounded-lg px-3 py-3 text-sm font-medium" onchange="handleOperationChange()">
-                                        <option value="profil">Side / Profil</option>
-                                        <option value="spor">Sporfræsning</option>
-                                        <option value="bor">Boring (Z-akse)</option>
-                                    </select>
-                                    <select id="strategy" class="input w-full rounded-lg px-3 py-3 text-sm font-medium" onchange="hardUpdateUI()">
-                                        <option value="normal">Normal</option>
-                                        <option value="skrub">Skrub (High MRR)</option>
-                                        <option value="slet">Slet (Finish)</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3 mb-3">
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="grid grid-cols-3 gap-2 mb-2">
                                 <label class="block relative">
-                                    <span id="label-D" class="text-xs font-semibold text-muted block mb-1">Værktøj Ø (D)</span>
-                                    <input id="D" type="number" inputmode="decimal" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" placeholder="10" oninput="softUpdate()" />
+                                    <span id="label-D" class="text-[8px] font-semibold text-muted block mb-1">Ø (D)</span>
+                                    <input id="D" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-semibold text-center" oninput="softUpdate()" />
                                 </label>
                                 <label id="container-Z" class="block relative">
-                                    <span class="text-xs font-semibold text-muted block mb-1 flex justify-between">Antal skær (Z) <span class="auto-tag text-[8px] text-orange">AUTO</span></span>
-                                    <input id="Z" type="number" inputmode="numeric" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" oninput="markDirty(this); calc()" />
+                                    <span class="text-[8px] font-semibold text-muted block mb-1 flex justify-between">SKÆR(Z) <span class="auto-tag text-orange">AUTO</span></span>
+                                    <input id="Z" type="number" min="1" inputmode="numeric" class="input w-full rounded-lg px-2 py-2 text-sm font-semibold text-center" oninput="markDirty(this); calc()" />
+                                </label>
+                                <label id="container-L" class="block relative">
+                                    <span class="text-[8px] font-semibold text-muted block mb-1 flex justify-between">UDH(L) <span class="auto-tag text-orange">AUTO</span></span>
+                                    <input id="L" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-semibold text-center" oninput="markDirty(this); calc()" />
                                 </label>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div class="grid grid-cols-2 gap-2">
                                 <label id="container-ae" class="block relative">
-                                    <span class="text-xs font-semibold text-muted block mb-1 flex justify-between">Radial (ae) <span class="auto-tag text-[8px] text-orange">AUTO</span></span>
-                                    <input id="ae" type="number" inputmode="decimal" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" oninput="markDirty(this); calc()" />
+                                    <span class="text-[8px] font-semibold text-muted block mb-1 flex justify-between">RADIAL (ae) <span class="auto-tag text-orange">AUTO</span></span>
+                                    <input id="ae" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2 text-base font-bold" oninput="markDirty(this); calc()" />
                                 </label>
                                 <label id="container-ap" class="block relative">
-                                    <span class="text-xs font-semibold text-muted block mb-1 flex justify-between">Aksial (ap) <span class="auto-tag text-[8px] text-orange">AUTO</span></span>
-                                    <input id="ap" type="number" inputmode="decimal" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" oninput="markDirty(this); calc()" />
-                                </label>
-                            </div>
-
-                            <div id="container-L" class="block relative">
-                                <label class="block">
-                                    <span class="text-xs font-semibold text-muted block mb-1 flex justify-between">Frit udhæng (L) <span class="auto-tag text-[8px] text-orange pr-2">AUTO</span></span>
-                                    <input id="L" type="number" inputmode="decimal" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" oninput="markDirty(this); calc()" />
+                                    <span class="text-[8px] font-semibold text-muted block mb-1 flex justify-between">AKSIAL (ap) <span class="auto-tag text-orange">AUTO</span></span>
+                                    <input id="ap" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2 text-base font-bold" oninput="markDirty(this); calc()" />
                                 </label>
                             </div>
                         </div>
                     </div>
 
-                    <div class="fixed bottom-[74px] left-0 right-0 nav-blur border-t border-line px-5 py-4 z-40 shadow-[0_-20px_40px_rgba(0,0,0,0.6)]">
+                    <div class="fixed bottom-[70px] left-0 right-0 nav-blur border-t border-line px-5 py-3.5 z-40 shadow-[0_-20px_40px_rgba(0,0,0,0.6)]">
                         <div class="max-w-lg mx-auto">
-                            <div class="flex items-center justify-between mb-4 border-b border-line pb-3">
+                            <div class="flex items-center justify-between mb-3 border-b border-line pb-2">
                                 <div class="chip text-dim">TELEMETRI / OUTPUT</div>
                                 <div id="warnings" class="flex gap-2"></div>
                             </div>
-                            <div class="grid grid-cols-2 gap-y-5 gap-x-4">
+                            <div class="grid grid-cols-2 gap-y-4 gap-x-4">
                                 <div>
-                                    <div class="text-[10px] text-muted font-semibold uppercase tracking-wider mb-1">Spindelhastighed</div>
-                                    <div class="display text-3xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="rpm-out">0</span> <span class="text-sm font-normal text-dim">RPM</span></div>
+                                    <div class="text-[9px] text-muted font-semibold uppercase tracking-wider mb-1">Spindelhastighed</div>
+                                    <div class="display text-2xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="rpm-out">0</span> <span class="text-xs font-normal text-dim">RPM</span></div>
                                 </div>
                                 <div class="pl-4 border-l border-line">
-                                    <div id="feed-label" class="text-[10px] text-orange font-semibold uppercase tracking-wider mb-1">Tilspænding (Vf)</div>
-                                    <div class="display text-3xl font-bold text-orange leading-none tracking-tight"><span id="vf-out">0</span> <span id="feed-unit" class="text-sm font-normal text-orange/60">mm/min</span></div>
+                                    <div id="feed-label" class="text-[9px] text-orange font-semibold uppercase tracking-wider mb-1">Tilspænding (Vf)</div>
+                                    <div class="display text-2xl font-bold text-orange leading-none tracking-tight"><span id="vf-out">0</span> <span id="feed-unit" class="text-xs font-normal text-orange/60">mm/min</span></div>
                                 </div>
                                 <div id="mrr-block">
-                                    <div class="text-[10px] text-muted font-semibold uppercase tracking-wider mb-1">Fjernet materiale (MRR)</div>
-                                    <div class="display text-2xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="mrr-out">0.0</span> <span class="text-xs font-normal text-dim">cm³/min</span></div>
+                                    <div class="text-[9px] text-muted font-semibold uppercase tracking-wider mb-1">Material Removal</div>
+                                    <div class="display text-xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="mrr-out">0.0</span> <span class="text-[10px] font-normal text-dim">cm³/min</span></div>
                                 </div>
                                 <div id="ld-block" class="pl-4 border-l border-line">
-                                    <div class="text-[10px] text-muted font-semibold uppercase tracking-wider mb-1">Udbøjningsrisiko (L/D)</div>
-                                    <div class="display text-2xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="ld-out">0.00</span> <span class="text-xs font-normal text-dim">X</span></div>
+                                    <div class="text-[9px] text-muted font-semibold uppercase tracking-wider mb-1">Udbøjning (L/D)</div>
+                                    <div class="display text-xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="ld-out">0.00</span> <span class="text-[10px] font-normal text-dim">X</span></div>
                                 </div>
                             </div>
                         </div>
@@ -325,53 +333,47 @@
                 sub: 'Lokal Værktøjsdatabase',
                 icon: 'wrench',
                 html: `
-                    <div class="px-5 max-w-lg mx-auto pb-24">
-                        <div class="border border-line bg-black rounded-2xl p-5 mb-6 relative overflow-hidden">
-                            <div class="chip text-dim mb-4 border-b border-line pb-2">TILFØJ NYT VÆRKTØJ</div>
+                    <div class="px-4 max-w-lg mx-auto pb-24 pt-3">
+                        <div class="border border-line bg-black rounded-xl p-3 mb-4 relative overflow-hidden">
+                            <div class="chip text-dim mb-3 border-b border-line pb-1.5">TILFØJ NYT VÆRKTØJ</div>
                             
-                            <div class="grid grid-cols-[80px_1fr] gap-3 mb-3">
-                                <label class="block"><span class="chip text-dim block mb-2">LOK.</span><input id="tool-loc" type="text" placeholder="T12" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold uppercase" /></label>
-                                <label class="block"><span class="chip text-dim block mb-2">NAVN / BESKRIVELSE</span><input id="tool-name" type="text" placeholder="Ø10 HM Rougher" class="input w-full rounded-xl px-3 py-3 text-sm font-medium" /></label>
+                            <div class="grid grid-cols-[65px_1fr] gap-2 mb-2">
+                                <input id="tool-loc" type="text" placeholder="T12" class="input w-full rounded-lg px-2 py-2 text-xs font-semibold uppercase text-center" />
+                                <input id="tool-name" type="text" placeholder="Navn / Beskrivelse" class="input w-full rounded-lg px-3 py-2 text-xs font-medium" />
                             </div>
 
-                            <div class="grid grid-cols-2 gap-3 mb-3">
-                                <label class="block">
-                                    <span class="chip text-dim block mb-2">GEOMETRI</span>
-                                    <select id="tool-type" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold">
-                                        ${HTML_GEOM_OPTIONS}
-                                    </select>
-                                </label>
-                                <label class="block">
-                                    <span class="chip text-dim block mb-2">MATERIALE / BELÆGNING</span>
-                                    <select id="tool-mat" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold">
-                                        <optgroup label="SOLIDT VÆRKTØJ">
-                                            <option value="hm_tialn">HM (TiAlN - Stål)</option>
-                                            <option value="hm_zrn">HM (ZrN - Alu/Plast)</option>
-                                            <option value="hm">HM (Ubelagt)</option>
-                                            <option value="hm_dia">HM (CVD Diamant)</option>
-                                            <option value="hss">HSS / HSS-Co</option>
-                                        </optgroup>
-                                        <optgroup label="VENDEPLATTER (ISO)">
-                                            <option value="iso_p">ISO P (Stål)</option>
-                                            <option value="iso_m">ISO M (Rustfast)</option>
-                                            <option value="iso_k">ISO K (Støbejern)</option>
-                                            <option value="iso_n">ISO N (Alu/Plast)</option>
-                                            <option value="iso_s">ISO S (Titanium/HRSA)</option>
-                                        </optgroup>
-                                    </select>
-                                </label>
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <select id="tool-type" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold">
+                                    \${HTML_GEOM_OPTIONS}
+                                </select>
+                                <select id="tool-mat" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold">
+                                    <optgroup label="SOLIDT VÆRKTØJ">
+                                        <option value="hm_tialn">HM (TiAlN - Stål)</option>
+                                        <option value="hm_zrn">HM (ZrN - Alu/Plast)</option>
+                                        <option value="hm">HM (Ubelagt)</option>
+                                        <option value="hm_dia">HM (CVD Diamant)</option>
+                                        <option value="hss">HSS / HSS-Co</option>
+                                    </optgroup>
+                                    <optgroup label="VENDEPLATTER (ISO)">
+                                        <option value="iso_p">ISO P (Stål)</option>
+                                        <option value="iso_m">ISO M (Rustfast)</option>
+                                        <option value="iso_k">ISO K (Støbejern)</option>
+                                        <option value="iso_n">ISO N (Alu/Plast)</option>
+                                        <option value="iso_s">ISO S (Titan/HRSA)</option>
+                                    </optgroup>
+                                </select>
                             </div>
 
-                            <div class="grid grid-cols-4 gap-3 mb-4">
-                                <label class="block"><span class="chip text-dim block mb-2">Ø (D)</span><input id="tool-D" type="number" inputmode="decimal" placeholder="10" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold text-center" /></label>
-                                <label class="block"><span class="chip text-dim block mb-2">SKÆR(Z)</span><input id="tool-Z" type="number" inputmode="numeric" placeholder="4" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold text-center" /></label>
-                                <label class="block"><span class="chip text-dim block mb-2">UDH(L)</span><input id="tool-L" type="number" inputmode="decimal" placeholder="30" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold text-center" /></label>
-                                <label class="block"><span class="chip text-dim block mb-2">SKR(Lc)</span><input id="tool-Lc" type="number" inputmode="decimal" placeholder="22" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold text-center" /></label>
+                            <div class="grid grid-cols-4 gap-2 mb-3">
+                                <label class="block"><span class="chip text-dim block mb-1 text-[8px]">Ø(D)</span><input id="tool-D" type="number" min="0" step="any" inputmode="decimal" placeholder="10" class="input w-full rounded-lg px-1 py-2 text-xs font-semibold text-center" /></label>
+                                <label class="block"><span class="chip text-dim block mb-1 text-[8px]">SKÆR(Z)</span><input id="tool-Z" type="number" min="1" inputmode="numeric" placeholder="4" class="input w-full rounded-lg px-1 py-2 text-xs font-semibold text-center" /></label>
+                                <label class="block"><span class="chip text-dim block mb-1 text-[8px]">UDH(L)</span><input id="tool-L" type="number" min="0" step="any" inputmode="decimal" placeholder="30" class="input w-full rounded-lg px-1 py-2 text-xs font-semibold text-center" /></label>
+                                <label class="block"><span class="chip text-dim block mb-1 text-[8px]">SKR(Lc)</span><input id="tool-Lc" type="number" min="0" step="any" inputmode="decimal" placeholder="22" class="input w-full rounded-lg px-1 py-2 text-xs font-semibold text-center" /></label>
                             </div>
-                            <button id="btn-save-tool" class="btn w-full border border-orange bg-orange/10 text-orange font-semibold rounded-xl py-3 text-sm hover:bg-orange hover:text-black">Tilføj til database</button>
+                            <button id="btn-save-tool" class="btn w-full border border-orange bg-orange/10 text-orange font-semibold rounded-lg py-2.5 text-xs hover:bg-orange hover:text-black">Gem i database</button>
                         </div>
-                        <div class="chip text-dim mb-3 pl-1">AKTIVE VÆRKTØJER</div>
-                        <div id="tool-list" class="space-y-3"></div>
+                        <div class="chip text-dim mb-2 pl-1">AKTIVE VÆRKTØJER</div>
+                        <div id="tool-list" class="space-y-2"></div>
                     </div>
                 `
             },
@@ -379,16 +381,219 @@
                 title: 'MATERIAL VAULT',
                 sub: 'Råvarelager',
                 icon: 'layers',
-                html: `<div class="px-5 max-w-lg mx-auto"><div class="border border-line bg-black rounded-2xl p-6 text-center text-dim chip">UNDER UDVIKLING</div></div>`
+                html: `
+                    <div class="px-4 max-w-lg mx-auto pb-24 pt-3">
+                        <div class="border border-line bg-black rounded-xl p-3 mb-4">
+                            <div class="chip text-dim mb-2 border-b border-line pb-1.5">TILFØJ RÅMATERIALE</div>
+                            <div class="grid grid-cols-[1fr_90px] gap-2 mb-2">
+                                <input id="mat-alloy" type="text" placeholder="Legering (fx Alu 6082)" class="input w-full rounded-lg px-3 py-2 text-xs font-bold uppercase" />
+                                <select id="mat-form" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold">
+                                    <option value="Rundstang">Stang</option>
+                                    <option value="Klodser">Blok</option>
+                                    <option value="Plade">Plade</option>
+                                    <option value="Sekskant">Sekskant</option>
+                                    <option value="Rør">Rør</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-[1fr_70px] gap-2 mb-3">
+                                <input id="mat-dims" type="text" placeholder="Dimensioner (fx Ø50 x 500)" class="input w-full rounded-lg px-3 py-2 text-xs font-mono" />
+                                <input id="mat-qty" type="number" min="0" inputmode="numeric" placeholder="Antal" value="1" class="input w-full rounded-lg px-1 py-2 text-xs text-center font-bold" />
+                            </div>
+                            <button id="btn-save-mat" class="btn w-full border border-orange bg-orange/10 text-orange hover:bg-orange hover:text-black transition font-semibold rounded-lg py-2.5 text-[10px] uppercase tracking-wider">Gem på lager</button>
+                        </div>
+                        <div class="chip text-dim mb-2 pl-1">LAGERBEHOLDNING</div>
+                        <div id="mat-list" class="space-y-2"></div>
+                    </div>
+                `
             },
             sop: {
                 title: 'OPSLAGSVÆRK',
                 sub: 'Tolerancer & Standarder',
                 icon: 'book-open',
-                html: `<div class="px-5 max-w-lg mx-auto"><div class="border border-line bg-black rounded-2xl p-6 text-center text-dim chip">UNDER UDVIKLING</div></div>`
+                html: `
+                    <div class="px-4 max-w-lg mx-auto pb-24 pt-2 space-y-3">
+                        
+                        <!-- 01 / GEVIND & FORBORING -->
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
+                                <span>GEVIND & FORBORING</span>
+                                <span class="text-[8px] text-orange">METRISK (M)</span>
+                            </div>
+                            <div class="grid grid-cols-[1fr_80px] gap-2 mb-2">
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">NOMINEL Ø (mm)</span>
+                                    <input id="sop-thr-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="8" oninput="calcSop()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">STIGNING (P)</span>
+                                    <input id="sop-thr-p" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2.5 text-sm font-bold text-center focus:border-orange" placeholder="1.25" oninput="calcSop()" />
+                                </label>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <select id="sop-thr-std" class="input w-full rounded-lg px-3 py-2 text-[10px] font-semibold text-dim uppercase" onchange="applyStdThread()">
+                                    <option value="">Vælg standard gevind (Auto-udfyld)</option>
+                                    <option value="3,0.5">M3 x 0.50</option>
+                                    <option value="4,0.7">M4 x 0.70</option>
+                                    <option value="5,0.8">M5 x 0.80</option>
+                                    <option value="6,1.0">M6 x 1.00</option>
+                                    <option value="8,1.25">M8 x 1.25</option>
+                                    <option value="10,1.5">M10 x 1.50</option>
+                                    <option value="12,1.75">M12 x 1.75</option>
+                                    <option value="16,2.0">M16 x 2.00</option>
+                                    <option value="20,2.5">M20 x 2.50</option>
+                                    <option value="24,3.0">M24 x 3.00</option>
+                                </select>
+                            </div>
+
+                            <div class="my-3 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
+                                <div>
+                                    <div class="text-[9px] font-semibold text-muted uppercase">Skæretap (Spåntagende)</div>
+                                    <div class="text-[10px] font-mono text-dim">Anbefalet Bor Ø</div>
+                                </div>
+                                <div class="display text-2xl font-bold text-orange tracking-tight">
+                                    Ø <span id="sop-cut-out">0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-line">
+                                <div class="bg-surface/50 p-2 rounded border border-line/50">
+                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
+                                        <span>RULLETAP (FORM)</span>
+                                    </div>
+                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
+                                        Ø <span id="sop-form-out">0.00</span>
+                                    </div>
+                                </div>
+                                <div class="bg-surface/50 p-2 rounded border border-line/50">
+                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
+                                        <span>GEVINDDYBDE (CA)</span>
+                                        <span class="text-dim">1.5xD</span>
+                                    </div>
+                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
+                                        <span id="sop-thr-depth">0.0</span> <span class="text-[10px] font-normal text-dim">mm</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 02 / OVERFLADERUHED -->
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
+                                <span>OVERFLADERUHED</span>
+                                <span class="text-[8px] text-orange">KINEMATISK (TEORETISK)</span>
+                            </div>
+                            <div class="grid grid-cols-[1fr_1fr] gap-2 mb-2">
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">HJØRNERADIUS (Re)</span>
+                                    <input id="sop-ra-re" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="0.4" oninput="calcSop()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">TILSPÆNDING (f/fz)</span>
+                                    <input id="sop-ra-f" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="0.1" oninput="calcSop()" />
+                                </label>
+                            </div>
+                            
+                            <div class="my-3 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
+                                <div>
+                                    <div class="text-[9px] font-semibold text-muted uppercase">Gennemsnitlig Ruhed</div>
+                                    <div class="text-[10px] font-mono text-dim">Beregnet Ra</div>
+                                </div>
+                                <div class="display text-2xl font-bold text-orange tracking-tight">
+                                    <span id="sop-ra-out">0.00</span> <span class="text-[12px] text-dim">µm</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-line">
+                                <div class="bg-surface/50 p-2 rounded border border-line/50">
+                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
+                                        <span>ISO 1302 SKALA</span>
+                                    </div>
+                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
+                                        <span id="sop-ra-n">N/A</span>
+                                    </div>
+                                </div>
+                                <div class="bg-surface/50 p-2 rounded border border-line/50">
+                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
+                                        <span>PROFIL (Rz)</span>
+                                        <span class="text-dim">Peak-to-valley</span>
+                                    </div>
+                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
+                                        <span id="sop-rz-out">0.00</span> <span class="text-[10px] font-normal text-dim">µm</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 03 / ISO 286 -->
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
+                                <span>ISO 286 PASNINGER</span>
+                                <span class="text-[8px] text-orange">Store bogstaver = HUL</span>
+                            </div>
+                            <div class="grid grid-cols-[1fr_80px] gap-2 mb-2">
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">NOMINEL Ø (mm)</span>
+                                    <input id="sop-iso-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="25" oninput="calcSop()" />
+                                </label>
+                                <label class="block">
+                                    <span class="text-[9px] font-semibold text-muted block mb-1">PASNING</span>
+                                    <input id="sop-iso-c" type="text" class="input w-full rounded-lg px-2 py-2.5 text-sm font-bold text-center focus:border-orange" placeholder="H7" oninput="calcSop()" />
+                                </label>
+                            </div>
+
+                            <div class="my-3 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
+                                <div>
+                                    <div class="text-[9px] font-semibold text-muted uppercase">Sigtetal (Middelmål)</div>
+                                    <div class="text-[10px] font-mono text-dim">Tolerancebånd midtpunkt</div>
+                                </div>
+                                <div class="display text-2xl font-bold text-orange tracking-tight">
+                                    Ø <span id="sop-iso-target">0.0000</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-line">
+                                <div class="bg-surface/50 p-2 rounded border border-line/50">
+                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
+                                        <span>MIN MÅL</span>
+                                        <span id="sop-iso-lower" class="text-dim">0.000</span>
+                                    </div>
+                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
+                                        <span id="sop-iso-min">0.000</span> <span class="text-[10px] font-normal text-dim">mm</span>
+                                    </div>
+                                </div>
+                                <div class="bg-surface/50 p-2 rounded border border-line/50">
+                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
+                                        <span>MAKS MÅL</span>
+                                        <span id="sop-iso-upper" class="text-dim">0.000</span>
+                                    </div>
+                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
+                                        <span id="sop-iso-max">0.000</span> <span class="text-[10px] font-normal text-dim">mm</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 04 / HAAS REFERENCE -->
+                        <div class="border border-line bg-black rounded-xl p-3">
+                            <div class="chip text-dim mb-3 border-b border-line pb-2">HAAS REFERENCE (G/M CODES)</div>
+                            <div class="grid grid-cols-2 gap-x-2 gap-y-3 text-[10px] font-mono leading-tight">
+                                <div><span class="text-orange">G81</span> Spot Drill / Bor</div>
+                                <div><span class="text-orange">G83</span> Peck Drill (Dyb)</div>
+                                <div><span class="text-orange">G84</span> Tapping (Gevind)</div>
+                                <div><span class="text-orange">G73</span> High-Speed Peck</div>
+                                <div><span class="text-orange">M08</span> Coolant ON</div>
+                                <div><span class="text-orange">M09</span> Coolant OFF</div>
+                                <div><span class="text-orange">M97</span> Local Sub-prog</div>
+                                <div><span class="text-orange">M99</span> Sub-prog Return</div>
+                            </div>
+                        </div>
+                    </div>
+                `
             }
         };
 
+        // --- ROUTER MOTOREN ---
         const router = {
             navigate: function(viewKey) {
                 const view = views[viewKey];
@@ -397,6 +602,7 @@
                 document.getElementById('header-sub').textContent = view.sub;
                 document.getElementById('header-icon').setAttribute('data-lucide', view.icon);
                 document.getElementById('app-root').innerHTML = view.html;
+                
                 document.querySelectorAll('.nav-btn').forEach(btn => {
                     if (btn.dataset.target === viewKey) {
                         btn.classList.replace('text-dim', 'text-orange');
@@ -406,20 +612,30 @@
                         btn.classList.add('hover:text-f2f3f3');
                     }
                 });
+                
                 lucide.createIcons();
+                
                 if (viewKey === 'tools') renderToolList();
-                if (viewKey === 'imd') initMaterials();
+                if (viewKey === 'materials') renderMatList();
+                if (viewKey === 'imd') {
+                    initMaterials();
+                    calc(true); // Tvinger autoudregning ved load
+                }
+                if (viewKey === 'sop') calcSop();
             }
         };
 
+        // --- GLOBAL EVENT DELEGATION ---
         document.getElementById('app-root').addEventListener('click', function(e) {
+            
+            // --- VÆRKTØJ LOGIK ---
             if (e.target.closest('#btn-save-tool')) {
                 const loc = document.getElementById('tool-loc').value.toUpperCase();
                 const name = document.getElementById('tool-name').value;
                 const type = document.getElementById('tool-type').value;
                 const mat = document.getElementById('tool-mat').value;
                 const D = parseFloat(document.getElementById('tool-D').value);
-                const Z = parseInt(document.getElementById('tool-Z').value) || 1; // Tillad 1 skær for f.eks. udborehoveder
+                const Z = parseInt(document.getElementById('tool-Z').value) || 1; 
                 const L = parseFloat(document.getElementById('tool-L').value);
                 const Lc = parseFloat(document.getElementById('tool-Lc').value);
                 
@@ -429,7 +645,7 @@
                 }
                 
                 let toolsList = JSON.parse(localStorage.getItem('datum_tools')) || [];
-                toolsList = toolsList.filter(t => t.loc && t.name && t.D); // Oprydning
+                toolsList = toolsList.filter(t => t.loc && t.name && t.D); 
 
                 toolsList.push({ id: Date.now(), loc: loc, name: name, type: type, mat: mat, D: D, Z: Z, L: L, Lc: Lc, wear: 'new' });
                 
@@ -454,7 +670,64 @@
                 localStorage.setItem('datum_tools', JSON.stringify(toolsList));
                 renderToolList();
             }
+
+            // --- MATERIAL VAULT LOGIK ---
+            if (e.target.closest('#btn-save-mat')) {
+                const alloy = document.getElementById('mat-alloy').value.toUpperCase();
+                const form = document.getElementById('mat-form').value;
+                const dims = document.getElementById('mat-dims').value;
+                const qty = parseInt(document.getElementById('mat-qty').value) || 1;
+
+                if (!alloy || !dims) {
+                    alert("Udfyld legering og dimensioner.");
+                    return;
+                }
+
+                let matList = JSON.parse(localStorage.getItem('datum_materials')) || [];
+                matList.push({ id: Date.now(), alloy: alloy, form: form, dims: dims, qty: qty });
+                localStorage.setItem('datum_materials', JSON.stringify(matList));
+
+                document.getElementById('mat-alloy').value = '';
+                document.getElementById('mat-dims').value = '';
+                document.getElementById('mat-qty').value = '1';
+                renderMatList();
+            }
+
+            if (e.target.closest('.delete-mat')) {
+                const id = parseInt(e.target.closest('.delete-mat').dataset.id);
+                let matList = JSON.parse(localStorage.getItem('datum_materials')) || [];
+                matList = matList.filter(m => m.id !== id);
+                localStorage.setItem('datum_materials', JSON.stringify(matList));
+                renderMatList();
+            }
+
+            if (e.target.closest('.mat-qty-btn')) {
+                const btn = e.target.closest('.mat-qty-btn');
+                const id = parseInt(btn.dataset.id);
+                const change = parseInt(btn.dataset.change);
+                
+                let matList = JSON.parse(localStorage.getItem('datum_materials')) || [];
+                const matIndex = matList.findIndex(m => m.id === id);
+                
+                if (matIndex > -1) {
+                    matList[matIndex].qty += change;
+                    if (matList[matIndex].qty < 0) matList[matIndex].qty = 0; 
+                    localStorage.setItem('datum_materials', JSON.stringify(matList));
+                    renderMatList();
+                }
+            }
         });
+
+        // --- FUNKTIONER ---
+        function applyStdThread() {
+            const val = document.getElementById('sop-thr-std').value;
+            if(val) {
+                const parts = val.split(',');
+                document.getElementById('sop-thr-d').value = parts[0];
+                document.getElementById('sop-thr-p').value = parts[1];
+                calcSop();
+            }
+        }
 
         function renderToolList() {
             const list = document.getElementById('tool-list');
@@ -468,31 +741,76 @@
             }
 
             if(toolsList.length === 0) {
-                list.innerHTML = `<div class="border border-dashed border-line2 rounded-2xl p-6 text-center"><div class="chip text-dim">Crib er tom. Tilføj værktøj ovenfor.</div></div>`;
+                list.innerHTML = `<div class="border border-dashed border-line2 rounded-xl p-4 text-center"><div class="text-[10px] uppercase font-mono text-dim">Crib er tom.</div></div>`;
                 return;
             }
             list.innerHTML = toolsList.map(t => {
                 const typeLabel = geomLabels[t.type || 'endmill'] || 'Ukendt';
                 const matLabel = matLabels[t.mat || 'hm'] || 'HM';
-                const displayLc = t.Lc ? `<span class="chip text-dim flex items-center gap-1"><i data-lucide="align-justify" class="w-2 h-2"></i> Lc${t.Lc}</span>` : '';
+                const displayLc = t.Lc ? `<span class="chip text-dim"><i data-lucide="align-justify" class="inline w-2 h-2"></i> Lc${t.Lc}</span>` : '';
                 
                 return `
-                <div class="border border-line bg-graphite rounded-xl p-4 flex gap-4 items-center justify-between group transition hover:border-line2">
-                    <div class="flex items-center gap-4 w-full">
-                        <div class="w-12 h-12 rounded-lg bg-black border border-line flex flex-col items-center justify-center shrink-0">
-                            <span class="display text-lg font-semibold text-orange leading-none">${t.loc}</span>
+                <div class="border border-line bg-graphite rounded-lg p-2.5 flex gap-3 items-center justify-between group transition hover:border-line2">
+                    <div class="w-10 h-10 rounded bg-black border border-line flex items-center justify-center shrink-0">
+                        <span class="display text-sm font-semibold text-orange leading-none">${t.loc}</span>
+                    </div>
+                    <div class="flex-grow min-w-0">
+                        <div class="text-xs font-semibold text-f2f3f3 truncate">${t.name}</div>
+                        <div class="text-[9px] font-mono text-muted uppercase mt-0.5 truncate">${matLabel} | ${typeLabel}</div>
+                        <div class="flex gap-2 mt-1.5 flex-wrap">
+                            <span class="chip text-dim"><i data-lucide="circle" class="inline w-2 h-2"></i> ${t.D}</span>
+                            <span class="chip text-dim"><i data-lucide="scissors" class="inline w-2 h-2"></i> ${t.Z} FL</span>
+                            <span class="chip text-dim"><i data-lucide="ruler" class="inline w-2 h-2"></i> L${t.L}</span>
+                            ${displayLc}
                         </div>
-                        <div class="flex-grow">
-                            <div class="text-sm font-semibold text-f2f3f3">${t.name}</div>
-                            <div class="text-[10px] font-mono text-muted uppercase mt-0.5">${matLabel} | ${typeLabel}</div>
-                            <div class="flex gap-2.5 mt-2 flex-wrap">
-                                <span class="chip text-dim flex items-center gap-1"><i data-lucide="circle" class="w-2 h-2"></i> ${t.D}mm</span>
-                                <span class="chip text-dim flex items-center gap-1"><i data-lucide="scissors" class="w-2 h-2"></i> ${t.Z} FL</span>
-                                <span class="chip text-dim flex items-center gap-1"><i data-lucide="ruler" class="w-2 h-2"></i> L${t.L}</span>
-                                ${displayLc}
+                    </div>
+                    <button class="delete-tool w-8 h-8 rounded border border-line2 text-dim hover:text-red hover:border-red/50 grid place-items-center shrink-0" data-id="${t.id}"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+                </div>
+            `}).join('');
+            lucide.createIcons();
+        }
+
+        function renderMatList() {
+            const list = document.getElementById('mat-list');
+            if(!list) return;
+            
+            let matList = JSON.parse(localStorage.getItem('datum_materials')) || [];
+
+            if(matList.length === 0) {
+                list.innerHTML = `<div class="border border-dashed border-line2 rounded-xl p-4 text-center"><div class="text-[10px] uppercase font-mono text-dim">Lageret er tomt.</div></div>`;
+                return;
+            }
+            
+            list.innerHTML = matList.map(m => {
+                let icon = 'box';
+                if(m.form === 'Rundstang' || m.form === 'Rør') icon = 'cylinder';
+                if(m.form === 'Plade') icon = 'square';
+                if(m.form === 'Sekskant') icon = 'hexagon';
+
+                const qtyColor = m.qty === 0 ? 'text-red' : 'text-f2f3f3';
+                const opacity = m.qty === 0 ? 'opacity-50' : 'opacity-100';
+
+                return `
+                <div class="border border-line bg-graphite rounded-lg p-2.5 flex gap-3 items-center justify-between transition hover:border-line2 ${opacity}">
+                    <div class="flex items-center gap-3 w-full">
+                        <div class="w-10 h-10 rounded bg-black border border-line flex items-center justify-center shrink-0">
+                            <i data-lucide="${icon}" class="w-5 h-5 text-dim"></i>
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <div class="text-xs font-bold text-f2f3f3 truncate leading-tight">${m.alloy}</div>
+                            <div class="text-[9px] font-mono text-muted uppercase mt-0.5">${m.form}</div>
+                            <div class="mt-1.5">
+                                <span class="text-[10px] font-mono text-orange border border-orange/20 bg-orange/10 px-1.5 py-0.5 rounded truncate inline-block max-w-full">${m.dims}</span>
                             </div>
                         </div>
-                        <button class="delete-tool w-8 h-8 rounded border border-line2 text-dim hover:text-red hover:border-red/50 grid place-items-center transition shrink-0" data-id="${t.id}"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+                        <div class="flex flex-col items-end gap-1.5 shrink-0">
+                            <div class="flex items-center gap-1.5 bg-black border border-line rounded p-0.5">
+                                <button class="mat-qty-btn w-6 h-6 rounded bg-surface hover:bg-line2 text-dim flex items-center justify-center transition active:bg-orange" data-id="${m.id}" data-change="-1"><i data-lucide="minus" class="w-3 h-3"></i></button>
+                                <span class="text-xs font-mono font-bold ${qtyColor} w-4 text-center">${m.qty}</span>
+                                <button class="mat-qty-btn w-6 h-6 rounded bg-surface hover:bg-line2 text-dim flex items-center justify-center transition active:bg-orange" data-id="${m.id}" data-change="1"><i data-lucide="plus" class="w-3 h-3"></i></button>
+                            </div>
+                            <button class="delete-mat text-[8px] font-mono text-dim hover:text-red transition uppercase tracking-widest" data-id="${m.id}">Slet</button>
+                        </div>
                     </div>
                 </div>
             `}).join('');
@@ -543,7 +861,6 @@
             const geom = document.getElementById('toolGeometry').value;
             const opSelect = document.getElementById('operation');
             
-            // Hvis det er et bor, centrerbor, tap eller rival, låses vi til bor-operationen
             if (['drill', 'spotdrill', 'tap', 'reamer', 'boringhead'].includes(geom)) {
                 opSelect.value = 'bor';
                 opSelect.disabled = true;
@@ -597,17 +914,15 @@
             const cribTools = JSON.parse(localStorage.getItem('datum_tools')) || [];
             const validCribTools = cribTools.filter(t => t.loc && t.name && t.D);
 
-            // Filtrering: Vis kun Værktøj, der giver mening for maskintypen
             let filteredCribTools = validCribTools;
             if (type === 'mill') {
                 filteredCribTools = validCribTools.filter(t => !t.type.startsWith('turn_'));
             } else if (type === 'turn') {
-                // På en drejebænk bruger vi primært drejeværktøj og bor
                 filteredCribTools = validCribTools.filter(t => t.type.startsWith('turn_') || ['drill', 'spotdrill', 'tap', 'reamer', 'boringhead'].includes(t.type));
             }
 
             if (filteredCribTools.length > 0) { 
-                toolSelect.innerHTML += `<optgroup label="TOOL CRIB (LOKALT VÆRKTØJ)">`;
+                toolSelect.innerHTML += `<optgroup label="TOOL CRIB">`;
                 filteredCribTools.forEach(t => {
                     const t_mat = t.mat || 'hm';
                     const t_type = t.type || 'endmill';
@@ -618,7 +933,7 @@
             }
 
             const availableTools = tools[type];
-            toolSelect.innerHTML += `<optgroup label="STANDARD VÆRKTØJ (MANUEL INPUT)">`;
+            toolSelect.innerHTML += `<optgroup label="MANUEL INPUT">`;
             for (const [toolKey, toolData] of Object.entries(availableTools)) {
                 const params = type === 'mill' ? `data-z="${toolData.z}"` : '';
                 toolSelect.innerHTML += `<option value="${toolKey}" data-iscrib="false" data-type="endmill" data-vcmod="${toolData.vc_mod}" data-fmod="${toolData.f_mod}" ${params}>${toolData.name}</option>`;
@@ -742,7 +1057,7 @@
             warningsDiv.innerHTML = ''; 
 
             if (type === 'mill') {
-                if (geom === 'undercut' || geom === 'slittingsaw') { f_base *= 0.4; warningsDiv.innerHTML += generateWarning('UNDERCUT PENALTY', 'critical'); }
+                if (geom === 'undercut' || geom === 'slittingsaw') { f_base *= 0.4; warningsDiv.innerHTML += generateWarning('UNDERCUT', 'critical'); }
                 if (geom === 'chamfer') { f_base *= 0.7; vc_base *= 0.8; }
                 if (geom === 'threadmill') { f_base *= 0.5; vc_base *= 0.9; }
                 if (op === 'spor') { f_base *= 0.8; }
@@ -786,9 +1101,9 @@
                     fz_comp = f_base * thinningMultiplier;
                     
                     if(!hasHSM && thinningMultiplier > 1.5) {
-                         warningsDiv.innerHTML += generateWarning('MASKINE MANGLER HSM', 'critical');
+                         warningsDiv.innerHTML += generateWarning('INGEN HSM', 'critical');
                     } else if(geom !== 'facemill') {
-                         warningsDiv.innerHTML += generateWarning('THINNING AKTIV', 'normal');
+                         warningsDiv.innerHTML += generateWarning('THINNING', 'normal');
                     }
                 }
 
@@ -800,7 +1115,7 @@
                     
                     const Lc = optTool.dataset.iscrib === "true" && !isNaN(parseFloat(optTool.dataset.lc)) ? parseFloat(optTool.dataset.lc) : D*2;
                     if (ap > Lc) {
-                        warningsDiv.innerHTML += generateWarning('AP OVERSTIGER Lc', 'critical');
+                        warningsDiv.innerHTML += generateWarning('AP > Lc', 'critical');
                     }
                 }
 
@@ -808,7 +1123,7 @@
                     const ld = L / D;
                     document.getElementById('ld-out').textContent = ld.toFixed(2);
                     if (ld >= 4) {
-                        warningsDiv.innerHTML += generateWarning('HØJ L/D RATIO', 'critical');
+                        warningsDiv.innerHTML += generateWarning('L/D RATIO', 'critical');
                         document.getElementById('ld-out').parentElement.classList.replace('text-f2f3f3', 'text-red');
                     } else {
                         document.getElementById('ld-out').parentElement.classList.replace('text-red', 'text-f2f3f3');
@@ -820,9 +1135,118 @@
             }
         }
 
+        function calcSop() {
+            // Gevind / Forboring
+            const thrD = parseFloat(document.getElementById('sop-thr-d')?.value) || 0;
+            const thrP = parseFloat(document.getElementById('sop-thr-p')?.value) || 0;
+            
+            if(thrD > 0 && thrP > 0) {
+                document.getElementById('sop-cut-out').textContent = (thrD - thrP).toFixed(2);
+                document.getElementById('sop-form-out').textContent = (thrD - (thrP / 2)).toFixed(2);
+                document.getElementById('sop-thr-depth').textContent = (thrD * 1.5).toFixed(1);
+            } else {
+                document.getElementById('sop-cut-out').textContent = "0.00";
+                document.getElementById('sop-form-out').textContent = "0.00";
+                document.getElementById('sop-thr-depth').textContent = "0.0";
+            }
+
+            // Teoretisk Overfladeruhed (Ra og Rz i µm) + N-Skala
+            const raRe = parseFloat(document.getElementById('sop-ra-re')?.value) || 0;
+            const raF = parseFloat(document.getElementById('sop-ra-f')?.value) || 0;
+            
+            if(raRe > 0 && raF > 0) {
+                const ra = ((raF * raF) / (32 * raRe)) * 1000;
+                const rz = ((raF * raF) / (8 * raRe)) * 1000;
+                
+                document.getElementById('sop-ra-out').textContent = ra.toFixed(2);
+                document.getElementById('sop-rz-out').textContent = rz.toFixed(2);
+                
+                let nScale = "N/A";
+                if (ra <= 0.025) nScale = "N1";
+                else if (ra <= 0.05) nScale = "N2";
+                else if (ra <= 0.1) nScale = "N3";
+                else if (ra <= 0.2) nScale = "N4";
+                else if (ra <= 0.4) nScale = "N5";
+                else if (ra <= 0.8) nScale = "N6";
+                else if (ra <= 1.6) nScale = "N7";
+                else if (ra <= 3.2) nScale = "N8";
+                else if (ra <= 6.3) nScale = "N9";
+                else if (ra <= 12.5) nScale = "N10";
+                else if (ra <= 25) nScale = "N11";
+                else nScale = "N12";
+                
+                document.getElementById('sop-ra-n').textContent = nScale;
+            } else {
+                document.getElementById('sop-ra-out').textContent = "0.00";
+                document.getElementById('sop-rz-out').textContent = "0.00";
+                document.getElementById('sop-ra-n').textContent = "N/A";
+            }
+            
+            // ISO 286 Pasninger & Sigtetal
+            const isoD = parseFloat(document.getElementById('sop-iso-d')?.value) || 0;
+            const isoClass = document.getElementById('sop-iso-c')?.value.trim();
+            
+            const upperEl = document.getElementById('sop-iso-upper');
+            const lowerEl = document.getElementById('sop-iso-lower');
+            const targetEl = document.getElementById('sop-iso-target');
+            const minEl = document.getElementById('sop-iso-min');
+            const maxEl = document.getElementById('sop-iso-max');
+
+            if (isoD > 0 && isoClass) {
+                let rangeIdx = -1;
+                for (let i = 0; i < iso286Data.ranges.length; i++) {
+                    if (isoD <= iso286Data.ranges[i]) {
+                        rangeIdx = i;
+                        break;
+                    }
+                }
+
+                if (rangeIdx !== -1) {
+                    const limits = iso286Data.classes[isoClass];
+                    if (limits) {
+                        const upperDev = limits[rangeIdx][0] / 1000;
+                        const lowerDev = limits[rangeIdx][1] / 1000;
+                        
+                        const maxDim = isoD + upperDev;
+                        const minDim = isoD + lowerDev;
+                        const targetDim = (maxDim + minDim) / 2;
+
+                        upperEl.textContent = (upperDev > 0 ? '+' : '') + upperDev.toFixed(3);
+                        lowerEl.textContent = (lowerDev > 0 ? '+' : '') + lowerDev.toFixed(3);
+                        
+                        minEl.textContent = minDim.toFixed(3);
+                        maxEl.textContent = maxDim.toFixed(3);
+                        targetEl.textContent = targetDim.toFixed(4);
+
+                        upperEl.className = "text-orange";
+                        lowerEl.className = "text-orange";
+                    } else {
+                        upperEl.textContent = "N/A";
+                        lowerEl.textContent = "N/A";
+                        minEl.textContent = "0.000";
+                        maxEl.textContent = "0.000";
+                        targetEl.textContent = "N/A";
+                    }
+                } else {
+                    targetEl.textContent = ">250";
+                }
+            } else {
+                if(upperEl && lowerEl && targetEl) {
+                    upperEl.textContent = "0.000";
+                    lowerEl.textContent = "0.000";
+                    minEl.textContent = "0.000";
+                    maxEl.textContent = "0.000";
+                    targetEl.textContent = "0.0000";
+                    upperEl.className = "text-dim";
+                    lowerEl.className = "text-dim";
+                }
+            }
+        }
+
+        // Boot-sekvens
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            router.navigate('tools'); 
+            router.navigate('imd'); 
         });
     </script>
 </body>
