@@ -10,7 +10,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
@@ -26,11 +26,14 @@
                     colors: {
                         black: "#050607",
                         graphite: "#0b0d0f",
+                        surface: "#111416",
                         line: "#252a2e",
+                        line2: "#3a4148",
                         text: "#f2f3f3",
                         muted: "#9aa1a7",
                         dim: "#646b71",
                         orange: "#ff6a1a",
+                        amber: "#ff9b54",
                         red: "#ff3333",
                     },
                 },
@@ -38,93 +41,362 @@
         };
     </script>
     <style>
+        :root { color-scheme: dark; }
+        * { box-sizing: border-box; }
         body { background: #050607; color: #f2f3f3; font-family: "DM Sans", sans-serif; -webkit-tap-highlight-color: transparent; }
-        .nav-blur { background: rgba(5, 6, 7, 0.85); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
-        .grain:after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.03; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+        .display { font-family: "Space Grotesk", sans-serif; }
+        .mono { font-family: "IBM Plex Mono", monospace; }
+        .nav-blur { background: rgba(5, 6, 7, 0.72); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+        .grain:after { content: ""; position: fixed; inset: 0; z-index: 80; pointer-events: none; opacity: 0.028; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+        .hero-grid { background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px); background-size: 64px 64px; mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.75) 38%, transparent 96%); z-index: -2;}
+        .orange-glow { background: radial-gradient(circle, rgba(255, 106, 26, 0.15), rgba(255, 106, 26, 0.03) 45%, transparent 72%); z-index: -1; }
+        .chip { font-family: "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; }
+        .input { background: #0b0d0f; border: 1px solid #252a2e; color: #f2f3f3; transition: border-color 0.2s, background 0.2s; }
+        .input:focus { outline: none; border-color: #ff6a1a; background: #0f1214; }
+        .btn { transition: transform 0.2s, background 0.2s, border-color 0.2s; }
         ::-webkit-scrollbar { display: none; }
+        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23646b71' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        optgroup { background: #050607; color: #ff6a1a; font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 11px; text-transform: uppercase; }
+        option { color: #f2f3f3; font-family: "DM Sans", sans-serif; font-size: 14px; }
     </style>
 </head>
 <body class="grain h-screen flex flex-col overflow-hidden">
     
-    <!-- TOP HEADER -->
-    <header class="nav-blur border-b border-line px-5 py-4 flex-shrink-0 flex justify-between items-center z-50">
-        <div>
-            <div id="header-title" class="font-display font-semibold text-sm">IMD / M-CORE</div>
-            <div id="header-sub" class="font-mono text-[10px] text-dim uppercase tracking-widest mt-0.5">Kalkulator</div>
+    <div class="absolute inset-0 hero-grid pointer-events-none fixed"></div>
+    <div class="absolute right-[-20%] top-[-10%] w-[350px] h-[350px] orange-glow blur-2xl pointer-events-none fixed"></div>
+
+    <header class="nav-blur border-b border-line px-5 py-4 flex-shrink-0 flex justify-between items-center z-50 relative">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full border border-line2 grid place-items-center bg-black">
+                <i id="header-icon" data-lucide="cpu" class="w-4 h-4 text-orange"></i>
+            </div>
+            <div>
+                <div id="header-title" class="display font-semibold text-sm">IMD / KERNESYSTEM</div>
+                <div id="header-sub" class="chip text-dim mt-0.5">Industrial Machining Data</div>
+            </div>
         </div>
-        <div class="font-mono text-[10px] text-orange border border-orange/20 bg-orange/10 px-2 py-1 rounded tracking-widest">APP</div>
+        <div class="chip text-orange border border-orange/20 bg-orange/10 px-2 py-1 rounded">APP</div>
     </header>
 
-    <!-- INJEKTIONS-RODEN (Her skiftes alt indhold) -->
-    <main id="app-root" class="flex-grow overflow-y-auto pb-24 pt-4 px-5">
-        <!-- JS overtager -->
+    <main id="app-root" class="flex-grow overflow-y-auto pt-4 relative z-10 w-full">
     </main>
 
-    <!-- BUND-NAVIGATION -->
     <nav class="fixed bottom-0 left-0 right-0 nav-blur border-t border-line pb-safe z-50">
-        <div class="flex justify-around items-center px-2 py-3">
-            <button onclick="router.navigate('imd')" class="nav-btn text-orange flex flex-col items-center gap-1 w-16" data-target="imd">
-                <i data-lucide="cpu" class="w-6 h-6"></i>
-                <span class="font-mono text-[9px] uppercase tracking-wider">IMD</span>
+        <div class="flex justify-around items-center px-2 py-4">
+            <button onclick="router.navigate('imd')" class="nav-btn text-orange flex flex-col items-center gap-1.5 w-16 transition" data-target="imd">
+                <i data-lucide="activity" class="w-5 h-5"></i>
+                <span class="chip !text-[9px]">IMD</span>
             </button>
-            <button onclick="router.navigate('tools')" class="nav-btn text-dim hover:text-f2f3f3 transition flex flex-col items-center gap-1 w-16" data-target="tools">
-                <i data-lucide="wrench" class="w-6 h-6"></i>
-                <span class="font-mono text-[9px] uppercase tracking-wider">Værktøj</span>
+            <button onclick="router.navigate('tools')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="tools">
+                <i data-lucide="wrench" class="w-5 h-5"></i>
+                <span class="chip !text-[9px]">Tools</span>
             </button>
-            <button onclick="router.navigate('materials')" class="nav-btn text-dim hover:text-f2f3f3 transition flex flex-col items-center gap-1 w-16" data-target="materials">
-                <i data-lucide="layers" class="w-6 h-6"></i>
-                <span class="font-mono text-[9px] uppercase tracking-wider">Lager</span>
+            <button onclick="router.navigate('materials')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="materials">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+                <span class="chip !text-[9px]">Lager</span>
             </button>
-            <button onclick="router.navigate('sop')" class="nav-btn text-dim hover:text-f2f3f3 transition flex flex-col items-center gap-1 w-16" data-target="sop">
-                <i data-lucide="book-open" class="w-6 h-6"></i>
-                <span class="font-mono text-[9px] uppercase tracking-wider">SOP</span>
+            <button onclick="router.navigate('sop')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="sop">
+                <i data-lucide="book-open" class="w-5 h-5"></i>
+                <span class="chip !text-[9px]">SOP</span>
             </button>
         </div>
     </nav>
 
-    <!-- ROUTER & LOGIK -->
     <script>
-        // 1. TEMPLATES (De isolerede moduler)
+        const strategyMods = {
+            'skrub': { vc: 0.85, fz: 1.25, ae: 0.40, ap: 1.50 },
+            'normal': { vc: 1.00, fz: 1.00, ae: 0.15, ap: 1.00 },
+            'slet':  { vc: 1.20, fz: 0.60, ae: 0.05, ap: 2.00 }
+        };
+
+        const materialsRaw = {
+            'plast_pmma': { group: 'Plast & Akryl', name: 'Akryl (PMMA)', vc: 150, f: 0.08 },
+            'plast_pa': { group: 'Plast & Akryl', name: 'Nylon (PA)', vc: 200, f: 0.10 },
+            'plast_pom': { group: 'Plast & Akryl', name: 'Delrin / POM', vc: 400, f: 0.15 },
+            'alu_ren': { group: 'Metaller (Bløde)', name: 'Aluminium (Ren/Blød)', vc: 350, f: 0.08 },
+            'alu_7075': { group: 'Metaller (Bløde)', name: 'Aluminium (Legeret 7075)', vc: 450, f: 0.10 },
+            'ms_automat': { group: 'Metaller (Bløde)', name: 'Messing (Automat)', vc: 300, f: 0.08 },
+            'ms_bronze': { group: 'Metaller (Bløde)', name: 'Messing (Sej/Bronze)', vc: 150, f: 0.05 },
+            'st_s235': { group: 'Stål & Jern', name: 'Sortstål (Let / S235)', vc: 160, f: 0.06 },
+            'st_s355': { group: 'Stål & Jern', name: 'Sortstål (Medium / S355)', vc: 120, f: 0.05 },
+            'rf_304': { group: 'Stål & Jern', name: 'Rustfast (304 / 316)', vc: 80, f: 0.04 },
+            'rf_duplex': { group: 'Stål & Jern', name: 'Rustfast (Duplex)', vc: 50, f: 0.03 },
+            'vs_uhardet': { group: 'Stål & Jern', name: 'Værktøjsstål (Uhærdet)', vc: 90, f: 0.04 },
+            'vs_hardet': { group: 'Stål & Jern', name: 'Værktøjsstål (Hærdet <45 HRC)', vc: 45, f: 0.02 }
+        };
+
+        const materialMods = {
+            'hss': { vc: 0.4, f: 0.7 },
+            'hm': { vc: 1.0, f: 1.0 },
+            'hm_tialn': { vc: 1.3, f: 1.1 },
+            'hm_zrn': { vc: 1.5, f: 1.2 },
+            'hm_dia': { vc: 2.0, f: 1.0 },
+            'iso_p': { vc: 1.2, f: 1.2 },
+            'iso_m': { vc: 1.0, f: 1.1 },
+            'iso_k': { vc: 1.1, f: 1.2 },
+            'iso_n': { vc: 2.0, f: 1.5 },
+            'iso_s': { vc: 0.5, f: 0.8 }
+        };
+
+        const tools = {
+            mill: {
+                'hss': { name: 'HSS-Co', vc_mod: materialMods.hss.vc, f_mod: materialMods.hss.f, z: 3 },
+                'hm': { name: 'HM (Ubelagt)', vc_mod: materialMods.hm.vc, f_mod: materialMods.hm.f, z: 4 },
+                'hm_coat': { name: 'HM (Belagt)', vc_mod: materialMods.hm_tialn.vc, f_mod: materialMods.hm_tialn.f, z: 4 },
+                'iso': { name: 'ISO Vendeplatte', vc_mod: materialMods.iso_p.vc, f_mod: materialMods.iso_p.f, z: 5 }
+            },
+            turn: {
+                'hss': { name: 'HSS (Cobalt stål)', vc_mod: materialMods.hss.vc, f_mod: materialMods.hss.f },
+                'iso': { name: 'ISO Platte (HM)', vc_mod: materialMods.hm.vc, f_mod: materialMods.hm.f }
+            }
+        };
+
+        const geomLabels = {
+            'endmill': 'Pindfræser',
+            'bullnose': 'Hjørneradius',
+            'ballnose': 'Kuglefræser',
+            'facemill': 'Planfræser',
+            'chamfer': 'Fasfræser',
+            'undercut': 'T-Not/Svalehale',
+            'threadmill': 'Gevindfræser',
+            'slittingsaw': 'Skivefræser',
+            'drill': 'Bor',
+            'spotdrill': 'Centrerbor',
+            'tap': 'Gevindtap',
+            'reamer': 'Rival',
+            'boringhead': 'Udborehoved',
+            'turn_ext': 'Udvendig Drej',
+            'turn_int': 'Indvendig Drej',
+            'turn_groove': 'Stik / Afstikning',
+            'turn_thread': 'Gevindstål'
+        };
+
+        const matLabels = {
+            'hss': 'HSS-Co',
+            'hm': 'HM Ubelagt',
+            'hm_tialn': 'HM TiAlN',
+            'hm_zrn': 'HM ZrN',
+            'hm_dia': 'HM CVD',
+            'iso_p': 'ISO P (Stål)',
+            'iso_m': 'ISO M (Rustfast)',
+            'iso_k': 'ISO K (Støbejern)',
+            'iso_n': 'ISO N (Alu)',
+            'iso_s': 'ISO S (Titanium)'
+        };
+
+        const HTML_GEOM_OPTIONS = `
+            <optgroup label="FRÆSNING">
+                <option value="endmill">Pindfræser (Endmill)</option>
+                <option value="bullnose">Hjørneradius (Bullnose)</option>
+                <option value="ballnose">Kuglefræser (Ballnose)</option>
+                <option value="facemill">Planfræser (Facemill)</option>
+                <option value="chamfer">Fasfræser (Chamfer)</option>
+                <option value="undercut">T-Not / Svalehale</option>
+                <option value="threadmill">Gevindfræser</option>
+                <option value="slittingsaw">Skivefræser</option>
+            </optgroup>
+            <optgroup label="HULBEARBEJDNING">
+                <option value="drill">Bor (Twist Drill)</option>
+                <option value="spotdrill">Centrerbor (Spot)</option>
+                <option value="tap">Gevindtap (Tap)</option>
+                <option value="reamer">Rival (Reamer)</option>
+                <option value="boringhead">Udborehoved</option>
+            </optgroup>
+            <optgroup label="DREJNING">
+                <option value="turn_ext">Udvendig Drejestål</option>
+                <option value="turn_int">Indvendig Udborestål</option>
+                <option value="turn_groove">Stikstål / Afstikning</option>
+                <option value="turn_thread">Gevindstål</option>
+            </optgroup>
+        `;
+
         const views = {
             imd: {
-                title: 'IMD / M-CORE',
+                title: 'IMD / KERNESYSTEM',
                 sub: 'Kalkulator & Telemetri',
-                html: `<div class="text-center text-dim mt-10 font-mono text-xs">Her indsættes IMD-motoren og HTML'en.</div>`
+                icon: 'activity',
+                html: `
+                    <div class="px-5 max-w-lg mx-auto space-y-4 pb-[220px]">
+                        <div class="border border-line bg-black rounded-xl p-4">
+                            <div class="chip text-dim mb-4 border-b border-line pb-2 flex justify-between">
+                                <span>01 / HARDWARE & MATERIALE</span>
+                            </div>
+                            <div class="space-y-3">
+                                <select id="machine" class="input w-full rounded-lg px-4 py-3 text-sm font-medium" onchange="updateUI()">
+                                    <option value="haas-mill-hsm" data-type="mill" data-rpm="10000">Haas Mini Mill + HSM (10k RPM)</option>
+                                    <option value="haas-mill" data-type="mill" data-rpm="10000">Haas Mini Mill (10k RPM)</option>
+                                    <option value="haas-lathe" data-type="turn" data-rpm="4000">Haas ST-10 (4k RPM)</option>
+                                    <option value="deckel" data-type="mill" data-rpm="2000">Deckel FP1 (2k RPM)</option>
+                                    <option value="weiler" data-type="turn" data-rpm="3000">Weiler Matador (3k RPM)</option>
+                                </select>
+                                <select id="mat" class="input w-full rounded-lg px-4 py-3 text-sm font-medium" onchange="updateUI()"></select>
+                            </div>
+                        </div>
+
+                        <div class="border border-line bg-black rounded-xl p-4">
+                            <div class="chip text-dim mb-4 border-b border-line pb-2 flex justify-between">
+                                <span>02 / PROCES & STRATEGI</span>
+                                <button id="reset-btn" onclick="resetDirty()" class="hidden text-orange hover:text-white transition">GENDAN AUTO-LOGIK</button>
+                            </div>
+                            
+                            <div class="space-y-3 mb-4">
+                                <select id="toolData" class="input w-full rounded-lg px-4 py-3 text-sm font-medium" onchange="handleCribSelection()"></select>
+
+                                <select id="toolGeometry" class="input w-full rounded-lg px-4 py-3 text-sm font-medium text-orange border-orange/30 focus:border-orange" onchange="handleGeometryChange()">
+                                    ${HTML_GEOM_OPTIONS}
+                                </select>
+
+                                <div class="grid grid-cols-2 gap-3" id="strategy-grid">
+                                    <select id="operation" class="input w-full rounded-lg px-3 py-3 text-sm font-medium" onchange="handleOperationChange()">
+                                        <option value="profil">Side / Profil</option>
+                                        <option value="spor">Sporfræsning</option>
+                                        <option value="bor">Boring (Z-akse)</option>
+                                    </select>
+                                    <select id="strategy" class="input w-full rounded-lg px-3 py-3 text-sm font-medium" onchange="hardUpdateUI()">
+                                        <option value="normal">Normal</option>
+                                        <option value="skrub">Skrub (High MRR)</option>
+                                        <option value="slet">Slet (Finish)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 mb-3">
+                                <label class="block relative">
+                                    <span id="label-D" class="text-xs font-semibold text-muted block mb-1">Værktøj Ø (D)</span>
+                                    <input id="D" type="number" inputmode="decimal" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" placeholder="10" oninput="softUpdate()" />
+                                </label>
+                                <label id="container-Z" class="block relative">
+                                    <span class="text-xs font-semibold text-muted block mb-1 flex justify-between">Antal skær (Z) <span class="auto-tag text-[8px] text-orange">AUTO</span></span>
+                                    <input id="Z" type="number" inputmode="numeric" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" oninput="markDirty(this); calc()" />
+                                </label>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 mb-3">
+                                <label id="container-ae" class="block relative">
+                                    <span class="text-xs font-semibold text-muted block mb-1 flex justify-between">Radial (ae) <span class="auto-tag text-[8px] text-orange">AUTO</span></span>
+                                    <input id="ae" type="number" inputmode="decimal" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" oninput="markDirty(this); calc()" />
+                                </label>
+                                <label id="container-ap" class="block relative">
+                                    <span class="text-xs font-semibold text-muted block mb-1 flex justify-between">Aksial (ap) <span class="auto-tag text-[8px] text-orange">AUTO</span></span>
+                                    <input id="ap" type="number" inputmode="decimal" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" oninput="markDirty(this); calc()" />
+                                </label>
+                            </div>
+
+                            <div id="container-L" class="block relative">
+                                <label class="block">
+                                    <span class="text-xs font-semibold text-muted block mb-1 flex justify-between">Frit udhæng (L) <span class="auto-tag text-[8px] text-orange pr-2">AUTO</span></span>
+                                    <input id="L" type="number" inputmode="decimal" class="input w-full rounded-lg px-3 py-3 text-lg font-semibold" oninput="markDirty(this); calc()" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fixed bottom-[74px] left-0 right-0 nav-blur border-t border-line px-5 py-4 z-40 shadow-[0_-20px_40px_rgba(0,0,0,0.6)]">
+                        <div class="max-w-lg mx-auto">
+                            <div class="flex items-center justify-between mb-4 border-b border-line pb-3">
+                                <div class="chip text-dim">TELEMETRI / OUTPUT</div>
+                                <div id="warnings" class="flex gap-2"></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-y-5 gap-x-4">
+                                <div>
+                                    <div class="text-[10px] text-muted font-semibold uppercase tracking-wider mb-1">Spindelhastighed</div>
+                                    <div class="display text-3xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="rpm-out">0</span> <span class="text-sm font-normal text-dim">RPM</span></div>
+                                </div>
+                                <div class="pl-4 border-l border-line">
+                                    <div id="feed-label" class="text-[10px] text-orange font-semibold uppercase tracking-wider mb-1">Tilspænding (Vf)</div>
+                                    <div class="display text-3xl font-bold text-orange leading-none tracking-tight"><span id="vf-out">0</span> <span id="feed-unit" class="text-sm font-normal text-orange/60">mm/min</span></div>
+                                </div>
+                                <div id="mrr-block">
+                                    <div class="text-[10px] text-muted font-semibold uppercase tracking-wider mb-1">Fjernet materiale (MRR)</div>
+                                    <div class="display text-2xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="mrr-out">0.0</span> <span class="text-xs font-normal text-dim">cm³/min</span></div>
+                                </div>
+                                <div id="ld-block" class="pl-4 border-l border-line">
+                                    <div class="text-[10px] text-muted font-semibold uppercase tracking-wider mb-1">Udbøjningsrisiko (L/D)</div>
+                                    <div class="display text-2xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="ld-out">0.00</span> <span class="text-xs font-normal text-dim">X</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
             },
             tools: {
                 title: 'TOOL CRIB',
                 sub: 'Lokal Værktøjsdatabase',
+                icon: 'wrench',
                 html: `
-                    <div class="border border-line bg-graphite rounded-xl p-4 mb-4">
-                        <div class="font-mono text-[10px] text-dim mb-3 border-b border-line pb-2">TILFØJ NYT VÆRKTØJ</div>
-                        <input id="tool-name" type="text" placeholder="F.eks. T12: Ø10 HM Endmill" class="w-full bg-black border border-line text-f2f3f3 rounded-lg px-4 py-3 text-sm mb-3 focus:outline-none focus:border-orange" />
-                        <button id="btn-save-tool" class="w-full bg-line hover:bg-orange hover:text-black transition text-f2f3f3 font-semibold rounded-lg py-3 text-sm">Gem i Databasen</button>
+                    <div class="px-5 max-w-lg mx-auto pb-24">
+                        <div class="border border-line bg-black rounded-2xl p-5 mb-6 relative overflow-hidden">
+                            <div class="chip text-dim mb-4 border-b border-line pb-2">TILFØJ NYT VÆRKTØJ</div>
+                            
+                            <div class="grid grid-cols-[80px_1fr] gap-3 mb-3">
+                                <label class="block"><span class="chip text-dim block mb-2">LOK.</span><input id="tool-loc" type="text" placeholder="T12" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold uppercase" /></label>
+                                <label class="block"><span class="chip text-dim block mb-2">NAVN / BESKRIVELSE</span><input id="tool-name" type="text" placeholder="Ø10 HM Rougher" class="input w-full rounded-xl px-3 py-3 text-sm font-medium" /></label>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3 mb-3">
+                                <label class="block">
+                                    <span class="chip text-dim block mb-2">GEOMETRI</span>
+                                    <select id="tool-type" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold">
+                                        ${HTML_GEOM_OPTIONS}
+                                    </select>
+                                </label>
+                                <label class="block">
+                                    <span class="chip text-dim block mb-2">MATERIALE / BELÆGNING</span>
+                                    <select id="tool-mat" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold">
+                                        <optgroup label="SOLIDT VÆRKTØJ">
+                                            <option value="hm_tialn">HM (TiAlN - Stål)</option>
+                                            <option value="hm_zrn">HM (ZrN - Alu/Plast)</option>
+                                            <option value="hm">HM (Ubelagt)</option>
+                                            <option value="hm_dia">HM (CVD Diamant)</option>
+                                            <option value="hss">HSS / HSS-Co</option>
+                                        </optgroup>
+                                        <optgroup label="VENDEPLATTER (ISO)">
+                                            <option value="iso_p">ISO P (Stål)</option>
+                                            <option value="iso_m">ISO M (Rustfast)</option>
+                                            <option value="iso_k">ISO K (Støbejern)</option>
+                                            <option value="iso_n">ISO N (Alu/Plast)</option>
+                                            <option value="iso_s">ISO S (Titanium/HRSA)</option>
+                                        </optgroup>
+                                    </select>
+                                </label>
+                            </div>
+
+                            <div class="grid grid-cols-4 gap-3 mb-4">
+                                <label class="block"><span class="chip text-dim block mb-2">Ø (D)</span><input id="tool-D" type="number" inputmode="decimal" placeholder="10" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold text-center" /></label>
+                                <label class="block"><span class="chip text-dim block mb-2">SKÆR(Z)</span><input id="tool-Z" type="number" inputmode="numeric" placeholder="4" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold text-center" /></label>
+                                <label class="block"><span class="chip text-dim block mb-2">UDH(L)</span><input id="tool-L" type="number" inputmode="decimal" placeholder="30" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold text-center" /></label>
+                                <label class="block"><span class="chip text-dim block mb-2">SKR(Lc)</span><input id="tool-Lc" type="number" inputmode="decimal" placeholder="22" class="input w-full rounded-xl px-3 py-3 text-sm font-semibold text-center" /></label>
+                            </div>
+                            <button id="btn-save-tool" class="btn w-full border border-orange bg-orange/10 text-orange font-semibold rounded-xl py-3 text-sm hover:bg-orange hover:text-black">Tilføj til database</button>
+                        </div>
+                        <div class="chip text-dim mb-3 pl-1">AKTIVE VÆRKTØJER</div>
+                        <div id="tool-list" class="space-y-3"></div>
                     </div>
-                    <div id="tool-list" class="space-y-2"></div>
                 `
             },
             materials: {
                 title: 'MATERIAL VAULT',
                 sub: 'Råvarelager',
-                html: `<div class="text-center text-dim mt-10 font-mono text-xs">Materiale-infrastruktur skrives her.</div>`
+                icon: 'layers',
+                html: `<div class="px-5 max-w-lg mx-auto"><div class="border border-line bg-black rounded-2xl p-6 text-center text-dim chip">UNDER UDVIKLING</div></div>`
             },
             sop: {
                 title: 'OPSLAGSVÆRK',
                 sub: 'Tolerancer & Standarder',
-                html: `<div class="text-center text-dim mt-10 font-mono text-xs">ISO 286 Database skrives her.</div>`
+                icon: 'book-open',
+                html: `<div class="px-5 max-w-lg mx-auto"><div class="border border-line bg-black rounded-2xl p-6 text-center text-dim chip">UNDER UDVIKLING</div></div>`
             }
         };
 
-        // 2. ROUTER MOTOREN
         const router = {
             navigate: function(viewKey) {
                 const view = views[viewKey];
                 if (!view) return;
-
                 document.getElementById('header-title').textContent = view.title;
                 document.getElementById('header-sub').textContent = view.sub;
+                document.getElementById('header-icon').setAttribute('data-lucide', view.icon);
                 document.getElementById('app-root').innerHTML = view.html;
-
                 document.querySelectorAll('.nav-btn').forEach(btn => {
                     if (btn.dataset.target === viewKey) {
                         btn.classList.replace('text-dim', 'text-orange');
@@ -134,66 +406,423 @@
                         btn.classList.add('hover:text-f2f3f3');
                     }
                 });
-
                 lucide.createIcons();
-
-                // Trigger modul-specifik logik
                 if (viewKey === 'tools') renderToolList();
+                if (viewKey === 'imd') initMaterials();
             }
         };
 
-        // 3. EVENT DELEGATION (Kernen i SPA-styringen)
         document.getElementById('app-root').addEventListener('click', function(e) {
-            
-            // Gem Værktøj (localStorage Persistens)
             if (e.target.closest('#btn-save-tool')) {
+                const loc = document.getElementById('tool-loc').value.toUpperCase();
                 const name = document.getElementById('tool-name').value;
-                if (!name) return;
+                const type = document.getElementById('tool-type').value;
+                const mat = document.getElementById('tool-mat').value;
+                const D = parseFloat(document.getElementById('tool-D').value);
+                const Z = parseInt(document.getElementById('tool-Z').value) || 1; // Tillad 1 skær for f.eks. udborehoveder
+                const L = parseFloat(document.getElementById('tool-L').value);
+                const Lc = parseFloat(document.getElementById('tool-Lc').value);
                 
-                let tools = JSON.parse(localStorage.getItem('datum_tools')) || [];
-                tools.push({ id: Date.now(), name: name });
-                localStorage.setItem('datum_tools', JSON.stringify(tools));
+                if (!loc || !name || !D || !L || !Lc) {
+                    alert("Udfyld alle fysiske parametre for at gemme.");
+                    return;
+                }
                 
-                document.getElementById('tool-name').value = '';
+                let toolsList = JSON.parse(localStorage.getItem('datum_tools')) || [];
+                toolsList = toolsList.filter(t => t.loc && t.name && t.D); // Oprydning
+
+                toolsList.push({ id: Date.now(), loc: loc, name: name, type: type, mat: mat, D: D, Z: Z, L: L, Lc: Lc, wear: 'new' });
+                
+                toolsList.sort((a, b) => {
+                    const strA = a.loc || "";
+                    const strB = b.loc || "";
+                    return (parseInt(strA.replace(/\D/g, '')) || 0) - (parseInt(strB.replace(/\D/g, '')) || 0);
+                });
+
+                localStorage.setItem('datum_tools', JSON.stringify(toolsList));
+                
+                ['tool-loc', 'tool-name', 'tool-D', 'tool-Z', 'tool-L', 'tool-Lc'].forEach(id => {
+                    if(document.getElementById(id)) document.getElementById(id).value = '';
+                });
                 renderToolList();
             }
 
-            // Slet Værktøj
             if (e.target.closest('.delete-tool')) {
                 const id = parseInt(e.target.closest('.delete-tool').dataset.id);
-                let tools = JSON.parse(localStorage.getItem('datum_tools')) || [];
-                tools = tools.filter(t => t.id !== id);
-                localStorage.setItem('datum_tools', JSON.stringify(tools));
+                let toolsList = JSON.parse(localStorage.getItem('datum_tools')) || [];
+                toolsList = toolsList.filter(t => t.id !== id);
+                localStorage.setItem('datum_tools', JSON.stringify(toolsList));
                 renderToolList();
             }
         });
 
-        // 4. DATABASE KALD
         function renderToolList() {
             const list = document.getElementById('tool-list');
             if(!list) return;
             
-            const tools = JSON.parse(localStorage.getItem('datum_tools')) || [];
-            if(tools.length === 0) {
-                list.innerHTML = '<div class="text-dim text-xs font-mono text-center py-4">Ingen værktøjer registreret lokalt.</div>';
-                return;
+            let toolsList = JSON.parse(localStorage.getItem('datum_tools')) || [];
+            const validTools = toolsList.filter(t => t.loc && t.name && t.D);
+            if(validTools.length !== toolsList.length) {
+                toolsList = validTools;
+                localStorage.setItem('datum_tools', JSON.stringify(toolsList));
             }
 
-            list.innerHTML = tools.map(t => `
-                <div class="flex justify-between items-center bg-black border border-line rounded-lg px-4 py-3">
-                    <span class="text-sm font-semibold">${t.name}</span>
-                    <button class="delete-tool text-dim hover:text-red transition p-2" data-id="${t.id}">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>
+            if(toolsList.length === 0) {
+                list.innerHTML = `<div class="border border-dashed border-line2 rounded-2xl p-6 text-center"><div class="chip text-dim">Crib er tom. Tilføj værktøj ovenfor.</div></div>`;
+                return;
+            }
+            list.innerHTML = toolsList.map(t => {
+                const typeLabel = geomLabels[t.type || 'endmill'] || 'Ukendt';
+                const matLabel = matLabels[t.mat || 'hm'] || 'HM';
+                const displayLc = t.Lc ? `<span class="chip text-dim flex items-center gap-1"><i data-lucide="align-justify" class="w-2 h-2"></i> Lc${t.Lc}</span>` : '';
+                
+                return `
+                <div class="border border-line bg-graphite rounded-xl p-4 flex gap-4 items-center justify-between group transition hover:border-line2">
+                    <div class="flex items-center gap-4 w-full">
+                        <div class="w-12 h-12 rounded-lg bg-black border border-line flex flex-col items-center justify-center shrink-0">
+                            <span class="display text-lg font-semibold text-orange leading-none">${t.loc}</span>
+                        </div>
+                        <div class="flex-grow">
+                            <div class="text-sm font-semibold text-f2f3f3">${t.name}</div>
+                            <div class="text-[10px] font-mono text-muted uppercase mt-0.5">${matLabel} | ${typeLabel}</div>
+                            <div class="flex gap-2.5 mt-2 flex-wrap">
+                                <span class="chip text-dim flex items-center gap-1"><i data-lucide="circle" class="w-2 h-2"></i> ${t.D}mm</span>
+                                <span class="chip text-dim flex items-center gap-1"><i data-lucide="scissors" class="w-2 h-2"></i> ${t.Z} FL</span>
+                                <span class="chip text-dim flex items-center gap-1"><i data-lucide="ruler" class="w-2 h-2"></i> L${t.L}</span>
+                                ${displayLc}
+                            </div>
+                        </div>
+                        <button class="delete-tool w-8 h-8 rounded border border-line2 text-dim hover:text-red hover:border-red/50 grid place-items-center transition shrink-0" data-id="${t.id}"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+                    </div>
                 </div>
-            `).join('');
+            `}).join('');
             lucide.createIcons();
         }
 
-        // Initier Appen
+        function initMaterials() {
+            const matSelect = document.getElementById('mat');
+            if(!matSelect) return;
+            matSelect.innerHTML = '';
+            let currentGroup = '';
+            let html = '';
+            for (const [key, data] of Object.entries(materialsRaw)) {
+                if (data.group !== currentGroup) {
+                    if (currentGroup !== '') html += `</optgroup>`;
+                    html += `<optgroup label="${data.group}">`;
+                    currentGroup = data.group;
+                }
+                html += `<option value="${key}">${data.name}</option>`;
+            }
+            html += `</optgroup>`;
+            matSelect.innerHTML = html;
+            updateUI();
+        }
+
+        function markDirty(el) {
+            el.dataset.dirty = "true";
+            const label = el.parentElement.querySelector('.auto-tag');
+            if (label) label.classList.add('hidden');
+            document.getElementById('reset-btn').classList.remove('hidden');
+        }
+
+        function resetDirty() {
+            const fields = ['D', 'Z', 'ae', 'ap', 'L'];
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.dataset.dirty = "false";
+                    const label = el.parentElement.querySelector('.auto-tag');
+                    if (label) label.classList.remove('hidden');
+                }
+            });
+            document.getElementById('reset-btn').classList.add('hidden');
+            calc(true); 
+        }
+
+        function handleGeometryChange() {
+            const geom = document.getElementById('toolGeometry').value;
+            const opSelect = document.getElementById('operation');
+            
+            // Hvis det er et bor, centrerbor, tap eller rival, låses vi til bor-operationen
+            if (['drill', 'spotdrill', 'tap', 'reamer', 'boringhead'].includes(geom)) {
+                opSelect.value = 'bor';
+                opSelect.disabled = true;
+            } else {
+                opSelect.disabled = false;
+                if (opSelect.value === 'bor') opSelect.value = 'profil';
+            }
+            handleOperationChange();
+            hardUpdateUI();
+        }
+
+        function handleOperationChange() {
+            const type = document.getElementById('machine').options[document.getElementById('machine').selectedIndex].dataset.type;
+            if (type === 'turn') return;
+
+            const op = document.getElementById('operation').value;
+            const aeInput = document.getElementById('ae');
+            const apInput = document.getElementById('ap');
+            const mrrBlock = document.getElementById('mrr-block');
+            const stratGrid = document.getElementById('strategy-grid');
+            
+            aeInput.readOnly = false;
+            aeInput.classList.remove('text-dim', 'border-line2');
+            apInput.parentElement.classList.remove('hidden');
+            mrrBlock.classList.remove('hidden');
+            stratGrid.classList.remove('hidden');
+
+            if (op === 'spor') {
+                resetDirty();
+                aeInput.readOnly = true;
+                aeInput.classList.add('text-dim', 'border-line2');
+                calc(true);
+            } else if (op === 'bor') {
+                aeInput.parentElement.classList.add('hidden');
+                apInput.parentElement.classList.add('hidden');
+                mrrBlock.classList.add('hidden');
+                document.getElementById('strategy').value = 'normal';
+                calc(true);
+            } else {
+                aeInput.parentElement.classList.remove('hidden');
+                calc(true);
+            }
+        }
+
+        function updateUI() {
+            const selectMachine = document.getElementById('machine');
+            const type = selectMachine.options[selectMachine.selectedIndex].dataset.type;
+            const toolSelect = document.getElementById('toolData');
+            toolSelect.innerHTML = '';
+            
+            const cribTools = JSON.parse(localStorage.getItem('datum_tools')) || [];
+            const validCribTools = cribTools.filter(t => t.loc && t.name && t.D);
+
+            // Filtrering: Vis kun Værktøj, der giver mening for maskintypen
+            let filteredCribTools = validCribTools;
+            if (type === 'mill') {
+                filteredCribTools = validCribTools.filter(t => !t.type.startsWith('turn_'));
+            } else if (type === 'turn') {
+                // På en drejebænk bruger vi primært drejeværktøj og bor
+                filteredCribTools = validCribTools.filter(t => t.type.startsWith('turn_') || ['drill', 'spotdrill', 'tap', 'reamer', 'boringhead'].includes(t.type));
+            }
+
+            if (filteredCribTools.length > 0) { 
+                toolSelect.innerHTML += `<optgroup label="TOOL CRIB (LOKALT VÆRKTØJ)">`;
+                filteredCribTools.forEach(t => {
+                    const t_mat = t.mat || 'hm';
+                    const t_type = t.type || 'endmill';
+                    const mods = materialMods[t_mat] || materialMods['hm'];
+                    toolSelect.innerHTML += `<option value="crib_${t.id}" data-iscrib="true" data-type="${t_type}" data-vcmod="${mods.vc}" data-fmod="${mods.f}" data-d="${t.D}" data-z="${t.Z}" data-l="${t.L}" data-lc="${t.Lc || t.D*2}">${t.loc} - ${t.name}</option>`;
+                });
+                toolSelect.innerHTML += `</optgroup>`;
+            }
+
+            const availableTools = tools[type];
+            toolSelect.innerHTML += `<optgroup label="STANDARD VÆRKTØJ (MANUEL INPUT)">`;
+            for (const [toolKey, toolData] of Object.entries(availableTools)) {
+                const params = type === 'mill' ? `data-z="${toolData.z}"` : '';
+                toolSelect.innerHTML += `<option value="${toolKey}" data-iscrib="false" data-type="endmill" data-vcmod="${toolData.vc_mod}" data-fmod="${toolData.f_mod}" ${params}>${toolData.name}</option>`;
+            }
+            toolSelect.innerHTML += `</optgroup>`;
+
+            toggleMachineType(type);
+            handleCribSelection();
+        }
+
+        function handleCribSelection() {
+            const toolSelect = document.getElementById('toolData');
+            if(!toolSelect.options.length) return;
+            const optTool = toolSelect.options[toolSelect.selectedIndex];
+            const geomSelect = document.getElementById('toolGeometry');
+
+            if (optTool && optTool.dataset.iscrib === "true" && optTool.dataset.type) {
+                geomSelect.value = optTool.dataset.type;
+                geomSelect.disabled = true; 
+                geomSelect.classList.add('text-dim', 'border-line2');
+                geomSelect.classList.remove('text-orange', 'border-orange/30');
+            } else {
+                geomSelect.disabled = false;
+                geomSelect.classList.remove('text-dim', 'border-line2');
+                geomSelect.classList.add('text-orange', 'border-orange/30');
+            }
+            handleGeometryChange();
+        }
+
+        function hardUpdateUI() { resetDirty(); }
+        function softUpdate() { calc(true); }
+
+        function toggleMachineType(type) {
+            const elements = {
+                labelD: document.getElementById('label-D'),
+                contZ: document.getElementById('container-Z'),
+                contAe: document.getElementById('container-ae'),
+                contAp: document.getElementById('container-ap'),
+                contL: document.getElementById('container-L'),
+                mrrBlock: document.getElementById('mrr-block'),
+                ldBlock: document.getElementById('ld-block'),
+                feedLabel: document.getElementById('feed-label'),
+                feedUnit: document.getElementById('feed-unit'),
+                opSelect: document.getElementById('operation'),
+                geomSelect: document.getElementById('toolGeometry')
+            };
+
+            if (type === 'turn') {
+                elements.labelD.textContent = "Emne Ø (D)";
+                ['contZ', 'contAe', 'contAp', 'contL', 'mrrBlock', 'ldBlock'].forEach(k => elements[k].classList.add('hidden'));
+                elements.opSelect.innerHTML = `<option value="udv">Udvendig Drejning</option><option value="indv">Indvendig udboring</option>`;
+                elements.feedLabel.textContent = "Tilspænding (f)";
+                elements.feedUnit.textContent = "mm/omdr";
+                elements.geomSelect.parentElement.classList.add('hidden');
+            } else {
+                elements.labelD.textContent = "Værktøj Ø (D)";
+                ['contZ', 'contAe', 'contAp', 'contL', 'mrrBlock', 'ldBlock'].forEach(k => elements[k].classList.remove('hidden'));
+                elements.opSelect.innerHTML = `<option value="profil">Side / Profil</option><option value="spor">Sporfræsning</option><option value="bor">Boring (Z-akse)</option>`;
+                elements.feedLabel.textContent = "Bordtilspænding (Vf)";
+                elements.feedUnit.textContent = "mm/min";
+                elements.geomSelect.parentElement.classList.remove('hidden');
+            }
+        }
+
+        function applySmartDefaults(D, optTool, strat, op, geom) {
+            let ae_val = D * strat.ae;
+            let ap_val = D * strat.ap;
+
+            if (geom === 'facemill') { ae_val = D * 0.70; ap_val = Math.min(D * 0.1, 3.0); }
+            if (geom === 'undercut' || geom === 'slittingsaw') { ae_val = D; ap_val = D * 0.2; }
+            if (op === 'spor') { ae_val = D; }
+
+            const isCrib = optTool.dataset.iscrib === "true";
+            
+            const fields = {
+                'D': { val: isCrib ? parseFloat(optTool.dataset.d) : null, force: isCrib },
+                'Z': { val: isCrib ? parseFloat(optTool.dataset.z) : (parseFloat(optTool.dataset.z) || 2), force: isCrib },
+                'L': { val: isCrib ? parseFloat(optTool.dataset.l) : (D * 3.0), force: isCrib },
+                'ae': { val: ae_val, force: false },
+                'ap': { val: isCrib && !isNaN(parseFloat(optTool.dataset.lc)) ? Math.min(ap_val, parseFloat(optTool.dataset.lc)) : ap_val, force: false }
+            };
+
+            for (const [id, data] of Object.entries(fields)) {
+                const el = document.getElementById(id);
+                if (el && (el.dataset.dirty !== "true" || data.force) && data.val) {
+                    el.value = (id === 'Z' || id === 'D' || id === 'L') && data.force ? data.val : data.val.toFixed(2);
+                    if(data.force) el.dataset.dirty = "false"; 
+                }
+            }
+        }
+
+        function generateWarning(text, type) {
+            const color = type === 'critical' ? 'bg-red' : 'bg-orange';
+            const textColor = type === 'critical' ? 'text-red' : 'text-orange';
+            return `<div class="flex items-center gap-1.5 border border-${color}/20 bg-${color}/10 px-2 py-0.5 rounded"><span class="w-1.5 h-1.5 ${color} rounded-full"></span><span class="chip ${textColor} !text-[8px] !m-0">${text}</span></div>`;
+        }
+
+        function calc(applyDefaults = false) {
+            const selectMachine = document.getElementById('machine');
+            if(!selectMachine) return;
+            const type = selectMachine.options[selectMachine.selectedIndex].dataset.type;
+            const maxRpm = parseFloat(selectMachine.options[selectMachine.selectedIndex].dataset.rpm);
+            const hasHSM = selectMachine.value.includes('hsm');
+
+            const matKey = document.getElementById('mat').value;
+            const matData = materialsRaw[matKey];
+
+            const toolSelect = document.getElementById('toolData');
+            if (!toolSelect.options.length) return;
+            const optTool = toolSelect.options[toolSelect.selectedIndex];
+            
+            const geom = type === 'mill' ? document.getElementById('toolGeometry').value : 'none';
+            const stratKey = document.getElementById('strategy').value;
+            const strat = strategyMods[stratKey];
+            const op = document.getElementById('operation').value;
+
+            let vc_base = matData.vc * parseFloat(optTool.dataset.vcmod) * strat.vc;
+            let f_base = matData.f * parseFloat(optTool.dataset.fmod) * strat.fz;
+
+            const warningsDiv = document.getElementById('warnings');
+            warningsDiv.innerHTML = ''; 
+
+            if (type === 'mill') {
+                if (geom === 'undercut' || geom === 'slittingsaw') { f_base *= 0.4; warningsDiv.innerHTML += generateWarning('UNDERCUT PENALTY', 'critical'); }
+                if (geom === 'chamfer') { f_base *= 0.7; vc_base *= 0.8; }
+                if (geom === 'threadmill') { f_base *= 0.5; vc_base *= 0.9; }
+                if (op === 'spor') { f_base *= 0.8; }
+            }
+
+            let inputD = document.getElementById('D').value;
+            if(!inputD && optTool.dataset.iscrib === "true") {
+                document.getElementById('D').value = optTool.dataset.d;
+                inputD = optTool.dataset.d;
+            }
+            
+            const D = parseFloat(inputD) || 0;
+            if (D <= 0) {
+                document.getElementById('rpm-out').textContent = "0";
+                document.getElementById('vf-out').textContent = "0";
+                return;
+            }
+
+            if (type === 'mill' && applyDefaults) applySmartDefaults(D, optTool, strat, op, geom);
+
+            let rpm = (vc_base * 1000) / (Math.PI * D);
+            if (rpm > maxRpm) {
+                rpm = maxRpm;
+                warningsDiv.innerHTML += generateWarning('SPINDEL MAX', 'critical');
+                document.getElementById('rpm-out').parentElement.classList.replace('text-f2f3f3', 'text-red');
+            } else {
+                document.getElementById('rpm-out').parentElement.classList.replace('text-red', 'text-f2f3f3');
+            }
+            document.getElementById('rpm-out').textContent = Math.round(rpm).toLocaleString('da-DK');
+
+            if (type === 'mill') {
+                const Z = parseFloat(document.getElementById('Z').value) || 0;
+                const ae = (op === 'spor' || geom === 'undercut' || geom === 'slittingsaw') ? D : (parseFloat(document.getElementById('ae').value) || 0);
+                const ap = parseFloat(document.getElementById('ap').value) || 0;
+                const L = parseFloat(document.getElementById('L').value) || 0;
+                
+                let fz_comp = f_base;
+                
+                if (op === 'profil' && !['undercut', 'slittingsaw', 'drill', 'spotdrill', 'tap', 'reamer', 'boringhead'].includes(geom) && ae > 0 && ae < (D / 2)) {
+                    const thinningMultiplier = Math.min(Math.sqrt(D / ae), 3.0); 
+                    fz_comp = f_base * thinningMultiplier;
+                    
+                    if(!hasHSM && thinningMultiplier > 1.5) {
+                         warningsDiv.innerHTML += generateWarning('MASKINE MANGLER HSM', 'critical');
+                    } else if(geom !== 'facemill') {
+                         warningsDiv.innerHTML += generateWarning('THINNING AKTIV', 'normal');
+                    }
+                }
+
+                const vf = op === 'bor' ? (rpm * f_base) : (rpm * Z * fz_comp);
+                document.getElementById('vf-out').textContent = Math.round(vf).toLocaleString('da-DK');
+                
+                if (op !== 'bor' && ae > 0 && ap > 0) {
+                    document.getElementById('mrr-out').textContent = ((ap * ae * vf) / 1000).toFixed(1);
+                    
+                    const Lc = optTool.dataset.iscrib === "true" && !isNaN(parseFloat(optTool.dataset.lc)) ? parseFloat(optTool.dataset.lc) : D*2;
+                    if (ap > Lc) {
+                        warningsDiv.innerHTML += generateWarning('AP OVERSTIGER Lc', 'critical');
+                    }
+                }
+
+                if (op !== 'bor' && L > 0) {
+                    const ld = L / D;
+                    document.getElementById('ld-out').textContent = ld.toFixed(2);
+                    if (ld >= 4) {
+                        warningsDiv.innerHTML += generateWarning('HØJ L/D RATIO', 'critical');
+                        document.getElementById('ld-out').parentElement.classList.replace('text-f2f3f3', 'text-red');
+                    } else {
+                        document.getElementById('ld-out').parentElement.classList.replace('text-red', 'text-f2f3f3');
+                    }
+                }
+            } 
+            else if (type === 'turn') {
+                document.getElementById('vf-out').textContent = f_base.toFixed(2);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            router.navigate('imd');
+            router.navigate('tools'); 
         });
     </script>
 </body>
