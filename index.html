@@ -4,24 +4,24 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#050607" />
-        <title>Datum Prototyping — Engineering, R&D & Prototyper</title>
+        <title>Datum Prototyping — Finmekaniker med fokus på CNC-bearbejdning</title>
         <meta
             name="description"
-            content="Datum Prototyping — CAD, konstruktion, belastningsanalyse, 3D-print, manuel og CNC-bearbejdning. Fra første idé til fysisk prototype."
+            content="Datum Prototyping — snart udlært finmekaniker med fokus på CNC-bearbejdning, CAD, konstruktion og prototyper. Fra idé til fysisk del."
         />
 
         <!-- Open Graph / Social Media Meta Tags -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://datumprototyping.dk/">
-        <meta property="og:title" content="Datum Prototyping — Engineering, R&D & Prototyper">
-        <meta property="og:description" content="CAD, konstruktion, belastningsanalyse, 3D-print, manuel og CNC-bearbejdning. Fra første idé til fysisk prototype.">
+        <meta property="og:title" content="Datum Prototyping — Finmekaniker med fokus på CNC-bearbejdning">
+        <meta property="og:description" content="Snart udlært finmekaniker med fokus på CNC-bearbejdning, CAD, konstruktion og prototyper. Fra idé til fysisk del.">
         <meta property="og:image" content="https://datumprototyping.dk/img/og-image.jpg">
 
         <!-- Twitter / X -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:url" content="https://datumprototyping.dk/">
-        <meta name="twitter:title" content="Datum Prototyping — Engineering, R&D & Prototyper">
-        <meta name="twitter:description" content="CAD, konstruktion, belastningsanalyse, 3D-print, manuel og CNC-bearbejdning. Fra første idé til fysisk prototype.">
+        <meta name="twitter:title" content="Datum Prototyping — Finmekaniker med fokus på CNC-bearbejdning">
+        <meta name="twitter:description" content="Snart udlært finmekaniker med fokus på CNC-bearbejdning, CAD, konstruktion og prototyper. Fra idé til fysisk del.">
         <meta name="twitter:image" content="https://datumprototyping.dk/img/og-image.jpg">
 
 
@@ -36,7 +36,7 @@
             rel="stylesheet"
         />
         <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="https://unpkg.com/lucide@latest" defer></script>
         <script>
             tailwind.config = {
                 theme: {
@@ -313,6 +313,179 @@
                     font-size: 58px;
                 }
             }
+
+            /* DATUM PROTOTYPING — OPTIMIZED LAYER */
+            :root {
+                --orange: #ff6a1a;
+                --bg: #050607;
+                --panel: #0c0f11;
+                --panel-2: #111416;
+                --stroke: #20252a;
+                --stroke-strong: #30363b;
+                --copy: #f2f3f3;
+                --muted-copy: #9299a0;
+                --max-width: 1440px;
+            }
+
+            body {
+                font-size: 15px;
+                line-height: 1.55;
+            }
+
+            .grain:after {
+                opacity: 0.012;
+            }
+
+            header {
+                border-color: rgba(255,255,255,0.075) !important;
+            }
+
+            .nav-blur {
+                background: rgba(5, 6, 7, 0.88);
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+            }
+
+            .hero-grid {
+                opacity: 0.72;
+                background-size: 72px 72px;
+            }
+
+            .orange-glow {
+                opacity: 0.58;
+            }
+
+            .card,
+            .input,
+            .btn {
+                transition:
+                    transform 180ms ease,
+                    border-color 180ms ease,
+                    background-color 180ms ease,
+                    box-shadow 180ms ease,
+                    color 180ms ease;
+            }
+
+            .card:hover {
+                transform: translateY(-3px);
+                border-color: var(--stroke-strong);
+                background: #0d1012;
+                box-shadow: 0 18px 42px rgba(0,0,0,.22);
+            }
+
+            .hero-positioning {
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                flex-wrap: wrap;
+                font-family: "IBM Plex Mono", monospace;
+                font-size: 11px;
+                letter-spacing: .08em;
+                text-transform: uppercase;
+                color: #a9b0b6;
+            }
+
+            .hero-positioning span:not(.hero-positioning-dot) {
+                color: #5d646a;
+            }
+
+            .hero-positioning-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 999px;
+                background: var(--orange);
+                box-shadow: 0 0 0 4px rgba(255,106,26,.08);
+            }
+
+            section {
+                scroll-margin-top: 92px;
+            }
+
+            .project-card .project-image {
+                border-bottom: 1px solid rgba(255,255,255,.045);
+            }
+
+            .project-card:hover .project-image img {
+                transform: scale(1.018);
+            }
+
+            .input::placeholder {
+                color: #5f666c;
+            }
+
+            .input:focus {
+                box-shadow: 0 0 0 3px rgba(255,106,26,.08);
+            }
+
+            #mobileMenu a:focus-visible,
+            nav a:focus-visible,
+            button:focus-visible,
+            input:focus-visible,
+            select:focus-visible,
+            textarea:focus-visible,
+            .open-project:focus-visible {
+                outline: 2px solid var(--orange);
+                outline-offset: 3px;
+            }
+
+            @media (max-width: 767px) {
+                body {
+                    font-size: 14px;
+                }
+
+                header .h-\[78px\] {
+                    height: 68px;
+                }
+
+                main.pt-\[78px\] {
+                    padding-top: 68px;
+                }
+
+                .hero-positioning {
+                    font-size: 9px;
+                    line-height: 1.5;
+                    letter-spacing: .07em;
+                }
+
+                .hero-positioning-dot {
+                    flex: 0 0 auto;
+                }
+
+                .hero-grid {
+                    background-size: 36px 36px;
+                    opacity: .5;
+                }
+
+                .project-card .project-image img {
+                    padding: 18px;
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                html {
+                    scroll-behavior: auto;
+                }
+
+                *,
+                *::before,
+                *::after {
+                    animation-duration: 0.01ms !important;
+                    animation-iteration-count: 1 !important;
+                    transition-duration: 0.01ms !important;
+                }
+            }
+
+            @media (hover: none) {
+                .card:hover {
+                    transform: none;
+                    box-shadow: none;
+                }
+
+                .project-card:hover .project-image img {
+                    transform: none;
+                }
+            }
+
         </style>
     </head>
 
@@ -340,7 +513,7 @@
                         ></a>
                     </div>
                 </nav>
-                <button
+                <button type="button"
                     id="menuBtn"
                     class="md:hidden w-11 h-11 rounded-full border border-line2 grid place-items-center"
                     aria-label="Menu"
@@ -377,16 +550,20 @@
                 >
                     <div class="reveal">
                         <div class="mono text-[10px] uppercase tracking-[.2em] text-muted mb-7 flex items-center gap-3">
-                            <span class="w-10 h-px bg-orange"></span> Independent engineering & prototyping
+                            <span class="w-10 h-px bg-orange"></span> Finmekaniker · CNC-bearbejdning · prototyper
                         </div>
                         <h1
                             class="display text-[clamp(4rem,9vw,9rem)] leading-[.82] tracking-[-.065em] font-semibold max-w-6xl"
                         >
                             Design.<br /><span class="text-orange">Test.</span><br />Build.
                         </h1>
+                        <div class="hero-positioning mt-7">
+                            <span class="hero-positioning-dot"></span>
+                            Snart udlært finmekaniker <span>·</span> specialisering i CNC-bearbejdning
+                        </div>
                         <p class="mt-9 max-w-2xl text-base md:text-lg text-muted leading-relaxed">
-                            Teknisk udvikling fra første idé til fysisk emne. CAD, konstruktion, belastningsanalyse,
-                            3D-print og machining — samlet ét sted.
+                            Snart udlært finmekaniker med fokus på CNC-bearbejdning. Jeg arbejder med CAD, konstruktion,
+                            manuel og CNC-bearbejdning samt prototyper — fra første idé til fysisk emne.
                         </p>
                         <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-3">
                             <a
@@ -765,11 +942,11 @@
                         <div class="reveal">
                             <div class="number">05 / TECHNICAL BASE</div>
                             <h2 class="display mt-5 text-4xl md:text-6xl font-semibold leading-[.95]">
-                                Digitalt hoved.<br /><span class="text-orange">Fysisk hænder.</span>
+                                Digitalt hoved.<br /><span class="text-orange">CNC-fokus.</span>
                             </h2>
                             <p class="mt-7 text-muted max-w-xl leading-relaxed">
-                                Finmekanikeruddannelsen har givet det vigtigste ekstra lag: forståelsen for hvad der
-                                sker, når CAD-filen forlader skærmen og møder værktøjet.
+                                Jeg er snart udlært finmekaniker og har valgt at specialisere mig inden for CNC-bearbejdning. Det betyder,
+                                at jeg kan følge en del hele vejen fra CAD og CAM til opstilling, bearbejdning og kontrol.
                             </p>
                         </div>
                         <div class="grid sm:grid-cols-2 gap-4 reveal">
@@ -785,11 +962,11 @@
                                 <div class="display text-2xl mt-4 mb-3">Haas Automation</div>
                                 <div class="mt-auto pt-4 border-t border-line space-y-3">
                                     <div>
-                                        <div class="text-xs font-semibold text-f2f3f3">2× Mini Mill (3-Akset Fræs)</div>
+                                        <div class="text-xs font-semibold text-text">2× Mini Mill (3-Akset Fræs)</div>
                                         <div class="mono text-[10px] text-muted mt-1">Vandring: X406 · Y305 · Z254 mm</div>
                                     </div>
                                     <div>
-                                        <div class="text-xs font-semibold text-f2f3f3">1× ST-10 (Drejebænk)</div>
+                                        <div class="text-xs font-semibold text-text">1× ST-10 (Drejebænk)</div>
                                         <div class="mono text-[10px] text-muted mt-1">Kapacitet: Max Ø356 · L356 mm</div>
                                     </div>
                                 </div>
@@ -799,11 +976,11 @@
                                 <div class="display text-2xl mt-4 mb-3">Deckel & Weiler</div>
                                 <div class="mt-auto pt-4 border-t border-line space-y-3">
                                     <div>
-                                        <div class="text-xs font-semibold text-f2f3f3">Weiler Matador (Drejebænk)</div>
+                                        <div class="text-xs font-semibold text-text">Weiler Matador (Drejebænk)</div>
                                         <div class="mono text-[10px] text-muted mt-1">Kapacitet: Sving Ø280 · L500 mm</div>
                                     </div>
                                     <div>
-                                        <div class="text-xs font-semibold text-f2f3f3">Deckel FP1 (Værktøjsfræser)</div>
+                                        <div class="text-xs font-semibold text-text">Deckel FP1 (Værktøjsfræser)</div>
                                         <div class="mono text-[10px] text-muted mt-1">Vandring: X300 · Y150 · Z340 mm</div>
                                     </div>
                                 </div>
@@ -843,7 +1020,7 @@
                             <div class="chip text-dim">PRINCIPLE</div>
                             <div class="display text-2xl mt-3">Make it real.</div>
                             <p class="text-sm text-muted mt-2 leading-relaxed">
-                                Hellere en testbar prototype end 50 siders teori.
+                                Hellere en testbar prototype og en færdig del end 50 siders teori.
                             </p>
                         </div>
                     </div>
@@ -892,7 +1069,7 @@
                         </div>
                         <label class="block mt-5"
                             ><span class="chip text-dim block mb-2">OMRÅDE</span
-                            ><select id="service" class="input w-full rounded-xl px-4 py-3.5 text-sm">
+                            ><select id="service" name="service" class="input w-full rounded-xl px-4 py-3.5 text-sm">
                                 <option>CAD / konstruktion</option>
                                 <option>Belastningsanalyse</option>
                                 <option>3D-print / prototype</option>
@@ -938,7 +1115,7 @@
                         <img src="img/logo-horizontal.svg" alt="Datum Prototyping" class="h-12 w-auto opacity-50 hover:opacity-100 transition-opacity">
                     </a>
                     <div class="mono text-[9px] text-dim uppercase tracking-[.17em] leading-relaxed">
-                        Engineering / R&D / Prototyping<br>
+                        Finmekaniker / CNC / R&D / Prototyping<br>
                         © 2026 / Building in public
                     </div>
                 </div>
@@ -947,7 +1124,7 @@
                 <div class="md:col-span-3">
                     <div class="chip text-dim mb-4">Lokation & Data</div>
                     <ul class="text-sm text-muted space-y-3">
-                        <li class="text-f2f3f3">København, Danmark</li>
+                        <li class="text-text">København, Danmark</li>
                         
                         <li><a href="mailto:defnotglen@gmail.com" class="hover:text-orange transition">defnotglen@gmail.com</a></li>
                     </ul>
@@ -1023,7 +1200,8 @@
         </div>
 
         <script>
-            lucide.createIcons();
+            document.addEventListener("DOMContentLoaded", () => {
+                lucide.createIcons();
             const mb = document.getElementById("menuBtn"),
                 mm = document.getElementById("mobileMenu");
             mb.addEventListener("click", () => {
@@ -1182,6 +1360,7 @@
                 } catch (err) {
                     document.getElementById("formNote").textContent = "Fejl: Kunne ikke kopiere teksten.";
                 }
+            });
             });
         </script>
     </body>
