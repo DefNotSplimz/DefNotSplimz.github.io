@@ -1,1487 +1,1476 @@
 <!doctype html>
 <html lang="da">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#050607" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Shop Floor — Datum Prototyping</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        display: ["Space Grotesk", "sans-serif"],
-                        body: ["DM Sans", "sans-serif"],
-                        mono: ["IBM Plex Mono", "monospace"],
-                    },
-                    colors: {
-                        black: "#050607",
-                        graphite: "#0b0d0f",
-                        surface: "#111416",
-                        line: "#252a2e",
-                        line2: "#3a4148",
-                        text: "#f2f3f3",
-                        muted: "#9aa1a7",
-                        dim: "#646b71",
-                        orange: "#ff6a1a",
-                        amber: "#ff9b54",
-                        red: "#ff3333",
-                        emerald: { 500: "#10b981" }
-                    },
-                },
-            },
-        };
-    </script>
-    <style>
-        :root { color-scheme: dark; }
-        * { box-sizing: border-box; }
-        body { background: #050607; color: #f2f3f3; font-family: "DM Sans", sans-serif; -webkit-tap-highlight-color: transparent; }
-        .display { font-family: "Space Grotesk", sans-serif; }
-        .mono { font-family: "IBM Plex Mono", monospace; }
-        .nav-blur { background: rgba(5, 6, 7, 0.72); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
-        .grain:after { content: ""; position: fixed; inset: 0; z-index: 80; pointer-events: none; opacity: 0.028; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-        .hero-grid { background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px); background-size: 64px 64px; mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.75) 38%, transparent 96%); z-index: -2;}
-        .orange-glow { background: radial-gradient(circle, rgba(255, 106, 26, 0.15), rgba(255, 106, 26, 0.03) 45%, transparent 72%); z-index: -1; }
-        .chip { font-family: "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: 0.12em; font-size: 10px; }
-        .input { background: #0b0d0f; border: 1px solid #252a2e; color: #f2f3f3; transition: border-color 0.2s, background 0.2s; }
-        .input:focus { outline: none; border-color: #ff6a1a; background: #0f1214; }
-        .btn { transition: transform 0.2s, background 0.2s, border-color 0.2s; }
-        ::-webkit-scrollbar { display: none; }
-        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23646b71' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        optgroup { background: #050607; color: #ff6a1a; font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 11px; text-transform: uppercase; }
-        option { color: #f2f3f3; font-family: "DM Sans", sans-serif; font-size: 14px; }
-    </style>
-</head>
-<body class="grain h-screen flex flex-col overflow-hidden">
-    
-    <div class="absolute inset-0 hero-grid pointer-events-none fixed"></div>
-    <div class="absolute right-[-20%] top-[-10%] w-[350px] h-[350px] orange-glow blur-2xl pointer-events-none fixed"></div>
-
-    <header class="nav-blur border-b border-line px-4 py-3 flex-shrink-0 flex justify-between items-center z-50 relative">
-        <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full border border-line2 grid place-items-center bg-black">
-                <i id="header-icon" data-lucide="cpu" class="w-4 h-4 text-orange"></i>
-            </div>
-            <div>
-                <div id="header-title" class="display font-semibold text-sm">IMD / KERNESYSTEM</div>
-                <div id="header-sub" class="chip text-dim mt-0.5">Industrial Machining Data</div>
-            </div>
-        </div>
-        <div class="chip text-orange border border-orange/20 bg-orange/10 px-2 py-1 rounded">APP</div>
-    </header>
-
-    <main id="app-root" class="flex-grow overflow-y-auto relative z-10 w-full">
-    </main>
-
-    <nav class="fixed bottom-0 left-0 right-0 nav-blur border-t border-line pb-safe z-50">
-        <div class="flex justify-around items-center px-2 py-3">
-            <button onclick="router.navigate('imd')" class="nav-btn text-orange flex flex-col items-center gap-1.5 w-16 transition" data-target="imd">
-                <i data-lucide="activity" class="w-5 h-5"></i>
-                <span class="chip !text-[9px]">IMD</span>
-            </button>
-            <button onclick="router.navigate('tools')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="tools">
-                <i data-lucide="wrench" class="w-5 h-5"></i>
-                <span class="chip !text-[9px]">Tools</span>
-            </button>
-            <button onclick="router.navigate('sop')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="sop">
-                <i data-lucide="book-open" class="w-5 h-5"></i>
-                <span class="chip !text-[9px]">SOP & MATH</span>
-            </button>
-            <button onclick="router.navigate('qc')" class="nav-btn text-dim hover:text-f2f3f3 flex flex-col items-center gap-1.5 w-16 transition" data-target="qc">
-                <i data-lucide="ruler" class="w-5 h-5"></i>
-                <span class="chip !text-[9px]">QC</span>
-            </button>
-        </div>
-    </nav>
-
-    <script>
-        // --- GLOBALE DATABASER ---
-        const strategyMods = {
-            'skrub': { vc: 0.85, fz: 1.25, ae: 0.40, ap: 1.50 },
-            'normal': { vc: 1.00, fz: 1.00, ae: 0.15, ap: 1.00 },
-            'slet':  { vc: 1.20, fz: 0.60, ae: 0.05, ap: 2.00 }
-        };
-
-        const materialsRaw = {
-            'plast_pmma': { group: 'Plast & Akryl', name: 'Akryl (PMMA)', vc: 150, f: 0.08 },
-            'plast_pa': { group: 'Plast & Akryl', name: 'Nylon (PA)', vc: 200, f: 0.10 },
-            'plast_pom': { group: 'Plast & Akryl', name: 'Delrin / POM', vc: 400, f: 0.15 },
-            'alu_ren': { group: 'Metaller (Bløde)', name: 'Aluminium (Ren/Blød)', vc: 350, f: 0.08 },
-            'alu_7075': { group: 'Metaller (Bløde)', name: 'Aluminium (Legeret 7075)', vc: 450, f: 0.10 },
-            'ms_automat': { group: 'Metaller (Bløde)', name: 'Messing (Automat)', vc: 300, f: 0.08 },
-            'ms_bronze': { group: 'Metaller (Bløde)', name: 'Messing (Sej/Bronze)', vc: 150, f: 0.05 },
-            'st_s235': { group: 'Stål & Jern', name: 'Sortstål (Let / S235)', vc: 160, f: 0.06 },
-            'st_s355': { group: 'Stål & Jern', name: 'Sortstål (Medium / S355)', vc: 120, f: 0.05 },
-            'rf_304': { group: 'Stål & Jern', name: 'Rustfast (304 / 316)', vc: 80, f: 0.04 },
-            'rf_duplex': { group: 'Stål & Jern', name: 'Rustfast (Duplex)', vc: 50, f: 0.03 },
-            'vs_uhardet': { group: 'Stål & Jern', name: 'Værktøjsstål (Uhærdet)', vc: 90, f: 0.04 },
-            'vs_hardet': { group: 'Stål & Jern', name: 'Værktøjsstål (Hærdet <45 HRC)', vc: 45, f: 0.02 }
-        };
-
-        const materialMods = {
-            'hss': { vc: 0.4, f: 0.7 },
-            'hm': { vc: 1.0, f: 1.0 },
-            'hm_tialn': { vc: 1.3, f: 1.1 },
-            'hm_zrn': { vc: 1.5, f: 1.2 },
-            'hm_dia': { vc: 2.0, f: 1.0 },
-            'iso_p': { vc: 1.2, f: 1.2 },
-            'iso_m': { vc: 1.0, f: 1.1 },
-            'iso_k': { vc: 1.1, f: 1.2 },
-            'iso_n': { vc: 2.0, f: 1.5 },
-            'iso_s': { vc: 0.5, f: 0.8 }
-        };
-
-        const tools = {
-            mill: {
-                'hss': { name: 'HSS-Co', vc_mod: materialMods.hss.vc, f_mod: materialMods.hss.f, z: 3 },
-                'hm': { name: 'HM (Ubelagt)', vc_mod: materialMods.hm.vc, f_mod: materialMods.hm.f, z: 4 },
-                'hm_coat': { name: 'HM (Belagt)', vc_mod: materialMods.hm_tialn.vc, f_mod: materialMods.hm_tialn.f, z: 4 },
-                'iso': { name: 'ISO Vendeplatte', vc_mod: materialMods.iso_p.vc, f_mod: materialMods.iso_p.f, z: 5 }
-            },
-            turn: {
-                'hss': { name: 'HSS (Cobalt stål)', vc_mod: materialMods.hss.vc, f_mod: materialMods.hss.f },
-                'iso': { name: 'ISO Platte (HM)', vc_mod: materialMods.hm.vc, f_mod: materialMods.hm.f }
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="theme-color" content="#070808" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="robots" content="noindex, nofollow" />
+        <title>Datum Shop Floor OS</title>
+        <style>
+            :root {
+                color-scheme: dark;
+                --bg: #070808;
+                --panel: #101212;
+                --panel2: #151818;
+                --line: #272b2b;
+                --text: #f5f6f6;
+                --muted: #858b8b;
+                --dim: #5d6363;
+                --accent: #ff5a00;
+                --good: #00e676;
+                --bad: #ff1744;
+                --vh: 100dvh;
             }
-        };
-
-        const iso286Data = {
-            ranges: [3, 6, 10, 18, 30, 50, 80, 120, 180, 250],
-            classes: {
-                'H6': [[6,0], [8,0], [9,0], [11,0], [13,0], [16,0], [19,0], [22,0], [25,0], [29,0]],
-                'H7': [[10,0], [12,0], [15,0], [18,0], [21,0], [25,0], [30,0], [35,0], [40,0], [46,0]],
-                'H8': [[14,0], [18,0], [22,0], [27,0], [33,0], [39,0], [46,0], [54,0], [63,0], [72,0]],
-                'f7': [[-6,-16], [-10,-22], [-13,-28], [-16,-34], [-20,-41], [-25,-50], [-30,-60], [-36,-71], [-43,-83], [-50,-96]],
-                'g6': [[-2,-8], [-4,-12], [-5,-14], [-6,-17], [-7,-20], [-9,-25], [-10,-29], [-12,-34], [-14,-39], [-15,-44]],
-                'h6': [[0,-6], [0,-8], [0,-9], [0,-11], [0,-13], [0,-16], [0,-19], [0,-22], [0,-25], [0,-29]],
-                'h7': [[0,-10], [0,-12], [0,-15], [0,-18], [0,-21], [0,-25], [0,-30], [0,-35], [0,-40], [0,-46]],
-                'j6': [[4,-2], [6,-2], [7,-2], [8,-3], [9,-4], [11,-5], [12,-7], [13,-9], [14,-11], [16,-13]],
-                'k6': [[6,0], [9,1], [10,1], [12,1], [15,2], [18,2], [21,2], [25,3], [28,3], [33,4]],
-                'p6': [[12,6], [20,12], [24,15], [29,18], [35,22], [42,26], [51,32], [59,37], [68,43], [79,50]]
+            * {
+                box-sizing: border-box;
+                -webkit-tap-highlight-color: transparent;
             }
-        };
+            html,
+            body {
+                margin: 0;
+                height: 100%;
+                background: var(--bg);
+                color: var(--text);
+                /* Gennemgående industriel monospace font for præcision */
+                font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+            }
+            body {
+                overflow: hidden;
+            }
+            button,
+            input,
+            select {
+                font: inherit;
+                outline: 0;
+                border: 0;
+            }
+            button {
+                cursor: pointer;
+                color: inherit;
+            }
+            input,
+            select {
+                background: transparent;
+                color: var(--text);
+                width: 100%;
+                min-width: 0;
+                font-family: inherit !important;
+            }
+            input::placeholder {
+                color: #555c5c;
+            }
+            select {
+                appearance: none;
+                background-image: linear-gradient(45deg, transparent 50%, #6f7676 50%),
+                    linear-gradient(135deg, #6f7676 50%, transparent 50%);
+                background-position:
+                    calc(100% - 14px) 50%,
+                    calc(100% - 9px) 50%;
+                background-size:
+                    5px 5px,
+                    5px 5px;
+                background-repeat: no-repeat;
+                padding-right: 24px;
+            }
+            option,
+            optgroup {
+                background: #101212;
+                color: #fff;
+                font-family: inherit !important;
+            }
+            ::-webkit-scrollbar {
+                display: none;
+            }
+            .app {
+                height: var(--vh);
+                display: flex;
+                flex-direction: column;
+            }
+            .top {
+                height: 56px;
+                flex: none;
+                border-bottom: 1px solid var(--line);
+                display: grid;
+                grid-template-columns: 1fr auto 1fr;
+                align-items: center;
+                padding: 0 16px;
+                background: var(--bg);
+                z-index: 20;
+            }
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+                font-weight: 700;
+                font-size: 12px;
+                letter-spacing: 0.14em;
+            }
+            .mark {
+                width: 24px;
+                height: 24px;
+                border: 1px solid var(--line);
+                border-radius: 4px;
+                display: grid;
+                place-items: center;
+                color: var(--muted);
+                font-weight: 800;
+            }
+            .context {
+                justify-self: center;
+                font-weight: 700;
+                font-size: 11px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--muted);
+            }
+            .top-right {
+                justify-self: end;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .status-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--dim);
+            }
+            main {
+                flex: 1;
+                min-height: 0;
+                overflow: auto;
+            }
+            .screen {
+                width: 100%;
+                max-width: 1120px;
+                margin: 0 auto;
+                padding: 16px 16px calc(90px + env(safe-area-inset-bottom));
+            }
+            .screen-tight {
+                max-width: 900px;
+            }
+            .section-title {
+                font-weight: 700;
+                font-size: 10px;
+                letter-spacing: 0.14em;
+                color: var(--dim);
+                text-transform: uppercase;
+                padding: 4px 2px 10px;
+            }
+            
+            /* Quick Nav / Machine Select */
+            .quick {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0;
+                margin-bottom: 16px;
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                overflow: hidden;
+                background: var(--line);
+            }
+            .quick button {
+                min-height: 64px;
+                border: 0;
+                border-radius: 0;
+                background: var(--panel);
+                text-align: left;
+                padding: 12px 16px;
+                border-right: 1px solid var(--line);
+            }
+            .quick button:last-child {
+                border-right: 0;
+            }
+            .quick button:active,
+            .nav button:active,
+            .soft-btn:active,
+            .tool:active {
+                transform: scale(0.985);
+            }
+            .quick .q-k {
+                font-weight: 800;
+                font-size: 9px;
+                letter-spacing: 0.1em;
+                color: var(--dim);
+                margin-bottom: 6px;
+            }
+            .quick .q-v {
+                font-size: 13px;
+                font-weight: 800;
+            }
+            .quick .q-s {
+                font-size: 10px;
+                color: var(--dim);
+                margin-top: 4px;
+            }
 
-        const geomLabels = {
-            'endmill': 'Pindfræser',
-            'bullnose': 'Hjørneradius',
-            'ballnose': 'Kuglefræser',
-            'facemill': 'Planfræser',
-            'chamfer': 'Fasfræser',
-            'undercut': 'T-Not/Svalehale',
-            'threadmill': 'Gevindfræser',
-            'slittingsaw': 'Skivefræser',
-            'drill': 'Bor',
-            'spotdrill': 'Centrerbor',
-            'tap': 'Gevindtap',
-            'reamer': 'Rival',
-            'boringhead': 'Udborehoved',
-            'turn_ext': 'Udvendig Drej',
-            'turn_int': 'Indvendig Drej',
-            'turn_groove': 'Stik / Afstikning',
-            'turn_thread': 'Gevindstål'
-        };
+            /* Unified Grid (Inputs Left, Outputs Right) */
+            .calc-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            /* Inputs Panel */
+            .panel {
+                overflow: hidden;
+                background: var(--panel);
+                border: 1px solid var(--line);
+                border-radius: 8px;
+            }
+            .rows > .row {
+                min-height: 56px;
+                padding: 12px 20px;
+                border-bottom: 1px solid var(--line);
+                display: grid;
+                grid-template-columns: 45% 55%;
+                align-items: center;
+            }
+            .rows > .row:last-child {
+                border-bottom: 0;
+            }
+            .rows .row.highlight {
+                background: var(--panel2);
+            }
+            .rows .row.hidden {
+                display: none;
+            }
+            .rows .left {
+                font-weight: 700;
+                font-size: 10px;
+                letter-spacing: 0.1em;
+                color: var(--dim);
+                text-transform: uppercase;
+            }
+            .rows .right {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+            .rows .right input,
+            .rows .right select {
+                font-size: 16px;
+                font-weight: 800;
+                text-align: right;
+            }
+            .tag {
+                font-weight: 800;
+                font-size: 9px;
+                color: var(--accent);
+                margin-left: 8px;
+            }
+            
+            /* Output Panel */
+            .output {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1px;
+                background: var(--line);
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .out {
+                background: var(--panel);
+                padding: 16px 20px;
+            }
+            .out-main {
+                grid-column: 1/-1;
+                background: #0a0b0b;
+                padding: 24px 20px;
+            }
+            .out-label {
+                font-weight: 800;
+                font-size: 10px;
+                letter-spacing: 0.1em;
+                color: var(--muted);
+                text-transform: uppercase;
+                margin-bottom: 12px;
+            }
+            .out-num {
+                font-weight: 800;
+                font-size: 40px;
+                letter-spacing: -0.04em;
+                line-height: 1;
+            }
+            .out-num span {
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--muted);
+                letter-spacing: 0;
+            }
+            .out-small {
+                font-weight: 800;
+                font-size: 20px;
+                line-height: 1;
+            }
+            
+            /* Warnings & Actions */
+            .warn {
+                grid-column: 1/-1;
+                padding: 12px 20px;
+                background: var(--panel2);
+                color: var(--accent);
+                font-weight: 800;
+                font-size: 10px;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+            }
+            .warn.bad {
+                color: var(--bad);
+            }
+            .warn.good {
+                color: var(--good);
+            }
+            
+            /* Navigation */
+            .nav {
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+                background: rgba(8, 9, 9, 0.98);
+                border-top: 1px solid var(--line);
+                display: grid;
+                grid-template-columns: repeat(5, minmax(74px, 1fr));
+                gap: 4px;
+                z-index: 30;
+                overflow-x: auto;
+            }
+            .nav button {
+                min-height: 52px;
+                border-radius: 8px;
+                background: transparent;
+                color: var(--dim);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                font-weight: 700;
+                font-size: 9px;
+                letter-spacing: 0.08em;
+            }
+            .nav button.active {
+                background: transparent;
+                color: var(--text);
+            }
+            .nav button.active .ico {
+                color: var(--accent);
+            }
+            .ico {
+                font-size: 18px;
+                line-height: 1;
+            }
+            
+            /* Sub Tabs */
+            .tabs {
+                display: flex;
+                gap: 0;
+                overflow: auto;
+                padding-bottom: 0;
+                border-bottom: 1px solid var(--line);
+                margin-bottom: 16px;
+            }
+            .tabs button {
+                white-space: nowrap;
+                min-height: 40px;
+                padding: 0 16px;
+                border: 0;
+                border-radius: 0;
+                background: transparent;
+                color: var(--dim);
+                font-weight: 800;
+                font-size: 10px;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+            }
+            .tabs button.active {
+                color: var(--text);
+                border-bottom: 2px solid var(--accent);
+            }
 
-        const matLabels = {
-            'hss': 'HSS-Co',
-            'hm': 'HM Ubelagt',
-            'hm_tialn': 'HM TiAlN',
-            'hm_zrn': 'HM ZrN',
-            'hm_dia': 'HM CVD',
-            'iso_p': 'ISO P (Stål)',
-            'iso_m': 'ISO M (Rustfast)',
-            'iso_k': 'ISO K (Støb)',
-            'iso_n': 'ISO N (Alu)',
-            'iso_s': 'ISO S (Titanium)'
-        };
+            /* Tool Crib overrides */
+            .tools-head { display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-bottom: 12px; }
+            .soft-btn {
+                min-height: 48px; background: var(--panel); padding: 0 16px;
+                font-weight: 800; font-size: 10px; letter-spacing: 0.1em; color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+            }
+            .tool {
+                grid-template-columns: 54px 1fr auto; padding: 12px; margin-bottom: 8px; display: grid; gap: 12px; align-items: center;
+            }
+            .tool-loc { font-weight: 800; font-size: 16px; color: var(--muted); text-align: center; }
+            .tool-name { font-weight: 800; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .tool-meta { font-weight: 700; font-size: 10px; color: var(--dim); margin-top: 6px; }
+            .tool-del { width: 40px; height: 40px; background: transparent; color: var(--dim); display: grid; place-items: center; border-radius: 8px; border: 1px solid var(--line); }
+            
+            .coord-row { display: grid; grid-template-columns: 40px 1fr 1fr; gap: 12px; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--line); font-weight: 800; font-size: 14px; }
+            .coord-row:last-child { border: 0; }
+            .coord-row .h { color: var(--accent); }
 
-        const HTML_GEOM_OPTIONS = `
-            <optgroup label="FRÆSNING">
-                <option value="endmill">Pindfræser</option>
-                <option value="bullnose">Hjørneradius</option>
-                <option value="ballnose">Kuglefræser</option>
-                <option value="facemill">Planfræser</option>
-                <option value="chamfer">Fasfræser</option>
-                <option value="undercut">T-Not/Svalehale</option>
-                <option value="threadmill">Gevindfræser</option>
-                <option value="slittingsaw">Skivefræser</option>
-            </optgroup>
-            <optgroup label="HULBEARBEJDNING">
-                <option value="drill">Bor (Drill)</option>
-                <option value="spotdrill">Centrerbor</option>
-                <option value="tap">Gevindtap</option>
-                <option value="reamer">Rival</option>
-                <option value="boringhead">Udborehoved</option>
-            </optgroup>
-            <optgroup label="DREJNING">
-                <option value="turn_ext">Udvendig Drej</option>
-                <option value="turn_int">Indvendig Drej</option>
-                <option value="turn_groove">Stikstål</option>
-                <option value="turn_thread">Gevindstål</option>
-            </optgroup>
-        `;
+            @media (min-width: 760px) {
+                .top { height: 60px; }
+                .screen { padding-left: 24px; padding-right: 24px; padding-top: 20px; }
+                .quick { grid-template-columns: repeat(4, 1fr); margin-bottom: 24px; }
+                .quick button { min-height: 72px; }
+                .calc-grid { grid-template-columns: 1.1fr 0.9fr; gap: 20px; align-items: start;}
+                .nav {
+                    bottom: 12px; grid-template-columns: repeat(5, 1fr); left: 50%; right: auto;
+                    transform: translateX(-50%); width: min(600px, calc(100% - 24px));
+                    border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+                }
+            }
+            @media (min-width: 1100px) { .screen-wide { max-width: 1180px; } }
+            .hidden { display: none !important; }
+        </style>
+    </head>
+    <body>
+        <div class="app">
+            <header class="top">
+                <div class="brand"><span class="mark">D</span>DATUM</div>
+                <div id="context" class="context">SHOP FLOOR OS</div>
+                <div class="top-right"><span id="statusDot" class="status-dot"></span></div>
+            </header>
 
-        // --- HTML SKABELONER ---
-        const views = {
-            imd: {
-                title: 'IMD / KERNESYSTEM',
-                sub: 'Kalkulator & Telemetri',
-                icon: 'activity',
-                html: `
-                    <div class="px-4 max-w-lg mx-auto space-y-3 pb-[220px] pt-3">
-                        <div class="grid grid-cols-2 gap-2">
-                            <select id="machine" class="input w-full rounded-xl px-3 py-2.5 text-[11px] font-semibold" onchange="updateUI()">
-                                <option value="haas-mill-hsm" data-type="mill" data-rpm="10000">Mini Mill + HSM (10k)</option>
-                                <option value="haas-mill" data-type="mill" data-rpm="10000">Mini Mill (10k)</option>
-                                <option value="haas-lathe" data-type="turn" data-rpm="4000">ST-10 (4k)</option>
-                                <option value="deckel" data-type="mill" data-rpm="2000">Deckel FP1 (2k)</option>
-                                <option value="weiler" data-type="turn" data-rpm="3000">Weiler Matador</option>
-                            </select>
-                            <select id="mat" class="input w-full rounded-xl px-3 py-2.5 text-[11px] font-semibold" onchange="updateUI()"></select>
-                        </div>
-
-                        <div class="border border-line bg-black rounded-xl p-3 relative">
-                            <button id="reset-btn" onclick="resetDirty()" class="hidden absolute top-3 right-3 text-orange text-[9px] font-mono tracking-widest hover:text-white transition z-10">GENDAN AUTO</button>
-                            <div class="chip text-dim mb-2 border-b border-line pb-1.5">VÆRKTØJ & STRATEGI</div>
-                            
-                            <select id="toolData" class="input w-full rounded-lg px-2 py-2 text-xs font-semibold mb-2" onchange="handleCribSelection()"></select>
-
-                            <div class="grid grid-cols-3 gap-2" id="strategy-grid">
-                                <select id="toolGeometry" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold text-orange border-orange/30 focus:border-orange" onchange="handleGeometryChange()">
-                                    \${HTML_GEOM_OPTIONS}
-                                </select>
-                                <select id="operation" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold" onchange="handleOperationChange()">
-                                    <option value="profil">Side/Profil</option>
-                                    <option value="spor">Sporfræsning</option>
-                                    <option value="bor">Boring (Z)</option>
-                                </select>
-                                <select id="strategy" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold" onchange="hardUpdateUI()">
-                                    <option value="normal">Normal</option>
-                                    <option value="skrub">Skrub (MRR)</option>
-                                    <option value="slet">Slet (Finish)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="grid grid-cols-3 gap-2 mb-2">
-                                <label class="block relative">
-                                    <span id="label-D" class="text-[8px] font-semibold text-muted block mb-1">Ø (D)</span>
-                                    <input id="D" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-semibold text-center" oninput="softUpdate()" />
-                                </label>
-                                <label id="container-Z" class="block relative">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1 flex justify-between">SKÆR(Z) <span class="auto-tag text-orange">AUTO</span></span>
-                                    <input id="Z" type="number" min="1" inputmode="numeric" class="input w-full rounded-lg px-2 py-2 text-sm font-semibold text-center" oninput="markDirty(this); calc()" />
-                                </label>
-                                <label id="container-L" class="block relative">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1 flex justify-between">UDH(L) <span class="auto-tag text-orange">AUTO</span></span>
-                                    <input id="L" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-semibold text-center" oninput="markDirty(this); calc()" />
-                                </label>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-2">
-                                <label id="container-ae" class="block relative">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1 flex justify-between">RADIAL (ae) <span class="auto-tag text-orange">AUTO</span></span>
-                                    <input id="ae" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2 text-base font-bold" oninput="markDirty(this); calc()" />
-                                </label>
-                                <label id="container-ap" class="block relative">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1 flex justify-between">AKSIAL (ap) <span class="auto-tag text-orange">AUTO</span></span>
-                                    <input id="ap" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2 text-base font-bold" oninput="markDirty(this); calc()" />
-                                </label>
-                            </div>
-                        </div>
+            <main id="app">
+                <!-- VIEW: CUT (IMD) -->
+                <div id="view-cut" class="screen screen-wide view-section">
+                    <div class="section-title">MASKINE</div>
+                    <div class="quick" id="machineQuick">
+                        <button data-m="deckel">
+                            <div class="q-k">FRÆSER</div>
+                            <div class="q-v">Deckel FP1</div>
+                            <div class="q-s">2.000 RPM</div>
+                        </button>
+                        <button data-m="hsm">
+                            <div class="q-k">FRÆSER</div>
+                            <div class="q-v">Mini Mill HSM</div>
+                            <div class="q-s">10.000 RPM</div>
+                        </button>
+                        <button data-m="weiler">
+                            <div class="q-k">DREJ</div>
+                            <div class="q-v">Weiler Matador</div>
+                            <div class="q-s">3.000 RPM</div>
+                        </button>
+                        <button data-m="st10">
+                            <div class="q-k">DREJ</div>
+                            <div class="q-v">Haas ST-10</div>
+                            <div class="q-s">4.000 RPM</div>
+                        </button>
                     </div>
 
-                    <div class="fixed bottom-[70px] left-0 right-0 nav-blur border-t border-line px-5 py-3.5 z-40 shadow-[0_-20px_40px_rgba(0,0,0,0.6)]">
-                        <div class="max-w-lg mx-auto">
-                            <div class="flex items-center justify-between mb-3 border-b border-line pb-2">
-                                <div class="chip text-dim">TELEMETRI / OUTPUT</div>
-                                <div id="warnings" class="flex gap-2"></div>
+                    <div class="calc-grid">
+                        <div class="panel rows" id="cutInputs">
+                            <div class="row">
+                                <div class="left">Materiale</div>
+                                <div class="right"><select id="mat"></select></div>
                             </div>
-                            <div class="grid grid-cols-2 gap-y-4 gap-x-4">
-                                <div>
-                                    <div class="text-[9px] text-muted font-semibold uppercase tracking-wider mb-1">Spindelhastighed</div>
-                                    <div class="display text-2xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="rpm-out">0</span> <span class="text-xs font-normal text-dim">RPM</span></div>
-                                </div>
-                                <div class="pl-4 border-l border-line">
-                                    <div id="feed-label" class="text-[9px] text-orange font-semibold uppercase tracking-wider mb-1">Tilspænding (Vf)</div>
-                                    <div class="display text-2xl font-bold text-orange leading-none tracking-tight"><span id="vf-out">0</span> <span id="feed-unit" class="text-xs font-normal text-orange/60">mm/min</span></div>
-                                </div>
-                                <div id="mrr-block">
-                                    <div class="text-[9px] text-muted font-semibold uppercase tracking-wider mb-1">Material Removal</div>
-                                    <div class="display text-xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="mrr-out">0.0</span> <span class="text-[10px] font-normal text-dim">cm³/min</span></div>
-                                </div>
-                                <div id="ld-block" class="pl-4 border-l border-line">
-                                    <div class="text-[9px] text-muted font-semibold uppercase tracking-wider mb-1">Udbøjning (L/D)</div>
-                                    <div class="display text-xl font-bold text-f2f3f3 leading-none tracking-tight"><span id="ld-out">0.00</span> <span class="text-[10px] font-normal text-dim">X</span></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            tools: {
-                title: 'TOOL CRIB',
-                sub: 'Lokal Værktøjsdatabase',
-                icon: 'wrench',
-                html: `
-                    <div class="px-4 max-w-lg mx-auto pb-24 pt-3">
-                        <div class="border border-line bg-black rounded-xl p-3 mb-4 relative overflow-hidden">
-                            <div class="chip text-dim mb-3 border-b border-line pb-1.5">TILFØJ NYT VÆRKTØJ</div>
-                            
-                            <div class="grid grid-cols-[65px_1fr] gap-2 mb-2">
-                                <input id="tool-loc" type="text" placeholder="T12" class="input w-full rounded-lg px-2 py-2 text-xs font-semibold uppercase text-center" />
-                                <input id="tool-name" type="text" placeholder="Navn / Beskrivelse" class="input w-full rounded-lg px-3 py-2 text-xs font-medium" />
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-2 mb-2">
-                                <select id="tool-type" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold">
-                                    \${HTML_GEOM_OPTIONS}
-                                </select>
-                                <select id="tool-mat" class="input w-full rounded-lg px-2 py-2 text-[11px] font-semibold">
-                                    <optgroup label="SOLIDT VÆRKTØJ">
-                                        <option value="hm_tialn">HM (TiAlN - Stål)</option>
-                                        <option value="hm_zrn">HM (ZrN - Alu/Plast)</option>
-                                        <option value="hm">HM (Ubelagt)</option>
-                                        <option value="hm_dia">HM (CVD Diamant)</option>
-                                        <option value="hss">HSS / HSS-Co</option>
-                                    </optgroup>
-                                    <optgroup label="VENDEPLATTER (ISO)">
-                                        <option value="iso_p">ISO P (Stål)</option>
-                                        <option value="iso_m">ISO M (Rustfast)</option>
-                                        <option value="iso_k">ISO K (Støbejern)</option>
-                                        <option value="iso_n">ISO N (Alu/Plast)</option>
-                                        <option value="iso_s">ISO S (Titan/HRSA)</option>
-                                    </optgroup>
-                                </select>
-                            </div>
-
-                            <div class="grid grid-cols-4 gap-2 mb-3">
-                                <label class="block"><span class="chip text-dim block mb-1 text-[8px]">Ø(D)</span><input id="tool-D" type="number" min="0" step="any" inputmode="decimal" placeholder="10" class="input w-full rounded-lg px-1 py-2 text-xs font-semibold text-center" /></label>
-                                <label class="block"><span class="chip text-dim block mb-1 text-[8px]">SKÆR(Z)</span><input id="tool-Z" type="number" min="1" inputmode="numeric" placeholder="4" class="input w-full rounded-lg px-1 py-2 text-xs font-semibold text-center" /></label>
-                                <label class="block"><span class="chip text-dim block mb-1 text-[8px]">UDH(L)</span><input id="tool-L" type="number" min="0" step="any" inputmode="decimal" placeholder="30" class="input w-full rounded-lg px-1 py-2 text-xs font-semibold text-center" /></label>
-                                <label class="block"><span class="chip text-dim block mb-1 text-[8px]">SKR(Lc)</span><input id="tool-Lc" type="number" min="0" step="any" inputmode="decimal" placeholder="22" class="input w-full rounded-lg px-1 py-2 text-xs font-semibold text-center" /></label>
-                            </div>
-                            <button id="btn-save-tool" class="btn w-full border border-orange bg-orange/10 text-orange font-semibold rounded-lg py-2.5 text-xs hover:bg-orange hover:text-black">Gem i database</button>
-                        </div>
-                        <div class="chip text-dim mb-2 pl-1">AKTIVE VÆRKTØJER</div>
-                        <div id="tool-list" class="space-y-2"></div>
-                    </div>
-                `
-            },
-            sop: {
-                title: 'REFERENCE',
-                sub: 'SOP & Geometri',
-                icon: 'book-open',
-                html: `
-                    <div class="px-4 max-w-lg mx-auto pb-24 pt-2 space-y-3">
-                        
-                        <!-- 01 / GEVIND & FORBORING -->
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
-                                <span>GEVIND & FORBORING</span>
-                                <span class="text-[8px] text-orange">METRISK (M)</span>
-                            </div>
-                            <div class="grid grid-cols-[1fr_1fr] gap-2 mb-2">
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">NOMINEL Ø (mm)</span>
-                                    <input id="sop-thr-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2 text-sm font-bold" placeholder="8" oninput="calcSop()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">STIGNING (P)</span>
-                                    <input id="sop-thr-p" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center focus:border-orange" placeholder="1.25" oninput="calcSop()" />
-                                </label>
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-2 mb-3">
-                                <select id="sop-thr-std" class="input w-full rounded-lg px-2 py-2 text-[10px] font-semibold text-dim uppercase" onchange="applyStdThread()">
-                                    <option value="">Vælg standard (Auto)</option>
-                                    <option value="3,0.5">M3 x 0.50</option>
-                                    <option value="4,0.7">M4 x 0.70</option>
-                                    <option value="5,0.8">M5 x 0.80</option>
-                                    <option value="6,1.0">M6 x 1.00</option>
-                                    <option value="8,1.25">M8 x 1.25</option>
-                                    <option value="10,1.5">M10 x 1.50</option>
-                                    <option value="12,1.75">M12 x 1.75</option>
-                                    <option value="16,2.0">M16 x 2.00</option>
-                                    <option value="20,2.5">M20 x 2.50</option>
-                                    <option value="24,3.0">M24 x 3.00</option>
-                                </select>
-                                <select id="sop-thr-mat" class="input w-full rounded-lg px-2 py-2 text-[10px] font-semibold text-dim border-line2 uppercase" onchange="calcSop()">
-                                    <option value="norm">Normal (Alu/Stål) ~75%</option>
-                                    <option value="hard">Sejt (Rustfast/Ti) ~65%</option>
-                                </select>
-                            </div>
-
-                            <div class="my-3 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
-                                <div>
-                                    <div class="text-[9px] font-semibold text-muted uppercase">Skæretap (Spåntagende)</div>
-                                    <div class="text-[10px] font-mono text-dim" id="sop-thr-desc">Standard indgreb</div>
-                                </div>
-                                <div class="display text-2xl font-bold text-orange tracking-tight">
-                                    Ø <span id="sop-cut-out">0.00</span>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-line">
-                                <div class="bg-surface/50 p-2 rounded border border-line/50">
-                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
-                                        <span>RULLETAP (FORM)</span>
-                                    </div>
-                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
-                                        Ø <span id="sop-form-out">0.00</span>
-                                    </div>
-                                </div>
-                                <div class="bg-surface/50 p-2 rounded border border-line/50">
-                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
-                                        <span>GEVINDDYBDE (CA)</span>
-                                        <span class="text-dim">1.5xD</span>
-                                    </div>
-                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
-                                        <span id="sop-thr-depth">0.0</span> <span class="text-[10px] font-normal text-dim">mm</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 02 / OVERFLADERUHED -->
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
-                                <span>OVERFLADERUHED</span>
-                                <span class="text-[8px] text-orange">KINEMATISK (TEORETISK)</span>
-                            </div>
-                            <div class="grid grid-cols-[1fr_1fr] gap-2 mb-2">
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">HJØRNERADIUS (Re)</span>
-                                    <input id="sop-ra-re" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="0.4" oninput="calcSop()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">TILSPÆNDING (f/fz)</span>
-                                    <input id="sop-ra-f" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="0.1" oninput="calcSop()" />
-                                </label>
-                            </div>
-                            
-                            <div class="my-3 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
-                                <div>
-                                    <div class="text-[9px] font-semibold text-muted uppercase">Gennemsnitlig Ruhed</div>
-                                    <div class="text-[10px] font-mono text-dim">Beregnet Ra</div>
-                                </div>
-                                <div class="display text-2xl font-bold text-orange tracking-tight">
-                                    <span id="sop-ra-out">0.00</span> <span class="text-[12px] text-dim">µm</span>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-line">
-                                <div class="bg-surface/50 p-2 rounded border border-line/50">
-                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
-                                        <span>ISO 1302 SKALA</span>
-                                    </div>
-                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
-                                        <span id="sop-ra-n">N/A</span>
-                                    </div>
-                                </div>
-                                <div class="bg-surface/50 p-2 rounded border border-line/50">
-                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
-                                        <span>PROFIL (Rz)</span>
-                                        <span class="text-dim">Peak-to-valley</span>
-                                    </div>
-                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
-                                        <span id="sop-rz-out">0.00</span> <span class="text-[10px] font-normal text-dim">µm</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 03 / ISO 286 -->
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
-                                <span>ISO 286 PASNINGER</span>
-                                <span class="text-[8px] text-orange">Store bogstaver = HUL</span>
-                            </div>
-                            <div class="grid grid-cols-[1fr_80px] gap-2 mb-2">
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">NOMINEL Ø (mm)</span>
-                                    <input id="sop-iso-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="25" oninput="calcSop()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">PASNING</span>
-                                    <input id="sop-iso-c" type="text" class="input w-full rounded-lg px-2 py-2.5 text-sm font-bold text-center focus:border-orange" placeholder="H7" oninput="calcSop()" />
-                                </label>
-                            </div>
-
-                            <div class="my-3 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
-                                <div>
-                                    <div class="text-[9px] font-semibold text-muted uppercase">Sigtetal (Middelmål)</div>
-                                    <div class="text-[10px] font-mono text-dim">Tolerancebånd midtpunkt</div>
-                                </div>
-                                <div class="display text-2xl font-bold text-orange tracking-tight">
-                                    Ø <span id="sop-iso-target">0.0000</span>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-line">
-                                <div class="bg-surface/50 p-2 rounded border border-line/50">
-                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
-                                        <span>MIN MÅL</span>
-                                        <span id="sop-iso-lower" class="text-dim">0.000</span>
-                                    </div>
-                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
-                                        <span id="sop-iso-min">0.000</span> <span class="text-[10px] font-normal text-dim">mm</span>
-                                    </div>
-                                </div>
-                                <div class="bg-surface/50 p-2 rounded border border-line/50">
-                                    <div class="text-[8px] font-mono text-muted uppercase flex justify-between">
-                                        <span>MAKS MÅL</span>
-                                        <span id="sop-iso-upper" class="text-dim">0.000</span>
-                                    </div>
-                                    <div class="text-base font-mono text-f2f3f3 font-semibold mt-0.5">
-                                        <span id="sop-iso-max">0.000</span> <span class="text-[10px] font-normal text-dim">mm</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 04 / FAS & Z-DYBDE -->
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="chip text-dim mb-3 border-b border-line pb-2">FASFRÆSNING (Z-DYBDE)</div>
-                            <div class="grid grid-cols-2 gap-2 mb-3">
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">FAS-BREDDE (C) [mm]</span>
-                                    <input id="math-chamfer-c" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="2.5" oninput="calcMath()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">VÆRKTØJSVINKEL</span>
-                                    <select id="math-chamfer-a" class="input w-full rounded-lg px-2 py-2.5 text-sm font-bold" onchange="calcMath()">
-                                        <option value="90">90° (Standard)</option>
-                                        <option value="60">60°</option>
-                                        <option value="120">120°</option>
-                                        <option value="82">82° (Countersink)</option>
+                            <div class="row">
+                                <div class="left">Strategi</div>
+                                <div class="right">
+                                    <select id="strategy">
+                                        <option value="normal">NORMAL</option>
+                                        <option value="skrub">SKRUB</option>
+                                        <option value="slet">SLET</option>
                                     </select>
-                                </label>
-                            </div>
-                            <div class="my-2 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
-                                <div>
-                                    <div class="text-[9px] font-semibold text-muted uppercase">Nødvendig Z-Dybde</div>
                                 </div>
-                                <div class="display text-2xl font-bold text-orange tracking-tight">
-                                    Z <span id="math-chamfer-z">0.000</span>
+                            </div>
+                            <div class="row highlight">
+                                <div class="left">Værktøj</div>
+                                <div class="right"><select id="tool"></select></div>
+                            </div>
+                            <div id="millOnly">
+                                <div class="row">
+                                    <div class="left">Geometri</div>
+                                    <div class="right"><select id="geom"></select></div>
+                                </div>
+                                <div class="row">
+                                    <div class="left">Operation</div>
+                                    <div class="right">
+                                        <select id="op">
+                                            <option value="profil">PROFIL / SIDE</option>
+                                            <option value="spor">SPORFRÆS</option>
+                                            <option value="bor">BORING (Z)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row highlight">
+                                <div class="left">
+                                    <span id="dText">VÆRKTØJ Ø D</span>
+                                    <span class="lock-tag tag hidden" id="tag-D" style="color: var(--bad)">LÅST</span>
+                                </div>
+                                <div class="right"><input id="D" type="number" inputmode="decimal" placeholder="10.0" /></div>
+                            </div>
+                            <div id="zRow" class="row">
+                                <div class="left">
+                                    SKÆR Z <span class="lock-tag tag hidden" id="tag-Z" style="color: var(--bad)">LÅST</span><span class="auto-tag tag" id="auto-Z">AUTO</span>
+                                </div>
+                                <div class="right"><input id="Z" type="number" inputmode="numeric" placeholder="4" /></div>
+                            </div>
+                            <div id="lRow" class="row">
+                                <div class="left">
+                                    UDHÆNG L <span class="lock-tag tag hidden" id="tag-L" style="color: var(--bad)">LÅST</span>
+                                </div>
+                                <div class="right"><input id="L" type="number" inputmode="decimal" placeholder="30.0" /></div>
+                            </div>
+                            <div id="aeRow" class="row">
+                                <div class="left">RADIAL AE <span class="auto-tag tag">AUTO</span></div>
+                                <div class="right"><input id="ae" type="number" inputmode="decimal" placeholder="AUTO" /></div>
+                            </div>
+                            <div id="apRow" class="row">
+                                <div class="left">SKÆREDYBDE AP <span class="auto-tag tag">AUTO</span></div>
+                                <div class="right"><input id="ap" type="number" inputmode="decimal" placeholder="AUTO" /></div>
+                            </div>
+                        </div>
+                        
+                        <div class="output">
+                            <div class="out out-main">
+                                <div class="out-label" id="rpmLabel">SPINDEL</div>
+                                <div class="out-num"><span id="rpm">—</span> <span>RPM</span></div>
+                            </div>
+                            <div class="out">
+                                <div class="out-label" id="feedLabel">TILSPÆNDING VF</div>
+                                <div class="out-small">
+                                    <span id="vf">—</span> <span id="feedUnit" class="muted">mm/min</span>
+                                </div>
+                            </div>
+                            <div class="out">
+                                <div class="out-label" id="ldLabel">L / D RATIO</div>
+                                <div class="out-small">
+                                    <span id="ld">—</span> <span id="ldUnit" class="muted">X</span>
+                                </div>
+                            </div>
+                            <div class="out" style="grid-column: 1 / -1; border-top: 1px solid var(--line);">
+                                <div class="out-label">MRR (MATERIAL REMOVAL)</div>
+                                <div class="out-small">
+                                    <span id="mrr">—</span> <span class="muted">cm³/min</span>
+                                </div>
+                            </div>
+                            <div class="warn hidden" id="warnings"></div>
+                            <div class="out text-center" style="grid-column: 1 / -1; background: var(--panel2); border-top: 1px solid var(--line);">
+                                <div class="out-label" style="margin-bottom: 6px;">AKTUEL OPSÆTNING</div>
+                                <div id="setupSummary" style="font-size: 11px; font-weight: 700; color: var(--text);">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: REF -->
+                <div id="view-ref" class="screen screen-wide view-section hidden">
+                    <div class="tabs" id="refTabs">
+                        <button data-r="thread" class="active">GEVIND</button>
+                        <button data-r="iso">ISO 286</button>
+                        <button data-r="rough">RUHED</button>
+                        <button data-r="gcode">G-KODER</button>
+                    </div>
+                    
+                    <div id="ref-thread" class="ref-sub">
+                        <div class="calc-grid">
+                            <div class="panel rows">
+                                <div class="row highlight">
+                                    <div class="left">STANDARD M</div>
+                                    <div class="right">
+                                        <select id="thrStd">
+                                            <option value="">MANUEL</option>
+                                            <option value="3,0.5">M3 × 0.50</option>
+                                            <option value="4,0.7">M4 × 0.70</option>
+                                            <option value="5,0.8">M5 × 0.80</option>
+                                            <option value="6,1">M6 × 1.00</option>
+                                            <option value="8,1.25">M8 × 1.25</option>
+                                            <option value="10,1.5">M10 × 1.50</option>
+                                            <option value="12,1.75">M12 × 1.75</option>
+                                            <option value="16,2">M16 × 2.00</option>
+                                            <option value="20,2.5">M20 × 2.50</option>
+                                            <option value="24,3">M24 × 3.00</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row"><div class="left">NOMINEL Ø</div><div class="right"><input id="thrD" type="number" inputmode="decimal" value="8" /></div></div>
+                                <div class="row"><div class="left">STIGNING P</div><div class="right"><input id="thrP" type="number" inputmode="decimal" value="1.25" /></div></div>
+                                <div class="row">
+                                    <div class="left">MATERIALE</div>
+                                    <div class="right">
+                                        <select id="thrMat">
+                                            <option value="norm">ALU / STÅL · 75%</option>
+                                            <option value="hard">SEJT · 65%</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="output">
+                                <div class="out out-main">
+                                    <div class="out-label">ANBEFALET FORBORING</div>
+                                    <div class="out-num">Ø<span id="cutBor">—</span> <span>mm</span></div>
+                                </div>
+                                <div class="out">
+                                    <div class="out-label">RULLETAP</div>
+                                    <div class="out-small">Ø<span id="formBor">—</span></div>
+                                </div>
+                                <div class="out">
+                                    <div class="out-label">DYBDE (1.5xD)</div>
+                                    <div class="out-small"><span id="thrDepth">—</span> <span class="muted">mm</span></div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- 05 / BOLTHULSCIRKEL -->
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
-                                <span>BOLTHULSCIRKEL (BHC)</span>
-                                <span class="text-[8px] text-orange">X/Y KOORDINATER</span>
+                    </div>
+                    
+                    <div id="ref-iso" class="ref-sub hidden">
+                        <div class="calc-grid">
+                            <div class="panel rows">
+                                <div class="row"><div class="left">NOMINEL Ø</div><div class="right"><input id="isoD" type="number" inputmode="decimal" value="25" /></div></div>
+                                <div class="row highlight"><div class="left">PASNING</div><div class="right"><input id="isoClass" type="text" value="H7" style="text-transform: uppercase" /></div></div>
                             </div>
-                            <div class="grid grid-cols-3 gap-2 mb-3">
-                                <label class="block">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1">CIRKEL Ø</span>
-                                    <input id="math-bhc-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="100" oninput="calcMath()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1">ANTAL (N)</span>
-                                    <input id="math-bhc-n" type="number" min="1" inputmode="numeric" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="6" oninput="calcMath()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1">START VINKEL</span>
-                                    <input id="math-bhc-a" type="number" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="0" value="0" oninput="calcMath()" />
-                                </label>
-                            </div>
-                            <div class="bg-surface/50 rounded border border-line/50 p-2 max-h-[140px] overflow-y-auto overflow-x-hidden">
-                                <div id="math-bhc-list" class="space-y-1">
-                                    <div class="text-[10px] font-mono text-dim text-center py-2">Indtast BHC parametre for at generere liste</div>
+                            <div class="output">
+                                <div class="out out-main">
+                                    <div class="out-label">SIGTETAL (CAM)</div>
+                                    <div class="out-num">Ø<span id="isoTarget">—</span></div>
+                                </div>
+                                <div class="out">
+                                    <div class="out-label">MIN MÅL <span id="isoMinLabel" class="tag hidden">0.000</span></div>
+                                    <div class="out-small"><span id="isoMin">—</span></div>
+                                </div>
+                                <div class="out">
+                                    <div class="out-label">MAKS MÅL <span id="isoMaxLabel" class="tag hidden">0.000</span></div>
+                                    <div class="out-small"><span id="isoMax">—</span></div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- 06 / KONUS VINKEL -->
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="chip text-dim mb-3 border-b border-line pb-2 flex justify-between">
-                                <span>KONUSDREJNING (VINKEL)</span>
-                                <span class="text-[8px] text-orange">TOPSLÆDE / CAM</span>
+                    </div>
+                    
+                    <div id="ref-rough" class="ref-sub hidden">
+                        <div class="calc-grid">
+                            <div class="panel rows">
+                                <div class="row"><div class="left">HJØRNERADIUS RE</div><div class="right"><input id="re" type="number" inputmode="decimal" value="0.4" /></div></div>
+                                <div class="row"><div class="left">TILSPÆNDING F</div><div class="right"><input id="rf" type="number" inputmode="decimal" value="0.1" /></div></div>
                             </div>
-                            
-                            <div class="mb-3">
-                                <select id="math-cone-std" class="input w-full rounded-lg px-3 py-2 text-[10px] font-semibold text-dim uppercase" onchange="applyStdTaper()">
-                                    <option value="">Vælg standard konus (Auto-udfyld)</option>
-                                    <optgroup label="Morse Konus (MK/MT)">
-                                        <option value="9.045,6.4,50">MK0 / MT0</option>
-                                        <option value="12.065,9.4,53.5">MK1 / MT1</option>
-                                        <option value="17.78,14.534,64">MK2 / MT2</option>
-                                        <option value="23.825,19.812,81">MK3 / MT3</option>
-                                        <option value="31.267,25.933,102.5">MK4 / MT4</option>
-                                        <option value="44.399,37.584,129.5">MK5 / MT5</option>
-                                        <option value="63.348,53.859,182">MK6 / MT6</option>
-                                        <option value="83.058,70.138,250">MK7 / MT7</option>
-                                    </optgroup>
-                                    <optgroup label="ISO / SK / BT (7:24)">
-                                        <option value="31.75,17.808,47.8">ISO 30 (DIN 2080)</option>
-                                        <option value="44.45,24.500,68.4">ISO 40 (DIN 2080)</option>
-                                        <option value="69.85,40.158,101.8">ISO 50 (DIN 2080)</option>
-                                        <option value="107.95,60.200,161.8">ISO 60 (DIN 2080)</option>
-                                    </optgroup>
-                                    <optgroup label="Jacobs Konus (Borepatron)">
-                                        <option value="6.35,5.802,11.112">JT0</option>
-                                        <option value="9.754,8.469,16.669">JT1</option>
-                                        <option value="14.199,12.386,22.225">JT2</option>
-                                        <option value="20.599,18.951,30.956">JT3</option>
-                                        <option value="28.55,26.066,42.069">JT4</option>
-                                        <option value="35.89,33.422,47.625">JT5</option>
-                                        <option value="17.17,15.852,25.4">JT6</option>
-                                        <option value="15.85,14.237,25.4">JT33</option>
-                                    </optgroup>
-                                    <optgroup label="B&S (Brown & Sharpe)">
-                                        <option value="15.319,12.751,60.3">B&S 5</option>
-                                        <option value="18.303,15.267,71.4">B&S 7</option>
-                                        <option value="27.026,22.86,95.3">B&S 9</option>
-                                        <option value="33.251,28.46,111.1">B&S 10</option>
-                                    </optgroup>
-                                    <optgroup label="Standard Ratios (Kegler/Stifter)">
-                                        <option value="20,10,100">1:10</option>
-                                        <option value="20,15,100">1:20</option>
-                                        <option value="20,18,100">1:50 (Standard Stift)</option>
-                                        <option value="20,19,100">1:100</option>
-                                    </optgroup>
-                                    <optgroup label="Specials">
-                                        <option value="31.75,24.1,25.826">R8 (Bridgeport)</option>
-                                        <option value="17,16,16">NPT (1:16)</option>
-                                    </optgroup>
+                            <div class="output">
+                                <div class="out out-main">
+                                    <div class="out-label">TEORETISK RA</div>
+                                    <div class="out-num"><span id="ra">—</span> <span>µm</span></div>
+                                </div>
+                                <div class="out">
+                                    <div class="out-label">ISO 1302</div>
+                                    <div class="out-small"><span id="nscale">—</span></div>
+                                </div>
+                                <div class="out">
+                                    <div class="out-label">PROFIL RZ</div>
+                                    <div class="out-small"><span id="rz">—</span> <span class="muted">µm</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="ref-gcode" class="ref-sub hidden">
+                        <div class="panel ref-card">
+                            <div class="ref-row"><div class="ref-key">G81</div><div class="ref-val">Bor / spotdrill</div></div>
+                            <div class="ref-row"><div class="ref-key">G83</div><div class="ref-val">Peck drill</div></div>
+                            <div class="ref-row"><div class="ref-key">G84</div><div class="ref-val">Gevindtap</div></div>
+                            <div class="ref-row"><div class="ref-key">G73</div><div class="ref-val">High-speed peck</div></div>
+                            <div class="ref-row" style="background:var(--panel2)"><div class="ref-key">M08</div><div class="ref-val">Kølevæske ON</div></div>
+                            <div class="ref-row" style="background:var(--panel2)"><div class="ref-key">M09</div><div class="ref-val">Kølevæske OFF</div></div>
+                            <div class="ref-row"><div class="ref-key">M97</div><div class="ref-val">Local subprogram</div></div>
+                            <div class="ref-row"><div class="ref-key">M99</div><div class="ref-val">Subprogram return</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: GEO -->
+                <div id="view-geo" class="screen screen-wide view-section hidden">
+                    <div class="tabs" id="geoTabs">
+                        <button data-g="chamf" class="active">FAS Z</button>
+                        <button data-g="cone">KONUS</button>
+                        <button data-g="bhc">BHC</button>
+                    </div>
+                    
+                    <div id="geo-chamf" class="geo-sub">
+                        <div class="calc-grid">
+                            <div class="panel rows">
+                                <div class="row"><div class="left">FAS BREDDE C</div><div class="right"><input id="mc" type="number" inputmode="decimal" value="2.5" /></div></div>
+                                <div class="row">
+                                    <div class="left">VINKEL</div>
+                                    <div class="right">
+                                        <select id="ma">
+                                            <option value="90">90°</option>
+                                            <option value="60">60°</option>
+                                            <option value="120">120°</option>
+                                            <option value="82">82°</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="output">
+                                <div class="out out-main" style="grid-column:1/-1; border-bottom:0">
+                                    <div class="out-label">NØDVENDIG Z-DYBDE</div>
+                                    <div class="out-num">Z <span id="mz">—</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="geo-cone" class="geo-sub hidden">
+                        <div class="calc-grid">
+                            <div class="panel rows">
+                                <div class="row highlight">
+                                    <div class="left">STANDARD</div>
+                                    <div class="right">
+                                        <select id="coneStd" onchange="applyStdCone()">
+                                            <option value="">MANUEL</option>
+                                            <optgroup label="Morse Konus (MK/MT)">
+                                                <option value="9.045,6.4,50">MK0</option>
+                                                <option value="12.065,9.4,53.5">MK1</option>
+                                                <option value="17.78,14.534,64">MK2</option>
+                                                <option value="23.825,19.812,81">MK3</option>
+                                                <option value="31.267,25.933,102.5">MK4</option>
+                                                <option value="44.399,37.584,129.5">MK5</option>
+                                            </optgroup>
+                                            <optgroup label="ISO 7:24">
+                                                <option value="44.45,24.5,68.4">ISO 40</option>
+                                                <option value="69.85,40.158,101.8">ISO 50</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row"><div class="left">STOR Ø D</div><div class="right"><input id="cd" type="number" inputmode="decimal" value="50" /></div></div>
+                                <div class="row"><div class="left">LILLE Ø D</div><div class="right"><input id="cdd" type="number" inputmode="decimal" value="30" /></div></div>
+                                <div class="row"><div class="left">LÆNGDE L</div><div class="right"><input id="cl" type="number" inputmode="decimal" value="40" /></div></div>
+                            </div>
+                            <div class="output">
+                                <div class="out out-main" style="grid-column:1/-1; border-bottom:0">
+                                    <div class="out-label">TOPSLÆDE VINKEL (a/2)</div>
+                                    <div class="out-num"><span id="ca">—</span> <span>°</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="geo-bhc" class="geo-sub hidden">
+                        <div class="calc-grid">
+                            <div class="panel rows">
+                                <div class="row"><div class="left">BHC Ø</div><div class="right"><input id="bd" type="number" inputmode="decimal" value="100" /></div></div>
+                                <div class="row"><div class="left">ANTAL (N)</div><div class="right"><input id="bn" type="number" inputmode="numeric" value="6" /></div></div>
+                                <div class="row"><div class="left">STARTVINKEL</div><div class="right"><input id="ba" type="number" inputmode="decimal" value="0" /></div></div>
+                            </div>
+                            <div class="output" style="display: flex; flex-direction: column;">
+                                <div class="out out-main" style="border-bottom: 1px solid var(--line); flex: none;">
+                                    <div class="out-label" style="margin:0">KOORDINATER (X/Y)</div>
+                                </div>
+                                <div class="coord flex-grow" id="coords" style="margin:0; background:var(--panel);">
+                                    <!-- Coord list rendered here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: QC -->
+                <div id="view-qc" class="screen screen-wide view-section hidden">
+                    <div class="calc-grid">
+                        <div class="panel rows" style="align-self: start;">
+                            <div class="row"><div class="left">NOMINEL (MM)</div><div class="right"><input id="qNom" type="number" inputmode="decimal" value="25.0" /></div></div>
+                            <div class="row highlight"><div class="left">ISO OVERRIDE</div><div class="right"><input id="qIso" type="text" value="H7" style="text-transform: uppercase" /></div></div>
+                            <div class="row"><div class="left">TOL (+)</div><div class="right"><input id="qUp" type="number" inputmode="decimal" value="0.05" /></div></div>
+                            <div class="row"><div class="left">TOL (-)</div><div class="right"><input id="qLo" type="number" inputmode="decimal" value="-0.02" /></div></div>
+                            <div class="row highlight"><div class="left">INTERVAL</div><div class="right"><span id="qRange" class="muted font-bold" style="font-size:14px">—</span></div></div>
+                        </div>
+                        <div class="output" style="display:flex; flex-direction:column">
+                            <div class="out out-main text-center flex-grow flex flex-col justify-center" style="border-bottom:1px solid var(--line)">
+                                <div class="out-label" style="margin-bottom:16px">MÅLT VÆRDI (MIKROMETER)</div>
+                                <input id="qMeas" type="number" inputmode="decimal" placeholder="0.000" style="width:100%; text-align:center; font-size:56px; font-weight:800; background:transparent; border:none; outline:none; color:var(--text);">
+                            </div>
+                            <div id="qStatusOut" class="out text-center" style="padding:24px; transition: background 0.3s; border-bottom:1px solid var(--line)">
+                                <div id="qStatusText" style="font-weight:800; font-size:32px; letter-spacing:0.1em; color:var(--muted)">AFVENTER</div>
+                                <div style="font-weight:800; font-size:12px; margin-top:12px; color:var(--dim)">AFVIGELSE: <span id="qDev" style="color:inherit">0.000 mm</span></div>
+                            </div>
+                            <div class="warn" id="qOffset" style="text-align:center; padding:16px; font-size:12px; background:var(--panel2)">INDTAST MÅLING</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW: TOOLS -->
+                <div id="view-tools" class="screen screen-wide view-section hidden">
+                    <div class="tools-head">
+                        <button class="soft-btn" id="addToolBtn">+ OPRET NYT VÆRKTØJ</button>
+                    </div>
+                    <div class="panel rows" id="newTool" style="margin-bottom:16px; display:none">
+                        <div class="row"><div class="left">LOKATION</div><div class="right"><input id="tl" type="text" value="T1" style="text-transform: uppercase" /></div></div>
+                        <div class="row"><div class="left">NAVN</div><div class="right"><input id="tn" type="text" value="Ø10 Pindfræser" /></div></div>
+                        <div class="row"><div class="left">GEOMETRI</div><div class="right"><select id="tt"></select></div></div>
+                        <div class="row">
+                            <div class="left">MATERIALE</div>
+                            <div class="right">
+                                <select id="tm">
+                                    <option value="hm">HM UBELAGT</option>
+                                    <option value="hm_tialn">HM TiAlN</option>
+                                    <option value="iso_p">ISO P</option>
+                                    <option value="hss">HSS-Co</option>
                                 </select>
                             </div>
-
-                            <div class="grid grid-cols-3 gap-2 mb-3">
-                                <label class="block">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1">STOR Ø (D)</span>
-                                    <input id="math-cone-D" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="50" oninput="calcMath()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1">LILLE Ø (d)</span>
-                                    <input id="math-cone-d" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="30" oninput="calcMath()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[8px] font-semibold text-muted block mb-1">LÆNGDE (L)</span>
-                                    <input id="math-cone-l" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-2 py-2 text-sm font-bold text-center" placeholder="40" oninput="calcMath()" />
-                                </label>
-                            </div>
-                            <div class="my-2 py-2 px-3 bg-graphite border border-line rounded-lg flex items-center justify-between">
-                                <div>
-                                    <div class="text-[9px] font-semibold text-muted uppercase">Indstillingsvinkel</div>
-                                    <div class="text-[10px] font-mono text-dim">Topslæde vinkel (a/2)</div>
-                                </div>
-                                <div class="display text-2xl font-bold text-orange tracking-tight">
-                                    <span id="math-cone-a">0.00</span>°
-                                </div>
-                            </div>
                         </div>
-
-                        <!-- 07 / HAAS REFERENCE -->
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="chip text-dim mb-3 border-b border-line pb-2">HAAS REFERENCE (G/M CODES)</div>
-                            <div class="grid grid-cols-2 gap-x-2 gap-y-3 text-[10px] font-mono leading-tight">
-                                <div><span class="text-orange">G81</span> Spot Drill / Bor</div>
-                                <div><span class="text-orange">G83</span> Peck Drill (Dyb)</div>
-                                <div><span class="text-orange">G84</span> Tapping (Gevind)</div>
-                                <div><span class="text-orange">G73</span> High-Speed Peck</div>
-                                <div><span class="text-orange">M08</span> Coolant ON</div>
-                                <div><span class="text-orange">M09</span> Coolant OFF</div>
-                                <div><span class="text-orange">M97</span> Local Sub-prog</div>
-                                <div><span class="text-orange">M99</span> Sub-prog Return</div>
-                            </div>
-                        </div>
-
-                    </div>
-                `
-            },
-            qc: {
-                title: 'QC / KVALITET',
-                sub: 'First Article Inspection',
-                icon: 'ruler',
-                html: `
-                    <div class="px-4 max-w-lg mx-auto pb-24 pt-2 space-y-3">
-                        <div class="border border-line bg-black rounded-xl p-3">
-                            <div class="chip text-dim mb-3 border-b border-line pb-2">FAI ANALYSE (TOLERANCE TJEK)</div>
-                            
-                            <!-- TEGNINGSDATA -->
-                            <div class="grid grid-cols-2 gap-2 mb-2">
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">NOMINELT MÅL (mm)</span>
-                                    <input id="qc-nom" type="number" min="0" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold" placeholder="25" oninput="calcQc()" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block flex justify-between mb-1"><span>ISO PASNING</span><span class="text-[8px] text-orange lowercase">Valgfri</span></span>
-                                    <input id="qc-iso" type="text" class="input w-full rounded-lg px-2 py-2.5 text-sm font-bold text-center focus:border-orange" placeholder="F.eks. H7" oninput="calcQc()" />
-                                </label>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 mb-3">
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">TOLERANCE (+)</span>
-                                    <input id="qc-tup" type="number" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold text-center text-orange transition-colors" placeholder="0.05" oninput="calcQc(true)" />
-                                </label>
-                                <label class="block">
-                                    <span class="text-[9px] font-semibold text-muted block mb-1">TOLERANCE (-)</span>
-                                    <input id="qc-tlow" type="number" step="any" inputmode="decimal" class="input w-full rounded-lg px-3 py-2.5 text-sm font-bold text-center text-orange transition-colors" placeholder="-0.02" oninput="calcQc(true)" />
-                                </label>
-                            </div>
-
-                            <!-- MÅLT VÆRDI -->
-                            <div class="mb-4 pt-3 border-t border-line">
-                                <label class="block relative">
-                                    <span class="text-[10px] font-semibold text-f2f3f3 block mb-2 uppercase tracking-wider">MÅLT VÆRDI (MIKROMETER)</span>
-                                    <input id="qc-meas" type="number" step="any" inputmode="decimal" class="input w-full rounded-lg px-4 py-4 text-xl font-bold text-center border-orange/50 focus:border-orange bg-graphite" placeholder="Indtast faktisk mål..." oninput="calcQc()" />
-                                </label>
-                            </div>
-
-                            <!-- OUTPUT: STATUS -->
-                            <div id="qc-status-box" class="my-3 py-3 px-3 bg-surface/50 border border-line rounded-lg flex items-center justify-between transition-colors duration-300">
-                                <div>
-                                    <div class="text-[10px] font-semibold text-muted uppercase">Status</div>
-                                    <div id="qc-status-text" class="text-xl font-bold text-dim mt-0.5">AFVENTER</div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-[9px] font-mono text-muted uppercase">Afvigelse fra Target</div>
-                                    <div id="qc-dev" class="text-lg font-mono font-bold text-dim">0.000 mm</div>
-                                </div>
-                            </div>
-
-                            <!-- OUTPUT: HANDLING -->
-                            <div class="bg-black border border-line rounded-lg p-3 text-center">
-                                <div class="text-[9px] font-semibold text-muted uppercase mb-1">KORREKTION (VÆRKTØJS OFFSET)</div>
-                                <div id="qc-action" class="text-sm font-mono text-dim">Indtast data for at beregne offset...</div>
-                            </div>
+                        <div class="row"><div class="left">Ø D</div><div class="right"><input id="td" type="number" inputmode="decimal" value="10" /></div></div>
+                        <div class="row"><div class="left">SKÆR Z</div><div class="right"><input id="tz" type="number" inputmode="numeric" value="4" /></div></div>
+                        <div class="row"><div class="left">UDHÆNG L</div><div class="right"><input id="tlen" type="number" inputmode="decimal" value="30" /></div></div>
+                        <div class="row"><div class="left">SKÆRELÆNGDE LC</div><div class="right"><input id="tlc" type="number" inputmode="decimal" value="22" /></div></div>
+                        <div class="row highlight" style="cursor:pointer" id="saveTool">
+                            <div style="grid-column:1/-1; text-align:center; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:0.1em;">GEM TIL CRIB</div>
                         </div>
                     </div>
-                `
+                    <div class="section-title" style="padding-top:8px">LOKALT BIBLIOTEK</div>
+                    <div id="toolList"></div>
+                </div>
+            </main>
+
+            <nav class="nav">
+                <button data-view="cut" class="active"><span class="ico">◉</span>SKÆR</button>
+                <button data-view="ref"><span class="ico">▦</span>OPSLAG</button>
+                <button data-view="geo"><span class="ico">△</span>GEOMETRI</button>
+                <button data-view="qc"><span class="ico">⌗</span>MÅL</button>
+                <button data-view="tools"><span class="ico">⚙</span>VÆRKTØJ</button>
+            </nav>
+        </div>
+        
+        <script>
+            const M = {
+                plast_pmma: { group: "PLAST", name: "AKRYL (PMMA)", vc: 150, f: 0.08 },
+                plast_pa: { group: "PLAST", name: "NYLON (PA)", vc: 200, f: 0.1 },
+                plast_pom: { group: "PLAST", name: "DELRIN (POM)", vc: 400, f: 0.15 },
+                alu_ren: { group: "ALUMINIUM", name: "ALU (REN/BLØD)", vc: 350, f: 0.08 },
+                alu_7075: { group: "ALUMINIUM", name: "ALU (7075)", vc: 450, f: 0.1 },
+                ms_automat: { group: "MESSING", name: "MESSING (AUTOMAT)", vc: 300, f: 0.08 },
+                ms_bronze: { group: "MESSING", name: "MESSING/BRONZE", vc: 150, f: 0.05 },
+                st_s235: { group: "STÅL", name: "S235 (LET)", vc: 160, f: 0.06 },
+                st_s355: { group: "STÅL", name: "S355 (MEDIUM)", vc: 120, f: 0.05 },
+                rf_304: { group: "RUSTFAST", name: "304 / 316", vc: 80, f: 0.04 },
+                rf_duplex: { group: "RUSTFAST", name: "DUPLEX", vc: 50, f: 0.03 },
+                vs_uhardet: { group: "VÆRKTØJSSTÅL", name: "UHÆRDET", vc: 90, f: 0.04 },
+                vs_hardet: { group: "VÆRKTØJSSTÅL", name: "HÆRDET <45 HRC", vc: 45, f: 0.02 },
+            };
+            const T = {
+                mill: {
+                    hss: { name: "HSS-CO", vc: 0.4, f: 0.7, z: 3 },
+                    hm: { name: "HM UBELAGT", vc: 1, f: 1, z: 4 },
+                    hm_coat: { name: "HM BELAGT", vc: 1.3, f: 1.1, z: 4 },
+                    iso: { name: "ISO PLAN/PIND", vc: 1.2, f: 1.2, z: 5 },
+                },
+                turn: { hss: { name: "HSS DREJ", vc: 0.4, f: 0.7 }, iso: { name: "ISO PLATTE", vc: 1, f: 1 } },
+            };
+            const STR = {
+                normal: { vc: 1, f: 1, ae: 0.15, ap: 1 },
+                skrub: { vc: 0.85, f: 1.25, ae: 0.4, ap: 1.5 },
+                slet: { vc: 1.2, f: 0.6, ae: 0.05, ap: 2 },
+            };
+            const ISO = {
+                ranges: [3, 6, 10, 18, 30, 50, 80, 120, 180, 250],
+                classes: {
+                    H6: [[6, 0],[8, 0],[9, 0],[11, 0],[13, 0],[16, 0],[19, 0],[22, 0],[25, 0],[29, 0]],
+                    H7: [[10, 0],[12, 0],[15, 0],[18, 0],[21, 0],[25, 0],[30, 0],[35, 0],[40, 0],[46, 0]],
+                    H8: [[14, 0],[18, 0],[22, 0],[27, 0],[33, 0],[39, 0],[46, 0],[54, 0],[63, 0],[72, 0]],
+                    f7: [[-6, -16],[-10, -22],[-13, -28],[-16, -34],[-20, -41],[-25, -50],[-30, -60],[-36, -71],[-43, -83],[-50, -96]],
+                    g6: [[-2, -8],[-4, -12],[-5, -14],[-6, -17],[-7, -20],[-9, -25],[-10, -29],[-12, -34],[-14, -39],[-15, -44]],
+                    h6: [[0, -6],[0, -8],[0, -9],[0, -11],[0, -13],[0, -16],[0, -19],[0, -22],[0, -25],[0, -29]],
+                    h7: [[0, -10],[0, -12],[0, -15],[0, -18],[0, -21],[0, -25],[0, -30],[0, -35],[0, -40],[0, -46]],
+                    j6: [[4, -2],[6, -2],[7, -2],[8, -3],[9, -4],[11, -5],[12, -7],[13, -9],[14, -11],[16, -13]],
+                    k6: [[6, 0],[9, 1],[10, 1],[12, 1],[15, 2],[18, 2],[21, 2],[25, 3],[28, 3],[33, 4]],
+                    p6: [[12, 6],[20, 12],[24, 15],[29, 18],[35, 22],[42, 26],[51, 32],[59, 37],[68, 43],[79, 50]],
+                },
+            };
+            const GEOM = [
+                [
+                    "FRÆS",
+                    [
+                        ["endmill", "PIND"],
+                        ["bullnose", "HJØRNERADIUS"],
+                        ["ballnose", "KUGLE"],
+                        ["facemill", "PLAN"],
+                        ["chamfer", "FAS"],
+                        ["undercut", "T-NOT"],
+                        ["threadmill", "GEVIND"],
+                        ["slittingsaw", "SKIVE"],
+                    ],
+                ],
+                [
+                    "HUL",
+                    [
+                        ["drill", "BOR"],
+                        ["spotdrill", "CENTRER"],
+                        ["tap", "TAP"],
+                        ["reamer", "RIVAL"],
+                        ["boringhead", "UDBORE"],
+                    ],
+                ],
+                [
+                    "DREJ",
+                    [
+                        ["turn_ext", "UDVENDIG"],
+                        ["turn_int", "INDVENDIG"],
+                        ["turn_groove", "STIK"],
+                        ["turn_thread", "GEVINDSTÅL"],
+                    ],
+                ],
+            ];
+            const machine = {
+                deckel: { name: "Deckel FP1", type: "mill", rpm: 2000 },
+                hsm: { name: "Haas Mini Mill HSM", type: "mill", rpm: 10000 },
+                weiler: { name: "Weiler Matador", type: "turn", rpm: 3000 },
+                st10: { name: "Haas ST-10", type: "turn", rpm: 4000 },
+            };
+            const store = { tools: loadTools() };
+            let state = {
+                view: "cut",
+                machine: "deckel",
+                mat: "alu_ren",
+                tool: "hm",
+                geom: "endmill",
+                op: "profil",
+                strategy: "normal",
+            };
+
+            function loadTools() {
+                try {
+                    return JSON.parse(localStorage.getItem("datum_tools") || "[]").filter(
+                        (t) => t && t.loc && t.name && t.D
+                    );
+                } catch {
+                    return [];
+                }
             }
-        };
+            function esc(v) {
+                return String(v ?? "").replace(
+                    /[&<>'"]/g,
+                    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[c]
+                );
+            }
+            function opts(obj) {
+                let h = "";
+                let g = "";
+                for (const [k, v] of Object.entries(obj)) {
+                    if (v.group !== g) {
+                        if (g) h += "</optgroup>";
+                        g = v.group;
+                        h += `<optgroup label="${esc(g)}">`;
+                    }
+                    h += `<option value="${esc(k)}">${esc(v.name)}</option>`;
+                }
+                return h + (g ? "</optgroup>" : "");
+            }
+            function geomOpts() {
+                return GEOM.map(
+                    ([g, arr]) =>
+                        `<optgroup label="${g}">${arr.map(([k, n]) => `<option value="${k}">${n}</option>`).join("")}</optgroup>`
+                ).join("");
+            }
 
-        // --- ROUTER MOTOREN ---
-        const router = {
-            navigate: function(viewKey) {
-                const view = views[viewKey];
-                if (!view) return;
-                document.getElementById('header-title').textContent = view.title;
-                document.getElementById('header-sub').textContent = view.sub;
-                document.getElementById('header-icon').setAttribute('data-lucide', view.icon);
-                document.getElementById('app-root').innerHTML = view.html;
-                
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                    if (btn.dataset.target === viewKey) {
-                        btn.classList.replace('text-dim', 'text-orange');
-                        btn.classList.remove('hover:text-f2f3f3');
-                    } else {
-                        btn.classList.replace('text-orange', 'text-dim');
-                        btn.classList.add('hover:text-f2f3f3');
+            document.addEventListener("DOMContentLoaded", () => {
+                document.getElementById("mat").innerHTML = opts(M);
+                document.getElementById("geom").innerHTML = geomOpts();
+                document.getElementById("tt").innerHTML = geomOpts();
+
+                initCut();
+                initRef();
+                initGeo();
+                calcQc();
+                wireTools();
+                nav("cut");
+            });
+
+            function nav(view) {
+                state.view = view;
+                document
+                    .querySelectorAll(".nav button")
+                    .forEach((b) => b.classList.toggle("active", b.dataset.view === state.view));
+                document.getElementById("context").textContent = {
+                    cut: "SKÆRE DATA",
+                    ref: "OPSLAG",
+                    geo: "GEOMETRI",
+                    qc: "MÅLING",
+                    tools: "VÆRKTØJ",
+                }[state.view];
+
+                document.querySelectorAll(".view-section").forEach((el) => el.classList.add("hidden"));
+                document.getElementById("view-" + view).classList.remove("hidden");
+            }
+            document
+                .querySelectorAll(".nav button")
+                .forEach((b) => b.addEventListener("click", () => nav(b.dataset.view)));
+
+            // --- IMD ---
+            function initCut() {
+                document.getElementById("mat").value = state.mat;
+                document.getElementById("strategy").value = state.strategy;
+                document.querySelectorAll("#machineQuick button").forEach((b) => {
+                    b.classList.toggle("active", b.dataset.m === state.machine);
+                    b.addEventListener("click", () => {
+                        state.machine = b.dataset.m;
+                        document
+                            .querySelectorAll("#machineQuick button")
+                            .forEach((x) => x.classList.remove("active"));
+                        b.classList.add("active");
+                        updateCutFields();
+                        calcCut(true);
+                    });
+                });
+                document.getElementById("tool").addEventListener("change", handleCribSelection);
+                document.getElementById("strategy").addEventListener("change", (e) => {
+                    state.strategy = e.target.value;
+                    calcCut(true);
+                });
+                document.getElementById("mat").addEventListener("change", (e) => {
+                    state.mat = e.target.value;
+                    calcCut(true);
+                });
+                ["geom", "op"].forEach((id) =>
+                    document.getElementById(id)?.addEventListener("change", (e) => {
+                        state[id] = e.target.value;
+                        calcCut(true);
+                    })
+                );
+                ["D", "Z", "L", "ae", "ap"].forEach((id) =>
+                    document.getElementById(id)?.addEventListener("input", () => calcCut(false))
+                );
+                updateCutFields();
+                calcCut(true);
+            }
+
+            function updateCutFields() {
+                const isMill = machine[state.machine].type === "mill";
+                document.getElementById("millOnly").classList.toggle("hidden", !isMill);
+                document.getElementById("zRow").classList.toggle("hidden", !isMill);
+                document.getElementById("lRow").classList.toggle("hidden", !isMill);
+                document.getElementById("aeRow").classList.toggle("hidden", !isMill);
+
+                document.getElementById("dText").textContent = isMill ? "VÆRKTØJ Ø D" : "EMNE Ø D";
+                document.getElementById("feedLabel").textContent = isMill ? "TILSPÆNDING VF" : "TILSPÆNDING F";
+                document.getElementById("feedUnit").textContent = isMill ? "mm/min" : "mm/omdr";
+                document.getElementById("rpmLabel").textContent = isMill ? "SPINDEL" : "SPINDEL";
+                document.getElementById("ldLabel").textContent = isMill ? "L / D RATIO" : "SKÆREHAST. Vc";
+                document.getElementById("ldUnit").textContent = isMill ? "X" : "m/min";
+
+                const type = machine[state.machine].type;
+                const toolSelect = document.getElementById("tool");
+                toolSelect.innerHTML =
+                    Object.entries(T[type])
+                        .map(([k, v]) => `<option value="${k}">${v.name}</option>`)
+                        .join("") +
+                    store.tools
+                        .filter((t) =>
+                            type === "mill"
+                                ? !String(t.type || "").startsWith("turn_")
+                                : String(t.type || "").startsWith("turn_") ||
+                                  ["drill", "tap", "reamer", "spotdrill", "boringhead"].includes(t.type)
+                        )
+                        .map((t) => `<option value="crib:${t.id}">${esc(t.loc)} · ${esc(t.name)}</option>`)
+                        .join("");
+
+                if (!toolSelect.querySelector(`option[value="${state.tool}"]`))
+                    state.tool = toolSelect.options[0].value;
+                toolSelect.value = state.tool;
+                handleCribSelection();
+            }
+
+            function handleCribSelection() {
+                state.tool = document.getElementById("tool").value;
+                const isCrib = state.tool.startsWith("crib:");
+
+                ["D", "Z", "L"].forEach((id) => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.readOnly = isCrib;
+                        el.style.opacity = isCrib ? "0.6" : "1";
                     }
                 });
-                
-                lucide.createIcons();
-                
-                if (viewKey === 'tools') renderToolList();
-                if (viewKey === 'imd') {
-                    initMaterials();
-                    calc(true);
-                }
-                if (viewKey === 'sop') {
-                    calcSop();
-                    calcMath();
-                }
-                if (viewKey === 'qc') calcQc();
-            }
-        };
 
-        // --- GLOBAL EVENT DELEGATION ---
-        document.getElementById('app-root').addEventListener('click', function(e) {
-            
-            // --- VÆRKTØJ LOGIK ---
-            if (e.target.closest('#btn-save-tool')) {
-                const loc = document.getElementById('tool-loc').value.toUpperCase();
-                const name = document.getElementById('tool-name').value;
-                const type = document.getElementById('tool-type').value;
-                const mat = document.getElementById('tool-mat').value;
-                const D = parseFloat(document.getElementById('tool-D').value);
-                const Z = parseInt(document.getElementById('tool-Z').value) || 1; 
-                const L = parseFloat(document.getElementById('tool-L').value);
-                const Lc = parseFloat(document.getElementById('tool-Lc').value);
+                document.querySelectorAll(".lock-tag").forEach((el) => el.classList.toggle("hidden", !isCrib));
+                document.querySelectorAll(".auto-tag").forEach((el) => el.classList.toggle("hidden", isCrib));
+
+                calcCut(true);
+            }
+
+            function toolData() {
+                const type = machine[state.machine].type;
+                if (state.tool.startsWith("crib:")) {
+                    const t = store.tools.find((x) => String(x.id) === state.tool.slice(5));
+                    if (t) return { ...t, vc: M[state.mat] ? 1 : 1, f: 1, z: t.Z || 1, crib: true };
+                }
+                return T[type][state.tool] || Object.values(T[type])[0];
+            }
+
+            function calcCut(apply) {
+                const out = (id) => document.getElementById(id);
+                const mach = machine[state.machine],
+                    mat = M[state.mat],
+                    tool = toolData(),
+                    str = STR[state.strategy],
+                    type = mach.type;
+                let d = parseFloat(out("D").value) || 0;
+                let warningsHTML = "";
+
+                if (tool.crib && !d) {
+                    d = +tool.D || 0;
+                    out("D").value = d;
+                }
+                if (type === "mill") {
+                    if (tool.crib && !out("Z").value) out("Z").value = tool.Z || 1;
+                    if (tool.crib && !out("L").value) out("L").value = tool.L || "";
+                }
+
+                if (apply && type === "mill" && d) {
+                    if (!out("Z").value) out("Z").value = tool.z || 4;
+                    if (!out("L").value) out("L").value = (d * 3).toFixed(1);
+                    if (!out("ae").value) out("ae").value = (d * str.ae).toFixed(2);
+                    if (!out("ap").value) out("ap").value = (d * str.ap).toFixed(2);
+                    if (state.op === "spor") out("ae").value = d.toFixed(2);
+                }
+
+                if (d <= 0) {
+                    out("rpm").textContent = "—";
+                    out("vf").textContent = "—";
+                    out("ld").textContent = "—";
+                    out("mrr").textContent = "—";
+                    out("warnings").innerHTML = "";
+                    out("warnings").classList.add("hidden");
+                    out("setupSummary").textContent = "VÆLG VÆRKTØJ OG INDTAST Ø";
+                    return;
+                }
+
+                let vc = mat.vc * tool.vc * str.vc;
+                let f = mat.f * tool.f * str.f;
+                let rpm = Math.min((vc * 1000) / (Math.PI * d), mach.rpm);
+
+                if (rpm >= mach.rpm - 0.1 && (vc * 1000) / (Math.PI * d) > mach.rpm) {
+                    warningsHTML += `MAX SPINDEL NÅET`;
+                }
+
+                if (type === "mill" && (state.geom === "undercut" || state.geom === "slittingsaw")) {
+                    f *= 0.4;
+                    warningsHTML += (warningsHTML ? " · " : "") + `UNDERCUT STRAF (-60% FEED)`;
+                }
+
+                if (type === "turn" && state.geom === "turn_groove") {
+                    f *= 0.5;
+                    warningsHTML += (warningsHTML ? " · " : "") + `STIK: REDUCERET FEED (-50%)`;
+                }
+
+                let vf = "—",
+                    ld = "—",
+                    mrr = "—";
+                if (type === "turn") {
+                    vf = f.toFixed(2);
+                    const ap = parseFloat(out("ap").value) || 0;
+                    if (ap > 0) mrr = (ap * f * vc).toFixed(1);
+                    out("rpm").textContent = Math.round(rpm).toLocaleString("da-DK");
+                    out("vf").textContent = vf;
+                    out("ld").textContent = Math.round(vc);
+                    out("mrr").textContent = mrr;
+                } else {
+                    const z = parseFloat(out("Z").value) || tool.z || 4;
+                    const ae = state.op === "spor" ? d : parseFloat(out("ae").value) || 0;
+                    const ap = parseFloat(out("ap").value) || 0;
+                    let fz = f;
+                    if (
+                        state.op === "profil" &&
+                        ae > 0 &&
+                        ae < d / 2 &&
+                        !["drill", "spotdrill", "tap", "reamer", "boringhead"].includes(state.geom)
+                    ) {
+                        const mul = Math.min(Math.sqrt(d / ae), 3);
+                        fz *= mul;
+                        if (state.machine === "deckel" && mul > 1.5)
+                            warningsHTML += (warningsHTML ? " · " : "") + `HSM IKKE AKTIV`;
+                    }
+                    vf = rpm * z * fz;
+                    if (state.op === "bor") vf = rpm * f;
+                    const L = parseFloat(out("L").value) || 0;
+                    ld = L > 0 ? (L / d).toFixed(2) : "—";
+                    if (state.op !== "bor" && ae > 0 && ap > 0) mrr = ((ap * ae * vf) / 1000).toFixed(1);
+
+                    out("rpm").textContent = Math.round(rpm).toLocaleString("da-DK");
+                    out("vf").textContent = Math.round(vf).toLocaleString("da-DK");
+                    out("ld").textContent = ld;
+                    out("mrr").textContent = mrr;
+                    if (L / d >= 4) warningsHTML += (warningsHTML ? " · " : "") + `HØJ L/D RISIKO`;
+                }
+
+                if (warningsHTML) {
+                    out("warnings").textContent = warningsHTML;
+                    out("warnings").classList.remove("hidden");
+                    out("warnings").classList.toggle("bad", warningsHTML.includes("MAX") || warningsHTML.includes("RISIKO"));
+                } else {
+                    out("warnings").classList.add("hidden");
+                }
                 
-                if (!loc || !name || !D || !L || !Lc) {
-                    alert("Udfyld alle fysiske parametre for at gemme.");
+                out("setupSummary").textContent =
+                    `${mach.name} · ${mat.name} · ${tool.name || "CRIB"} · ${state.strategy.toUpperCase()}`;
+            }
+
+            // --- REF TABS ---
+            function initRef() {
+                document.querySelectorAll("#refTabs button").forEach((b, i) => {
+                    b.addEventListener("click", () => {
+                        document.querySelectorAll("#refTabs button").forEach((x) => x.classList.remove("active"));
+                        b.classList.add("active");
+                        document.querySelectorAll(".ref-sub").forEach((el) => el.classList.add("hidden"));
+                        document.getElementById("ref-" + b.dataset.r).classList.remove("hidden");
+                    });
+                });
+                const std = document.getElementById("thrStd");
+                std.addEventListener("change", () => {
+                    if (std.value) {
+                        const [d, p] = std.value.split(",");
+                        document.getElementById("thrD").value = d;
+                        document.getElementById("thrP").value = p;
+                    }
+                    calcThread();
+                });
+                ["thrD", "thrP", "thrMat"].forEach((id) =>
+                    document.getElementById(id).addEventListener("input", calcThread)
+                );
+                calcThread();
+
+                ["isoD", "isoClass"].forEach((id) => document.getElementById(id).addEventListener("input", calcIso));
+                calcIso();
+
+                ["re", "rf"].forEach((id) => document.getElementById(id).addEventListener("input", calcRough));
+                calcRough();
+            }
+
+            // --- GEO TABS ---
+            function initGeo() {
+                document.querySelectorAll("#geoTabs button").forEach((b, i) => {
+                    b.addEventListener("click", () => {
+                        document.querySelectorAll("#geoTabs button").forEach((x) => x.classList.remove("active"));
+                        b.classList.add("active");
+                        document.querySelectorAll(".geo-sub").forEach((el) => el.classList.add("hidden"));
+                        document.getElementById("geo-" + b.dataset.g).classList.remove("hidden");
+                    });
+                });
+                ["mc", "ma"].forEach((id) => document.getElementById(id).addEventListener("input", calcChamfer));
+                calcChamfer();
+
+                ["cd", "cdd", "cl"].forEach((id) => document.getElementById(id).addEventListener("input", calcCone));
+                calcCone();
+
+                ["bd", "bn", "ba"].forEach((id) => document.getElementById(id).addEventListener("input", calcBhc));
+                calcBhc();
+            }
+
+            function applyStdCone() {
+                const val = document.getElementById("coneStd").value;
+                if (val) {
+                    const [D, d, L] = val.split(",");
+                    document.getElementById("cd").value = D;
+                    document.getElementById("cdd").value = d;
+                    document.getElementById("cl").value = L;
+                    calcCone();
+                }
+            }
+
+            // --- LOGIC ---
+            function calcThread() {
+                const d = +document.getElementById("thrD").value || 0,
+                    p = +document.getElementById("thrP").value || 0,
+                    hard = document.getElementById("thrMat").value === "hard";
+                document.getElementById("cutBor").textContent = d && p ? (d - p * (hard ? 0.85 : 1)).toFixed(2) : "—";
+                document.getElementById("formBor").textContent = d && p ? (d - p / 2).toFixed(2) : "—";
+                document.getElementById("thrDepth").textContent = d ? (d * 1.5).toFixed(1) : "—";
+            }
+            function isoCalc(d, c) {
+                c = (c || "").trim();
+                let i = ISO.ranges.findIndex((x) => d <= x);
+                return i < 0 || !ISO.classes[c]
+                    ? null
+                    : { lo: ISO.classes[c][i][1] / 1000, up: ISO.classes[c][i][0] / 1000 };
+            }
+            function calcIso() {
+                const d = +document.getElementById("isoD").value || 0,
+                    c = document.getElementById("isoClass").value,
+                    r = isoCalc(d, c);
+                if (!r) {
+                    ["isoTarget", "isoMin", "isoMax"].forEach((id) => (document.getElementById(id).textContent = "—"));
+                    document.getElementById("isoMinLabel").classList.add("hidden");
+                    document.getElementById("isoMaxLabel").classList.add("hidden");
+                    return;
+                }
+                document.getElementById("isoMinLabel").classList.remove("hidden");
+                document.getElementById("isoMaxLabel").classList.remove("hidden");
+                document.getElementById("isoMinLabel").textContent = (r.lo > 0 ? "+" : "") + r.lo.toFixed(3);
+                document.getElementById("isoMaxLabel").textContent = (r.up > 0 ? "+" : "") + r.up.toFixed(3);
+
+                document.getElementById("isoMin").textContent = (d + r.lo).toFixed(3);
+                document.getElementById("isoMax").textContent = (d + r.up).toFixed(3);
+                document.getElementById("isoTarget").textContent = (d + (r.lo + r.up) / 2).toFixed(4);
+            }
+            function calcRough() {
+                const re = +document.getElementById("re").value || 0,
+                    f = +document.getElementById("rf").value || 0;
+                if (!(re > 0 && f > 0)) {
+                    document.getElementById("ra").textContent = "—";
+                    document.getElementById("rz").textContent = "—";
+                    document.getElementById("nscale").textContent = "—";
+                    return;
+                }
+                const ra = ((f * f) / (32 * re)) * 1000,
+                    rz = ((f * f) / (8 * re)) * 1000;
+                const cuts = [
+                    [0.025, "N1"], [0.05, "N2"], [0.1, "N3"], [0.2, "N4"], [0.4, "N5"],
+                    [0.8, "N6"], [1.6, "N7"], [3.2, "N8"], [6.3, "N9"], [12.5, "N10"], [25, "N11"],
+                ];
+                document.getElementById("ra").textContent = ra.toFixed(2);
+                document.getElementById("rz").textContent = rz.toFixed(2);
+                document.getElementById("nscale").textContent = (cuts.find((x) => ra <= x[0]) || [0, "N12"])[1];
+            }
+            function calcChamfer() {
+                const c = +document.getElementById("mc").value || 0,
+                    a = +document.getElementById("ma").value || 90;
+                document.getElementById("mz").textContent = c ? (c / Math.tan((a * Math.PI) / 360)).toFixed(3) : "—";
+            }
+            function calcCone() {
+                const D = +document.getElementById("cd").value || 0,
+                    d = +document.getElementById("cdd").value || 0,
+                    L = +document.getElementById("cl").value || 0;
+                document.getElementById("ca").textContent =
+                    D > d && L > 0 ? ((Math.atan((D - d) / (2 * L)) * 180) / Math.PI).toFixed(2) : "—";
+            }
+            function calcBhc() {
+                const d = +document.getElementById("bd").value || 0,
+                    n = +document.getElementById("bn").value || 0,
+                    start = +document.getElementById("ba").value || 0,
+                    out = document.getElementById("coords");
+                if (!out || !(d > 0 && n > 0)) {
+                    if (out) out.innerHTML = "";
+                    return;
+                }
+                let h = "";
+                for (let i = 0; i < n; i++) {
+                    const deg = start + (i * 360) / n,
+                        rad = (deg * Math.PI) / 180;
+                    let x = (d / 2) * Math.cos(rad),
+                        y = (d / 2) * Math.sin(rad);
+                    if (Math.abs(x) < 1e-6) x = 0;
+                    if (Math.abs(y) < 1e-6) y = 0;
+                    h += `<div class="coord-row"><span class="h">H${i + 1}</span><span>X ${x.toFixed(3)}</span><span>Y ${y.toFixed(3)}</span></div>`;
+                }
+                out.innerHTML = h;
+            }
+
+            // --- QC ---
+            function calcQc() {
+                ["qNom", "qIso", "qUp", "qLo", "qMeas"].forEach((id) =>
+                    document.getElementById(id).addEventListener("input", () => {
+                        if (["qNom", "qIso"].includes(id)) {
+                            const r = isoCalc(
+                                +document.getElementById("qNom").value || 0,
+                                document.getElementById("qIso").value
+                            );
+                            if (r) {
+                                document.getElementById("qUp").value = r.up.toFixed(3);
+                                document.getElementById("qLo").value = r.lo.toFixed(3);
+                            }
+                        }
+                        calcQcNow();
+                    })
+                );
+                calcQcNow();
+            }
+            function calcQcNow() {
+                const nom = +document.getElementById("qNom").value || 0,
+                    up = +document.getElementById("qUp").value || 0,
+                    lo = +document.getElementById("qLo").value || 0,
+                    me = parseFloat(document.getElementById("qMeas").value);
+                const min = nom + lo,
+                    max = nom + up,
+                    target = nom + (lo + up) / 2;
+                document.getElementById("qRange").textContent = nom ? `${min.toFixed(3)} — ${max.toFixed(3)} mm` : "—";
+                const stOut = document.getElementById("qStatusOut"),
+                      stText = document.getElementById("qStatusText"),
+                      of = document.getElementById("qOffset"),
+                      dev = document.getElementById("qDev");
+                      
+                if (Number.isNaN(me) || !nom) {
+                    stOut.style.background = "transparent";
+                    stText.textContent = "AFVENTER";
+                    stText.style.color = "var(--muted)";
+                    dev.textContent = "0.000 mm";
+                    of.textContent = "INDTAST MÅLING";
+                    of.className = "warn";
+                    of.style.color = "var(--muted)";
                     return;
                 }
                 
-                let toolsList = JSON.parse(localStorage.getItem('datum_tools')) || [];
-                toolsList = toolsList.filter(t => t.loc && t.name && t.D); 
-
-                toolsList.push({ id: Date.now(), loc: loc, name: name, type: type, mat: mat, D: D, Z: Z, L: L, Lc: Lc, wear: 'new' });
+                const delta = me - target;
+                dev.textContent = (delta >= 0 ? "+" : "") + delta.toFixed(3) + " mm";
+                const good = me >= min && me <= max;
                 
-                toolsList.sort((a, b) => {
-                    const strA = a.loc || "";
-                    const strB = b.loc || "";
-                    return (parseInt(strA.replace(/\D/g, '')) || 0) - (parseInt(strB.replace(/\D/g, '')) || 0);
+                if(good) {
+                    stOut.style.background = "var(--panel2)";
+                    stText.textContent = "GO (OK)";
+                    stText.style.color = "var(--good)";
+                    of.className = "warn good";
+                } else {
+                    stOut.style.background = "var(--panel2)";
+                    stText.textContent = "NO-GO";
+                    stText.style.color = "var(--bad)";
+                    of.className = "warn bad";
+                }
+
+                const offset = target - me;
+                of.innerHTML = `RET OFFSET <span style="margin-left:8px; font-size:14px; font-weight:800">${offset >= 0 ? "+" : ""}${offset.toFixed(3)} mm</span>`;
+            }
+
+            // --- VÆRKTØJ ---
+            function renderTools() {
+                const list = document.getElementById("toolList");
+                if (!store.tools.length) {
+                    list.innerHTML =
+                        '<div style="padding:40px 10px;text-align:center;color:var(--dim);font-weight:700;font-size:10px;letter-spacing:.1em">INGEN VÆRKTØJER GEMT</div>';
+                    return;
+                }
+                list.innerHTML = store.tools
+                    .map(
+                        (t) =>
+                            `<div class="tool"><div class="tool-loc">${esc(t.loc)}</div><div><div class="tool-name">${esc(t.name)}</div><div class="tool-meta">Ø${esc(t.D)} · Z${esc(t.Z || 1)} · L${esc(t.L)} · LC${esc(t.Lc || 0)} · ${esc(t.mat || "hm")}</div></div><button class="tool-del" data-id="${t.id}">×</button></div>`
+                    )
+                    .join("");
+                list.querySelectorAll(".tool-del").forEach((b) =>
+                    b.addEventListener("click", () => {
+                        store.tools = store.tools.filter((t) => String(t.id) !== b.dataset.id);
+                        localStorage.setItem("datum_tools", JSON.stringify(store.tools));
+                        renderTools();
+                        updateCutFields();
+                    })
+                );
+            }
+            function wireTools() {
+                document.getElementById("addToolBtn").addEventListener("click", () => {
+                    const n = document.getElementById("newTool");
+                    n.style.display = n.style.display === "none" ? "block" : "none";
                 });
-
-                localStorage.setItem('datum_tools', JSON.stringify(toolsList));
-                
-                ['tool-loc', 'tool-name', 'tool-D', 'tool-Z', 'tool-L', 'tool-Lc'].forEach(id => {
-                    if(document.getElementById(id)) document.getElementById(id).value = '';
+                document.getElementById("saveTool").addEventListener("click", () => {
+                    const t = {
+                        id: Date.now(),
+                        loc: document.getElementById("tl").value.toUpperCase().trim(),
+                        name: document.getElementById("tn").value.trim(),
+                        type: document.getElementById("tt").value,
+                        mat: document.getElementById("tm").value,
+                        D: +document.getElementById("td").value,
+                        Z: +document.getElementById("tz").value || 1,
+                        L: +document.getElementById("tlen").value,
+                        Lc: +document.getElementById("tlc").value || 0,
+                    };
+                    if (!t.loc || !t.name || !t.D || !t.L) return alert("Udfyld lokation, navn, Ø og L.");
+                    store.tools.push(t);
+                    store.tools.sort(
+                        (a, b) => (parseInt(a.loc.replace(/\D/g, "")) || 0) - (parseInt(b.loc.replace(/\D/g, "")) || 0)
+                    );
+                    localStorage.setItem("datum_tools", JSON.stringify(store.tools));
+                    renderTools();
+                    updateCutFields();
+                    document.getElementById("newTool").style.display = "none";
                 });
-                renderToolList();
+                renderTools();
             }
-
-            if (e.target.closest('.delete-tool')) {
-                const id = parseInt(e.target.closest('.delete-tool').dataset.id);
-                let toolsList = JSON.parse(localStorage.getItem('datum_tools')) || [];
-                toolsList = toolsList.filter(t => t.id !== id);
-                localStorage.setItem('datum_tools', JSON.stringify(toolsList));
-                renderToolList();
-            }
-        });
-
-        // --- FUNKTIONER ---
-        function applyStdThread() {
-            const val = document.getElementById('sop-thr-std').value;
-            if(val) {
-                const parts = val.split(',');
-                document.getElementById('sop-thr-d').value = parts[0];
-                document.getElementById('sop-thr-p').value = parts[1];
-                calcSop();
-            }
-        }
-
-        function applyStdTaper() {
-            const val = document.getElementById('math-cone-std').value;
-            if(val) {
-                const parts = val.split(',');
-                document.getElementById('math-cone-D').value = parts[0];
-                document.getElementById('math-cone-d').value = parts[1];
-                document.getElementById('math-cone-l').value = parts[2];
-                calcMath();
-            }
-        }
-
-        function renderToolList() {
-            const list = document.getElementById('tool-list');
-            if(!list) return;
-            
-            let toolsList = JSON.parse(localStorage.getItem('datum_tools')) || [];
-            const validTools = toolsList.filter(t => t.loc && t.name && t.D);
-            if(validTools.length !== toolsList.length) {
-                toolsList = validTools;
-                localStorage.setItem('datum_tools', JSON.stringify(toolsList));
-            }
-
-            if(toolsList.length === 0) {
-                list.innerHTML = `<div class="border border-dashed border-line2 rounded-xl p-4 text-center"><div class="text-[10px] uppercase font-mono text-dim">Crib er tom.</div></div>`;
-                return;
-            }
-            list.innerHTML = toolsList.map(t => {
-                const typeLabel = geomLabels[t.type || 'endmill'] || 'Ukendt';
-                const matLabel = matLabels[t.mat || 'hm'] || 'HM';
-                const displayLc = t.Lc ? `<span class="chip text-dim"><i data-lucide="align-justify" class="inline w-2 h-2"></i> Lc${t.Lc}</span>` : '';
-                
-                return `
-                <div class="border border-line bg-graphite rounded-lg p-2.5 flex gap-3 items-center justify-between group transition hover:border-line2">
-                    <div class="w-10 h-10 rounded bg-black border border-line flex items-center justify-center shrink-0">
-                        <span class="display text-sm font-semibold text-orange leading-none">${t.loc}</span>
-                    </div>
-                    <div class="flex-grow min-w-0">
-                        <div class="text-xs font-semibold text-f2f3f3 truncate">${t.name}</div>
-                        <div class="text-[9px] font-mono text-muted uppercase mt-0.5 truncate">${matLabel} | ${typeLabel}</div>
-                        <div class="flex gap-2 mt-1.5 flex-wrap">
-                            <span class="chip text-dim"><i data-lucide="circle" class="inline w-2 h-2"></i> ${t.D}</span>
-                            <span class="chip text-dim"><i data-lucide="scissors" class="inline w-2 h-2"></i> ${t.Z} FL</span>
-                            <span class="chip text-dim"><i data-lucide="ruler" class="inline w-2 h-2"></i> L${t.L}</span>
-                            ${displayLc}
-                        </div>
-                    </div>
-                    <button class="delete-tool w-8 h-8 rounded border border-line2 text-dim hover:text-red hover:border-red/50 grid place-items-center shrink-0" data-id="${t.id}"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
-                </div>
-            `}).join('');
-            lucide.createIcons();
-        }
-
-        function initMaterials() {
-            const matSelect = document.getElementById('mat');
-            if(!matSelect) return;
-            matSelect.innerHTML = '';
-            let currentGroup = '';
-            let html = '';
-            for (const [key, data] of Object.entries(materialsRaw)) {
-                if (data.group !== currentGroup) {
-                    if (currentGroup !== '') html += `</optgroup>`;
-                    html += `<optgroup label="${data.group}">`;
-                    currentGroup = data.group;
-                }
-                html += `<option value="${key}">${data.name}</option>`;
-            }
-            html += `</optgroup>`;
-            matSelect.innerHTML = html;
-            updateUI();
-        }
-
-        function markDirty(el) {
-            el.dataset.dirty = "true";
-            const label = el.parentElement.querySelector('.auto-tag');
-            if (label) label.classList.add('hidden');
-            document.getElementById('reset-btn').classList.remove('hidden');
-        }
-
-        function resetDirty() {
-            const fields = ['D', 'Z', 'ae', 'ap', 'L'];
-            fields.forEach(id => {
-                const el = document.getElementById(id);
-                if(el) {
-                    el.dataset.dirty = "false";
-                    const label = el.parentElement.querySelector('.auto-tag');
-                    if (label) label.classList.remove('hidden');
-                }
-            });
-            document.getElementById('reset-btn').classList.add('hidden');
-            calc(true); 
-        }
-
-        function handleGeometryChange() {
-            const geom = document.getElementById('toolGeometry').value;
-            const opSelect = document.getElementById('operation');
-            
-            if (['drill', 'spotdrill', 'tap', 'reamer', 'boringhead'].includes(geom)) {
-                opSelect.value = 'bor';
-                opSelect.disabled = true;
-            } else {
-                opSelect.disabled = false;
-                if (opSelect.value === 'bor') opSelect.value = 'profil';
-            }
-            handleOperationChange();
-            hardUpdateUI();
-        }
-
-        function handleOperationChange() {
-            const type = document.getElementById('machine').options[document.getElementById('machine').selectedIndex].dataset.type;
-            if (type === 'turn') return;
-
-            const op = document.getElementById('operation').value;
-            const aeInput = document.getElementById('ae');
-            const apInput = document.getElementById('ap');
-            const mrrBlock = document.getElementById('mrr-block');
-            const stratGrid = document.getElementById('strategy-grid');
-            
-            aeInput.readOnly = false;
-            aeInput.classList.remove('text-dim', 'border-line2');
-            apInput.parentElement.classList.remove('hidden');
-            mrrBlock.classList.remove('hidden');
-            stratGrid.classList.remove('hidden');
-
-            if (op === 'spor') {
-                resetDirty();
-                aeInput.readOnly = true;
-                aeInput.classList.add('text-dim', 'border-line2');
-                calc(true);
-            } else if (op === 'bor') {
-                aeInput.parentElement.classList.add('hidden');
-                apInput.parentElement.classList.add('hidden');
-                mrrBlock.classList.add('hidden');
-                document.getElementById('strategy').value = 'normal';
-                calc(true);
-            } else {
-                aeInput.parentElement.classList.remove('hidden');
-                calc(true);
-            }
-        }
-
-        function updateUI() {
-            const selectMachine = document.getElementById('machine');
-            const type = selectMachine.options[selectMachine.selectedIndex].dataset.type;
-            const toolSelect = document.getElementById('toolData');
-            toolSelect.innerHTML = '';
-            
-            const cribTools = JSON.parse(localStorage.getItem('datum_tools')) || [];
-            const validCribTools = cribTools.filter(t => t.loc && t.name && t.D);
-
-            let filteredCribTools = validCribTools;
-            if (type === 'mill') {
-                filteredCribTools = validCribTools.filter(t => !t.type.startsWith('turn_'));
-            } else if (type === 'turn') {
-                filteredCribTools = validCribTools.filter(t => t.type.startsWith('turn_') || ['drill', 'spotdrill', 'tap', 'reamer', 'boringhead'].includes(t.type));
-            }
-
-            if (filteredCribTools.length > 0) { 
-                toolSelect.innerHTML += `<optgroup label="TOOL CRIB">`;
-                filteredCribTools.forEach(t => {
-                    const t_mat = t.mat || 'hm';
-                    const t_type = t.type || 'endmill';
-                    const mods = materialMods[t_mat] || materialMods['hm'];
-                    toolSelect.innerHTML += `<option value="crib_${t.id}" data-iscrib="true" data-type="${t_type}" data-vcmod="${mods.vc}" data-fmod="${mods.f}" data-d="${t.D}" data-z="${t.Z}" data-l="${t.L}" data-lc="${t.Lc || t.D*2}">${t.loc} - ${t.name}</option>`;
-                });
-                toolSelect.innerHTML += `</optgroup>`;
-            }
-
-            const availableTools = tools[type];
-            toolSelect.innerHTML += `<optgroup label="MANUEL INPUT">`;
-            for (const [toolKey, toolData] of Object.entries(availableTools)) {
-                const params = type === 'mill' ? `data-z="${toolData.z}"` : '';
-                toolSelect.innerHTML += `<option value="${toolKey}" data-iscrib="false" data-type="endmill" data-vcmod="${toolData.vc_mod}" data-fmod="${toolData.f_mod}" ${params}>${toolData.name}</option>`;
-            }
-            toolSelect.innerHTML += `</optgroup>`;
-
-            toggleMachineType(type);
-            handleCribSelection();
-        }
-
-        function handleCribSelection() {
-            const toolSelect = document.getElementById('toolData');
-            if(!toolSelect.options.length) return;
-            const optTool = toolSelect.options[toolSelect.selectedIndex];
-            const geomSelect = document.getElementById('toolGeometry');
-
-            if (optTool && optTool.dataset.iscrib === "true" && optTool.dataset.type) {
-                geomSelect.value = optTool.dataset.type;
-                geomSelect.disabled = true; 
-                geomSelect.classList.add('text-dim', 'border-line2');
-                geomSelect.classList.remove('text-orange', 'border-orange/30');
-            } else {
-                geomSelect.disabled = false;
-                geomSelect.classList.remove('text-dim', 'border-line2');
-                geomSelect.classList.add('text-orange', 'border-orange/30');
-            }
-            handleGeometryChange();
-        }
-
-        function hardUpdateUI() { resetDirty(); }
-        function softUpdate() { calc(true); }
-
-        function toggleMachineType(type) {
-            const elements = {
-                labelD: document.getElementById('label-D'),
-                contZ: document.getElementById('container-Z'),
-                contAe: document.getElementById('container-ae'),
-                contAp: document.getElementById('container-ap'),
-                contL: document.getElementById('container-L'),
-                mrrBlock: document.getElementById('mrr-block'),
-                ldBlock: document.getElementById('ld-block'),
-                feedLabel: document.getElementById('feed-label'),
-                feedUnit: document.getElementById('feed-unit'),
-                opSelect: document.getElementById('operation'),
-                geomSelect: document.getElementById('toolGeometry')
-            };
-
-            if (type === 'turn') {
-                elements.labelD.textContent = "Emne Ø (D)";
-                ['contZ', 'contAe', 'contAp', 'contL', 'mrrBlock', 'ldBlock'].forEach(k => elements[k].classList.add('hidden'));
-                elements.opSelect.innerHTML = `<option value="udv">Udvendig Drejning</option><option value="indv">Indvendig udboring</option>`;
-                elements.feedLabel.textContent = "Tilspænding (f)";
-                elements.feedUnit.textContent = "mm/omdr";
-                elements.geomSelect.parentElement.classList.add('hidden');
-            } else {
-                elements.labelD.textContent = "Værktøj Ø (D)";
-                ['contZ', 'contAe', 'contAp', 'contL', 'mrrBlock', 'ldBlock'].forEach(k => elements[k].classList.remove('hidden'));
-                elements.opSelect.innerHTML = `<option value="profil">Side / Profil</option><option value="spor">Sporfræsning</option><option value="bor">Boring (Z-akse)</option>`;
-                elements.feedLabel.textContent = "Bordtilspænding (Vf)";
-                elements.feedUnit.textContent = "mm/min";
-                elements.geomSelect.parentElement.classList.remove('hidden');
-            }
-        }
-
-        function applySmartDefaults(D, optTool, strat, op, geom) {
-            let ae_val = D * strat.ae;
-            let ap_val = D * strat.ap;
-
-            if (geom === 'facemill') { ae_val = D * 0.70; ap_val = Math.min(D * 0.1, 3.0); }
-            if (geom === 'undercut' || geom === 'slittingsaw') { ae_val = D; ap_val = D * 0.2; }
-            if (op === 'spor') { ae_val = D; }
-
-            const isCrib = optTool.dataset.iscrib === "true";
-            
-            const fields = {
-                'D': { val: isCrib ? parseFloat(optTool.dataset.d) : null, force: isCrib },
-                'Z': { val: isCrib ? parseFloat(optTool.dataset.z) : (parseFloat(optTool.dataset.z) || 2), force: isCrib },
-                'L': { val: isCrib ? parseFloat(optTool.dataset.l) : (D * 3.0), force: isCrib },
-                'ae': { val: ae_val, force: false },
-                'ap': { val: isCrib && !isNaN(parseFloat(optTool.dataset.lc)) ? Math.min(ap_val, parseFloat(optTool.dataset.lc)) : ap_val, force: false }
-            };
-
-            for (const [id, data] of Object.entries(fields)) {
-                const el = document.getElementById(id);
-                if (el && (el.dataset.dirty !== "true" || data.force) && data.val) {
-                    el.value = (id === 'Z' || id === 'D' || id === 'L') && data.force ? data.val : data.val.toFixed(2);
-                    if(data.force) el.dataset.dirty = "false"; 
-                }
-            }
-        }
-
-        function generateWarning(text, type) {
-            const color = type === 'critical' ? 'bg-red' : 'bg-orange';
-            const textColor = type === 'critical' ? 'text-red' : 'text-orange';
-            return `<div class="flex items-center gap-1.5 border border-${color}/20 bg-${color}/10 px-2 py-0.5 rounded"><span class="w-1.5 h-1.5 ${color} rounded-full"></span><span class="chip ${textColor} !text-[8px] !m-0">${text}</span></div>`;
-        }
-
-        function calc(applyDefaults = false) {
-            const selectMachine = document.getElementById('machine');
-            if(!selectMachine) return;
-            const type = selectMachine.options[selectMachine.selectedIndex].dataset.type;
-            const maxRpm = parseFloat(selectMachine.options[selectMachine.selectedIndex].dataset.rpm);
-            const hasHSM = selectMachine.value.includes('hsm');
-
-            const matKey = document.getElementById('mat').value;
-            const matData = materialsRaw[matKey];
-
-            const toolSelect = document.getElementById('toolData');
-            if (!toolSelect.options.length) return;
-            const optTool = toolSelect.options[toolSelect.selectedIndex];
-            
-            const geom = type === 'mill' ? document.getElementById('toolGeometry').value : 'none';
-            const stratKey = document.getElementById('strategy').value;
-            const strat = strategyMods[stratKey];
-            const op = document.getElementById('operation').value;
-
-            let vc_base = matData.vc * parseFloat(optTool.dataset.vcmod) * strat.vc;
-            let f_base = matData.f * parseFloat(optTool.dataset.fmod) * strat.fz;
-
-            const warningsDiv = document.getElementById('warnings');
-            warningsDiv.innerHTML = ''; 
-
-            if (type === 'mill') {
-                if (geom === 'undercut' || geom === 'slittingsaw') { f_base *= 0.4; warningsDiv.innerHTML += generateWarning('UNDERCUT', 'critical'); }
-                if (geom === 'chamfer') { f_base *= 0.7; vc_base *= 0.8; }
-                if (geom === 'threadmill') { f_base *= 0.5; vc_base *= 0.9; }
-                if (op === 'spor') { f_base *= 0.8; }
-            }
-
-            let inputD = document.getElementById('D').value;
-            if(!inputD && optTool.dataset.iscrib === "true") {
-                document.getElementById('D').value = optTool.dataset.d;
-                inputD = optTool.dataset.d;
-            }
-            
-            const D = parseFloat(inputD) || 0;
-            if (D <= 0) {
-                document.getElementById('rpm-out').textContent = "0";
-                document.getElementById('vf-out').textContent = "0";
-                return;
-            }
-
-            if (type === 'mill' && applyDefaults) applySmartDefaults(D, optTool, strat, op, geom);
-
-            let rpm = (vc_base * 1000) / (Math.PI * D);
-            if (rpm > maxRpm) {
-                rpm = maxRpm;
-                warningsDiv.innerHTML += generateWarning('SPINDEL MAX', 'critical');
-                document.getElementById('rpm-out').parentElement.classList.replace('text-f2f3f3', 'text-red');
-            } else {
-                document.getElementById('rpm-out').parentElement.classList.replace('text-red', 'text-f2f3f3');
-            }
-            document.getElementById('rpm-out').textContent = Math.round(rpm).toLocaleString('da-DK');
-
-            if (type === 'mill') {
-                const Z = parseFloat(document.getElementById('Z').value) || 0;
-                const ae = (op === 'spor' || geom === 'undercut' || geom === 'slittingsaw') ? D : (parseFloat(document.getElementById('ae').value) || 0);
-                const ap = parseFloat(document.getElementById('ap').value) || 0;
-                const L = parseFloat(document.getElementById('L').value) || 0;
-                
-                let fz_comp = f_base;
-                
-                if (op === 'profil' && !['undercut', 'slittingsaw', 'drill', 'spotdrill', 'tap', 'reamer', 'boringhead'].includes(geom) && ae > 0 && ae < (D / 2)) {
-                    const thinningMultiplier = Math.min(Math.sqrt(D / ae), 3.0); 
-                    fz_comp = f_base * thinningMultiplier;
-                    
-                    if(!hasHSM && thinningMultiplier > 1.5) {
-                         warningsDiv.innerHTML += generateWarning('INGEN HSM', 'critical');
-                    } else if(geom !== 'facemill') {
-                         warningsDiv.innerHTML += generateWarning('THINNING', 'normal');
-                    }
-                }
-
-                const vf = op === 'bor' ? (rpm * f_base) : (rpm * Z * fz_comp);
-                document.getElementById('vf-out').textContent = Math.round(vf).toLocaleString('da-DK');
-                
-                if (op !== 'bor' && ae > 0 && ap > 0) {
-                    document.getElementById('mrr-out').textContent = ((ap * ae * vf) / 1000).toFixed(1);
-                    
-                    const Lc = optTool.dataset.iscrib === "true" && !isNaN(parseFloat(optTool.dataset.lc)) ? parseFloat(optTool.dataset.lc) : D*2;
-                    if (ap > Lc) {
-                        warningsDiv.innerHTML += generateWarning('AP > Lc', 'critical');
-                    }
-                }
-
-                if (op !== 'bor' && L > 0) {
-                    const ld = L / D;
-                    document.getElementById('ld-out').textContent = ld.toFixed(2);
-                    if (ld >= 4) {
-                        warningsDiv.innerHTML += generateWarning('L/D RATIO', 'critical');
-                        document.getElementById('ld-out').parentElement.classList.replace('text-f2f3f3', 'text-red');
-                    } else {
-                        document.getElementById('ld-out').parentElement.classList.replace('text-red', 'text-f2f3f3');
-                    }
-                }
-            } 
-            else if (type === 'turn') {
-                document.getElementById('vf-out').textContent = f_base.toFixed(2);
-            }
-        }
-
-        function calcSop() {
-            const thrD = parseFloat(document.getElementById('sop-thr-d')?.value) || 0;
-            const thrP = parseFloat(document.getElementById('sop-thr-p')?.value) || 0;
-            const thrMat = document.getElementById('sop-thr-mat')?.value || 'norm';
-            
-            if(thrD > 0 && thrP > 0) {
-                let cutBor;
-                if (thrMat === 'hard') {
-                    cutBor = thrD - (thrP * 0.85); 
-                    document.getElementById('sop-thr-desc').textContent = "Reduceret indgreb (65%)";
-                    document.getElementById('sop-thr-mat').classList.add('text-orange', 'border-orange/30');
-                    document.getElementById('sop-thr-mat').classList.remove('text-dim', 'border-line2');
-                } else {
-                    cutBor = thrD - thrP; 
-                    document.getElementById('sop-thr-desc').textContent = "Standard indgreb (75%)";
-                    document.getElementById('sop-thr-mat').classList.remove('text-orange', 'border-orange/30');
-                    document.getElementById('sop-thr-mat').classList.add('text-dim', 'border-line2');
-                }
-
-                document.getElementById('sop-cut-out').textContent = cutBor.toFixed(2);
-                document.getElementById('sop-form-out').textContent = (thrD - (thrP / 2)).toFixed(2);
-                document.getElementById('sop-thr-depth').textContent = (thrD * 1.5).toFixed(1);
-            } else {
-                document.getElementById('sop-cut-out').textContent = "0.00";
-                document.getElementById('sop-form-out').textContent = "0.00";
-                document.getElementById('sop-thr-depth').textContent = "0.0";
-                document.getElementById('sop-thr-desc').textContent = "Standard indgreb";
-            }
-
-            const raRe = parseFloat(document.getElementById('sop-ra-re')?.value) || 0;
-            const raF = parseFloat(document.getElementById('sop-ra-f')?.value) || 0;
-            
-            if(raRe > 0 && raF > 0) {
-                const ra = ((raF * raF) / (32 * raRe)) * 1000;
-                const rz = ((raF * raF) / (8 * raRe)) * 1000;
-                
-                document.getElementById('sop-ra-out').textContent = ra.toFixed(2);
-                document.getElementById('sop-rz-out').textContent = rz.toFixed(2);
-                
-                let nScale = "N/A";
-                if (ra <= 0.025) nScale = "N1";
-                else if (ra <= 0.05) nScale = "N2";
-                else if (ra <= 0.1) nScale = "N3";
-                else if (ra <= 0.2) nScale = "N4";
-                else if (ra <= 0.4) nScale = "N5";
-                else if (ra <= 0.8) nScale = "N6";
-                else if (ra <= 1.6) nScale = "N7";
-                else if (ra <= 3.2) nScale = "N8";
-                else if (ra <= 6.3) nScale = "N9";
-                else if (ra <= 12.5) nScale = "N10";
-                else if (ra <= 25) nScale = "N11";
-                else nScale = "N12";
-                
-                document.getElementById('sop-ra-n').textContent = nScale;
-            } else {
-                document.getElementById('sop-ra-out').textContent = "0.00";
-                document.getElementById('sop-rz-out').textContent = "0.00";
-                document.getElementById('sop-ra-n').textContent = "N/A";
-            }
-            
-            const isoD = parseFloat(document.getElementById('sop-iso-d')?.value) || 0;
-            const isoClass = document.getElementById('sop-iso-c')?.value.trim();
-            
-            const upperEl = document.getElementById('sop-iso-upper');
-            const lowerEl = document.getElementById('sop-iso-lower');
-            const targetEl = document.getElementById('sop-iso-target');
-            const minEl = document.getElementById('sop-iso-min');
-            const maxEl = document.getElementById('sop-iso-max');
-
-            if (isoD > 0 && isoClass) {
-                let rangeIdx = -1;
-                for (let i = 0; i < iso286Data.ranges.length; i++) {
-                    if (isoD <= iso286Data.ranges[i]) {
-                        rangeIdx = i;
-                        break;
-                    }
-                }
-
-                if (rangeIdx !== -1) {
-                    const limits = iso286Data.classes[isoClass];
-                    if (limits) {
-                        const upperDev = limits[rangeIdx][0] / 1000;
-                        const lowerDev = limits[rangeIdx][1] / 1000;
-                        
-                        const maxDim = isoD + upperDev;
-                        const minDim = isoD + lowerDev;
-                        const targetDim = (maxDim + minDim) / 2;
-
-                        upperEl.textContent = (upperDev > 0 ? '+' : '') + upperDev.toFixed(3);
-                        lowerEl.textContent = (lowerDev > 0 ? '+' : '') + lowerDev.toFixed(3);
-                        
-                        minEl.textContent = minDim.toFixed(3);
-                        maxEl.textContent = maxDim.toFixed(3);
-                        targetEl.textContent = targetDim.toFixed(4);
-
-                        upperEl.className = "text-orange";
-                        lowerEl.className = "text-orange";
-                    } else {
-                        upperEl.textContent = "N/A";
-                        lowerEl.textContent = "N/A";
-                        minEl.textContent = "0.000";
-                        maxEl.textContent = "0.000";
-                        targetEl.textContent = "N/A";
-                    }
-                } else {
-                    targetEl.textContent = ">250";
-                }
-            } else {
-                if(upperEl && lowerEl && targetEl) {
-                    upperEl.textContent = "0.000";
-                    lowerEl.textContent = "0.000";
-                    minEl.textContent = "0.000";
-                    maxEl.textContent = "0.000";
-                    targetEl.textContent = "0.0000";
-                    upperEl.className = "text-dim";
-                    lowerEl.className = "text-dim";
-                }
-            }
-        }
-
-        function calcMath() {
-            const chamferC = parseFloat(document.getElementById('math-chamfer-c')?.value) || 0;
-            const chamferA = parseFloat(document.getElementById('math-chamfer-a')?.value) || 90;
-            const zOut = document.getElementById('math-chamfer-z');
-            if(chamferC > 0) {
-                const z = chamferC / Math.tan((chamferA / 2) * (Math.PI / 180));
-                zOut.textContent = z.toFixed(3);
-            } else {
-                zOut.textContent = "0.000";
-            }
-
-            const coneD = parseFloat(document.getElementById('math-cone-D')?.value) || 0;
-            const coned = parseFloat(document.getElementById('math-cone-d')?.value) || 0;
-            const coneL = parseFloat(document.getElementById('math-cone-l')?.value) || 0;
-            const aOut = document.getElementById('math-cone-a');
-            if(coneD > 0 && coned >= 0 && coneL > 0 && coneD > coned) {
-                const angle = Math.atan((coneD - coned) / (2 * coneL)) * (180 / Math.PI);
-                aOut.textContent = angle.toFixed(2);
-            } else {
-                aOut.textContent = "0.00";
-            }
-
-            const bhcD = parseFloat(document.getElementById('math-bhc-d')?.value) || 0;
-            const bhcN = parseInt(document.getElementById('math-bhc-n')?.value) || 0;
-            const bhcA = parseFloat(document.getElementById('math-bhc-a')?.value) || 0;
-            const listOut = document.getElementById('math-bhc-list');
-            
-            if(bhcD > 0 && bhcN > 0) {
-                let html = '';
-                const r = bhcD / 2;
-                for(let i = 0; i < bhcN; i++) {
-                    const angleDeg = bhcA + (i * (360 / bhcN));
-                    const angleRad = angleDeg * (Math.PI / 180);
-                    let x = r * Math.cos(angleRad);
-                    let y = r * Math.sin(angleRad);
-                    
-                    if(Math.abs(x) < 0.0001) x = 0;
-                    if(Math.abs(y) < 0.0001) y = 0;
-
-                    html += `
-                    <div class="flex justify-between items-center bg-black/50 border border-line rounded px-2 py-1">
-                        <span class="text-[9px] font-bold text-dim">H${i+1}</span>
-                        <div class="text-xs font-mono text-f2f3f3">X ${x.toFixed(3)}</div>
-                        <div class="text-xs font-mono text-f2f3f3">Y ${y.toFixed(3)}</div>
-                    </div>`;
-                }
-                listOut.innerHTML = html;
-            } else {
-                listOut.innerHTML = `<div class="text-[10px] font-mono text-dim text-center py-2">Indtast BHC parametre for at generere liste</div>`;
-            }
-        }
-
-        function calcQc(isManualTol = false) {
-            const nomInput = document.getElementById('qc-nom');
-            const isoInput = document.getElementById('qc-iso');
-            const tUpInput = document.getElementById('qc-tup');
-            const tLowInput = document.getElementById('qc-tlow');
-            const measInput = document.getElementById('qc-meas');
-
-            if (isManualTol && isoInput) {
-                isoInput.value = '';
-            }
-
-            const nom = parseFloat(nomInput?.value);
-            const isoClass = isoInput?.value.trim();
-
-            if (isoClass && !isManualTol && nom > 0) {
-                let rangeIdx = -1;
-                for (let i = 0; i < iso286Data.ranges.length; i++) {
-                    if (nom <= iso286Data.ranges[i]) {
-                        rangeIdx = i;
-                        break;
-                    }
-                }
-
-                if (rangeIdx !== -1 && iso286Data.classes[isoClass]) {
-                    const limits = iso286Data.classes[isoClass];
-                    tUpInput.value = (limits[rangeIdx][0] / 1000).toFixed(3);
-                    tLowInput.value = (limits[rangeIdx][1] / 1000).toFixed(3);
-                    tUpInput.classList.add('bg-orange/10');
-                    tLowInput.classList.add('bg-orange/10');
-                } else {
-                    tUpInput.classList.remove('bg-orange/10');
-                    tLowInput.classList.remove('bg-orange/10');
-                }
-            } else {
-                if (tUpInput) tUpInput.classList.remove('bg-orange/10');
-                if (tLowInput) tLowInput.classList.remove('bg-orange/10');
-            }
-
-            const tUp = parseFloat(tUpInput?.value) || 0;
-            const tLow = parseFloat(tLowInput?.value) || 0;
-            const meas = parseFloat(measInput?.value);
-
-            const statusBox = document.getElementById('qc-status-box');
-            const statusText = document.getElementById('qc-status-text');
-            const devOut = document.getElementById('qc-dev');
-            const actionOut = document.getElementById('qc-action');
-
-            if(!isNaN(nom) && !isNaN(meas)) {
-                const max = nom + tUp;
-                const min = nom + tLow;
-                const target = nom + ((tUp + tLow) / 2);
-                const dev = meas - target;
-                
-                devOut.textContent = (dev > 0 ? '+' : '') + dev.toFixed(3) + " mm";
-
-                if(meas <= max && meas >= min) {
-                    statusBox.className = "my-3 py-3 px-3 bg-emerald-500/10 border border-emerald-500/50 rounded-lg flex items-center justify-between transition-colors duration-300";
-                    statusText.textContent = "GO (I TOLERANCE)";
-                    statusText.className = "text-xl font-bold text-emerald-500 mt-0.5";
-                } else {
-                    statusBox.className = "my-3 py-3 px-3 bg-red/10 border border-red/50 rounded-lg flex items-center justify-between transition-colors duration-300";
-                    statusText.textContent = "NO-GO (KASSERET)";
-                    statusText.className = "text-xl font-bold text-red mt-0.5";
-                }
-
-                const offset = target - meas;
-                actionOut.innerHTML = `Ret Værktøjs-Offset med: <br><span class="text-xl font-bold text-orange mt-1 block">${(offset > 0 ? '+' : '') + offset.toFixed(3)} mm</span>`;
-
-            } else {
-                statusBox.className = "my-3 py-3 px-3 bg-surface/50 border border-line rounded-lg flex items-center justify-between transition-colors duration-300";
-                statusText.textContent = "AFVENTER";
-                statusText.className = "text-xl font-bold text-dim mt-0.5";
-                devOut.textContent = "0.000 mm";
-                actionOut.textContent = "Indtast data for at beregne offset...";
-            }
-        }
-
-        // Boot-sekvens
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
-            router.navigate('sop');
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>
