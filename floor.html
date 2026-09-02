@@ -2,674 +2,2505 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-    <meta name="theme-color" content="#f8fafc" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>DATUM OS // PROTOTYPING</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f6f4ef" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>DATUM OS // SHOP FLOOR</title>
     <style>
       :root {
         color-scheme: light;
-        --bg: #f8fafc;
-        --surface: #ffffff;
-        --surface-hover: #f1f5f9;
-        --line: #e2e8f0;
-        --text-main: #0f172a;
-        --text-muted: #64748b;
-        --accent: #ea580c;
-        --accent-hover: #c2410c;
-        --good: #059669;
-        --good-bg: #d1fae5;
-        --warn: #d97706;
-        --warn-bg: #fef3c7;
-        --bad: #dc2626;
-        --bad-bg: #fee2e2;
-        --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-        --radius: 8px;
-        --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --bg: #f5f4f0;
+        --surface: #fff;
+        --surface2: #faf9f6;
+        --line: #dedbd3;
+        --line2: #ebe8e1;
+        --text: #171816;
+        --muted: #70736d;
+        --dim: #92958f;
+        --accent: #d84b12;
+        --accent2: #a93a0d;
+        --good: #19704a;
+        --goodbg: #e5f3ec;
+        --warn: #9a6410;
+        --warnbg: #fff3d8;
+        --bad: #b52c2c;
+        --badbg: #fde7e7;
+        --info: #315f9a;
+        --infobg: #eaf1fb;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(22, 22, 18, 0.04);
+        --radius: 10px;
+        --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
+          sans-serif;
+        --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       }
-      
-      * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font); }
-      html, body { height: 100%; background: var(--bg); color: var(--text-main); -webkit-font-smoothing: antialiased; overflow: hidden; }
-      button, input, select, textarea { color: inherit; background: transparent; border: none; outline: none; font-size: 13px; }
-      button { cursor: pointer; }
-      
-      .app { display: grid; grid-template-columns: 240px 1fr; height: 100vh; }
-      
-      /* Sidebar */
-      .rail { background: var(--surface); border-right: 1px solid var(--line); display: flex; flex-direction: column; z-index: 10; }
-      .brand { height: 72px; padding: 0 24px; display: flex; align-items: center; font-weight: 800; font-size: 15px; letter-spacing: -0.02em; color: var(--text-main); }
-      .brand span { color: var(--accent); margin-right: 4px; }
-      .nav { padding: 12px; overflow-y: auto; flex: 1; }
-      .nav-group { margin-bottom: 24px; }
-      .nav-label { font-size: 10px; font-weight: 700; color: var(--text-muted); padding: 0 12px 8px; text-transform: uppercase; letter-spacing: 0.05em; }
-      .nav button { width: 100%; text-align: left; padding: 8px 12px; border-radius: var(--radius); color: var(--text-muted); font-weight: 500; display: flex; gap: 12px; align-items: center; transition: all 0.1s; }
-      .nav button:hover { background: var(--surface-hover); color: var(--text-main); }
-      .nav button.active { background: var(--surface-hover); color: var(--accent); font-weight: 600; }
-      .rail-bottom { border-top: 1px solid var(--line); padding: 16px 24px; font-size: 11px; font-weight: 600; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
-      .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
-
-      /* Main Workspace */
-      .main { display: flex; flex-direction: column; min-width: 0; }
-      .top { height: 72px; padding: 0 32px; display: flex; justify-content: space-between; align-items: center; background: var(--bg); flex-shrink: 0; }
-      .crumb { font-size: 13px; font-weight: 600; color: var(--text-muted); }
-      .top-actions { display: flex; gap: 12px; }
-      
-      .workspace { flex: 1; overflow-y: auto; padding: 0 32px 40px; }
-      .page { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
-      
-      .hero { margin-bottom: 8px; }
-      .hero .h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: var(--text-main); }
-      .hero .sub { font-size: 14px; color: var(--text-muted); margin-top: 6px; max-width: 600px; line-height: 1.5; }
-
-      /* Controls & Inputs */
-      .btn { padding: 0 16px; height: 36px; border-radius: var(--radius); font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; transition: all 0.1s; border: 1px solid var(--line); background: var(--surface); color: var(--text-main); box-shadow: var(--shadow); }
-      .btn:hover { background: var(--surface-hover); border-color: #cbd5e1; }
-      .btn.primary { background: var(--accent); color: white; border: none; box-shadow: 0 1px 2px rgba(234,88,12,0.3); }
-      .btn.primary:hover { background: var(--accent-hover); }
-      .btn.danger { background: var(--bad-bg); color: var(--bad); border: none; box-shadow: none; }
-      .btn.danger:hover { background: #fecaca; }
-
-      .input, select, textarea { width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; transition: border 0.1s; box-shadow: var(--shadow); }
-      textarea { resize: vertical; min-height: 80px; }
-      .input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(234,88,12,0.1); }
-      .field { display: flex; flex-direction: column; gap: 6px; }
-      .field label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-
-      /* Cards & Layouts */
-      .card { background: var(--surface); border-radius: 12px; box-shadow: var(--shadow); border: 1px solid var(--line); overflow: hidden; }
-      .card-body { padding: 24px; }
-      .card-header { padding: 20px 24px 0; display: flex; justify-content: space-between; align-items: center; }
-      .card-title { font-size: 14px; font-weight: 700; }
-      
-      .grid { display: grid; gap: 16px; }
-      .g2 { grid-template-columns: repeat(2, 1fr); }
-      .g3 { grid-template-columns: repeat(3, 1fr); }
-      .g4 { grid-template-columns: repeat(4, 1fr); }
-      .layout-sidebar { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
-
-      /* Metrics */
-      .metric { padding: 24px; }
-      .metric-label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-      .metric-val { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin-top: 8px; color: var(--text-main); }
-      .metric-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
-
-      /* Tables */
-      .table-container { width: 100%; overflow-x: auto; }
-      table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
-      th { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; padding: 12px 24px; border-bottom: 1px solid var(--line); background: #fdfdfd; }
-      td { padding: 14px 24px; border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 500; }
-      tr:last-child td { border-bottom: none; }
-      td input, td select { box-shadow: none; background: transparent; border-color: transparent; padding: 4px 8px; margin: -4px -8px; width: calc(100% + 16px); }
-      td input:hover, td select:hover { background: var(--surface-hover); }
-      td input:focus, td select:focus { background: var(--surface); border-color: var(--accent); box-shadow: 0 0 0 2px rgba(234,88,12,0.1); }
-
-      /* Utilities */
-      .status { display: inline-block; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
-      .st-good { background: var(--good-bg); color: var(--good); }
-      .st-warn { background: var(--warn-bg); color: var(--warn); }
-      .st-bad { background: var(--bad-bg); color: var(--bad); }
-      .st-neutral { background: var(--surface-hover); color: var(--text-muted); }
-      .text-accent { color: var(--accent); }
-      .toolbar { display: flex; gap: 12px; align-items: flex-end; padding: 20px 24px; border-bottom: 1px solid var(--line); background: #fdfdfd; }
-      
-      .tabs { display: flex; gap: 8px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
-      .tabs button { padding: 10px 16px; font-size: 13px; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
-      .tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
-      .tabs button:hover:not(.active) { color: var(--text-main); }
-
-      .list-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin-bottom: 8px; }
-      
-      .toast { position: fixed; right: 32px; bottom: 32px; background: var(--text-main); color: white; padding: 12px 20px; border-radius: var(--radius); font-size: 13px; font-weight: 500; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); z-index: 100; }
-      
-      .modal-bg { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(2px); display: grid; place-items: center; z-index: 50; padding: 24px; }
-      .modal { background: var(--surface); width: min(800px, 100%); border-radius: 12px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; }
-      .modal-head { padding: 20px 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 15px; }
-      .modal-body { padding: 24px; overflow-y: auto; }
-      .modal-close { font-size: 20px; color: var(--text-muted); }
-      .modal-close:hover { color: var(--text-main); }
-
-      @media (max-width: 900px) {
-        .app { grid-template-columns: 1fr; }
-        .rail { display: none; }
-        .layout-sidebar { grid-template-columns: 1fr; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-
-      /* PRINT ISO */
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        overflow: hidden;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .mono {
+        font-family: var(--mono);
+      }
+      .app {
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 252px 1fr;
+      }
+      .rail {
+        background: #fbfaf7;
+        border-right: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+      .brand {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        padding: 0 22px;
+        font-weight: 850;
+        letter-spacing: -0.02em;
+      }
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+        border: 1.5px solid var(--text);
+        display: grid;
+        place-items: center;
+        margin-right: 10px;
+        font-size: 12px;
+      }
+      .brand em {
+        font-style: normal;
+        color: var(--accent);
+      }
+      .nav {
+        padding: 14px 10px;
+        overflow: auto;
+        flex: 1;
+      }
+      .nav-group {
+        margin: 0 0 22px;
+      }
+      .nav-label {
+        padding: 0 12px 7px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        color: var(--dim);
+      }
+      .nav-btn {
+        width: 100%;
+        border: 0;
+        background: transparent;
+        border-radius: 8px;
+        padding: 10px 12px;
+        display: flex;
+        gap: 11px;
+        align-items: center;
+        text-align: left;
+        color: #656961;
+        font-size: 12px;
+        font-weight: 650;
+      }
+      .nav-btn:hover {
+        background: #f0eee8;
+        color: var(--text);
+      }
+      .nav-btn.active {
+        background: #efede6;
+        color: var(--accent);
+        box-shadow: inset 3px 0 0 var(--accent);
+      }
+      .nav-kbd {
+        margin-left: auto;
+        color: var(--dim);
+        font-size: 9px;
+      }
+      .rail-foot {
+        border-top: 1px solid var(--line);
+        padding: 14px 18px;
+        font-size: 10px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--good);
+      }
+      .main {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        height: 72px;
+        padding: 0 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--line);
+        background: var(--bg);
+      }
+      .crumb {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 750;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .top-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .mobile-menu {
+        display: none;
+      }
+      .workspace {
+        flex: 1;
+        overflow: auto;
+        padding: 26px 28px 44px;
+      }
+      .page {
+        max-width: 1320px;
+        margin: 0 auto;
+      }
+      .hero {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 22px;
+      }
+      .hero-copy {
+        min-width: 0;
+      }
+      .eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 800;
+        margin-bottom: 7px;
+      }
+      .h1 {
+        font-size: 30px;
+        line-height: 1.05;
+        font-weight: 820;
+        letter-spacing: -0.03em;
+      }
+      .sub {
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+        max-width: 840px;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      .btn {
+        height: 37px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        border-radius: 8px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.02);
+        font-size: 12px;
+        font-weight: 750;
+      }
+      .btn:hover {
+        background: #f6f4ef;
+      }
+      .btn.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        background: var(--accent2);
+      }
+      .btn.ghost {
+        box-shadow: none;
+        background: transparent;
+      }
+      .btn.small {
+        height: 30px;
+        padding: 0 10px;
+        font-size: 11px;
+      }
+      .btn.danger {
+        background: var(--badbg);
+        border-color: transparent;
+        color: var(--bad);
+      }
+      .btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .card-head {
+        padding: 17px 20px 13px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 1px solid var(--line2);
+      }
+      .card-title {
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .card-sub {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+      .card-body {
+        padding: 20px;
+      }
+      .grid {
+        display: grid;
+        gap: 14px;
+      }
+      .g2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .g3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .g4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.8fr);
+        gap: 16px;
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .metric {
+        padding: 18px 20px;
+      }
+      .metric-label {
+        font-size: 10px;
+        font-weight: 800;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+      }
+      .metric-val {
+        font-size: 29px;
+        font-weight: 820;
+        letter-spacing: -0.025em;
+        margin-top: 7px;
+      }
+      .metric-sub {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .accent {
+        color: var(--accent);
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .field label {
+        font-size: 10px;
+        font-weight: 800;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .input,
+      select,
+      textarea {
+        width: 100%;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px 11px;
+        min-height: 38px;
+      }
+      .input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(216, 75, 18, 0.1);
+      }
+      textarea {
+        min-height: 95px;
+        resize: vertical;
+      }
+      .help {
+        font-size: 10px;
+        color: var(--dim);
+        line-height: 1.4;
+      }
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        align-items: end;
+        flex-wrap: wrap;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--line2);
+        background: var(--surface2);
+      }
+      .toolbar .field {
+        min-width: 160px;
+        flex: 1;
+      }
+      .toolbar .actions {
+        margin-left: auto;
+      }
+      .table-wrap {
+        width: 100%;
+        overflow: auto;
+      }
+      table {
+        width: 100%;
+        min-width: 860px;
+        border-collapse: collapse;
+      }
+      th {
+        background: #fbfaf7;
+        color: var(--muted);
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-align: left;
+        padding: 11px 13px;
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      td {
+        padding: 11px 13px;
+        border-bottom: 1px solid var(--line2);
+        font-size: 12px;
+        vertical-align: middle;
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      tbody tr:hover {
+        background: #fcfbf9;
+      }
+      td input,
+      td select {
+        min-height: 32px;
+        padding: 6px 8px;
+        border-color: transparent;
+        background: transparent;
+        box-shadow: none;
+      }
+      td input:hover,
+      td select:hover {
+        background: #f6f4ef;
+      }
+      td input:focus,
+      td select:focus {
+        background: #fff;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(216, 75, 18, 0.08);
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 8px;
+        border-radius: 99px;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .st-good {
+        color: var(--good);
+        background: var(--goodbg);
+      }
+      .st-warn {
+        color: var(--warn);
+        background: var(--warnbg);
+      }
+      .st-bad {
+        color: var(--bad);
+        background: var(--badbg);
+      }
+      .st-info {
+        color: var(--info);
+        background: var(--infobg);
+      }
+      .st-neutral {
+        color: var(--muted);
+        background: #efeee9;
+      }
+      .tabs {
+        display: flex;
+        gap: 3px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 16px;
+        overflow: auto;
+      }
+      .tab {
+        border: 0;
+        background: transparent;
+        padding: 10px 13px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 750;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+      }
+      .tab.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+      .kpi-strip {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .mini {
+        padding: 13px 14px;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+      }
+      .mini-label {
+        font-size: 9px;
+        color: var(--muted);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .mini-val {
+        font-size: 18px;
+        font-weight: 820;
+        margin-top: 5px;
+      }
+      .progress {
+        height: 7px;
+        border-radius: 99px;
+        background: #ece9e2;
+        overflow: hidden;
+      }
+      .progress > span {
+        display: block;
+        height: 100%;
+        background: var(--accent);
+        border-radius: inherit;
+      }
+      .callout {
+        border-left: 3px solid var(--accent);
+        background: #f8f1ec;
+        padding: 12px 14px;
+        border-radius: 6px;
+      }
+      .callout.warn {
+        border-color: var(--warn);
+        background: var(--warnbg);
+      }
+      .callout.bad {
+        border-color: var(--bad);
+        background: var(--badbg);
+      }
+      .callout.good {
+        border-color: var(--good);
+        background: var(--goodbg);
+      }
+      .tool-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 12px;
+      }
+      .tool-card {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fff;
+        padding: 15px;
+      }
+      .tool-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .tool-loc {
+        font-family: var(--mono);
+        font-weight: 900;
+        color: var(--accent);
+        font-size: 18px;
+      }
+      .tool-name {
+        font-size: 13px;
+        font-weight: 800;
+      }
+      .tool-meta {
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+      .tool-stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+        margin-top: 12px;
+      }
+      .tool-stat {
+        padding: 8px;
+        background: #faf9f6;
+        border-radius: 7px;
+      }
+      .tool-stat b {
+        display: block;
+        font-size: 12px;
+      }
+      .tool-stat span {
+        font-size: 9px;
+        color: var(--muted);
+      }
+      .command {
+        position: fixed;
+        inset: 0;
+        background: rgba(17, 18, 16, 0.28);
+        backdrop-filter: blur(3px);
+        display: grid;
+        place-items: start center;
+        padding-top: 90px;
+        z-index: 90;
+      }
+      .command-box {
+        width: min(740px, calc(100vw - 32px));
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.18);
+        overflow: hidden;
+      }
+      .command-box input {
+        width: 100%;
+        border: 0;
+        padding: 17px 20px;
+        font-size: 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .command-list {
+        max-height: 380px;
+        overflow: auto;
+      }
+      .command-item {
+        padding: 12px 18px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .command-item:hover {
+        background: #f7f5f0;
+      }
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        background: rgba(17, 18, 16, 0.3);
+        backdrop-filter: blur(3px);
+        display: grid;
+        place-items: center;
+        padding: 18px;
+      }
+      .modal {
+        width: min(900px, 100%);
+        max-height: 90vh;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .modal-head {
+        padding: 17px 20px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 800;
+      }
+      .modal-body {
+        padding: 20px;
+        overflow: auto;
+      }
+      .modal-close {
+        border: 0;
+        background: transparent;
+        font-size: 22px;
+        color: var(--muted);
+      }
+      .toast {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        background: #1d1f1c;
+        color: #fff;
+        padding: 11px 15px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+        z-index: 100;
+      }
+      .math-output {
+        font-family: var(--mono);
+        background: #f8f7f3;
+        border: 1px solid var(--line);
+        padding: 14px;
+        border-radius: 8px;
+      }
+      .big-result {
+        font-size: 31px;
+        font-weight: 900;
+      }
+      .ref-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 10px;
+      }
+      .ref-item {
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        padding: 13px;
+        background: #fff;
+      }
+      .ref-code {
+        font-family: var(--mono);
+        font-weight: 900;
+        color: var(--accent);
+      }
+      .ref-title {
+        font-size: 12px;
+        font-weight: 800;
+        margin: 5px 0;
+      }
+      .ref-text {
+        font-size: 10px;
+        line-height: 1.45;
+        color: var(--muted);
+      }
+      @media (max-width: 1050px) {
+        .app {
+          grid-template-columns: 210px 1fr;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .kpi-strip {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 780px) {
+        body {
+          overflow: auto;
+        }
+        .app {
+          display: block;
+          height: auto;
+          min-height: 100vh;
+        }
+        .rail {
+          display: none;
+        }
+        .main {
+          min-height: 100vh;
+        }
+        .mobile-menu {
+          display: inline-flex;
+        }
+        .topbar {
+          height: 62px;
+          padding: 0 15px;
+          position: sticky;
+          top: 0;
+          z-index: 20;
+        }
+        .top-actions .btn:not(.primary) {
+          display: none;
+        }
+        .workspace {
+          padding: 18px 14px 32px;
+        }
+        .hero {
+          display: block;
+        }
+        .hero .actions {
+          margin-top: 13px;
+          justify-content: flex-start;
+        }
+        .h1 {
+          font-size: 25px;
+        }
+        .g2,
+        .g3,
+        .g4 {
+          grid-template-columns: 1fr;
+        }
+        .kpi-strip {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .tool-grid {
+          grid-template-columns: 1fr;
+        }
+        .toolbar {
+          align-items: stretch;
+        }
+        .toolbar .field {
+          min-width: 0;
+          flex-basis: 100%;
+        }
+        .modal-bg {
+          padding: 8px;
+        }
+        .modal {
+          max-height: 94vh;
+        }
+        .btn {
+          height: 40px;
+        }
+      }
       @media print {
-        @page { size: A4 portrait; margin: 10mm; }
-        * { background: transparent !important; color: #000 !important; box-shadow: none !important; }
-        .rail, .top, .btn, .tabs, .modal-bg, .toast { display: none !important; }
-        .app, .main, .workspace, .page { display: block !important; height: auto !important; margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
-        .card { border: none !important; border-radius: 0 !important; margin-bottom: 20px !important; page-break-inside: avoid; }
-        .layout-sidebar { display: block !important; }
-        .layout-sidebar > * { display: block !important; margin-bottom: 20px !important; }
-        .hero { border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
-        .hero::before { content: 'DATUM // ENGINEERING & INSPECTION RECORD'; display: block; font-size: 8pt; font-weight: bold; margin-bottom: 5px; }
-        table { border-collapse: collapse !important; border: 1px solid #000 !important; }
-        th, td { border: 1px solid #000 !important; padding: 6px 8px !important; font-size: 9pt !important; }
-        th { font-weight: bold !important; border-bottom: 2px solid #000 !important; }
-        input, textarea, select { display: block !important; width: 100% !important; border: none !important; font-family: monospace !important; font-size: 10pt !important; padding: 0 !important; }
-        .status { border: 1px solid #000 !important; }
+        @page {
+          size: A4;
+          margin: 11mm;
+        }
+        html,
+        body {
+          background: #fff !important;
+          color: #000 !important;
+          overflow: visible !important;
+        }
+        .rail,
+        .topbar,
+        .actions,
+        .btn,
+        .tabs,
+        .toolbar,
+        .toast,
+        .modal-bg,
+        .command,
+        .nav,
+        .print-hide {
+          display: none !important;
+        }
+        .app,
+        .main,
+        .workspace,
+        .page {
+          display: block !important;
+          height: auto !important;
+          max-width: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: visible !important;
+        }
+        .hero {
+          display: block;
+          border-bottom: 2px solid #000;
+          padding-bottom: 8px;
+          margin-bottom: 14px;
+        }
+        .hero:before {
+          content: "DATUM OS // TECHNICAL WORKSHOP DOCUMENT";
+          display: block;
+          font: 800 8pt var(--mono);
+          letter-spacing: 0.08em;
+          margin-bottom: 7px;
+        }
+        .eyebrow {
+          color: #000 !important;
+        }
+        .h1 {
+          font-size: 22pt;
+        }
+        .sub {
+          font-size: 9pt;
+          color: #333 !important;
+          max-width: none;
+        }
+        .card {
+          box-shadow: none !important;
+          border: 1px solid #000 !important;
+          border-radius: 0 !important;
+          break-inside: avoid;
+          margin-bottom: 12px;
+        }
+        .card-head {
+          border-bottom: 1px solid #000 !important;
+          padding: 8px 10px;
+        }
+        .card-body {
+          padding: 10px;
+        }
+        .metric {
+          padding: 10px;
+        }
+        .metric-val {
+          font-size: 17pt;
+        }
+        .metric-label,
+        .field label,
+        .card-sub,
+        .metric-sub,
+        .help {
+          color: #333 !important;
+        }
+        .input,
+        select,
+        textarea {
+          border: 0 !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          background: transparent !important;
+          min-height: auto !important;
+        }
+        .table-wrap {
+          overflow: visible !important;
+        }
+        table {
+          min-width: 0 !important;
+          width: 100% !important;
+        }
+        th,
+        td {
+          border: 1px solid #000 !important;
+          padding: 5px 6px !important;
+          font-size: 8pt !important;
+        }
+        th {
+          background: #eee !important;
+        }
+        .status {
+          border: 1px solid #000 !important;
+          background: transparent !important;
+        }
+        .status.st-good,
+        .status.st-warn,
+        .status.st-bad,
+        .status.st-info,
+        .status.st-neutral {
+          color: #000 !important;
+        }
+        .grid,
+        .layout,
+        .tool-grid,
+        .kpi-strip,
+        .g2,
+        .g3,
+        .g4 {
+          display: block !important;
+        }
+        .grid > * {
+          margin-bottom: 10px;
+        }
+        .ref-grid {
+          display: block !important;
+        }
+        .ref-item {
+          border: 1px solid #000 !important;
+          border-radius: 0 !important;
+          margin-bottom: 8px;
+        }
+        .print-break {
+          break-before: page;
+        }
+        .no-print {
+          display: none !important;
+        }
       }
     </style>
   </head>
   <body>
     <div class="app">
       <aside class="rail">
-        <div class="brand"><span>D</span> DATUM OS</div>
-        <nav class="nav" id="nav"></nav>
-        <div class="rail-bottom">
-          <span>LOCAL STORE</span><span class="dot"></span>
+        <div class="brand">
+          <div class="brand-mark">D</div>
+          <div>DATUM <em>OS</em></div>
         </div>
+        <nav class="nav" id="nav"></nav>
+        <div class="rail-foot"><span>LOCAL WORKSHOP MODE</span><span class="dot"></span></div>
       </aside>
-      
       <main class="main">
-        <header class="top">
-          <div class="crumb" id="crumb">PROJECTS / OVERVIEW</div>
+        <header class="topbar">
+          <div style="display: flex; align-items: center; gap: 10px">
+            <button class="btn mobile-menu" onclick="openMobileNav()">☰</button>
+            <div class="crumb" id="crumb">OVERVIEW</div>
+          </div>
           <div class="top-actions">
-            <button class="btn" onclick="downloadJSON(store,'datum-os-backup.json')">Backup JSON</button>
-            <input id="importInput" type="file" accept="application/json" hidden />
-            <button class="btn primary" onclick="newJobModal()">+ New Project</button>
+            <button class="btn" onclick="openCommand()">Command <span class="mono">Ctrl K</span></button
+            ><button class="btn" onclick="backup()">Backup</button
+            ><button class="btn primary" onclick="newProject()">+ Project</button>
           </div>
         </header>
-        
-        <section class="workspace"><div id="page" class="page"></div></section>
+        <section class="workspace"><div class="page" id="page"></div></section>
       </main>
     </div>
-    
     <div id="modalRoot"></div>
     <div id="toastRoot"></div>
-
+    <div id="commandRoot"></div>
     <script>
       "use strict";
-      // Version bumpet til v6 for at overskrive eventuelt korrupt lokalt data
-      const DBKEY = "datum_prototyping_os_v6";
-      const TODAY = new Date().toISOString().slice(0, 10);
-      
+      const DBKEY = "datum_os_student_v7";
+      const MACHINES = {
+        deckel: { name: "Deckel FP1", type: "mill", rpm: 2000, notes: "Manual universal milling machine" },
+        mini: { name: "Haas Mini Mill", type: "mill", rpm: 10000, notes: "CNC vertical machining center" },
+        weiler: { name: "Weiler Matador", type: "turn", rpm: 3000, notes: "Manual centre lathe" },
+        st10: { name: "Haas ST-10", type: "turn", rpm: 4000, notes: "CNC turning center" },
+      };
       const MATERIALS = {
-        alu_6082: { name: "ALU 6082 / 6060", group: "ALUMINUM", vc: 350, f: 0.08 },
-        alu_7075: { name: "ALU 7075", group: "ALUMINUM", vc: 450, f: 0.1 },
+        alu6082: { name: "Aluminium 6082 / 6060", group: "ALUMINIUM", vc: 350, f: 0.08 },
+        alu7075: { name: "Aluminium 7075", group: "ALUMINIUM", vc: 450, f: 0.1 },
         s235: { name: "S235", group: "STEEL", vc: 160, f: 0.06 },
         s355: { name: "S355", group: "STEEL", vc: 120, f: 0.05 },
-        ss304: { name: "304 / 316", group: "STAINLESS", vc: 80, f: 0.04 },
-        brass: { name: "BRASS", group: "BRASS", vc: 300, f: 0.08 },
-        pom: { name: "POM / DELRIN", group: "PLASTIC", vc: 400, f: 0.15 },
-        toolsteel: { name: "TOOL STEEL <45 HRC", group: "TOOL STEEL", vc: 90, f: 0.04 },
+        ss304: { name: "304 / 316 Stainless", group: "STAINLESS", vc: 80, f: 0.04 },
+        brass: { name: "Brass", group: "BRASS", vc: 300, f: 0.08 },
+        pom: { name: "POM / Delrin", group: "PLASTIC", vc: 400, f: 0.15 },
+        nylon: { name: "Nylon / PA", group: "PLASTIC", vc: 200, f: 0.1 },
+        pmma: { name: "Acrylic / PMMA", group: "PLASTIC", vc: 150, f: 0.08 },
+        toolsteel: { name: "Tool Steel <45 HRC", group: "TOOL STEEL", vc: 90, f: 0.04 },
       };
-
-      const HARDNESS_MODIFIERS = {
+      const TOOL_BASE = {
+        mill: {
+          hss: { name: "HSS-Co", vc: 0.4, f: 0.7, z: 3 },
+          hm: { name: "Carbide Uncoated", vc: 1, f: 1, z: 4 },
+          hm_coat: { name: "Carbide Coated", vc: 1.3, f: 1.1, z: 4 },
+        },
+        turn: { hss: { name: "HSS Turning", vc: 0.4, f: 0.7 }, iso: { name: "ISO Insert", vc: 1, f: 1 } },
+      };
+      const HARD = {
         soft: { name: "Soft / Annealed", mult: 1.15 },
-        standard: { name: "Standard Condition", mult: 1.0 },
+        standard: { name: "Standard Condition", mult: 1 },
         hard: { name: "Hardened / Tough", mult: 0.8 },
       };
-
-      const STANDARD_DRILLS = [1.0, 1.5, 2.0, 2.5, 3.0, 3.3, 3.5, 4.0, 4.2, 4.5, 5.0, 5.5, 6.0, 6.5, 6.8, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.2, 10.5, 11.0, 11.5, 12.0];
-      function getStandardDrill(targetSize) {
-        return STANDARD_DRILLS.reduce((prev, curr) => Math.abs(curr - targetSize) < Math.abs(prev - targetSize) ? curr : prev);
-      }
-
-      const TOOL_BASE = {
-        mill: { hss: { name: "HSS-Co", vc: 0.4, f: 0.7, z: 3 }, hm: { name: "CARBIDE UNCOATED", vc: 1, f: 1, z: 4 }, hm_coat: { name: "CARBIDE COATED", vc: 1.3, f: 1.1, z: 4 } },
-        turn: { hss: { name: "HSS TURN", vc: 0.4, f: 0.7 }, iso: { name: "ISO INSERT", vc: 1, f: 1 } },
-      };
-      
-      const MACHINES = {
-        deckel: { name: "Deckel FP1", type: "mill", rpm: 2000 },
-        hsm: { name: "Haas Mini Mill", type: "mill", rpm: 10000 },
-        weiler: { name: "Weiler Matador", type: "turn", rpm: 3000 },
-        st10: { name: "Haas ST-10", type: "turn", rpm: 4000 },
-      };
-      
-      const GEOM = [
-        ["MILLING", [["endmill", "ENDMILL"], ["bullnose", "BULLNOSE"], ["ballnose", "BALLNOSE"], ["facemill", "FACEMILL"], ["chamfer", "CHAMFER"], ["threadmill", "THREADMILL"]]],
-        ["HOLEMAKING", [["drill", "DRILL"], ["spotdrill", "SPOT DRILL"], ["tap", "TAP"]]],
-        ["TURNING", [["turn_ext", "OD TURN"], ["turn_int", "ID TURN"], ["turn_groove", "GROOVE"], ["turn_thread", "THREAD"]]],
+      const GEOMETRIES = [
+        "Endmill",
+        "Bullnose",
+        "Ballnose",
+        "Facemill",
+        "Chamfer",
+        "T-slot",
+        "Threadmill",
+        "Slitting Saw",
+        "Drill",
+        "Spot Drill",
+        "Tap",
+        "Reamer",
+        "Boring",
+        "OD Turning",
+        "ID Turning",
+        "Grooving",
+        "Threading",
       ];
-
+      const DRILLS = [
+        1, 1.5, 2, 2.5, 3, 3.3, 3.5, 4, 4.2, 4.5, 5, 5.5, 6, 6.5, 6.8, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.2, 10.5, 11, 11.5,
+        12, 12.5, 13, 13.5, 14, 15, 16, 18, 20, 22, 24,
+      ];
       const ISO = {
         ranges: [3, 6, 10, 18, 30, 50, 80, 120, 180, 250],
         classes: {
-          H7: [[10, 0], [12, 0], [15, 0], [18, 0], [21, 0], [25, 0], [30, 0], [35, 0], [40, 0], [46, 0]],
-          h7: [[0, -10], [0, -12], [0, -15], [0, -18], [0, -21], [0, -25], [0, -30], [0, -35], [0, -40], [0, -46]],
+          H6: [
+            [6, 0],
+            [8, 0],
+            [9, 0],
+            [11, 0],
+            [13, 0],
+            [16, 0],
+            [19, 0],
+            [22, 0],
+            [25, 0],
+            [29, 0],
+          ],
+          H7: [
+            [10, 0],
+            [12, 0],
+            [15, 0],
+            [18, 0],
+            [21, 0],
+            [25, 0],
+            [30, 0],
+            [35, 0],
+            [40, 0],
+            [46, 0],
+          ],
+          H8: [
+            [14, 0],
+            [18, 0],
+            [22, 0],
+            [27, 0],
+            [33, 0],
+            [39, 0],
+            [46, 0],
+            [54, 0],
+            [63, 0],
+            [72, 0],
+          ],
+          h6: [
+            [0, -6],
+            [0, -8],
+            [0, -9],
+            [0, -11],
+            [0, -13],
+            [0, -16],
+            [0, -19],
+            [0, -22],
+            [0, -25],
+            [0, -29],
+          ],
+          h7: [
+            [0, -10],
+            [0, -12],
+            [0, -15],
+            [0, -18],
+            [0, -21],
+            [0, -25],
+            [0, -30],
+            [0, -35],
+            [0, -40],
+            [0, -46],
+          ],
+          f7: [
+            [-6, -16],
+            [-10, -22],
+            [-13, -28],
+            [-16, -34],
+            [-20, -41],
+            [-25, -50],
+            [-30, -60],
+            [-36, -71],
+            [-43, -83],
+            [-50, -96],
+          ],
+          g6: [
+            [-2, -8],
+            [-4, -12],
+            [-5, -14],
+            [-6, -17],
+            [-7, -20],
+            [-9, -25],
+            [-10, -29],
+            [-12, -34],
+            [-14, -39],
+            [-15, -44],
+          ],
         },
       };
-
+      const REFS = {
+        G00: "Rapid positioning",
+        G01: "Linear interpolation / feed",
+        "G02 / G03": "Circular interpolation CW / CCW",
+        "G17 / G18 / G19": "Plane selection",
+        "G20 / G21": "Inch / metric",
+        "G40 / G41 / G42": "Cutter compensation",
+        G43: "Tool length compensation",
+        "G54-G59": "Work coordinate systems",
+        G80: "Cancel fixed cycle",
+        G81: "Drilling cycle",
+        G83: "Peck drilling",
+        G84: "Rigid tapping",
+        "G90 / G91": "Absolute / incremental",
+        "M03 / M04": "Spindle CW / CCW",
+        M05: "Spindle stop",
+        "M08 / M09": "Coolant ON / OFF",
+        M30: "Program end / reset",
+      };
       const navGroups = [
-        ["WORKSPACE", [["dashboard", "OVERVIEW"], ["projects", "PROJECT LOG"]]],
-        ["ENGINEERING", [["setup", "SETUP BUILDER"], ["cut", "SPEEDS & FEEDS"], ["calc", "CALCULATORS"]]],
-        ["QUALITY", [["qc", "INSPECTION & FAI"]]],
-        ["SYSTEM", [["tools", "TOOL CRIB"], ["machines", "MACHINES"], ["settings", "SETTINGS"]]],
+        [
+          "WORKSPACE",
+          [
+            ["dashboard", "Overview"],
+            ["projects", "Projects"],
+            ["log", "Workshop Log"],
+            ["failures", "Failure Reports"],
+          ],
+        ],
+        [
+          "ENGINEERING",
+          [
+            ["setup", "Setup Builder"],
+            ["cut", "Cutting Data"],
+            ["desk", "Reference & Calculators"],
+          ],
+        ],
+        ["QUALITY", [["qc", "Inspection"]]],
+        [
+          "TOOLING",
+          [
+            ["tools", "Tooling"],
+            ["machines", "Machines"],
+          ],
+        ],
+        ["SYSTEM", [["settings", "Data & Settings"]]],
       ];
-
-      const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
-      function esc(v) { return String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]); }
-      function uid(prefix) { return prefix + "-" + Math.random().toString(36).slice(2, 7).toUpperCase(); }
-      function toast(t) { const r = $("#toastRoot"); r.innerHTML = `<div class="toast">${esc(t)}</div>`; setTimeout(() => (r.innerHTML = ""), 2600); }
-
-      function defaultJob(overrides = {}) {
-        return { id: uid("PRJ"), part: "New Project", status: "ACTIVE", machine: MACHINES.hsm.name, material: "alu_6082", notes: "", ...overrides };
+      function esc(v) {
+        return String(v ?? "").replace(
+          /[&<>'"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[c]
+        );
       }
-      
-      function seed() {
+      function uid(p) {
+        return p + "-" + Math.random().toString(36).slice(2, 8).toUpperCase();
+      }
+      function today() {
+        return new Date().toISOString().slice(0, 10);
+      }
+      function fmt(n, d = 2) {
+        return Number.isFinite(Number(n))
+          ? Number(n).toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d })
+          : "—";
+      }
+      function toast(t) {
+        const r = document.getElementById("toastRoot");
+        r.innerHTML = '<div class="toast">' + esc(t) + "</div>";
+        clearTimeout(window.__toast);
+        window.__toast = setTimeout(() => (r.innerHTML = ""), 2600);
+      }
+      function emptyStore() {
         return {
-          version: 6, active: "dashboard",
-          jobs: [defaultJob({ id: "PRJ-ALPHA", part: "Prototype Enclosure v1", material: "alu_7075" })],
-          tools: [{ id: "T-1", loc: "T1", name: "Ø10 Endmill", type: "endmill", mat: "hm", D: 10, Z: 4, L: 30, notes: "Roughing" }],
-          setups: [], measurements: [],
-          draft: { part: "New Project", material: "alu_7075", machine: "hsm" },
-          sf: { machine: "hsm", mat: "alu_7075", hardness: "standard", strategy: "normal", tool: "hm" }, measureDraft: {}
+          version: 7,
+          active: "dashboard",
+          selectedProject: null,
+          jobs: [],
+          setups: [],
+          tools: [
+            {
+              id: "T-1",
+              loc: "T1",
+              name: "Ø10 Endmill",
+              geometry: "Endmill",
+              mat: "hm",
+              D: 10,
+              Z: 4,
+              L: 30,
+              LC: 22,
+              holder: "ER32",
+              condition: "Good",
+              notes: "General purpose",
+            },
+          ],
+          measurements: [],
+          failures: [],
+          logs: [],
+          sf: {
+            machine: "mini",
+            mat: "alu6082",
+            hardness: "standard",
+            tool: "hm",
+            strategy: "normal",
+            D: 10,
+            Z: 4,
+            L: 30,
+            ae: 1.5,
+            ap: 5,
+          },
+          draft: {},
+          settings: { student: "", school: "TEC", program: "Finmekaniker", graduation: "April 2027" },
         };
       }
-
-      let store = loadStore();
-      
-      function loadStore() {
-        try { const x = JSON.parse(localStorage.getItem(DBKEY) || "null"); return x && x.version === 6 ? hydrate(x) : seed(); } 
-        catch { return seed(); }
+      function seed() {
+        const s = emptyStore();
+        s.jobs = [
+          {
+            id: "PRJ-FP1",
+            part: "H2 Practice Part — Manual Milling",
+            status: "ACTIVE",
+            machine: "Deckel FP1",
+            machineKey: "deckel",
+            material: "alu6082",
+            created: today(),
+            revision: "A",
+            notes: "Manual milling practice. Document setup and measurements.",
+            qty: 1,
+            progress: 65,
+          },
+          {
+            id: "PRJ-CNC",
+            part: "CNC Prototype — Aluminium",
+            status: "ACTIVE",
+            machine: "Haas Mini Mill",
+            machineKey: "mini",
+            material: "alu7075",
+            created: today(),
+            revision: "A",
+            notes: "CNC project with documented setup.",
+            qty: 1,
+            progress: 30,
+          },
+        ];
+        s.selectedProject = "PRJ-FP1";
+        s.setups = [
+          {
+            id: "SET-FP1",
+            jobId: "PRJ-FP1",
+            offset: "G54",
+            z0: "Top of stock",
+            xy0: "Centre / datum",
+            fixture: "Vise + parallels",
+            stock: "80 x 40 x 20 mm",
+            tools: ["T-1"],
+            notes: "Deburr stock before indicating.",
+            image: null,
+          },
+        ];
+        s.measurements = [
+          {
+            id: "M-1",
+            jobId: "PRJ-FP1",
+            feature: "Ø20 H7 bore",
+            nom: 20,
+            up: 0.021,
+            lo: 0,
+            actual: "20.012",
+            method: "Bore gauge",
+            date: today(),
+            note: "Within tolerance",
+          },
+        ];
+        s.logs = [
+          {
+            id: "L-1",
+            date: today(),
+            jobId: "PRJ-FP1",
+            type: "Practice",
+            title: "Completed rough milling",
+            notes: "Worked through setup and checked workholding.",
+          },
+        ];
+        return s;
       }
-      
-      function hydrate(x) { 
-        const s = seed(); 
-        return { ...s, ...x, jobs: x.jobs || s.jobs, tools: x.tools || [], setups: x.setups || [], measurements: x.measurements || [], draft: { ...s.draft, ...(x.draft || {}) }, sf: { ...s.sf, ...(x.sf || {}) }, measureDraft: { ...s.measureDraft, ...(x.measureDraft || {}) } }; 
+      function hydrate(x) {
+        const s = emptyStore();
+        return {
+          ...s,
+          ...x,
+          jobs: Array.isArray(x?.jobs) ? x.jobs : s.jobs,
+          setups: Array.isArray(x?.setups) ? x.setups : s.setups,
+          tools: Array.isArray(x?.tools) ? x.tools : s.tools,
+          measurements: Array.isArray(x?.measurements) ? x.measurements : s.measurements,
+          failures: Array.isArray(x?.failures) ? x.failures : s.failures,
+          logs: Array.isArray(x?.logs) ? x.logs : s.logs,
+          sf: { ...s.sf, ...(x?.sf || {}) },
+          settings: { ...s.settings, ...(x?.settings || {}) },
+        };
       }
-      
-      function save() { try { localStorage.setItem(DBKEY, JSON.stringify(store)); return true; } catch (e) { toast("Failed to save data"); return false; } }
-
-      function deleteJob(id) {
-        if (!confirm("Delete project " + id + " and all associated history?")) return;
-        store.jobs = store.jobs.filter((j) => j.id !== id);
-        store.setups = store.setups.filter((s) => s.jobId !== id);
-        store.measurements = store.measurements.filter((m) => m.jobId !== id);
-        if (store.draft.jobId === id) store.draft.jobId = null;
-        if (store.measureDraft.jobId === id) store.measureDraft.jobId = null;
-        save(); closeModal(); render(); toast("Project deleted");
-      }
-
-      function deleteMeasurement(id) { store.measurements = store.measurements.filter((m) => m.id !== id); save(); render(); }
-      function deleteTool(id) {
-        if (store.setups.some((s) => s.tools?.includes(id))) return toast("Tool is locked to a setup");
-        store.tools = store.tools.filter((t) => t.id !== id); save(); render();
-      }
-
-      function navRender() {
-        let h = "";
-        for (const [g, items] of navGroups) {
-          h += `<div class="nav-group"><div class="nav-label">${g}</div>${items.map(([id, label]) => `<button class="${store.active === id ? "active" : ""}" data-nav="${id}">${label}</button>`).join("")}</div>`;
+      function load() {
+        try {
+          const x = JSON.parse(localStorage.getItem(DBKEY) || "null");
+          if (x) return hydrate(x);
+          const legacy = JSON.parse(localStorage.getItem("datum_prototyping_os_v6") || "null");
+          if (legacy) return migrateLegacy(legacy);
+          return seed();
+        } catch {
+          return seed();
         }
-        $("#nav").innerHTML = h;
-        $$("[data-nav]").forEach((b) => {
-          b.onclick = () => { store.active = b.dataset.nav; save(); render(); };
-        });
       }
-
-      function basePage(eyebrow, h1, sub, actions = "") {
-        return `
-          <div class="hero">
-            <div class="eyebrow">${eyebrow}</div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-end;">
-              <div class="h1">${h1}</div>
-              <div class="actions print-hide">${actions}</div>
-            </div>
-            <div class="sub">${sub}</div>
-          </div>`;
+      function migrateLegacy(x) {
+        const s = emptyStore();
+        const old = hydrate({ ...s, ...x });
+        s.jobs = old.jobs || [];
+        s.tools = old.tools?.length
+          ? old.tools.map((t) => ({
+              ...t,
+              geometry: t.geometry || t.type || "Endmill",
+              condition: t.condition || "Good",
+              holder: t.holder || "",
+              LC: t.LC || 0,
+            }))
+          : s.tools;
+        s.setups = old.setups || [];
+        s.measurements = old.measurements || [];
+        s.selectedProject = s.jobs[0]?.id || null;
+        s.sf = { ...s.sf, ...old.sf };
+        return s;
       }
-
+      let store = load();
+      function save() {
+        try {
+          localStorage.setItem(DBKEY, JSON.stringify(store));
+          return true;
+        } catch {
+          toast("Could not save data — browser storage may be full");
+          return false;
+        }
+      }
+      function activeJob() {
+        return (
+          store.jobs.find((j) => j.id === store.selectedProject) ||
+          store.jobs.find((j) => j.status !== "ARCHIVED") ||
+          store.jobs[0]
+        );
+      }
+      function jobBy(id) {
+        return store.jobs.find((j) => j.id === id);
+      }
+      function jobOptions(sel = "") {
+        return store.jobs
+          .filter((j) => j.status !== "ARCHIVED")
+          .map(
+            (j) =>
+              `<option value="${esc(j.id)}" ${j.id === sel ? "selected" : ""}>${esc(j.id)} · ${esc(j.part)}</option>`
+          )
+          .join("");
+      }
+      function navRender() {
+        document.getElementById("nav").innerHTML = navGroups
+          .map(
+            ([g, items]) =>
+              `<div class="nav-group"><div class="nav-label">${g}</div>${items.map(([id, label]) => `<button class="nav-btn ${store.active === id ? "active" : ""}" data-nav="${id}">${esc(label)}</button>`).join("")}</div>`
+          )
+          .join("");
+        document.querySelectorAll("[data-nav]").forEach(
+          (b) =>
+            (b.onclick = () => {
+              store.active = b.dataset.nav;
+              save();
+              render();
+            })
+        );
+      }
+      function base(eyebrow, h1, sub, actions = "") {
+        return `<div class="hero"><div class="hero-copy"><div class="eyebrow">${esc(eyebrow)}</div><div class="h1">${h1}</div><div class="sub">${sub}</div></div><div class="actions print-hide">${actions}</div></div>`;
+      }
+      function card(title, body, actions = "") {
+        return `<div class="card"><div class="card-head"><div><div class="card-title">${title}</div></div><div class="actions print-hide">${actions}</div></div><div class="card-body">${body}</div></div>`;
+      }
+      function status(s) {
+        const cls =
+          {
+            ACTIVE: "st-good",
+            READY: "st-info",
+            HOLD: "st-bad",
+            COMPLETED: "st-good",
+            ARCHIVED: "st-neutral",
+            OPEN: "st-warn",
+            RESOLVED: "st-good",
+            CRITICAL: "st-bad",
+            MAJOR: "st-warn",
+            MINOR: "st-neutral",
+          }[s] || "st-neutral";
+        return `<span class="status ${cls}">${esc(s)}</span>`;
+      }
       function render() {
-        document.title = "DATUM OS // PROTOTYPING";
-        $("#crumb").textContent = store.active.replace(/_/g, " ").toUpperCase();
+        document.getElementById("crumb").textContent = (store.active || "dashboard").replace(/_/g, " ").toUpperCase();
         navRender();
-        const map = { dashboard, projects, setup, cut, calc, qc, tools, machines, settings };
-        $("#page").innerHTML = (map[store.active] || dashboard)();
+        const map = { dashboard, projects, log, failures, setup, cut, desk, qc, tools, machines, settings };
+        document.getElementById("page").innerHTML = (map[store.active] || dashboard)();
         bind();
       }
-
-      function jobBy(id) { return store.jobs.find((j) => j.id === id); }
-      function jobOptions(selected = "") { return store.jobs.map((j) => `<option value="${esc(j.id)}" ${j.id === selected ? "selected" : ""}>${esc(j.part)}</option>`).join(""); }
-
-      // VIEWS
       function dashboard() {
+        const job = activeJob();
         const active = store.jobs.filter((j) => j.status === "ACTIVE").length;
-        const pass = store.measurements.filter((x) => x.ok).length;
-        const totalM = store.measurements.length;
-        return basePage("WORKSPACE", "Overview", "Precision environment for high-accuracy machining and dimensional control.", `<button class="btn primary" onclick="store.active='projects';save();render()">Open Log</button>`) + `
-          <div class="grid g4">
-            <div class="card metric"><div class="metric-label">Active Projects</div><div class="metric-val">${active}</div></div>
-            <div class="card metric"><div class="metric-label">Pass Yield</div><div class="metric-val text-accent">${totalM ? Math.round((pass/totalM)*100) : 0}%</div></div>
-            <div class="card metric"><div class="metric-label">Registered Tools</div><div class="metric-val">${store.tools.length}</div></div>
-            <div class="card metric"><div class="metric-label">Saved Setups</div><div class="metric-val">${store.setups.length}</div></div>
-          </div>`;
+        const openFail = store.failures.filter((f) => f.status !== "RESOLVED").length;
+        const measured = store.measurements.length;
+        const pass = store.measurements.filter(
+          (m) => m.actual !== "" && +m.actual >= m.nom + m.lo && +m.actual <= m.nom + m.up
+        ).length;
+        return (
+          base(
+            "WORKSPACE",
+            "Workshop Overview",
+            "A focused engineering workspace for a self-driven finmekaniker student — projects, setup, tooling, cutting data, measurement and lessons learned.",
+            `<button class="btn primary" onclick="newProject()">+ New Project</button> <button class="btn" onclick="printView('Workshop Overview')">Print</button>`
+          ) +
+          `<div class="kpi-strip"><div class="mini"><div class="mini-label">Active Projects</div><div class="mini-val">${active}</div></div><div class="mini"><div class="mini-label">Inspection Yield</div><div class="mini-val">${measured ? Math.round((pass / measured) * 100) : 0}%</div></div><div class="mini"><div class="mini-label">Tool Library</div><div class="mini-val">${store.tools.length}</div></div><div class="mini"><div class="mini-label">Open Failures</div><div class="mini-val ${openFail ? "accent" : ""}">${openFail}</div></div><div class="mini"><div class="mini-label">Current Project</div><div class="mini-val" style="font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(job?.part || "None")}</div></div></div><div style="height:14px"></div><div class="layout"><div class="stack">${job ? card("Current Project", `<div class="grid g2"><div><div class="eyebrow">PROJECT</div><div style="font-size:21px;font-weight:820">${esc(job.part)}</div><div class="help mono">${esc(job.id)} · REV ${esc(job.revision || "A")}</div></div><div><div class="eyebrow">MACHINE / MATERIAL</div><div style="font-weight:800">${esc(job.machine)}</div><div class="help">${esc(MATERIALS[job.material]?.name || job.material)}</div></div></div><div style="margin-top:16px"><div style="display:flex;justify-content:space-between;font-size:10px;font-weight:800;text-transform:uppercase;color:var(--muted)"><span>Progress</span><span>${job.progress || 0}%</span></div><div class="progress" style="margin-top:6px"><span style="width:${Math.max(0, Math.min(100, +job.progress || 0))}%"></span></div></div><div class="actions print-hide" style="justify-content:flex-start;margin-top:14px"><button class="btn small primary" onclick="openProject('${esc(job.id)}')">Open Project</button><button class="btn small" onclick="openModule('setup','${esc(job.id)}')">Setup</button><button class="btn small" onclick="openModule('qc','${esc(job.id)}')">Inspection</button></div>`, "") : card("No Project Selected", 'Create a project to start linking setup, tooling and inspection. `<button class="btn primary" onclick="newProject()">Create Project</button>`')}${card(
+            "Recent Workshop Activity",
+            store.logs
+              .slice()
+              .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+              .slice(0, 5)
+              .map(
+                (l) =>
+                  `<div class="list-row"><div><strong>${esc(l.title)}</strong><div class="help">${esc(l.date)} · ${esc(jobBy(l.jobId)?.part || "General")}</div></div><span class="status st-neutral">${esc(l.type || "LOG")}</span></div>`
+              )
+              .join("") || '<div class="help">No entries yet.</div>'
+          )}</div><div class="stack">${card("Quick Actions", `<div class="grid g2"><button class="btn" onclick="store.active='cut';save();render()">Cutting Data</button><button class="btn" onclick="store.active='desk';save();render()">Reference</button><button class="btn" onclick="store.active='tools';save();render()">Tooling</button><button class="btn" onclick="store.active='failures';save();render()">Failure Report</button><button class="btn" onclick="store.active='log';save();render()">Workshop Log</button><button class="btn" onclick="store.active='setup';save();render()">Setup Builder</button></div>`)}${card("Upcoming Focus", `<div class="callout good"><strong>Keep the system useful on the machine.</strong><div style="margin-top:4px;font-size:11px;color:var(--muted)">Capture only information that helps you make the next decision faster: datum, tool, cutting data, measurement, problem and what you learned.</div></div>`)}</div></div>`
+        );
       }
-
       function projects() {
-        const tableBody = store.jobs.map((j) => `
-          <tr>
-            <td><strong>${esc(j.id)}</strong></td>
-            <td>${esc(j.part)}</td>
-            <td>${esc(j.machine)}</td>
-            <td>${esc(MATERIALS[j.material]?.name || j.material)}</td>
-            <td><span class="status ${j.status === 'ACTIVE' ? 'st-good' : 'st-neutral'}">${esc(j.status)}</span></td>
-            <td>${esc(j.notes)}</td>
-            <td style="text-align:right;"><button class="btn" onclick="openJob('${esc(j.id)}')">Manage</button></td>
-          </tr>`).join("") || `<tr><td colspan="7" style="text-align:center; padding: 32px; color: var(--text-muted);">No projects created yet.</td></tr>`;
-
-        return basePage("WORKSPACE", "Project Log", "Documentation of assignments. Link your setups and measurements directly here.", `<button class="btn primary" onclick="newJobModal()">+ New Project</button>`) + `
-          <div class="card"><div class="table-container"><table><thead><tr><th>ID</th><th>Part</th><th>Machine</th><th>Material</th><th>Status</th><th>Notes</th><th></th></tr></thead><tbody>${tableBody}</tbody></table></div></div>`;
+        const rows = store.jobs
+          .map(
+            (j) =>
+              `<tr><td class="mono"><strong>${esc(j.id)}</strong></td><td><strong>${esc(j.part)}</strong><div class="help">${esc(j.notes || "")}</div></td><td>${esc(j.machine)}</td><td>${esc(MATERIALS[j.material]?.name || j.material)}</td><td>${status(j.status)}</td><td><div style="display:flex;gap:6px;align-items:center"><div class="progress" style="width:90px"><span style="width:${+j.progress || 0}%"></span></div><span class="help">${+j.progress || 0}%</span></div></td><td style="text-align:right"><button class="btn small" onclick="openProject('${esc(j.id)}')">Open</button> <button class="btn small danger" onclick="archiveJob('${esc(j.id)}')">Archive</button></td></tr>`
+          )
+          .join("");
+        return (
+          base(
+            "WORKSPACE",
+            "Projects",
+            "Your machining and study projects. Nothing is silently removed; projects are archived so your process history stays intact.",
+            `<button class="btn primary" onclick="newProject()">+ New Project</button> <button class="btn" onclick="printView('Project Register')">Print</button>`
+          ) +
+          card(
+            "Project Register",
+            `<div class="table-wrap"><table><thead><tr><th>ID</th><th>Part / Project</th><th>Machine</th><th>Material</th><th>Status</th><th>Progress</th><th></th></tr></thead><tbody>${rows || '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">No projects yet.</td></tr>'}</tbody></table></div>`
+          )
+        );
       }
-
-      function newJobModal() {
-        const machOpts = Object.entries(MACHINES).map(([k, m]) => `<option value="${k}">${m.name}</option>`).join("");
-        const matOpts = Object.entries(MATERIALS).map(([k, m]) => `<option value="${k}">${m.name}</option>`).join("");
-        
-        modal("New Project", `
-          <div class="grid g2">
-            <div class="field"><label>Part Name</label><input class="input" id="mPart" value="New Project"></div>
-            <div class="field"><label>Machine</label><select id="mMachine">${machOpts}</select></div>
-            <div class="field"><label>Material</label><select id="mMat">${matOpts}</select></div>
-            <div class="field"><label>Notes</label><input class="input" id="mNotes" placeholder="Optional"></div>
-          </div>
-          <div style="margin-top: 24px; display:flex; justify-content:flex-end;">
-            <button class="btn primary" onclick="createJob()">Create Project</button>
-          </div>
-        `);
+      function newProject() {
+        const mach = Object.entries(MACHINES)
+          .map(([k, m]) => `<option value="${k}">${m.name}</option>`)
+          .join("");
+        const mats = Object.entries(MATERIALS)
+          .map(([k, m]) => `<option value="${k}">${m.name}</option>`)
+          .join("");
+        modal(
+          "Create Project",
+          `<div class="grid g2"><div class="field"><label>Project / Part Name</label><input class="input" id="npPart" value="New Project"></div><div class="field"><label>Machine</label><select id="npMach">${mach}</select></div><div class="field"><label>Material</label><select id="npMat">${mats}</select></div><div class="field"><label>Revision</label><input class="input" id="npRev" value="A"></div><div class="field" style="grid-column:1/-1"><label>Notes</label><textarea id="npNotes" placeholder="What are you making? What are you practicing? What matters on this job?"></textarea></div></div><div class="actions" style="margin-top:18px;justify-content:flex-end"><button class="btn primary" onclick="createProject()">Create Project</button></div>`
+        );
       }
-
-      function createJob() {
-        const machineKey = $("#mMachine").value;
-        const j = defaultJob({ part: $("#mPart").value.trim() || "Part", machine: MACHINES[machineKey].name, material: $("#mMat").value, notes: $("#mNotes").value });
-        store.jobs.unshift(j);
-        save(); closeModal(); render(); toast("Project created");
-      }
-
-      function openJob(id) {
-        const j = jobBy(id); if (!j) return;
-        modal(`Project Details // ${j.id}`, `
-          <div class="grid g2" style="margin-bottom:24px;">
-            <div class="field"><label>Part</label><div style="font-size:16px; font-weight:600;">${esc(j.part)}</div></div>
-            <div class="field"><label>Material</label><div>${esc(MATERIALS[j.material]?.name)}</div></div>
-          </div>
-          <div class="grid g2">
-            <div class="field"><label>Status</label><select id="ojStatus"><option ${j.status === 'ACTIVE' ? 'selected' : ''}>ACTIVE</option><option ${j.status === 'COMPLETED' ? 'selected' : ''}>COMPLETED</option></select></div>
-            <div class="field"><label>Notes</label><input class="input" id="ojNotes" value="${esc(j.notes)}"></div>
-          </div>
-          <div style="margin-top:32px; display:flex; gap:12px;">
-            <button class="btn primary" onclick="updateJob('${esc(id)}')">Save Changes</button>
-            <button class="btn" onclick="openModule('setup','${esc(id)}')">Setup</button>
-            <button class="btn" onclick="openModule('qc','${esc(id)}')">Inspection</button>
-            <div style="flex:1"></div>
-            <button class="btn danger" onclick="deleteJob('${esc(id)}')">Delete</button>
-          </div>
-        `);
-      }
-
-      function updateJob(id) { const j = jobBy(id); if (!j) return; j.status = $("#ojStatus").value; j.notes = $("#ojNotes").value; save(); closeModal(); render(); }
-      function openModule(v, id) { store.active = v; if (id) { const j = jobBy(id); if (j) store.draft.jobId = id; } save(); closeModal(); render(); }
-
-      function setup() {
-        const job = jobBy(store.draft.jobId) || store.jobs[0];
-        if (!job) return basePage("ENGINEERING", "Setup Builder", "Create a project first.");
-        const s = store.setups.find((x) => x.jobId === job.id) || { id: uid("S"), jobId: job.id, offset: "G54", z0: "Top of stock", xy0: "Top left corner", fixturing: "Vise", tools: [], notes: "", image: null };
-        
-        const toolList = s.tools.length ? s.tools.map((tid) => { 
-          const t = store.tools.find((x) => x.id === tid); 
-          return t ? `<tr><td class="text-accent"><strong>${esc(t.loc)}</strong></td><td>${esc(t.name)}</td><td>${t.D}</td><td style="text-align:right;"><button class="btn" style="height:28px; padding:0 8px; font-size:11px;" onclick="removeSetupTool('${esc(tid)}')">Remove</button></td></tr>` : ""; 
-        }).join("") : `<tr><td colspan="4" style="text-align:center; padding: 24px; color: var(--text-muted);">No tools assigned.</td></tr>`;
-
-        return basePage("ENGINEERING", "Setup Builder", `Document fixturing, WCS, and tooling for ${esc(job.part)}.`, `<button class="btn primary" onclick="saveSetup()">Save Setup</button> <button class="btn" onclick="printView('Setup Sheet')">Print</button>`) + `
-          <div class="layout-sidebar">
-            <div class="grid" style="gap:24px;">
-              <div class="card">
-                <div class="card-header"><div class="card-title">Work Coordinate System</div></div>
-                <div class="card-body grid g2">
-                  <div class="field"><label>Project Target</label><select id="suJob">${jobOptions(job.id)}</select></div>
-                  <div class="field"><label>Work Offset</label><input class="input" id="suOff" value="${esc(s.offset)}"></div>
-                  <div class="field"><label>Z Zero</label><input class="input" id="suZ" value="${esc(s.z0)}"></div>
-                  <div class="field"><label>X / Y Zero</label><input class="input" id="suXY" value="${esc(s.xy0)}"></div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="card-header"><div class="card-title">Tooling List</div><button class="btn" onclick="setupToolPick()">+ Add Tool</button></div>
-                <div class="table-container" style="border:none; border-top:1px solid var(--line); border-radius:0;">
-                  <table><thead><tr><th>Loc</th><th>Tool</th><th>Ø</th><th></th></tr></thead><tbody>${toolList}</tbody></table>
-                </div>
-              </div>
-            </div>
-            <div class="grid" style="gap:24px; align-content:start;">
-              <div class="card">
-                <div class="card-header"><div class="card-title">Fixturing</div></div>
-                <div class="card-body field"><textarea id="suFix">${esc(s.fixturing)}</textarea></div>
-              </div>
-              <div class="card">
-                <div class="card-header"><div class="card-title">Reference Image</div></div>
-                <div class="card-body field">
-                  <input type="file" accept="image/*" onchange="handleSetupImage(event)" style="border:none; box-shadow:none; padding:0;">
-                  <div id="setupImgPreview" style="margin-top:12px;">${s.image ? `<img src="${s.image}" style="max-height:250px; width:auto; max-width:100%; border-radius:var(--radius); border:1px solid var(--line); object-fit:contain;">` : `<span style="color:var(--text-muted); font-size:12px;">No image attached</span>`}</div>
-                </div>
-              </div>
-            </div>
-          </div>`;
-      }
-
-      function handleSetupImage(event) {
-        const file = event.target.files[0]; if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const job = jobBy(store.draft.jobId) || store.jobs[0];
-          let s = store.setups.find((x) => x.jobId === job.id);
-          if (!s) { s = { id: uid("S"), jobId: job.id, offset: "G54", z0: "", xy0: "", fixturing: "", tools: [], notes: "", image: null }; store.setups.push(s); }
-          s.image = e.target.result; save();
-          $("#setupImgPreview").innerHTML = `<img src="${s.image}" style="max-height:250px; width:auto; max-width:100%; border-radius:var(--radius); border:1px solid var(--line); object-fit:contain;">`;
-          toast("Image attached");
+      function createProject() {
+        const mk = document.getElementById("npMach").value;
+        const j = {
+          id: uid("PRJ"),
+          part: document.getElementById("npPart").value.trim() || "Project",
+          status: "ACTIVE",
+          machine: MACHINES[mk].name,
+          machineKey: mk,
+          material: document.getElementById("npMat").value,
+          created: today(),
+          revision: (document.getElementById("npRev").value || "A").toUpperCase(),
+          notes: document.getElementById("npNotes").value,
+          qty: 1,
+          progress: 0,
         };
-        reader.readAsDataURL(file);
+        store.jobs.unshift(j);
+        store.selectedProject = j.id;
+        save();
+        closeModal();
+        render();
+        toast("Project created");
       }
-
-      function setupToolPick() {
-        const job = jobBy(store.draft.jobId) || store.jobs[0], s = store.setups.find((x) => x.jobId === job?.id) || { tools: [] };
-        const toolRows = store.tools.length ? store.tools.map((t) => `<div class="list-row"><div><strong>${esc(t.loc)} · ${esc(t.name)}</strong></div><button class="btn ${s.tools.includes(t.id) ? '' : 'primary'}" onclick="linkSetupTool('${esc(t.id)}')">${s.tools.includes(t.id) ? "Linked" : "Add"}</button></div>`).join("") : `<div style="padding:24px; text-align:center;">No tools available in crib.</div>`;
-        modal("Select Tool", `<div class="list">${toolRows}</div>`);
+      function openProject(id) {
+        store.selectedProject = id;
+        save();
+        modal(`Project // ${id}`, projectDetail(id));
       }
-      
-      function linkSetupTool(tid) {
-        const job = jobBy(store.draft.jobId) || store.jobs[0]; let s = store.setups.find((x) => x.jobId === job.id);
-        if (!s) { s = { id: uid("S"), jobId: job.id, offset: "G54", z0: "", xy0: "", fixturing: "", tools: [], notes: "", image: null }; store.setups.push(s); }
-        if (!s.tools.includes(tid)) s.tools.push(tid); save(); closeModal(); render();
+      function projectDetail(id) {
+        const j = jobBy(id);
+        if (!j) return '<div class="help">Project not found.</div>';
+        const setup = store.setups.find((s) => s.jobId === id);
+        const ms = store.measurements.filter((m) => m.jobId === id);
+        const fs = store.failures.filter((f) => f.jobId === id && f.status !== "RESOLVED");
+        return `<div class="grid g2"><div><div class="eyebrow">PART</div><div style="font-size:20px;font-weight:820">${esc(j.part)}</div><div class="help mono">${esc(j.id)} · Rev ${esc(j.revision || "A")}</div></div><div><div class="eyebrow">STATUS</div><div>${status(j.status)}</div></div><div class="field"><label>Status</label><select id="pjStatus"><option ${j.status === "ACTIVE" ? "selected" : ""}>ACTIVE</option><option ${j.status === "HOLD" ? "selected" : ""}>HOLD</option><option ${j.status === "COMPLETED" ? "selected" : ""}>COMPLETED</option></select></div><div class="field"><label>Progress %</label><input class="input" type="number" id="pjProgress" value="${+j.progress || 0}" min="0" max="100"></div><div class="field" style="grid-column:1/-1"><label>Notes</label><textarea id="pjNotes">${esc(j.notes || "")}</textarea></div></div><div style="height:16px"></div><div class="kpi-strip"><div class="mini"><div class="mini-label">Setup</div><div class="mini-val">${setup ? "READY" : "—"}</div></div><div class="mini"><div class="mini-label">Measurements</div><div class="mini-val">${ms.length}</div></div><div class="mini"><div class="mini-label">Open Failures</div><div class="mini-val">${fs.length}</div></div><div class="mini"><div class="mini-label">Machine</div><div class="mini-val" style="font-size:13px">${esc(j.machine)}</div></div><div class="mini"><div class="mini-label">Material</div><div class="mini-val" style="font-size:13px">${esc(MATERIALS[j.material]?.name || j.material)}</div></div></div><div class="actions" style="justify-content:flex-end;margin-top:18px"><button class="btn" onclick="openModule('setup','${esc(id)}')">Setup</button><button class="btn" onclick="openModule('cut','${esc(id)}')">Cutting Data</button><button class="btn" onclick="openModule('qc','${esc(id)}')">Inspection</button><button class="btn primary" onclick="updateProject('${esc(id)}')">Save Project</button></div>`;
       }
-      function removeSetupTool(tid) { const job = jobBy(store.draft.jobId) || store.jobs[0], s = store.setups.find((x) => x.jobId === job.id); if (s) { s.tools = s.tools.filter((x) => x !== tid); save(); render(); } }
+      function updateProject(id) {
+        const j = jobBy(id);
+        if (!j) return;
+        j.status = document.getElementById("pjStatus").value;
+        j.progress = Math.max(0, Math.min(100, +document.getElementById("pjProgress").value || 0));
+        j.notes = document.getElementById("pjNotes").value;
+        save();
+        closeModal();
+        render();
+        toast("Project updated");
+      }
+      function archiveJob(id) {
+        const j = jobBy(id);
+        if (!j) return;
+        if (!confirm(`Archive ${j.part}? History will remain available.`)) return;
+        j.status = "ARCHIVED";
+        if (store.selectedProject === id)
+          store.selectedProject = store.jobs.find((x) => x.status !== "ARCHIVED")?.id || null;
+        save();
+        render();
+        toast("Project archived");
+      }
+      function openModule(view, id) {
+        store.active = view;
+        if (id) store.selectedProject = id;
+        save();
+        closeModal();
+        render();
+      }
+      function ensureSetup(jobId) {
+        let s = store.setups.find((x) => x.jobId === jobId);
+        if (!s) {
+          s = {
+            id: uid("SET"),
+            jobId,
+            offset: "G54",
+            z0: "Top of stock",
+            xy0: "Centre / datum",
+            fixture: "Vise + parallels",
+            stock: "",
+            tools: [],
+            notes: "",
+            image: null,
+          };
+          store.setups.push(s);
+        }
+        return s;
+      }
+      function setup() {
+        const job = activeJob();
+        if (!job) return base("ENGINEERING", "Setup Builder", "Create a project first.");
+        const s = ensureSetup(job.id);
+        return (
+          base(
+            "ENGINEERING",
+            "Setup Builder",
+            `Build a clean setup record for ${esc(job.part)}. Link the exact tools you intend to use, WCS, stock and workholding.`,
+            `<button class="btn primary" onclick="saveSetup()">Save Setup</button> <button class="btn" onclick="printView('Setup Sheet')">Print Setup Sheet</button>`
+          ) +
+          `<div class="layout"><div class="stack">${card("Project & Work Coordinate System", `<div class="grid g2"><div class="field"><label>Project</label><select id="suJob" onchange="changeSetupJob()">${jobOptions(job.id)}</select></div><div class="field"><label>Work Offset</label><input class="input" id="suOff" value="${esc(s.offset)}"></div><div class="field"><label>Z Zero</label><input class="input" id="suZ" value="${esc(s.z0)}"></div><div class="field"><label>X / Y Zero</label><input class="input" id="suXY" value="${esc(s.xy0)}"></div><div class="field"><label>Raw Stock</label><input class="input" id="suStock" value="${esc(s.stock || "")}" placeholder="100 x 100 x 20 mm"></div></div>`)}${card(
+            "Tool List",
+            `<div class="actions print-hide" style="justify-content:flex-start;margin-bottom:12px"><button class="btn small" onclick="setupToolPick()">+ Add Tool</button><button class="btn small" onclick="store.active='tools';save();render()">Manage Tool Library</button></div><div class="table-wrap"><table><thead><tr><th>Loc</th><th>Tool</th><th>Geometry</th><th>Ø</th><th>Z</th><th>Stickout</th><th></th></tr></thead><tbody>${
+              s.tools
+                .map((id) => {
+                  const t = store.tools.find((x) => x.id === id);
+                  return t
+                    ? `<tr><td class="mono accent">${esc(t.loc)}</td><td><strong>${esc(t.name)}</strong></td><td>${esc(t.geometry)}</td><td>${fmt(t.D, 2)}</td><td>${t.Z || "—"}</td><td>${fmt(t.L, 1)}</td><td><button class="btn small danger print-hide" onclick="removeSetupTool('${esc(id)}')">Remove</button></td></tr>`
+                    : "";
+                })
+                .join("") ||
+              '<tr><td colspan="7" style="text-align:center;padding:25px;color:var(--muted)">No tools assigned.</td></tr>'
+            }</tbody></table></div>`
+          )}${card("Setup Notes", `<div class="field"><label>Method / Critical Notes</label><textarea id="suNotes" placeholder="Indicating, parallels, clamping, datum sequence, checks before cycle start...">${esc(s.notes || "")}</textarea></div>`)}</div><div class="stack">${card("Workholding", `<div class="field"><label>Fixture / Workholding</label><textarea id="suFix">${esc(s.fixture || "")}</textarea></div><div class="help" style="margin-top:8px">Document anything another version of you would need to repeat the setup correctly.</div>`)}${card("Reference Image", `<div class="field"><label>Setup Photo</label><input type="file" accept="image/*" onchange="handleSetupImage(event)"><div id="setupImgPreview" style="margin-top:10px">${s.image ? `<img src="${s.image}" style="max-width:100%;max-height:280px;border:1px solid var(--line);border-radius:8px">` : '<div class="help">No image attached.</div>'}</div></div>`)}${card("Setup Readiness", `<div class="callout ${s.tools.length ? "good" : "warn"}"><strong>${s.tools.length ? "Tooling linked" : "Tooling incomplete"}</strong><div class="help" style="margin-top:3px">${s.tools.length} tool(s) assigned. Check WCS, workholding and tool lengths before machining.</div></div>`)}</div></div>`
+        );
+      }
+      function changeSetupJob() {
+        store.selectedProject = document.getElementById("suJob").value;
+        save();
+        render();
+      }
       function saveSetup() {
-        const job = jobBy($("#suJob").value) || store.jobs[0]; let s = store.setups.find((x) => x.jobId === job.id);
-        if (!s) { s = { id: uid("S"), jobId: job.id, tools: [], image: null }; store.setups.push(s); }
-        Object.assign(s, { offset: $("#suOff").value, z0: $("#suZ").value, xy0: $("#suXY").value, fixturing: $("#suFix").value });
-        save(); toast("Setup saved");
+        const id = document.getElementById("suJob").value;
+        const s = ensureSetup(id);
+        s.offset = document.getElementById("suOff").value;
+        s.z0 = document.getElementById("suZ").value;
+        s.xy0 = document.getElementById("suXY").value;
+        s.stock = document.getElementById("suStock").value;
+        s.fixture = document.getElementById("suFix").value;
+        s.notes = document.getElementById("suNotes").value;
+        store.selectedProject = id;
+        save();
+        toast("Setup saved");
       }
-
+      function handleSetupImage(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const r = new FileReader();
+        r.onload = () => {
+          const s = ensureSetup(activeJob().id);
+          s.image = r.result;
+          save();
+          render();
+          toast("Setup image saved");
+        };
+        r.readAsDataURL(file);
+      }
+      function setupToolPick() {
+        const job = activeJob();
+        const s = ensureSetup(job.id);
+        const rows =
+          store.tools
+            .map(
+              (t) =>
+                `<div class="list-row"><div><strong class="mono">${esc(t.loc)}</strong> · ${esc(t.name)}<div class="help">${esc(t.geometry)} · Ø${fmt(t.D, 2)} · L${fmt(t.L, 1)}</div></div><button class="btn small ${s.tools.includes(t.id) ? "" : "primary"}" onclick="linkSetupTool('${esc(t.id)}')">${s.tools.includes(t.id) ? "Linked" : "Add"}</button></div>`
+            )
+            .join("") || '<div class="help">Tool library empty.</div>';
+        modal("Assign Tools to Setup", rows);
+      }
+      function linkSetupTool(id) {
+        const s = ensureSetup(activeJob().id);
+        if (!s.tools.includes(id)) s.tools.push(id);
+        save();
+        closeModal();
+        render();
+        toast("Tool linked to setup");
+      }
+      function removeSetupTool(id) {
+        const s = ensureSetup(activeJob().id);
+        s.tools = s.tools.filter((x) => x !== id);
+        save();
+        render();
+      }
       function cut() {
-        // Safe fallbacks to prevent undefined property errors
-        const sfMachine = store.sf?.machine || "hsm";
-        const sfMat = store.sf?.mat || "alu_6082";
-        const sfHard = store.sf?.hardness || "standard";
-        const sfTool = store.sf?.tool || "hm";
-        const sfStrategy = store.sf?.strategy || "normal";
-
-        const machOpts = Object.entries(MACHINES).map(([k, m]) => `<option value="${k}" ${sfMachine === k ? "selected" : ""}>${esc(m.name)}</option>`).join("");
-        const matOpts = Object.entries(MATERIALS).map(([k, m]) => `<option value="${k}" ${sfMat === k ? "selected" : ""}>${esc(m.name)}</option>`).join("");
-        const hardOpts = Object.entries(HARDNESS_MODIFIERS).map(([k, h]) => `<option value="${k}" ${sfHard === k ? "selected" : ""}>${esc(h.name)}</option>`).join("");
-        
-        const cribTools = store.tools.map(t => `<option value="crib:${t.id}" ${sfTool === `crib:${t.id}` ? "selected" : ""}>${esc(t.loc)} - ${esc(t.name)}</option>`).join("");
-        const toolOpts = `<option value="hm" ${sfTool === "hm" ? "selected" : ""}>CARBIDE UNCOATED</option><option value="hm_coat" ${sfTool === "hm_coat" ? "selected" : ""}>CARBIDE COATED</option><option value="hss" ${sfTool === "hss" ? "selected" : ""}>HSS-Co</option>` + cribTools;
-
-        return basePage("ENGINEERING", "Speeds & Feeds", "Compute parameters adjusted by material condition.", `<button class="btn primary" onclick="copySF()">Copy Data</button>`) + `
-          <div class="layout-sidebar">
-            <div class="card">
-              <div class="card-header"><div class="card-title">Parameters</div></div>
-              <div class="card-body grid g2">
-                <div class="field"><label>Machine</label><select id="sfMachine" onchange="calcSF()">${machOpts}</select></div>
-                <div class="field"><label>Material</label><select id="sfMat" onchange="calcSF()">${matOpts}</select></div>
-                <div class="field"><label>Condition</label><select id="sfHard" onchange="calcSF()">${hardOpts}</select></div>
-                <div class="field"><label>Tool Material</label><select id="sfTool" onchange="calcSF()">${toolOpts}</select></div>
-                <div class="field"><label>Strategy</label><select id="sfStrategy" onchange="calcSF()"><option value="normal" ${sfStrategy === "normal" ? "selected" : ""}>NORMAL</option><option value="skrub" ${sfStrategy === "skrub" ? "selected" : ""}>ROUGHING</option><option value="slet" ${sfStrategy === "slet" ? "selected" : ""}>FINISHING</option></select></div>
-                <div class="field"><label>Ø D (mm)</label><input class="input" id="sfD" type="number" value="10" oninput="calcSF()"></div>
-                <div class="field"><label>Flutes Z</label><input class="input" id="sfZ" type="number" value="4" oninput="calcSF()"></div>
-                <div class="field"><label>Stickout L (mm)</label><input class="input" id="sfL" type="number" value="30" oninput="calcSF()"></div>
-                <div class="field"><label>Radial cut ae</label><input class="input" id="sfAe" type="number" value="1.5" oninput="calcSF()"></div>
-                <div class="field"><label>Axial cut ap</label><input class="input" id="sfAp" type="number" value="5.0" oninput="calcSF()"></div>
-              </div>
-            </div>
-            <div class="grid" style="gap:16px; align-content:start;">
-              <div class="grid g2">
-                <div class="card metric"><div class="metric-label">Spindle</div><div class="metric-val text-accent" id="sfRpm">—</div><div class="metric-sub">RPM</div></div>
-                <div class="card metric"><div class="metric-label">Feed Rate</div><div class="metric-val text-accent" id="sfVf">—</div><div class="metric-sub" id="sfVfUnit">mm/min</div></div>
-                <div class="card metric"><div class="metric-label">Cutting Speed</div><div class="metric-val" id="sfVc">—</div><div class="metric-sub">Vc (m/min)</div></div>
-                <div class="card metric"><div class="metric-label">Chipload</div><div class="metric-val" id="sfFz">—</div><div class="metric-sub" id="sfFzUnit">fz (mm/tooth)</div></div>
-                <div class="card metric"><div class="metric-label">MRR</div><div class="metric-val" id="sfMrr">—</div><div class="metric-sub">cm³/min</div></div>
-                <div class="card metric"><div class="metric-label">L/D Ratio</div><div class="metric-val" id="sfLd">—</div><div class="metric-sub">Tool Deflection</div></div>
-              </div>
-              <div class="card"><div class="card-body" id="sfFlags"></div></div>
-            </div>
-          </div>`;
+        const sf = store.sf || {};
+        const mopts = Object.entries(MACHINES)
+          .map(([k, m]) => `<option value="${k}" ${sf.machine === k ? "selected" : ""}>${m.name}</option>`)
+          .join("");
+        const matopts = Object.entries(MATERIALS)
+          .map(([k, m]) => `<option value="${k}" ${sf.mat === k ? "selected" : ""}>${m.name}</option>`)
+          .join("");
+        const hardopts = Object.entries(HARD)
+          .map(([k, m]) => `<option value="${k}" ${sf.hardness === k ? "selected" : ""}>${m.name}</option>`)
+          .join("");
+        const toolOpts =
+          (sf.machine && MACHINES[sf.machine]?.type === "turn"
+            ? Object.entries(TOOL_BASE.turn)
+            : Object.entries(TOOL_BASE.mill)
+          )
+            .map(([k, t]) => `<option value="${k}" ${sf.tool === k ? "selected" : ""}>${t.name}</option>`)
+            .join("") +
+          store.tools
+            .map(
+              (t) =>
+                `<option value="crib:${t.id}" ${sf.tool === `crib:${t.id}` ? "selected" : ""}>${esc(t.loc)} · ${esc(t.name)}</option>`
+            )
+            .join("");
+        return (
+          base(
+            "ENGINEERING",
+            "Cutting Data",
+            "Practical starting values for manual and CNC machining. Machine limits, tool geometry and stickout are treated explicitly.",
+            `<button class="btn" onclick="copySF()">Copy Values</button> <button class="btn primary" onclick="saveSFToProject()">Save to Project</button> <button class="btn" onclick="printView('Cutting Data Sheet')">Print</button>`
+          ) +
+          `<div class="layout"><div class="stack">${card("Cutting Parameters", `<div class="grid g2"><div class="field"><label>Machine</label><select id="sfMachine" onchange="calcSF()">${mopts}</select></div><div class="field"><label>Material</label><select id="sfMat" onchange="calcSF()">${matopts}</select></div><div class="field"><label>Material Condition</label><select id="sfHard" onchange="calcSF()">${hardopts}</select></div><div class="field"><label>Tool</label><select id="sfTool" onchange="toolSelectionChanged()">${toolOpts}</select></div><div class="field"><label>Strategy</label><select id="sfStrategy" onchange="calcSF()"><option value="normal" ${sf.strategy === "normal" ? "selected" : ""}>Normal</option><option value="rough" ${sf.strategy === "rough" ? "selected" : ""}>Roughing</option><option value="finish" ${sf.strategy === "finish" ? "selected" : ""}>Finishing</option></select></div><div class="field"><label>Diameter / Work Ø (mm)</label><input class="input" id="sfD" type="number" step="any" value="${sf.D ?? 10}" oninput="calcSF()"></div><div class="field"><label>Flutes Z</label><input class="input" id="sfZ" type="number" step="1" value="${sf.Z ?? 4}" oninput="calcSF()"></div><div class="field"><label>Stickout L (mm)</label><input class="input" id="sfL" type="number" step="any" value="${sf.L ?? 30}" oninput="calcSF()"></div><div class="field" id="aeField"><label>Radial ae (mm)</label><input class="input" id="sfAe" type="number" step="any" value="${sf.ae ?? 1.5}" oninput="calcSF()"></div><div class="field"><label>Axial ap (mm)</label><input class="input" id="sfAp" type="number" step="any" value="${sf.ap ?? 5}" oninput="calcSF()"></div></div><div class="help" style="margin-top:12px">Treat these as engineering starting points, then verify against the actual cutter manufacturer data, workholding, machine condition and tool engagement.</div>`)}${card("Live Notes", `<div id="sfFlags"></div>`)}</div><div class="stack"><div class="grid g2"><div class="card metric"><div class="metric-label">Spindle</div><div class="metric-val accent" id="sfRpm">—</div><div class="metric-sub">RPM</div></div><div class="card metric"><div class="metric-label">Feed</div><div class="metric-val accent" id="sfVf">—</div><div class="metric-sub" id="sfVfUnit">mm/min</div></div><div class="card metric"><div class="metric-label">Cutting Speed</div><div class="metric-val" id="sfVc">—</div><div class="metric-sub">Vc · m/min</div></div><div class="card metric"><div class="metric-label">Chip Load</div><div class="metric-val" id="sfFz">—</div><div class="metric-sub" id="sfFzUnit">mm/tooth</div></div><div class="card metric"><div class="metric-label">MRR</div><div class="metric-val" id="sfMrr">—</div><div class="metric-sub">cm³/min</div></div><div class="card metric"><div class="metric-label">L/D</div><div class="metric-val" id="sfLd">—</div><div class="metric-sub">stickout / diameter</div></div></div>${card("Formula Reference", `<div class="ref-item"><div class="ref-code">n = Vc × 1000 / (π × D)</div><div class="ref-text">Spindle speed from cutting speed and diameter.</div></div><div style="height:7px"></div><div class="ref-item"><div class="ref-code">Vf = n × Z × fz</div><div class="ref-text">Milling feed rate from RPM, flute count and chip load.</div></div>`)}</div></div>`
+        );
       }
-
+      function toolSelectionChanged() {
+        const v = document.getElementById("sfTool").value;
+        if (v.startsWith("crib:")) {
+          const t = store.tools.find((x) => x.id === v.slice(5));
+          if (t) {
+            document.getElementById("sfD").value = t.D || 10;
+            document.getElementById("sfZ").value = t.Z || 4;
+            document.getElementById("sfL").value = t.L || 30;
+          }
+        }
+        calcSF();
+      }
       function calcSF() {
-        const machineKey = $("#sfMachine").value;
-        const m = MACHINES[machineKey] || MACHINES.hsm;
-        const mat = MATERIALS[$("#sfMat").value] || MATERIALS.alu_6082;
-        const hardKey = $("#sfHard").value || "standard";
-        const hardMod = HARDNESS_MODIFIERS[hardKey]?.mult || 1.0;
-        const isTurn = m.type === "turn";
-        
-        const tk = $("#sfTool").value;
-        let tool;
+        const m = MACHINES[document.getElementById("sfMachine").value] || MACHINES.mini;
+        const mat = MATERIALS[document.getElementById("sfMat").value] || MATERIALS.alu6082;
+        const hard = HARD[document.getElementById("sfHard").value] || HARD.standard;
+        const strat = document.getElementById("sfStrategy").value;
+        const mult = { normal: [1, 1], rough: [0.85, 1.15], finish: [1.15, 0.65] }[strat] || [1, 1];
+        const tk = document.getElementById("sfTool").value;
+        let tool = TOOL_BASE[m.type]?.[tk];
         if (tk.startsWith("crib:")) {
-          const cribTool = store.tools.find(t => t.id === tk.slice(5));
-          tool = cribTool ? { vc: 1, f: 1, z: cribTool.Z || 4 } : { vc: 1, f: 1, z: 4 };
-        } else {
-          tool = isTurn ? TOOL_BASE.turn[tk] : TOOL_BASE.mill[tk];
+          const t = store.tools.find((x) => x.id === tk.slice(5));
+          tool = { vc: 1, f: 1, z: t?.Z || 4 };
         }
-        if (!tool) tool = { vc: 1, f: 1, z: 4 }; // Safe fallback
-        
-        const D = Math.max(0.001, +$("#sfD").value || 0), Z = Math.max(1, +$("#sfZ").value || 4), L = +$("#sfL").value || 0, ae = Math.max(0, +$("#sfAe").value || 0), ap = Math.max(0, +$("#sfAp").value || 0);
-        const strategy = { normal: [1, 1], skrub: [0.85, 1.25], slet: [1.2, 0.6] }[$("#sfStrategy").value] || [1, 1];
-        
-        let vc = mat.vc * tool.vc * strategy[0] * hardMod;
-        let rpmIdeal = (vc * 1000) / (Math.PI * D);
-        let rpm = Math.min(rpmIdeal, m.rpm);
-        let feedPerRev = mat.f * tool.f * strategy[1] * Math.sqrt(hardMod);
-        
-        let vf = 0, mrr = 0, ld = isTurn ? 0 : L / D;
-        let flags = [];
-
-        if (isTurn) {
-          vf = feedPerRev;
+        if (!tool) tool = TOOL_BASE[m.type]?.[m.type === "mill" ? "hm" : "iso"];
+        const D = Math.max(0.001, +document.getElementById("sfD").value || 0),
+          Z = Math.max(1, +document.getElementById("sfZ").value || tool.z || 4),
+          L = Math.max(0, +document.getElementById("sfL").value || 0),
+          ae = Math.max(0, +document.getElementById("sfAe").value || 0),
+          ap = Math.max(0, +document.getElementById("sfAp").value || 0);
+        let vc = mat.vc * tool.vc * mult[0] * hard.mult;
+        let n = Math.min((vc * 1000) / (Math.PI * D), m.rpm);
+        let fz = mat.f * tool.f * mult[1] * Math.sqrt(hard.mult);
+        let vf,
+          mrr,
+          ld = "N/A";
+        const flags = [];
+        if (m.type === "turn") {
+          vf = fz;
           mrr = ap * vf * vc;
-          if (ap <= 0) flags.push("Axial depth (ap) missing.");
+          document.getElementById("aeField").classList.add("hidden");
         } else {
-          if (ae > 0 && ae < D / 2) feedPerRev *= Math.min(Math.sqrt(D / ae), 3);
-          vf = rpm * Z * feedPerRev;
+          document.getElementById("aeField").classList.remove("hidden");
+          if (ae > 0 && ae < D / 2) fz *= Math.min(Math.sqrt(D / ae), 3);
+          vf = n * Z * fz;
           mrr = (ap * ae * vf) / 1000;
-          if (ld >= 4) flags.push(`HIGH L/D RISK: ${ld.toFixed(1)}x - Watch for deflection.`);
-          if (!ae || !ap) flags.push("Set ae/ap to calculate MRR.");
+          ld = (L / D).toFixed(2);
+          if (L / D >= 4) flags.push(`High L/D ratio: ${ld}x — expect deflection risk.`);
+          if (!ae || !ap) flags.push("Set ae and ap for meaningful MRR.");
         }
-        if (rpmIdeal > m.rpm) flags.push(`Spindle capped at machine max (${m.rpm} RPM).`);
-
-        $("#sfRpm").textContent = Math.round(rpm); 
-        $("#sfVf").textContent = isTurn ? vf.toFixed(3) : Math.round(vf);
-        $("#sfVc").textContent = Math.round(vc);
-        $("#sfFz").textContent = feedPerRev.toFixed(3);
-        $("#sfMrr").textContent = mrr.toFixed(1);
-        $("#sfLd").textContent = isTurn ? "N/A" : ld.toFixed(1);
-        
-        $("#sfVfUnit").textContent = isTurn ? "mm/rev" : "mm/min";
-        $("#sfFzUnit").textContent = isTurn ? "mm/rev" : "mm/tooth";
-
-        $("#sfFlags").innerHTML = flags.length ? flags.map(f => `<div class="status st-warn" style="margin-bottom:4px; display:block; text-align:center;">${esc(f)}</div>`).join('') : '<div class="status st-good" style="display:block; text-align:center;">Parameters Optimal</div>';
-
-        store.sf = { machine: machineKey, mat: $("#sfMat").value, tool: tk, strategy: $("#sfStrategy").value, hardness: hardKey }; save();
+        if ((vc * 1000) / (Math.PI * D) > m.rpm) flags.push(`Spindle limited by ${m.name}: ${m.rpm} RPM.`);
+        if (ae > D) flags.push("ae exceeds tool diameter — verify operation.");
+        document.getElementById("sfRpm").textContent = Math.round(n).toLocaleString("en-GB");
+        document.getElementById("sfVf").textContent =
+          m.type === "turn" ? vf.toFixed(3) : Math.round(vf).toLocaleString("en-GB");
+        document.getElementById("sfVfUnit").textContent = m.type === "turn" ? "mm/rev" : "mm/min";
+        document.getElementById("sfVc").textContent = Math.round(vc);
+        document.getElementById("sfFz").textContent = fz.toFixed(3);
+        document.getElementById("sfFzUnit").textContent = m.type === "turn" ? "f · mm/rev" : "fz · mm/tooth";
+        document.getElementById("sfMrr").textContent = Number.isFinite(mrr) ? mrr.toFixed(1) : "—";
+        document.getElementById("sfLd").textContent = ld;
+        document.getElementById("sfFlags").innerHTML = flags.length
+          ? flags.map((x) => `<div class="callout warn" style="margin-bottom:7px">${esc(x)}</div>`).join("")
+          : '<div class="callout good">Parameters calculated. Verify against the actual tool and setup before cutting.</div>';
+        store.sf = {
+          machine: document.getElementById("sfMachine").value,
+          mat: document.getElementById("sfMat").value,
+          hardness: document.getElementById("sfHard").value,
+          tool: tk,
+          strategy: strat,
+          D,
+          Z,
+          L,
+          ae,
+          ap,
+        };
+        save();
       }
-      
-      function copySF() { navigator.clipboard?.writeText(`S${$("#sfRpm").textContent} F${$("#sfVf").textContent} (Vc: ${$("#sfVc").textContent} m/min | fz: ${$("#sfFz").textContent})`); toast("Data copied"); }
-
-      function calc() {
-        return basePage("ENGINEERING", "Calculators", "Essential reference logic.") + `
-          <div class="tabs">
-            ${[["iso", "ISO 286"], ["thread", "THREADING"], ["chamfer", "CHAMFER"], ["triangle", "TRIGONOMETRY"]].map(([id, l], i) => `<button class="${i === 0 ? "active" : ""}" data-cal="${id}">${l}</button>`).join("")}
-          </div><div id="calcBody">${isoView()}</div>`;
+      function copySF() {
+        const t = `S${document.getElementById("sfRpm").textContent} F${document.getElementById("sfVf").textContent} | Vc ${document.getElementById("sfVc").textContent} m/min | f ${document.getElementById("sfFz").textContent}`;
+        navigator.clipboard
+          ?.writeText(t)
+          .then(() => toast("Cutting values copied"))
+          .catch(() => toast(t));
       }
-      function isoView() { return `<div class="layout-sidebar"><div class="card card-body grid g2"><div class="field"><label>Nominal Ø</label><input class="input" id="isoD" type="number" value="25" oninput="doIso()"></div><div class="field"><label>Fit Class</label><input class="input" id="isoClass" value="H7" style="text-transform:uppercase" oninput="doIso()"></div></div><div class="grid"><div class="card metric"><div class="metric-label">Min Limit</div><div class="metric-val" id="isoMin">—</div></div><div class="card metric"><div class="metric-label">Max Limit</div><div class="metric-val" id="isoMax">—</div></div></div></div>`; }
-      function calcThreadHtml() { return `<div class="layout-sidebar"><div class="card card-body grid g2"><div class="field"><label>Nominal Ø</label><input class="input" id="thrD" type="number" value="8" oninput="doThread()"></div><div class="field"><label>Pitch P</label><input class="input" id="thrP" type="number" value="1.25" oninput="doThread()"></div></div><div class="grid"><div class="card metric"><div class="metric-label">Standard Cut Tap Drill</div><div class="metric-val text-accent" id="thrCut">—</div></div><div class="card metric"><div class="metric-label">Form Tap Drill</div><div class="metric-val" id="thrForm">—</div></div></div></div>`; }
-      function simpleCalc(type) {
-        if (type === "chamfer") return `<div class="layout-sidebar"><div class="card card-body grid g2"><div class="field"><label>Chamfer Width (mm)</label><input class="input" id="fc" type="number" value="2.5" oninput="doChamfer()"></div><div class="field"><label>Tool Angle</label><select id="fa" onchange="doChamfer()"><option value="90">90°</option><option value="60">60°</option><option value="120">120°</option></select></div></div><div class="card metric"><div class="metric-label">Required Z-Depth</div><div class="metric-val" id="fz">—</div></div></div>`;
-        return `<div class="layout-sidebar"><div class="card card-body grid g2"><div class="field"><label>Angle A</label><input class="input" id="ta" type="number" value="30" oninput="doTri()"></div><div class="field"><label>Opposite Side a</label><input class="input" id="tsa" type="number" value="50" oninput="doTri()"></div><div class="field"><label>Adjacent Side b</label><input class="input" id="tsb" type="number" value="25" oninput="doTri()"></div></div><div class="grid"><div class="card metric"><div class="metric-label">Hypotenuse c</div><div class="metric-val" id="tc">—</div></div><div class="card metric"><div class="metric-label">Angle B</div><div class="metric-val" id="tb">—</div></div></div></div>`;
+      function saveSFToProject() {
+        const j = activeJob();
+        if (!j) return toast("Create a project first");
+        j.cuttingData = {
+          ...store.sf,
+          rpm: document.getElementById("sfRpm").textContent,
+          feed: document.getElementById("sfVf").textContent,
+          vc: document.getElementById("sfVc").textContent,
+          fz: document.getElementById("sfFz").textContent,
+          updated: today(),
+        };
+        save();
+        toast("Cutting data saved to project");
       }
-      
-      function doIso() { const d = +$("#isoD").value || 0, c = ($("#isoClass").value || "").trim(), a = ISO.classes[c]; let i = ISO.ranges.findIndex((x) => d <= x); if (i < 0) i = ISO.ranges.length - 1; const r = a?.[i] ? { lo: a[i][1] / 1000, up: a[i][0] / 1000 } : null; $("#isoMin").textContent = r ? (d + r.lo).toFixed(3) : "—"; $("#isoMax").textContent = r ? (d + r.up).toFixed(3) : "—"; }
-      function doThread() { const d = +$("#thrD").value || 0, p = +$("#thrP").value || 0; $("#thrCut").textContent = getStandardDrill(d - p).toFixed(2) + " mm"; $("#thrForm").textContent = getStandardDrill(d - p / 2).toFixed(2) + " mm"; }
-      function doChamfer() { const c = +$("#fc").value || 0, a = ((+$("#fa").value || 90) * Math.PI) / 180; $("#fz").textContent = Math.abs(c * Math.tan(a / 2)).toFixed(3) + " mm"; }
-      function doTri() { const A = ((+$("#ta").value || 0) * Math.PI) / 180, a = +$("#tsa").value || 0, b = +$("#tsb").value || 0, c = Math.sqrt(Math.max(0, a * a + b * b - 2 * a * b * Math.cos(A))); const B = (Math.acos(Math.min(1, Math.max(-1, (a*a+c*c-b*b)/(2*a*c||1)))) * 180) / Math.PI; $("#tc").textContent = c.toFixed(3); $("#tb").textContent = B.toFixed(3) + "°"; }
-
+      function log() {
+        const job = activeJob();
+        const rows = store.logs
+          .slice()
+          .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+          .map(
+            (l) =>
+              `<tr><td>${esc(l.date)}</td><td>${esc(l.type)}</td><td>${esc(jobBy(l.jobId)?.part || "General")}</td><td><strong>${esc(l.title)}</strong><div class="help">${esc(l.notes || "")}</div></td><td style="text-align:right"><button class="btn small" onclick="editLog('${esc(l.id)}')">Edit</button> <button class="btn small danger" onclick="removeLog('${esc(l.id)}')">Remove</button></td></tr>`
+          )
+          .join("");
+        return (
+          base(
+            "WORKSPACE",
+            "Workshop Log",
+            "A practical record of work performed, decisions made, problems solved and lessons worth keeping for the next job.",
+            `<button class="btn primary" onclick="newLog()">+ Log Entry</button> <button class="btn" onclick="printView('Workshop Log')">Print</button>`
+          ) +
+          card(
+            "Work Log",
+            `<div class="toolbar"><div class="field"><label>Current Project</label><select onchange="store.selectedProject=this.value;save();render()">${jobOptions(job?.id)}</select></div></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Type</th><th>Project</th><th>Entry</th><th></th></tr></thead><tbody>${rows || '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--muted)">No log entries yet.</td></tr>'}</tbody></table></div>`
+          )
+        );
+      }
+      function newLog(existing) {
+        const l = existing || { date: today(), jobId: activeJob()?.id || "", type: "Practice", title: "", notes: "" };
+        modal(
+          existing ? "Edit Workshop Log" : "New Workshop Log",
+          `<div class="grid g2"><div class="field"><label>Date</label><input class="input" id="lgDate" type="date" value="${esc(l.date)}"></div><div class="field"><label>Type</label><select id="lgType">${["Practice", "Production", "Setup", "Inspection", "Troubleshooting", "Theory"].map((x) => `<option ${l.type === x ? "selected" : ""}>${x}</option>`).join("")}</select></div><div class="field" style="grid-column:1/-1"><label>Project</label><select id="lgJob">${jobOptions(l.jobId)}</select></div><div class="field" style="grid-column:1/-1"><label>Title</label><input class="input" id="lgTitle" value="${esc(l.title)}" placeholder="What did you do?"></div><div class="field" style="grid-column:1/-1"><label>Notes / Lesson Learned</label><textarea id="lgNotes" placeholder="What mattered? What would you repeat or change?"></textarea></div></div><div class="actions" style="justify-content:flex-end;margin-top:16px"><button class="btn primary" onclick="saveLog(${existing ? `'${esc(existing.id)}'` : ""})">Save Entry</button></div>`
+        );
+        if (existing) document.getElementById("lgNotes").value = l.notes || "";
+      }
+      function saveLog(id) {
+        const obj = id ? store.logs.find((x) => x.id === id) : { id: uid("LOG") };
+        if (!obj) return;
+        obj.date = document.getElementById("lgDate").value;
+        obj.type = document.getElementById("lgType").value;
+        obj.jobId = document.getElementById("lgJob").value;
+        obj.title = document.getElementById("lgTitle").value.trim() || "Workshop entry";
+        obj.notes = document.getElementById("lgNotes").value.trim();
+        if (!id) store.logs.unshift(obj);
+        save();
+        closeModal();
+        render();
+        toast("Workshop log saved");
+      }
+      function editLog(id) {
+        newLog(store.logs.find((x) => x.id === id));
+      }
+      function removeLog(id) {
+        if (!confirm("Remove this workshop log entry?")) return;
+        store.logs = store.logs.filter((x) => x.id !== id);
+        save();
+        render();
+      }
+      function failures() {
+        const rows = store.failures
+          .slice()
+          .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+          .map(
+            (f) =>
+              `<tr><td class="mono"><strong>${esc(f.id)}</strong></td><td>${esc(f.date)}</td><td>${status(f.severity)}</td><td><strong>${esc(f.title)}</strong><div class="help">${esc(f.observed || "")}</div></td><td>${esc(jobBy(f.jobId)?.part || "General")}</td><td>${status(f.status)}</td><td style="text-align:right"><button class="btn small" onclick="editFailure('${esc(f.id)}')">Open</button> <button class="btn small" onclick="printFailure('${esc(f.id)}')">Print</button></td></tr>`
+          )
+          .join("");
+        return (
+          base(
+            "QUALITY",
+            "Failure Reports",
+            "Document tool breakage, bad surface finish, dimensional drift, machine issues, setup mistakes and the lesson you want to carry forward.",
+            `<button class="btn primary" onclick="newFailure()">+ New Failure Report</button> <button class="btn" onclick="printView('Failure Register')">Print</button>`
+          ) +
+          card(
+            "Failure Register",
+            `<div class="table-wrap"><table><thead><tr><th>ID</th><th>Date</th><th>Severity</th><th>Problem</th><th>Project</th><th>Status</th><th></th></tr></thead><tbody>${rows || '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">No failure reports yet.</td></tr>'}</tbody></table></div>`
+          )
+        );
+      }
+      function newFailure(existing) {
+        const f = existing || {
+          date: today(),
+          jobId: activeJob()?.id || "",
+          severity: "MINOR",
+          status: "OPEN",
+          title: "",
+          category: "Dimensional",
+          machine: activeJob()?.machine || "",
+          operation: "",
+          observed: "",
+          cause: "",
+          containment: "",
+          corrective: "",
+          lesson: "",
+          image: null,
+        };
+        modal(
+          existing ? "Failure Report" : "New Failure Report",
+          `<div class="grid g2"><div class="field"><label>Date</label><input class="input" id="frDate" type="date" value="${esc(f.date)}"></div><div class="field"><label>Status</label><select id="frStatus"><option ${f.status === "OPEN" ? "selected" : ""}>OPEN</option><option ${f.status === "RESOLVED" ? "selected" : ""}>RESOLVED</option></select></div><div class="field"><label>Severity</label><select id="frSeverity">${["MINOR", "MAJOR", "CRITICAL"].map((x) => `<option ${f.severity === x ? "selected" : ""}>${x}</option>`).join("")}</select></div><div class="field"><label>Category</label><select id="frCat">${["Dimensional", "Surface Finish", "Tool", "Machine", "Workholding", "Programming", "Material", "Other"].map((x) => `<option ${f.category === x ? "selected" : ""}>${x}</option>`).join("")}</select></div><div class="field"><label>Project</label><select id="frJob">${jobOptions(f.jobId)}</select></div><div class="field"><label>Machine / Station</label><input class="input" id="frMachine" value="${esc(f.machine || "")}"></div><div class="field"><label>Operation</label><input class="input" id="frOp" value="${esc(f.operation || "")}" placeholder="Setup / Op 20 / drilling..."></div><div class="field"><label>Problem Title</label><input class="input" id="frTitle" value="${esc(f.title || "")}" placeholder="What went wrong?"></div><div class="field" style="grid-column:1/-1"><label>Observed</label><textarea id="frObs">${esc(f.observed || "")}</textarea></div><div class="field"><label>Suspected Cause</label><textarea id="frCause">${esc(f.cause || "")}</textarea></div><div class="field"><label>Containment / Immediate Action</label><textarea id="frContain">${esc(f.containment || "")}</textarea></div><div class="field"><label>Corrective Action</label><textarea id="frCorrect">${esc(f.corrective || "")}</textarea></div><div class="field"><label>Lesson Learned</label><textarea id="frLesson">${esc(f.lesson || "")}</textarea></div></div><div class="actions" style="justify-content:flex-end;margin-top:16px"><button class="btn primary" onclick="saveFailure(${existing ? `'${esc(existing.id)}'` : ""})">Save Report</button></div>`
+        );
+      }
+      function saveFailure(id) {
+        const f = id ? store.failures.find((x) => x.id === id) : { id: uid("FAIL") };
+        Object.assign(f, {
+          date: document.getElementById("frDate").value,
+          status: document.getElementById("frStatus").value,
+          severity: document.getElementById("frSeverity").value,
+          category: document.getElementById("frCat").value,
+          jobId: document.getElementById("frJob").value,
+          machine: document.getElementById("frMachine").value,
+          operation: document.getElementById("frOp").value,
+          title: document.getElementById("frTitle").value.trim() || "Failure report",
+          observed: document.getElementById("frObs").value,
+          cause: document.getElementById("frCause").value,
+          containment: document.getElementById("frContain").value,
+          corrective: document.getElementById("frCorrect").value,
+          lesson: document.getElementById("frLesson").value,
+        });
+        if (!id) store.failures.unshift(f);
+        save();
+        closeModal();
+        render();
+        toast("Failure report saved");
+      }
+      function editFailure(id) {
+        newFailure(store.failures.find((x) => x.id === id));
+      }
+      function printFailure(id) {
+        store.printFailure = id;
+        save();
+        printView("Failure Report");
+      }
       function qc() {
-        const job = jobBy(store.measureDraft.jobId || store.draft.jobId) || store.jobs[0], rows = store.measurements.filter((x) => x.jobId === job?.id);
-        const rowsHtml = rows.length ? rows.map((r) => {
-          const measured = r.actual !== "", ok = measured && r.actual >= r.nom + r.lo && r.actual <= r.nom + r.up;
-          const diff = measured ? (r.actual - r.nom) : 0;
-          const wear = measured ? (diff > 0 ? `Adjust: -${diff.toFixed(3)}` : `Adjust: +${Math.abs(diff).toFixed(3)}`) : "—";
-          return `<tr><td><input class='input' value='${esc(r.feature)}' onchange="updateFaiRow('${r.id}','feature',this.value)"></td><td><input class='input' type='number' step='any' value='${r.nom}' onchange="updateFaiRow('${r.id}','nom',this.value)"></td><td>+${r.up} / ${r.lo}</td><td><input class='input' type='number' step='any' value='${r.actual ?? ""}' oninput="updateFaiRow('${r.id}','actual',this.value)"></td><td><span class='status ${measured ? (ok ? "st-good" : "st-bad") : "st-neutral"}'>${measured ? (ok ? "PASS" : "FAIL") : "—"}</span></td><td><strong class='text-accent'>${measured ? wear : "—"}</strong></td><td><input class='input' value='${esc(r.note || "")}' placeholder='Method...' onchange="updateFaiRow('${r.id}','note',this.value)"></td><td style='text-align:right;'><button class='btn' style='padding:0 8px; height:28px;' onclick="deleteMeasurement('${r.id}')">Drop</button></td></tr>`;
-        }).join("") : `<tr><td colspan="8" style="text-align:center; padding: 32px; color: var(--text-muted);">No features defined for this project.</td></tr>`;
-
-        return basePage("QUALITY", "Inspection Control", "Log measurements and get active wear offset corrections.", `<button class="btn primary" onclick="addFai()">+ Add Datum</button> <button class="btn" onclick="printView('Inspection Report')">Print</button>`) + `
-          <div class="card">
-            <div class="toolbar"><div class="field" style="width:300px"><label>Target Project</label><select onchange="store.draft.jobId=this.value;save();render()">${jobOptions(job?.id)}</select></div></div>
-            <div class="table-container"><table><thead><tr><th>Feature</th><th>Nominal</th><th>Tol + / -</th><th>Actual</th><th>Status</th><th>Wear Correction</th><th>Note</th><th></th></tr></thead><tbody>${rowsHtml}</tbody></table></div>
-          </div>`;
+        const job = activeJob();
+        const rows = store.measurements.filter((x) => x.jobId === job?.id);
+        const pass = rows.filter(
+          (r) => r.actual !== "" && +r.actual >= r.nom + r.lo && +r.actual <= r.nom + r.up
+        ).length;
+        const table =
+          rows
+            .map((r) => {
+              const measured = r.actual !== "";
+              const ok = measured && +r.actual >= r.nom + r.lo && +r.actual <= r.nom + r.up;
+              const dev = measured ? +r.actual - r.nom : 0;
+              const correction = measured ? (dev > 0 ? "Reduce / offset negative" : "Increase / offset positive") : "—";
+              return (
+                "<tr>" +
+                '<td><input class="input" value="' +
+                esc(r.feature) +
+                '" onchange="updateMeasurement(\'' +
+                r.id +
+                "','feature',this.value)\"></td>" +
+                '<td><input class="input" type="number" step="any" value="' +
+                r.nom +
+                '" onchange="updateMeasurement(\'' +
+                r.id +
+                "','nom',this.value)\"></td>" +
+                "<td>+" +
+                r.up +
+                " / " +
+                r.lo +
+                "</td>" +
+                '<td><input class="input" type="number" step="any" value="' +
+                esc(r.actual ?? "") +
+                '" oninput="updateMeasurement(\'' +
+                r.id +
+                "','actual',this.value)\"></td>" +
+                "<td>" +
+                (measured ? status(ok ? "PASS" : "FAIL") : status("OPEN")) +
+                "</td>" +
+                '<td class="mono">' +
+                (measured ? (dev >= 0 ? "+" : "") + dev.toFixed(3) : "—") +
+                " mm</td>" +
+                "<td>" +
+                correction +
+                "</td>" +
+                '<td><button class="btn small danger" onclick="removeMeasurement(\'' +
+                r.id +
+                "')\">Remove</button></td>" +
+                "</tr>"
+              );
+            })
+            .join("") ||
+          '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted)">No dimensions defined for this project.</td></tr>';
+        const body =
+          '<div class="toolbar"><div class="field"><label>Project</label><select onchange="store.selectedProject=this.value;save();render()">' +
+          jobOptions(job?.id) +
+          "</select></div></div>" +
+          '<div class="table-wrap"><table><thead><tr><th>Feature</th><th>Nominal</th><th>Tolerance + / -</th><th>Actual</th><th>Status</th><th>Deviation</th><th>Wear / Offset Hint</th><th></th></tr></thead><tbody>' +
+          table +
+          "</tbody></table></div>";
+        return (
+          base(
+            "QUALITY",
+            "Inspection",
+            "Measure critical dimensions against nominal and tolerance. Every result remains part of the project record.",
+            '<button class="btn primary" onclick="addMeasurement()">+ Add Dimension</button> <button class="btn" onclick="printView(\'Inspection Report\')">Print Report</button>'
+          ) +
+          '<div class="kpi-strip"><div class="mini"><div class="mini-label">Project</div><div class="mini-val" style="font-size:14px">' +
+          esc(job?.part || "None") +
+          '</div></div><div class="mini"><div class="mini-label">Features</div><div class="mini-val">' +
+          rows.length +
+          '</div></div><div class="mini"><div class="mini-label">Pass</div><div class="mini-val">' +
+          pass +
+          '</div></div><div class="mini"><div class="mini-label">Fail</div><div class="mini-val">' +
+          rows.filter((r) => r.actual !== "" && !(+r.actual >= r.nom + r.lo && +r.actual <= r.nom + r.up)).length +
+          '</div></div><div class="mini"><div class="mini-label">Open Project</div><div class="mini-val">' +
+          (job ? status(job.status) : "—") +
+          '</div></div></div><div style="height:14px"></div>' +
+          card("Inspection Record", body)
+        );
       }
-      
-      function updateFaiRow(id, field, val) { const x = store.measurements.find((r) => r.id === id); if (!x) return; if (field === "feature" || field === "note") x[field] = val.trim(); else x[field] = val === "" ? "" : +val; save(); render(); }
-      function addFai() { const job = jobBy(store.draft.jobId) || store.jobs[0]; if (!job) return toast("Create project first"); store.measurements.push({ id: uid("M"), jobId: job.id, feature: "New feature", nom: 25, up: 0.021, lo: 0, actual: "", note: "" }); save(); render(); }
-
-      function tools() {
-        const rowsHtml = store.tools.length ? store.tools.map((t) => `<tr><td class="text-accent"><strong>${esc(t.loc)}</strong></td><td>${esc(t.name)}</td><td>${esc(t.type)}</td><td>${esc(t.mat)}</td><td>${t.D}</td><td>${t.Z}</td><td>${esc(t.notes)}</td><td style="text-align:right;"><button class="btn danger" style="padding:0 8px; height:28px;" onclick="deleteTool('${esc(t.id)}')">Delete</button></td></tr>`).join("") : `<tr><td colspan="8" style="text-align:center; padding: 32px; color:var(--text-muted);">No tools registered.</td></tr>`;
-        return basePage("SYSTEM", "Tool Crib", "Logical tool inventory.", `<button class="btn primary" onclick="toolModal()">+ Add Tool</button>`) + `
-          <div class="card"><div class="table-container"><table><thead><tr><th>Loc</th><th>Name</th><th>Geometry</th><th>Material</th><th>Ø</th><th>Z</th><th>Notes</th><th></th></tr></thead><tbody>${rowsHtml}</tbody></table></div></div>`;
+      function addMeasurement() {
+        const j = activeJob();
+        if (!j) return toast("Create a project first");
+        store.measurements.push({
+          id: uid("M"),
+          jobId: j.id,
+          feature: "New dimension",
+          nom: 25,
+          up: 0.021,
+          lo: 0,
+          actual: "",
+          method: "",
+          date: today(),
+          note: "",
+        });
+        save();
+        render();
       }
-      
-      function toolModal() {
-        modal("Create Tool", `
-          <div class="grid g3">
-            <div class="field"><label>Location</label><input class="input" id="tl" value="T${store.tools.length + 1}"></div>
-            <div class="field"><label>Name</label><input class="input" id="tn" value="Endmill"></div>
-            <div class="field"><label>Geometry</label><select id="tt"><option value="endmill">Endmill</option><option value="drill">Drill</option><option value="tap">Tap</option></select></div>
-            <div class="field"><label>Ø D</label><input class="input" id="td" type="number" value="10"></div>
-            <div class="field"><label>Flutes Z</label><input class="input" id="tz" type="number" value="4"></div>
-            <div class="field"><label>Material</label><select id="tm"><option value="hm">Carbide</option><option value="hss">HSS</option></select></div>
-            <div class="field" style="grid-column:1/-1"><label>Note</label><input class="input" id="tNotes"></div>
-          </div>
-          <div style="margin-top:24px; display:flex; justify-content:flex-end;"><button class="btn primary" onclick="saveTool()">Save Tool</button></div>`);
-      }
-      function saveTool() { const t = { id: uid("T"), loc: $("#tl").value.trim().toUpperCase(), name: $("#tn").value.trim(), type: $("#tt").value, mat: $("#tm").value, D: +$("#td").value || 0, Z: +$("#tz").value || 1, notes: $("#tNotes").value }; if (!t.loc || !t.name || !t.D) return toast("Missing required fields"); store.tools.push(t); save(); closeModal(); render(); }
-
-      function machines() {
-        return basePage("SYSTEM", "Machines", "Shop floor hardware capability definition.") + `<div class="grid g3">${Object.entries(MACHINES).map(([k, m]) => `<div class="card metric"><div class="metric-label">${m.type.toUpperCase()}</div><div class="metric-val" style="font-size:20px;">${esc(m.name)}</div><div class="metric-sub">Max RPM: ${m.rpm}</div></div>`).join("")}</div>`;
-      }
-
-      function settings() {
-        return basePage("SYSTEM", "Data & Control", "Local browser storage. Export JSON to keep data safe.") + `<div class="card card-body grid g2"><button class="btn primary" onclick="downloadJSON(store,'datum-os-backup.json')">Export Backup (JSON)</button><button class="btn danger" onclick="resetData()">Factory Reset Data</button></div>`;
-      }
-
-      function resetData() { if (confirm("Permanently delete everything?")) { store = seed(); save(); render(); toast("Data wiped"); } }
-      function modal(title, body) { $("#modalRoot").innerHTML = `<div class="modal-bg"><div class="modal"><div class="modal-head"><span>${esc(title)}</span><button class="modal-close" onclick="closeModal()">×</button></div><div class="modal-body">${body}</div></div></div>`; }
-      function closeModal() { $("#modalRoot").innerHTML = ""; }
-      function downloadJSON(data, name) { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 500); }
-      function printView(title) { document.title = "DATUM OS — " + title; window.print(); }
-
-      function bind() {
-        if (store.active === "cut") { calcSF(); }
-        if (store.active === "calc") {
-          const tabs = $$("[data-cal]");
-          tabs.forEach((b) => b.onclick = () => { tabs.forEach((x) => x.classList.remove("active")); b.classList.add("active"); const type = b.dataset.cal; $("#calcBody").innerHTML = type === "thread" ? calcThreadHtml() : type === "iso" ? isoView() : simpleCalc(type); if (type === "thread") doThread(); if (type === "iso") doIso(); if (type === "chamfer") doChamfer(); if (type === "triangle") doTri(); });
-          doIso();
+      function updateMeasurement(id, field, val) {
+        const m = store.measurements.find((x) => x.id === id);
+        if (!m) return;
+        m[field] = field === "feature" ? val : val === "" ? "" : +val;
+        save();
+        render();
+        if (field === "actual") {
+          const job = jobBy(m.jobId);
+          const bad = m.actual !== "" && !(+m.actual >= m.nom + m.lo && +m.actual <= m.nom + m.up);
+          if (job) job.status = bad ? "HOLD" : job.status;
+          save();
         }
       }
+      function removeMeasurement(id) {
+        store.measurements = store.measurements.filter((x) => x.id !== id);
+        save();
+        render();
+      }
+      function tools() {
+        const q = (store.toolQuery || "").toLowerCase();
+        let filtered = store.tools.filter((t) =>
+          [t.loc, t.name, t.geometry, t.mat, t.holder, t.condition].join(" ").toLowerCase().includes(q)
+        );
+        if (store.toolGeometry) filtered = filtered.filter((t) => t.geometry === store.toolGeometry);
+        if (store.toolCondition) filtered = filtered.filter((t) => t.condition === store.toolCondition);
+        const cards =
+          filtered
+            .map((t) => {
+              const uses = store.setups.filter((s) => s.tools?.includes(t.id)).length;
+              return (
+                '<div class="tool-card"><div class="tool-top"><div><div class="tool-loc">' +
+                esc(t.loc) +
+                '</div><div class="tool-name">' +
+                esc(t.name) +
+                '</div><div class="tool-meta">' +
+                esc(t.geometry || "") +
+                " · " +
+                esc(t.mat || "") +
+                " · " +
+                esc(t.condition || "") +
+                "</div></div><div>" +
+                status(t.condition || "Good") +
+                "</div></div>" +
+                '<div class="tool-stats"><div class="tool-stat"><b>Ø' +
+                fmt(t.D, 2) +
+                '</b><span>DIAMETER</span></div><div class="tool-stat"><b>Z' +
+                (t.Z || "—") +
+                '</b><span>FLUTES</span></div><div class="tool-stat"><b>' +
+                fmt(t.L, 1) +
+                '</b><span>STICKOUT</span></div><div class="tool-stat"><b>' +
+                uses +
+                "</b><span>SETUPS</span></div></div>" +
+                '<div class="help" style="margin-top:10px">' +
+                esc(t.holder || "No holder recorded") +
+                " · LC " +
+                fmt(t.LC, 1) +
+                ' mm</div><div class="help" style="margin-top:5px">' +
+                esc(t.notes || "") +
+                "</div>" +
+                '<div class="actions" style="justify-content:flex-start;margin-top:12px"><button class="btn small" onclick="editTool(\'' +
+                t.id +
+                '\')">Edit</button><button class="btn small" onclick="useToolInSF(\'' +
+                t.id +
+                '\')">Use in S&F</button><button class="btn small danger" onclick="retireTool(\'' +
+                t.id +
+                "')\">Retire</button></div></div>"
+              );
+            })
+            .join("") || '<div class="help">No matching tools.</div>';
+        const geoms = GEOMETRIES.map(
+          (x) => "<option " + (store.toolGeometry === x ? "selected" : "") + ">" + x + "</option>"
+        ).join("");
+        const conds = ["New", "Good", "Worn", "Damaged", "Sharpen"]
+          .map((x) => "<option " + (store.toolCondition === x ? "selected" : "") + ">" + x + "</option>")
+          .join("");
+        const toolbar =
+          '<div class="toolbar"><div class="field"><label>Search</label><input class="input" value="' +
+          esc(store.toolQuery || "") +
+          '" oninput="store.toolQuery=this.value;save();render()" placeholder="Ø10, drill, HSS, ER32..."></div><div class="field" style="max-width:180px"><label>Geometry</label><select onchange="store.toolGeometry=this.value;save();render()"><option value="">All geometry</option>' +
+          geoms +
+          '</select></div><div class="field" style="max-width:180px"><label>Condition</label><select onchange="store.toolCondition=this.value;save();render()"><option value="">All conditions</option>' +
+          conds +
+          "</select></div></div>";
+        return (
+          base(
+            "TOOLING",
+            "Tooling",
+            "Your personal tool library. Track geometry, dimensions, holders, stickout, condition and what each cutter is actually useful for. This is the detailed practical section.",
+            '<button class="btn primary" onclick="toolModal()">+ Add Tool</button> <button class="btn" onclick="printView(\'Tool Register\')">Print Register</button>'
+          ) +
+          toolbar +
+          '<div class="tool-grid">' +
+          cards +
+          "</div>"
+        );
+      }
+      function toolModal(existing) {
+        const t = existing || {
+          loc: `T${store.tools.length + 1}`,
+          name: "Endmill",
+          geometry: "Endmill",
+          mat: "hm",
+          D: 10,
+          Z: 4,
+          L: 30,
+          LC: 22,
+          holder: "ER32",
+          condition: "New",
+          notes: "",
+        };
+        modal(
+          existing ? "Edit Tool" : "Add Tool",
+          `<div class="grid g3"><div class="field"><label>Location</label><input class="input" id="tl" value="${esc(t.loc)}"></div><div class="field"><label>Name</label><input class="input" id="tn" value="${esc(t.name)}"></div><div class="field"><label>Geometry</label><select id="tgeom">${GEOMETRIES.map((x) => `<option ${t.geometry === x ? "selected" : ""}>${x}</option>`).join("")}</select></div><div class="field"><label>Tool Material / Grade</label><input class="input" id="tmat" value="${esc(t.mat || "")}" placeholder="Carbide, HSS-Co, VCGT..."> </div><div class="field"><label>Diameter D (mm)</label><input class="input" id="td" type="number" step="any" value="${t.D ?? ""}"></div><div class="field"><label>Flutes Z</label><input class="input" id="tz" type="number" step="1" value="${t.Z ?? ""}"></div><div class="field"><label>Stickout L (mm)</label><input class="input" id="tL" type="number" step="any" value="${t.L ?? ""}"></div><div class="field"><label>Cutting Length LC (mm)</label><input class="input" id="tLC" type="number" step="any" value="${t.LC ?? ""}"></div><div class="field"><label>Holder</label><input class="input" id="tholder" value="${esc(t.holder || "")}"></div><div class="field"><label>Condition</label><select id="tcond">${["New", "Good", "Worn", "Damaged", "Sharpen"].map((x) => `<option ${t.condition === x ? "selected" : ""}>${x}</option>`).join("")}</select></div><div class="field"><label>Uses / Hours</label><input class="input" id="tUse" type="number" step="any" value="${t.uses || 0}"></div><div class="field" style="grid-column:1/-1"><label>Notes</label><textarea id="tnotes">${esc(t.notes || "")}</textarea></div></div><div class="actions" style="justify-content:flex-end;margin-top:16px"><button class="btn primary" onclick="saveTool(${existing ? `'${esc(existing.id)}'` : ""})">Save Tool</button></div>`
+        );
+      }
+      function saveTool(id) {
+        const t = id ? store.tools.find((x) => x.id === id) : { id: uid("T") };
+        Object.assign(t, {
+          loc: document.getElementById("tl").value.trim().toUpperCase(),
+          name: document.getElementById("tn").value.trim() || "Tool",
+          geometry: document.getElementById("tgeom").value,
+          mat: document.getElementById("tmat").value.trim(),
+          D: +document.getElementById("td").value || 0,
+          Z: +document.getElementById("tz").value || 1,
+          L: +document.getElementById("tL").value || 0,
+          LC: +document.getElementById("tLC").value || 0,
+          holder: document.getElementById("tholder").value.trim(),
+          condition: document.getElementById("tcond").value,
+          uses: +document.getElementById("tUse").value || 0,
+          notes: document.getElementById("tnotes").value,
+        });
+        if (!t.D) return toast("Tool diameter is required");
+        if (!id) store.tools.push(t);
+        save();
+        closeModal();
+        render();
+        toast("Tool saved");
+      }
+      function editTool(id) {
+        toolModal(store.tools.find((x) => x.id === id));
+      }
+      function retireTool(id) {
+        const t = store.tools.find((x) => x.id === id);
+        if (!t) return;
+        if (store.setups.some((s) => s.tools?.includes(id)))
+          return toast("Tool is linked to a setup — remove that link first");
+        t.condition = "Damaged";
+        save();
+        render();
+        toast("Tool marked damaged");
+      }
+      function useToolInSF(id) {
+        store.active = "cut";
+        store.sf.tool = "crib:" + id;
+        save();
+        render();
+      }
+      function machines() {
+        return (
+          base(
+            "TOOLING",
+            "Machines",
+            "Your actual workshop machines and the capability limits that matter for calculations."
+          ) +
+          `<div class="grid g2">${Object.entries(MACHINES)
+            .map(
+              ([k, m]) =>
+                `<div class="card"><div class="card-body"><div class="eyebrow">${m.type === "mill" ? "MILLING" : "TURNING"}</div><div style="font-size:20px;font-weight:820">${esc(m.name)}</div><div class="help">Maximum spindle: ${m.rpm} RPM</div><div class="callout" style="margin-top:14px"><strong>Use case</strong><div class="help" style="margin-top:3px">${esc(m.notes)}</div></div><div class="actions" style="justify-content:flex-start;margin-top:13px"><button class="btn small" onclick="useMachineSF('${k}')">Use in Cutting Data</button></div></div></div>`
+            )
+            .join("")}</div>`
+        );
+      }
+      function useMachineSF(k) {
+        store.active = "cut";
+        store.sf.machine = k;
+        save();
+        render();
+      }
+      function desk() {
+        return (
+          base(
+            "ENGINEERING",
+            "Reference & Calculators",
+            "One place for the things you look up at the machine: tolerances, threads, geometry, cutting formulas, conversions and code reference."
+          ) +
+          `<div class="tabs" id="deskTabs">${["iso", "thread", "drill", "chamfer", "trig", "bc", "taper", "surface", "units", "codes", "formulas"].map((x, i) => `<button class="tab ${i === 0 ? "active" : ""}" data-desk="${x}">${{ iso: "ISO FITS", thread: "THREADS", drill: "DRILLS", chamfer: "CHAMFER", trig: "TRIG", bc: "BOLT CIRCLE", taper: "TAPER", surface: "SURFACE FINISH", units: "UNITS", codes: "G & M CODES", formulas: "FORMULAS" }[x]}</button>`).join("")}</div><div id="deskBody">${deskView("iso")}</div>`
+        );
+      }
+      function deskView(t) {
+        if (t === "iso")
+          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Nominal Size Ø / L (mm)</label><input class="input" id="isoD" type="number" value="25" oninput="calcDeskIso()"></div><div class="field"><label>Fit Class</label><select id="isoC" onchange="calcDeskIso()">${Object.keys(
+            ISO.classes
+          )
+            .map((c) => `<option>${c}</option>`)
+            .join(
+              ""
+            )}</select></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Minimum</div><div class="metric-val" id="isoMin">—</div></div><div class="card metric"><div class="metric-label">Maximum</div><div class="metric-val" id="isoMax">—</div></div></div></div>`;
+        if (t === "thread")
+          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Nominal Thread Ø</label><input class="input" id="thD" type="number" value="8" oninput="calcDeskThread()"></div><div class="field"><label>Pitch P (mm)</label><input class="input" id="thP" type="number" value="1.25" oninput="calcDeskThread()"></div><div class="field"><label>Thread Form</label><select id="thKind" onchange="calcDeskThread()"><option>Cut Tap</option><option>Form Tap</option></select></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Recommended Drill</div><div class="metric-val accent" id="thDrill">—</div></div><div class="card metric"><div class="metric-label">Thread Depth</div><div class="metric-val" id="thDepth">—</div><div class="metric-sub">1.5 × D reference</div></div></div></div>`;
+        if (t === "drill")
+          return `<div class="card card-body"><div class="grid g3"><div class="field"><label>Tap Drill Target (mm)</label><input class="input" id="drT" type="number" value="6.8" oninput="calcDeskDrill()"></div><div class="field"><label>Hole Ø to Nearest Stock Drill</label><div class="math-output"><div class="big-result" id="drNear">—</div><div class="help">Nearest listed standard drill</div></div></div><div class="field"><label>Next Larger</label><div class="math-output"><div class="big-result" id="drUp">—</div></div></div></div></div>`;
+        if (t === "chamfer")
+          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Chamfer Width C (mm)</label><input class="input" id="chC" type="number" value="2.5" oninput="calcDeskChamfer()"></div><div class="field"><label>Included Tool Angle</label><select id="chA" onchange="calcDeskChamfer()"><option value="90">90°</option><option value="60">60°</option><option value="120">120°</option></select></div></div><div class="card metric"><div class="metric-label">Z Depth / Radial Relation</div><div class="metric-val" id="chZ">—</div><div class="metric-sub">For symmetric included angle</div></div></div>`;
+        if (t === "trig")
+          return `<div class="layout"><div class="card card-body grid g3"><div class="field"><label>Side a (mm)</label><input class="input" id="trA" type="number" value="50" oninput="calcDeskTrig()"></div><div class="field"><label>Side b (mm)</label><input class="input" id="trB" type="number" value="25" oninput="calcDeskTrig()"></div><div class="field"><label>Included angle A (°)</label><input class="input" id="trAng" type="number" value="30" oninput="calcDeskTrig()"></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Side c</div><div class="metric-val" id="trC">—</div></div><div class="card metric"><div class="metric-label">Angle B</div><div class="metric-val" id="trB">—</div></div></div></div>`;
+        if (t === "bc")
+          return `<div class="layout"><div class="card card-body grid g3"><div class="field"><label>Bolt Circle Ø PCD</label><input class="input" id="bcD" type="number" value="50" oninput="calcBC()"></div><div class="field"><label>Number of Holes</label><input class="input" id="bcN" type="number" value="6" oninput="calcBC()"></div><div class="field"><label>Start Angle</label><input class="input" id="bcA" type="number" value="0" oninput="calcBC()"></div></div><div class="card"><div class="card-head"><div class="card-title">Coordinates</div></div><div class="card-body" id="bcOut"></div></div></div>`;
+        if (t === "taper")
+          return `<div class="layout"><div class="card card-body grid g3"><div class="field"><label>Large Ø D</label><input class="input" id="tpD" type="number" value="50" oninput="calcTaper()"></div><div class="field"><label>Small Ø d</label><input class="input" id="tpd" type="number" value="30" oninput="calcTaper()"></div><div class="field"><label>Length L</label><input class="input" id="tpL" type="number" value="40" oninput="calcTaper()"></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Included Angle</div><div class="metric-val" id="tpAngle">—</div></div><div class="card metric"><div class="metric-label">Half Angle</div><div class="metric-val" id="tpHalf">—</div></div></div></div>`;
+        if (t === "surface")
+          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Corner Radius re (mm)</label><input class="input" id="raR" type="number" value="0.4" oninput="calcSurface()"></div><div class="field"><label>Feed f (mm/rev)</label><input class="input" id="raF" type="number" value="0.1" oninput="calcSurface()"></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Theoretical Ra</div><div class="metric-val" id="raOut">—</div><div class="metric-sub">µm</div></div><div class="card metric"><div class="metric-label">Approx. Rz</div><div class="metric-val" id="rzOut">—</div><div class="metric-sub">µm · simplified</div></div></div></div>`;
+        if (t === "units")
+          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Value</label><input class="input" id="uv" type="number" value="1"></div><div class="field"><label>From</label><select id="uf"><option>mm</option><option>inch</option><option>m/min</option><option>ft/min</option><option>mm/min</option><option>in/min</option></select></div><div class="field"><label>To</label><select id="ut"><option>inch</option><option>mm</option><option>ft/min</option><option>m/min</option><option>in/min</option><option>mm/min</option></select></div><button class="btn primary" onclick="convertUnits()">Convert</button></div><div class="card metric"><div class="metric-label">Result</div><div class="metric-val accent" id="uOut">—</div></div></div>`;
+        if (t === "codes")
+          return `<div class="ref-grid">${Object.entries(REFS)
+            .map(
+              ([c, d]) =>
+                `<div class="ref-item"><div class="ref-code">${c}</div><div class="ref-title">${d}</div><div class="ref-text">Quick reference. Confirm exact control behavior on your machine before running unfamiliar code.</div></div>`
+            )
+            .join("")}</div>`;
+        return `<div class="ref-grid">${[
+          ["RPM", "n = Vc × 1000 / (π × D)", "Surface speed to spindle speed"],
+          ["Milling Feed", "Vf = n × Z × fz", "Spindle × flute count × chip load"],
+          ["MRR Milling", "Q = ap × ae × Vf / 1000", "cm³/min from mm inputs"],
+          ["Turning Feed", "Vf = f × n", "Feed per revolution × RPM"],
+          ["L/D", "L / D", "Stickout relative to cutter diameter"],
+          ["Bolt Circle", "X = R cos θ · Y = R sin θ", "Centre referenced coordinates"],
+          ["Chamfer", "Z = C × tan(A/2)", "Included angle geometry"],
+          ["Power", "Pc ≈ (Vc × Q × kc) / constant", "Use manufacturer/material data for kc"],
+        ]
+          .map(
+            (x) =>
+              `<div class="ref-item"><div class="ref-code">${x[0]}</div><div class="ref-title">${x[1]}</div><div class="ref-text">${x[2]}</div></div>`
+          )
+          .join("")}</div>`;
+      }
+      function calcDeskIso() {
+        const d = +document.getElementById("isoD").value || 0,
+          c = document.getElementById("isoC").value;
+        const a = ISO.classes[c];
+        let i = ISO.ranges.findIndex((x) => d <= x);
+        if (i < 0) i = ISO.ranges.length - 1;
+        const r = a?.[i];
+        document.getElementById("isoMin").textContent = r ? fmt(d + r[1] / 1000, 3) : "—";
+        document.getElementById("isoMax").textContent = r ? fmt(d + r[0] / 1000, 3) : "—";
+      }
+      function calcDeskThread() {
+        const d = +document.getElementById("thD").value || 0,
+          p = +document.getElementById("thP").value || 0;
+        const kind = document.getElementById("thKind").value;
+        const target = kind === "Form Tap" ? d - p / 2 : d - p;
+        document.getElementById("thDrill").textContent = getNearestDrill(target) + " mm";
+        document.getElementById("thDepth").textContent = fmt(d * 1.5, 1) + " mm";
+      }
+      function getNearestDrill(v) {
+        return DRILLS.reduce((p, c) => (Math.abs(c - v) < Math.abs(p - v) ? c : p), DRILLS[0]).toFixed(2);
+      }
+      function calcDeskDrill() {
+        const v = +document.getElementById("drT").value || 0;
+        document.getElementById("drNear").textContent = getNearestDrill(v) + " mm";
+        const up = DRILLS.find((x) => x >= v);
+        document.getElementById("drUp").textContent = (up ?? DRILLS[DRILLS.length - 1]).toFixed(2) + " mm";
+      }
+      function calcDeskChamfer() {
+        const c = +document.getElementById("chC").value || 0,
+          a = ((+document.getElementById("chA").value || 90) * Math.PI) / 180;
+        document.getElementById("chZ").textContent = Math.abs(c * Math.tan(a / 2)).toFixed(3) + " mm";
+      }
+      function calcDeskTrig() {
+        const a = +document.getElementById("trA").value || 0,
+          b = +document.getElementById("trB").value || 0,
+          A = ((+document.getElementById("trAng").value || 0) * Math.PI) / 180;
+        const c = Math.sqrt(Math.max(0, a * a + b * b - 2 * a * b * Math.cos(A)));
+        let B = 0;
+        if (a && c) B = (Math.acos(Math.min(1, Math.max(-1, (a * a + c * c - b * b) / (2 * a * c)))) * 180) / Math.PI;
+        document.getElementById("trC").textContent = c.toFixed(3) + " mm";
+        document.getElementById("trB").textContent = B.toFixed(3) + "°";
+      }
+      function calcBC() {
+        const d = +document.getElementById("bcD").value || 0,
+          n = Math.max(1, Math.floor(+document.getElementById("bcN").value || 1)),
+          a = ((+document.getElementById("bcA").value || 0) * Math.PI) / 180,
+          R = d / 2;
+        document.getElementById("bcOut").innerHTML = Array.from({ length: n }, (_, i) => {
+          const t = a + (i * 2 * Math.PI) / n;
+          return `<div class="list-row"><strong class="mono">${i + 1}</strong><span>X ${fmt(R * Math.cos(t), 3)} · Y ${fmt(R * Math.sin(t), 3)}</span><span class="help">${fmt(((((t * 180) / Math.PI) % 360) + 360) % 360, 2)}°</span></div>`;
+        }).join("");
+      }
+      function calcTaper() {
+        const D = +document.getElementById("tpD").value || 0,
+          d = +document.getElementById("tpd").value || 0,
+          L = +document.getElementById("tpL").value || 1;
+        const half = (Math.atan(Math.abs(D - d) / (2 * L)) * 180) / Math.PI;
+        document.getElementById("tpHalf").textContent = half.toFixed(4) + "°";
+        document.getElementById("tpAngle").textContent = (half * 2).toFixed(4) + "°";
+      }
+      function calcSurface() {
+        const r = +document.getElementById("raR").value || 0,
+          f = +document.getElementById("raF").value || 0;
+        const Ra = r ? ((f * f) / (32 * r)) * 1000 : 0;
+        document.getElementById("raOut").textContent = Ra.toFixed(2);
+        document.getElementById("rzOut").textContent = (Ra * 4).toFixed(2);
+      }
+      function convertUnits() {
+        const v = +document.getElementById("uv").value || 0,
+          f = document.getElementById("uf").value,
+          t = document.getElementById("ut").value;
+        const key = f + ">" + t;
+        const factors = {
+          "mm>inch": 1 / 25.4,
+          "inch>mm": 25.4,
+          "m/min>ft/min": 3.2808399,
+          "ft/min>m/min": 0.3048,
+          "mm/min>in/min": 1 / 25.4,
+          "in/min>mm/min": 25.4,
+        };
+        document.getElementById("uOut").textContent = f === t ? v : factors[key] != null ? v * factors[key] : "—";
+      }
 
-      $("#importInput").onchange = (e) => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { try { const x = JSON.parse(r.result); if (!x || x.version !== 6) throw new Error("version"); store = hydrate(x); save(); render(); toast("Backup imported"); } catch { toast("Invalid backup"); } }; r.readAsText(f); };
-
+      function openMobileNav() {
+        const groups = navGroups
+          .map(
+            ([g, items]) =>
+              '<div style="margin-bottom:16px"><div class="eyebrow">' +
+              g +
+              "</div>" +
+              items
+                .map(
+                  ([id, label]) =>
+                    '<button class="btn" style="width:100%;justify-content:flex-start;margin-bottom:6px" onclick="store.active=\'' +
+                    id +
+                    "';save();closeModal();render()\">" +
+                    esc(label) +
+                    "</button>"
+                )
+                .join("") +
+              "</div>"
+          )
+          .join("");
+        modal("DATUM OS Navigation", groups);
+      }
+      function openCommand() {
+        document.getElementById("commandRoot").innerHTML =
+          `<div class="command" onclick="if(event.target===this)closeCommand()"><div class="command-box"><input id="cmdInput" placeholder="Search modules, actions or tools..." oninput="filterCommands()" onkeydown="if(event.key==='Escape')closeCommand()"><div class="command-list" id="cmdList">${commandItems()}</div></div></div>`;
+        setTimeout(() => document.getElementById("cmdInput")?.focus(), 0);
+      }
+      function closeCommand() {
+        document.getElementById("commandRoot").innerHTML = "";
+      }
+      function commandItems() {
+        const a = [
+          ["Overview", "dashboard"],
+          ["Projects", "projects"],
+          ["Workshop Log", "log"],
+          ["Failure Reports", "failures"],
+          ["Setup Builder", "setup"],
+          ["Cutting Data", "cut"],
+          ["Reference & Calculators", "desk"],
+          ["Inspection", "qc"],
+          ["Tooling", "tools"],
+          ["Machines", "machines"],
+          ["Data & Settings", "settings"],
+        ];
+        return a
+          .map(
+            (x) =>
+              `<div class="command-item" onclick="store.active='${x[1]}';save();closeCommand();render()"><strong>${x[0]}</strong><span class="help">Open</span></div>`
+          )
+          .join("");
+      }
+      function filterCommands() {
+        const q = document.getElementById("cmdInput").value.toLowerCase();
+        document.getElementById("cmdList").innerHTML =
+          commandItems().replace(
+            /<div class="command-item" onclick="store.active='([^']+)';save\(\);closeCommand\(\);render\(\)"><strong>([^<]+)<\/strong><span class="help">Open<\/span><\/div>/g,
+            (m, id, label) => (label.toLowerCase().includes(q) ? m : "")
+          ) || '<div class="command-item">No matches</div>';
+      }
+      function settings() {
+        const cfg = store.settings;
+        return (
+          base(
+            "SYSTEM",
+            "Data & Settings",
+            "Keep your local workshop data portable. Update your student context, export backups and import a previous DATUM OS backup.",
+            `<button class="btn primary" onclick="saveSettings()">Save Settings</button> <button class="btn" onclick="backup()">Export Backup</button> <label class="btn" style="display:inline-flex">Import Backup<input type="file" accept="application/json" hidden onchange="importBackup(event)"></label> <button class="btn" onclick="printView('DATUM OS Profile')">Print</button>`
+          ) +
+          `<div class="layout"><div class="stack">${card("Student Profile", `<div class="grid g2"><div class="field"><label>Name</label><input class="input" id="setStudent" value="${esc(cfg.student || "")}"></div><div class="field"><label>School / Workshop</label><input class="input" id="setSchool" value="${esc(cfg.school || "TEC")}"></div><div class="field"><label>Program</label><input class="input" id="setProgram" value="${esc(cfg.program || "Finmekaniker")}"></div><div class="field"><label>Expected Graduation</label><input class="input" id="setGrad" value="${esc(cfg.graduation || "April 2027")}"></div></div>`)}${card("Data Safety", `<div class="callout good"><strong>Local-first.</strong><div class="help" style="margin-top:4px">Your records are stored in this browser. Export a JSON backup regularly, especially before changing browser/device settings.</div></div>`)}</div><div class="stack">${card("System Status", `<div class="grid g2"><div class="mini"><div class="mini-label">Projects</div><div class="mini-val">${store.jobs.length}</div></div><div class="mini"><div class="mini-label">Setups</div><div class="mini-val">${store.setups.length}</div></div><div class="mini"><div class="mini-label">Tools</div><div class="mini-val">${store.tools.length}</div></div><div class="mini"><div class="mini-label">Failures</div><div class="mini-val">${store.failures.length}</div></div></div>`)}${card("Reset", `<div class="callout bad"><strong>Factory reset is intentionally conservative.</strong><div class="help" style="margin-top:4px">Use this only after exporting a backup. It resets the local DATUM OS database, including project records.</div><div class="actions" style="justify-content:flex-start;margin-top:10px"><button class="btn danger" onclick="factoryReset()">Reset Local Database</button></div></div>`)}</div></div>`
+        );
+      }
+      function saveSettings() {
+        store.settings.student = document.getElementById("setStudent").value.trim();
+        store.settings.school = document.getElementById("setSchool").value.trim();
+        store.settings.program = document.getElementById("setProgram").value.trim();
+        store.settings.graduation = document.getElementById("setGrad").value.trim();
+        save();
+        toast("Settings saved");
+      }
+      function backup() {
+        const blob = new Blob([JSON.stringify(store, null, 2)], { type: "application/json" }),
+          a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "datum-os-backup-" + today() + ".json";
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 500);
+        toast("Backup exported");
+      }
+      function importBackup(e) {
+        const f = e.target.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = () => {
+          try {
+            const x = JSON.parse(r.result);
+            if (!x.jobs || !Array.isArray(x.jobs) || !x.tools) throw 0;
+            store = hydrate(x);
+            save();
+            render();
+            toast("Backup imported");
+          } catch {
+            toast("Invalid backup file");
+          }
+        };
+        r.readAsText(f);
+      }
+      function factoryReset() {
+        if (!confirm("Reset the local DATUM OS database? Export a backup first.")) return;
+        store = seed();
+        save();
+        render();
+        toast("Database reset");
+      }
+      function modal(title, body) {
+        document.getElementById("modalRoot").innerHTML =
+          `<div class="modal-bg" onclick="if(event.target===this)closeModal()"><div class="modal"><div class="modal-head"><span>${esc(title)}</span><button class="modal-close" onclick="closeModal()">×</button></div><div class="modal-body">${body}</div></div></div>`;
+      }
+      function closeModal() {
+        document.getElementById("modalRoot").innerHTML = "";
+      }
+      function printView(title) {
+        document.title = "DATUM OS — " + title;
+        window.print();
+      }
+      function bind() {
+        if (store.active === "cut") setTimeout(calcSF, 0);
+        if (store.active === "desk") {
+          const btns = document.querySelectorAll("[data-desk]");
+          btns.forEach(
+            (b) =>
+              (b.onclick = () => {
+                btns.forEach((x) => x.classList.remove("active"));
+                b.classList.add("active");
+                const v = b.dataset.desk;
+                document.getElementById("deskBody").innerHTML = deskView(v);
+                if (v === "iso") calcDeskIso();
+                if (v === "thread") calcDeskThread();
+                if (v === "drill") calcDeskDrill();
+                if (v === "chamfer") calcDeskChamfer();
+                if (v === "trig") calcDeskTrig();
+                if (v === "bc") calcBC();
+                if (v === "taper") calcTaper();
+                if (v === "surface") calcSurface();
+              })
+          );
+          calcDeskIso();
+        }
+      }
+      document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          openCommand();
+        }
+        if (e.key === "Escape") {
+          closeCommand();
+          closeModal();
+        }
+      });
       render();
     </script>
   </body>
