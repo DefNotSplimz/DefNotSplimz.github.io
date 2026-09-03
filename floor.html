@@ -552,6 +552,28 @@
         border-color: var(--good);
         background: var(--goodbg);
       }
+      .callout.info {
+        border-color: var(--info);
+        background: var(--infobg);
+      }
+      .check-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 8px;
+      }
+      .check-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        padding: 10px 11px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        font-size: 11px;
+      }
+      .check-row input { margin-top: 2px; }
+      .check-row .help { display: block; margin-top: 2px; }
+
       .tool-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -946,6 +968,7 @@
         .ref-grid {
           display: block !important;
         }
+        .check-row { border: 1px solid #000 !important; }
         .ref-item {
           border: 1px solid #000 !important;
           border-radius: 0 !important;
@@ -990,7 +1013,7 @@
     <div id="commandRoot"></div>
     <script>
       "use strict";
-      const DBKEY = "datum_os_student_v7";
+      const DBKEY = "datum_os_student_v8";
       const MACHINES = {
         deckel: { name: "Deckel FP1", type: "mill", rpm: 2000, notes: "Manual universal milling machine" },
         mini: { name: "Haas Mini Mill", type: "mill", rpm: 10000, notes: "CNC vertical machining center" },
@@ -998,49 +1021,106 @@
         st10: { name: "Haas ST-10", type: "turn", rpm: 4000, notes: "CNC turning center" },
       };
       const MATERIALS = {
-        alu6082: { name: "Aluminium 6082 / 6060", group: "ALUMINIUM", vc: 350, f: 0.08 },
-        alu7075: { name: "Aluminium 7075", group: "ALUMINIUM", vc: 450, f: 0.1 },
-        s235: { name: "S235", group: "STEEL", vc: 160, f: 0.06 },
-        s355: { name: "S355", group: "STEEL", vc: 120, f: 0.05 },
-        ss304: { name: "304 / 316 Stainless", group: "STAINLESS", vc: 80, f: 0.04 },
-        brass: { name: "Brass", group: "BRASS", vc: 300, f: 0.08 },
-        pom: { name: "POM / Delrin", group: "PLASTIC", vc: 400, f: 0.15 },
-        nylon: { name: "Nylon / PA", group: "PLASTIC", vc: 200, f: 0.1 },
-        pmma: { name: "Acrylic / PMMA", group: "PLASTIC", vc: 150, f: 0.08 },
-        toolsteel: { name: "Tool Steel <45 HRC", group: "TOOL STEEL", vc: 90, f: 0.04 },
+        alu6082: { name: "Aluminium 6082 / 6060", group: "ALUMINIUM" },
+        alu7075: { name: "Aluminium 7075", group: "ALUMINIUM" },
+        s235: { name: "S235", group: "STEEL" },
+        s355: { name: "S355", group: "STEEL" },
+        ss304: { name: "304 / 316 Stainless", group: "STAINLESS" },
+        brass: { name: "Brass", group: "BRASS" },
+        pom: { name: "POM / Delrin", group: "PLASTIC" },
+        nylon: { name: "Nylon / PA", group: "PLASTIC" },
+        pmma: { name: "Acrylic / PMMA", group: "PLASTIC" },
+        toolsteel: { name: "Tool Steel <45 HRC", group: "TOOL STEEL" }
       };
+      const TOOL_GEOMETRIES = [
+        { name: "Endmill", type: "mill", grades: ["HSS-Co", "HSS-E-PM", "Carbide Uncoated", "AlTiN Carbide", "AlTiN / TiAlN Carbide", "DLC / Diamond-like"] },
+        { name: "Roughing Endmill", type: "mill", grades: ["HSS-Co", "HSS-E-PM", "Carbide Uncoated", "AlTiN Carbide", "AlTiN / TiAlN Carbide"] },
+        { name: "Ballnose", type: "mill", grades: ["HSS-Co", "Carbide Uncoated", "AlTiN Carbide", "AlTiN / TiAlN Carbide"] },
+        { name: "Bullnose", type: "mill", grades: ["HSS-Co", "Carbide Uncoated", "AlTiN Carbide", "AlTiN / TiAlN Carbide"] },
+        { name: "Facemill / Face Cutter", type: "mill", grades: ["HSS", "Carbide Insert", "PVD Carbide Insert", "PCD Insert"] },
+        { name: "Chamfer Mill", type: "mill", grades: ["HSS-Co", "Carbide Uncoated", "AlTiN Carbide", "PVD Carbide"] },
+        { name: "Dovetail Mill", type: "mill", grades: ["HSS-Co", "Carbide Uncoated", "AlTiN Carbide"] },
+        { name: "T-Slot Cutter", type: "mill", grades: ["HSS-Co", "Carbide Uncoated", "AlTiN Carbide"] },
+        { name: "Woodruff / Keyseat Cutter", type: "mill", grades: ["HSS-Co", "Carbide Uncoated"] },
+        { name: "Thread Mill", type: "mill", grades: ["Solid Carbide", "AlTiN Carbide", "AlTiN / TiAlN Carbide"] },
+        { name: "Slitting Saw", type: "mill", grades: ["HSS", "HSS-Co", "Carbide Tipped"] },
+        { name: "Shell Mill", type: "mill", grades: ["HSS", "Carbide Insert", "PVD Carbide Insert"] },
+        { name: "Drill", type: "drill", grades: ["HSS", "HSS-Co", "HSS-E-PM", "Solid Carbide", "AlTiN Carbide"] },
+        { name: "Stub Drill", type: "drill", grades: ["HSS-Co", "HSS-E-PM", "Solid Carbide"] },
+        { name: "Spot Drill", type: "drill", grades: ["HSS-Co", "Solid Carbide", "AlTiN Carbide"] },
+        { name: "Center Drill", type: "drill", grades: ["HSS", "HSS-Co", "Solid Carbide"] },
+        { name: "Countersink", type: "drill", grades: ["HSS", "HSS-Co", "Solid Carbide"] },
+        { name: "Counterbore", type: "drill", grades: ["HSS-Co", "Solid Carbide"] },
+        { name: "Reamer", type: "drill", grades: ["HSS", "HSS-Co", "HSS-E", "Solid Carbide"] },
+        { name: "Tap", type: "tap", grades: ["HSS", "HSS-E", "PM-HSS", "Solid Carbide"] },
+        { name: "Boring Bar", type: "turn", grades: ["HSS", "Carbide Brazed", "Carbide Insert", "CBN"] },
+        { name: "OD Turning", type: "turn", grades: ["HSS", "Carbide Uncoated", "PVD Carbide", "CVD Carbide", "Cermet", "CBN"] },
+        { name: "ID Turning / Boring", type: "turn", grades: ["HSS", "Carbide Uncoated", "PVD Carbide", "CVD Carbide", "CBN"] },
+        { name: "Profiling / Contouring", type: "turn", grades: ["HSS", "Carbide Uncoated", "PVD Carbide", "Cermet", "CBN"] },
+        { name: "Grooving", type: "turn", grades: ["HSS", "Carbide Insert", "PVD Carbide", "Cermet"] },
+        { name: "Parting / Cut-off", type: "turn", grades: ["HSS", "Carbide Insert", "PVD Carbide"] },
+        { name: "Threading", type: "turn", grades: ["HSS", "Carbide Insert", "PVD Carbide", "Cermet"] },
+        { name: "Chamfer / Form Tool", type: "turn", grades: ["HSS", "Carbide Brazed", "Carbide Insert"] },
+        { name: "Knurling Tool", type: "turn", grades: ["HSS / Tool Steel", "Carbide Form", "Hardened Roll"] },
+        { name: "Center / Live-Center Tool", type: "turn", grades: ["HSS", "Carbide"] }
+      ];
+      const GEOMETRIES = TOOL_GEOMETRIES.map((x) => x.name);
+      const GEOMETRY_META = Object.fromEntries(TOOL_GEOMETRIES.map((x) => [x.name, x]));
+
+      const TOOL_GRADE_FACTOR = {
+        "HSS": 0.42, "HSS-Co": 0.50, "HSS-E": 0.55, "HSS-E-PM": 0.62, "PM-HSS": 0.62,
+        "Carbide Uncoated": 0.72, "Solid Carbide": 0.78, "AlTiN Carbide": 0.88,
+        "AlTiN / TiAlN Carbide": 0.92, "TiAlN Carbide": 0.88, "PVD Carbide": 0.85,
+        "PVD Carbide Insert": 0.88, "CVD Carbide": 0.90, "Carbide Insert": 0.82,
+        "Carbide Tipped": 0.70, "Carbide Brazed": 0.68, "Cermet": 0.88,
+        "PCD Insert": 1.00, "CBN": 0.85, "HSS / Tool Steel": 0.40, "Carbide Form": 0.72,
+        "Hardened Roll": 0.45, "DLC / Diamond-like": 0.92
+      };
+
+      const GEOMETRY_FACTOR = {
+        "Endmill": 1.00, "Roughing Endmill": 0.82, "Ballnose": 0.78, "Bullnose": 0.90,
+        "Facemill / Face Cutter": 0.92, "Chamfer Mill": 0.72, "Dovetail Mill": 0.58,
+        "T-Slot Cutter": 0.52, "Woodruff / Keyseat Cutter": 0.55, "Thread Mill": 0.48,
+        "Slitting Saw": 0.46, "Shell Mill": 0.90, "Drill": 0.52, "Stub Drill": 0.58,
+        "Spot Drill": 0.40, "Center Drill": 0.38, "Countersink": 0.34, "Counterbore": 0.42,
+        "Reamer": 0.48, "Tap": 0.36, "Boring Bar": 0.62, "OD Turning": 0.90,
+        "ID Turning / Boring": 0.72, "Profiling / Contouring": 0.68, "Grooving": 0.48,
+        "Parting / Cut-off": 0.40, "Threading": 0.34, "Chamfer / Form Tool": 0.62,
+        "Knurling Tool": 0.28, "Center / Live-Center Tool": 0.25
+      };
+
+      const CUTTING_PROFILES = {
+        alu6082: { vc: 120, fz: 0.025, f: 0.08 },
+        alu7075: { vc: 130, fz: 0.024, f: 0.075 },
+        s235:    { vc: 58,  fz: 0.018, f: 0.055 },
+        s355:    { vc: 50,  fz: 0.017, f: 0.05 },
+        ss304:   { vc: 35,  fz: 0.014, f: 0.045 },
+        brass:   { vc: 95,  fz: 0.024, f: 0.08 },
+        pom:     { vc: 120, fz: 0.032, f: 0.12 },
+        nylon:   { vc: 85,  fz: 0.028, f: 0.10 },
+        pmma:    { vc: 70,  fz: 0.020, f: 0.07 },
+        toolsteel:{ vc: 32, fz: 0.012, f: 0.04 }
+      };
+
+      const STRATEGIES = {
+        life:    { name: "Tool Life — conservative", vc: 0.70, feed: 0.78, note: "Primary study setting: deliberately conservative to protect cutters and finish." },
+        balanced:{ name: "Balanced", vc: 0.82, feed: 0.90, note: "Still conservative; use when cycle time matters a little more." },
+        finish: { name: "Finish", vc: 0.72, feed: 0.52, note: "Lower feed for surface quality; do not increase depth of cut to compensate." },
+        rough:  { name: "Roughing — conservative", vc: 0.62, feed: 0.82, note: "Keep radial engagement low and let the cutter clear chips." }
+      };
+
       const TOOL_BASE = {
-        mill: {
-          hss: { name: "HSS-Co", vc: 0.4, f: 0.7, z: 3 },
-          hm: { name: "Carbide Uncoated", vc: 1, f: 1, z: 4 },
-          hm_coat: { name: "Carbide Coated", vc: 1.3, f: 1.1, z: 4 },
-        },
-        turn: { hss: { name: "HSS Turning", vc: 0.4, f: 0.7 }, iso: { name: "ISO Insert", vc: 1, f: 1 } },
+        mill: { hss: { name: "HSS-Co" }, hm: { name: "Carbide Uncoated" }, hm_coat: { name: "AlTiN Carbide" } },
+        turn: { hss: { name: "HSS" }, iso: { name: "PVD Carbide" } },
+        drill:{ hss: { name: "HSS-Co" }, hm: { name: "Solid Carbide" } },
+        tap:  { hss: { name: "HSS-E" }, hm: { name: "PM-HSS" } }
       };
+
       const HARD = {
         soft: { name: "Soft / Annealed", mult: 1.15 },
         standard: { name: "Standard Condition", mult: 1 },
         hard: { name: "Hardened / Tough", mult: 0.8 },
       };
-      const GEOMETRIES = [
-        "Endmill",
-        "Bullnose",
-        "Ballnose",
-        "Facemill",
-        "Chamfer",
-        "T-slot",
-        "Threadmill",
-        "Slitting Saw",
-        "Drill",
-        "Spot Drill",
-        "Tap",
-        "Reamer",
-        "Boring",
-        "OD Turning",
-        "ID Turning",
-        "Grooving",
-        "Threading",
-      ];
       const DRILLS = [
         1, 1.5, 2, 2.5, 3, 3.3, 3.5, 4, 4.2, 4.5, 5, 5.5, 6, 6.5, 6.8, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.2, 10.5, 11, 11.5,
         12, 12.5, 13, 13.5, 14, 15, 16, 18, 20, 22, 24,
@@ -1206,7 +1286,7 @@
       }
       function emptyStore() {
         return {
-          version: 7,
+          version: 8,
           active: "dashboard",
           selectedProject: null,
           jobs: [],
@@ -1224,7 +1304,13 @@
               LC: 22,
               holder: "ER32",
               condition: "Good",
-              notes: "General purpose",
+              projectIds: ["PRJ-FP1"],
+              machineKeys: ["deckel"],
+              gradeFamily: "Carbide Uncoated",
+              noseRadius: 0,
+              pitch: 0,
+              uses: 0,
+              notes: "General purpose — conservative study cutter.",
             },
           ],
           measurements: [],
@@ -1234,8 +1320,10 @@
             machine: "mini",
             mat: "alu6082",
             hardness: "standard",
-            tool: "hm",
-            strategy: "normal",
+            projectId: "PRJ-FP1",
+            tool: "crib:T-1",
+            strategy: "life",
+            operation: "Endmill",
             D: 10,
             Z: 4,
             L: 30,
@@ -1319,12 +1407,35 @@
       }
       function hydrate(x) {
         const s = emptyStore();
+        const jobs = Array.isArray(x?.jobs) ? x.jobs : s.jobs;
+        const setups = Array.isArray(x?.setups) ? x.setups : s.setups;
+        let tools = Array.isArray(x?.tools) ? x.tools : s.tools;
+        tools = tools.map((t) => {
+          const inferredJobs = jobs.filter((j) => setups.some((st) => st.tools?.includes(t.id) && st.jobId === j.id));
+          const projectIds = Array.isArray(t.projectIds) ? t.projectIds : inferredJobs.map((j) => j.id);
+          const machineKeys = Array.isArray(t.machineKeys) ? t.machineKeys : inferredJobs.map((j) => j.machineKey).filter(Boolean);
+          return {
+            ...t,
+            geometry: t.geometry || "Endmill",
+            gradeFamily: t.gradeFamily || t.mat || (t.mat === "hm_coat" ? "AlTiN Carbide" : "Carbide Uncoated"),
+            projectIds: [...new Set(projectIds)],
+            machineKeys: [...new Set(machineKeys)],
+            condition: t.condition || "Good",
+            holder: t.holder || "",
+            LC: t.LC || 0,
+            noseRadius: t.noseRadius || 0,
+            pitch: t.pitch || 0,
+            uses: t.uses || 0
+          };
+        });
+        const active = x?.active || s.active;
         return {
           ...s,
           ...x,
-          jobs: Array.isArray(x?.jobs) ? x.jobs : s.jobs,
-          setups: Array.isArray(x?.setups) ? x.setups : s.setups,
-          tools: Array.isArray(x?.tools) ? x.tools : s.tools,
+          active,
+          jobs,
+          setups,
+          tools,
           measurements: Array.isArray(x?.measurements) ? x.measurements : s.measurements,
           failures: Array.isArray(x?.failures) ? x.failures : s.failures,
           logs: Array.isArray(x?.logs) ? x.logs : s.logs,
@@ -1344,23 +1455,20 @@
         }
       }
       function migrateLegacy(x) {
-        const s = emptyStore();
-        const old = hydrate({ ...s, ...x });
-        s.jobs = old.jobs || [];
-        s.tools = old.tools?.length
-          ? old.tools.map((t) => ({
-              ...t,
-              geometry: t.geometry || t.type || "Endmill",
-              condition: t.condition || "Good",
-              holder: t.holder || "",
-              LC: t.LC || 0,
-            }))
-          : s.tools;
-        s.setups = old.setups || [];
-        s.measurements = old.measurements || [];
+        const s = hydrate({ ...emptyStore(), ...x });
         s.selectedProject = s.jobs[0]?.id || null;
-        s.sf = { ...s.sf, ...old.sf };
+        s.tools = s.tools.map((t) => ({
+          ...t,
+          projectIds: t.projectIds?.length ? t.projectIds : s.setups.filter((st) => st.tools?.includes(t.id)).map((st) => st.jobId),
+          machineKeys: t.machineKeys?.length ? t.machineKeys : s.setups
+            .filter((st) => st.tools?.includes(t.id))
+            .map((st) => jobByFrom(s.jobs, st.jobId)?.machineKey)
+            .filter(Boolean)
+        }));
         return s;
+      }
+      function jobByFrom(jobs, id) {
+        return jobs.find((j) => j.id === id);
       }
       let store = load();
       function save() {
@@ -1584,27 +1692,53 @@
         const job = activeJob();
         if (!job) return base("ENGINEERING", "Setup Builder", "Create a project first.");
         const s = ensureSetup(job.id);
+        const projectTools = store.tools.filter((t) =>
+          t.projectIds?.includes(job.id) &&
+          t.machineKeys?.includes(job.machineKey) &&
+          t.condition !== "Damaged"
+        );
+        const linkedCount = projectTools.filter((t) => s.tools.includes(t.id)).length;
+        const opRows = projectTools.map((t) => {
+          const linked = s.tools.includes(t.id);
+          return `<tr>
+            <td class="mono accent">${esc(t.loc)}</td>
+            <td><strong>${esc(t.name)}</strong><div class="help">${esc(t.gradeFamily || t.mat || "")}</div></td>
+            <td>${esc(t.geometry)}</td><td>${t.D ? "Ø" + fmt(t.D, 2) : "—"}</td><td>${t.Z || "—"}</td>
+            <td>${fmt(t.L, 1)} mm</td><td>${esc(t.holder || "—")}</td>
+            <td><button class="btn small ${linked ? "" : "primary"}" onclick="toggleSetupTool('${esc(t.id)}')">${linked ? "Linked" : "Add"}</button></td>
+          </tr>`;
+        }).join("") || `<tr><td colspan="9" style="text-align:center;padding:26px;color:var(--muted)">No tools are assigned to ${esc(job.part)} on ${esc(job.machine)}. Add one from Tooling first.</td></tr>`;
+
         return (
-          base(
-            "ENGINEERING",
-            "Setup Builder",
-            `Build a clean setup record for ${esc(job.part)}. Link the exact tools you intend to use, WCS, stock and workholding.`,
-            `<button class="btn primary" onclick="saveSetup()">Save Setup</button> <button class="btn" onclick="printView('Setup Sheet')">Print Setup Sheet</button>`
-          ) +
-          `<div class="layout"><div class="stack">${card("Project & Work Coordinate System", `<div class="grid g2"><div class="field"><label>Project</label><select id="suJob" onchange="changeSetupJob()">${jobOptions(job.id)}</select></div><div class="field"><label>Work Offset</label><input class="input" id="suOff" value="${esc(s.offset)}"></div><div class="field"><label>Z Zero</label><input class="input" id="suZ" value="${esc(s.z0)}"></div><div class="field"><label>X / Y Zero</label><input class="input" id="suXY" value="${esc(s.xy0)}"></div><div class="field"><label>Raw Stock</label><input class="input" id="suStock" value="${esc(s.stock || "")}" placeholder="100 x 100 x 20 mm"></div></div>`)}${card(
-            "Tool List",
-            `<div class="actions print-hide" style="justify-content:flex-start;margin-bottom:12px"><button class="btn small" onclick="setupToolPick()">+ Add Tool</button><button class="btn small" onclick="store.active='tools';save();render()">Manage Tool Library</button></div><div class="table-wrap"><table><thead><tr><th>Loc</th><th>Tool</th><th>Geometry</th><th>Ø</th><th>Z</th><th>Stickout</th><th></th></tr></thead><tbody>${
-              s.tools
-                .map((id) => {
-                  const t = store.tools.find((x) => x.id === id);
-                  return t
-                    ? `<tr><td class="mono accent">${esc(t.loc)}</td><td><strong>${esc(t.name)}</strong></td><td>${esc(t.geometry)}</td><td>${fmt(t.D, 2)}</td><td>${t.Z || "—"}</td><td>${fmt(t.L, 1)}</td><td><button class="btn small danger print-hide" onclick="removeSetupTool('${esc(id)}')">Remove</button></td></tr>`
-                    : "";
-                })
-                .join("") ||
-              '<tr><td colspan="7" style="text-align:center;padding:25px;color:var(--muted)">No tools assigned.</td></tr>'
-            }</tbody></table></div>`
-          )}${card("Setup Notes", `<div class="field"><label>Method / Critical Notes</label><textarea id="suNotes" placeholder="Indicating, parallels, clamping, datum sequence, checks before cycle start...">${esc(s.notes || "")}</textarea></div>`)}</div><div class="stack">${card("Workholding", `<div class="field"><label>Fixture / Workholding</label><textarea id="suFix">${esc(s.fixture || "")}</textarea></div><div class="help" style="margin-top:8px">Document anything another version of you would need to repeat the setup correctly.</div>`)}${card("Reference Image", `<div class="field"><label>Setup Photo</label><input type="file" accept="image/*" onchange="handleSetupImage(event)"><div id="setupImgPreview" style="margin-top:10px">${s.image ? `<img src="${s.image}" style="max-width:100%;max-height:280px;border:1px solid var(--line);border-radius:8px">` : '<div class="help">No image attached.</div>'}</div></div>`)}${card("Setup Readiness", `<div class="callout ${s.tools.length ? "good" : "warn"}"><strong>${s.tools.length ? "Tooling linked" : "Tooling incomplete"}</strong><div class="help" style="margin-top:3px">${s.tools.length} tool(s) assigned. Check WCS, workholding and tool lengths before machining.</div></div>`)}</div></div>`
+          base("ENGINEERING","Setup Builder",
+            `Build the machine-ready setup for <strong>${esc(job.part)}</strong>. The selected project determines the machine and the tool list shown here.`,
+            `<button class="btn primary" onclick="saveSetup()">Save Setup</button> <button class="btn" onclick="printView('Setup Sheet')">Print Setup Sheet</button>`) +
+          `<div class="callout info" style="margin-bottom:14px"><strong>${esc(job.machine)} · ${esc(MATERIALS[job.material]?.name || job.material)}</strong><div class="help" style="margin-top:4px">Only tools assigned to this project/machine are presented as the primary setup list.</div></div>` +
+          `<div class="layout"><div class="stack">${card("Project & Work Coordinate System",
+            `<div class="grid g2"><div class="field"><label>Project</label><select id="suJob" onchange="changeSetupJob()">${jobOptions(job.id)}</select></div>
+            <div class="field"><label>Work Offset</label><input class="input" id="suOff" value="${esc(s.offset)}"></div>
+            <div class="field"><label>Z Zero</label><input class="input" id="suZ" value="${esc(s.z0)}"></div>
+            <div class="field"><label>X / Y Zero</label><input class="input" id="suXY" value="${esc(s.xy0)}"></div>
+            <div class="field"><label>Raw Stock</label><input class="input" id="suStock" value="${esc(s.stock || "")}" placeholder="100 x 100 x 20 mm"></div></div>`)
+          }${card("Project Tooling",
+            `<div class="help" style="margin-bottom:10px">${projectTools.length} compatible tool(s) available · ${linkedCount} linked to this setup</div>
+            <div class="table-wrap"><table><thead><tr><th>Loc</th><th>Tool</th><th>Geometry</th><th>Ø</th><th>Z</th><th>Stickout</th><th>Holder</th><th></th></tr></thead><tbody>${opRows}</tbody></table></div>`
+          )}${card("Setup Notes",
+            `<div class="field"><label>Method / Critical Notes</label><textarea id="suNotes" placeholder="Indicating, parallels, clamping, datum sequence, checks before cycle start...">${esc(s.notes || "")}</textarea></div>
+             <div class="field" style="margin-top:12px"><label>Operation / Process Notes</label><textarea id="suOpNotes" placeholder="Operation order, tool sequence, rough/finish intent, coolant, probing, deburring...">${esc(s.operationNotes || "")}</textarea></div>`
+          )}</div>
+          <div class="stack">${card("Workholding",
+            `<div class="field"><label>Fixture / Workholding</label><textarea id="suFix">${esc(s.fixture || "")}</textarea></div>
+             <div class="help" style="margin-top:8px">Record clamping surfaces, parallels, jaw projection and anything that affects rigidity.</div>`
+          )}${card("Setup Readiness",
+            `<div class="grid g2"><div class="mini"><div class="mini-label">Project</div><div class="mini-val">${esc(job.id)}</div></div>
+             <div class="mini"><div class="mini-label">Machine</div><div class="mini-val" style="font-size:13px">${esc(job.machine)}</div></div>
+             <div class="mini"><div class="mini-label">Compatible Tools</div><div class="mini-val">${projectTools.length}</div></div>
+             <div class="mini"><div class="mini-label">Linked Tools</div><div class="mini-val">${linkedCount}</div></div></div>
+             <div class="callout ${linkedCount ? "good" : "warn"}" style="margin-top:12px"><strong>${linkedCount ? "Setup has tooling" : "Tooling incomplete"}</strong><div class="help" style="margin-top:3px">${linkedCount ? "Verify actual offsets, holder condition and stickout before machining." : "Assign the exact tools you intend to load before printing the setup sheet."}</div></div>`
+          )}${card("Reference Image",
+            `<div class="field"><label>Setup Photo</label><input type="file" accept="image/*" onchange="handleSetupImage(event)"><div id="setupImgPreview" style="margin-top:10px">${s.image ? `<img src="${s.image}" style="max-width:100%;max-height:280px;border:1px solid var(--line);border-radius:8px">` : '<div class="help">No image attached.</div>'}</div></div>`
+          )}</div></div>`
         );
       }
       function changeSetupJob() {
@@ -1621,9 +1755,11 @@
         s.stock = document.getElementById("suStock").value;
         s.fixture = document.getElementById("suFix").value;
         s.notes = document.getElementById("suNotes").value;
+        s.operationNotes = document.getElementById("suOpNotes").value;
         store.selectedProject = id;
         save();
         toast("Setup saved");
+        render();
       }
       function handleSetupImage(e) {
         const file = e.target.files[0];
@@ -1640,163 +1776,249 @@
       }
       function setupToolPick() {
         const job = activeJob();
-        const s = ensureSetup(job.id);
-        const rows =
-          store.tools
-            .map(
-              (t) =>
-                `<div class="list-row"><div><strong class="mono">${esc(t.loc)}</strong> · ${esc(t.name)}<div class="help">${esc(t.geometry)} · Ø${fmt(t.D, 2)} · L${fmt(t.L, 1)}</div></div><button class="btn small ${s.tools.includes(t.id) ? "" : "primary"}" onclick="linkSetupTool('${esc(t.id)}')">${s.tools.includes(t.id) ? "Linked" : "Add"}</button></div>`
-            )
-            .join("") || '<div class="help">Tool library empty.</div>';
-        modal("Assign Tools to Setup", rows);
+        if (!job) return toast("Create a project first");
+        const rows = store.tools.filter((t) =>
+          t.projectIds?.includes(job.id) && t.machineKeys?.includes(job.machineKey)
+        ).map((t) => {
+          const linked = ensureSetup(job.id).tools.includes(t.id);
+          return `<div class="list-row"><div><strong class="mono">${esc(t.loc)}</strong> · ${esc(t.name)}
+            <div class="help">${esc(t.geometry)} · ${esc(t.gradeFamily || "")} · ${t.D ? "Ø" + fmt(t.D, 2) : "—"} · L${fmt(t.L, 1)}</div></div>
+            <button class="btn small ${linked ? "" : "primary"}" onclick="toggleSetupTool('${esc(t.id)}')">${linked ? "Linked" : "Add"}</button></div>`;
+        }).join("") || '<div class="help">No tools are assigned to this project and machine. Open Tooling → Add Tool and assign both explicitly.</div>';
+        modal("Assign Project Tools", rows);
       }
-      function linkSetupTool(id) {
+      function toggleSetupTool(id) {
         const s = ensureSetup(activeJob().id);
-        if (!s.tools.includes(id)) s.tools.push(id);
+        if (s.tools.includes(id)) s.tools = s.tools.filter((x) => x !== id);
+        else s.tools.push(id);
         save();
         closeModal();
         render();
-        toast("Tool linked to setup");
+        toast(s.tools.includes(id) ? "Tool linked to setup" : "Tool removed from setup");
       }
-      function removeSetupTool(id) {
-        const s = ensureSetup(activeJob().id);
-        s.tools = s.tools.filter((x) => x !== id);
-        save();
-        render();
+      function linkSetupTool(id) { toggleSetupTool(id); }
+      function removeSetupTool(id) { toggleSetupTool(id); }
+
+      function projectToolCandidates(job) {
+        if (!job) return [];
+        return store.tools.filter((t) => t.projectIds?.includes(job.id) && t.machineKeys?.includes(job.machineKey) && t.condition !== "Damaged");
+      }
+      function toolBySelection(v) {
+        if (!v) return null;
+        if (v.startsWith("crib:")) return store.tools.find((t) => t.id === v.slice(5)) || null;
+        return null;
+      }
+      function gradeFactor(grade) {
+        return TOOL_GRADE_FACTOR[grade] ?? 0.72;
+      }
+      function geometryMeta(name) {
+        return GEOMETRY_META[name] || GEOMETRY_META.Endmill;
+      }
+      function sfFieldVisibility(geom) {
+        const tapLike = ["Tap", "Threading", "Thread Mill"].includes(geom);
+        const drillLike = ["Drill", "Stub Drill", "Spot Drill", "Center Drill", "Countersink", "Counterbore", "Reamer"].includes(geom);
+        const turnLike = !!GEOMETRY_META[geom]?.type && GEOMETRY_META[geom].type === "turn";
+        document.getElementById("sfAeField")?.classList.toggle("hidden", turnLike || drillLike || tapLike);
+        document.getElementById("sfApField")?.classList.toggle("hidden", turnLike ? false : drillLike || tapLike);
+        document.getElementById("sfPitchField")?.classList.toggle("hidden", !tapLike);
       }
       function cut() {
         const sf = store.sf || {};
-        const mopts = Object.entries(MACHINES)
-          .map(([k, m]) => `<option value="${k}" ${sf.machine === k ? "selected" : ""}>${m.name}</option>`)
-          .join("");
-        const matopts = Object.entries(MATERIALS)
-          .map(([k, m]) => `<option value="${k}" ${sf.mat === k ? "selected" : ""}>${m.name}</option>`)
-          .join("");
-        const hardopts = Object.entries(HARD)
-          .map(([k, m]) => `<option value="${k}" ${sf.hardness === k ? "selected" : ""}>${m.name}</option>`)
-          .join("");
-        const toolOpts =
-          (sf.machine && MACHINES[sf.machine]?.type === "turn"
-            ? Object.entries(TOOL_BASE.turn)
-            : Object.entries(TOOL_BASE.mill)
-          )
-            .map(([k, t]) => `<option value="${k}" ${sf.tool === k ? "selected" : ""}>${t.name}</option>`)
-            .join("") +
-          store.tools
-            .map(
-              (t) =>
-                `<option value="crib:${t.id}" ${sf.tool === `crib:${t.id}` ? "selected" : ""}>${esc(t.loc)} · ${esc(t.name)}</option>`
-            )
-            .join("");
+        const job = jobBy(sf.projectId) || activeJob();
+        const projectId = job?.id || "";
+        const candidates = projectToolCandidates(job);
+        const machineKey = job?.machineKey || sf.machine || "mini";
+        const machine = MACHINES[machineKey] || MACHINES.mini;
+        const selectedTool = store.tools.find((t) => t.id === (sf.tool || "").replace(/^crib:/, ""));
+        const selectedGeometry = selectedTool?.geometry || sf.operation || "Endmill";
+        const mopts = Object.entries(MACHINES).map(([k, m]) => `<option value="${k}" ${machineKey === k ? "selected" : ""}>${m.name}</option>`).join("");
+        const matopts = Object.entries(MATERIALS).map(([k, m]) => `<option value="${k}" ${job?.material === k || sf.mat === k ? "selected" : ""}>${m.name}</option>`).join("");
+        const hardopts = Object.entries(HARD).map(([k, m]) => `<option value="${k}" ${sf.hardness === k || (!sf.hardness && k === "standard") ? "selected" : ""}>${m.name}</option>`).join("");
+        const toolOpts = candidates.map((t) => `<option value="crib:${esc(t.id)}" ${sf.tool === "crib:"+t.id ? "selected" : ""}>${esc(t.loc)} · ${esc(t.name)} · ${esc(t.geometry)} · ${esc(t.gradeFamily || "")}</option>`).join("");
+        const hasTools = candidates.length;
         return (
-          base(
-            "ENGINEERING",
-            "Cutting Data",
-            "Practical starting values for manual and CNC machining. Machine limits, tool geometry and stickout are treated explicitly.",
-            `<button class="btn" onclick="copySF()">Copy Values</button> <button class="btn primary" onclick="saveSFToProject()">Save to Project</button> <button class="btn" onclick="printView('Cutting Data Sheet')">Print</button>`
-          ) +
-          `<div class="layout"><div class="stack">${card("Cutting Parameters", `<div class="grid g2"><div class="field"><label>Machine</label><select id="sfMachine" onchange="calcSF()">${mopts}</select></div><div class="field"><label>Material</label><select id="sfMat" onchange="calcSF()">${matopts}</select></div><div class="field"><label>Material Condition</label><select id="sfHard" onchange="calcSF()">${hardopts}</select></div><div class="field"><label>Tool</label><select id="sfTool" onchange="toolSelectionChanged()">${toolOpts}</select></div><div class="field"><label>Strategy</label><select id="sfStrategy" onchange="calcSF()"><option value="normal" ${sf.strategy === "normal" ? "selected" : ""}>Normal</option><option value="rough" ${sf.strategy === "rough" ? "selected" : ""}>Roughing</option><option value="finish" ${sf.strategy === "finish" ? "selected" : ""}>Finishing</option></select></div><div class="field"><label>Diameter / Work Ø (mm)</label><input class="input" id="sfD" type="number" step="any" value="${sf.D ?? 10}" oninput="calcSF()"></div><div class="field"><label>Flutes Z</label><input class="input" id="sfZ" type="number" step="1" value="${sf.Z ?? 4}" oninput="calcSF()"></div><div class="field"><label>Stickout L (mm)</label><input class="input" id="sfL" type="number" step="any" value="${sf.L ?? 30}" oninput="calcSF()"></div><div class="field" id="aeField"><label>Radial ae (mm)</label><input class="input" id="sfAe" type="number" step="any" value="${sf.ae ?? 1.5}" oninput="calcSF()"></div><div class="field"><label>Axial ap (mm)</label><input class="input" id="sfAp" type="number" step="any" value="${sf.ap ?? 5}" oninput="calcSF()"></div></div><div class="help" style="margin-top:12px">Treat these as engineering starting points, then verify against the actual cutter manufacturer data, workholding, machine condition and tool engagement.</div>`)}${card("Live Notes", `<div id="sfFlags"></div>`)}</div><div class="stack"><div class="grid g2"><div class="card metric"><div class="metric-label">Spindle</div><div class="metric-val accent" id="sfRpm">—</div><div class="metric-sub">RPM</div></div><div class="card metric"><div class="metric-label">Feed</div><div class="metric-val accent" id="sfVf">—</div><div class="metric-sub" id="sfVfUnit">mm/min</div></div><div class="card metric"><div class="metric-label">Cutting Speed</div><div class="metric-val" id="sfVc">—</div><div class="metric-sub">Vc · m/min</div></div><div class="card metric"><div class="metric-label">Chip Load</div><div class="metric-val" id="sfFz">—</div><div class="metric-sub" id="sfFzUnit">mm/tooth</div></div><div class="card metric"><div class="metric-label">MRR</div><div class="metric-val" id="sfMrr">—</div><div class="metric-sub">cm³/min</div></div><div class="card metric"><div class="metric-label">L/D</div><div class="metric-val" id="sfLd">—</div><div class="metric-sub">stickout / diameter</div></div></div>${card("Formula Reference", `<div class="ref-item"><div class="ref-code">n = Vc × 1000 / (π × D)</div><div class="ref-text">Spindle speed from cutting speed and diameter.</div></div><div style="height:7px"></div><div class="ref-item"><div class="ref-code">Vf = n × Z × fz</div><div class="ref-text">Milling feed rate from RPM, flute count and chip load.</div></div>`)}</div></div>`
+          base("ENGINEERING","Cutting Data",
+            `Conservative starting data for the <strong>${esc(job?.part || "selected project")}</strong>. The engine prioritises tool life and finish over cycle time.`,
+            `<button class="btn" onclick="copySF()">Copy Values</button> <button class="btn primary" onclick="saveSFToProject()">Save to Project</button> <button class="btn" onclick="printView('Cutting Data Sheet')">Print</button>`) +
+          `${job ? `<div class="callout good" style="margin-bottom:14px"><strong>${esc(job.part)} · ${esc(machine.name)}</strong><div class="help" style="margin-top:4px">${hasTools} compatible project tool(s) available. ${STRATEGIES[sf.strategy || "life"]?.note || STRATEGIES.life.note}</div></div>` :
+            `<div class="callout warn" style="margin-bottom:14px"><strong>No project selected.</strong><div class="help" style="margin-top:4px">Create/select a project to make Tooling and Cutting Data project-aware.</div></div>`}` +
+          `<div class="layout"><div class="stack">${card("Project / Machine / Tool",
+            `<div class="grid g2">
+              <div class="field"><label>Project</label><select id="sfProject" onchange="changeSFProject()">${jobOptions(projectId)}</select></div>
+              <div class="field"><label>Machine</label><select id="sfMachine" onchange="calcSF()">${mopts}</select></div>
+              <div class="field"><label>Material</label><select id="sfMat" onchange="calcSF()">${matopts}</select></div>
+              <div class="field"><label>Material Condition</label><select id="sfHard" onchange="calcSF()">${hardopts}</select></div>
+              <div class="field" style="grid-column:1/-1"><label>Project Tooling</label><select id="sfTool" onchange="toolSelectionChanged()"><option value="">Select a project tool</option>${toolOpts || '<option value="">No compatible tools assigned</option>'}</select></div>
+              <div class="field"><label>Strategy</label><select id="sfStrategy" onchange="calcSF()">
+                ${Object.entries(STRATEGIES).map(([k,v]) => `<option value="${k}" ${sf.strategy === k || (!sf.strategy && k === "life") ? "selected" : ""}>${v.name}</option>`).join("")}
+              </select></div>
+              <div class="field"><label>Tool Geometry</label><div class="math-output" id="sfGeometry">${esc(selectedGeometry)}</div></div>
+              <div class="field"><label>Diameter / Work Ø (mm)</label><input class="input" id="sfD" type="number" step="any" value="${sf.D ?? selectedTool?.D ?? 10}" oninput="calcSF()"></div>
+              <div class="field"><label>Flutes / Teeth Z</label><input class="input" id="sfZ" type="number" step="1" value="${sf.Z ?? selectedTool?.Z ?? 4}" oninput="calcSF()"></div>
+              <div class="field"><label>Stickout L (mm)</label><input class="input" id="sfL" type="number" step="any" value="${sf.L ?? selectedTool?.L ?? 30}" oninput="calcSF()"></div>
+              <div class="field" id="sfPitchField"><label>Pitch P (mm)</label><input class="input" id="sfPitch" type="number" step="any" value="${sf.pitch ?? selectedTool?.pitch ?? 1.25}" oninput="calcSF()"></div>
+              <div class="field" id="sfAeField"><label>Radial ae (mm)</label><input class="input" id="sfAe" type="number" step="any" value="${sf.ae ?? 1.5}" oninput="calcSF()"></div>
+              <div class="field" id="sfApField"><label>Axial ap (mm)</label><input class="input" id="sfAp" type="number" step="any" value="${sf.ap ?? 4}" oninput="calcSF()"></div>
+            </div>
+            <div class="help" style="margin-top:12px">For manual machines, feed is a reference for hand-feed rate rather than a commanded value. The displayed values are deliberately conservative starting points for a school/workshop environment. Manufacturer data, actual tool condition, holder stiffness, workholding and engagement always take precedence.</div>`
+          )}${card("Cutting Assumptions",
+            `<div id="sfFlags"></div><div id="sfBasis" class="help" style="margin-top:8px"></div>`
+          )}</div>
+          <div class="stack"><div class="grid g2">
+            <div class="card metric"><div class="metric-label">Spindle</div><div class="metric-val accent" id="sfRpm">—</div><div class="metric-sub">RPM</div></div>
+            <div class="card metric"><div class="metric-label">Feed</div><div class="metric-val accent" id="sfVf">—</div><div class="metric-sub" id="sfVfUnit">mm/min</div></div>
+            <div class="card metric"><div class="metric-label">Cutting Speed</div><div class="metric-val" id="sfVc">—</div><div class="metric-sub">Vc · m/min</div></div>
+            <div class="card metric"><div class="metric-label">Chip Load / Feed</div><div class="metric-val" id="sfFz">—</div><div class="metric-sub" id="sfFzUnit">fz · mm/tooth</div></div>
+            <div class="card metric"><div class="metric-label">MRR / Removal</div><div class="metric-val" id="sfMrr">—</div><div class="metric-sub">cm³/min where applicable</div></div>
+            <div class="card metric"><div class="metric-label">L/D</div><div class="metric-val" id="sfLd">—</div><div class="metric-sub">stickout / diameter</div></div>
+          </div>
+          ${card("Decision Rule", `<div class="callout good"><strong>Start low, listen, inspect, then increase.</strong><div class="help" style="margin-top:4px">The target is stable cutting, acceptable finish and long tool life — not maximum material removal.</div></div>`)}
+          ${card("Formula Reference", `<div class="ref-grid"><div class="ref-item"><div class="ref-code">n = Vc × 1000 / (π × D)</div><div class="ref-text">Spindle speed from cutting speed and diameter.</div></div><div class="ref-item"><div class="ref-code">Vf = n × Z × fz</div><div class="ref-text">Milling feed rate from RPM, tooth count and chip load.</div></div><div class="ref-item"><div class="ref-code">f<sub>tap</sub> = pitch</div><div class="ref-text">Synchronous tapping feed reference.</div></div></div>`)}
+          </div></div>`
         );
+      }
+      function changeSFProject() {
+        const id = document.getElementById("sfProject").value;
+        const job = jobBy(id);
+        store.selectedProject = id;
+        store.sf.projectId = id;
+        store.sf.machine = job?.machineKey || store.sf.machine;
+        store.sf.mat = job?.material || store.sf.mat;
+        const first = projectToolCandidates(job)[0];
+        store.sf.tool = first ? "crib:" + first.id : "";
+        save();
+        render();
       }
       function toolSelectionChanged() {
         const v = document.getElementById("sfTool").value;
-        if (v.startsWith("crib:")) {
-          const t = store.tools.find((x) => x.id === v.slice(5));
-          if (t) {
-            document.getElementById("sfD").value = t.D || 10;
-            document.getElementById("sfZ").value = t.Z || 4;
-            document.getElementById("sfL").value = t.L || 30;
-          }
+        const t = toolBySelection(v);
+        if (t) {
+          document.getElementById("sfD").value = t.D || 10;
+          document.getElementById("sfZ").value = t.Z || 1;
+          document.getElementById("sfL").value = t.L || 0;
+          document.getElementById("sfPitch").value = t.pitch || 1.25;
+          document.getElementById("sfGeometry").textContent = t.geometry;
         }
         calcSF();
       }
       function calcSF() {
         const m = MACHINES[document.getElementById("sfMachine").value] || MACHINES.mini;
-        const mat = MATERIALS[document.getElementById("sfMat").value] || MATERIALS.alu6082;
+        const matKey = document.getElementById("sfMat").value;
+        const profile = CUTTING_PROFILES[matKey] || CUTTING_PROFILES.alu6082;
         const hard = HARD[document.getElementById("sfHard").value] || HARD.standard;
-        const strat = document.getElementById("sfStrategy").value;
-        const mult = { normal: [1, 1], rough: [0.85, 1.15], finish: [1.15, 0.65] }[strat] || [1, 1];
+        const stratKey = document.getElementById("sfStrategy").value || "life";
+        const strategy = STRATEGIES[stratKey] || STRATEGIES.life;
         const tk = document.getElementById("sfTool").value;
-        let tool = TOOL_BASE[m.type]?.[tk];
-        if (tk.startsWith("crib:")) {
-          const t = store.tools.find((x) => x.id === tk.slice(5));
-          tool = { vc: 1, f: 1, z: t?.Z || 4 };
-        }
-        if (!tool) tool = TOOL_BASE[m.type]?.[m.type === "mill" ? "hm" : "iso"];
-        const D = Math.max(0.001, +document.getElementById("sfD").value || 0),
-          Z = Math.max(1, +document.getElementById("sfZ").value || tool.z || 4),
-          L = Math.max(0, +document.getElementById("sfL").value || 0),
-          ae = Math.max(0, +document.getElementById("sfAe").value || 0),
-          ap = Math.max(0, +document.getElementById("sfAp").value || 0);
-        let vc = mat.vc * tool.vc * mult[0] * hard.mult;
+        const customTool = toolBySelection(tk);
+        const geometry = customTool?.geometry || document.getElementById("sfGeometry").textContent || "Endmill";
+        const meta = geometryMeta(geometry);
+        const grade = customTool?.gradeFamily || (m.type === "turn" ? "PVD Carbide" : "Carbide Uncoated");
+        const geomFactor = GEOMETRY_FACTOR[geometry] || 0.72;
+        const gFactor = gradeFactor(grade);
+        const D = Math.max(0.001, +document.getElementById("sfD").value || 1);
+        const Z = Math.max(1, +document.getElementById("sfZ").value || 1);
+        const L = Math.max(0, +document.getElementById("sfL").value || 0);
+        const ae = Math.max(0, +document.getElementById("sfAe").value || 0);
+        const ap = Math.max(0, +document.getElementById("sfAp").value || 0);
+        const pitch = Math.max(0, +document.getElementById("sfPitch").value || customTool?.pitch || 0);
+        let vc = profile.vc * gFactor * geomFactor * strategy.vc * hard.mult;
+        if (m.type === "turn" && grade === "HSS") vc *= 0.80;
+        if (m.type === "mill" && geometry === "Facemill / Face Cutter") vc *= 0.95;
         let n = Math.min((vc * 1000) / (Math.PI * D), m.rpm);
-        let fz = mat.f * tool.f * mult[1] * Math.sqrt(hard.mult);
-        let vf,
-          mrr,
-          ld = "N/A";
+        let feed = 0, fz = 0, mrr = 0, ld = "N/A";
         const flags = [];
-        if (m.type === "turn") {
-          vf = fz;
-          mrr = ap * vf * vc;
-          document.getElementById("aeField").classList.add("hidden");
+        const inputRPM = (vc * 1000) / (Math.PI * D);
+        if (meta.type === "turn") {
+          const turningFeed = profile.f * GEOMETRY_FACTOR[geometry] * strategy.feed * Math.sqrt(hard.mult);
+          feed = turningFeed;
+          mrr = D > 0 ? (Math.PI * D * ap * feed * n) / 1000 : 0;
+          document.getElementById("sfAeField").classList.add("hidden");
+          document.getElementById("sfApField").classList.remove("hidden");
+          if (["Threading"].includes(geometry) && pitch > 0) feed = pitch;
+          if (geometry === "Knurling Tool") feed = Math.min(feed, 0.08);
+        } else if (["Tap","Thread Mill","Threading"].includes(geometry)) {
+          fz = pitch || 1;
+          feed = geometry === "Tap" ? pitch * n : n * Math.min(0.02, pitch / Math.max(1, Z));
+          mrr = (ap * ae * feed) / 1000;
+          ld = D ? (L / D).toFixed(2) : "N/A";
+        } else if (["Drill","Stub Drill","Spot Drill","Center Drill","Countersink","Counterbore","Reamer"].includes(geometry)) {
+          feed = Math.min(0.18, Math.max(0.025, D * profile.f * strategy.feed * GEOMETRY_FACTOR[geometry]));
+          if (geometry === "Reamer") feed = Math.min(0.12, Math.max(0.04, D * 0.01 * strategy.feed));
+          fz = feed;
+          mrr = (Math.PI * D * D / 4 * feed * n) / 1000;
+          document.getElementById("sfAeField").classList.add("hidden");
+          document.getElementById("sfApField").classList.remove("hidden");
+          ld = D ? (L / D).toFixed(2) : "N/A";
         } else {
-          document.getElementById("aeField").classList.remove("hidden");
-          if (ae > 0 && ae < D / 2) fz *= Math.min(Math.sqrt(D / ae), 3);
-          vf = n * Z * fz;
-          mrr = (ap * ae * vf) / 1000;
-          ld = (L / D).toFixed(2);
-          if (L / D >= 4) flags.push(`High L/D ratio: ${ld}x — expect deflection risk.`);
-          if (!ae || !ap) flags.push("Set ae and ap for meaningful MRR.");
+          const diameterScale = Math.sqrt(Math.max(0.5, D / 10));
+          fz = profile.fz * gFactor * geomFactor * strategy.feed * diameterScale * Math.sqrt(hard.mult);
+          if (ae > 0 && ae < D * 0.5) fz *= Math.min(Math.sqrt(D / ae), 1.8);
+          feed = n * Z * fz;
+          mrr = (ap * ae * feed) / 1000;
+          ld = D ? (L / D).toFixed(2) : "N/A";
+          document.getElementById("sfAeField").classList.remove("hidden");
+          document.getElementById("sfApField").classList.remove("hidden");
         }
-        if ((vc * 1000) / (Math.PI * D) > m.rpm) flags.push(`Spindle limited by ${m.name}: ${m.rpm} RPM.`);
-        if (ae > D) flags.push("ae exceeds tool diameter — verify operation.");
+        if (!Number.isFinite(feed)) feed = 0;
+        if (!Number.isFinite(mrr)) mrr = 0;
+        if (inputRPM > m.rpm) flags.push(`Spindle limited by ${m.name}: ${m.rpm} RPM.`);
+        if (L && D && L / D >= 4) flags.push(`High L/D ratio: ${ld}× — reduce engagement/feed further if chatter or deflection appears.`);
+        if (meta.type !== "turn" && !(["Drill","Stub Drill","Spot Drill","Center Drill","Countersink","Counterbore","Reamer","Tap"].includes(geometry)) && (!ae || !ap)) flags.push("Set ae and ap for a meaningful milling load estimate.");
+        if (customTool?.condition === "Worn" || customTool?.condition === "Sharpen") flags.push(`Tool condition is ${customTool.condition.toLowerCase()}: do not reuse new-tool data blindly.`);
+        if (customTool?.condition === "Damaged") flags.push("Selected tool is marked damaged and should not be used.");
+        if (ae > D && meta.type === "mill") flags.push("ae exceeds tool diameter — verify operation.");
+        if (!customTool) flags.push("No project tool selected; displayed values use generic grade assumptions.");
+        const toolMaterialText = customTool ? `${customTool.geometry} · ${customTool.gradeFamily || "grade not set"}` : "Generic cutter assumption";
         document.getElementById("sfRpm").textContent = Math.round(n).toLocaleString("en-GB");
-        document.getElementById("sfVf").textContent =
-          m.type === "turn" ? vf.toFixed(3) : Math.round(vf).toLocaleString("en-GB");
-        document.getElementById("sfVfUnit").textContent = m.type === "turn" ? "mm/rev" : "mm/min";
-        document.getElementById("sfVc").textContent = Math.round(vc);
+        document.getElementById("sfVf").textContent = meta.type === "turn" ? feed.toFixed(3) : Math.round(feed).toLocaleString("en-GB");
+        document.getElementById("sfVfUnit").textContent = meta.type === "turn" ? "mm/rev" : "mm/min";
+        document.getElementById("sfVc").textContent = Math.round(n * Math.PI * D / 1000);
         document.getElementById("sfFz").textContent = fz.toFixed(3);
-        document.getElementById("sfFzUnit").textContent = m.type === "turn" ? "f · mm/rev" : "fz · mm/tooth";
-        document.getElementById("sfMrr").textContent = Number.isFinite(mrr) ? mrr.toFixed(1) : "—";
+        document.getElementById("sfFzUnit").textContent = meta.type === "turn" ? "f · mm/rev" : (geometry === "Tap" ? "pitch · mm/rev" : "fz · mm/tooth");
+        document.getElementById("sfMrr").textContent = meta.type === "turn" || meta.type === "mill" ? mrr.toFixed(2) : "—";
         document.getElementById("sfLd").textContent = ld;
+        sfFieldVisibility(geometry);
         document.getElementById("sfFlags").innerHTML = flags.length
           ? flags.map((x) => `<div class="callout warn" style="margin-bottom:7px">${esc(x)}</div>`).join("")
-          : '<div class="callout good">Parameters calculated. Verify against the actual tool and setup before cutting.</div>';
+          : `<div class="callout good"><strong>Conservative starting point.</strong><div class="help" style="margin-top:3px">Based on ${esc(toolMaterialText)}, ${esc(MATERIALS[matKey]?.name || matKey)} and ${esc(strategy.name)}.</div></div>`;
+        document.getElementById("sfBasis").textContent = `Calculation basis: conservative material reference Vc ${profile.vc} m/min × grade factor ${gFactor.toFixed(2)} × geometry factor ${geomFactor.toFixed(2)} × strategy factor ${strategy.vc.toFixed(2)}. These are starting values, not guaranteed manufacturer limits.`;
         store.sf = {
+          projectId: document.getElementById("sfProject")?.value || activeJob()?.id || "",
           machine: document.getElementById("sfMachine").value,
-          mat: document.getElementById("sfMat").value,
+          mat: matKey,
           hardness: document.getElementById("sfHard").value,
           tool: tk,
-          strategy: strat,
-          D,
-          Z,
-          L,
-          ae,
-          ap,
+          operation: geometry,
+          grade: grade,
+          strategy: stratKey,
+          D, Z, L, ae, ap, pitch
         };
         save();
       }
       function copySF() {
-        const t = `S${document.getElementById("sfRpm").textContent} F${document.getElementById("sfVf").textContent} | Vc ${document.getElementById("sfVc").textContent} m/min | f ${document.getElementById("sfFz").textContent}`;
-        navigator.clipboard
-          ?.writeText(t)
-          .then(() => toast("Cutting values copied"))
-          .catch(() => toast(t));
+        const t = `S${document.getElementById("sfRpm").textContent} F${document.getElementById("sfVf").textContent} | Vc ${document.getElementById("sfVc").textContent} m/min | ${document.getElementById("sfFzUnit").textContent} ${document.getElementById("sfFz").textContent}`;
+        navigator.clipboard?.writeText(t).then(() => toast("Cutting values copied")).catch(() => toast(t));
       }
       function saveSFToProject() {
-        const j = activeJob();
+        const j = jobBy(document.getElementById("sfProject")?.value) || activeJob();
         if (!j) return toast("Create a project first");
+        const selectedTool = toolBySelection(document.getElementById("sfTool")?.value || "");
         j.cuttingData = {
           ...store.sf,
+          toolName: selectedTool?.name || "",
+          toolLoc: selectedTool?.loc || "",
+          machineName: MACHINES[store.sf.machine]?.name || "",
           rpm: document.getElementById("sfRpm").textContent,
           feed: document.getElementById("sfVf").textContent,
           vc: document.getElementById("sfVc").textContent,
           fz: document.getElementById("sfFz").textContent,
-          updated: today(),
+          updated: today()
         };
+        store.selectedProject = j.id;
         save();
-        toast("Cutting data saved to project");
+        toast("Conservative cutting data saved to project");
       }
+
       function log() {
         const job = activeJob();
         const rows = store.logs
@@ -2042,110 +2264,110 @@
         save();
         render();
       }
+      function toolProjectsLabel(t) {
+        const projects = (t.projectIds || []).map(jobBy).filter(Boolean);
+        return projects.length ? projects.map((j) => j.id).join(", ") : "Unassigned";
+      }
+      function toolMachinesLabel(t) {
+        const names = (t.machineKeys || []).map((k) => MACHINES[k]?.name).filter(Boolean);
+        return names.length ? names.join(", ") : "Unassigned";
+      }
       function tools() {
         const q = (store.toolQuery || "").toLowerCase();
+        const projectFilter = store.toolProject || "";
+        const machineFilter = store.toolMachine || "";
         let filtered = store.tools.filter((t) =>
-          [t.loc, t.name, t.geometry, t.mat, t.holder, t.condition].join(" ").toLowerCase().includes(q)
+          [t.loc, t.name, t.geometry, t.gradeFamily, t.mat, t.holder, t.condition, toolProjectsLabel(t), toolMachinesLabel(t)]
+            .join(" ").toLowerCase().includes(q)
         );
+        if (projectFilter) filtered = filtered.filter((t) => t.projectIds?.includes(projectFilter));
+        if (machineFilter) filtered = filtered.filter((t) => t.machineKeys?.includes(machineFilter));
         if (store.toolGeometry) filtered = filtered.filter((t) => t.geometry === store.toolGeometry);
         if (store.toolCondition) filtered = filtered.filter((t) => t.condition === store.toolCondition);
-        const cards =
-          filtered
-            .map((t) => {
-              const uses = store.setups.filter((s) => s.tools?.includes(t.id)).length;
-              return (
-                '<div class="tool-card"><div class="tool-top"><div><div class="tool-loc">' +
-                esc(t.loc) +
-                '</div><div class="tool-name">' +
-                esc(t.name) +
-                '</div><div class="tool-meta">' +
-                esc(t.geometry || "") +
-                " · " +
-                esc(t.mat || "") +
-                " · " +
-                esc(t.condition || "") +
-                "</div></div><div>" +
-                status(t.condition || "Good") +
-                "</div></div>" +
-                '<div class="tool-stats"><div class="tool-stat"><b>Ø' +
-                fmt(t.D, 2) +
-                '</b><span>DIAMETER</span></div><div class="tool-stat"><b>Z' +
-                (t.Z || "—") +
-                '</b><span>FLUTES</span></div><div class="tool-stat"><b>' +
-                fmt(t.L, 1) +
-                '</b><span>STICKOUT</span></div><div class="tool-stat"><b>' +
-                uses +
-                "</b><span>SETUPS</span></div></div>" +
-                '<div class="help" style="margin-top:10px">' +
-                esc(t.holder || "No holder recorded") +
-                " · LC " +
-                fmt(t.LC, 1) +
-                ' mm</div><div class="help" style="margin-top:5px">' +
-                esc(t.notes || "") +
-                "</div>" +
-                '<div class="actions" style="justify-content:flex-start;margin-top:12px"><button class="btn small" onclick="editTool(\'' +
-                t.id +
-                '\')">Edit</button><button class="btn small" onclick="useToolInSF(\'' +
-                t.id +
-                '\')">Use in S&F</button><button class="btn small danger" onclick="retireTool(\'' +
-                t.id +
-                "')\">Retire</button></div></div>"
-              );
-            })
-            .join("") || '<div class="help">No matching tools.</div>';
-        const geoms = GEOMETRIES.map(
-          (x) => "<option " + (store.toolGeometry === x ? "selected" : "") + ">" + x + "</option>"
-        ).join("");
-        const conds = ["New", "Good", "Worn", "Damaged", "Sharpen"]
-          .map((x) => "<option " + (store.toolCondition === x ? "selected" : "") + ">" + x + "</option>")
-          .join("");
-        const toolbar =
-          '<div class="toolbar"><div class="field"><label>Search</label><input class="input" value="' +
-          esc(store.toolQuery || "") +
-          '" oninput="store.toolQuery=this.value;save();render()" placeholder="Ø10, drill, HSS, ER32..."></div><div class="field" style="max-width:180px"><label>Geometry</label><select onchange="store.toolGeometry=this.value;save();render()"><option value="">All geometry</option>' +
-          geoms +
-          '</select></div><div class="field" style="max-width:180px"><label>Condition</label><select onchange="store.toolCondition=this.value;save();render()"><option value="">All conditions</option>' +
-          conds +
-          "</select></div></div>";
-        return (
-          base(
-            "TOOLING",
-            "Tooling",
-            "Your personal tool library. Track geometry, dimensions, holders, stickout, condition and what each cutter is actually useful for. This is the detailed practical section.",
-            '<button class="btn primary" onclick="toolModal()">+ Add Tool</button> <button class="btn" onclick="printView(\'Tool Register\')">Print Register</button>'
-          ) +
-          toolbar +
-          '<div class="tool-grid">' +
-          cards +
-          "</div>"
-        );
+        const cards = filtered.map((t) => {
+          const uses = store.setups.filter((s) => s.tools?.includes(t.id)).length;
+          const assignments = `${toolProjectsLabel(t)} · ${toolMachinesLabel(t)}`;
+          return `<div class="tool-card">
+            <div class="tool-top"><div><div class="tool-loc">${esc(t.loc)}</div><div class="tool-name">${esc(t.name)}</div><div class="tool-meta">${esc(t.geometry)} · ${esc(t.gradeFamily || "")}</div></div><div>${status(t.condition || "Good")}</div></div>
+            <div class="tool-stats"><div class="tool-stat"><b>${t.D ? "Ø"+fmt(t.D,2) : "—"}</b><span>DIAMETER</span></div><div class="tool-stat"><b>${t.Z || "—"}</b><span>TEETH / FLUTES</span></div><div class="tool-stat"><b>${fmt(t.L,1)}</b><span>STICKOUT</span></div><div class="tool-stat"><b>${uses}</b><span>SETUPS</span></div></div>
+            <div class="help" style="margin-top:10px"><strong>PROJECT</strong> · ${esc(assignments)}</div>
+            <div class="help" style="margin-top:5px"><strong>HOLDER</strong> · ${esc(t.holder || "—")} · LC ${fmt(t.LC,1)} mm${t.noseRadius ? ` · rε ${fmt(t.noseRadius,2)} mm` : ""}${t.pitch ? ` · P ${fmt(t.pitch,3)} mm` : ""}</div>
+            <div class="help" style="margin-top:5px">${esc(t.notes || "")}</div>
+            <div class="actions" style="justify-content:flex-start;margin-top:12px"><button class="btn small" onclick="editTool('${esc(t.id)}')">Edit</button><button class="btn small" onclick="useToolInSF('${esc(t.id)}')">Use in S&F</button><button class="btn small danger" onclick="retireTool('${esc(t.id)}')">Retire</button></div>
+          </div>`;
+        }).join("") || '<div class="help">No tools match the current filters.</div>';
+
+        const projectOpts = store.jobs.filter((j) => j.status !== "ARCHIVED").map((j) => `<option value="${esc(j.id)}" ${store.toolProject === j.id ? "selected" : ""}>${esc(j.id)} · ${esc(j.part)}</option>`).join("");
+        const geoms = GEOMETRIES.map((x) => `<option value="${esc(x)}" ${store.toolGeometry === x ? "selected" : ""}>${esc(x)}</option>`).join("");
+        const conds = ["New","Good","Worn","Damaged","Sharpen"].map((x) => `<option value="${x}" ${store.toolCondition === x ? "selected" : ""}>${x}</option>`).join("");
+        const machs = Object.entries(MACHINES).map(([k,m]) => `<option value="${k}" ${store.toolMachine === k ? "selected" : ""}>${m.name}</option>`).join("");
+        return base("TOOLING","Tooling",
+          "A structured tool register. Every tool belongs to one or more projects and explicit machine(s), with geometry-driven grade choices and real dimensions.",
+          `<button class="btn primary" onclick="toolModal()">+ Add Tool</button> <button class="btn" onclick="printView('Tool Register')">Print Register</button>`) +
+          `<div class="kpi-strip"><div class="mini"><div class="mini-label">Tools</div><div class="mini-val">${store.tools.length}</div></div><div class="mini"><div class="mini-label">Project-linked</div><div class="mini-val">${store.tools.filter(t => t.projectIds?.length).length}</div></div><div class="mini"><div class="mini-label">Machine-linked</div><div class="mini-val">${store.tools.filter(t => t.machineKeys?.length).length}</div></div><div class="mini"><div class="mini-label">Usable</div><div class="mini-val">${store.tools.filter(t => !["Damaged"].includes(t.condition)).length}</div></div><div class="mini"><div class="mini-label">Filtered</div><div class="mini-val">${filtered.length}</div></div></div>
+          <div style="height:14px"></div>
+          <div class="toolbar"><div class="field"><label>Search</label><input class="input" value="${esc(store.toolQuery || "")}" oninput="store.toolQuery=this.value;save();render()" placeholder="Ø10, drill, HSS, ER32..."></div>
+          <div class="field" style="max-width:220px"><label>Project</label><select onchange="store.toolProject=this.value;save();render()"><option value="">All projects</option>${projectOpts}</select></div>
+          <div class="field" style="max-width:190px"><label>Machine</label><select onchange="store.toolMachine=this.value;save();render()"><option value="">All machines</option>${machs}</select></div>
+          <div class="field" style="max-width:190px"><label>Geometry</label><select onchange="store.toolGeometry=this.value;save();render()"><option value="">All geometry</option>${geoms}</select></div>
+          <div class="field" style="max-width:160px"><label>Condition</label><select onchange="store.toolCondition=this.value;save();render()"><option value="">All conditions</option>${conds}</select></div></div>
+          <div class="tool-grid">${cards}</div>`;
       }
       function toolModal(existing) {
         const t = existing || {
-          loc: `T${store.tools.length + 1}`,
-          name: "Endmill",
-          geometry: "Endmill",
-          mat: "hm",
-          D: 10,
-          Z: 4,
-          L: 30,
-          LC: 22,
-          holder: "ER32",
-          condition: "New",
-          notes: "",
+          loc: `T${store.tools.length + 1}`, name: "Endmill", geometry: "Endmill", gradeFamily: "Carbide Uncoated",
+          D: 10, Z: 4, L: 30, LC: 22, holder: "ER32", condition: "New", uses: 0,
+          projectIds: activeJob()?.id ? [activeJob().id] : [], machineKeys: activeJob()?.machineKey ? [activeJob().machineKey] : [],
+          noseRadius: 0, pitch: 0, notes: ""
         };
-        modal(
-          existing ? "Edit Tool" : "Add Tool",
-          `<div class="grid g3"><div class="field"><label>Location</label><input class="input" id="tl" value="${esc(t.loc)}"></div><div class="field"><label>Name</label><input class="input" id="tn" value="${esc(t.name)}"></div><div class="field"><label>Geometry</label><select id="tgeom">${GEOMETRIES.map((x) => `<option ${t.geometry === x ? "selected" : ""}>${x}</option>`).join("")}</select></div><div class="field"><label>Tool Material / Grade</label><input class="input" id="tmat" value="${esc(t.mat || "")}" placeholder="Carbide, HSS-Co, VCGT..."> </div><div class="field"><label>Diameter D (mm)</label><input class="input" id="td" type="number" step="any" value="${t.D ?? ""}"></div><div class="field"><label>Flutes Z</label><input class="input" id="tz" type="number" step="1" value="${t.Z ?? ""}"></div><div class="field"><label>Stickout L (mm)</label><input class="input" id="tL" type="number" step="any" value="${t.L ?? ""}"></div><div class="field"><label>Cutting Length LC (mm)</label><input class="input" id="tLC" type="number" step="any" value="${t.LC ?? ""}"></div><div class="field"><label>Holder</label><input class="input" id="tholder" value="${esc(t.holder || "")}"></div><div class="field"><label>Condition</label><select id="tcond">${["New", "Good", "Worn", "Damaged", "Sharpen"].map((x) => `<option ${t.condition === x ? "selected" : ""}>${x}</option>`).join("")}</select></div><div class="field"><label>Uses / Hours</label><input class="input" id="tUse" type="number" step="any" value="${t.uses || 0}"></div><div class="field" style="grid-column:1/-1"><label>Notes</label><textarea id="tnotes">${esc(t.notes || "")}</textarea></div></div><div class="actions" style="justify-content:flex-end;margin-top:16px"><button class="btn primary" onclick="saveTool(${existing ? `'${esc(existing.id)}'` : ""})">Save Tool</button></div>`
+        const meta = geometryMeta(t.geometry);
+        const projectOpts = store.jobs.filter(j => j.status !== "ARCHIVED").map((j) => `<option value="${esc(j.id)}" ${t.projectIds?.includes(j.id) ? "selected" : ""}>${esc(j.id)} · ${esc(j.part)} · ${esc(j.machine)}</option>`).join("");
+        const machineChecks = Object.entries(MACHINES).map(([k,m]) => `<label class="check-row"><input type="checkbox" name="tlMachine" value="${k}" ${t.machineKeys?.includes(k) ? "checked" : ""}> <span><strong>${esc(m.name)}</strong><span class="help">${esc(m.notes)}</span></span></label>`).join("");
+        const gradeOpts = (meta?.grades || TOOL_GEOMETRIES[0].grades).map((g) => `<option value="${esc(g)}" ${t.gradeFamily === g || t.mat === g ? "selected" : ""}>${esc(g)}</option>`).join("");
+        modal(existing ? "Edit Tool" : "Add Tool",
+          `<div class="grid g3">
+            <div class="field"><label>Tool Location</label><input class="input" id="tl" value="${esc(t.loc)}" placeholder="T12"></div>
+            <div class="field"><label>Tool Name</label><input class="input" id="tn" value="${esc(t.name)}" placeholder="Ø10 4F Endmill"></div>
+            <div class="field"><label>Geometry</label><select id="tgeom" onchange="refreshToolGradeOptions()">${GEOMETRIES.map((g) => `<option value="${esc(g)}" ${t.geometry === g ? "selected" : ""}>${esc(g)}</option>`).join("")}</select></div>
+            <div class="field"><label>Tool Material / Grade</label><select id="tGrade">${gradeOpts}</select><div class="help">Grade list changes with geometry.</div></div>
+            <div class="field"><label>Diameter D (mm)</label><input class="input" id="td" type="number" step="any" value="${t.D ?? ""}"></div>
+            <div class="field"><label>Teeth / Flutes Z</label><input class="input" id="tz" type="number" step="1" value="${t.Z ?? ""}"></div>
+            <div class="field"><label>Overall / Stickout L (mm)</label><input class="input" id="tL" type="number" step="any" value="${t.L ?? ""}"></div>
+            <div class="field"><label>Cutting Length LC (mm)</label><input class="input" id="tLC" type="number" step="any" value="${t.LC ?? ""}"></div>
+            <div class="field"><label>Holder / Shank Interface</label><input class="input" id="tholder" value="${esc(t.holder || "")}" placeholder="ER32 / Weldon / BT40..."></div>
+            <div class="field"><label>Corner / Nose Radius rε (mm)</label><input class="input" id="tNose" type="number" step="any" value="${t.noseRadius ?? 0}"></div>
+            <div class="field"><label>Pitch P (mm)</label><input class="input" id="tPitch" type="number" step="any" value="${t.pitch ?? 0}"></div>
+            <div class="field"><label>Condition</label><select id="tcond">${["New","Good","Worn","Damaged","Sharpen"].map((x) => `<option ${t.condition === x ? "selected" : ""}>${x}</option>`).join("")}</select></div>
+            <div class="field"><label>Uses / Hours</label><input class="input" id="tUse" type="number" step="any" value="${t.uses || 0}"></div>
+            <div class="field" style="grid-column:1/-1"><label>Project</label><select id="tProject">${projectOpts || '<option value="">No projects available</option>'}</select></div>
+            <div class="field" style="grid-column:1/-1"><label>Machine Assignment</label><div class="check-grid">${machineChecks}</div><div class="help">A tool can be assigned to multiple machines, but Cutting Data only shows machines compatible with the selected project.</div></div>
+            <div class="field" style="grid-column:1/-1"><label>Notes / Manufacturer Reference</label><textarea id="tnotes" placeholder="Manufacturer part number, insert grade, intended material, special notes...">${esc(t.notes || "")}</textarea></div>
+          </div>
+          <div class="actions" style="justify-content:flex-end;margin-top:16px"><button class="btn primary" onclick="saveTool(${existing ? `'${esc(existing.id)}'` : ""})">Save Tool</button></div>`
         );
+      }
+      function refreshToolGradeOptions() {
+        const geom = document.getElementById("tgeom")?.value;
+        const select = document.getElementById("tGrade");
+        if (!select) return;
+        const grades = geometryMeta(geom)?.grades || [];
+        const old = select.value;
+        select.innerHTML = grades.map((g) => `<option value="${esc(g)}">${esc(g)}</option>`).join("");
+        if (grades.includes(old)) select.value = old;
       }
       function saveTool(id) {
         const t = id ? store.tools.find((x) => x.id === id) : { id: uid("T") };
+        const geometry = document.getElementById("tgeom").value;
+        const projectId = document.getElementById("tProject").value;
+        const machineKeys = [...document.querySelectorAll('input[name="tlMachine"]:checked')].map((x) => x.value);
+        if (!projectId) return toast("A tool must be assigned to a project");
+        if (!machineKeys.length) return toast("Assign the tool to at least one machine");
         Object.assign(t, {
           loc: document.getElementById("tl").value.trim().toUpperCase(),
-          name: document.getElementById("tn").value.trim() || "Tool",
-          geometry: document.getElementById("tgeom").value,
-          mat: document.getElementById("tmat").value.trim(),
+          name: document.getElementById("tn").value.trim() || geometry,
+          geometry,
+          gradeFamily: document.getElementById("tGrade").value,
+          mat: document.getElementById("tGrade").value,
           D: +document.getElementById("td").value || 0,
           Z: +document.getElementById("tz").value || 1,
           L: +document.getElementById("tL").value || 0,
@@ -2153,34 +2375,34 @@
           holder: document.getElementById("tholder").value.trim(),
           condition: document.getElementById("tcond").value,
           uses: +document.getElementById("tUse").value || 0,
-          notes: document.getElementById("tnotes").value,
+          noseRadius: +document.getElementById("tNose").value || 0,
+          pitch: +document.getElementById("tPitch").value || 0,
+          projectIds: [projectId],
+          machineKeys,
+          notes: document.getElementById("tnotes").value
         });
-        if (!t.D) return toast("Tool diameter is required");
+        if (!t.D) return toast("Tool diameter / working diameter is required");
         if (!id) store.tools.push(t);
-        save();
-        closeModal();
-        render();
-        toast("Tool saved");
+        save(); closeModal(); render(); toast("Tool saved with project + machine assignment");
       }
-      function editTool(id) {
-        toolModal(store.tools.find((x) => x.id === id));
-      }
+      function editTool(id) { toolModal(store.tools.find((x) => x.id === id)); }
       function retireTool(id) {
         const t = store.tools.find((x) => x.id === id);
         if (!t) return;
-        if (store.setups.some((s) => s.tools?.includes(id)))
-          return toast("Tool is linked to a setup — remove that link first");
         t.condition = "Damaged";
-        save();
-        render();
-        toast("Tool marked damaged");
+        save(); render(); toast("Tool marked damaged");
       }
       function useToolInSF(id) {
-        store.active = "cut";
+        const t = store.tools.find((x) => x.id === id);
+        if (!t) return;
+        const job = activeJob();
+        if (job && t.projectIds?.length && !t.projectIds.includes(job.id)) store.selectedProject = t.projectIds[0];
+        store.sf.projectId = store.selectedProject || job?.id || "";
         store.sf.tool = "crib:" + id;
-        save();
-        render();
+        store.active = "cut";
+        save(); render();
       }
+
       function machines() {
         return (
           base(
@@ -2468,7 +2690,11 @@
         window.print();
       }
       function bind() {
-        if (store.active === "cut") setTimeout(calcSF, 0);
+        if (store.active === "cut") {
+          const job = activeJob();
+          if (job && !store.sf.projectId) store.sf.projectId = job.id;
+          setTimeout(calcSF, 0);
+        }
         if (store.active === "desk") {
           const btns = document.querySelectorAll("[data-desk]");
           btns.forEach(
