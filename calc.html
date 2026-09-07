@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fusion 360 Style Calc</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+      background-color: #222222;
+      color: #E0E0E0;
+      font-size: 12px;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: #2A2A2A; border-left: 1px solid #444; }
+    ::-webkit-scrollbar-thumb { background: #555; border: 1px solid #2A2A2A; border-radius: 5px; }
+    ::-webkit-scrollbar-thumb:hover { background: #666; }
+
+    .f-input {
+      background-color: #1E1E1E;
+      border: 1px solid #444444;
+      color: #E0E0E0;
+      padding: 4px 8px;
+      outline: none;
+      width: 100%;
+      border-radius: 3px;
+      transition: border-color 0.1s;
+    }
+    .f-input:focus { border-color: #0696D7; }
+    .f-input:disabled, .f-input[readonly] { color: #888888; }
+    .f-input.fx-active { border-left: 3px solid #0696D7; background-color: #1E1E1E; color: #E0E0E0; }
+    
+    .f-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%228%22%20height%3D%228%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M0%202l4%204%204-4z%22%20fill%3D%22%23888%22%2F%3E%3C%2Fsvg%3E");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+      padding-right: 20px;
+    }
+
+    .f-btn {
+      background-color: #444444;
+      border: 1px solid #555555;
+      color: #E0E0E0;
+      padding: 5px 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background-color 0.1s;
+      font-size: 12px;
+    }
+    .f-btn:hover { background-color: #555555; }
+    .f-btn:active { background-color: #333333; }
+    
+    .f-btn-primary { background-color: #0696D7; border: 1px solid #0696D7; color: #FFFFFF; }
+    .f-btn-primary:hover { background-color: #0585C1; }
+
+    .f-dialog {
+      background-color: #333333;
+      border: 1px solid #555555;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .f-group-header {
+      font-weight: 600;
+      padding: 8px 12px 4px 12px;
+      border-bottom: 1px solid #444;
+      margin-bottom: 8px;
+      color: #FFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #2A2A2A;
+    }
+
+    .f-row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      align-items: center;
+      margin-bottom: 6px;
+      padding: 0 12px;
+    }
+    .f-row label { color: #CCCCCC; }
+
+    .f-input-wrapper { position: relative; display: flex; align-items: center; }
+    .f-unit {
+      position: absolute;
+      right: 8px;
+      color: #888;
+      pointer-events: none;
+      font-size: 11px;
+    }
+    
+    .output-value {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-weight: bold;
+      color: #4ade80;
+      font-size: 14px;
+    }
+    .output-warning { color: #f87171 !important; }
+
+    .f-checkbox {
+      accent-color: #0696D7;
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    @media print {
+      .print-hide { display: none !important; }
+      body { background: #fff !important; color: #000 !important; }
+      .f-dialog { box-shadow: none !important; border: 1px solid #ccc !important; }
+      * { color: #000 !important; }
+      .f-input { border: 1px solid #ccc !important; color: #000 !important; }
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-4 min-h-screen">
+
+  <div class="f-dialog w-full max-w-[850px] max-h-[90vh]">
+    
+    <!-- Title Bar -->
+    <div class="bg-[#444] px-3 py-1.5 flex justify-between items-center cursor-default border-b border-[#2A2A2A] print-hide">
+      <div class="flex items-center gap-2">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="#0696D7"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span class="font-semibold text-[13px] tracking-wide">Machining Parameters</span>
+      </div>
+      <div class="flex gap-2">
+        <button class="hover:bg-[#555] px-2 rounded text-[#aaa] hover:text-white">_</button>
+        <button class="hover:bg-red-500 px-2 rounded text-[#aaa] hover:text-white">✕</button>
+      </div>
+    </div>
+
+    <!-- Main Content Split -->
+    <div class="flex flex-1 overflow-hidden min-h-[550px] flex-col md:flex-row">
+      
+      <!-- LEFT: Setup & Parameters -->
+      <div class="w-full md:w-[400px] bg-[#333] border-r border-[#444] flex flex-col overflow-y-auto pb-4">
+        
+        <div class="f-group-header mt-0">Setup</div>
+        <div class="f-row">
+          <label>Miljø</label>
+          <div class="flex gap-1">
+            <button id="envManual" class="f-btn flex-1 text-center py-1">Manual</button>
+            <button id="envCnc" class="f-btn flex-1 text-center py-1 bg-[#555]">CNC</button>
+          </div>
+        </div>
+        <div class="f-row">
+          <label>Maskine</label>
+          <select id="machineList" class="f-input f-select"></select>
+        </div>
+        <div class="f-row">
+          <label>Materiale</label>
+          <select id="material" class="f-input f-select"></select>
+        </div>
+
+        <div class="f-group-header mt-4">Værktøj</div>
+        <div class="f-row">
+          <label>Materiale</label>
+          <select id="tool" class="f-input f-select"></select>
+        </div>
+        <div class="f-row">
+          <label>Geometri</label>
+          <select id="geometry" class="f-input f-select"></select>
+        </div>
+        <div class="f-row">
+          <label id="diameterLabel">Diameter</label>
+          <div class="f-input-wrapper">
+            <input id="diameter" type="number" min="0.1" step="0.1" class="f-input" />
+            <span class="f-unit">mm</span>
+          </div>
+        </div>
+        <div id="teethField" class="f-row">
+          <label>Tænder (Z)</label>
+          <input id="teeth" type="number" min="1" step="1" class="f-input" />
+        </div>
+        <div id="stickField" class="f-row">
+          <label>Udhæng (L)</label>
+          <div class="f-input-wrapper">
+            <input id="stickout" type="number" min="0" step="0.1" class="f-input" />
+            <span class="f-unit">mm</span>
+          </div>
+        </div>
+
+        <div class="f-group-header mt-4">
+          Bearbejdning
+          <label class="flex items-center gap-1.5 font-normal text-[11px] cursor-pointer text-[#aaa] hover:text-white">
+            <input type="checkbox" id="autoSwitch" checked class="f-checkbox" />
+            Auto fz (fx)
+          </label>
+        </div>
+        <div class="f-row">
+          <label>Operation</label>
+          <select id="operation" class="f-input f-select"></select>
+        </div>
+        <div class="f-row">
+          <label id="feedLabel">Tilspænding pr. tand</label>
+          <div class="f-input-wrapper">
+            <input id="feedInput" type="number" min="0" step="0.001" class="f-input fx-active" readonly />
+            <span class="f-unit" id="feedInputUnit">mm</span>
+          </div>
+        </div>
+        <div id="aeField" class="f-row">
+          <label>Radial (ae)</label>
+          <div class="f-input-wrapper">
+            <input id="ae" type="number" min="0" step="0.1" class="f-input" />
+            <span class="f-unit">mm</span>
+          </div>
+        </div>
+        <div class="f-row">
+          <label>Axial (ap)</label>
+          <div class="f-input-wrapper">
+            <input id="ap" type="number" min="0" step="0.1" class="f-input" />
+            <span class="f-unit">mm</span>
+          </div>
+        </div>
+        <div id="pitchField" class="f-row hidden">
+          <label>Gevindstigning</label>
+          <div class="f-input-wrapper">
+            <input id="pitch" type="number" min="0.1" step="0.01" class="f-input" />
+            <span class="f-unit">mm</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- RIGHT: Outputs & Log -->
+      <div class="flex-1 bg-[#2A2A2A] flex flex-col">
+        
+        <div class="f-group-header mt-0 text-[#0696D7] border-[#444]">Kalkulerede Resultater</div>
+        <div class="py-2">
+          <div class="f-row">
+            <label>Skærehastighed (Vc)</label>
+            <div class="f-input-wrapper">
+              <input id="outVc" type="text" class="f-input output-value bg-transparent border-transparent" readonly />
+              <span class="f-unit">m/min</span>
+            </div>
+          </div>
+          <div class="f-row">
+            <label>Spindelhastighed (n)</label>
+            <div class="f-input-wrapper">
+              <input id="outRpm" type="text" class="f-input output-value bg-transparent border-transparent" readonly />
+              <span class="f-unit">rpm</span>
+            </div>
+          </div>
+          <div class="f-row border-b border-[#333] pb-2 mb-2">
+            <label id="feedMetricLabel">Bordtilspænding (Vf)</label>
+            <div class="f-input-wrapper">
+              <input id="outFeed" type="text" class="f-input output-value bg-transparent border-transparent" readonly />
+              <span class="f-unit" id="feedUnit">mm/min</span>
+            </div>
+          </div>
+          <div class="f-row">
+            <label>MRR</label>
+            <div class="f-input-wrapper">
+              <input id="outMrr" type="text" class="f-input output-value bg-transparent border-transparent !text-[#aaa]" readonly />
+              <span class="f-unit">cm³/min</span>
+            </div>
+          </div>
+          <div class="f-row">
+            <label id="ratioLabel">L / D Ratio</label>
+            <div class="f-input-wrapper">
+              <input id="outRatio" type="text" class="f-input output-value bg-transparent border-transparent !text-[#aaa]" readonly />
+            </div>
+          </div>
+          
+          <div class="px-3 mt-1 text-[#f87171] text-[11px] hidden" id="rpmWarning">
+            ⚠ Begrænset af maskine. Ideel: <span id="outIdealRpm"></span> rpm.
+          </div>
+          <div id="messages" class="px-3 mt-1 text-[#f87171] text-[11px]"></div>
+        </div>
+
+        <div class="flex-1 flex flex-col min-h-0 border-t border-[#444] mt-4">
+          <div class="f-group-header mt-0 border-[#444] bg-[#2A2A2A]">
+            Datalog
+            <button id="clearListBtn" class="text-xs text-[#aaa] hover:text-[#f87171] font-normal transition-colors">Ryd Log</button>
+          </div>
+          <div id="savedList" class="flex-1 overflow-y-auto p-3 flex flex-col gap-2"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Footer / Action Bar -->
+    <div class="bg-[#2A2A2A] border-t border-[#444] p-3 flex justify-between items-center print-hide">
+      <div class="flex gap-2">
+        <button id="copyBtn" class="f-btn">Kopier til Udklipsholder</button>
+        <button id="printBtn" class="f-btn">Udskriv</button>
+      </div>
+      <div class="flex gap-2">
+        <button id="cancelBtn" class="f-btn w-20">Nulstil</button>
+        <button id="saveBtn" class="f-btn f-btn-primary font-bold px-5">Gem Setup</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastRoot" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <script>
+    "use strict";
+
+    const KEY = "datumFusionV3_Fixed";
+
+    const MACHINES = {
+      "Haas Mini Mill": { env: "CNC", method: "milling", maxRpm: 10000, rigidity: 1.0, note: "CNC · 10K RPM" },
+      "Deckel FP1": { env: "MANUAL", method: "milling", maxRpm: 2000, rigidity: 0.82, note: "Manuel · 2K RPM" },
+      "Haas ST-10": { env: "CNC", method: "turning", maxRpm: 6000, rigidity: 1.0, note: "CNC · 6K RPM" },
+      "Weiler Matador": { env: "MANUAL", method: "turning", maxRpm: 4000, rigidity: 0.85, note: "Manuel · 4K RPM" },
+    };
+
+    const MATERIALS = {
+      "Aluminium": { milling: { HSS: { rough: 100, finish: 150 }, HM: { rough: 275, finish: 525 } }, turning: { HSS: { rough: 100, finish: 160 }, HM: { rough: 300, finish: 600 } } },
+      "Messing / Bronze": { milling: { HSS: { rough: 50, finish: 75 }, HM: { rough: 160, finish: 275 } }, turning: { HSS: { rough: 60, finish: 85 }, HM: { rough: 200, finish: 325 } } },
+      "Stål (Ulegeret/Let)": { milling: { HSS: { rough: 22, finish: 30 }, HM: { rough: 100, finish: 160 } }, turning: { HSS: { rough: 25, finish: 38 }, HM: { rough: 125, finish: 200 } } },
+      "Rustfrit Stål": { milling: { HSS: { rough: 13, finish: 19 }, HM: { rough: 75, finish: 115 } }, turning: { HSS: { rough: 15, finish: 22 }, HM: { rough: 90, finish: 135 } } },
+      "Værktøjsstål": { milling: { HSS: { rough: 10, finish: 15 }, HM: { rough: 55, finish: 90 } }, turning: { HSS: { rough: 13, finish: 19 }, HM: { rough: 70, finish: 110 } } },
+      "Støbejern": { milling: { HSS: { rough: 18, finish: 24 }, HM: { rough: 90, finish: 145 } }, turning: { HSS: { rough: 18, finish: 25 }, HM: { rough: 105, finish: 165 } } },
+      "Titanium (Ti6Al4V)": { milling: { HSS: { rough: 8, finish: 13 }, HM: { rough: 48, finish: 75 } }, turning: { HSS: { rough: 10, finish: 15 }, HM: { rough: 55, finish: 85 } } },
+      "Plastik (POM/Nylon)": { milling: { HSS: { rough: 65, finish: 100 }, HM: { rough: 200, finish: 325 } }, turning: { HSS: { rough: 75, finish: 120 }, HM: { rough: 200, finish: 325 } } },
+      "Akryl (PMMA)": { milling: { HSS: { rough: 33, finish: 55 }, HM: { rough: 115, finish: 200 } }, turning: { HSS: { rough: 40, finish: 65 }, HM: { rough: 100, finish: 160 } } },
+    };
+
+    const GEOMETRIES = {
+      milling: {
+        "Pindfræser": { mult: 1, kind: "mill" },
+        "Hjørneradius": { mult: 0.92, kind: "mill" },
+        "Kuglefræser": { mult: 0.82, kind: "ball" },
+        "Planfræser": { mult: 1.05, kind: "face" },
+        "Fasefræser": { mult: 0.85, kind: "chamfer" },
+        "Sporfræser": { mult: 0.65, kind: "slot" },
+      },
+      turning: {
+        "Udvendig platter": { mult: 1, kind: "turn" },
+        "Indvendig udboring": { mult: 0.9, kind: "boring" },
+        "Stikstål": { mult: 0.55, kind: "groove" },
+        "Gevindstål": { mult: 0.48, kind: "thread" },
+      },
+    };
+
+    const OP_GROUPS = {
+      milling: [
+        ["ROUGHING", "Skrubfræsning"],
+        ["FINISHING", "Sletfræsning"],
+        ["FACING", "Planfræsning"],
+        ["SLOTTING", "Sporfræsning (Fuldt indgreb)"],
+        ["POCKETING", "Lommefræsning"],
+        ["ADAPTIVE", "Adaptiv (Lav radial, høj axial)"],
+        ["CHAMFERING", "Fasning"],
+        ["DRILLING", "Boring (Bordiameter)"],
+      ],
+      turning: [
+        ["ROUGHING", "Udvendig Skrub"],
+        ["FINISHING", "Udvendig Slet"],
+        ["FACING", "Planløb"],
+        ["ID_ROUGHING", "Indvendig Skrub"],
+        ["ID_FINISHING", "Indvendig Slet"],
+        ["GROOVING", "Stikning"],
+        ["PARTING", "Afstikning"],
+        ["THREADING", "Gevindskæring"],
+        ["DRILLING", "Boring i center"],
+      ],
+    };
+
+    const OP = {
+      milling: {
+        ROUGHING: { ref: "rough", vc: 1, feed: 1.0, ae: 0.18, ap: 0.55, kind: "chipload" },
+        FINISHING: { ref: "finish", vc: 1, feed: 0.58, ae: 0.07, ap: 0.2, kind: "chipload" },
+        FACING: { ref: "rough", vc: 0.95, feed: 0.88, ae: 0.55, ap: 0.12, kind: "chipload" },
+        SLOTTING: { ref: "rough", vc: 0.78, feed: 0.72, ae: 1.0, ap: 0.35, kind: "chipload" },
+        POCKETING: { ref: "rough", vc: 0.9, feed: 0.92, ae: 0.2, ap: 0.45, kind: "chipload" },
+        ADAPTIVE: { ref: "rough", vc: 1.05, feed: 1.1, ae: 0.1, ap: 0.75, kind: "chipload" },
+        CHAMFERING: { ref: "finish", vc: 1.0, feed: 0.62, ae: 0.15, ap: 0.12, kind: "chipload" },
+        DRILLING: { ref: "rough", vc: 0.45, feed: 0.7, ae: 0, ap: 0.0, kind: "perrev" },
+      },
+      turning: {
+        ROUGHING: { ref: "rough", vc: 1.0, feed: 1.0, ap: 0.1, kind: "turnfeed" },
+        FINISHING: { ref: "finish", vc: 1.0, feed: 0.55, ap: 0.04, kind: "turnfeed" },
+        FACING: { ref: "rough", vc: 0.95, feed: 0.82, ap: 0.08, kind: "turnfeed" },
+        ID_ROUGHING: { ref: "rough", vc: 0.9, feed: 0.88, ap: 0.08, kind: "turnfeed" },
+        ID_FINISHING: { ref: "finish", vc: 0.92, feed: 0.48, ap: 0.03, kind: "turnfeed" },
+        GROOVING: { ref: "rough", vc: 0.55, feed: 0.55, ap: 0.04, kind: "turnfeed" },
+        PARTING: { ref: "rough", vc: 0.45, feed: 0.45, ap: 0.02, kind: "turnfeed" },
+        THREADING: { ref: "finish", vc: 0.38, feed: 0.35, ap: 0.02, kind: "turnfeed" },
+        DRILLING: { ref: "rough", vc: 0.45, feed: 0.6, ap: 0.02, kind: "perrev" },
+      },
+    };
+
+    const defaults = {
+      env: "CNC", machine: "Haas Mini Mill", method: "milling", operation: "ROUGHING",
+      material: "Aluminium", tool: "HM", geometry: "Pindfræser",
+      diameter: 12, teeth: 4, feedInput: 0.08, ae: 2, ap: 5, stickout: 30, pitch: 1.5,
+      auto: true, saved: [],
+    };
+
+    let state = loadState();
+
+    function $(s) { return document.querySelector(s); }
+    function num(id) { const x = parseFloat($(id)?.value); return Number.isFinite(x) ? x : 0; }
+    function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+    function fmt(v, d = 2) { return Number.isFinite(v) ? v.toFixed(d) : "—"; }
+    function escapeHtml(v) { return String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]); }
+    
+    function toast(msg) {
+      const r = $("#toastRoot");
+      const t = document.createElement("div");
+      t.className = "bg-[#444] border border-[#555] text-white px-3 py-2 text-sm shadow-xl transition-opacity duration-200 opacity-0";
+      t.textContent = msg;
+      r.appendChild(t);
+      setTimeout(() => t.classList.remove("opacity-0"), 10);
+      setTimeout(() => { t.classList.add("opacity-0"); setTimeout(() => t.remove(), 300); }, 2500);
+    }
+
+    function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} }
+    function loadState() {
+      try {
+        const x = JSON.parse(localStorage.getItem(KEY));
+        if (x && x.saved && x.machine) return { ...defaults, ...x };
+      } catch {}
+      return { ...defaults, saved: [] };
+    }
+
+    function setEnv(env) {
+      state.env = env;
+      const allowed = Object.entries(MACHINES).filter(([, m]) => m.env === env);
+      if (!allowed.some(([k]) => k === state.machine)) state.machine = allowed[0][0];
+      state.method = MACHINES[state.machine].method;
+      state.operation = OP[state.method][state.operation] ? state.operation : Object.keys(OP[state.method])[0];
+      renderAll();
+    }
+
+    function setMachine(machine) {
+      state.machine = machine;
+      state.env = MACHINES[machine].env;
+      state.method = MACHINES[machine].method;
+      if (!OP[state.method][state.operation]) state.operation = Object.keys(OP[state.method])[0];
+      if(state.auto) refreshAuto();
+      renderAll();
+    }
+
+    function populateSelect(id, options, current) {
+      const el = $(id);
+      el.innerHTML = options.map(k => {
+         const val = Array.isArray(k) ? k[0] : k;
+         const label = Array.isArray(k) ? k[1] : k;
+         return `<option value="${escapeHtml(val)}">${escapeHtml(label)}</option>`;
+      }).join("");
+      el.value = current;
+    }
+
+    function renderMachines() {
+      const el = $("#machineList");
+      const allowed = Object.entries(MACHINES).filter(([, m]) => m.env === state.env);
+      el.innerHTML = allowed.map(([k, m]) => `<option value="${escapeHtml(k)}">${escapeHtml(k)}</option>`).join("");
+      el.value = state.machine;
+      
+      if(state.env === 'MANUAL') {
+          $("#envManual").classList.add("bg-[#555]");
+          $("#envCnc").classList.remove("bg-[#555]");
+      } else {
+          $("#envCnc").classList.add("bg-[#555]");
+          $("#envManual").classList.remove("bg-[#555]");
+      }
+    }
+
+    function autoParameters() {
+      const mat = MATERIALS[state.material], machine = MACHINES[state.machine], method = state.method, op = OP[method][state.operation];
+      const d = Math.max(0.1, state.diameter), geom = GEOMETRIES[method][state.geometry] || { mult: 1, kind: "mill" };
+      const toolMult = state.tool === "HM" ? 1 : 0.72, machineMult = machine.env === "CNC" ? 1 : 0.92, rigidity = machine.rigidity || 1;
+      let vc = (mat?.[method]?.[state.tool]?.[op.ref] || 0);
+      vc *= geom.mult;
+      
+      let fz = 0, f = 0, ae = 0, ap = 0;
+      
+      if (method === "milling") {
+        const baseFz = state.tool === "HM" ? 0.0065 : 0.0048;
+        const diaF = clamp(Math.pow(d / 10, 0.35), 0.72, 1.55);
+        const geomF = geom.kind === "ball" ? 0.75 : geom.kind === "slot" ? 0.62 : geom.kind === "face" ? 1.08 : geom.kind === "chamfer" ? 0.78 : 1;
+        fz = clamp(baseFz * diaF * toolMult * machineMult * geomF * op.feed, 0.006, 0.22);
+        
+        if (op.kind === "perrev") {
+          f = clamp((state.tool === "HM" ? 0.08 : 0.045) * clamp(Math.pow(d / 10, 0.2), 0.75, 1.4) * op.feed * rigidity, 0.02, 0.35);
+          ap = d * clamp(op.ap * rigidity, 0.01, 0.25); ae = 0;
+        } else {
+          ae = clamp(d * op.ae * rigidity * geom.mult, d * (op.ae < 0.2 ? 0.02 : 0.04), d * (op.ae === 1 ? 1 : 0.55));
+          if (state.geometry === "Sporfræser" || state.operation === "SLOTTING") ae = d;
+          ap = clamp(d * op.ap * rigidity, d * 0.05, d * 1.25);
+          if (state.geometry === "Kuglefræser") ap = clamp(d * op.ap * 0.65, d * 0.04, d * 0.55);
+        }
+        fz = +(fz.toFixed(3)); f = +(f.toFixed(3)); ae = +(ae.toFixed(2)); ap = +(ap.toFixed(2));
+      } else {
+        const dF = clamp(Math.pow(d / 20, 0.2), 0.75, 1.3);
+        const baseF = state.tool === "HM" ? 0.16 : 0.1;
+        f = clamp(baseF * dF * toolMult * machineMult * op.feed * rigidity, 0.02, 0.4);
+        ap = clamp(d * op.ap * rigidity, d * 0.01, d * 0.25);
+        if (op.kind === "perrev") f = clamp((state.tool === "HM" ? 0.08 : 0.05) * dF * op.feed * rigidity, 0.02, 0.3);
+        if (state.operation === "THREADING") f = clamp(state.pitch, 0.1, 6);
+        f = +(f.toFixed(3)); ap = +(ap.toFixed(2));
+      }
+      return { vc, fz, f, ae, ap };
+    }
+
+    function refreshAuto() {
+      const p = autoParameters();
+      if (state.auto) {
+        state.feedInput = (state.method === "milling" && OP[state.method][state.operation].kind !== "perrev") ? p.fz : p.f;
+      }
+      syncInputs();
+      setAutoUI();
+      save();
+    }
+
+    function syncStateFromUI() {
+      state.material = $("#material").value;
+      state.tool = $("#tool").value;
+      state.geometry = $("#geometry").value;
+      state.operation = $("#operation").value;
+      state.diameter = Math.max(0, num("#diameter"));
+      state.teeth = Math.max(1, Math.round(num("#teeth")));
+      state.feedInput = Math.max(0, num("#feedInput"));
+      state.ae = Math.max(0, num("#ae"));
+      state.ap = Math.max(0, num("#ap"));
+      state.stickout = Math.max(0, num("#stickout"));
+      state.pitch = Math.max(0.1, num("#pitch") || 1.5);
+      
+      if($("#machineList").value !== state.machine) {
+          setMachine($("#machineList").value);
+      }
+    }
+
+    function syncInputs() {
+      $("#material").value = state.material;
+      $("#tool").value = state.tool;
+      $("#geometry").value = state.geometry;
+      $("#operation").value = state.operation;
+      $("#diameter").value = state.diameter;
+      $("#teeth").value = state.teeth;
+      $("#feedInput").value = state.feedInput;
+      $("#ae").value = state.ae;
+      $("#ap").value = state.ap;
+      $("#stickout").value = state.stickout;
+      $("#pitch").value = state.pitch;
+    }
+
+    function setAutoUI() {
+      $("#autoSwitch").checked = state.auto;
+      if (state.auto) {
+          $("#feedInput").classList.add("fx-active");
+          $("#feedInput").readOnly = true;
+      } else {
+          $("#feedInput").classList.remove("fx-active");
+          $("#feedInput").readOnly = false;
+      }
+    }
+
+    function calculate() {
+      syncStateFromUI();
+      const machine = MACHINES[state.machine], method = state.method, op = OP[method][state.operation], D = state.diameter, Z = Math.max(1, state.teeth);
+      const p = autoParameters();
+      const vc = p.vc;
+      const ideal = D > 0 ? (vc * 1000) / (Math.PI * D) : 0;
+      const rpm = Math.min(ideal, machine.maxRpm);
+      
+      let feed = 0, mrr = 0, ratio = 0;
+      const msgs = [];
+      
+      if (!D) msgs.push("Indtast en gyldig diameter.");
+      if (!vc) msgs.push("Ingen referencedata for dette materialevalg.");
+      
+      if (method === "milling") {
+        const isDrill = op.kind === "perrev";
+        if (isDrill) {
+          feed = rpm * state.feedInput;
+          mrr = (Math.PI * Math.pow(D / 2, 2) * feed) / 1000;
+          ratio = state.stickout ? state.stickout / D : 0;
+        } else {
+          feed = rpm * Z * state.feedInput;
+          mrr = (state.ap * state.ae * feed) / 1000;
+          ratio = D ? state.stickout / D : 0;
+          if (ratio >= 4) msgs.push(`Højt L/D forhold (${ratio.toFixed(1)}x). Risiko for vibrationer.`);
+          if (state.ae > D) msgs.push("Advarsel: Radial dybde (ae) er større end værktøjsdiameter.");
+        }
+        $("#diameterLabel").textContent = isDrill ? "Bordiameter" : "Diameter";
+        $("#feedLabel").textContent = isDrill ? "Tilspænding pr. omdr" : "Tilspænding pr. tand";
+        $("#feedInputUnit").textContent = isDrill ? "mm/rev" : "mm/t";
+        $("#ratioLabel").textContent = "L / D Ratio";
+        $("#feedMetricLabel").textContent = "Bordtilspænding (Vf)";
+        $("#feedUnit").textContent = "mm/min";
+        $("#aeField").classList.toggle("hidden", isDrill);
+        $("#stickField").classList.remove("hidden");
+        $("#pitchField").classList.add("hidden");
+        $("#teethField").classList.toggle("hidden", isDrill);
+      } else {
+        feed = state.feedInput;
+        mrr = state.ap * feed * vc;
+        ratio = state.ap;
+        $("#diameterLabel").textContent = "Emnediameter";
+        $("#feedLabel").textContent = "Tilspænding";
+        $("#feedInputUnit").textContent = "mm/rev";
+        $("#ratioLabel").textContent = "Spåndybde (ap)";
+        $("#feedMetricLabel").textContent = "Tilspænding (f)";
+        $("#feedUnit").textContent = "mm/rev";
+        $("#aeField").classList.add("hidden");
+        $("#stickField").classList.add("hidden");
+        $("#teethField").classList.add("hidden");
+        $("#pitchField").classList.toggle("hidden", state.operation !== "THREADING");
+        if (state.operation === "THREADING" && state.pitch <= 0) msgs.push("Indtast gevindstigning.");
+      }
+
+      $("#outVc").value = fmt(vc, 0);
+      $("#outIdealRpm").textContent = Math.round(ideal).toLocaleString("da-DK");
+      $("#outRpm").value = Math.round(rpm).toLocaleString("da-DK");
+      $("#outFeed").value = method === "turning" ? fmt(feed, 3) : Math.round(feed).toLocaleString("da-DK");
+      $("#outMrr").value = fmt(mrr, 1);
+      $("#outRatio").value = method === "turning" ? fmt(ratio, 2) : fmt(ratio, 1);
+      
+      const rpmWarn = $("#rpmWarning");
+      if (ideal > machine.maxRpm + 0.5) {
+          $("#outRpm").classList.add("output-warning");
+          rpmWarn.classList.remove("hidden");
+      } else {
+          $("#outRpm").classList.remove("output-warning");
+          rpmWarn.classList.add("hidden");
+      }
+
+      $("#messages").innerHTML = msgs.length ? msgs.join("<br>") : "";
+      
+      save();
+    }
+
+    function renderSaved() {
+      const root = $("#savedList");
+      if (!state.saved.length) {
+        root.innerHTML = "<div class='text-[#888] italic p-2'>Ingen gemte parametre.</div>";
+        return;
+      }
+      
+      root.innerHTML = state.saved.map((s, i) => `
+        <div class="border border-[#444] bg-[#2A2A2A] p-2 mb-2 rounded-sm cursor-pointer hover:border-[#0696D7]" onclick="loadSaved(${i})">
+          <div class="flex justify-between">
+            <strong class="text-white">${escapeHtml(s.operationName)}</strong>
+            <span class="text-[#888] text-[10px]">Ø${fmt(s.D, 2)}</span>
+          </div>
+          <div class="text-[#888] text-[10px] mb-1">${escapeHtml(s.material)} | ${escapeHtml(s.tool)}</div>
+          <div class="flex gap-3 text-[11px] text-[#ccc]">
+            <span>S: ${fmt(s.rpm, 0)}</span>
+            <span>F: ${s.method === "milling" && s.feedMode !== "perrev" ? fmt(s.fz, 3) : fmt(s.f, 3)}</span>
+            <span>ap: ${fmt(s.ap, 2)}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function saveCuttingData() {
+      calculate();
+      const machine = MACHINES[state.machine], method = state.method, op = OP[method][state.operation], D = state.diameter, Z = Math.max(1, state.teeth);
+      const auto = autoParameters();
+      const ideal = D > 0 ? (auto.vc * 1000) / (Math.PI * D) : 0;
+      const rpm = Math.min(ideal, machine.maxRpm);
+      
+      const s = {
+        id: "CD-" + Date.now(),
+        machine: state.machine,
+        method: state.method,
+        operationName: OP_GROUPS[state.method].find(x => x[0] === state.operation)?.[1] || state.operation,
+        material: state.material,
+        tool: state.tool,
+        geometry: state.geometry,
+        D: state.diameter,
+        vc: auto.vc,
+        fz: state.method === "milling" && op.kind !== "perrev" ? state.feedInput : null,
+        f: state.method === "turning" || op.kind === "perrev" ? state.feedInput : null,
+        ap: state.ap,
+        rpm: Math.round(rpm),
+        feedMode: op.kind,
+      };
+      
+      state.saved.unshift(s);
+      if (state.saved.length > 50) state.saved.length = 50;
+      save();
+      renderSaved();
+      toast("Parametre gemt i Datalog");
+    }
+
+    function loadSaved(i) {
+      const s = state.saved[i];
+      if (!s) return;
+      state.machine = s.machine;
+      state.method = s.method;
+      state.material = s.material;
+      state.tool = s.tool;
+      state.geometry = s.geometry;
+      state.diameter = s.D;
+      state.feedInput = s.method === "milling" && s.feedMode !== "perrev" ? (s.fz ?? 0) : (s.f ?? 0);
+      state.ap = s.ap ?? 0;
+      state.auto = false;
+      renderAll();
+      calculate();
+      toast("Data indlæst");
+    }
+
+    function syncAndRefresh(id) {
+      syncStateFromUI();
+      if (["material", "tool", "geometry", "operation", "diameter", "teeth", "machineList"].includes(id) && state.auto) refreshAuto();
+      calculate();
+    }
+
+    function renderAll() {
+      populateSelect("#material", Object.keys(MATERIALS), state.material);
+      populateSelect("#tool", [["HM", "Hårdmetal / HM"], ["HSS", "HSS"]], state.tool);
+      
+      const geomList = Object.keys(GEOMETRIES[state.method]);
+      if (!geomList.includes(state.geometry)) state.geometry = geomList[0];
+      populateSelect("#geometry", geomList, state.geometry);
+      
+      const opList = OP_GROUPS[state.method];
+      if (!OP[state.method][state.operation]) state.operation = opList[0][0];
+      populateSelect("#operation", opList, state.operation);
+      
+      renderMachines();
+      syncInputs();
+      setAutoUI();
+      calculate();
+    }
+
+    function init() {
+      if (!MACHINES[state.machine]) state.machine = defaults.machine;
+      state.env = MACHINES[state.machine].env;
+      state.method = MACHINES[state.machine].method;
+      
+      renderAll();
+      renderSaved();
+      
+      ["material", "tool", "geometry", "operation", "diameter", "teeth", "feedInput", "ae", "ap", "pitch", "stickout", "machineList"].forEach(id => {
+        const e = $("#" + id);
+        if(e) {
+           e.addEventListener("input", () => syncAndRefresh(id));
+           e.addEventListener("change", () => syncAndRefresh(id));
+        }
+      });
+      
+      $("#autoSwitch").addEventListener("change", (e) => {
+        state.auto = e.target.checked;
+        if (state.auto) refreshAuto();
+        setAutoUI();
+        calculate();
+      });
+      
+      $("#envManual").onclick = () => setEnv("MANUAL");
+      $("#envCnc").onclick = () => setEnv("CNC");
+      $("#saveBtn").onclick = saveCuttingData;
+      $("#cancelBtn").onclick = () => { if(confirm("Nulstil til sidste indlæsning?")) { state = loadState(); renderAll(); toast("Nulstillet"); }};
+      
+      $("#printBtn").onclick = () => window.print();
+      $("#clearListBtn").onclick = () => { if(confirm("Ryd loggen?")) { state.saved = []; save(); renderSaved(); }};
+      
+      $("#copyBtn").onclick = async () => {
+        calculate();
+        const t = `Materiale: ${state.material}\nVærktøj: Ø${state.diameter} ${state.geometry}\nVc: ${$("#outVc").value} m/min\nRPM: ${$("#outRpm").value}\nTilsp.: ${$("#outFeed").value} ${$("#feedUnit").textContent}\nap: ${state.ap} mm`;
+        try { await navigator.clipboard.writeText(t); toast("Kopieret til udklipsholder"); } catch { toast("Fejl: Kunne ikke kopiere"); }
+      };
+    }
+    
+    window.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>

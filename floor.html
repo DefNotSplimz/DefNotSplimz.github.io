@@ -751,6 +751,41 @@
         line-height: 1.45;
         color: var(--muted);
       }
+
+      .fusion-shell{display:flex;flex-direction:column;gap:12px}
+      .fusion-selectbar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;background:var(--surface2);border:1px solid var(--line);padding:14px;border-radius:10px}
+      .fusion-basis{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+      .fusion-section-title{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line2);font-size:10px;font-weight:850;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+      .fusion-section-title small{font-size:8px;font-weight:750;color:var(--dim);letter-spacing:.08em}
+      .fusion-basis-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+      .fusion-basis-item{min-height:82px;padding:13px 14px;border-right:1px solid var(--line2);display:flex;flex-direction:column;justify-content:center;gap:4px}
+      .fusion-basis-item:last-child{border-right:0}
+      .fusion-basis-item span{font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+      .fusion-basis-item strong{font-size:25px;letter-spacing:-.02em}
+      .fusion-basis-item em{font-style:normal;font-size:9px;color:var(--dim)}
+      .fusion-basis-item input{width:100%;border:0;background:transparent;font-size:23px;font-weight:850;padding:0;min-height:34px;color:var(--text);outline:0}
+      .fusion-source{padding:9px 14px;border-top:1px solid var(--line2);font-size:10px;color:var(--muted);font-family:var(--mono)}
+      .fusion-group{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+      .fusion-fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+      .fusion-field{min-height:72px;padding:13px 14px;display:flex;justify-content:space-between;gap:12px;align-items:center;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+      .fusion-field:nth-child(3n){border-right:0}
+      .fusion-field:nth-last-child(-n+3){border-bottom:0}
+      .fusion-field.primary{background:#fbfaf7}
+      .fusion-field b{display:block;font-size:11px;font-weight:800}
+      .fusion-field small{display:block;margin-top:3px;font-size:9px;color:var(--muted)}
+      .fusion-field>strong{font-family:var(--mono);font-size:20px;white-space:nowrap}
+      .fusion-inline{display:flex;align-items:center;gap:6px;justify-content:flex-end;min-width:0}
+      .fusion-inline input{width:96px;min-height:34px;border:1px solid var(--line);border-radius:7px;background:#fff;padding:7px 8px;text-align:right;font-family:var(--mono);font-size:13px;font-weight:800}
+      .fusion-inline span{font-size:10px;color:var(--muted)}
+      .fusion-formulas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+      .fusion-formulas>div{padding:12px 14px;border-right:1px solid var(--line2);display:flex;flex-direction:column;gap:6px}
+      .fusion-formulas>div:last-child{border-right:0}
+      .fusion-formulas code{font-family:var(--mono);font-size:11px;font-weight:800}
+      .fusion-formulas span{font-size:9px;line-height:1.35;color:var(--muted)}
+      .fusion-note{padding:11px 14px;border-top:1px solid var(--line2);font-size:10px;line-height:1.45;color:var(--muted)}
+      @media (max-width:1050px){.fusion-selectbar{grid-template-columns:repeat(3,minmax(0,1fr))}.fusion-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.fusion-field:nth-child(3n){border-right:1px solid var(--line2)}.fusion-field:nth-child(2n){border-right:0}.fusion-field:nth-last-child(-n+3){border-bottom:1px solid var(--line2)}.fusion-field:nth-last-child(-n+2){border-bottom:0}.fusion-formulas{grid-template-columns:repeat(2,minmax(0,1fr))}.fusion-formulas>div:nth-child(2){border-right:0}.fusion-formulas>div:nth-child(-n+2){border-bottom:1px solid var(--line2)}}
+      @media (max-width:780px){.fusion-selectbar{grid-template-columns:1fr 1fr}.fusion-basis-grid{grid-template-columns:1fr 1fr}.fusion-basis-item:nth-child(2){border-right:0}.fusion-basis-item:nth-child(-n+2){border-bottom:1px solid var(--line2)}.fusion-basis-item:nth-child(3){border-right:1px solid var(--line2)}.fusion-fields{grid-template-columns:1fr}.fusion-field,.fusion-field:nth-child(3n),.fusion-field:nth-child(2n){border-right:0;border-bottom:1px solid var(--line2)}.fusion-field:last-child{border-bottom:0}.fusion-formulas{grid-template-columns:1fr}.fusion-formulas>div{border-right:0;border-bottom:1px solid var(--line2)}.fusion-formulas>div:last-child{border-bottom:0}}
+
       @media (max-width: 1050px) {
         .app {
           grid-template-columns: 210px 1fr;
@@ -1067,28 +1102,6 @@
       const GEOMETRIES = TOOL_GEOMETRIES.map((x) => x.name);
       const GEOMETRY_META = Object.fromEntries(TOOL_GEOMETRIES.map((x) => [x.name, x]));
 
-      const TOOL_GRADE_FACTOR = {
-        "HSS": 0.42, "HSS-Co": 0.50, "HSS-E": 0.55, "HSS-E-PM": 0.62, "PM-HSS": 0.62,
-        "Carbide Uncoated": 0.72, "Solid Carbide": 0.78, "AlTiN Carbide": 0.88,
-        "AlTiN / TiAlN Carbide": 0.92, "TiAlN Carbide": 0.88, "PVD Carbide": 0.85,
-        "PVD Carbide Insert": 0.88, "CVD Carbide": 0.90, "Carbide Insert": 0.82,
-        "Carbide Tipped": 0.70, "Carbide Brazed": 0.68, "Cermet": 0.88,
-        "PCD Insert": 1.00, "CBN": 0.85, "HSS / Tool Steel": 0.40, "Carbide Form": 0.72,
-        "Hardened Roll": 0.45, "DLC / Diamond-like": 0.92
-      };
-
-      const GEOMETRY_FACTOR = {
-        "Endmill": 1.00, "Roughing Endmill": 0.82, "Ballnose": 0.78, "Bullnose": 0.90,
-        "Facemill / Face Cutter": 0.92, "Chamfer Mill": 0.72, "Dovetail Mill": 0.58,
-        "T-Slot Cutter": 0.52, "Woodruff / Keyseat Cutter": 0.55, "Thread Mill": 0.48,
-        "Slitting Saw": 0.46, "Shell Mill": 0.90, "Drill": 0.52, "Stub Drill": 0.58,
-        "Spot Drill": 0.40, "Center Drill": 0.38, "Countersink": 0.34, "Counterbore": 0.42,
-        "Reamer": 0.48, "Tap": 0.36, "Boring Bar": 0.62, "OD Turning": 0.90,
-        "ID Turning / Boring": 0.72, "Profiling / Contouring": 0.68, "Grooving": 0.48,
-        "Parting / Cut-off": 0.40, "Threading": 0.34, "Chamfer / Form Tool": 0.62,
-        "Knurling Tool": 0.28, "Center / Live-Center Tool": 0.25
-      };
-
       const CUTTING_PROFILES = {
         alu6082: { vc: 120, fz: 0.025, f: 0.08 },
         alu7075: { vc: 130, fz: 0.024, f: 0.075 },
@@ -1100,20 +1113,6 @@
         nylon:   { vc: 85,  fz: 0.028, f: 0.10 },
         pmma:    { vc: 70,  fz: 0.020, f: 0.07 },
         toolsteel:{ vc: 32, fz: 0.012, f: 0.04 }
-      };
-
-      const STRATEGIES = {
-        life:    { name: "Tool Life — conservative", vc: 0.70, feed: 0.78, note: "Primary study setting: deliberately conservative to protect cutters and finish." },
-        balanced:{ name: "Balanced", vc: 0.82, feed: 0.90, note: "Still conservative; use when cycle time matters a little more." },
-        finish: { name: "Finish", vc: 0.72, feed: 0.52, note: "Lower feed for surface quality; do not increase depth of cut to compensate." },
-        rough:  { name: "Roughing — conservative", vc: 0.62, feed: 0.82, note: "Keep radial engagement low and let the cutter clear chips." }
-      };
-
-      const TOOL_BASE = {
-        mill: { hss: { name: "HSS-Co" }, hm: { name: "Carbide Uncoated" }, hm_coat: { name: "AlTiN Carbide" } },
-        turn: { hss: { name: "HSS" }, iso: { name: "PVD Carbide" } },
-        drill:{ hss: { name: "HSS-Co" }, hm: { name: "Solid Carbide" } },
-        tap:  { hss: { name: "HSS-E" }, hm: { name: "PM-HSS" } }
       };
 
       const HARD = {
@@ -1808,216 +1807,253 @@
         if (v.startsWith("crib:")) return store.tools.find((t) => t.id === v.slice(5)) || null;
         return null;
       }
-      function gradeFactor(grade) {
-        return TOOL_GRADE_FACTOR[grade] ?? 0.72;
-      }
       function geometryMeta(name) {
         return GEOMETRY_META[name] || GEOMETRY_META.Endmill;
       }
-      function sfFieldVisibility(geom) {
-        const tapLike = ["Tap", "Threading", "Thread Mill"].includes(geom);
-        const drillLike = ["Drill", "Stub Drill", "Spot Drill", "Center Drill", "Countersink", "Counterbore", "Reamer"].includes(geom);
-        const turnLike = !!GEOMETRY_META[geom]?.type && GEOMETRY_META[geom].type === "turn";
-        document.getElementById("sfAeField")?.classList.toggle("hidden", turnLike || drillLike || tapLike);
-        document.getElementById("sfApField")?.classList.toggle("hidden", turnLike ? false : drillLike || tapLike);
-        document.getElementById("sfPitchField")?.classList.toggle("hidden", !tapLike);
-      }
       function cut() {
         const sf = store.sf || {};
-        const job = jobBy(sf.projectId) || activeJob();
+        const job = activeJob();
         const projectId = job?.id || "";
         const candidates = projectToolCandidates(job);
-        const machineKey = job?.machineKey || sf.machine || "mini";
-        const machine = MACHINES[machineKey] || MACHINES.mini;
-        const selectedTool = store.tools.find((t) => t.id === (sf.tool || "").replace(/^crib:/, ""));
-        const selectedGeometry = selectedTool?.geometry || sf.operation || "Endmill";
-        const mopts = Object.entries(MACHINES).map(([k, m]) => `<option value="${k}" ${machineKey === k ? "selected" : ""}>${m.name}</option>`).join("");
-        const matopts = Object.entries(MATERIALS).map(([k, m]) => `<option value="${k}" ${job?.material === k || sf.mat === k ? "selected" : ""}>${m.name}</option>`).join("");
-        const hardopts = Object.entries(HARD).map(([k, m]) => `<option value="${k}" ${sf.hardness === k || (!sf.hardness && k === "standard") ? "selected" : ""}>${m.name}</option>`).join("");
-        const toolOpts = candidates.map((t) => `<option value="crib:${esc(t.id)}" ${sf.tool === "crib:"+t.id ? "selected" : ""}>${esc(t.loc)} · ${esc(t.name)} · ${esc(t.geometry)} · ${esc(t.gradeFamily || "")}</option>`).join("");
-        const hasTools = candidates.length;
-        return (
-          base("ENGINEERING","Cutting Data",
-            `Conservative starting data for the <strong>${esc(job?.part || "selected project")}</strong>. The engine prioritises tool life and finish over cycle time.`,
-            `<button class="btn" onclick="copySF()">Copy Values</button> <button class="btn primary" onclick="saveSFToProject()">Save to Project</button> <button class="btn" onclick="printView('Cutting Data Sheet')">Print</button>`) +
-          `${job ? `<div class="callout good" style="margin-bottom:14px"><strong>${esc(job.part)} · ${esc(machine.name)}</strong><div class="help" style="margin-top:4px">${hasTools} compatible project tool(s) available. ${STRATEGIES[sf.strategy || "life"]?.note || STRATEGIES.life.note}</div></div>` :
-            `<div class="callout warn" style="margin-bottom:14px"><strong>No project selected.</strong><div class="help" style="margin-top:4px">Create/select a project to make Tooling and Cutting Data project-aware.</div></div>`}` +
-          `<div class="layout"><div class="stack">${card("Project / Machine / Tool",
-            `<div class="grid g2">
-              <div class="field"><label>Project</label><select id="sfProject" onchange="changeSFProject()">${jobOptions(projectId)}</select></div>
-              <div class="field"><label>Machine</label><select id="sfMachine" onchange="calcSF()">${mopts}</select></div>
-              <div class="field"><label>Material</label><select id="sfMat" onchange="calcSF()">${matopts}</select></div>
-              <div class="field"><label>Material Condition</label><select id="sfHard" onchange="calcSF()">${hardopts}</select></div>
-              <div class="field" style="grid-column:1/-1"><label>Project Tooling</label><select id="sfTool" onchange="toolSelectionChanged()"><option value="">Select a project tool</option>${toolOpts || '<option value="">No compatible tools assigned</option>'}</select></div>
-              <div class="field"><label>Strategy</label><select id="sfStrategy" onchange="calcSF()">
-                ${Object.entries(STRATEGIES).map(([k,v]) => `<option value="${k}" ${sf.strategy === k || (!sf.strategy && k === "life") ? "selected" : ""}>${v.name}</option>`).join("")}
-              </select></div>
-              <div class="field"><label>Tool Geometry</label><div class="math-output" id="sfGeometry">${esc(selectedGeometry)}</div></div>
-              <div class="field"><label>Diameter / Work Ø (mm)</label><input class="input" id="sfD" type="number" step="any" value="${sf.D ?? selectedTool?.D ?? 10}" oninput="calcSF()"></div>
-              <div class="field"><label>Flutes / Teeth Z</label><input class="input" id="sfZ" type="number" step="1" value="${sf.Z ?? selectedTool?.Z ?? 4}" oninput="calcSF()"></div>
-              <div class="field"><label>Stickout L (mm)</label><input class="input" id="sfL" type="number" step="any" value="${sf.L ?? selectedTool?.L ?? 30}" oninput="calcSF()"></div>
-              <div class="field" id="sfPitchField"><label>Pitch P (mm)</label><input class="input" id="sfPitch" type="number" step="any" value="${sf.pitch ?? selectedTool?.pitch ?? 1.25}" oninput="calcSF()"></div>
-              <div class="field" id="sfAeField"><label>Radial ae (mm)</label><input class="input" id="sfAe" type="number" step="any" value="${sf.ae ?? 1.5}" oninput="calcSF()"></div>
-              <div class="field" id="sfApField"><label>Axial ap (mm)</label><input class="input" id="sfAp" type="number" step="any" value="${sf.ap ?? 4}" oninput="calcSF()"></div>
+        
+        const machineKey = sf.machine || job?.machineKey || "mini";
+        const mopts = Object.entries(MACHINES).map(([k, m]) => `<option value="${k}" ${machineKey === k ? "selected" : ""}>${esc(m.name)} (Max ${m.rpm} RPM)</option>`).join("");
+        
+        const matKey = sf.mat || job?.material || "alu6082";
+        const matopts = Object.entries(MATERIALS).map(([k, m]) => `<option value="${k}" ${matKey === k ? "selected" : ""}>${esc(m.name)}</option>`).join("");
+        
+        const toolOpts = candidates.map((t) => `<option value="crib:${esc(t.id)}" ${sf.tool === "crib:"+t.id ? "selected" : ""}>${esc(t.loc)} · ${esc(t.name)}</option>`).join("");
+
+        const selectedGeom = sf.operation || "Endmill";
+        const geomOpts = GEOMETRIES.map(g => `<option value="${esc(g)}" ${selectedGeom === g ? "selected" : ""}>${esc(g)}</option>`).join("");
+
+        const meta = geometryMeta(selectedGeom);
+        const grades = meta.grades || ["Carbide Uncoated"];
+        const selectedGrade = sf.grade || grades[0];
+        const gradeOpts = grades.map(g => `<option value="${esc(g)}" ${selectedGrade === g ? "selected" : ""}>${esc(g)}</option>`).join("");
+
+        return base(
+          "ENGINEERING", "Cutting Data",
+          "A raw, physics-based machinist calculator. Select material to get safe baseline defaults, then override target Vc and fz to calculate exact machine feeds and RPM.",
+          `<button class="btn" onclick="copySF()">Copy Code</button> <button class="btn primary" onclick="saveSFToProject()">Save to Project</button> <button class="btn" onclick="printView('Cutting Data Sheet')">Print</button>`
+        ) +
+        `<div class="layout"><div class="stack">
+          ${card("Machine & Material", `
+            <div class="grid g2">
+              <div class="field" style="grid-column:1/-1"><label>Project Context</label><select id="sfProject" class="input" onchange="changeSFProject()"><option value="">No Project Linked</option>${jobOptions(projectId)}</select></div>
+              <div class="field"><label>Machine Limit</label><select id="sfMachine" class="input" onchange="calcSF()">${mopts}</select></div>
+              <div class="field"><label>Workpiece Material</label><select id="sfMat" class="input" onchange="applyDefaultsSF()">${matopts}</select></div>
             </div>
-            <div class="help" style="margin-top:12px">For manual machines, feed is a reference for hand-feed rate rather than a commanded value. The displayed values are deliberately conservative starting points for a school/workshop environment. Manufacturer data, actual tool condition, holder stiffness, workholding and engagement always take precedence.</div>`
-          )}${card("Cutting Assumptions",
-            `<div id="sfFlags"></div><div id="sfBasis" class="help" style="margin-top:8px"></div>`
-          )}</div>
-          <div class="stack"><div class="grid g2">
-            <div class="card metric"><div class="metric-label">Spindle</div><div class="metric-val accent" id="sfRpm">—</div><div class="metric-sub">RPM</div></div>
-            <div class="card metric"><div class="metric-label">Feed</div><div class="metric-val accent" id="sfVf">—</div><div class="metric-sub" id="sfVfUnit">mm/min</div></div>
-            <div class="card metric"><div class="metric-label">Cutting Speed</div><div class="metric-val" id="sfVc">—</div><div class="metric-sub">Vc · m/min</div></div>
-            <div class="card metric"><div class="metric-label">Chip Load / Feed</div><div class="metric-val" id="sfFz">—</div><div class="metric-sub" id="sfFzUnit">fz · mm/tooth</div></div>
-            <div class="card metric"><div class="metric-label">MRR / Removal</div><div class="metric-val" id="sfMrr">—</div><div class="metric-sub">cm³/min where applicable</div></div>
-            <div class="card metric"><div class="metric-label">L/D</div><div class="metric-val" id="sfLd">—</div><div class="metric-sub">stickout / diameter</div></div>
-          </div>
-          ${card("Decision Rule", `<div class="callout good"><strong>Start low, listen, inspect, then increase.</strong><div class="help" style="margin-top:4px">The target is stable cutting, acceptable finish and long tool life — not maximum material removal.</div></div>`)}
-          ${card("Formula Reference", `<div class="ref-grid"><div class="ref-item"><div class="ref-code">n = Vc × 1000 / (π × D)</div><div class="ref-text">Spindle speed from cutting speed and diameter.</div></div><div class="ref-item"><div class="ref-code">Vf = n × Z × fz</div><div class="ref-text">Milling feed rate from RPM, tooth count and chip load.</div></div><div class="ref-item"><div class="ref-code">f<sub>tap</sub> = pitch</div><div class="ref-text">Synchronous tapping feed reference.</div></div></div>`)}
-          </div></div>`
-        );
+          `)}
+          ${card("Tool Configuration", `
+            <div class="grid g2">
+              <div class="field" style="grid-column:1/-1"><label>Load Tool from Crib (Optional)</label><select id="sfTool" class="input" onchange="loadToolSF()"><option value="">Manual Entry</option>${toolOpts}</select></div>
+              <div class="field"><label>Geometry</label><select id="sfGeom" class="input" onchange="updateSFGrades()">${geomOpts}</select></div>
+              <div class="field"><label>Grade / Coating</label><select id="sfGrade" class="input" onchange="applyDefaultsSF()">${gradeOpts}</select></div>
+              <div class="field"><label>Diameter D (mm)</label><input id="sfD" class="input" type="number" step="any" value="${sf.D ?? 10}" oninput="calcSF()"></div>
+              <div class="field"><label>Teeth / Flutes Z</label><input id="sfZ" class="input" type="number" step="1" value="${sf.Z ?? 4}" oninput="calcSF()"></div>
+              <div class="field"><label>Stickout L (mm)</label><input id="sfL" class="input" type="number" step="any" value="${sf.L ?? 30}" oninput="calcSF()"></div>
+              <div class="field" id="sfPitchField"><label>Pitch P (mm)</label><input id="sfPitch" class="input" type="number" step="any" value="${sf.pitch ?? 1.25}" oninput="calcSF()"></div>
+            </div>
+          `)}
+          ${card("Target Parameters", `
+            <div class="grid g2">
+              <div class="field"><label>Target Vc (m/min)</label><input id="sfVcIn" class="input" type="number" step="any" value="${sf.vcIn ?? ""}" oninput="calcSF()" style="color:var(--accent);font-weight:900"></div>
+              <div class="field"><label>Target fz / f (mm)</label><input id="sfFzIn" class="input" type="number" step="any" value="${sf.fzIn ?? ""}" oninput="calcSF()" style="color:var(--accent);font-weight:900"></div>
+              <div class="field" id="sfAeField"><label>Radial ae (mm)</label><input id="sfAe" class="input" type="number" step="any" value="${sf.ae ?? 2}" oninput="calcSF()"></div>
+              <div class="field" id="sfApField"><label>Axial ap (mm)</label><input id="sfAp" class="input" type="number" step="any" value="${sf.ap ?? 5}" oninput="calcSF()"></div>
+            </div>
+            <div class="actions" style="margin-top:12px;justify-content:flex-start">
+              <button class="btn small" onclick="applyDefaultsSF()">Load Material Defaults</button>
+            </div>
+          `)}
+        </div>
+        <div class="stack">
+          ${card("Machine Output", `
+            <div class="grid g2">
+              <div class="card metric"><div class="metric-label">Spindle Speed</div><div class="metric-val accent" id="sfRpmOut" style="font-size:36px">—</div><div class="metric-sub">RPM (Clamped to Max)</div></div>
+              <div class="card metric"><div class="metric-label">Feedrate (Vf)</div><div class="metric-val accent" id="sfVfOut" style="font-size:36px">—</div><div class="metric-sub" id="sfVfUnitOut">mm/min</div></div>
+              <div class="card metric"><div class="metric-label">Actual Vc</div><div class="metric-val" id="sfVcOut">—</div><div class="metric-sub">m/min (Limited by RPM)</div></div>
+              <div class="card metric"><div class="metric-label">Effective feed</div><div class="metric-val" id="sfFzOut">—</div><div class="metric-sub" id="sfFzUnitOut">mm/tooth</div></div>
+              <div class="card metric"><div class="metric-label">MRR</div><div class="metric-val" id="sfMrrOut">—</div><div class="metric-sub">cm³/min</div></div>
+              <div class="card metric"><div class="metric-label">L/D Ratio</div><div class="metric-val" id="sfLdOut">—</div><div class="metric-sub">Stickout / Ø</div></div>
+            </div>
+          `)}
+          ${card("Process Diagnostics", `<div id="sfFlags"></div>`)}
+        </div></div>`;
       }
+
       function changeSFProject() {
         const id = document.getElementById("sfProject").value;
-        const job = jobBy(id);
         store.selectedProject = id;
         store.sf.projectId = id;
-        store.sf.machine = job?.machineKey || store.sf.machine;
-        store.sf.mat = job?.material || store.sf.mat;
-        const first = projectToolCandidates(job)[0];
-        store.sf.tool = first ? "crib:" + first.id : "";
         save();
         render();
       }
-      function toolSelectionChanged() {
-        const v = document.getElementById("sfTool").value;
-        const t = toolBySelection(v);
+
+      function updateSFGrades() {
+        const geom = document.getElementById("sfGeom").value;
+        const meta = geometryMeta(geom);
+        const grades = meta.grades || ["Carbide Uncoated", "HSS-Co"];
+        document.getElementById("sfGrade").innerHTML = grades.map(g => `<option value="${esc(g)}">${esc(g)}</option>`).join("");
+        applyDefaultsSF();
+      }
+
+      function loadToolSF() {
+        const tk = document.getElementById("sfTool").value;
+        const t = toolBySelection(tk);
         if (t) {
+          document.getElementById("sfGeom").value = t.geometry || "Endmill";
+          updateSFGrades(); // Generates grades list
+          document.getElementById("sfGrade").value = t.gradeFamily || document.getElementById("sfGrade").options[0].value;
           document.getElementById("sfD").value = t.D || 10;
           document.getElementById("sfZ").value = t.Z || 1;
           document.getElementById("sfL").value = t.L || 0;
           document.getElementById("sfPitch").value = t.pitch || 1.25;
-          document.getElementById("sfGeometry").textContent = t.geometry;
         }
-        calcSF();
+        applyDefaultsSF();
       }
-      function calcSF() {
-        const m = MACHINES[document.getElementById("sfMachine").value] || MACHINES.mini;
+
+      function applyDefaultsSF() {
         const matKey = document.getElementById("sfMat").value;
-        const profile = CUTTING_PROFILES[matKey] || CUTTING_PROFILES.alu6082;
-        const hard = HARD[document.getElementById("sfHard").value] || HARD.standard;
-        const stratKey = document.getElementById("sfStrategy").value || "life";
-        const strategy = STRATEGIES[stratKey] || STRATEGIES.life;
-        const tk = document.getElementById("sfTool").value;
-        const customTool = toolBySelection(tk);
-        const geometry = customTool?.geometry || document.getElementById("sfGeometry").textContent || "Endmill";
-        const meta = geometryMeta(geometry);
-        const grade = customTool?.gradeFamily || (m.type === "turn" ? "PVD Carbide" : "Carbide Uncoated");
-        const geomFactor = GEOMETRY_FACTOR[geometry] || 0.72;
-        const gFactor = gradeFactor(grade);
-        const D = Math.max(0.001, +document.getElementById("sfD").value || 1);
+        const geom = document.getElementById("sfGeom").value;
+        const grade = document.getElementById("sfGrade").value;
+        
+        const mat = CUTTING_PROFILES[matKey] || CUTTING_PROFILES.alu6082;
+        const meta = geometryMeta(geom);
+        const geomF = GEOMETRY_FACTOR[geom] || 1;
+        const gradeF = gradeFactor(grade);
+        
+        let vc = mat.vc * geomF * gradeF;
+        if (meta.type === "turn" && grade.includes("HSS")) vc *= 0.8;
+        if (geom === "Facemill / Face Cutter") vc *= 0.95;
+        
+        let fz = mat.fz * geomF * gradeF;
+        if (meta.type === "turn") {
+            fz = mat.f * geomF; 
+            if (geom === "Knurling Tool") fz = Math.min(fz, 0.08);
+        } else if (["Drill", "Stub Drill", "Spot Drill", "Center Drill", "Countersink", "Counterbore", "Reamer", "Tap"].includes(geom)) {
+            fz = mat.f * geomF;
+            if (geom === "Reamer") fz *= 0.5;
+        }
+
+        document.getElementById("sfVcIn").value = vc.toFixed(1);
+        document.getElementById("sfFzIn").value = fz.toFixed(4);
+        calcSF();
+    }
+
+    function calcSF() {
+        const m = MACHINES[document.getElementById("sfMachine").value] || MACHINES.mini;
+        const geom = document.getElementById("sfGeom").value;
+        const meta = geometryMeta(geom);
+        const D = Math.max(0.001, +document.getElementById("sfD").value || 10);
         const Z = Math.max(1, +document.getElementById("sfZ").value || 1);
         const L = Math.max(0, +document.getElementById("sfL").value || 0);
         const ae = Math.max(0, +document.getElementById("sfAe").value || 0);
         const ap = Math.max(0, +document.getElementById("sfAp").value || 0);
-        const pitch = Math.max(0, +document.getElementById("sfPitch").value || customTool?.pitch || 0);
-        let vc = profile.vc * gFactor * geomFactor * strategy.vc * hard.mult;
-        if (m.type === "turn" && grade === "HSS") vc *= 0.80;
-        if (m.type === "mill" && geometry === "Facemill / Face Cutter") vc *= 0.95;
-        let n = Math.min((vc * 1000) / (Math.PI * D), m.rpm);
-        let feed = 0, fz = 0, mrr = 0, ld = "N/A";
+        const pitch = Math.max(0, +document.getElementById("sfPitch").value || 0);
+        
+        const vcIn = Math.max(0, +document.getElementById("sfVcIn").value || 0);
+        const fzIn = Math.max(0, +document.getElementById("sfFzIn").value || 0);
+
+        let idealRpm = (vcIn * 1000) / (Math.PI * D);
+        let rpm = Math.min(idealRpm, m.rpm);
+        let actualVc = (rpm * Math.PI * D) / 1000;
+        
+        let feed = 0, actualFz = fzIn, mrr = 0, ld = D ? (L/D).toFixed(2) : "—";
         const flags = [];
-        const inputRPM = (vc * 1000) / (Math.PI * D);
+
         if (meta.type === "turn") {
-          const turningFeed = profile.f * GEOMETRY_FACTOR[geometry] * strategy.feed * Math.sqrt(hard.mult);
-          feed = turningFeed;
-          mrr = D > 0 ? (Math.PI * D * ap * feed * n) / 1000 : 0;
-          document.getElementById("sfAeField").classList.add("hidden");
-          document.getElementById("sfApField").classList.remove("hidden");
-          if (["Threading"].includes(geometry) && pitch > 0) feed = pitch;
-          if (geometry === "Knurling Tool") feed = Math.min(feed, 0.08);
-        } else if (["Tap","Thread Mill","Threading"].includes(geometry)) {
-          fz = pitch || 1;
-          feed = geometry === "Tap" ? pitch * n : n * Math.min(0.02, pitch / Math.max(1, Z));
-          mrr = (ap * ae * feed) / 1000;
-          ld = D ? (L / D).toFixed(2) : "N/A";
-        } else if (["Drill","Stub Drill","Spot Drill","Center Drill","Countersink","Counterbore","Reamer"].includes(geometry)) {
-          feed = Math.min(0.18, Math.max(0.025, D * profile.f * strategy.feed * GEOMETRY_FACTOR[geometry]));
-          if (geometry === "Reamer") feed = Math.min(0.12, Math.max(0.04, D * 0.01 * strategy.feed));
-          fz = feed;
-          mrr = (Math.PI * D * D / 4 * feed * n) / 1000;
-          document.getElementById("sfAeField").classList.add("hidden");
-          document.getElementById("sfApField").classList.remove("hidden");
-          ld = D ? (L / D).toFixed(2) : "N/A";
+            feed = fzIn * rpm; 
+            if (["Threading"].includes(geom) && pitch > 0) feed = pitch * rpm;
+            mrr = D > 0 ? (Math.PI * D * ap * fzIn * rpm) / 1000 : 0;
+            document.getElementById("sfAeField").classList.add("hidden");
+            document.getElementById("sfApField").classList.remove("hidden");
+            document.getElementById("sfFzUnitOut").textContent = "mm/rev";
+            document.getElementById("sfVfUnitOut").textContent = "mm/min";
+        } else if (["Tap", "Thread Mill", "Threading"].includes(geom)) {
+            actualFz = pitch || 1;
+            feed = geom === "Tap" ? pitch * rpm : rpm * Z * actualFz;
+            mrr = (ap * ae * feed) / 1000;
+            document.getElementById("sfAeField").classList.add("hidden");
+            document.getElementById("sfApField").classList.remove("hidden");
+            document.getElementById("sfFzUnitOut").textContent = "mm/rev (Pitch)";
+            document.getElementById("sfVfUnitOut").textContent = "mm/min";
+        } else if (["Drill", "Stub Drill", "Spot Drill", "Center Drill", "Countersink", "Counterbore", "Reamer"].includes(geom)) {
+            feed = fzIn * rpm;
+            mrr = ((Math.PI * D * D / 4) * feed) / 1000;
+            document.getElementById("sfAeField").classList.add("hidden");
+            document.getElementById("sfApField").classList.remove("hidden");
+            document.getElementById("sfFzUnitOut").textContent = "mm/rev";
+            document.getElementById("sfVfUnitOut").textContent = "mm/min";
         } else {
-          const diameterScale = Math.sqrt(Math.max(0.5, D / 10));
-          fz = profile.fz * gFactor * geomFactor * strategy.feed * diameterScale * Math.sqrt(hard.mult);
-          if (ae > 0 && ae < D * 0.5) fz *= Math.min(Math.sqrt(D / ae), 1.8);
-          feed = n * Z * fz;
-          mrr = (ap * ae * feed) / 1000;
-          ld = D ? (L / D).toFixed(2) : "N/A";
-          document.getElementById("sfAeField").classList.remove("hidden");
-          document.getElementById("sfApField").classList.remove("hidden");
+            let chipThinning = 1;
+            if (ae > 0 && ae < D / 2) {
+                chipThinning = Math.min(Math.sqrt(D / ae), 3);
+            }
+            actualFz = fzIn * chipThinning;
+            feed = rpm * Z * actualFz;
+            mrr = (ap * ae * feed) / 1000;
+            document.getElementById("sfAeField").classList.remove("hidden");
+            document.getElementById("sfApField").classList.remove("hidden");
+            document.getElementById("sfFzUnitOut").textContent = "mm/tooth (Programmed)";
+            document.getElementById("sfVfUnitOut").textContent = "mm/min";
+            if (ae > 0 && ae < D/2) flags.push(`Radial chip thinning active. Multiplier: ${chipThinning.toFixed(2)}×. Base fz: ${fzIn} → Programmed fz: ${actualFz.toFixed(4)}.`);
         }
-        if (!Number.isFinite(feed)) feed = 0;
-        if (!Number.isFinite(mrr)) mrr = 0;
-        if (inputRPM > m.rpm) flags.push(`Spindle limited by ${m.name}: ${m.rpm} RPM.`);
-        if (L && D && L / D >= 4) flags.push(`High L/D ratio: ${ld}× — reduce engagement/feed further if chatter or deflection appears.`);
-        if (meta.type !== "turn" && !(["Drill","Stub Drill","Spot Drill","Center Drill","Countersink","Counterbore","Reamer","Tap"].includes(geometry)) && (!ae || !ap)) flags.push("Set ae and ap for a meaningful milling load estimate.");
-        if (customTool?.condition === "Worn" || customTool?.condition === "Sharpen") flags.push(`Tool condition is ${customTool.condition.toLowerCase()}: do not reuse new-tool data blindly.`);
-        if (customTool?.condition === "Damaged") flags.push("Selected tool is marked damaged and should not be used.");
-        if (ae > D && meta.type === "mill") flags.push("ae exceeds tool diameter — verify operation.");
-        if (!customTool) flags.push("No project tool selected; displayed values use generic grade assumptions.");
-        const toolMaterialText = customTool ? `${customTool.geometry} · ${customTool.gradeFamily || "grade not set"}` : "Generic cutter assumption";
-        document.getElementById("sfRpm").textContent = Math.round(n).toLocaleString("en-GB");
-        document.getElementById("sfVf").textContent = meta.type === "turn" ? feed.toFixed(3) : Math.round(feed).toLocaleString("en-GB");
-        document.getElementById("sfVfUnit").textContent = meta.type === "turn" ? "mm/rev" : "mm/min";
-        document.getElementById("sfVc").textContent = Math.round(n * Math.PI * D / 1000);
-        document.getElementById("sfFz").textContent = fz.toFixed(3);
-        document.getElementById("sfFzUnit").textContent = meta.type === "turn" ? "f · mm/rev" : (geometry === "Tap" ? "pitch · mm/rev" : "fz · mm/tooth");
-        document.getElementById("sfMrr").textContent = meta.type === "turn" || meta.type === "mill" ? mrr.toFixed(2) : "—";
-        document.getElementById("sfLd").textContent = ld;
-        sfFieldVisibility(geometry);
-        document.getElementById("sfFlags").innerHTML = flags.length
-          ? flags.map((x) => `<div class="callout warn" style="margin-bottom:7px">${esc(x)}</div>`).join("")
-          : `<div class="callout good"><strong>Conservative starting point.</strong><div class="help" style="margin-top:3px">Based on ${esc(toolMaterialText)}, ${esc(MATERIALS[matKey]?.name || matKey)} and ${esc(strategy.name)}.</div></div>`;
-        document.getElementById("sfBasis").textContent = `Calculation basis: conservative material reference Vc ${profile.vc} m/min × grade factor ${gFactor.toFixed(2)} × geometry factor ${geomFactor.toFixed(2)} × strategy factor ${strategy.vc.toFixed(2)}. These are starting values, not guaranteed manufacturer limits.`;
+
+        if (idealRpm > m.rpm) flags.push(`Spindle clamped. Target was ${Math.round(idealRpm)} RPM, machine limited to ${m.rpm} RPM. Actual Vc drops to ${actualVc.toFixed(1)} m/min.`);
+        if (L && D && L/D >= 4) flags.push(`L/D Ratio is ${ld}. Watch for deflection or chatter. Deflection increases by a power of 3 relative to stickout.`);
+        if (meta.type === "mill" && ae > D) flags.push(`Radial engagement (ae) exceeds cutter diameter. Invalid geometry parameters.`);
+
+        document.getElementById("sfRpmOut").textContent = Math.round(rpm).toLocaleString("en-GB");
+        document.getElementById("sfVfOut").textContent = Math.round(feed).toLocaleString("en-GB");
+        document.getElementById("sfVcOut").textContent = actualVc.toFixed(1);
+        document.getElementById("sfFzOut").textContent = actualFz.toFixed(4);
+        document.getElementById("sfMrrOut").textContent = Number.isFinite(mrr) ? mrr.toFixed(2) : "—";
+        document.getElementById("sfLdOut").textContent = ld;
+
+        document.getElementById("sfPitchField")?.classList.toggle("hidden", !["Tap", "Threading", "Thread Mill"].includes(geom));
+
+        document.getElementById("sfFlags").innerHTML = flags.length 
+            ? flags.map(x => `<div class="callout warn" style="margin-bottom:8px">${esc(x)}</div>`).join("")
+            : `<div class="callout good">No limit flags. Data is structurally sound.</div>`;
+
         store.sf = {
-          projectId: document.getElementById("sfProject")?.value || activeJob()?.id || "",
-          machine: document.getElementById("sfMachine").value,
-          mat: matKey,
-          hardness: document.getElementById("sfHard").value,
-          tool: tk,
-          operation: geometry,
-          grade: grade,
-          strategy: stratKey,
-          D, Z, L, ae, ap, pitch
+            projectId: document.getElementById("sfProject").value,
+            machine: document.getElementById("sfMachine").value,
+            mat: document.getElementById("sfMat").value,
+            tool: document.getElementById("sfTool").value,
+            operation: geom,
+            grade: document.getElementById("sfGrade").value,
+            D, Z, L, pitch, ae, ap, vcIn, fzIn
         };
         save();
-      }
-      function copySF() {
-        const t = `S${document.getElementById("sfRpm").textContent} F${document.getElementById("sfVf").textContent} | Vc ${document.getElementById("sfVc").textContent} m/min | ${document.getElementById("sfFzUnit").textContent} ${document.getElementById("sfFz").textContent}`;
+    }
+
+    function copySF() {
+        const t = `S${document.getElementById("sfRpmOut").textContent.replace(",","")} F${document.getElementById("sfVfOut").textContent.replace(",","")} | Vc ${document.getElementById("sfVcOut").textContent} m/min | Fz/F ${document.getElementById("sfFzOut").textContent}`;
         navigator.clipboard?.writeText(t).then(() => toast("Cutting values copied")).catch(() => toast(t));
-      }
-      function saveSFToProject() {
+    }
+
+    function saveSFToProject() {
         const j = jobBy(document.getElementById("sfProject")?.value) || activeJob();
-        if (!j) return toast("Create a project first");
+        if (!j) return toast("Create a project first to link data");
         const selectedTool = toolBySelection(document.getElementById("sfTool")?.value || "");
         j.cuttingData = {
           ...store.sf,
-          toolName: selectedTool?.name || "",
-          toolLoc: selectedTool?.loc || "",
+          toolName: selectedTool?.name || document.getElementById("sfGeom").value,
+          toolLoc: selectedTool?.loc || "Manual Entry",
           machineName: MACHINES[store.sf.machine]?.name || "",
-          rpm: document.getElementById("sfRpm").textContent,
-          feed: document.getElementById("sfVf").textContent,
-          vc: document.getElementById("sfVc").textContent,
-          fz: document.getElementById("sfFz").textContent,
+          rpm: document.getElementById("sfRpmOut").textContent,
+          feed: document.getElementById("sfVfOut").textContent,
+          vc: document.getElementById("sfVcOut").textContent,
+          fz: document.getElementById("sfFzOut").textContent,
           updated: today()
         };
         store.selectedProject = j.id;
         save();
-        toast("Conservative cutting data saved to project");
-      }
+        toast("Raw cutting data saved to project");
+    }
 
       function log() {
         const job = activeJob();
@@ -2293,7 +2329,7 @@
             <div class="help" style="margin-top:10px"><strong>PROJECT</strong> · ${esc(assignments)}</div>
             <div class="help" style="margin-top:5px"><strong>HOLDER</strong> · ${esc(t.holder || "—")} · LC ${fmt(t.LC,1)} mm${t.noseRadius ? ` · rε ${fmt(t.noseRadius,2)} mm` : ""}${t.pitch ? ` · P ${fmt(t.pitch,3)} mm` : ""}</div>
             <div class="help" style="margin-top:5px">${esc(t.notes || "")}</div>
-            <div class="actions" style="justify-content:flex-start;margin-top:12px"><button class="btn small" onclick="editTool('${esc(t.id)}')">Edit</button><button class="btn small" onclick="useToolInSF('${esc(t.id)}')">Use in S&F</button><button class="btn small danger" onclick="retireTool('${esc(t.id)}')">Retire</button></div>
+            <div class="actions" style="justify-content:flex-start;margin-top:12px"><button class="btn small" onclick="editTool('${esc(t.id)}')">Edit</button><button class="btn small danger" onclick="retireTool('${esc(t.id)}')">Retire</button></div>
           </div>`;
         }).join("") || '<div class="help">No tools match the current filters.</div>';
 
@@ -2392,16 +2428,7 @@
         t.condition = "Damaged";
         save(); render(); toast("Tool marked damaged");
       }
-      function useToolInSF(id) {
-        const t = store.tools.find((x) => x.id === id);
-        if (!t) return;
-        const job = activeJob();
-        if (job && t.projectIds?.length && !t.projectIds.includes(job.id)) store.selectedProject = t.projectIds[0];
-        store.sf.projectId = store.selectedProject || job?.id || "";
-        store.sf.tool = "crib:" + id;
-        store.active = "cut";
-        save(); render();
-      }
+      function useToolInSF(id) { store.active = "cut"; store.sf.tool = ""; save(); render(); }
 
       function machines() {
         return (
@@ -2424,7 +2451,7 @@
         save();
         render();
       }
-      function desk() {
+function desk() {
         return (
           base(
             "ENGINEERING",
@@ -2434,19 +2461,14 @@
           `<div class="tabs" id="deskTabs">${["iso", "thread", "drill", "chamfer", "trig", "bc", "taper", "surface", "units", "codes", "formulas"].map((x, i) => `<button class="tab ${i === 0 ? "active" : ""}" data-desk="${x}">${{ iso: "ISO FITS", thread: "THREADS", drill: "DRILLS", chamfer: "CHAMFER", trig: "TRIG", bc: "BOLT CIRCLE", taper: "TAPER", surface: "SURFACE FINISH", units: "UNITS", codes: "G & M CODES", formulas: "FORMULAS" }[x]}</button>`).join("")}</div><div id="deskBody">${deskView("iso")}</div>`
         );
       }
+
       function deskView(t) {
         if (t === "iso")
-          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Nominal Size Ø / L (mm)</label><input class="input" id="isoD" type="number" value="25" oninput="calcDeskIso()"></div><div class="field"><label>Fit Class</label><select id="isoC" onchange="calcDeskIso()">${Object.keys(
-            ISO.classes
-          )
-            .map((c) => `<option>${c}</option>`)
-            .join(
-              ""
-            )}</select></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Minimum</div><div class="metric-val" id="isoMin">—</div></div><div class="card metric"><div class="metric-label">Maximum</div><div class="metric-val" id="isoMax">—</div></div></div></div>`;
+          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Nominal Size Ø / L (mm)</label><input class="input" id="isoD" type="number" value="25" oninput="calcDeskIso()"></div><div class="field"><label>Fit Class</label><select id="isoC" onchange="calcDeskIso()">${Object.keys(ISO.classes).map((c) => `<option>${c}</option>`).join("")}</select></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Minimum</div><div class="metric-val" id="isoMin">—</div></div><div class="card metric"><div class="metric-label">Maximum</div><div class="metric-val" id="isoMax">—</div></div></div></div>`;
         if (t === "thread")
-          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Nominal Thread Ø</label><input class="input" id="thD" type="number" value="8" oninput="calcDeskThread()"></div><div class="field"><label>Pitch P (mm)</label><input class="input" id="thP" type="number" value="1.25" oninput="calcDeskThread()"></div><div class="field"><label>Thread Form</label><select id="thKind" onchange="calcDeskThread()"><option>Cut Tap</option><option>Form Tap</option></select></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Recommended Drill</div><div class="metric-val accent" id="thDrill">—</div></div><div class="card metric"><div class="metric-label">Thread Depth</div><div class="metric-val" id="thDepth">—</div><div class="metric-sub">1.5 × D reference</div></div></div></div>`;
+          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Nominal Thread Ø</label><input class="input" id="thD" type="number" value="8" oninput="calcDeskThread()"></div><div class="field"><label>Pitch P (mm)</label><input class="input" id="thP" type="number" value="1.25" oninput="calcDeskThread()"></div><div class="field"><label>Thread Form</label><select id="thKind" onchange="calcDeskThread()"><option>Cut Tap</option><option>Form Tap</option></select></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Quick Drill Estimate</div><div class="metric-val accent" id="thDrill">—</div></div><div class="card metric"><div class="metric-label">Blind Hole Depth Rule</div><div class="metric-val" id="thDepth">—</div><div class="metric-sub">Rule of thumb · verify thread depth</div></div></div></div>`;
         if (t === "drill")
-          return `<div class="card card-body"><div class="grid g3"><div class="field"><label>Tap Drill Target (mm)</label><input class="input" id="drT" type="number" value="6.8" oninput="calcDeskDrill()"></div><div class="field"><label>Hole Ø to Nearest Stock Drill</label><div class="math-output"><div class="big-result" id="drNear">—</div><div class="help">Nearest listed standard drill</div></div></div><div class="field"><label>Next Larger</label><div class="math-output"><div class="big-result" id="drUp">—</div></div></div></div></div>`;
+          return `<div class="card card-body"><div class="grid g3"><div class="field"><label>Quick Drill Target (mm)</label><input class="input" id="drT" type="number" value="6.8" oninput="calcDeskDrill()"></div><div class="field"><label>Nearest Stock Drill</label><div class="math-output"><div class="big-result" id="drNear">—</div><div class="help">Nearest listed standard drill</div></div></div><div class="field"><label>Next Larger</label><div class="math-output"><div class="big-result" id="drUp">—</div></div></div></div></div>`;
         if (t === "chamfer")
           return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Chamfer Width C (mm)</label><input class="input" id="chC" type="number" value="2.5" oninput="calcDeskChamfer()"></div><div class="field"><label>Included Tool Angle</label><select id="chA" onchange="calcDeskChamfer()"><option value="90">90°</option><option value="60">60°</option><option value="120">120°</option></select></div></div><div class="card metric"><div class="metric-label">Z Depth / Radial Relation</div><div class="metric-val" id="chZ">—</div><div class="metric-sub">For symmetric included angle</div></div></div>`;
         if (t === "trig")
@@ -2456,31 +2478,13 @@
         if (t === "taper")
           return `<div class="layout"><div class="card card-body grid g3"><div class="field"><label>Large Ø D</label><input class="input" id="tpD" type="number" value="50" oninput="calcTaper()"></div><div class="field"><label>Small Ø d</label><input class="input" id="tpd" type="number" value="30" oninput="calcTaper()"></div><div class="field"><label>Length L</label><input class="input" id="tpL" type="number" value="40" oninput="calcTaper()"></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Included Angle</div><div class="metric-val" id="tpAngle">—</div></div><div class="card metric"><div class="metric-label">Half Angle</div><div class="metric-val" id="tpHalf">—</div></div></div></div>`;
         if (t === "surface")
-          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Corner Radius re (mm)</label><input class="input" id="raR" type="number" value="0.4" oninput="calcSurface()"></div><div class="field"><label>Feed f (mm/rev)</label><input class="input" id="raF" type="number" value="0.1" oninput="calcSurface()"></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Theoretical Ra</div><div class="metric-val" id="raOut">—</div><div class="metric-sub">µm</div></div><div class="card metric"><div class="metric-label">Approx. Rz</div><div class="metric-val" id="rzOut">—</div><div class="metric-sub">µm · simplified</div></div></div></div>`;
+          return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Corner Radius re (mm)</label><input class="input" id="raR" type="number" value="0.4" oninput="calcSurface()"></div><div class="field"><label>Feed f (mm/rev)</label><input class="input" id="raF" type="number" value="0.1" oninput="calcSurface()"></div></div><div class="grid g2"><div class="card metric"><div class="metric-label">Theoretical Ra</div><div class="metric-val" id="raOut">—</div><div class="metric-sub">µm</div></div><div class="card metric"><div class="metric-label">Approx. Rz</div><div class="metric-val" id="rzOut">—</div><div class="metric-sub">µm · simplified estimate</div></div></div></div>`;
         if (t === "units")
           return `<div class="layout"><div class="card card-body grid g2"><div class="field"><label>Value</label><input class="input" id="uv" type="number" value="1"></div><div class="field"><label>From</label><select id="uf"><option>mm</option><option>inch</option><option>m/min</option><option>ft/min</option><option>mm/min</option><option>in/min</option></select></div><div class="field"><label>To</label><select id="ut"><option>inch</option><option>mm</option><option>ft/min</option><option>m/min</option><option>in/min</option><option>mm/min</option></select></div><button class="btn primary" onclick="convertUnits()">Convert</button></div><div class="card metric"><div class="metric-label">Result</div><div class="metric-val accent" id="uOut">—</div></div></div>`;
         if (t === "codes")
-          return `<div class="ref-grid">${Object.entries(REFS)
-            .map(
-              ([c, d]) =>
-                `<div class="ref-item"><div class="ref-code">${c}</div><div class="ref-title">${d}</div><div class="ref-text">Quick reference. Confirm exact control behavior on your machine before running unfamiliar code.</div></div>`
-            )
-            .join("")}</div>`;
-        return `<div class="ref-grid">${[
-          ["RPM", "n = Vc × 1000 / (π × D)", "Surface speed to spindle speed"],
-          ["Milling Feed", "Vf = n × Z × fz", "Spindle × flute count × chip load"],
-          ["MRR Milling", "Q = ap × ae × Vf / 1000", "cm³/min from mm inputs"],
-          ["Turning Feed", "Vf = f × n", "Feed per revolution × RPM"],
-          ["L/D", "L / D", "Stickout relative to cutter diameter"],
-          ["Bolt Circle", "X = R cos θ · Y = R sin θ", "Centre referenced coordinates"],
-          ["Chamfer", "Z = C × tan(A/2)", "Included angle geometry"],
-          ["Power", "Pc ≈ (Vc × Q × kc) / constant", "Use manufacturer/material data for kc"],
-        ]
-          .map(
-            (x) =>
-              `<div class="ref-item"><div class="ref-code">${x[0]}</div><div class="ref-title">${x[1]}</div><div class="ref-text">${x[2]}</div></div>`
-          )
-          .join("")}</div>`;
+          return `<div class="ref-grid">${Object.entries(REFS).map(([c, d]) => `<div class="ref-item"><div class="ref-code">${c}</div><div class="ref-title">${d}</div><div class="ref-text">Quick reference. Confirm exact control behavior on your machine before running unfamiliar code.</div></div>`).join("")}</div>`;
+        
+        return `<div class="ref-grid">${[["RPM", "n = Vc × 1000 / (π × D)", "Surface speed to spindle speed"], ["Milling Feed", "Vf = n × Z × fz", "Spindle × flute count × chip load"], ["MRR Milling", "Q = ap × ae × Vf / 1000", "cm³/min from mm inputs"], ["Turning Feed", "Vf = f × n", "Feed per revolution × RPM"], ["L/D", "L / D", "Stickout relative to cutter diameter"], ["Bolt Circle", "X = R cos θ · Y = R sin θ", "Centre referenced coordinates"], ["Chamfer", "Z = C × tan(A/2)", "Included angle geometry"], ["Power", "Pc ≈ (Vc × Q × kc) / constant", "Use manufacturer/material data for kc"]].map((x) => `<div class="ref-item"><div class="ref-code">${x[0]}</div><div class="ref-title">${x[1]}</div><div class="ref-text">${x[2]}</div></div>`).join("")}</div>`;
       }
       function calcDeskIso() {
         const d = +document.getElementById("isoD").value || 0,
@@ -2493,10 +2497,16 @@
         document.getElementById("isoMax").textContent = r ? fmt(d + r[0] / 1000, 3) : "—";
       }
       function calcDeskThread() {
-        const d = +document.getElementById("thD").value || 0,
-          p = +document.getElementById("thP").value || 0;
-        const kind = document.getElementById("thKind").value;
-        const target = kind === "Form Tap" ? d - p / 2 : d - p;
+        const d = +document.getElementById("thD")?.value;
+        const p = +document.getElementById("thP")?.value;
+        const kind = document.getElementById("thKind")?.value;
+        if (!(d > 0) || !(p > 0)) {
+          document.getElementById("thDrill").textContent = "—";
+          document.getElementById("thDepth").textContent = "—";
+          return;
+        }
+        // Practical shop-floor estimate only. Exact tap-drill diameter is tool/process dependent.
+        const target = kind === "Form Tap" ? d - 0.5 * p : d - p;
         document.getElementById("thDrill").textContent = getNearestDrill(target) + " mm";
         document.getElementById("thDepth").textContent = fmt(d * 1.5, 1) + " mm";
       }
@@ -2693,7 +2703,8 @@
         if (store.active === "cut") {
           const job = activeJob();
           if (job && !store.sf.projectId) store.sf.projectId = job.id;
-          setTimeout(calcSF, 0);
+          if (!store.sf.vcIn) { setTimeout(applyDefaultsSF, 0); } 
+          else { setTimeout(calcSF, 0); }
         }
         if (store.active === "desk") {
           const btns = document.querySelectorAll("[data-desk]");
@@ -2714,7 +2725,6 @@
                 if (v === "surface") calcSurface();
               })
           );
-          calcDeskIso();
         }
       }
       document.addEventListener("keydown", (e) => {
