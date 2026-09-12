@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="DatumLab is manufacturing intelligence for the complete job — from the first cut to inspection, invoice and delivery.">
+<meta name="description" content="DatumLab Workshop OS keeps jobs, machining, quality, documents and shop knowledge in one working system.">
 <meta name="robots" content="noindex, nofollow" />
 <link rel="icon" type="image/svg+xml" href="brand/datum-mark-solid.svg">
-<title>DatumLab — Manufacturing intelligence</title>
+<title>DatumLab — Workshop OS</title>
 <style>
 /* DatumLab — workbench. One visual system for desktop and mobile. */
 :root{color-scheme:dark;--bg:#141719;--panel:#1c2023;--panel2:#24292d;--line:#343b40;--line2:#505b63;--text:#f0f2f3;--muted:#b1bac1;--soft:#9ba7b0;--accent:#efb464;--accent2:#d69b4d;--good:#91d6ab;--warn:#efc37c;--bad:#f3a5a5;--r:12px;--font:"Segoe UI",system-ui,-apple-system,sans-serif;--mono:Consolas,"Cascadia Mono",monospace}
@@ -86,6 +86,36 @@ body::before{content:"";position:fixed;z-index:100;inset:0 auto 0 0;width:3px;ba
 @media(max-width:760px){body{background-size:24px 24px,24px 24px,auto}body .app{padding-top:0!important}.start-screen::before,.main::before{display:none}.start-header{padding-bottom:24px}.partner-intro{margin-top:22px}.partner-intro h1{font-size:clamp(43px,13vw,58px)}.partner-notes{grid-template-columns:1fr;grid-template-rows:auto auto auto;margin-top:30px;min-height:355px}.partner-core{grid-column:1;min-height:215px}.partner-note,.partner-note.office-note{padding:18px}.partner-note strong{font-size:17px}.partner-note p{font-size:13px}.jobs-overview{padding-top:30px}.topbar::before{display:none}.card,.plan-setup,.next-action{border-radius:3px}.job-heading h1,.page-head h1{font-size:clamp(38px,12vw,50px)}.mobile-nav button{position:relative}}
 @media(max-width:420px){.partner-core::before{width:175px;height:175px}.partner-core::after{width:112px;height:112px}.core-node.office{right:10px}.core-node.floor{left:10px}}
 </style>
+<style>
+/* DatumLab v5.4 — clearer navigation, unchanged visual system. */
+.nav-group>summary{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.nav-group>summary::after{content:"⌄";color:var(--soft);font:11px var(--mono);transition:transform .15s ease}
+.nav-group[open]>summary::after{transform:rotate(180deg)}
+.nav-group:has(button.active)>summary{background:#d8f15b0c;border:1px solid #d8f15b42;color:var(--lime)}
+.nav-group:has(button.active)>summary::after{color:var(--lime)}
+@media(max-width:760px){.mobile-menu .nav-title{padding-top:4px;border-top:1px solid var(--line)}.mobile-menu .nav-title:first-child{border-top:0;padding-top:0}}
+</style>
+<style>
+/* DatumLab v6 — Workshop OS shell. Existing engines and work views remain intact. */
+.os-start .start-shell{width:min(1380px,calc(100% - 64px));padding:24px 0 72px}
+.os-start .start-header{padding-bottom:20px;border-bottom:1px solid var(--line)}
+.os-start .start-lockup{width:clamp(230px,22vw,300px)}
+.os-session{display:grid;justify-items:end;line-height:1.15}.os-session span{font:10px var(--mono);letter-spacing:.13em;color:var(--soft)}.os-session strong{font:700 12px var(--mono);letter-spacing:.08em;color:var(--text)}
+.os-home{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(390px,.75fr);gap:22px;padding:42px 0 28px;border-bottom:1px solid var(--line)}
+.os-home-main{min-width:0;padding:22px 0}.os-home-main h1{margin:10px 0 14px;font-size:clamp(48px,6vw,82px);line-height:.94}.os-home-main>p{max-width:700px;margin:0;color:var(--muted);font-size:17px}
+.os-today-summary{margin-top:30px;max-width:760px}.os-resume{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;padding:20px 22px;border:1px solid var(--line);background:linear-gradient(135deg,#131d22,#0c1418);clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,0 100%)}.os-resume::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:linear-gradient(var(--accent),var(--lime))}.os-resume-label{font:10px var(--mono);letter-spacing:.12em;color:var(--lime)}.os-resume h2{margin:7px 0 5px;font-size:24px}.os-resume p{margin:0;color:var(--muted);font-size:13px}.os-resume-meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:13px;color:var(--soft);font:11px var(--mono)}.os-resume .btn{min-width:150px}.os-resume-empty{padding:18px 0;border-left:3px solid var(--accent);padding-left:18px}.os-resume-empty strong{display:block;font-size:20px}.os-resume-empty span{display:block;margin-top:5px;color:var(--muted)}
+.os-command-center{align-self:start;border:1px solid var(--line);background:#0c1418;box-shadow:0 18px 50px #0004}.os-panel-head{display:flex;justify-content:space-between;gap:16px;align-items:start;padding:18px 20px;border-bottom:1px solid var(--line)}.os-panel-head span,.os-section-title span{font:10px var(--mono);letter-spacing:.13em;color:var(--accent)}.os-panel-head h2,.os-section-title h2{margin:5px 0 0;font-size:19px}.os-panel-head kbd{padding:5px 7px;border:1px solid var(--line2);background:#111b20;color:var(--muted);font:10px var(--mono)}.os-quick-grid{display:grid;grid-template-columns:1fr 1fr}.os-quick{min-height:104px;padding:16px 18px;border:0;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:transparent;color:var(--text);text-align:left}.os-quick:nth-child(2n){border-right:0}.os-quick:hover{background:#ffffff06}.os-quick.primary{background:#ff65420a}.os-quick>span{display:block;color:var(--lime);font:10px var(--mono)}.os-quick strong{display:block;margin-top:9px;font-size:14px}.os-quick small{display:block;margin-top:3px;color:var(--soft);font-size:11px}.os-command-hint{padding:11px 18px;color:var(--soft);font:10px var(--mono)}
+.os-attention{padding:26px 0;border-bottom:1px solid var(--line)}.os-section-title{display:flex;justify-content:space-between;gap:16px;align-items:end;margin-bottom:13px}.os-section-title small{color:var(--soft)}.os-attention-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.os-alert{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;min-height:74px;padding:13px 15px;border:1px solid var(--line);background:#0c1418;text-align:left;color:var(--text)}.os-alert:hover{border-color:var(--line2);background:#111a1f}.os-alert-index{color:var(--accent);font:11px var(--mono)}.os-alert strong,.os-alert small{display:block}.os-alert strong{font-size:13px}.os-alert small{margin-top:3px;color:var(--soft);font-size:11px}.os-alert-arrow{color:var(--lime)}.os-alert.empty{display:block;min-height:0;padding:16px;color:var(--muted)}
+.os-start .jobs-overview{padding-top:28px}.os-start .jobs-title-row{padding-top:0;border-top:0}.os-start .jobs-title-row h2{margin-top:5px;font-size:27px}.os-start .start-kpis{margin:12px 0 20px}.os-start .job-tile{min-height:225px;border-radius:3px;background:#0d1519}.os-start .job-tile:hover{transform:translateY(-2px);border-color:#61702e}.os-start .job-tile:before{display:none}.os-start .jobs-search-shell input{border-radius:3px;background:#0a1114}.os-start .filter-btn{border-radius:2px}
+.top-search-shell{position:relative}.os-search-key{position:absolute;right:10px;top:50%;transform:translateY(-50%);padding:3px 5px;border:1px solid var(--line);color:var(--soft);font:9px var(--mono);pointer-events:none}.top-search-input{padding-right:58px}
+.search-result.command .kind{color:var(--lime)}
+@media(max-width:980px){.os-home{grid-template-columns:1fr}.os-command-center{width:100%}.os-attention-list{grid-template-columns:1fr 1fr}.os-session{display:none}}
+@media(max-width:760px){.os-start .start-shell{width:calc(100% - 32px);padding:18px 0 90px}.os-start .start-header{align-items:center}.os-start .start-actions .btn:not(.primary){display:none}.os-home{display:block;padding:25px 0 22px}.os-home-main{padding:4px 0 20px}.os-home-main h1{font-size:42px}.os-home-main>p{font-size:15px}.os-resume{grid-template-columns:1fr}.os-resume .btn{width:100%}.os-command-center{margin-top:4px}.os-quick{min-height:94px;padding:14px}.os-attention-list{grid-template-columns:1fr}.os-section-title small{display:none}.os-start .jobs-title-row{display:block}.os-start .jobs-search-shell{width:100%;margin-top:16px}.os-search-key{display:none}.top-search-input{padding-right:12px}}
+@media(max-width:390px){.os-quick-grid{grid-template-columns:1fr}.os-quick{border-right:0}.os-home-main h1{font-size:38px}}
+/* DatumLab v6.1 — company-grade document suite */
+.doc-suite-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}.doc-suite-head p{margin:4px 0 0;color:var(--muted);font-size:13px}.doc-readiness{display:flex;align-items:center;gap:8px;border:1px solid var(--line2);border-radius:999px;padding:7px 10px;font:11px var(--mono);white-space:nowrap}.doc-readiness.ready{color:var(--good)}.doc-readiness.draft{color:var(--warn)}.doc-settings{border:1px solid var(--line);border-radius:10px;margin:0 0 18px}.doc-settings summary{cursor:pointer;padding:13px 14px;font-weight:600}.doc-settings[open] summary{border-bottom:1px solid var(--line)}.doc-settings-body{padding:16px}.doc-edit-grid,.doc-profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.doc-profile-grid .full,.doc-edit-grid .full{grid-column:1/-1}.doc-field-note{display:block;margin-top:5px;color:var(--muted);font:10px/1.45 var(--mono)}.doc-auto{color:var(--good)}.doc-preview{--doc-ink:#13252c;--doc-accent:#f45f46;--doc-soft:#eef3f2;min-height:840px;padding:38px 42px;border-radius:3px;box-shadow:0 24px 70px #0004;color:var(--doc-ink);font-family:Arial,sans-serif}.doc-preview header{align-items:flex-start;border:0;padding:0 0 24px;margin-bottom:0}.doc-logo{width:220px;max-height:58px;object-fit:contain;object-position:left center}.doc-company-fallback{font-size:20px;font-weight:800;letter-spacing:.12em}.doc-type{text-align:right;font-size:10px;line-height:1.65;letter-spacing:.06em}.doc-type strong{display:block;font-size:18px;letter-spacing:.08em}.doc-status{display:inline-block;margin-top:7px;padding:4px 7px;background:var(--doc-ink);color:#fff;font-weight:700;letter-spacing:.1em}.doc-rule{height:5px;background:linear-gradient(90deg,var(--doc-accent) 0 34%,#bad532 34% 56%,#65c3d2 56% 100%);margin:0 0 24px}.doc-addresses{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:24px}.doc-address{font-size:11px;line-height:1.55;white-space:pre-line}.doc-address span,.doc-block-label{display:block;color:#65747a;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}.doc-address strong{font-size:13px}.doc-meta{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid #c8d1d2}.doc-meta>div{border:0;border-right:1px solid #c8d1d2;padding:10px}.doc-meta>div:last-child{border:0}.doc-meta span{font-size:9px;text-transform:uppercase;letter-spacing:.08em}.doc-preview table{margin:12px 0 18px;font-size:10px}.doc-preview th,.doc-preview td{border-color:#cbd3d4;padding:8px}.doc-preview th{background:var(--doc-soft);font-size:9px;letter-spacing:.05em;text-transform:uppercase}.doc-preview .num{text-align:right;font-variant-numeric:tabular-nums}.doc-section-title{border-bottom:1px solid #b9c5c7;padding-bottom:6px;margin:24px 0 10px;font-size:11px;letter-spacing:.09em;text-transform:uppercase}.doc-summary-strip{gap:0;border:1px solid #c8d1d2}.doc-summary-strip>div{border:0;border-right:1px solid #c8d1d2}.doc-summary-strip>div:last-child{border:0}.doc-total-box{width:min(360px,100%);margin:20px 0 20px auto}.doc-total-row{display:flex;justify-content:space-between;padding:7px 10px;border-bottom:1px solid #d3dada;font-size:11px}.doc-total-row.grand{background:var(--doc-ink);color:#fff;font-size:14px;font-weight:700;border:0}.doc-signatures{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:38px}.doc-signature{border-top:1px solid #829095;padding-top:7px;font-size:9px;color:#65747a}.doc-footer{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;border-top:1px solid #aab6b8;margin-top:34px;padding-top:9px;color:#65747a;font-size:8px;line-height:1.45}.doc-footer div:nth-child(2){text-align:center}.doc-footer div:last-child{text-align:right}.doc-callout{padding:12px 14px;background:var(--doc-soft);border-left:4px solid var(--doc-accent);font-size:11px;line-height:1.55}.route-check{width:22px;height:22px;border:1px solid #8d999d;display:inline-block}.sheet-doc-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:0;margin-bottom:0}.sheet-doc-head img{width:210px}.sheet-doc-title{text-align:right}.sheet-doc-title h2{margin:0;font-size:22px}.sheet-doc-rule{height:5px;background:linear-gradient(90deg,#f45f46 0 34%,#bad532 34% 56%,#65c3d2 56%);margin:18px 0 22px}.sheet-signoff{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}.sheet-signoff div{border-top:1px solid #777;padding-top:6px;font-size:9px;color:#666}
+@media(max-width:760px){.doc-suite-head{display:block}.doc-readiness{display:inline-flex;margin-top:10px}.doc-edit-grid,.doc-profile-grid{grid-template-columns:1fr}.doc-profile-grid .full,.doc-edit-grid .full{grid-column:auto}.doc-preview{padding:24px 20px;min-height:0}.doc-addresses{grid-template-columns:1fr}.doc-meta{grid-template-columns:1fr 1fr}.doc-meta>div:nth-child(2){border-right:0}.doc-meta>div{border-bottom:1px solid #c8d1d2}.doc-signatures{grid-template-columns:1fr}.doc-footer{grid-template-columns:1fr;text-align:left!important}.doc-footer div{text-align:left!important}.sheet-doc-head{display:block}.sheet-doc-head img{width:180px;margin-bottom:18px}.sheet-doc-title{text-align:left}.sheet-doc-title h2{font-size:20px}.sheet-signoff{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 <a class="skip-link" href="#workspaceContent">Skip to workspace</a>
@@ -94,14 +124,15 @@ body::before{content:"";position:fixed;z-index:100;inset:0 auto 0 0;width:3px;ba
   <div class="start-shell">
     <header class="start-header">
       <div class="start-brand-row"><img class="start-lockup" src="brand/datumlab-logo.svg" alt="DatumLab — Manufacturing intelligence"></div>
-      <div class="start-actions-wrap"><div class="start-actions"><button id="newProjectBtn" class="btn primary">Start something</button><button id="importBackupBtn" class="btn">Bring data in</button><button id="startBackupBtn" class="btn">Take a backup</button><input id="backupFileInput" type="file" accept=".json,application/json" class="hidden"></div><div class="system-signals" aria-label="System status"><span class="system-signal">DL-OS/01</span><span class="system-signal live">LOCAL · READY</span></div></div>
+      <div class="start-actions-wrap"><div class="os-session"><span id="osDate">TODAY</span><strong>WORKSHOP OS</strong></div><div class="start-actions"><button id="newProjectBtn" class="btn primary">New job</button><button id="importBackupBtn" class="btn">Import</button><button id="startBackupBtn" class="btn">Backup</button><input id="backupFileInput" type="file" accept=".json,application/json" class="hidden"></div><div class="system-signals" aria-label="System status"><span class="system-signal">DL-OS/01</span><span class="system-signal live">LOCAL · READY</span></div></div>
     </header>
-    <section class="partner-intro" aria-labelledby="partnerTitle">
-      <div><div class="eyebrow">READY WHEN YOU ARE</div><h1 id="partnerTitle">Build the part.<br><span>Build the shop.</span></h1><p>DatumLab follows every job from the first idea and first cut to inspection, invoice and delivery.</p><div class="north-star"><span>THE 5-YEAR AIM</span><strong>Make Datum Prototyping Denmark’s first call for one-off precision parts.</strong></div></div>
-      <div class="partner-notes"><div class="partner-core" aria-label="DatumLab job memory connects the workshop floor and office"><div class="core-cross"></div><span class="core-node floor">FLOOR / INPUT</span><div class="core-label"><span>ACTIVE CORE</span><strong>JOB MEMORY</strong><small>ONE PART · ONE SOURCE</small></div><span class="core-node office">OFFICE / OUTPUT</span></div><aside class="partner-note"><div class="eyebrow">01 / ON THE FLOOR</div><strong>I keep the next cut clear.</strong><p>Setups, cutting data, tools and inspection stay tied to the part.</p></aside><aside class="partner-note office-note"><div class="eyebrow">02 / IN THE OFFICE</div><strong>I keep the job healthy.</strong><p>Quotes, documents, invoices and delivery follow the same job without double work.</p></aside></div>
+    <section class="os-home" aria-labelledby="partnerTitle">
+      <div class="os-home-main"><div class="eyebrow">DATUMLAB / TODAY</div><h1 id="partnerTitle">Ready when you are.</h1><p>Continue the part in front of you. DatumLab keeps the workshop and paperwork attached to the same job.</p><div id="osTodaySummary" class="os-today-summary"></div></div>
+      <aside class="os-command-center" aria-labelledby="osQuickTitle"><div class="os-panel-head"><div><span>QUICK ACCESS</span><h2 id="osQuickTitle">What do you need?</h2></div><kbd>CTRL K</kbd></div><div class="os-quick-grid"><button class="os-quick primary" data-os-action="new"><span>01</span><strong>New job</strong><small>Start with the part</small></button><button class="os-quick" data-os-action="manual"><span>02</span><strong>Manual reference</strong><small>Speeds and feeds</small></button><button class="os-quick" data-os-action="library"><span>03</span><strong>Tool library</strong><small>What is on hand</small></button><button class="os-quick" data-os-action="materials"><span>04</span><strong>Materials</strong><small>Grades and standards</small></button></div><div class="os-command-hint">Use search inside a workspace to find a job, tool, material or command.</div></aside>
     </section>
+    <section class="os-attention" aria-labelledby="osAttentionTitle"><div class="os-section-title"><div><span>SYSTEM QUEUE</span><h2 id="osAttentionTitle">Needs attention</h2></div><small>Generated from your jobs</small></div><div id="osAttention" class="os-attention-list"></div></section>
     <section class="jobs-overview">
-      <div class="jobs-title-row"><div><h2>On your bench</h2><p>Continue a job or start a new one.</p></div><div class="jobs-search-shell"><input aria-label="Search jobs" id="startJobSearch" type="search" placeholder="Find a job, part or customer..."></div></div>
+      <div class="jobs-title-row"><div><div class="eyebrow">JOB DIRECTORY</div><h2>All jobs</h2><p>Everything DatumLab knows about the work.</p></div><div class="jobs-search-shell"><input aria-label="Search jobs" id="startJobSearch" type="search" placeholder="Find a job, part or customer..."></div></div>
       <div id="startKpis" class="start-kpis"></div>
       <div id="newProjectPanel" class="card new-project hidden">
         <div class="card-head"><strong>What are we making?</strong><span>Give me the essentials</span></div>
@@ -137,19 +168,19 @@ body::before{content:"";position:fixed;z-index:100;inset:0 auto 0 0;width:3px;ba
   <nav class="nav" aria-label="Workspace">
     <button id="closeProjectBtn" class="home-link">All jobs</button>
     <div class="project-context-mini"><div class="project-context-label">Current job</div><div class="project-name" id="sideProjectName">No job</div><div class="project-type" id="sideProjectMeta"></div></div>
-    <button class="active" data-view="overview"><span class="nav-icon" aria-hidden="true">●</span>Now</button><span class="nav-zone">FLOOR</span>
-    <button data-view="cnc"><span class="nav-icon" aria-hidden="true">↗</span>Make</button>
-    <button data-view="sheet"><span class="nav-icon" aria-hidden="true">□</span>Setup</button>
-    <button data-view="manual"><span class="nav-icon" aria-hidden="true">⌁</span>Manual</button>
-    <span class="nav-zone">OFFICE</span><button data-view="documents"><span class="nav-icon" aria-hidden="true">◇</span>Documents</button>
-    <details class="nav-group" id="resourceNav"><summary>Knowledge</summary>
+    <button class="active" data-view="overview"><span class="nav-icon" aria-hidden="true">●</span>Now</button>
+    <details class="nav-group" id="workshopNav"><summary>Workshop</summary>
+      <button data-view="cnc"><span class="nav-icon" aria-hidden="true">↗</span>Make</button><button data-view="sheet"><span class="nav-icon" aria-hidden="true">□</span>Setup</button><button data-view="manual"><span class="nav-icon" aria-hidden="true">⌁</span>Manual reference</button>
+    </details>
+    <button data-view="documents"><span class="nav-icon" aria-hidden="true">◇</span>Documents</button>
+    <details class="nav-group" id="resourceNav"><summary>Library</summary>
       <button data-view="library">Tools</button><button data-view="materials">Materials</button><button data-view="reference">Cutting data reference</button><button data-view="profiles">Cutting data profiles</button>
     </details>
-    <details class="nav-group" id="systemNav"><summary>Data</summary>
+    <details class="nav-group" id="systemNav"><summary>System</summary>
       <button id="exportProjectBtn">Export this job</button><button id="exportAllBtn">Backup all data</button><button data-view="diagnostics">Diagnostics</button>
     </details>
   </nav>
-  <div class="sidebar-footer"><strong>With you for the whole job.</strong>DatumLab · 5.3</div>
+  <div class="sidebar-footer"><strong>With you for the whole job.</strong>DatumLab · 6.1</div>
 </aside>
 
 
@@ -157,7 +188,7 @@ body::before{content:"";position:fixed;z-index:100;inset:0 auto 0 0;width:3px;ba
 <header class="topbar">
   <img class="topbar-mark" src="brand/datum-mark.svg" alt="" aria-hidden="true">
   <div class="top-project"><div class="top-eyebrow" id="topTitle">Now</div><div id="topProjectCrumb" class="project-breadcrumb"></div><span id="topSub" class="sr-only"></span></div>
-  <div class="top-search-wrap"><div class="top-search-shell"><input id="globalSearch" class="top-search-input" aria-label="Search jobs, tools and materials" placeholder="Ask DatumLab to find…"></div><div id="globalSearchResults" class="global-search-results hidden"></div></div>
+  <div class="top-search-wrap"><div class="top-search-shell"><input id="globalSearch" class="top-search-input" aria-label="Search jobs, tools, materials or commands" placeholder="Search or run a command…"><kbd class="os-search-key">CTRL K</kbd></div><div id="globalSearchResults" class="global-search-results hidden"></div></div>
   <div class="top-actions"><span id="saveStatus" class="save-status" role="status" aria-live="polite">Local data</span><div class="unit" aria-label="Calculator units"><button id="metricBtn" class="active">Metric</button><button id="imperialBtn">Imperial</button></div></div>
 </header>
 <div class="workspace" id="workspaceContent" tabindex="-1"><div id="saveError" class="save-banner hidden" role="alert"></div>
@@ -177,6 +208,9 @@ body::before{content:"";position:fixed;z-index:100;inset:0 auto 0 0;width:3px;ba
           <div class="field"><label for="editProjJobNo">Job no.</label><input id="editProjJobNo" class="control"></div><div class="field"><label for="editProjCustomer">Customer</label><input id="editProjCustomer" class="control"></div><div class="field"><label for="editProjPart">Part</label><input id="editProjPart" class="control"></div>
           <div class="field"><label for="editProjQty">Quantity</label><input id="editProjQty" type="number" min="1" class="control mono"></div><div class="field"><label for="editProjMode">Mode</label><select id="editProjMode" class="control"><option>Prototype</option><option>One-off</option><option>Production</option></select></div><div class="field"><label for="projectMaterial">Material</label><select id="projectMaterial" class="control"></select></div>
           <div class="field"><label for="editProjRevision">Drawing / revision</label><input id="editProjRevision" class="control" placeholder="optional"></div><div class="field"><label for="editProjDueDate">Due date</label><input id="editProjDueDate" type="date" class="control"></div><div class="field"><label for="editProjPriority">Priority</label><select id="editProjPriority" class="control"><option>Low</option><option>Normal</option><option>High</option></select></div>
+          <div class="field"><label for="editProjCustomerContact">Customer contact</label><input id="editProjCustomerContact" class="control" placeholder="Name"></div><div class="field"><label for="editProjCustomerEmail">Customer email</label><input id="editProjCustomerEmail" type="email" class="control" placeholder="name@company.dk"></div><div class="field"><label for="editProjCustomerPhone">Customer phone</label><input id="editProjCustomerPhone" class="control"></div>
+          <div class="field"><label for="editProjCustomerCvr">Customer CVR / VAT</label><input id="editProjCustomerCvr" class="control"></div><div class="field"><label for="editProjCustomerRef">Customer reference</label><input id="editProjCustomerRef" class="control" placeholder="Contact or reference"></div><div class="field"><label for="editProjPoNumber">Purchase order</label><input id="editProjPoNumber" class="control" placeholder="PO number"></div>
+          <div class="field full"><label for="editProjCustomerAddress">Billing / delivery address</label><textarea id="editProjCustomerAddress" class="control" rows="3" placeholder="Street, postal code and city"></textarea></div>
           <div class="field full"><label for="editProjNotes">Project notes</label><textarea id="editProjNotes" class="control" rows="4"></textarea></div>
         </div>
         <div class="button-row" style="margin-top:10px">
@@ -211,16 +245,17 @@ body::before{content:"";position:fixed;z-index:100;inset:0 auto 0 0;width:3px;ba
 </section>
 
 <section id="documentsView" class="view">
-  <div class="page-head"><h1>Office & proof</h1><p>Quotes, invoices, inspection and delivery stay connected to the work on the floor.</p></div>
+  <div class="page-head"><h1>Office & proof</h1><p>Company-ready documents built from the job record. Enter information once and reuse it throughout the order.</p></div>
   <div class="document-layout">
     <div class="card"><div class="card-head"><strong>Document type</strong><span>Project linked</span></div><div class="section"><div id="docMenu" class="doc-menu"></div></div><div class="section doc-editor">
-      <div class="doc-auto-banner">Customer, material, revision and setup information come from this job.</div>
+      <div class="doc-suite-head"><div><strong id="docEditorTitle">Document details</strong><p id="docEditorHelp">Customer, material, revision, quantities and manufacturing details come from this job.</p></div><div id="docReadiness" class="doc-readiness draft">DRAFT</div></div>
+      <details class="doc-settings"><summary>Datum Prototyping profile & defaults</summary><div class="doc-settings-body"><div class="doc-auto-banner">Saved once on this device and reused across every job and outgoing document.</div><div id="docProfileFields" class="doc-profile-grid"></div></div></details>
       <div class="section-title">Document fields</div><div id="docFields" class="doc-edit-grid"></div>
       <div id="faiEditor" class="fai-editor hidden">
         <div class="fai-toolbar"><div><div class="section-title" style="margin:0">FAI characteristics</div><div class="iso-help">Enter a nominal size and an ISO 286 tolerance such as H7, h6, g6 or JS7. DatumLab calculates limits and PASS / FAIL automatically. Manual ± tolerances are also supported.</div></div><div class="button-row"><button id="addFaiRowBtn" class="btn primary">+ CHARACTERISTIC</button><button id="clearFaiRowsBtn" class="btn">CLEAR</button></div></div>
         <div class="fai-table-wrap"><table class="fai-table"><thead><tr><th>No.</th><th>Characteristic</th><th>Nominal mm</th><th>Tolerance / ISO fit</th><th>Calculated limits</th><th>Actual mm</th><th>Method</th><th>Result</th><th></th></tr></thead><tbody id="faiRows"></tbody></table></div>
       </div>
-      <div class="button-row" style="margin-top:12px"><button id="refreshDocBtn" class="btn">REFRESH</button><button id="printDocBtn" class="btn primary">PRINT / SAVE PDF</button></div><div class="ref-note">PDF output uses the browser print dialog → Save as PDF. Document content is stored inside the current project.</div></div></div>
+      <div class="button-row" style="margin-top:18px"><button id="refreshDocBtn" class="btn">REFRESH</button><button id="printDocBtn" class="btn primary">PRINT / SAVE PDF</button></div><div class="ref-note">The preview is the output. PDF uses the browser print dialog → Save as PDF. All document data stays inside this job.</div></div></div>
     <div id="docPreview" class="doc-preview"></div>
   </div>
 </section>
@@ -408,13 +443,13 @@ body::before{content:"";position:fixed;z-index:100;inset:0 auto 0 0;width:3px;ba
 </div>
 <nav class="mobile-nav" aria-label="Workspace"><button data-mobile="overview" class="active"><span aria-hidden="true">●</span>Now</button><button data-mobile="cnc"><span aria-hidden="true">↗</span>Make</button><button data-mobile="sheet"><span aria-hidden="true">□</span>Setup</button><button data-mobile="documents"><span aria-hidden="true">◇</span>Office</button><button id="mobileMoreBtn" aria-haspopup="dialog"><span aria-hidden="true">⋯</span>More</button></nav>
 <dialog id="mobileMenu" class="mobile-menu" aria-labelledby="mobileMenuTitle"><div class="mobile-menu-head"><h2 id="mobileMenuTitle">Your workspace</h2><button id="closeMobileMenuBtn" class="btn" aria-label="Close menu">Close</button></div><div class="nav">
-<div class="nav-title">Floor</div><button data-view="manual">Manual reference</button><button data-view="documents">Inspection / FAI</button><div class="nav-title">Office</div><button data-view="documents">Quotes, invoices & delivery</button><div class="nav-title">Knowledge</div><button data-view="library">Tools</button><button data-view="materials">Materials</button><button data-view="reference">Cutting data reference</button><button data-view="profiles">Cutting data profiles</button><div class="nav-title">Data & settings</div><button data-view="diagnostics">Diagnostics</button></div>
+<div class="nav-title">Workshop</div><button data-view="manual">Manual reference</button><div class="nav-title">Office</div><button data-view="documents">Documents, inspection & delivery</button><div class="nav-title">Library</div><button data-view="library">Tools</button><button data-view="materials">Materials</button><button data-view="reference">Cutting data reference</button><button data-view="profiles">Cutting data profiles</button><div class="nav-title">System</div><button data-view="diagnostics">Diagnostics</button></div>
 <div class="button-row"><button class="btn" id="mobileExportBtn">Export job</button><button class="btn" id="mobileBackupBtn">Backup all</button></div><div class="button-row"><div class="unit" aria-label="Calculator units"><button data-unit="metric" class="active">Metric</button><button data-unit="imperial">Imperial</button></div></div><div class="button-row"><button class="btn" id="mobileJobsBtn">← All jobs</button></div></dialog>
 <script>
 "use strict";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const MM=25.4,SFM=3.280839895;
-const PROJECT_STORE="datumlab.v4.projects",LEGACY_PROJECT_STORE="datumlab.core.v34.projects",SETUP_STORE="datumlab.v4.activeSetup",TOOL_STORE="datumlab.core.v3.tools",MATERIAL_STORE="datumlab.core.v3.materials",PROFILE_STORE="datumlab.core.v3.profiles",APP_VERSION="5.3";
+const PROJECT_STORE="datumlab.v4.projects",LEGACY_PROJECT_STORE="datumlab.core.v34.projects",SETUP_STORE="datumlab.v4.activeSetup",TOOL_STORE="datumlab.core.v3.tools",MATERIAL_STORE="datumlab.core.v3.materials",PROFILE_STORE="datumlab.core.v3.profiles",SESSION_STORE="datumlab.v6.lastProject",DOC_PROFILE_STORE="datumlab.v6.documentProfile",CUSTOMER_STORE="datumlab.v6.customers",APP_VERSION="6.1";
 const deepCopy=x=>JSON.parse(JSON.stringify(x));
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const lerp=(a,b,t)=>a+(b-a)*t;
@@ -597,7 +632,8 @@ function syncLegacySetup(){
 }
 function totalOps(p){return (p?.setups||[]).reduce((n,s)=>n+(s.ops?.length||0),0)}
 
-let state={view:"overview",unit:"metric",uiMode:"simple",activeProjectId:null,projects:migrateProjectsV4(),startJobFilter:"all",editingOperationId:null,editingSetupId:null,cncIntent:"general",cncStrategy:"standard",manualMachine:"deckel",manualLevel:"conservative",setup:load(SETUP_STORE,{ops:[]}),tools:load(TOOL_STORE,DEFAULT_TOOLS).map(normalizeTool),materials:mergeMaterialDefaults(load(MATERIAL_STORE,DEFAULT_MATERIALS)),profiles:load(PROFILE_STORE,[]),toolFilter:"all",editingToolId:null,toolNameAuto:true,updatingAutoName:false,editingMaterialId:null,editingProfileId:null,lastDiagnostics:[]};
+const DEFAULT_DOC_PROFILE={companyName:'Datum Prototyping',legalName:'Datum Prototyping',cvr:'',address:'',email:'',phone:'',web:'datumprototyping.dk',bank:'',iban:'',bic:'',currency:'DKK',vatRate:'25',paymentTerms:'Net 8 days',deliveryTerms:'Ex works',qualityStatement:'Manufactured and inspected against the referenced drawing and job requirements.'};
+let state={view:"overview",unit:"metric",uiMode:"simple",activeProjectId:null,projects:migrateProjectsV4(),startJobFilter:"all",editingOperationId:null,editingSetupId:null,cncIntent:"general",cncStrategy:"standard",manualMachine:"deckel",manualLevel:"conservative",setup:load(SETUP_STORE,{ops:[]}),tools:load(TOOL_STORE,DEFAULT_TOOLS).map(normalizeTool),materials:mergeMaterialDefaults(load(MATERIAL_STORE,DEFAULT_MATERIALS)),profiles:load(PROFILE_STORE,[]),docProfile:{...DEFAULT_DOC_PROFILE,...load(DOC_PROFILE_STORE,{})},customers:load(CUSTOMER_STORE,{}),toolFilter:"all",editingToolId:null,toolNameAuto:true,updatingAutoName:false,editingMaterialId:null,editingProfileId:null,lastDiagnostics:[]};
 const saveTools=()=>save(TOOL_STORE,state.tools),saveMaterials=()=>save(MATERIAL_STORE,state.materials),saveProfiles=()=>save(PROFILE_STORE,state.profiles);
 function nextJobNo(){const nums=state.projects.map(p=>Number(String(p.jobNo||'').match(/\d+/)?.[0])).filter(Number.isFinite);return `JOB #${Math.max(1047,...nums)+1}`}
 function migrateDesktop44(){state.projects.forEach((p,i)=>{p.jobNo=p.jobNo||`JOB #${1048+i}`;p.dueDate=p.dueDate||'';p.priority=p.priority||'Normal';p.schemaVersion=4.4});saveProjects()}
@@ -684,6 +720,7 @@ function init(){migrateDesktop44();populateMaterials();populateCncTools();$("#cn
 function bind(){
  $("#newProjectBtn").onclick=()=>$("#newProjectPanel").classList.remove("hidden");$("#cancelProjectBtn").onclick=()=>$("#newProjectPanel").classList.add("hidden");$("#createProjectBtn").onclick=createProject;$("#closeProjectBtn").onclick=showStart;
  $("#startJobSearch").oninput=renderStart;$$('#startJobFilters [data-job-filter]').forEach(b=>b.onclick=()=>{state.startJobFilter=b.dataset.jobFilter;renderStart()});
+ $$('[data-os-action]').forEach(b=>b.onclick=()=>runOsAction(b.dataset.osAction));
  $("#overviewAddSetupBtn").onclick=createSetup;$("#cancelOpEditBtn").onclick=cancelOperationEdit;
  $("#globalSearch").oninput=renderGlobalSearch;$("#globalSearch").onfocus=renderGlobalSearch;document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$("#globalSearch")?.focus()}});document.addEventListener('click',e=>{if(!e.target.closest('.top-search-wrap'))$("#globalSearchResults")?.classList.add('hidden')});$$('[data-scroll-target]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'}));
 
@@ -702,7 +739,9 @@ function bind(){
  $("#addFaiRowBtn").onclick=addFaiCharacteristic;
  $("#clearFaiRowsBtn").onclick=clearFaiCharacteristics;
 
- $$(".nav button[data-view]").forEach(b=>b.onclick=()=>{setView(b.dataset.view);$("#mobileMenu")?.close()});$$('.mobile-nav button[data-mobile]').forEach(b=>b.onclick=()=>setView(b.dataset.mobile));
+ $$(".nav button[data-view]").forEach(b=>b.onclick=()=>{setView(b.dataset.view);b.closest(".nav-group")?.removeAttribute("open");$("#mobileMenu")?.close()});
+ $$(".nav-group").forEach(group=>group.addEventListener("toggle",()=>{if(group.open)$$('.nav-group').filter(other=>other!==group).forEach(other=>other.removeAttribute("open"))}));
+ $$('.mobile-nav button[data-mobile]').forEach(b=>b.onclick=()=>setView(b.dataset.mobile));
  $("#mobileMoreBtn").onclick=()=>$("#mobileMenu").showModal();$("#closeMobileMenuBtn").onclick=()=>$("#mobileMenu").close();$("#mobileJobsBtn").onclick=()=>{$("#mobileMenu").close();showStart()};$("#mobileExportBtn").onclick=()=>exportProject();$("#mobileBackupBtn").onclick=exportAllData;$$('#mobileMenu [data-unit]').forEach(b=>b.onclick=()=>changeUnit(b.dataset.unit));
  $("#metricBtn").onclick=()=>changeUnit("metric");$("#imperialBtn").onclick=()=>changeUnit("imperial");
  $("#cncOperation").onchange=()=>cncOperationChanged(true);$("#cncMaterial").onchange=calcCnc;$("#cncTool").onchange=()=>{setCncDefaults();calcCnc()};
@@ -716,8 +755,8 @@ function bind(){
  $("#runDiagnosticsBtn").onclick=runDiagnostics;$("#copyDiagnosticsBtn").onclick=copyDiagnostics;$("#printSheetBtn").onclick=()=>window.print();$("#clearSetupBtn").onclick=()=>{if(confirm("Clear all setup operations?")){state.setup={ops:[]};saveSetup();renderSetup();renderSheet()}}
 }
 function segment(id,v){$$(`#${id} button`).forEach(b=>b.classList.toggle('active',b.dataset.v===v))}
-function setView(v){
- if(!state.activeProjectId){showStart();return}
+function setView(v,allowGlobal=false){
+ if(!state.activeProjectId&&!allowGlobal&&!GLOBAL_VIEWS.has(v)){showStart();return}
  const target=$("#"+v+"View");if(!target)return;
  state.view=v;$$('.view').forEach(x=>x.classList.remove('active'));target.classList.add('active');
  $$('.nav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===v));$$('.mobile-nav button[data-mobile]').forEach(b=>b.classList.toggle('active',b.dataset.mobile===v));
@@ -727,39 +766,102 @@ function setView(v){
  window.scrollTo({top:0,behavior:'auto'});
 }
 
-function renderGlobalSearch(){const q=($("#globalSearch")?.value||'').trim().toLowerCase(),box=$("#globalSearchResults");if(!box)return;if(!q){box.classList.add('hidden');box.innerHTML='';return}const results=[];state.projects.filter(p=>[p.jobNo,p.name,p.customer,p.part,p.revision].join(' ').toLowerCase().includes(q)).slice(0,6).forEach(p=>results.push({kind:'JOB',title:`${p.jobNo||''} ${p.name}`.trim(),sub:`${p.customer||'No customer'} · ${p.part||'No part'}`,action:`job:${p.id}`}));state.tools.filter(t=>[t.name,t.type,t.manufacturer,t.partNumber].join(' ').toLowerCase().includes(q)).slice(0,5).forEach(t=>results.push({kind:'TOOL',title:t.name,sub:`${t.type} · ${t.sub}`,action:'view:library'}));state.materials.filter(m=>[m.name,m.standard,m.aliases,m.family].join(' ').toLowerCase().includes(q)).slice(0,5).forEach(m=>results.push({kind:'MATERIAL',title:m.name,sub:`${m.family} · ISO ${m.isoGroup}`,action:'view:materials'}));box.classList.remove('hidden');box.innerHTML=results.length?results.slice(0,12).map(r=>`<button class="search-result" data-search-action="${esc(r.action)}"><div class="kind">${esc(r.kind)}</div><div><strong>${esc(r.title)}</strong><span>${esc(r.sub)}</span></div></button>`).join(''):'<div class="empty">No matching jobs, tools or materials.</div>';$$('[data-search-action]').forEach(b=>b.onclick=()=>{const [type,value]=b.dataset.searchAction.split(':');if(type==='job')openProject(value);else if(type==='view')setView(value);box.classList.add('hidden');$("#globalSearch").value=''})}
+function commandCatalog(){
+ const hasJob=!!activeProject();
+ return [
+  {kind:'COMMAND',title:'Go to Today',sub:'Return to jobs and system queue',action:'home:start',terms:'home today all jobs'},
+  ...(hasJob?[{kind:'COMMAND',title:'Continue current job',sub:'Open the job overview and next move',action:'view:overview',terms:'job now continue'}]:[]),
+  ...(hasJob?[{kind:'COMMAND',title:'Plan a machining operation',sub:'Open Workshop / Make',action:'view:cnc',terms:'machine machining rpm feed cut operation'}]:[]),
+  ...(hasJob?[{kind:'COMMAND',title:'Open setup sheet',sub:'Review the active machine setup',action:'view:sheet',terms:'setup sheet machine'}]:[]),
+  ...(hasJob?[{kind:'COMMAND',title:'Open office and proof',sub:'FAI, quotes, invoices and delivery',action:'view:documents',terms:'office documents fai quote invoice delivery'}]:[]),
+  {kind:'COMMAND',title:'Manual machine reference',sub:'Deckel and Weiler working values',action:'global:manual',terms:'manual deckel weiler reference'},
+  {kind:'COMMAND',title:'Open tool library',sub:'Find or maintain shop tools',action:'global:library',terms:'tool library holder insert'},
+  {kind:'COMMAND',title:'Open materials',sub:'Grades, standards and ISO groups',action:'global:materials',terms:'material grade steel aluminium'},
+  {kind:'COMMAND',title:'Back up DatumLab',sub:'Export all local Workshop OS data',action:'system:backup',terms:'backup export save data'}
+ ];
+}
+function handleSearchAction(action){
+ const [type,value]=action.split(':');
+ if(type==='job')openProject(value);
+ else if(type==='view')setView(value);
+ else if(type==='global')openGlobalView(value);
+ else if(type==='home')showStart();
+ else if(type==='system'&&value==='backup')exportAllData();
+}
+function renderGlobalSearch(){
+ const q=($("#globalSearch")?.value||'').trim().toLowerCase(),box=$("#globalSearchResults");if(!box)return;
+ const results=[];
+ commandCatalog().filter(c=>!q||[c.title,c.sub,c.terms].join(' ').toLowerCase().includes(q)).slice(0,q?6:5).forEach(c=>results.push(c));
+ if(q){
+  state.projects.filter(p=>[p.jobNo,p.name,p.customer,p.part,p.revision].join(' ').toLowerCase().includes(q)).slice(0,5).forEach(p=>results.push({kind:'JOB',title:`${p.jobNo||''} ${p.name}`.trim(),sub:`${p.customer||'No customer'} · ${p.part||'No part'}`,action:`job:${p.id}`}));
+  state.tools.filter(t=>[t.name,t.type,t.manufacturer,t.partNumber].join(' ').toLowerCase().includes(q)).slice(0,4).forEach(t=>results.push({kind:'TOOL',title:t.name,sub:`${t.type} · ${t.sub}`,action:'global:library'}));
+  state.materials.filter(m=>[m.name,m.standard,m.aliases,m.family].join(' ').toLowerCase().includes(q)).slice(0,4).forEach(m=>results.push({kind:'MATERIAL',title:m.name,sub:`${m.family} · ISO ${m.isoGroup}`,action:'global:materials'}));
+ }
+ box.classList.remove('hidden');
+ box.innerHTML=results.length?results.slice(0,12).map(r=>`<button class="search-result ${r.kind==='COMMAND'?'command':''}" data-search-action="${esc(r.action)}"><div class="kind">${esc(r.kind)}</div><div><strong>${esc(r.title)}</strong><span>${esc(r.sub)}</span></div></button>`).join(''):'<div class="empty">No matching command, job, tool or material.</div>';
+ $$('[data-search-action]').forEach(b=>b.onclick=()=>{handleSearchAction(b.dataset.searchAction);box.classList.add('hidden');$("#globalSearch").value=''});
+}
+const GLOBAL_VIEWS=new Set(['manual','library','materials','reference','profiles','diagnostics']);
+function openGlobalView(view){
+ state.activeProjectId=null;
+ $("#appShell").classList.remove("project-closed");$("#startScreen").classList.add("hidden");
+ $("#sideProjectName").textContent='Workshop resources';$("#sideProjectMeta").textContent='Available without a job';
+ setView(view,true);
+}
+function runOsAction(action){
+ if(action==='new'){$("#newProjectPanel").classList.remove('hidden');$("#newProjectPanel").scrollIntoView({behavior:'smooth',block:'start'});return}
+ if(action==='resume'){const id=localStorage.getItem(SESSION_STORE);const p=state.projects.find(x=>x.id===id)||[...state.projects].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0))[0];if(p)openProject(p.id);else runOsAction('new');return}
+ if(GLOBAL_VIEWS.has(action))openGlobalView(action);
+}
+function osNextMove(p){
+ const info=projectPhaseInfo(p),setup=p.setups?.find(s=>s.id===p.activeSetupId)||p.setups?.[0];
+ if(!info.ops)return{title:'Plan the first cut',detail:'No machining operations yet',view:'cnc'};
+ if(setup&&!setupReady(setup).ready)return{title:'Finish the active setup',detail:setupReady(setup).text,view:'cnc'};
+ if(!info.fai)return{title:'Prepare inspection',detail:`${info.ops} operation${info.ops===1?'':'s'} ready · no FAI plan`,view:'documents'};
+ if(!info.verified)return{title:'Record inspection results',detail:`${info.fai} FAI characteristic${info.fai===1?'':'s'} waiting`,view:'documents'};
+ if(!info.hasDelivery)return{title:'Prepare delivery',detail:'Inspection complete · delivery still open',view:'documents'};
+ return{title:'Job record complete',detail:'Manufacturing, proof and delivery are connected',view:'overview'};
+}
 function renderStart(){
  const box=$("#recentProjects");if(!box)return;
  const query=($("#startJobSearch")?.value||'').trim().toLowerCase(),filter=state.startJobFilter||'all';
  $$('#startJobFilters [data-job-filter]').forEach(b=>b.classList.toggle('active',b.dataset.jobFilter===filter));
  const all=[...state.projects].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
  const list=all.filter(p=>(filter==='all'||p.mode===filter)&&(!query||[p.jobNo,p.name,p.customer,p.part,p.revision,mat(p.materialId)?.name].join(' ').toLowerCase().includes(query)));
+ const remembered=state.projects.find(p=>p.id===localStorage.getItem(SESSION_STORE)),current=remembered||all[0];
+ $("#osDate").textContent=new Intl.DateTimeFormat('en-GB',{weekday:'short',day:'2-digit',month:'short'}).format(new Date()).toUpperCase();
+ $("#osTodaySummary").innerHTML=current?(()=>{const move=osNextMove(current),ops=totalOps(current);return `<div class="os-resume"><div><div class="os-resume-label">CONTINUE / ${esc(current.jobNo||'JOB')}</div><h2>${esc(current.name)}</h2><p>${esc(move.title)} · ${esc(move.detail)}</p><div class="os-resume-meta"><span>${current.setups?.length||0} SETUP</span><span>${ops} OP</span><span>${esc(projectStatus(current).label.toUpperCase())}</span><span>DUE ${esc(formatDateShort(current.dueDate))}</span></div></div><button class="btn primary" data-os-resume="${esc(current.id)}">Continue job →</button></div>`})():`<div class="os-resume-empty"><strong>No active job yet.</strong><span>Start with the part. DatumLab will build the record around it.</span></div>`;
+ $("[data-os-resume]")?.addEventListener('click',e=>openProject(e.currentTarget.dataset.osResume));
+ const attention=all.map(p=>({p,move:osNextMove(p)})).filter(x=>x.move.view!=='overview').slice(0,3);
+ $("#osAttention").innerHTML=attention.length?attention.map((x,i)=>`<button class="os-alert" data-os-attention="${esc(x.p.id)}" data-os-view="${esc(x.move.view)}"><span class="os-alert-index">0${i+1}</span><span><strong>${esc(x.move.title)}</strong><small>${esc(x.p.jobNo||'JOB')} · ${esc(x.p.name)}</small></span><span class="os-alert-arrow">→</span></button>`).join(''):`<div class="os-alert empty">${all.length?'Nothing is waiting. Your current records are complete.':'The queue will appear when you create your first job.'}</div>`;
+ $$('[data-os-attention]').forEach(b=>b.onclick=()=>{openProject(b.dataset.osAttention);setView(b.dataset.osView)});
  const activeOps=all.reduce((n,p)=>n+totalOps(p),0);$("#startKpis").innerHTML=`<div class="start-kpi"><span>jobs</span><strong>${all.length}</strong></div><div class="start-kpi"><span>planned operations</span><strong>${activeOps}</strong></div>`;
- if(!list.length){box.innerHTML=`<div class="empty"><strong>${all.length?'No matching jobs':'Your first job starts here'}</strong><p>${all.length?'Try another search or filter.':'Create a job, add an operation and let DatumLab keep the thread.'}</p>${all.length?'':'<button class="btn primary" data-empty-new>+ New job</button>'}</div>`;$("[data-empty-new]")?.addEventListener('click',()=>$("#newProjectPanel").classList.remove('hidden'));return}
+ if(!list.length){box.innerHTML=`<div class="empty"><strong>${all.length?'No matching jobs':'Your first job starts here'}</strong><p>${all.length?'Try another search or filter.':'Create a job, add an operation and let DatumLab keep the thread.'}</p>${all.length?'':'<button class="btn primary" data-empty-new>+ New job</button>'}</div>`;$("[data-empty-new]")?.addEventListener('click',()=>runOsAction('new'));return}
  box.innerHTML=`<div class="job-deck">${list.map(p=>{const st=projectStatus(p),ops=totalOps(p),phase=projectPhaseInfo(p),progress=[12,42,72,100][phase.active]||12;return `<article class="job-tile"><div class="job-tile-top"><span class="job-no">${esc(p.jobNo||'JOB')}</span><span class="job-status ${st.key}">${esc(st.label)}</span></div><h3>${esc(p.name)}</h3><div class="job-part">${esc(p.part||p.customer||'Ready for definition')} · ${esc(mat(p.materialId)?.name||'Material not set')}</div><div class="job-tile-progress" title="Job progress"><i style="width:${progress}%"></i></div><div class="job-tile-foot"><span>${p.setups?.length||0} setup · ${ops} op<br>Due ${esc(formatDateShort(p.dueDate))}</span><div class="jobs-row-actions"><button class="btn primary" data-open-project="${p.id}">Continue</button><details class="job-actions"><summary aria-label="More actions">•••</summary><button class="btn" data-export-project-card="${p.id}">Export</button><button class="btn danger" data-delete-project="${p.id}">Delete</button></details></div></div></article>`}).join('')}</div>`;
  $$('[data-open-project]').forEach(b=>b.onclick=()=>openProject(b.dataset.openProject));$$('[data-export-project-card]').forEach(b=>b.onclick=()=>exportProject(b.dataset.exportProjectCard));$$('[data-delete-project]').forEach(b=>b.onclick=()=>deleteProject(b.dataset.deleteProject));
 }
 function showStart(){state.activeProjectId=null;$("#appShell").classList.add("project-closed");$("#startScreen").classList.remove("hidden");document.body.classList.remove('doc-print-active');renderStart()}
-function createProject(){const name=$("#newProjName").value.trim();if(!name){alert('Job name is required.');return}const s=newSetupObject('Setup 01'),p={id:'proj_'+Date.now(),jobNo:$("#newProjJobNo").value.trim()||nextJobNo(),name,mode:$("#newProjMode").value,qty:Math.max(1,+$("#newProjQty").value||1),customer:$("#newProjCustomer").value.trim(),part:$("#newProjPart").value.trim(),materialId:$("#newProjMaterial").value||state.materials[0]?.id||'',revision:$("#newProjRevision").value.trim(),dueDate:$("#newProjDueDate").value||'',priority:$("#newProjPriority").value||'Normal',notes:'',createdAt:Date.now(),updatedAt:Date.now(),schemaVersion:4.4,setups:[s],activeSetupId:s.id,documents:{}};state.projects.push(p);saveProjects();$("#newProjectPanel").classList.add('hidden');['newProjJobNo','newProjName','newProjCustomer','newProjPart','newProjRevision','newProjDueDate'].forEach(id=>$("#"+id).value='');$("#newProjQty").value='1';$("#newProjPriority").value='Normal';$("#newProjMode").value='Prototype';renderStart();openProject(p.id)}
-function openProject(id){const p=state.projects.find(x=>x.id===id);if(!p)return;state.activeProjectId=id;if(!Array.isArray(p.setups)||!p.setups.length){const s=newSetupObject('Setup 01');p.setups=[s];p.activeSetupId=s.id}if(!p.activeSetupId||!p.setups.some(s=>s.id===p.activeSetupId))p.activeSetupId=p.setups[0].id;syncLegacySetup();$("#appShell").classList.remove("project-closed");$("#startScreen").classList.add("hidden");syncProjectFields();renderSetupSelectors();setView('overview')}
-function deleteProject(id){const p=state.projects.find(x=>x.id===id);if(!p)return;if(confirm(`Delete project ${p.name}? This removes its project setup/document data.`)){state.projects=state.projects.filter(x=>x.id!==id);saveProjects();renderStart()}}
+function createProject(){const name=$("#newProjName").value.trim();if(!name){alert('Job name is required.');return}const customer=$("#newProjCustomer").value.trim(),known=knownCustomer(customer),s=newSetupObject('Setup 01'),p={id:'proj_'+Date.now(),jobNo:$("#newProjJobNo").value.trim()||nextJobNo(),name,mode:$("#newProjMode").value,qty:Math.max(1,+$("#newProjQty").value||1),customer,...known,part:$("#newProjPart").value.trim(),materialId:$("#newProjMaterial").value||state.materials[0]?.id||'',revision:$("#newProjRevision").value.trim(),dueDate:$("#newProjDueDate").value||'',priority:$("#newProjPriority").value||'Normal',notes:'',createdAt:Date.now(),updatedAt:Date.now(),schemaVersion:4.4,setups:[s],activeSetupId:s.id,documents:{}};state.projects.push(p);saveProjects();$("#newProjectPanel").classList.add('hidden');['newProjJobNo','newProjName','newProjCustomer','newProjPart','newProjRevision','newProjDueDate'].forEach(id=>$("#"+id).value='');$("#newProjQty").value='1';$("#newProjPriority").value='Normal';$("#newProjMode").value='Prototype';renderStart();openProject(p.id)}
+function openProject(id){const p=state.projects.find(x=>x.id===id);if(!p)return;state.activeProjectId=id;localStorage.setItem(SESSION_STORE,id);if(!Array.isArray(p.setups)||!p.setups.length){const s=newSetupObject('Setup 01');p.setups=[s];p.activeSetupId=s.id}if(!p.activeSetupId||!p.setups.some(s=>s.id===p.activeSetupId))p.activeSetupId=p.setups[0].id;syncLegacySetup();$("#appShell").classList.remove("project-closed");$("#startScreen").classList.add("hidden");syncProjectFields();renderSetupSelectors();setView('overview')}
+function deleteProject(id){const p=state.projects.find(x=>x.id===id);if(!p)return;if(confirm(`Delete project ${p.name}? This removes its project setup/document data.`)){state.projects=state.projects.filter(x=>x.id!==id);if(localStorage.getItem(SESSION_STORE)===id)localStorage.removeItem(SESSION_STORE);saveProjects();renderStart()}}
 function syncProjectFields(){const p=activeProject(),s=activeSetup();if(!p||!s)return;syncLegacySetup();$("#sideProjectName").textContent=p.name;$("#sideProjectMeta").textContent=`${p.jobNo||""} · ${p.mode} · Qty ${p.qty} · ${p.setups.length} setup(s)`;$("#projectName").value=p.name;$("#partName").value=p.part||'';$("#setupName").value=s.name||'Setup 01';$("#wcsInput").value=s.wcs||'G54';$("#stockInput").value=s.stock||'';$("#workholdingInput").value=s.workholding||'';if(p.materialId&&state.materials.some(m=>m.id===p.materialId)){$("#cncMaterial").value=p.materialId;$("#manualMaterial").value=p.materialId}renderSetupSelectors();renderOverview();renderSetup();calcCnc();calcManual()}
 function projectPhaseInfo(p){
  const ops=totalOps(p),fai=p?.documents?.fai?.characteristics||[];
  const measured=fai.filter(c=>String(c.actual??'').trim()!=='');
  const verified=fai.length>0&&measured.length===fai.length&&fai.every(c=>characteristicResult(c).state==='pass');
- const hasDelivery=!!(p?.documents?.delivery&&Object.keys(p.documents.delivery).length);
+ const hasDelivery=isReleasedDocument(p?.documents?.delivery);
  let active=0;
  if(ops>0)active=1;
  if(fai.length>0)active=2;
  if(verified&&hasDelivery)active=3;
  return {active,ops,fai:fai.length,verified,hasDelivery};
 }
+function isReleasedDocument(d){return !!d&&!['Draft','Cancelled'].includes(d.status||'Draft')}
 
 function partNumberForProject(p){return (p.part||p.name||'PART').replace(/\s+/g,' ').trim().slice(0,24)||'PART'}
 function dueDateForProject(p){return p.dueDate?formatDateShort(p.dueDate):'—'}
 function priorityForProject(p){return p.priority||'Normal'}
-function documentRowsForProject(p){const d=p.documents||{},rows=[];if(totalOps(p))rows.push({name:`${p.jobNo||p.name} · Setup Sheet`,type:'Generated from setup',ver:`${totalOps(p)} ops`,status:'ok'});if(d.fai)rows.push({name:d.fai.docNo||'FAI',type:'FAI Report',ver:`${(d.fai.characteristics||[]).length} characteristics`,status:(d.fai.characteristics||[]).some(c=>characteristicResult(c).state==='fail')?'bad':'pending'});if(d.quote)rows.push({name:d.quote.docNo||'Quote',type:'Quote / Estimate',ver:d.quote.date||'Saved',status:'ok'});if(d.invoice)rows.push({name:d.invoice.docNo||'Invoice',type:'Invoice',ver:d.invoice.date||'Saved',status:'pending'});if(d.delivery)rows.push({name:d.delivery.docNo||'Delivery Note',type:'Delivery Note',ver:d.delivery.date||'Saved',status:'pending'});if(d.inspection)rows.push({name:d.inspection.docNo||'Inspection Report',type:'Inspection',ver:d.inspection.date||'Saved',status:'pending'});if(d.ncr)rows.push({name:d.ncr.docNo||'NCR',type:'Non-Conformance',ver:d.ncr.date||'Saved',status:'bad'});return rows}
+function documentRowsForProject(p){const d=p.documents||{},rows=[];if(totalOps(p))rows.push({name:`${p.jobNo||p.name} · Setup Sheet`,type:'Generated from setup',ver:`${totalOps(p)} ops`,status:'ok'});DOC_TYPES.forEach(([key,label])=>{if(!d[key])return;const doc=d[key],isFail=key==='ncr'||(key==='fai'&&(doc.characteristics||[]).some(c=>characteristicResult(c).state==='fail'));rows.push({name:doc.docNo||label,type:label,ver:key==='fai'?`${(doc.characteristics||[]).length} characteristics`:doc.status||doc.date||'Saved',status:isFail?'bad':doc.status==='Draft'?'pending':'ok'})});return rows}
 function moveSetupOperation(setupId,index,delta){const p=activeProject(),s=p?.setups?.find(x=>x.id===setupId);if(!s)return;const to=index+delta;if(to<0||to>=s.ops.length)return;const[op]=s.ops.splice(index,1);s.ops.splice(to,0,op);p.updatedAt=Date.now();saveProjects();if(p.activeSetupId===s.id){syncLegacySetup();renderSetup()}renderOverview();renderSheet()}
 function deleteStoredOperation(setupId,index){const p=activeProject(),s=p?.setups?.find(x=>x.id===setupId);if(!s||!s.ops[index])return;if(!confirm(`Delete OP${String((index+1)*10).padStart(2,'0')} · ${s.ops[index].operation}?`))return;const removed=s.ops.splice(index,1)[0];if(state.editingOperationId===removed.id)cancelOperationEdit();p.updatedAt=Date.now();saveProjects();if(p.activeSetupId===s.id)syncLegacySetup();renderSetup();renderOverview();renderSheet()}
 function openStoredOperation(setupId,index){const p=activeProject(),s=p?.setups?.find(x=>x.id===setupId),o=s?.ops?.[index];if(!p||!s||!o)return;if(p.activeSetupId!==s.id){p.activeSetupId=s.id;saveProjects();syncLegacySetup();syncProjectFields()}const opId=o.operationId||CNC_OPS.find(x=>x.name===o.operation)?.id||'adaptive';$("#cncOperation").value=opId;cncOperationChanged(false);if(o.materialId&&state.materials.some(m=>m.id===o.materialId))$("#cncMaterial").value=o.materialId;if(o.toolId&&state.tools.some(t=>t.id===o.toolId))$("#cncTool").value=o.toolId;if(Number.isFinite(o.ap))$("#cncAp").value=cleanNum(mmD(o.ap),state.unit==='metric'?3:4);if(Number.isFinite(o.ae))$("#cncAe").value=cleanNum(mmD(o.ae),state.unit==='metric'?3:4);$("#toolNumber").value=o.toolNo||'T1';$("#stickoutInput").value=Number.isFinite(o.stickout)&&o.stickout?cleanNum(mmD(o.stickout),state.unit==='metric'?3:4):'';$("#coolantInput").value=o.coolant||'Flood';$("#opNotes").value=o.notes||'';state.cncIntent=o.intent||'general';state.cncStrategy=o.strategy||'standard';segment('cncIntent',state.cncIntent);segment('cncStrategy',state.cncStrategy);state.editingOperationId=o.id;state.editingSetupId=s.id;$("#addToSetupBtn").textContent='UPDATE OPERATION';$("#cancelOpEditBtn").classList.remove('hidden');calcCnc();setView('cnc')}
@@ -790,8 +892,8 @@ function renderJobHero(p){
 }
 function renderOfficePulse(p){
  const box=$("#officePulse");if(!box)return;
- const docs=p.documents||{},quote=!!docs.quote,invoice=!!docs.invoice,delivery=!!docs.delivery;
- const done=[quote,invoice,delivery].filter(Boolean).length,amount=docs.invoice?.amount||docs.quote?.amount||'';
+ const docs=p.documents||{},quote=isReleasedDocument(docs.quote),invoice=isReleasedDocument(docs.invoice),delivery=isReleasedDocument(docs.delivery);
+ const done=[quote,invoice,delivery].filter(Boolean).length,latest=invoice?docs.invoice:quote?docs.quote:null,amount=latest?money(commercialTotals(p,latest).total,latest.currency||state.docProfile.currency):'';
  let message='No commercial documents yet. Start a quote when this job becomes real work.';
  if(quote&&!invoice)message='The quote is tied to this job. Create the invoice when the work is ready to bill.';
  else if(invoice&&!delivery)message='The invoice is recorded. Prepare delivery from the same job when the part leaves.';
@@ -834,13 +936,16 @@ function renderNextAction(p){
  box.innerHTML=`<div class="eyebrow">OUR NEXT MOVE</div><h2>${esc(title)}</h2><p>${esc(copy)}</p><button class="btn primary">${esc(label)}</button>`;box.querySelector('button').onclick=()=>view==='documents'&&info.fai&&!info.verified?openFai():setView(view);
 }
 function openFai(){activeDocType='fai';setView('documents');renderDocuments()}
-function openProjectEditor(){const p=activeProject();if(!p)return;$("#projectEditPanel").classList.remove('hidden');$("#editProjJobNo").value=p.jobNo||'';$("#editProjCustomer").value=p.customer||'';$("#editProjPart").value=p.part||'';$("#editProjQty").value=p.qty||1;$("#editProjMode").value=p.mode||'Prototype';$("#editProjRevision").value=p.revision||'';$("#editProjDueDate").value=p.dueDate||'';$("#editProjPriority").value=p.priority||'Normal';$("#editProjNotes").value=p.notes||'';$("#projectMaterial").innerHTML=materialOptionsHtml(p.materialId||'');if(p.materialId)$("#projectMaterial").value=p.materialId}
-function saveProjectMeta(){const p=activeProject();if(!p)return;p.jobNo=$("#editProjJobNo").value.trim()||p.jobNo||nextJobNo();p.customer=$("#editProjCustomer").value.trim();p.part=$("#editProjPart").value.trim();p.qty=Math.max(1,+$("#editProjQty").value||1);p.mode=$("#editProjMode").value;p.materialId=$("#projectMaterial").value;p.revision=$("#editProjRevision").value.trim();p.dueDate=$("#editProjDueDate").value||'';p.priority=$("#editProjPriority").value||'Normal';p.notes=$("#editProjNotes").value.trim();p.updatedAt=Date.now();state.setup.project=p.name;state.setup.part=p.part;saveSetup();saveProjects();$("#projectEditPanel").classList.add('hidden');syncProjectFields();renderDocuments()}
+function customerKey(name){return String(name||'').trim().toLocaleLowerCase('da-DK')}
+function knownCustomer(name){return deepCopy(state.customers[customerKey(name)]||{})}
+function rememberCustomer(p){if(!p?.customer)return;state.customers[customerKey(p.customer)]={customerContact:p.customerContact||'',customerEmail:p.customerEmail||'',customerPhone:p.customerPhone||'',customerCvr:p.customerCvr||'',customerAddress:p.customerAddress||'',customerReference:p.customerReference||''};save(CUSTOMER_STORE,state.customers)}
+function openProjectEditor(){const p=activeProject();if(!p)return;$("#projectEditPanel").classList.remove('hidden');$("#editProjJobNo").value=p.jobNo||'';$("#editProjCustomer").value=p.customer||'';$("#editProjPart").value=p.part||'';$("#editProjQty").value=p.qty||1;$("#editProjMode").value=p.mode||'Prototype';$("#editProjRevision").value=p.revision||'';$("#editProjDueDate").value=p.dueDate||'';$("#editProjPriority").value=p.priority||'Normal';$("#editProjNotes").value=p.notes||'';$("#editProjCustomerContact").value=p.customerContact||'';$("#editProjCustomerEmail").value=p.customerEmail||'';$("#editProjCustomerPhone").value=p.customerPhone||'';$("#editProjCustomerCvr").value=p.customerCvr||'';$("#editProjCustomerAddress").value=p.customerAddress||'';$("#editProjCustomerRef").value=p.customerReference||'';$("#editProjPoNumber").value=p.poNumber||'';$("#projectMaterial").innerHTML=materialOptionsHtml(p.materialId||'');if(p.materialId)$("#projectMaterial").value=p.materialId}
+function saveProjectMeta(){const p=activeProject();if(!p)return;p.jobNo=$("#editProjJobNo").value.trim()||p.jobNo||nextJobNo();p.customer=$("#editProjCustomer").value.trim();p.part=$("#editProjPart").value.trim();p.qty=Math.max(1,+$("#editProjQty").value||1);p.mode=$("#editProjMode").value;p.materialId=$("#projectMaterial").value;p.revision=$("#editProjRevision").value.trim();p.dueDate=$("#editProjDueDate").value||'';p.priority=$("#editProjPriority").value||'Normal';p.notes=$("#editProjNotes").value.trim();p.customerContact=$("#editProjCustomerContact").value.trim();p.customerEmail=$("#editProjCustomerEmail").value.trim();p.customerPhone=$("#editProjCustomerPhone").value.trim();p.customerCvr=$("#editProjCustomerCvr").value.trim();p.customerAddress=$("#editProjCustomerAddress").value.trim();p.customerReference=$("#editProjCustomerRef").value.trim();p.poNumber=$("#editProjPoNumber").value.trim();p.updatedAt=Date.now();rememberCustomer(p);state.setup.project=p.name;state.setup.part=p.part;saveSetup();saveProjects();$("#projectEditPanel").classList.add('hidden');syncProjectFields();renderDocuments()}
 function setUiMode(mode){state.uiMode=mode;document.body.classList.toggle('simple-mode',mode==='simple');$$('#globalModeToggle [data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));if(mode==='simple'){state.cncStrategy='conservative';segment('cncStrategy','conservative');setCncDefaults();calcCnc()}}
 function populateReference(){const rm=$("#refMaterial"),rt=$("#refTool");if(!rm||!rt)return;rm.innerHTML=state.materials.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join('');populateReferenceTools();renderReferenceTable()}
 function populateReferenceTools(){const process=$("#refProcess")?.value||'milling',cat=categoryForProcess(process),list=state.tools.filter(t=>t.category===cat),prev=$("#refTool")?.value;if($("#refTool")){$("#refTool").innerHTML=list.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');if(list.some(t=>t.id===prev))$("#refTool").value=prev}}
 function renderReferenceTable(){if(!$("#referenceTable"))return;const process=$("#refProcess")?.value||'milling',m=mat($("#refMaterial")?.value),t=tool($("#refTool")?.value);if(!m||!t){$("#referenceTable").innerHTML='<div class="empty">Select a compatible material and tool.</div>';return}const compat=toolMaterialCompatibility(t,m,process),ops=process==='milling'?CNC_OPS:process==='turning'?TURN_OPS:DRILL_OPS;const rows=ops.map(op=>{const ctx={process,operation:op.id,material:m,tool:t,diameter:t.dia||10,pitch:t.pitch||1.25};const r=resolveCuttingData(ctx);if(!r.vc)return null;return`<tr><td>${esc(op.name)}</td><td class="mono">${rangeText(r.vc[0],r.vc[1],0)} m/min</td><td class="mono">${rangeText(r.feed[0],r.feed[1],3)} ${r.feedBasis==='fz'?'mm/tooth':'mm/rev'}</td><td>${esc(r.sourceLabel)}</td><td><span class="confidence ${r.confidence}">${r.confidence}</span></td></tr>`}).filter(Boolean).join('');const banner=compat?`<div class="compat-note ${compat.level==='bad'?'bad':''}"><strong>${esc(compat.title)}</strong><br>${esc(compat.message)}</div>`:'';$("#referenceTable").innerHTML=`${banner}<div class="ref-note" style="margin:0">Raw resolver envelopes. Intent, engagement and machine limits are applied later by the calculator.</div><table class="ref-table"><thead><tr><th>Operation</th><th>Vc</th><th>Feed</th><th>Source</th><th>Confidence</th></tr></thead><tbody>${rows||'<tr><td colspan="5">No compatible data.</td></tr>'}</tbody></table>`}
-const DOC_TYPES=[['quote','Quote / Estimate'],['invoice','Invoice'],['fai','FAI'],['inspection','Inspection Report'],['ncr','Non-Conformance / Error Report'],['traveler','Job Traveler'],['delivery','Delivery Note']];
+const DOC_TYPES=[['quote','Quotation'],['invoice','Invoice'],['fai','First Article Inspection'],['inspection','Inspection Report'],['coc','Certificate of Conformance'],['ncr','Non-Conformance Report'],['traveler','Job Traveler'],['delivery','Delivery Note']];
 function renderSetupSelectors(){
  const p=activeProject();if(!p)return;
  const list=p.setups||[],htmlOpts=list.map(s=>`<option value="${esc(s.id)}">${esc(s.name)} · ${s.ops?.length||0} ops</option>`).join('');
@@ -893,7 +998,7 @@ function exportProject(id=state.activeProjectId){
 function exportAllData(){
  downloadJson(`DatumLab_Backup_v${APP_VERSION}_${new Date().toISOString().slice(0,10)}.json`,{
    kind:'datumlab-backup',version:APP_VERSION,exportedAt:new Date().toISOString(),
-   projects:state.projects,tools:state.tools,materials:state.materials,profiles:state.profiles
+   projects:state.projects,tools:state.tools,materials:state.materials,profiles:state.profiles,documentProfile:state.docProfile,customers:state.customers
  });
 }
 async function importBackupFile(file){
@@ -906,8 +1011,8 @@ async function importBackupFile(file){
      state.projects.push(p);saveProjects();renderStart();alert('Project imported.');
    }else if(data.kind==='datumlab-backup'&&Array.isArray(data.projects)){
      if(!confirm('Import this backup and replace the current local DatumLab data?'))return;
-     state.projects=data.projects;state.tools=(data.tools||DEFAULT_TOOLS).map(normalizeTool);state.materials=mergeMaterialDefaults(data.materials||DEFAULT_MATERIALS);state.profiles=data.profiles||[];
-     saveProjects();saveTools();saveMaterials();saveProfiles();refreshToolConsumers();populateMaterials();renderStart();alert('Backup imported.');
+     state.projects=data.projects;state.tools=(data.tools||DEFAULT_TOOLS).map(normalizeTool);state.materials=mergeMaterialDefaults(data.materials||DEFAULT_MATERIALS);state.profiles=data.profiles||[];state.docProfile={...DEFAULT_DOC_PROFILE,...(data.documentProfile||{})};state.customers=data.customers||{};
+     saveProjects();saveTools();saveMaterials();saveProfiles();save(DOC_PROFILE_STORE,state.docProfile);save(CUSTOMER_STORE,state.customers);refreshToolConsumers();populateMaterials();renderStart();alert('Backup imported.');
    }else alert('This is not a recognized DatumLab backup.');
  }catch(e){alert('Could not import backup: '+e.message)}
 }
@@ -918,7 +1023,7 @@ function localDateISO(){
  const d=new Date(),pad=n=>String(n).padStart(2,'0');
  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 }
-function docPrefix(type){return({quote:'QUO',invoice:'INV',fai:'FAI',inspection:'INS',ncr:'NCR',traveler:'TRV',delivery:'DN'})[type]||'DOC'}
+function docPrefix(type){return({quote:'QUO',invoice:'INV',fai:'FAI',inspection:'INS',coc:'COC',ncr:'NCR',traveler:'TRV',delivery:'DN'})[type]||'DOC'}
 function projectDocToken(p){
  const raw=(p.part||p.name||'JOB').toUpperCase().replace(/[^A-Z0-9]+/g,'').slice(0,8);
  return raw||'JOB';
@@ -926,6 +1031,7 @@ function projectDocToken(p){
 function autoDocumentNumber(type,p){
  return `${docPrefix(type)}-${localDateISO().replace(/-/g,'')}-${projectDocToken(p)}`;
 }
+function addDaysISO(date,days){const d=new Date(`${date||localDateISO()}T12:00:00`);d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
 function ensureDocumentDefaults(type,p){
  p.documents=p.documents||{};
  const d=p.documents[type]||{};
@@ -933,13 +1039,21 @@ function ensureDocumentDefaults(type,p){
  const set=(k,v)=>{if(d[k]===undefined||d[k]===null||d[k]===''){d[k]=v;changed=true}};
  set('docNo',autoDocumentNumber(type,p));
  set('date',localDateISO());
- if(type==='fai'||type==='inspection')set('reference',p.revision||'');
+ set('status',type==='ncr'?'Open':'Draft');
+ set('reference',p.poNumber||p.customerReference||((type==='fai'||type==='inspection'||type==='coc')?p.revision||'':''));
+ if(type==='quote'){set('validUntil',addDaysISO(d.date,14));set('currency',state.docProfile.currency||'DKK');set('vatRate',state.docProfile.vatRate||'25');set('paymentTerms',state.docProfile.paymentTerms||'Net 8 days');set('deliveryTerms',state.docProfile.deliveryTerms||'Ex works');set('unitPrice','');set('setupFee','0');set('shipping','0');set('discountPct','0');set('leadTime',p.dueDate?`Delivery by ${p.dueDate}`:'')}
+ if(type==='invoice'){const q=p.documents?.quote||{};set('dueDate',addDaysISO(d.date,8));set('currency',q.currency||state.docProfile.currency||'DKK');set('vatRate',q.vatRate||state.docProfile.vatRate||'25');set('paymentTerms',q.paymentTerms||state.docProfile.paymentTerms||'Net 8 days');set('unitPrice',q.unitPrice||'');set('setupFee',q.setupFee||'0');set('shipping',q.shipping||'0');set('discountPct',q.discountPct||'0')}
  if(type==='fai'){
    set('inspectionType','First article');
    set('inspector','');
    set('notes','');
    if(!Array.isArray(d.characteristics)){d.characteristics=[];changed=true}
  }
+ if(type==='inspection'){set('inspector','');set('equipment','');set('environment','');set('conclusion','Accepted')}
+ if(type==='delivery'){set('packages','1');set('carrier','');set('tracking','');set('grossWeight','');set('deliveredBy','')}
+ if(type==='coc'){set('authorizedBy','');set('certificateText',state.docProfile.qualityStatement)}
+ if(type==='traveler'){set('preparedBy','');set('batch','');set('release','Draft')}
+ if(type==='ncr'){set('affectedOperation','');set('quantityAffected','1');set('detectedBy','');set('containment','');set('rootCause','');set('correctiveAction','');set('disposition','Hold for review');set('approvedBy','')}
  p.documents[type]=d;
  if(changed){p.updatedAt=Date.now();saveProjects()}
  return d;
@@ -986,6 +1100,13 @@ function toolSummaryHtml(p){
  return `<div class="doc-section-title">Tool summary</div><table class="doc-setup-table"><thead><tr><th>Tool no.</th><th>Description</th></tr></thead><tbody>${tools.map(t=>`<tr><td>${esc(t.toolNo)}</td><td>${esc(t.tool)}</td></tr>`).join('')}</tbody></table>`;
 }
 
+const DOC_PROFILE_FIELDS=[
+ ['companyName','Trading name'],['legalName','Legal company name'],['cvr','CVR / VAT number'],['email','Email'],['phone','Phone'],['web','Website'],['address','Company address',1],['bank','Bank / account'],['iban','IBAN'],['bic','BIC / SWIFT'],['currency','Default currency'],['vatRate','Default VAT %'],['paymentTerms','Default payment terms'],['deliveryTerms','Default delivery terms'],['qualityStatement','Default conformity statement',1]
+];
+function renderDocumentProfile(){const box=$("#docProfileFields");if(!box)return;box.innerHTML=DOC_PROFILE_FIELDS.map(f=>`<div class="field ${f[2]?'full':''}"><label for="profile_${f[0]}">${esc(f[1])}</label>${f[2]?`<textarea id="profile_${f[0]}" class="control" rows="3">${esc(state.docProfile[f[0]]||'')}</textarea>`:`<input id="profile_${f[0]}" class="control" value="${esc(state.docProfile[f[0]]||'')}">`}</div>`).join('');$$('#docProfileFields input,#docProfileFields textarea').forEach(e=>e.onchange=()=>{state.docProfile[e.id.replace('profile_','')]=e.value.trim();save(DOC_PROFILE_STORE,state.docProfile);renderDocumentPreview();renderDocumentReadiness()})}
+const DOC_HELP={quote:'Price, validity and terms are ready for the customer.',invoice:'Commercial values carry over from the quotation when available.',fai:'Drawing identity and measured characteristics stay with the job.',inspection:'A concise release report using the job and FAI record.',coc:'Formal confirmation that the delivered parts meet the referenced requirements.',ncr:'Containment, cause, disposition and corrective action in one traceable record.',traveler:'A workshop routing sheet generated from setups and operations.',delivery:'Part identity, quantity and shipping details prepared for dispatch.'};
+function field(key,label,opts={}){return{key,label,value:opts.value??'',area:!!opts.area,full:!!opts.full,rows:opts.rows||3,type:opts.type||'text',note:opts.note||'',options:opts.options||null,readonly:!!opts.readonly}}
+
 function renderDocuments(){
  if(!$("#docMenu"))return;
  $("#docMenu").innerHTML=DOC_TYPES.map(d=>`<button data-doc="${d[0]}" class="${d[0]===activeDocType?'active':''}">${d[1]}</button>`).join('');
@@ -993,32 +1114,38 @@ function renderDocuments(){
  const p=activeProject();if(!p)return;
  const saved=ensureDocumentDefaults(activeDocType,p);
  const fields=documentFields(activeDocType,saved);
- $("#docFields").innerHTML=fields.map(f=>`<div class="field ${f.full?'full':''}"><label for="doc_${f.key}">${esc(f.label)}</label>${f.area?`<textarea id="doc_${f.key}" class="control" rows="${f.rows||3}" ${f.readonly?'readonly':''}>${esc(f.value??'')}</textarea>`:`<input id="doc_${f.key}" class="control" value="${esc(f.value??'')}" ${f.readonly?'readonly':''}>`}</div>`).join('');
- $$('#docFields input,#docFields textarea').forEach(e=>e.oninput=saveCurrentDocument);
+ $("#docEditorTitle").textContent=DOC_TYPES.find(x=>x[0]===activeDocType)?.[1]||'Document details';$("#docEditorHelp").textContent=DOC_HELP[activeDocType]||'';
+ $("#docFields").innerHTML=fields.map(f=>`<div class="field ${f.full?'full':''}"><label for="doc_${f.key}">${esc(f.label)}</label>${f.area?`<textarea id="doc_${f.key}" class="control" rows="${f.rows}" ${f.readonly?'readonly':''}>${esc(f.value)}</textarea>`:f.options?`<select id="doc_${f.key}" class="control">${f.options.map(o=>`<option ${o===f.value?'selected':''}>${esc(o)}</option>`).join('')}</select>`:`<input id="doc_${f.key}" type="${f.type}" class="control" value="${esc(f.value)}" ${f.readonly?'readonly':''}>`}${f.note?`<span class="doc-field-note ${f.readonly?'doc-auto':''}">${esc(f.note)}</span>`:''}</div>`).join('');
+ $$('#docFields input,#docFields textarea,#docFields select').forEach(e=>e.oninput=saveCurrentDocument);
+ renderDocumentProfile();renderDocumentReadiness();
  $("#faiEditor").classList.toggle('hidden',activeDocType!=='fai');
  if(activeDocType==='fai')renderFaiEditor();
  renderDocumentPreview();
 }
 function documentFields(type,s={}){
+ const base=[field('docNo','Document number',{value:s.docNo,note:'Generated from document type, date and job.'}),field('date','Issue date',{value:s.date,type:'date'}),field('status','Status',{value:s.status,options:['Draft','Issued','Accepted','Released','Open','Closed','Cancelled']}),field('reference','Customer / PO reference',{value:s.reference,note:'Defaults from the job.'})];
  const maps={
-  quote:[['docNo','Document no.'],['date','Date'],['reference','Valid until / customer reference'],['amount','Estimated total'],['notes','Scope / commercial notes',1]],
-  invoice:[['docNo','Invoice no.'],['date','Date'],['reference','Payment terms / PO reference'],['amount','Total'],['notes','Invoice notes',1]],
-  fai:[['docNo','FAI no.'],['date','Inspection date'],['reference','Drawing revision'],['inspectionType','Inspection type'],['inspector','Inspected by'],['notes','FAI notes',1]],
-  inspection:[['docNo','Report no.'],['date','Inspection date'],['reference','Drawing revision'],['inspector','Inspected by'],['notes','Measurements / inspection notes',1]],
-  ncr:[['docNo','NCR no.'],['date','Date'],['reference','Affected operation / part'],['notes','Non-conformance, containment, cause and disposition',1]],
-  traveler:[['docNo','Traveler no.'],['date','Date'],['reference','Batch / lot'],['notes','Routing / production notes',1]],
-  delivery:[['docNo','Delivery note no.'],['date','Date'],['reference','PO / customer reference'],['notes','Delivery notes',1]]
+  quote:[field('validUntil','Valid until',{value:s.validUntil,type:'date'}),field('leadTime','Lead time / delivery',{value:s.leadTime}),field('currency','Currency',{value:s.currency}),field('unitPrice','Unit price ex. VAT',{value:s.unitPrice,type:'number'}),field('setupFee','Engineering / setup fee',{value:s.setupFee,type:'number'}),field('shipping','Freight / packing',{value:s.shipping,type:'number'}),field('discountPct','Discount %',{value:s.discountPct,type:'number'}),field('vatRate','VAT %',{value:s.vatRate,type:'number'}),field('paymentTerms','Payment terms',{value:s.paymentTerms}),field('deliveryTerms','Delivery terms',{value:s.deliveryTerms}),field('notes','Scope, exclusions and commercial notes',{value:s.notes,area:true,full:true,rows:4})],
+  invoice:[field('dueDate','Due date',{value:s.dueDate,type:'date'}),field('currency','Currency',{value:s.currency}),field('unitPrice','Unit price ex. VAT',{value:s.unitPrice,type:'number'}),field('setupFee','Engineering / setup fee',{value:s.setupFee,type:'number'}),field('shipping','Freight / packing',{value:s.shipping,type:'number'}),field('discountPct','Discount %',{value:s.discountPct,type:'number'}),field('vatRate','VAT %',{value:s.vatRate,type:'number'}),field('paymentTerms','Payment terms',{value:s.paymentTerms}),field('notes','Invoice notes',{value:s.notes,area:true,full:true})],
+  fai:[field('inspectionType','Inspection type',{value:s.inspectionType,options:['First article','Partial FAI','Repeat FAI','Final inspection']}),field('inspector','Inspected by',{value:s.inspector}),field('equipment','Equipment / gauge IDs',{value:s.equipment}),field('approvedBy','Approved by',{value:s.approvedBy}),field('notes','Inspection notes',{value:s.notes,area:true,full:true})],
+  inspection:[field('inspector','Inspected by',{value:s.inspector}),field('equipment','Equipment / gauge IDs',{value:s.equipment}),field('environment','Environment / conditions',{value:s.environment}),field('conclusion','Conclusion',{value:s.conclusion,options:['Accepted','Accepted with deviation','Rejected','Pending']}),field('approvedBy','Approved by',{value:s.approvedBy}),field('notes','Inspection notes',{value:s.notes,area:true,full:true})],
+  coc:[field('authorizedBy','Authorized by',{value:s.authorizedBy}),field('certificateText','Conformity statement',{value:s.certificateText,area:true,full:true,rows:4}),field('notes','Certificate notes',{value:s.notes,area:true,full:true})],
+  ncr:[field('affectedOperation','Affected operation / feature',{value:s.affectedOperation}),field('quantityAffected','Quantity affected',{value:s.quantityAffected,type:'number'}),field('detectedBy','Detected by',{value:s.detectedBy}),field('disposition','Disposition',{value:s.disposition,options:['Hold for review','Rework','Use as is','Scrap','Return to supplier']}),field('containment','Immediate containment',{value:s.containment,area:true,full:true}),field('rootCause','Root cause',{value:s.rootCause,area:true,full:true}),field('correctiveAction','Corrective action',{value:s.correctiveAction,area:true,full:true}),field('approvedBy','Disposition approved by',{value:s.approvedBy}),field('notes','Additional notes',{value:s.notes,area:true,full:true})],
+  traveler:[field('batch','Batch / lot',{value:s.batch}),field('preparedBy','Prepared by',{value:s.preparedBy}),field('release','Release status',{value:s.release,options:['Draft','Released for production','On hold','Complete']}),field('notes','Routing / production notes',{value:s.notes,area:true,full:true})],
+  delivery:[field('packages','Packages',{value:s.packages,type:'number'}),field('grossWeight','Gross weight',{value:s.grossWeight}),field('carrier','Carrier / collection',{value:s.carrier}),field('tracking','Tracking / consignment',{value:s.tracking}),field('deliveredBy','Prepared / released by',{value:s.deliveredBy}),field('notes','Delivery notes',{value:s.notes,area:true,full:true})]
  };
- return (maps[type]||maps.quote).map(x=>({key:x[0],label:x[1],full:!!x[2],area:!!x[2],rows:4,value:s[x[0]]??''}));
+ return [...base,...(maps[type]||maps.quote)];
 }
 function saveCurrentDocument(){
  const p=activeProject();if(!p)return;
  p.documents=p.documents||{};
  const existing=ensureDocumentDefaults(activeDocType,p);
  const obj={...existing};
- $$('#docFields input,#docFields textarea').forEach(e=>obj[e.id.replace('doc_','')]=e.value);
- p.documents[activeDocType]=obj;p.updatedAt=Date.now();saveProjects();renderDocumentPreview();renderOverview();
+ $$('#docFields input,#docFields textarea,#docFields select').forEach(e=>obj[e.id.replace('doc_','')]=e.value);
+ p.documents[activeDocType]=obj;p.updatedAt=Date.now();saveProjects();renderDocumentPreview();renderDocumentReadiness();renderOverview();
 }
+function documentReadiness(){const p=activeProject(),d=p?.documents?.[activeDocType]||{},profile=state.docProfile,missing=[];if(!profile.companyName)missing.push('company name');if(!profile.address)missing.push('company address');if(!profile.email)missing.push('company email');if(!p?.customer)missing.push('customer');if(!p?.part)missing.push('part');if(!p?.customerAddress&&['quote','invoice','delivery'].includes(activeDocType))missing.push('customer address');if(!p?.revision&&['fai','inspection','coc'].includes(activeDocType))missing.push('drawing revision');if(['quote','invoice'].includes(activeDocType)&&!(Number(d.unitPrice)>0||Number(d.setupFee)>0))missing.push('price');if(activeDocType==='invoice'){if(!profile.cvr)missing.push('CVR');if(!profile.bank&&!profile.iban)missing.push('payment account')}if(activeDocType==='fai'){const chars=d.characteristics||[];if(!chars.length)missing.push('characteristics');else if(chars.some(c=>['invalid','pending'].includes(characteristicResult(c).state)))missing.push('measurements');if(!d.inspector)missing.push('inspector')}if(activeDocType==='inspection'&&!d.inspector)missing.push('inspector');if(activeDocType==='coc'&&!d.authorizedBy)missing.push('authorization');if(activeDocType==='delivery'&&!d.deliveredBy)missing.push('release signature');if(activeDocType==='traveler'){if(!d.preparedBy)missing.push('prepared by');if(!totalOps(p))missing.push('operations')}if(activeDocType==='ncr'&&(!d.containment||!d.disposition))missing.push('containment / disposition');return missing}
+function renderDocumentReadiness(){const box=$("#docReadiness");if(!box)return;const missing=documentReadiness();box.className=`doc-readiness ${missing.length?'draft':'ready'}`;box.textContent=missing.length?`${missing.length} item${missing.length===1?'':'s'} missing`:'READY TO SEND';box.title=missing.length?`Complete: ${missing.join(', ')}`:'Core document information is complete.'}
 
 /* ISO 286 common tolerance engine.
    IT widths use standard tabulated values in µm for 0–500 mm.
@@ -1096,19 +1223,19 @@ function newFaiCharacteristic(){
 function addFaiCharacteristic(){
  const p=activeProject();if(!p)return;
  const d=ensureDocumentDefaults('fai',p);d.characteristics=d.characteristics||[];d.characteristics.push(newFaiCharacteristic());
- p.updatedAt=Date.now();saveProjects();renderFaiEditor();renderDocumentPreview();
+ p.updatedAt=Date.now();saveProjects();renderFaiEditor();renderDocumentPreview();renderDocumentReadiness();
 }
 function clearFaiCharacteristics(){
  const p=activeProject();if(!p)return;if(!confirm('Clear all FAI characteristics?'))return;
- const d=ensureDocumentDefaults('fai',p);d.characteristics=[];p.updatedAt=Date.now();saveProjects();renderFaiEditor();renderDocumentPreview();
+ const d=ensureDocumentDefaults('fai',p);d.characteristics=[];p.updatedAt=Date.now();saveProjects();renderFaiEditor();renderDocumentPreview();renderDocumentReadiness();
 }
 function deleteFaiCharacteristic(id){
  const p=activeProject();if(!p)return;const d=ensureDocumentDefaults('fai',p);
- d.characteristics=(d.characteristics||[]).filter(c=>c.id!==id);p.updatedAt=Date.now();saveProjects();renderFaiEditor();renderDocumentPreview();
+ d.characteristics=(d.characteristics||[]).filter(c=>c.id!==id);p.updatedAt=Date.now();saveProjects();renderFaiEditor();renderDocumentPreview();renderDocumentReadiness();
 }
 function updateFaiCharacteristic(id,key,value){
  const p=activeProject();if(!p)return;const d=ensureDocumentDefaults('fai',p),c=(d.characteristics||[]).find(x=>x.id===id);if(!c)return;
- c[key]=value;p.updatedAt=Date.now();saveProjects();renderFaiEditor();renderDocumentPreview();
+ c[key]=value;p.updatedAt=Date.now();saveProjects();renderFaiEditor();renderDocumentPreview();renderDocumentReadiness();
 }
 function renderFaiEditor(){
  const p=activeProject();if(!p||!$("#faiRows"))return;const d=ensureDocumentDefaults('fai',p),rows=d.characteristics||[];
@@ -1141,28 +1268,33 @@ function faiPreviewHtml(d){
  <div class="doc-section-title">Inspection characteristics</div>
  <table><thead><tr><th>No.</th><th>Characteristic</th><th>Nominal</th><th>Tolerance</th><th>Limits mm</th><th>Actual mm</th><th>Method</th><th>Result</th></tr></thead><tbody>${evaluated.map(({c,r})=>`<tr><td>${esc(c.no||'')}</td><td>${esc(c.description||'—')}</td><td>${esc(c.nominal||'—')}</td><td>${esc(c.tolerance||'—')}</td><td>${r.lim.ok?`${r.lim.min.toFixed(3)}–${r.lim.max.toFixed(3)}`:'CHECK'}</td><td>${esc(c.actual||'—')}</td><td>${esc(c.method||'—')}</td><td><strong>${r.label}</strong></td></tr>`).join('')}</tbody></table>`;
 }
+function num(v){const n=Number(String(v??'').replace(',','.'));return Number.isFinite(n)?n:0}
+function money(v,currency){try{return new Intl.NumberFormat('da-DK',{style:'currency',currency:currency||'DKK'}).format(v)}catch(e){return `${fmt(v,2)} ${esc(currency||'DKK')}`}}
+function commercialTotals(p,d){const qty=Math.max(1,num(p.qty)),unit=num(d.unitPrice),setup=num(d.setupFee),shipping=num(d.shipping),gross=qty*unit+setup+shipping,discount=gross*num(d.discountPct)/100,subtotal=gross-discount,vat=subtotal*num(d.vatRate)/100;return{qty,unit,setup,shipping,discount,subtotal,vat,total:subtotal+vat}}
+function commercialHtml(p,d){const t=commercialTotals(p,d),c=d.currency||state.docProfile.currency||'DKK';return `<div class="doc-section-title">Commercial specification</div><table><thead><tr><th>Description</th><th class="num">Qty</th><th class="num">Unit price</th><th class="num">Amount</th></tr></thead><tbody><tr><td><strong>${esc(p.part||p.name)}</strong><br>${esc(mat(p.materialId)?.name||'Material not specified')} · ${esc(p.revision||'No revision')}</td><td class="num">${t.qty}</td><td class="num">${money(t.unit,c)}</td><td class="num">${money(t.qty*t.unit,c)}</td></tr>${t.setup?`<tr><td>Engineering and setup</td><td class="num">1</td><td class="num">${money(t.setup,c)}</td><td class="num">${money(t.setup,c)}</td></tr>`:''}${t.shipping?`<tr><td>Freight and packing</td><td class="num">1</td><td class="num">${money(t.shipping,c)}</td><td class="num">${money(t.shipping,c)}</td></tr>`:''}</tbody></table><div class="doc-total-box">${t.discount?`<div class="doc-total-row"><span>Discount</span><strong>− ${money(t.discount,c)}</strong></div>`:''}<div class="doc-total-row"><span>Subtotal</span><strong>${money(t.subtotal,c)}</strong></div><div class="doc-total-row"><span>VAT ${esc(d.vatRate||0)}%</span><strong>${money(t.vat,c)}</strong></div><div class="doc-total-row grand"><span>Total</span><strong>${money(t.total,c)}</strong></div></div>`}
+function noteHtml(title,text){return text?`<div class="doc-section-title">${esc(title)}</div><div class="doc-callout">${esc(text).replace(/\n/g,'<br>')}</div>`:''}
+function signatureHtml(left,right){return `<div class="doc-signatures"><div class="doc-signature">${esc(left||'Prepared by / date')}</div><div class="doc-signature">${esc(right||'Approved / received by / date')}</div></div>`}
+function travelerRoutingHtml(p){const rows=projectOperationRows(p);return `<div class="doc-section-title">Production routing</div><table><thead><tr><th>Setup / OP</th><th>Operation</th><th>Machine / WCS</th><th>Tool</th><th>Operator</th><th>QC</th></tr></thead><tbody>${rows.length?rows.map(o=>`<tr><td>${esc(o.setup)} / ${esc(o.op)}</td><td>${esc(o.operation)}</td><td>${esc(o.machine)} / ${esc(o.wcs)}</td><td>${esc(o.toolNo)} · ${esc(o.tool)}</td><td><span class="route-check"></span></td><td><span class="route-check"></span></td></tr>`).join(''):'<tr><td colspan="6">No operations released.</td></tr>'}</tbody></table>`}
 function automatedDocBody(type,p,d){
- const common=projectAutoSummaryHtml(p);
- if(type==='fai')return `${common}${faiPreviewHtml(d)}${setupSummaryHtml(p)}${toolSummaryHtml(p)}`;
- if(type==='traveler')return `${common}${setupSummaryHtml(p)}${operationSummaryHtml(p)}${toolSummaryHtml(p)}`;
- if(type==='quote')return `${common}${setupSummaryHtml(p)}${operationSummaryHtml(p)}`;
- if(type==='invoice')return `${common}${setupSummaryHtml(p)}`;
- if(type==='delivery')return `${common}<div class="doc-section-title">Delivery</div><table><tr><th>Part</th><th>Revision</th><th>Material</th><th>Quantity</th></tr><tr><td>${esc(p.part||'—')}</td><td>${esc(p.revision||'—')}</td><td>${esc(mat(p.materialId)?.name||'—')}</td><td>${esc(p.qty||1)}</td></tr></table>`;
- if(type==='inspection')return `${common}${setupSummaryHtml(p)}${toolSummaryHtml(p)}`;
- if(type==='ncr')return `${common}${setupSummaryHtml(p)}`;
- return common;
+ const common=projectAutoSummaryHtml(p),notes=noteHtml('Notes',d.notes);
+ if(type==='quote')return `${commercialHtml(p,d)}<div class="doc-section-title">Terms</div><table><tr><th>Validity</th><td>${esc(d.validUntil||'—')}</td><th>Lead time</th><td>${esc(d.leadTime||'To be agreed')}</td></tr><tr><th>Payment</th><td>${esc(d.paymentTerms||'—')}</td><th>Delivery</th><td>${esc(d.deliveryTerms||'—')}</td></tr></table>${noteHtml('Scope and assumptions',d.notes)}`;
+ if(type==='invoice')return `${commercialHtml(p,d)}<div class="doc-section-title">Payment information</div><table><tr><th>Due date</th><td>${esc(d.dueDate||'—')}</td><th>Terms</th><td>${esc(d.paymentTerms||'—')}</td></tr><tr><th>Bank / account</th><td>${esc(state.docProfile.bank||'—')}</td><th>IBAN / BIC</th><td>${esc([state.docProfile.iban,state.docProfile.bic].filter(Boolean).join(' / ')||'—')}</td></tr></table>${notes}`;
+ if(type==='fai')return `${common}<div class="doc-callout"><strong>${esc(d.inspectionType||'First article')}</strong>${d.inspector?` · Inspected by ${esc(d.inspector)}`:''}${d.equipment?` · Equipment ${esc(d.equipment)}`:''}</div>${faiPreviewHtml(d)}${setupSummaryHtml(p)}${signatureHtml(d.inspector||'Inspected by / date',d.approvedBy||'Approved by / date')}${notes}`;
+ if(type==='inspection'){const fai=p.documents?.fai;return `${common}${fai?faiPreviewHtml(fai):'<div class="doc-callout">No FAI measurement record is attached to this job.</div>'}<div class="doc-section-title">Inspection release</div><table><tr><th>Conclusion</th><td>${esc(d.conclusion||'Pending')}</td><th>Inspector</th><td>${esc(d.inspector||'—')}</td></tr><tr><th>Equipment</th><td>${esc(d.equipment||'—')}</td><th>Conditions</th><td>${esc(d.environment||'—')}</td></tr></table>${signatureHtml(d.inspector||'Inspected by / date',d.approvedBy||'Approved by / date')}${notes}`}
+ if(type==='coc')return `${common}<div class="doc-section-title">Declaration of conformity</div><div class="doc-callout">${esc(d.certificateText||state.docProfile.qualityStatement||'The supplied parts conform to the referenced requirements.')}</div><table><tr><th>Drawing / revision</th><td>${esc(p.revision||'—')}</td><th>Material</th><td>${esc(mat(p.materialId)?.name||'—')}</td></tr><tr><th>Quantity</th><td>${esc(p.qty||1)}</td><th>Customer reference</th><td>${esc(d.reference||'—')}</td></tr></table>${signatureHtml(d.authorizedBy||'Authorized by / date','Company stamp')}${notes}`;
+ if(type==='delivery')return `${common}<div class="doc-section-title">Goods supplied</div><table><thead><tr><th>Part</th><th>Drawing / revision</th><th>Material</th><th class="num">Quantity</th></tr></thead><tbody><tr><td>${esc(p.part||p.name)}</td><td>${esc(p.revision||'—')}</td><td>${esc(mat(p.materialId)?.name||'—')}</td><td class="num">${esc(p.qty||1)}</td></tr></tbody></table><div class="doc-section-title">Dispatch</div><table><tr><th>Packages</th><td>${esc(d.packages||'—')}</td><th>Gross weight</th><td>${esc(d.grossWeight||'—')}</td></tr><tr><th>Carrier</th><td>${esc(d.carrier||'Customer collection')}</td><th>Tracking</th><td>${esc(d.tracking||'—')}</td></tr></table>${signatureHtml(d.deliveredBy||'Released by / date','Received by / date')}${notes}`;
+ if(type==='traveler')return `${common}<div class="doc-callout"><strong>${esc(d.release||'Draft')}</strong> · Batch / lot ${esc(d.batch||'not assigned')} · Prepared by ${esc(d.preparedBy||'—')}</div>${setupSummaryHtml(p)}${travelerRoutingHtml(p)}${toolSummaryHtml(p)}${signatureHtml('Production complete / date','Final inspection / date')}${notes}`;
+ if(type==='ncr')return `${common}<div class="doc-section-title">Non-conformance</div><table><tr><th>Affected operation / feature</th><td>${esc(d.affectedOperation||'—')}</td><th>Quantity affected</th><td>${esc(d.quantityAffected||'—')}</td></tr><tr><th>Detected by</th><td>${esc(d.detectedBy||'—')}</td><th>Disposition</th><td>${esc(d.disposition||'Hold for review')}</td></tr></table>${noteHtml('Immediate containment',d.containment)}${noteHtml('Root cause',d.rootCause)}${noteHtml('Corrective action',d.correctiveAction)}${signatureHtml(d.detectedBy||'Raised by / date',d.approvedBy||'Disposition approved by / date')}${notes}`;
+ return `${common}${notes}`;
 }
 function renderDocumentPreview(){
  const p=activeProject();if(!p||!$("#docPreview"))return;
- const d=ensureDocumentDefaults(activeDocType,p),title=DOC_TYPES.find(x=>x[0]===activeDocType)?.[1]||'Document',material=mat(p.materialId);
- const notes=d.notes||'',auto=automatedDocBody(activeDocType,p,d);
- $("#docPreview").innerHTML=`<header><div><div class="doc-brand">DATUMLAB</div><div style="font-size:9px;color:#555;margin-top:4px">PROJECT DOCUMENT · AUTO-LINKED</div></div><div class="doc-type"><strong>${esc(title.toUpperCase())}</strong><br>${esc(d.docNo||'DRAFT')}<br>${esc(d.date||'')}</div></header>
- <div class="doc-meta">
-  <div><span>Customer</span><strong>${esc(p.customer||'—')}</strong></div><div><span>Project</span><strong>${esc(p.name)}</strong></div><div><span>Part</span><strong>${esc(p.part||'—')}</strong></div>
-  <div><span>Quantity</span><strong>${esc(p.qty)}</strong></div><div><span>Material</span><strong>${esc(material?.name||'—')}</strong></div><div><span>Drawing / Revision</span><strong>${esc(p.revision||d.reference||'—')}</strong></div>
- </div>
- <div class="doc-body">${d.reference?`<p><strong>Reference:</strong> ${esc(d.reference)}</p>`:''}${activeDocType==='fai'&&d.inspectionType?`<p><strong>Inspection:</strong> ${esc(d.inspectionType)}${d.inspector?' · '+esc(d.inspector):''}</p>`:''}${auto}${d.amount?`<div class="doc-section-title">Commercial total</div><table><tr><th>Total / amount</th><td>${esc(d.amount)}</td></tr></table>`:''}${notes?`<div class="doc-section-title">Notes</div><p>${esc(notes).replace(/\n/g,'<br>')}</p>`:''}</div>
- <div style="border-top:1px solid #aaa;margin-top:30px;padding-top:8px;font-size:9px;color:#555">Generated from DatumLab v5.1 · Project-linked data · Consistent document skeleton</div>`;
+ const d=ensureDocumentDefaults(activeDocType,p),title=DOC_TYPES.find(x=>x[0]===activeDocType)?.[1]||'Document',material=mat(p.materialId),profile=state.docProfile,auto=automatedDocBody(activeDocType,p,d),issuerAddress=[profile.legalName||profile.companyName,profile.address,profile.cvr?`CVR / VAT: ${profile.cvr}`:'',profile.email,profile.phone].filter(Boolean).join('\n'),customerAddress=[p.customer,p.customerContact,p.customerAddress,p.customerCvr?`CVR / VAT: ${p.customerCvr}`:'',p.customerEmail,p.customerPhone].filter(Boolean).join('\n');
+ $("#docPreview").innerHTML=`<header><div>${profile.companyName==='Datum Prototyping'?'<img class="doc-logo" src="brand/datum-prototyping-logo.svg" alt="Datum Prototyping">':`<div class="doc-company-fallback">${esc(profile.companyName||'YOUR COMPANY')}</div>`}</div><div class="doc-type"><strong>${esc(title.toUpperCase())}</strong>${esc(d.docNo||'DRAFT')}<br>${esc(d.date||'')}<br><span class="doc-status">${esc(d.status||'DRAFT')}</span></div></header><div class="doc-rule"></div>
+ <div class="doc-addresses"><div class="doc-address"><span>From</span><strong>${esc(profile.companyName||'Datum Prototyping')}</strong>\n${esc(issuerAddress.replace(profile.legalName||profile.companyName||'','').trim()||'Complete company profile')}</div><div class="doc-address"><span>To</span><strong>${esc(p.customer||'Customer not specified')}</strong>\n${esc(customerAddress.replace(p.customer||'','').trim()||'Complete customer details in Job details')}</div></div>
+ <div class="doc-meta"><div><span>Job</span><strong>${esc(p.jobNo||'—')}</strong></div><div><span>Part</span><strong>${esc(p.part||p.name)}</strong></div><div><span>Drawing / revision</span><strong>${esc(p.revision||'—')}</strong></div><div><span>Customer / PO ref.</span><strong>${esc(d.reference||p.poNumber||'—')}</strong></div></div>
+ <div class="doc-body">${auto}</div>
+ <div class="doc-footer"><div><strong>${esc(profile.companyName||'Datum Prototyping')}</strong><br>${esc(profile.address||'Company address')}</div><div>${esc(profile.email||'Email')}<br>${esc(profile.web||'datumprototyping.dk')}</div><div>${profile.cvr?`CVR / VAT ${esc(profile.cvr)}<br>`:''}Document ${esc(d.docNo||'DRAFT')} · DatumLab ${APP_VERSION}</div></div>`;
 }
 function defaultDocBody(type,p){return ''}
 function printDocument(){saveCurrentDocument();document.body.classList.add('doc-print-active');window.print();setTimeout(()=>document.body.classList.remove('doc-print-active'),500)}
@@ -1246,7 +1378,7 @@ addToSetup=function(){calcCnc();if(!state.lastCnc)return;saveOperationToSetup()}
 function addToSetup(){if(!state.lastCnc)return;const p=activeProject(),s=activeSetup();if(!p||!s)return;s.name=$("#setupName").value.trim()||s.name||'Setup 01';s.wcs=$("#wcsInput").value.trim()||'G54';s.stock=$("#stockInput").value.trim();s.workholding=$("#workholdingInput").value.trim();state.setup.project=p.name;state.setup.part=p.part||'';state.setup.setup=s.name;state.setup.wcs=s.wcs;state.setup.stock=s.stock;state.setup.workholding=s.workholding;state.setup.ops=state.setup.ops||[];const payload={...state.lastCnc,id:state.editingOperationId||Date.now(),setupId:s.id};if(state.editingOperationId){const idx=state.setup.ops.findIndex(o=>String(o.id)===String(state.editingOperationId));if(idx>=0)state.setup.ops[idx]=payload;else state.setup.ops.push(payload)}else state.setup.ops.push(payload);const wasEdit=!!state.editingOperationId;saveSetup();renderSetup();renderSheet();renderOverview();cancelOperationEdit();$("#addToSetupBtn").textContent=wasEdit?'UPDATED':'ADDED';setTimeout(()=>$("#addToSetupBtn").textContent='ADD TO SETUP',800)}
 function renderSetup(){const ops=state.setup.ops||[];$("#setupCount").textContent=`${ops.length} operation${ops.length===1?'':'s'}`;$("#setupOps").innerHTML=ops.length?ops.map((o,i)=>`<div class="op-row"><strong>OP${String((i+1)*10).padStart(2,'0')}</strong><div>${esc(o.operation)}<br><span style="color:#707b84">${esc(o.toolNo)} · ${esc(o.tool)}</span></div><div class="hide-mobile"><strong>${fmt(o.rpm,0)}</strong> RPM<br><span style="color:#68747d">${o.rpmRange?rangeText(o.rpmRange[0],o.rpmRange[1],0):''}</span></div><div class="hide-mobile"><strong>${fmt(o.feed,0)}</strong> mm/min<br><span style="color:#68747d">${o.feedRange?rangeText(o.feedRange[0],o.feedRange[1],0):''}</span></div><div class="operation-actions"><button data-setup-open="${i}">EDIT</button><button class="danger" data-del="${o.id}">DELETE</button></div></div>`).join(''):'<div class="empty">No CNC operations in the setup yet.</div>';$$('[data-setup-open]').forEach(b=>b.onclick=()=>openStoredOperation(activeSetup().id,+b.dataset.setupOpen));$$('[data-del]').forEach(b=>b.onclick=()=>{const idx=ops.findIndex(o=>String(o.id)===String(b.dataset.del));deleteStoredOperation(activeSetup().id,idx)})}
 function cell(k,v){return`<div class="cell"><span>${esc(k)}</span><strong>${esc(v)}</strong></div>`}
-function renderSheet(){const s=state.setup||{ops:[]},ops=s.ops||[],tools=[...new Map(ops.map(o=>[o.toolNo+'|'+o.tool,o])).values()];$("#sheetContent").innerHTML=`<h2>DatumLab Setup Sheet</h2><div class="sheet-meta">${cell('Project',s.project||'—')}${cell('Part',s.part||'—')}${cell('Setup',s.setup||'—')}${cell('Machine','Haas Mini Mill')}${cell('WCS',s.wcs||'—')}${cell('Stock',s.stock||'—')}${cell('Workholding',s.workholding||'—')}${cell('Operations',String(ops.length))}${cell('Engine','DatumLab v5.1')}</div><h3>Tool List</h3>${tools.length?`<table><thead><tr><th>Tool</th><th>Description</th><th>Stickout</th></tr></thead><tbody>${tools.map(t=>`<tr><td>${esc(t.toolNo)}</td><td>${esc(t.tool)}</td><td>${t.stickout?fmt(t.stickout,2)+' mm':'—'}</td></tr>`).join('')}</tbody></table>`:'<div class="sheet-note">No tools added.</div>'}<h3>Operations</h3>${ops.length?`<table><thead><tr><th>OP</th><th>Operation</th><th>Tool</th><th>RPM target / range</th><th>Feed target / range</th><th>Vc</th><th>fz</th><th>ap</th><th>ae</th><th>Source</th></tr></thead><tbody>${ops.map((o,i)=>`<tr><td>OP${String((i+1)*10).padStart(2,'0')}</td><td>${esc(o.operation)}</td><td>${esc(o.toolNo)}</td><td>${fmt(o.rpm,0)}<br>${o.rpmRange?rangeText(o.rpmRange[0],o.rpmRange[1],0):''}</td><td>${fmt(o.feed,0)}<br>${o.feedRange?rangeText(o.feedRange[0],o.feedRange[1],0):''}</td><td>${fmt(o.vc,0)}</td><td>${o.fz.toFixed(3)}</td><td>${o.ap.toFixed(2)}</td><td>${o.ae.toFixed(2)}</td><td>${esc(o.confidence||'LOW')} · ${esc(o.source||'')}</td></tr>${o.compatibility?`<tr><td></td><td colspan="9"><strong>Tool/material warning:</strong> ${esc(o.compatibility)}</td></tr>`:''}`).join('')}</tbody></table>`:'<div class="sheet-note">No operations added.</div>'}<div class="sheet-note"><strong>Resolver-aware:</strong> Each operation records source, confidence and tool/material compatibility. Generic fallback data remains LOW confidence.</div>`}
+function renderSheet(){const p=activeProject(),s=state.setup||{ops:[]},ops=s.ops||[],tools=[...new Map(ops.map(o=>[o.toolNo+'|'+o.tool,o])).values()],profile=state.docProfile||DEFAULT_DOC_PROFILE;$("#sheetContent").innerHTML=`<div class="sheet-doc-head"><img src="brand/datum-prototyping-logo.svg" alt="Datum Prototyping"><div class="sheet-doc-title"><h2>SETUP SHEET</h2><div>${esc(p?.jobNo||'JOB')} · ${esc(s.setup||'SETUP')}</div><small>${esc(localDateISO())}</small></div></div><div class="sheet-doc-rule"></div><div class="sheet-meta">${cell('Job',p?.jobNo||'—')}${cell('Customer',p?.customer||'—')}${cell('Part',p?.part||s.part||'—')}${cell('Drawing / revision',p?.revision||'—')}${cell('Material',mat(p?.materialId)?.name||'—')}${cell('Quantity',String(p?.qty||1))}${cell('Setup',s.setup||'—')}${cell('Machine','Haas Mini Mill')}${cell('WCS',s.wcs||'—')}${cell('Stock',s.stock||'—')}${cell('Workholding',s.workholding||'—')}${cell('Operations',String(ops.length))}</div><h3>Tool list</h3>${tools.length?`<table><thead><tr><th>Tool</th><th>Description</th><th>Stickout</th><th>Checked</th></tr></thead><tbody>${tools.map(t=>`<tr><td>${esc(t.toolNo)}</td><td>${esc(t.tool)}</td><td>${t.stickout?fmt(t.stickout,2)+' mm':'—'}</td><td>□</td></tr>`).join('')}</tbody></table>`:'<div class="sheet-note">No tools added.</div>'}<h3>Operation plan</h3>${ops.length?`<table><thead><tr><th>OP</th><th>Operation</th><th>Tool</th><th>RPM target / range</th><th>Feed target / range</th><th>Vc</th><th>fz</th><th>ap</th><th>ae</th><th>Source</th></tr></thead><tbody>${ops.map((o,i)=>`<tr><td>OP${String((i+1)*10).padStart(2,'0')}</td><td>${esc(o.operation)}</td><td>${esc(o.toolNo)}</td><td>${fmt(o.rpm,0)}<br>${o.rpmRange?rangeText(o.rpmRange[0],o.rpmRange[1],0):''}</td><td>${fmt(o.feed,0)}<br>${o.feedRange?rangeText(o.feedRange[0],o.feedRange[1],0):''}</td><td>${fmt(o.vc,0)}</td><td>${Number(o.fz||0).toFixed(3)}</td><td>${Number(o.ap||0).toFixed(2)}</td><td>${Number(o.ae||0).toFixed(2)}</td><td>${esc(o.confidence||'LOW')} · ${esc(o.source||'')}</td></tr>${o.compatibility?`<tr><td></td><td colspan="9"><strong>Tool/material warning:</strong> ${esc(o.compatibility)}</td></tr>`:''}`).join('')}</tbody></table>`:'<div class="sheet-note">No operations added.</div>'}<div class="sheet-signoff"><div>Prepared by / date</div><div>Setup verified / date</div><div>First-off approved / date</div></div><div class="sheet-note"><strong>${esc(profile.companyName||'Datum Prototyping')}</strong> · Generated from DatumLab ${APP_VERSION}. Verify tool, workholding and machine limits before cycle start.</div>`}
 
 /* Diagnostics */
 function nearly(a,b,tol=.01){return Math.abs(a-b)<=tol}
@@ -1270,7 +1402,7 @@ function runEngineTests(){const m6082=DEFAULT_MATERIALS.find(m=>m.id==='alu6082'
  tests.push({name:'Cutting profile reports ap / ae limits',pass:r.profileLimits.length===2,detail:r.profileLimits.join(' · ')});
  return tests}
 function runDiagnostics(){state.lastDiagnostics=runEngineTests();const pass=state.lastDiagnostics.filter(t=>t.pass).length;$("#diagSummary").textContent=`${pass}/${state.lastDiagnostics.length} passed`;$("#diagResults").innerHTML=state.lastDiagnostics.map(t=>`<div class="diag-row ${t.pass?'pass':'fail'}"><span class="diag-dot"></span><div><strong>${esc(t.name)}</strong><p>${esc(t.detail)}</p></div><code>${t.pass?'PASS':'FAIL'}</code></div>`).join('')}
-async function copyDiagnostics(){if(!state.lastDiagnostics.length)runDiagnostics();const txt=`DatumLab v5.1 diagnostics\n${state.lastDiagnostics.map(t=>`${t.pass?'PASS':'FAIL'} | ${t.name} | ${t.detail}`).join('\n')}`;try{await navigator.clipboard.writeText(txt);$("#copyDiagnosticsBtn").textContent='COPIED';setTimeout(()=>$("#copyDiagnosticsBtn").textContent='COPY REPORT',800)}catch(e){prompt('Copy diagnostic report:',txt)}}
+async function copyDiagnostics(){if(!state.lastDiagnostics.length)runDiagnostics();const txt=`DatumLab v${APP_VERSION} diagnostics\n${state.lastDiagnostics.map(t=>`${t.pass?'PASS':'FAIL'} | ${t.name} | ${t.detail}`).join('\n')}`;try{await navigator.clipboard.writeText(txt);$("#copyDiagnosticsBtn").textContent='COPIED';setTimeout(()=>$("#copyDiagnosticsBtn").textContent='COPY REPORT',800)}catch(e){prompt('Copy diagnostic report:',txt)}}
 const TEST_CASES=[
  {id:'A',title:'CNC · 6082 · Ø10 Adaptive',text:'Haas Mini Mill · 2D Adaptive · EN AW-6082-T6 · Ø10 3F carbide · GENERAL · STANDARD · ap 5.0 · ae 1.5',view:'cnc',load(){setView('cnc');$("#cncOperation").value='adaptive';$("#cncMaterial").value='alu6082';$("#cncTool").value='em10';state.cncIntent='general';state.cncStrategy='standard';segment('cncIntent','general');segment('cncStrategy','standard');$("#cncAp").value=cleanNum(mmD(5),2);$("#cncAe").value=cleanNum(mmD(1.5),2);$("#cncVcOverride").value='';$("#cncFzOverride").value='';calcCnc()}},
  {id:'B',title:'CNC · C45 · Ø8 Slot',text:'Haas Mini Mill · Slot · C45 · Ø8 4F carbide · GENERAL · STANDARD · ap 2.0 · ae 8.0',view:'cnc',load(){setView('cnc');$("#cncOperation").value='slot';$("#cncMaterial").value='c45';$("#cncTool").value='em8';state.cncIntent='general';state.cncStrategy='standard';segment('cncIntent','general');segment('cncStrategy','standard');$("#cncAp").value=cleanNum(mmD(2),2);$("#cncAe").value=cleanNum(mmD(8),2);$("#cncVcOverride").value='';$("#cncFzOverride").value='';calcCnc()}},
