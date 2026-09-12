@@ -1,13 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://datumprototyping.dk/</loc>
-    <lastmod>2026-03-14</lastmod>
-    <priority>1.00</priority>
+    <lastmod>2026-09-12</lastmod>
+    <image:image>
+      <image:loc>https://datumprototyping.dk/img/flame-render.png</image:loc>
+      <image:title>Flame Eater-motor med finmekaniske komponenter</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://datumprototyping.dk/img/ringbender.png</image:loc>
+      <image:title>CNC-bearbejdet ringbøjer-fikstur</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://datumprototyping.dk/img/mosin-render-1.png</image:loc>
+      <image:title>One-off præcisionsdele fremstillet i værktøjsstål</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://datumprototyping.dk/img/tactable.png</image:loc>
+      <image:title>CNC-bearbejdet Tac Table i aluminium 6082</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://datumprototyping.dk/dossier.html</loc>
-    <lastmod>2026-03-14</lastmod>
-    <priority>0.80</priority>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://datumprototyping.dk/fai/fai-01.html</loc>
+    <lastmod>2026-09-12</lastmod>
+    <image:image>
+      <image:loc>https://datumprototyping.dk/fai/img/fai-01-drawing.webp</image:loc>
+      <image:title>FAI-målskitse for cylinder og stempel</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://datumprototyping.dk/fai/fai-02-camdisc.html</loc>
+    <lastmod>2026-09-12</lastmod>
+    <image:image>
+      <image:loc>https://datumprototyping.dk/fai/img/fai-02-drawing.webp</image:loc>
+      <image:title>FAI-målskitse for Cam Disc</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://datumprototyping.dk/fai/fai-03-flywheel.html</loc>
+    <lastmod>2026-09-12</lastmod>
+    <image:image>
+      <image:loc>https://datumprototyping.dk/fai/img/fai-03-drawing.webp</image:loc>
+      <image:title>FAI-målskitse for svinghjul</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://datumprototyping.dk/fai/setup-tactable.html</loc>
+    <lastmod>2026-09-12</lastmod>
+    <image:image>
+      <image:loc>https://datumprototyping.dk/fai/img/tactable.png</image:loc>
+      <image:title>Setup-reference for CNC-bearbejdet Tac Table</image:title>
+    </image:image>
   </url>
 </urlset>
