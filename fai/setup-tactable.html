@@ -123,6 +123,7 @@
                         <img src="../img/datum-prototyping-logo.svg" alt="Datum Prototyping" class="h-16 w-auto">
                     </div>
                 </a>
+                <div class="nav-context"><span>Workshop document</span><strong>SETUP / O8001</strong></div>
                 <div class="flex items-center gap-3">
                     <a href="../index.html" class="btn inline-flex items-center justify-center gap-2 rounded-full border border-line2 bg-black px-4 py-2.5 text-sm font-semibold text-muted hover:border-white hover:text-white">
                         <i data-lucide="arrow-left" class="w-4 h-4"></i>
@@ -141,6 +142,7 @@
         <div class="print-letterhead"><img src="../img/datum-prototyping-logo.svg" alt="Datum Prototyping"><span>CNC SETUP SHEET</span></div>
         <div class="absolute right-[-100px] top-[0px] w-[500px] h-[500px] rounded-full orange-glow blur-3xl pointer-events-none print:hidden"></div>
 
+        <section class="doc-overview setup-overview">
         <!-- HEADER SECTION -->
         <header class="doc-header mb-10 md:mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
@@ -175,9 +177,10 @@
                 <span class="mono font-medium text-f2f3f3 text-sm md:text-base">230 x 89 x 10 mm</span>
             </div>
         </div>
+        </section>
 
         <!-- WORKHOLDING SECTION -->
-        <div class="grid md:grid-cols-12 gap-4 mb-8">
+        <section class="workholding-section grid md:grid-cols-12 gap-4 mb-8">
             <div class="md:col-span-4 bg-black border border-line rounded-3xl p-8 flex justify-center items-center fai-img-wrapper bg-[#0a0c0e]">
                 <img src="img/tactable.png" alt="Setup" class="max-h-32 object-contain opacity-70">
             </div>
@@ -191,10 +194,10 @@
                     <li><strong class="text-f2f3f3 font-medium">Moment:</strong> OP1-3: Hård indspænding. OP4-5: Løsn/genbespænd m. LAVT moment før sletspån for at eliminere "banan-effekt".</li>
                 </ul>
             </div>
-        </div>
+        </section>
 
         <!-- TOOL DATA TABLE -->
-        <div class="bg-black border border-line rounded-3xl overflow-hidden mb-4">
+        <section class="document-section tool-section bg-black border border-line rounded-3xl overflow-hidden mb-4">
             <div class="p-5 border-b border-line bg-graphite flex items-center gap-2">
                 <i data-lucide="drill" class="w-4 h-4 text-dim"></i>
                 <span class="chip text-dim">TOOL DATA // VÆRKTØJSLISTE</span>
@@ -249,10 +252,10 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
 
         <!-- PROGRAM ROUTING TABLE -->
-        <div class="bg-black border border-line rounded-3xl overflow-hidden mb-8">
+        <section class="document-section routing-section bg-black border border-line rounded-3xl overflow-hidden mb-8">
             <div class="p-5 border-b border-line bg-graphite flex items-center gap-2">
                 <i data-lucide="list-ordered" class="w-4 h-4 text-dim"></i>
                 <span class="chip text-dim">CAM EXECUTION SEQUENCE // PROGRAM ROUTING</span>
@@ -295,10 +298,10 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </section>
 
         <!-- QA ALERT BOX -->
-        <div class="bg-orange/5 border border-orange rounded-3xl p-6 md:p-8 mb-8">
+        <section class="qa-section bg-orange/5 border border-orange rounded-3xl p-6 md:p-8 mb-8">
             <div class="border-b border-orange/20 pb-3 mb-4 flex items-center gap-2">
                 <i data-lucide="alert-triangle" class="w-4 h-4 text-orange"></i>
                 <span class="chip text-orange">KVALITETSKONTROL (QA) & INSPEKTIONSKRAV</span>
@@ -308,7 +311,7 @@
                 <li>Total spånrensning på parallelklodser ved hver vending.</li>
                 <li>Verificer spillerum i vægtreduktionstasker.</li>
             </ul>
-        </div>
+        </section>
 
         <!-- FOOTER -->
         <footer class="flex justify-between items-center border-t border-line pt-6">
