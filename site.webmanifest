@@ -1,0 +1,13 @@
+{
+  "name": "Datum Prototyping",
+  "short_name": "Datum",
+  "description": "One-off dele, prototyper og finmekanik i København.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080a0b",
+  "theme_color": "#080a0b",
+  "icons": [
+    {"src": "/img/datum-icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "/img/datum-icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
