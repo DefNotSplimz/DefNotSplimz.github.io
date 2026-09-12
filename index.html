@@ -69,6 +69,21 @@
     footer{border-color:var(--line);background:#090e11}.footer-logo{width:min(350px,100%)}dialog{border-color:var(--line2);border-radius:14px;background:var(--surface)}.modal-close{border-radius:8px}
     @media(max-width:900px){.hero-grid{grid-template-columns:1fr;padding-block:72px 62px}.hero-aside{max-width:none}.cap-grid{gap:12px}.cap{border:1px solid var(--line)!important}.honest:after{opacity:.55}}
     @media(max-width:600px){.nav{height:68px}.logo img{width:220px}.hero{padding-top:68px}.hero-grid{padding-block:62px 58px}.hero:after{inset:68px 0 0 32%}h1{font-size:clamp(3.35rem,17vw,5.4rem);line-height:.9}.hero-aside{padding:4px 18px;border-radius:12px}.hero-actions{display:grid}.section-head h2{font-size:clamp(2.55rem,13vw,4.2rem)}.project,.cap,form,dialog{border-radius:12px}.cap h3{margin-top:38px}}
+
+    /* Navigation aligned with DatumLab */
+    .nav{height:86px;gap:28px}
+    .logo{flex:0 0 auto}
+    .logo img{width:clamp(300px,24vw,340px);height:auto}
+    .desktop-nav{gap:5px}
+    .desktop-nav a{min-height:42px;display:inline-flex;align-items:center;padding:9px 12px;border:1px solid transparent;border-radius:8px;color:var(--muted);font-size:13px;font-weight:600;transition:background .2s,border-color .2s,color .2s}
+    .desktop-nav a:hover{border-color:var(--line);background:#ffffff08;color:var(--text)}
+    .desktop-nav .nav-cta{min-height:42px;margin-left:7px;padding:9px 16px;border-color:var(--orange);background:var(--orange);color:#160f0c;box-shadow:inset 0 -2px 0 #a53621}
+    .desktop-nav .nav-cta:hover{border-color:var(--orange2);background:var(--orange2);color:#160f0c}
+    .hero{padding-top:86px}
+    .hero:after{inset:86px 0 0 56%}
+    @media(max-width:1180px) and (min-width:901px){.nav{gap:16px}.logo img{width:270px}.desktop-nav a{padding-inline:9px;font-size:12px}.desktop-nav .nav-cta{padding-inline:12px}}
+    @media(max-width:900px){.logo img{width:315px}}
+    @media(max-width:600px){.nav{height:74px}.logo img{width:min(250px,68vw)}.menu-button{width:44px;height:44px}.hero{padding-top:74px}.hero:after{inset:74px 0 0 32%}}
   </style>
 </head>
 <body>
