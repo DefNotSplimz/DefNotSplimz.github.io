@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#050607">
+    <meta name="theme-color" content="#0c1114">
     <title>Setup Sheet // Tac Table // Datum Prototyping</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,37 +110,39 @@
             .mb-8 { margin-bottom: 4mm !important; }
         }
     </style>
+    <link rel="stylesheet" href="document-system.css">
 </head>
-<body class="grain">
+<body class="grain doc-body setup-document">
 
     <!-- NAVIGATION (WEB ONLY) -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#050607]/80 backdrop-blur-md border-b border-line h-[78px] flex items-center print:hidden">
+    <nav class="doc-nav fixed top-0 left-0 right-0 z-50 bg-[#050607]/80 backdrop-blur-md border-b border-line h-[78px] flex items-center print:hidden">
         <div class="max-w-[1200px] mx-auto w-full px-5 lg:px-8">
             <div class="flex items-center justify-between">
-                <a href="index.html" class="flex items-center gap-3">
+                <a href="../index.html" class="flex items-center gap-3" aria-label="Datum Prototyping forside">
                     <div class="flex items-center">
-                        <img src="img/logo-horizontal.svg" alt="Datum Prototyping" class="h-16 w-auto">
+                        <img src="../img/datum-prototyping-logo.svg" alt="Datum Prototyping" class="h-16 w-auto">
                     </div>
                 </a>
                 <div class="flex items-center gap-3">
                     <a href="../index.html" class="btn inline-flex items-center justify-center gap-2 rounded-full border border-line2 bg-black px-4 py-2.5 text-sm font-semibold text-muted hover:border-white hover:text-white">
                         <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                        <span class="hidden sm:inline">Platform</span>
+                        <span class="hidden sm:inline">Tilbage til website</span>
                     </a>
                     <button onclick="window.print()" class="btn inline-flex items-center justify-center gap-2 rounded-full bg-orange px-5 py-2.5 text-sm font-semibold text-black hover:bg-amber">
                         <i data-lucide="printer" class="w-4 h-4"></i>
-                        <span class="hidden sm:inline">Print Report</span>
+                        <span class="hidden sm:inline">Print / Gem PDF</span>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="pt-[120px] pb-24 px-5 sm:px-8 max-w-[1200px] mx-auto relative">
+    <main class="doc-shell pt-[120px] pb-24 px-5 sm:px-8 max-w-[1200px] mx-auto relative">
+        <div class="print-letterhead"><img src="../img/datum-prototyping-logo.svg" alt="Datum Prototyping"><span>CNC SETUP SHEET</span></div>
         <div class="absolute right-[-100px] top-[0px] w-[500px] h-[500px] rounded-full orange-glow blur-3xl pointer-events-none print:hidden"></div>
 
         <!-- HEADER SECTION -->
-        <header class="mb-10 md:mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <header class="doc-header mb-10 md:mb-14 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
                 <div class="chip text-orange mb-4 flex items-center gap-2"><i data-lucide="settings" class="w-4 h-4"></i> CNC SETUP SHEET</div>
                 <h1 class="display text-4xl md:text-6xl font-semibold tracking-tight mb-3">Tac Table<span class="text-orange">.</span></h1>
@@ -148,14 +150,14 @@
                     <span>DATUM_OPERATIONS // RIGG_DOCUMENTATION</span>
                 </div>
             </div>
-            <div class="bg-black border border-line rounded-2xl p-5 md:min-w-[200px] text-right">
+            <div class="program-card bg-black border border-line rounded-2xl p-5 md:min-w-[200px] text-right">
                 <span class="chip text-dim mb-1 block">PROGRAM NO.</span>
                 <span class="display text-4xl md:text-5xl font-semibold text-f2f3f3 tracking-tight">O8001</span>
             </div>
         </header>
 
         <!-- BENTO GRID: META DATA -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        <div class="metadata-grid grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
             <div class="bg-black border border-line rounded-3xl p-6 flex flex-col justify-center">
                 <span class="chip text-dim mb-2">PART NAME</span>
                 <span class="font-medium text-f2f3f3 text-sm md:text-base uppercase">Tac Table</span>
