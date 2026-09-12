@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 132" role="img" aria-labelledby="title desc">
+  <title id="title">Datum Prototyping</title>
+  <desc id="desc">Datum Prototypings industrielle logo med et datum-referencepunkt.</desc>
+  <g transform="translate(4 6)">
+    <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+      <path d="M31 18v72h25c24 0 39-14 39-36S80 18 56 18H31Z" stroke="#F4F4EF" stroke-width="9"/>
+      <path d="M10 54h31M31 101V72" stroke="#657178" stroke-width="2"/>
+    </g>
+    <circle cx="31" cy="54" r="7" fill="#FF642E"/>
+    <path d="M24 109h14l-7 11-7-11Z" fill="#FF642E"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="137" y="59" fill="#F4F4EF" font-size="48" font-weight="700" letter-spacing="5">DATUM</text>
+    <text x="356" y="59" fill="#FF642E" font-size="48" font-weight="700" letter-spacing="5">PROTOTYPING</text>
+    <line x1="139" y1="78" x2="723" y2="78" stroke="#30383D" stroke-width="2"/>
+    <text x="139" y="105" fill="#8C969B" font-size="15" font-weight="600" letter-spacing="5">ONE-OFF  /  CNC  /  FINMEKANIK</text>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 112" role="img" aria-labelledby="title desc">
+  <title id="title">Datum-mærket</title>
+  <desc id="desc">Et geometrisk D bygget omkring et datum-referencepunkt.</desc>
+  <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M31 25v62h22c21 0 34-12 34-31S74 25 53 25H31Z" stroke="#F4F4EF" stroke-width="8"/>
+    <path d="M13 56h27M31 95V72" stroke="#657178" stroke-width="2"/>
+  </g>
+  <circle cx="31" cy="56" r="6" fill="#FF642E"/>
+  <path d="M25 101h12l-6 9-6-9Z" fill="#FF642E"/>
+</svg>
