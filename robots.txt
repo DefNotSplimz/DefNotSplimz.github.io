@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Henvisning til sitemap for hurtigere indeksering
 Sitemap: https://datumprototyping.dk/sitemap.xml

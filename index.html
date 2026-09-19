@@ -1,282 +1,47 @@
 <!doctype html>
-<html lang="da">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0c1114">
-  <meta name="color-scheme" content="dark">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="author" content="Glen C. Hansen">
-  <meta name="description" content="Datum Prototyping drives af Glen C. Hansen, finmekanikerstuderende tæt på svendebrevet. Jeg fremstiller one-off dele og prototyper med CAD, CNC og manuel finmekanik.">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="da_DK">
-  <meta property="og:site_name" content="Datum Prototyping">
-  <meta property="og:url" content="https://datumprototyping.dk/">
-  <meta property="og:title" content="One-off dele, CNC og prototyper | Datum Prototyping">
-  <meta property="og:description" content="Glen C. Hansens personlige værkstedssatsning: one-off dele, prototyper og finmekanik fra CAD til kontrolleret del.">
-  <meta property="og:image" content="https://datumprototyping.dk/img/og-image.jpg">
-  <meta property="og:image:secure_url" content="https://datumprototyping.dk/img/og-image.jpg">
-  <meta property="og:image:type" content="image/jpeg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Datum Prototyping — mangler du den ene del?">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="One-off dele, CNC og prototyper | Datum Prototyping">
-  <meta name="twitter:description" content="Datum Prototyping drives alene af finmekanikerstuderende Glen C. Hansen.">
-  <meta name="twitter:image" content="https://datumprototyping.dk/img/og-image.jpg">
-  <meta name="twitter:image:alt" content="Datum Prototyping — mangler du den ene del?">
-  <title>One-off dele, CNC og prototyper | Datum Prototyping</title>
-  <link rel="canonical" href="https://datumprototyping.dk/">
-  <link rel="alternate" hreflang="da-DK" href="https://datumprototyping.dk/">
-  <link rel="alternate" hreflang="x-default" href="https://datumprototyping.dk/">
-  <link rel="icon" href="img/datum-mark-solid.svg" type="image/svg+xml">
-  <link rel="icon" href="img/datum-icon-32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="img/datum-icon-180.png" sizes="180x180">
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "@id": "https://datumprototyping.dk/#website",
-      "url": "https://datumprototyping.dk/",
-      "name": "Datum Prototyping",
-      "alternateName": "Datum Prototyping by Glen C. Hansen",
-      "description": "Glen C. Hansens personlige værkstedssatsning for one-off dele, prototyper og finmekanik.",
-      "inLanguage": "da-DK",
-      "publisher": {
-        "@id": "https://datumprototyping.dk/#glen"
-      }
-    },
-    {
-      "@type": "Person",
-      "@id": "https://datumprototyping.dk/#glen",
-      "name": "Glen C. Hansen",
-      "url": "https://datumprototyping.dk/",
-      "email": "defnotglen@gmail.com",
-      "jobTitle": "Finmekanikerstuderende",
-      "description": "Glen C. Hansen er personen bag Datum Prototyping og står selv for kundedialog, CAD/CAM, bearbejdning, kontrol og dokumentation.",
-      "image": "https://datumprototyping.dk/img/og-image.jpg",
-      "brand": {
-        "@type": "Brand",
-        "@id": "https://datumprototyping.dk/#brand",
-        "name": "Datum Prototyping",
-        "logo": "https://datumprototyping.dk/img/datum-icon-512.png"
-      },
-      "knowsAbout": [
-        "Finmekanik",
-        "CNC-fræsning",
-        "CNC-drejning",
-        "CAD",
-        "CAM",
-        "Prototypefremstilling",
-        "One-off dele",
-        "Fiksturer",
-        "Kvalitetskontrol"
-      ],
-      "makesOffer": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "One-off dele og reservedele"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "Prototyper og specialværktøj"
-          }
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Service",
-            "name": "CAD, CAM og finmekanisk bearbejdning"
-          }
-        }
-      ]
-    },
-    {
-      "@type": "Brand",
-      "@id": "https://datumprototyping.dk/#brand",
-      "name": "Datum Prototyping",
-      "url": "https://datumprototyping.dk/",
-      "description": "Personligt brand drevet af Glen C. Hansen.",
-      "logo": "https://datumprototyping.dk/img/datum-icon-512.png"
-    }
-  ]
-}
-  </script>
-  <style>
-    :root{color-scheme:dark;--bg:#080a0b;--surface:#0e1113;--raised:#14181b;--line:#272d31;--line2:#3d454a;--text:#f4f4ef;--muted:#a2a9ad;--dim:#70787d;--orange:#ff642e;--orange2:#ff8b61;--green:#a8d973;--max:1440px;--pad:clamp(20px,4vw,64px);--display:"Space Grotesk",sans-serif;--body:"DM Sans",sans-serif;--mono:"IBM Plex Mono",monospace}
-    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--body);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}::selection{background:var(--orange);color:#111}a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button{color:inherit;cursor:pointer}img{max-width:100%}h1,h2,h3,p{margin-top:0}h1,h2,h3{font-family:var(--display);line-height:.98;letter-spacing:-.045em}p{color:var(--muted)}:focus-visible{outline:3px solid var(--orange);outline-offset:4px}.skip{position:fixed;top:-100px;left:20px;z-index:200;padding:10px 16px;background:var(--orange);color:#111}.skip:focus{top:12px}.wrap{width:min(var(--max),100%);margin:auto;padding-inline:var(--pad)}.mono{font-family:var(--mono)}.label{font:500 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}.orange{color:var(--orange)}.rule{height:1px;background:var(--line)}
-    header{position:fixed;z-index:50;top:0;left:0;right:0;background:#080a0be8;backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav{height:76px;display:flex;align-items:center;gap:34px}.logo{display:flex;align-items:center}.logo img{display:block;width:clamp(230px,22vw,310px);height:auto}.desktop-nav{display:flex;align-items:center;gap:28px;margin-left:auto}.desktop-nav a{font-size:14px;color:var(--muted)}.desktop-nav a:hover{color:var(--text)}.nav-cta,.button{min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 20px;border:1px solid var(--line2);border-radius:999px;background:transparent;font-weight:600}.nav-cta{background:var(--orange);border-color:var(--orange);color:#130b08}.button:hover{border-color:var(--text);transform:translateY(-1px)}.button.primary{background:var(--orange);border-color:var(--orange);color:#130b08}.button.primary:hover{background:var(--orange2);border-color:var(--orange2)}.menu-button{display:none;margin-left:auto;width:46px;height:46px;border:1px solid var(--line);border-radius:50%;background:var(--surface);font-size:20px}.mobile-menu{display:none;border-top:1px solid var(--line);padding:12px var(--pad) 22px}.mobile-menu.open{display:grid}.mobile-menu a{padding:13px 0;border-bottom:1px solid var(--line)}
-    .hero{min-height:100svh;padding-top:76px;display:flex;align-items:center;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;inset:76px 0 0 52%;background:linear-gradient(90deg,transparent,#ff642e10),repeating-linear-gradient(90deg,#ffffff08 0 1px,transparent 1px 88px);mask-image:linear-gradient(to bottom,#000,transparent 92%);pointer-events:none}.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(310px,.55fr);gap:clamp(50px,8vw,130px);align-items:end;padding-block:clamp(90px,12vh,150px) 70px}.hero-kicker{display:flex;align-items:center;gap:13px;margin-bottom:30px}.hero-kicker:before{content:"";width:38px;height:2px;background:var(--orange)}h1{font-size:clamp(4rem,9.7vw,9.8rem);max-width:1040px;margin-bottom:35px}.hero-line{display:block}.hero-line:last-child{color:var(--orange)}.hero-copy{max-width:650px;font-size:clamp(17px,1.45vw,21px);line-height:1.55}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}.hero-aside{border-top:1px solid var(--line2)}.availability{padding:20px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:16px 1fr;gap:13px}.status-dot{width:8px;height:8px;border-radius:50%;margin-top:8px;background:var(--green);box-shadow:0 0 0 5px #a8d97316}.availability strong{display:block;font-size:16px}.availability span{display:block;color:var(--muted);font-size:14px}.hero-fact{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid var(--line)}.hero-fact strong{font-weight:500}.scroll-cue{position:absolute;bottom:25px;left:var(--pad);font:12px var(--mono);color:var(--dim);letter-spacing:.1em}
-    .signal{border-block:1px solid var(--line);background:var(--surface)}.signal-row{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px;overflow:hidden}.signal-row span{white-space:nowrap;font:12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.signal-row i{width:4px;height:4px;background:var(--orange);border-radius:50%;flex:none}
-    section.content{padding-block:clamp(90px,11vw,155px)}.section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.48fr);gap:60px;align-items:end;margin-bottom:52px}.section-head h2{font-size:clamp(3rem,6vw,6.5rem);margin:12px 0 0}.section-head p{font-size:17px;margin-bottom:4px}.section-index{color:var(--orange)}
-    .projects{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px}.project{grid-column:span 6;border:1px solid var(--line);background:var(--surface);overflow:hidden;position:relative}.project.featured{grid-column:span 7}.project.tall{grid-column:span 5}.project-media{aspect-ratio:16/10;background:#0a0d0e;overflow:hidden;position:relative}.project-media:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,#080a0b66,transparent 45%);pointer-events:none}.project-media img{width:100%;height:100%;object-fit:contain;padding:22px;display:block;transition:transform .55s cubic-bezier(.16,1,.3,1)}.project:hover .project-media img{transform:scale(1.035)}.project-body{padding:26px}.project-top{display:flex;justify-content:space-between;gap:20px}.project h3{font-size:clamp(25px,3vw,39px);margin:13px 0 12px}.project p{max-width:620px;margin-bottom:0}.project-open{margin-top:22px;padding:0 0 5px;border:0;border-bottom:1px solid var(--orange);background:none;color:var(--text);font:500 13px var(--mono);letter-spacing:.08em;text-transform:uppercase}.tag{font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
-    .capabilities{border-block:1px solid var(--line);background:var(--surface)}.cap-grid{display:grid;grid-template-columns:repeat(3,1fr)}.cap{min-height:320px;padding:36px;border-right:1px solid var(--line);display:flex;flex-direction:column}.cap:last-child{border:0}.cap-no{font:12px var(--mono);color:var(--orange)}.cap h3{font-size:34px;margin:72px 0 18px}.cap p{margin:0}.cap ul{list-style:none;padding:0;margin:auto 0 0;display:grid;gap:7px;color:var(--muted);font-size:14px}.cap li:before{content:"—";color:var(--orange);margin-right:8px}
-    .process-grid{display:grid;grid-template-columns:.72fr 1.28fr;gap:clamp(50px,8vw,120px)}.process-intro{position:sticky;top:115px;align-self:start}.process-intro h2{font-size:clamp(3rem,5vw,5.7rem);margin:14px 0 25px}.steps{border-top:1px solid var(--line)}.step{display:grid;grid-template-columns:70px 1fr;gap:25px;padding:28px 0;border-bottom:1px solid var(--line)}.step span{font:12px var(--mono);color:var(--orange)}.step h3{font-size:25px;margin:0 0 9px;letter-spacing:-.025em}.step p{margin:0;max-width:620px}
-    .honest{background:var(--orange);color:#120b08}.honest p{color:#4d2518}.honest-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(60px,10vw,150px);align-items:end}.honest h2{font-size:clamp(3rem,6vw,6.8rem);margin:14px 0 0}.honest-card{padding:28px;border:1px solid #20100955;background:#120b0811}.honest-card strong{font-family:var(--display);font-size:25px;line-height:1.15;display:block;margin-bottom:12px}.honest .label{color:#532315}
-    .contact-grid{display:grid;grid-template-columns:.72fr 1.28fr;gap:clamp(50px,8vw,120px)}.contact-copy h2{font-size:clamp(3rem,5.2vw,6rem);margin:14px 0 24px}.contact-copy>a{display:inline-block;margin-top:12px;color:var(--orange);border-bottom:1px solid var(--orange)}form{padding:clamp(22px,4vw,42px);border:1px solid var(--line);background:var(--surface)}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:grid;gap:8px;margin-bottom:16px}.field label{font:12px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}input,select,textarea{width:100%;min-height:50px;padding:13px 14px;background:#090c0d;border:1px solid var(--line2);border-radius:0;color:var(--text)}textarea{min-height:145px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid var(--orange);border-color:var(--orange)}.form-note{margin:14px 0 0;font-size:13px;color:var(--dim)}
-    footer{border-top:1px solid var(--line);padding-block:48px}.footer-grid{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}.footer-brand{display:flex;align-items:center}.footer-logo{width:min(390px,100%);height:auto;opacity:.86}.footer-meta{text-align:right;color:var(--dim);font:12px/1.7 var(--mono)}
-    dialog{width:min(760px,calc(100% - 30px));max-height:88vh;padding:0;border:1px solid var(--line2);background:var(--surface);color:var(--text);box-shadow:0 30px 100px #000a}dialog::backdrop{background:#000b;backdrop-filter:blur(6px)}.modal-head{display:flex;justify-content:space-between;gap:20px;padding:22px 26px;border-bottom:1px solid var(--line)}.modal-close{width:42px;height:42px;border:1px solid var(--line2);border-radius:50%;background:transparent}.modal-body{padding:28px}.modal-body h2{font-size:clamp(34px,6vw,54px);margin:12px 0 27px}.modal-facts{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid var(--line)}.modal-fact{padding:18px 10px}.modal-fact span{display:block;color:var(--dim);font:11px var(--mono);text-transform:uppercase;letter-spacing:.1em}.modal-fact strong{font-size:14px}.modal-story{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px}.modal-story h3{font:12px var(--mono);letter-spacing:.1em;color:var(--orange)}.modal-docs{display:flex;gap:8px;flex-wrap:wrap;margin-top:25px;padding-top:22px;border-top:1px solid var(--line)}.modal-docs:empty{display:none}.modal-docs a{padding:9px 12px;border:1px solid var(--line);font-size:13px}
-    .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}.reveal.in{opacity:1;transform:none}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.project-media img,.button{transition:none}}
-    @media(max-width:900px){.desktop-nav{display:none}.menu-button{display:grid;place-items:center}.hero-grid{grid-template-columns:1fr;align-items:start}.hero-aside{max-width:620px}.hero:after{left:35%}.section-head,.process-grid,.contact-grid,.honest-grid{grid-template-columns:1fr}.project,.project.featured,.project.tall{grid-column:span 12}.cap-grid{grid-template-columns:1fr}.cap{min-height:0;border-right:0;border-bottom:1px solid var(--line)}.cap h3{margin:45px 0 18px}.process-intro{position:static}.signal-row span:nth-of-type(even),.signal-row i:nth-of-type(even){display:none}}
-    @media(max-width:600px){body{font-size:16px}.nav{height:68px}.logo img{width:230px}.hero{padding-top:68px}.hero-grid{padding-block:75px 80px}.hero:after{inset:68px 0 0 20%}h1{font-size:clamp(3.7rem,19vw,6rem);line-height:.86}.hero-copy{font-size:17px}.hero-actions{display:grid}.button{width:100%}.scroll-cue{display:none}.section-head{gap:22px;margin-bottom:32px}.projects{gap:14px}.project-body{padding:21px}.project-media{aspect-ratio:4/3}.form-row,.modal-facts,.modal-story{grid-template-columns:1fr}.modal-fact{border-bottom:1px solid var(--line)}.modal-fact:last-child{border:0}.footer-grid{grid-template-columns:1fr}.footer-meta{text-align:left}.hero-fact{grid-template-columns:95px 1fr}}
-  
-    /* Datum Prototyping 2026.2 — professional workshop front */
-    :root{--bg:#0a0e10;--surface:#101619;--raised:#151d21;--line:#273238;--line2:#3b4a51;--text:#f2f4ef;--muted:#aab5b9;--dim:#75848a;--orange:#ef6548;--green:#bad532;--max:1360px}
-    body:before{display:none}header{background:#0a0e10f2}.nav{height:82px}.logo img{width:clamp(245px,22vw,320px)}
-    .desktop-nav{gap:6px}.desktop-nav a{padding:10px 13px;border-radius:5px;font-size:13px}.desktop-nav a:hover{background:#fff7;color:var(--text)}.desktop-nav .nav-cta{margin-left:8px;border-radius:5px;box-shadow:none}
-    .hero{min-height:auto;padding-top:82px}.hero:after{display:none}.hero-grid{min-height:680px;padding-block:clamp(82px,10vw,138px);grid-template-columns:minmax(0,1.35fr) minmax(360px,.65fr);gap:clamp(55px,8vw,130px);align-items:center}
-    .hero-kicker{color:var(--green)}h1{max-width:940px;margin:22px 0 28px;font-size:clamp(4rem,7.2vw,7.4rem);line-height:.91;letter-spacing:-.055em}.hero-copy{max-width:720px;font-size:clamp(18px,1.6vw,23px);line-height:1.5}.hero-actions{margin-top:36px}.button,.nav-cta{border-radius:5px}.hero-aside{padding:0;border:1px solid var(--line);border-radius:5px;background:var(--surface);box-shadow:none}.availability{padding:20px 22px;border-bottom:1px solid var(--line)}.hero-fact{padding:16px 22px;border-bottom:1px solid var(--line)}.hero-fact:last-child{border-bottom:0}.hero-fact strong{font-size:14px}
-    .signal{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#0d1214}.signal-row{min-height:54px}.signal-row span{font-size:10px}.proof-strip{border-bottom:1px solid var(--line);background:var(--surface)}.proof-grid{display:grid;grid-template-columns:repeat(4,1fr)}.proof-grid>div{min-height:132px;padding:27px 24px;border-right:1px solid var(--line)}.proof-grid>div:first-child{border-left:1px solid var(--line)}.proof-grid span{display:block;margin-bottom:12px;color:var(--dim);font:10px var(--mono);letter-spacing:.12em}.proof-grid strong{display:block;font-size:15px;line-height:1.45}
-    section.content{padding-block:clamp(82px,9vw,130px)}.section-head{align-items:end}.section-head h2{max-width:820px;margin-bottom:0;font-size:clamp(3rem,5.2vw,5.8rem)}.section-head>p{max-width:480px;margin:0 0 7px}
-    .projects{gap:1px;background:var(--line);border:1px solid var(--line)}.project,.project.featured,.project.tall{grid-column:span 6;border:0;border-radius:0;background:var(--surface);box-shadow:none}.project:hover{border:0}.project-media{aspect-ratio:16/9}.project-media img{padding:28px}.project-body{padding:27px 28px 30px}.project h3{margin:10px 0 10px;font-size:clamp(25px,2.6vw,36px)}.project-open{margin-top:20px}
-    .capabilities{border-block:1px solid var(--line);background:#0d1214}.cap-grid{gap:1px;background:var(--line)}.cap{min-height:430px;border:0;background:var(--surface)}.cap h3{font-size:32px}.cap-no{font-size:10px}.process-grid{align-items:start}.step{padding-block:25px}.step span{font-size:11px}.honest{background:#0d1214}.honest-card{border-radius:5px;background:var(--surface);box-shadow:none}
-    form{border-radius:5px;box-shadow:none}input,select,textarea{border-radius:4px}.field label span{color:var(--dim);font-size:10px}.contact-copy>a{font-family:var(--mono);font-size:14px}
-    dialog{border-radius:5px}.modal-fact{background:#0d1316}.footer-logo{width:270px}
-    @media(max-width:900px){.hero-grid{min-height:auto;grid-template-columns:1fr;padding-block:70px}.hero-aside{max-width:none}.proof-grid{grid-template-columns:1fr 1fr}.proof-grid>div:nth-child(odd){border-left:1px solid var(--line)}.projects{display:grid}.project,.project.featured,.project.tall{grid-column:span 12}.cap{min-height:0}}
-    @media(max-width:600px){.nav{height:74px}.hero{padding-top:74px}.hero-grid{padding-block:54px 64px;gap:42px}h1{font-size:clamp(3.3rem,16vw,5rem)}.hero-copy{font-size:17px}.proof-grid{grid-template-columns:1fr}.proof-grid>div,.proof-grid>div:first-child,.proof-grid>div:nth-child(odd){min-height:auto;border-left:1px solid var(--line);border-bottom:1px solid var(--line)}.proof-grid>div:last-child{border-bottom:0}.signal{display:none}.project-media{aspect-ratio:4/3}.form-row{grid-template-columns:1fr}}
-
-  </style>
-  <style>
-    /* Datum Prototyping × DatumLab — shared visual system */
-    :root{--bg:#0c1114;--surface:#131a1e;--raised:#1a2328;--line:#29343a;--line2:#46545b;--text:#f1f3ee;--muted:#a4afb1;--dim:#7f8b8f;--orange:#ff6542;--orange2:#ff7a5d;--green:#d8f15b;--max:1380px}
-    body{background:radial-gradient(circle at 84% -16%,#16333d 0,transparent 34rem),var(--bg);color:var(--text)}
-    body:after{content:"";position:fixed;z-index:101;inset:0 auto 0 0;width:3px;background:linear-gradient(var(--orange) 0 26%,transparent 26% 74%,var(--green) 74% 100%);opacity:.75;pointer-events:none}
-    ::selection{background:var(--green);color:#112126}.label{color:var(--dim)}
-    header{background:#090e11f2;border-color:var(--line);box-shadow:0 10px 35px #0002}.nav{height:76px}.logo img{width:clamp(225px,20vw,285px)}.desktop-nav{gap:24px}.desktop-nav a{color:var(--muted)}
-    .nav-cta,.button{min-height:44px;padding:9px 18px;border-radius:8px;border-color:var(--line2);font-weight:650}.nav-cta,.button.primary{background:var(--orange);border-color:var(--orange);color:#160f0c;box-shadow:inset 0 -2px 0 #a53621}.button:hover{border-color:var(--green);background:#d8f15b0b}.button.primary:hover,.nav-cta:hover{background:var(--orange2);border-color:var(--orange2)}.menu-button{border-radius:8px;background:var(--surface)}
-    .hero{min-height:auto;padding-top:76px;overflow:hidden}.hero:after{inset:76px 0 0 56%;background:linear-gradient(90deg,transparent,#16333d99),linear-gradient(#91a6ad0a 1px,transparent 1px),linear-gradient(90deg,#91a6ad0a 1px,transparent 1px);background-size:auto,32px 32px,32px 32px;mask-image:linear-gradient(to bottom,#000,transparent 96%)}.hero-grid{grid-template-columns:minmax(0,1.15fr) minmax(320px,.55fr);gap:clamp(45px,7vw,105px);align-items:center;padding-block:clamp(82px,10vh,118px) 72px}.hero-kicker{margin-bottom:22px}.hero-kicker:before{background:var(--orange)}h1{font-size:clamp(4rem,8.4vw,8rem);margin-bottom:28px}.hero-line:last-child{color:var(--green)}.hero-copy{font-size:clamp(17px,1.35vw,20px)}.hero-actions{margin-top:28px}
-    .hero-aside{padding:5px 24px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(145deg,#151f24,#10171a);box-shadow:0 18px 45px #0003}.availability,.hero-fact{border-color:var(--line)}.status-dot{background:var(--green);box-shadow:0 0 0 5px #d8f15b14}.hero-fact{grid-template-columns:100px 1fr}.scroll-cue{color:var(--dim)}
-    .signal{background:#10171a;border-color:var(--line)}.signal-row{min-height:68px}.signal-row span{color:var(--muted)}.signal-row i{background:var(--green)}
-    section.content{padding-block:clamp(78px,9vw,125px)}.section-head{gap:48px;margin-bottom:40px}.section-head h2{font-size:clamp(2.8rem,5.3vw,5.5rem)}.section-index,.tag,.cap-no,.step span,.contact-copy>a{color:var(--orange)}
-    .projects{gap:16px}.project{border-color:var(--line);border-radius:14px;background:linear-gradient(150deg,#151d21,#101619);box-shadow:0 16px 45px #0002}.project:hover{border-color:#d8f15b70}.project-media{background:#0b1013}.project-media:after{background:linear-gradient(to top,#0c111488,transparent 48%)}.project-body{padding:24px}.project h3{font-size:clamp(25px,2.7vw,37px)}.project-open{border-color:var(--orange)}
-    .capabilities{border:0;background:transparent}.cap-grid{gap:14px}.cap{min-height:295px;padding:30px;border:1px solid var(--line)!important;border-radius:14px;background:linear-gradient(150deg,#151d21,#101619)}.cap h3{margin:58px 0 16px;font-size:31px}.cap li:before{color:var(--green)}
-    .process-grid{gap:clamp(45px,7vw,95px)}.process-intro{top:108px}.process-intro h2{font-size:clamp(2.8rem,4.7vw,5rem)}.steps{border-color:var(--line)}.step{grid-template-columns:60px 1fr;padding:25px 0;border-color:var(--line)}.step h3{font-size:24px}
-    .honest{position:relative;border-block:1px solid var(--line);background:linear-gradient(135deg,#172229,#11181c);color:var(--text);overflow:hidden}.honest:after{content:"";position:absolute;width:420px;height:420px;right:-100px;top:-170px;border:1px solid #d8f15b20;border-radius:50%;box-shadow:0 0 0 75px #d8f15b08,0 0 0 150px #d8f15b04}.honest .wrap{position:relative;z-index:1}.honest h2{color:var(--green)}.honest p{color:var(--muted)}.honest .label{color:var(--orange)}.honest-card{padding:27px;border-color:var(--line2);border-radius:12px;background:#ffffff05}.honest-card strong{font-size:24px}
-    .contact-grid{gap:clamp(45px,7vw,95px)}.contact-copy h2{font-size:clamp(2.8rem,4.8vw,5.2rem)}form{border-color:var(--line);border-radius:14px;background:linear-gradient(150deg,#151d21,#101619)}input,select,textarea{border-color:var(--line2);border-radius:8px;background:#0d1417}.form-note{color:var(--dim)}
-    footer{border-color:var(--line);background:#090e11}.footer-logo{width:min(350px,100%)}dialog{border-color:var(--line2);border-radius:14px;background:var(--surface)}.modal-close{border-radius:8px}
-    @media(max-width:900px){.hero-grid{grid-template-columns:1fr;padding-block:72px 62px}.hero-aside{max-width:none}.cap-grid{gap:12px}.cap{border:1px solid var(--line)!important}.honest:after{opacity:.55}}
-    @media(max-width:600px){.nav{height:68px}.logo img{width:220px}.hero{padding-top:68px}.hero-grid{padding-block:62px 58px}.hero:after{inset:68px 0 0 32%}h1{font-size:clamp(3.35rem,17vw,5.4rem);line-height:.9}.hero-aside{padding:4px 18px;border-radius:12px}.hero-actions{display:grid}.section-head h2{font-size:clamp(2.55rem,13vw,4.2rem)}.project,.cap,form,dialog{border-radius:12px}.cap h3{margin-top:38px}}
-
-    /* Navigation aligned with DatumLab */
-    .nav{height:86px;gap:28px}
-    .logo{flex:0 0 auto}
-    .logo img{width:clamp(300px,24vw,340px);height:auto}
-    .desktop-nav{gap:5px}
-    .desktop-nav a{min-height:42px;display:inline-flex;align-items:center;padding:9px 12px;border:1px solid transparent;border-radius:8px;color:var(--muted);font-size:13px;font-weight:600;transition:background .2s,border-color .2s,color .2s}
-    .desktop-nav a:hover{border-color:var(--line);background:#ffffff08;color:var(--text)}
-    .desktop-nav .nav-cta{min-height:42px;margin-left:7px;padding:9px 16px;border-color:var(--orange);background:var(--orange);color:#160f0c;box-shadow:inset 0 -2px 0 #a53621}
-    .desktop-nav .nav-cta:hover{border-color:var(--orange2);background:var(--orange2);color:#160f0c}
-    .hero{padding-top:86px}
-    .hero:after{inset:86px 0 0 56%}
-    @media(max-width:1180px) and (min-width:901px){.nav{gap:16px}.logo img{width:270px}.desktop-nav a{padding-inline:9px;font-size:12px}.desktop-nav .nav-cta{padding-inline:12px}}
-    @media(max-width:900px){.logo img{width:315px}}
-    @media(max-width:600px){.nav{height:74px}.logo img{width:min(250px,68vw)}.menu-button{width:44px;height:44px}.hero{padding-top:74px}.hero:after{inset:74px 0 0 32%}}
-  </style>
-</head>
-<body>
-  <a class="skip" href="#content">Spring til indhold</a>
-  <header>
-    <div class="wrap nav">
-      <a class="logo" href="#top" aria-label="Datum Prototyping, forside"><img src="img/datum-prototyping-logo.svg" alt="Datum Prototyping"></a>
-      <nav class="desktop-nav" aria-label="Primær navigation">
-        <a href="#cases">Arbejdsprøver</a><a href="#kan">Kapacitet</a><a href="#proces">Proces</a><a href="dossier.html">Dokumentation</a><a class="nav-cta" href="#kontakt">Forespørgsel</a>
-      </nav>
-      <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="mobileMenu" aria-label="Åbn menu">≡</button>
-    </div>
-    <nav class="mobile-menu" id="mobileMenu" aria-label="Mobil navigation"><a href="#cases">Arbejdsprøver</a><a href="#kan">Kapacitet</a><a href="#proces">Proces</a><a href="dossier.html">Dokumentation</a><a class="orange" href="#kontakt">Send forespørgsel</a></nav>
-  </header>
-
-  <main id="content">
-    <section class="hero" id="top">
-      <div class="wrap hero-grid">
-        <div class="reveal">
-          <div class="hero-kicker label">Datum Prototyping / København</div>
-          <h1><span class="hero-line">Præcisionsdele.</span><span class="hero-line">Én opgave ad gangen.</span></h1>
-          <p class="hero-copy">One-off dele, prototyper og specialværktøj for private og virksomheder. Fra opmåling og CAD til bearbejdning, kontrol og dokumentation.</p>
-          <div class="hero-actions"><a class="button primary" href="#kontakt">Send en forespørgsel <span aria-hidden="true">→</span></a><a class="button" href="#cases">Se dokumenteret arbejde</a></div>
-        </div>
-        <aside class="hero-aside reveal" aria-label="Aktuel status">
-          <div class="availability"><i class="status-dot" aria-hidden="true"></i><div><strong>Modtager relevante forespørgsler</strong><span>Kapacitet og gennemførlighed vurderes før aftale</span></div></div>
-          <div class="hero-fact"><span class="label">Opgaver</span><strong>One-off · prototype · små serier</strong></div>
-          <div class="hero-fact"><span class="label">Processer</span><strong>CAD/CAM · CNC · manuel bearbejdning</strong></div>
-          <div class="hero-fact"><span class="label">Leverance</span><strong>Del · målekontrol · dokumentation</strong></div>
-          <div class="hero-fact"><span class="label">Faglig status</span><strong>Finmekanikerstuderende · svendebrev 2027</strong></div>
-        </aside>
-      </div>
-      
-    </section>
-
-    <div class="signal"><div class="wrap signal-row" aria-label="Kompetencer"><span>CAD / CAM</span><i></i><span>CNC-fræsning</span><i></i><span>Manuel bearbejdning</span><i></i><span>Målekontrol</span><i></i><span>FAI / setup-dokumentation</span></div></div>
+<html lang="da"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#171c20"><meta name="color-scheme" content="dark"><link rel="icon" type="image/png" sizes="1024x1024" href="brand/favicon.png"><link rel="apple-touch-icon" href="brand/favicon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preload" as="image" href="images/glen-workshop.webp" fetchpriority="high"><link rel="stylesheet" href="style.css"><title>Datum Prototyping | Finmekanik, CAD og projekter</title>
+<meta name="description" content="Glen Cilinder-Hansens portfolio som finmekanikerstuderende. Se projekter inden for CAD, CAM og bearbejdning, FAI-rapporter og muligheder for kontakt.">
+<link rel="canonical" href="https://datumprototyping.dk/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website"><meta property="og:locale" content="da_DK"><meta property="og:site_name" content="Datum Prototyping"><meta property="og:title" content="Datum Prototyping | Finmekanik, CAD og projekter"><meta property="og:description" content="Glen Cilinder-Hansens portfolio som finmekanikerstuderende. Se projekter inden for CAD, CAM og bearbejdning, FAI-rapporter og muligheder for kontakt."><meta property="og:url" content="https://datumprototyping.dk/"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Datum Prototyping | Finmekanik, CAD og projekter"><meta name="twitter:description" content="Glen Cilinder-Hansens portfolio som finmekanikerstuderende. Se projekter inden for CAD, CAM og bearbejdning, FAI-rapporter og muligheder for kontakt.">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://datumprototyping.dk/#glen","name":"Glen Cilinder-Hansen","jobTitle":"Finmekanikerstuderende","url":"https://datumprototyping.dk/","email":"datumprototyping@gmail.com"},{"@type":"WebSite","@id":"https://datumprototyping.dk/#website","name":"Datum Prototyping","url":"https://datumprototyping.dk/","inLanguage":"da-DK"},{"@type":"WebPage","@id":"https://datumprototyping.dk/#webpage","url":"https://datumprototyping.dk/","name":"Datum Prototyping — Glens portfolio","about":{"@id":"https://datumprototyping.dk/#glen"},"isPartOf":{"@id":"https://datumprototyping.dk/#website"},"inLanguage":"da-DK"}]}</script></head>
+<body><a class="skip-link" href="#indhold">Spring til indhold</a><header><a class="brand" href="#" aria-label="Datum Prototyping forside"><img class="brand-logo" src="brand/logo.png" alt="Datum / Prototyping — Precision one-off manufacturing" width="1640" height="312"></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu <span aria-hidden="true">☰</span></button><nav id="main-nav" aria-label="Hovednavigation"><a href="#projekter">Projekter</a><a href="#om">Om mig</a><a href="#vaerksted">Værkstedet</a><a href="#kontakt">Kontakt ↗</a></nav></header>
+<main id="indhold"><section class="hero"><div class="hero-copy"><p class="eyebrow">FINMEKANIK · CAD · BEARBEJDNING</p><h1>Jeg hedder Glen.<br>Jeg er ved at lære et fag,<br>man aldrig bliver<br><em>færdig med.</em></h1><p class="intro">Finmekanikerstuderende på TEC Frederiksberg. <br>Her samler jeg de dele, projekter og erfaringer, <br>der former mit håndværk.</p><a class="button" href="#projekter">Se hvad jeg arbejder på <span>→</span></a><p class="micro"><i></i> SVENDEBREV · APRIL 2027</p></div><div class="hero-photo" role="img" aria-label="AI-genereret billede af Glen der undersøger en metaldel i værkstedet"></div><span class="vertical">CAD — CAM — PART / COPENHAGEN, DK</span></section>
+<section class="now section"><div><p class="eyebrow">01 / LIGE NU</p><h2>Et skridt videre.<br>Hver dag.</h2></div><div><span class="num">01</span><h3>H3 · Hovedforløb</h3><p>Form, teori og praksis<br>hænger bedre sammen nu.</p></div><div><span class="num">02</span><h3>Fusion 360</h3><p>Modellering, CAM<br>og postprocessering.</p></div><div><span class="num">03</span><h3>Haas Mini Mill</h3><p>3-akset CNC-fræsning<br>på skolens maskiner.</p></div><div><span class="num">04</span><h3>Weiler Matador</h3><p>Manuel drejning<br>og grundlæggende håndværk.</p></div></section>
+<section id="projekter" class="section projects"><div class="section-title"><div><p class="eyebrow">02 / UDVALGTE PROJEKTER</p><h2>Ting jeg har lavet.</h2></div><p>Tre projekter fra min læringsrejse.<br>Fra første idé til sidste spån.</p></div><div class="cards">
+<article class="featured-project"><img class="project-image" src="images/flame-engine.webp" alt="AI-visualisering af Flame Eater Engine baseret på min rendering" width="1536" height="1024" loading="lazy"><div class="card-body"><span class="index">HOVEDPROJEKT / 001</span><h3>Flame Eater Engine</h3><p>Det projekt, jeg er mest stolt af. Jeg har selv fremstillet alle delene — kun kuglelejerne er indkøbt. Den største udfordring var pasningen mellem cylinder og stempel.</p><div class="tags"><span>Manuel fremstilling</span><span>Pasninger</span></div><a class="project-open" href="projects/flame-eater-engine.html" data-project="flame" aria-haspopup="dialog">Se projekt og dokumentation <span aria-hidden="true">↗</span></a></div></article>
+<article><img class="project-image" src="images/ring-bender.webp" alt="AI-visualisering af Ring Bender baseret på min rendering" width="1536" height="1024" loading="lazy"><div class="card-body"><span class="index">PROJEKT / 002</span><h3>Ring Bender</h3><p>En kompakt, manuel ringbøjer med langt håndtag og bearbejdede metaldele. Fra CAD-model til et samlet værktøj.</p><div class="tags"><span>CAD</span><span>Fræsning</span><span>Opspænding</span></div><a class="project-open" href="projects/ring-bender.html" data-project="ring" aria-haspopup="dialog">Se projekt <span aria-hidden="true">↗</span></a></div></article>
+<article><img class="project-image" src="images/tac-table.webp" alt="AI-visualisering af Tac Table baseret på min rendering" width="1536" height="1024" loading="lazy"><div class="card-body"><span class="index">PROJEKT / 003</span><h3>Tac Table</h3><p>En opspændingsplade med aflange slidser, der giver plads til at justere opspændingen. Designet til fleksibilitet i fremtidige projekter.</p><div class="tags"><span>Design</span><span>CNC-fræsning</span><span>Finish</span></div><a class="project-open" href="projects/tac-table.html" data-project="tac" aria-haspopup="dialog">Se projekt og dokumentation <span aria-hidden="true">↗</span></a></div></article></div></section>
+<section id="vaerksted" class="section workshop"><div class="section-title"><div><p class="eyebrow">03 / PROCESSEN</p><h2>Fra værkstedet.</h2></div><p>Idéer bliver til noget<br><em>i værkstedet.</em></p></div><div class="gallery"><figure><img class="process-image" src="images/cylinder-cad.webp" alt="Cylinder og stempel" loading="lazy" width="900" height="600"><figcaption>CAD-rendering · pasning mellem cylinder og stempel.</figcaption></figure><figure><img class="process-image" src="images/cam-disc-cad.webp" alt="Cam Disc" loading="lazy" width="900" height="600"><figcaption>CAD-rendering · knasten til Flame Eater Engine.</figcaption></figure><figure><img class="process-image" src="images/crankweb-cad.webp" alt="Krumtapdel" loading="lazy" width="900" height="600"><figcaption>CAD-rendering · geometri og bearbejdning.</figcaption></figure><figure><img class="process-image" src="images/crankweb-control.webp" alt="Kontrol med dorn" loading="lazy" width="900" height="600"><figcaption>Fra værkstedet · kontrol af den bearbejdede del.</figcaption></figure></div></section>
+<section id="om" class="about section"><div><p class="eyebrow">04 / MENNESKET BAG</p><h2>Under uddannelse.<br>Selvkørende i praksis.</h2><p>Jeg læser finmekaniker via SKP på TEC Frederiksberg. Mellem hovedforløb arbejder jeg selvstændigt med opgaver fra skolen og eksterne kunder, når det passer til mine kompetencer og de værkstedsrammer, jeg har adgang til.</p><p class="micro"><i></i> SVENDEBREV · APRIL 2027</p></div><img class="portrait" src="images/glen-portrait.webp" alt="AI-genereret værkstedsportræt af Glen" width="1122" height="1402" loading="lazy"><blockquote>“Jeg elsker at gå fra en tanke på papir til en færdig del i hånden.”<cite>Glen Cilinder-Hansen</cite></blockquote><div class="next-step"><div><p class="eyebrow">EFTER SVENDEBREVET</p><h3>Mit næste skridt.</h3></div><div><p>Mit mål er at arbejde som finmekaniker på fuld tid efter mit forventede svendebrev i april 2027. Jeg vil bygge videre på erfaringerne fra uddannelsen og projekterne — fra fremstilling og pasninger til kontrol af den færdige del.</p><p>Har I plads til en kommende finmekaniker, eller vil I tale om mine projekter og mulighederne hos jer, hører jeg gerne fra jer.</p><p class="career-contact">Job og faglig dialog: <strong>datumprototyping@gmail.com</strong></p></div></div></section>
+<section id="kompetencer" class="section capabilities"><p class="eyebrow">05 / MIG I VÆRKSTEDET</p><h2>Det kan jeg bidrage med.</h2><p class="cap-intro">Jeg er ved at lære et fag, hvor både overblik og små detaljer tæller. Jeg arbejder med sammenhængen mellem tegning, fremstilling og kontrol — og med at blive mere selvstændig i hele processen.</p><div class="capability-grid">
+<article><span class="num">01 / FAGLIG BREDDE</span><h3>Fra tegning til <br>arbejdet ved maskinen.</h3><p>Jeg arbejder med CAD og CAM i Fusion 360 samt manuel og CNC-bearbejdning. Det giver mig erfaring med både at forberede en opgave og at fremstille delene i praksis.</p><p>Mit fokus er at forstå, hvordan materialer, opspænding og bearbejdning påvirker den færdige del.</p></article>
+<article><span class="num">02 / ARBEJDSMETODE</span><h3>Kontrol og tilpasning <br>undervejs.</h3><p>Jeg bruger målkontrol og afprøvning til at følge arbejdet, mens det bliver til. Når en pasning kræver justering, arbejder jeg videre med den og kontrollerer igen.</p><p>For mig handler præcision både om målene på tegningen og om, hvordan delene fungerer sammen.</p></article>
+<article><span class="num">03 / UDVIKLING</span><h3>Selvstændig i arbejdet. <br>Stadig under uddannelse.</h3><p>Jeg arbejder selvstændigt med opgaver inden for de kompetencer og værkstedsrammer, jeg har adgang til. Samtidig er jeg stadig i gang med at opbygge min faglige erfaring.</p><p>Jeg tager erfaringerne fra én opgave med videre til den næste. Målet er at blive en finmekaniker, der kan følge arbejdet fra forberedelse til færdig del.</p></article>
+</div><div class="equipment-note"><h3>Værktøjer og maskiner fra uddannelsen</h3><p>Fusion 360 · Haas Mini Mill · Haas ST-10 · Deckel FP1 · Weiler Matador</p><p>Konkrete opgaver afhænger af mine kompetencer og de værkstedsrammer, jeg har adgang til.</p></div></section>
+<section id="kontakt" class="section contact contact-builder">
+<div class="contact-intro"><p class="eyebrow">06 / LAD OS TALE OM DIN IDÉ</p><h2>Fra idé til<br><em>en god forespørgsel.</em></h2><p>Jeg tager indimellem opgaver ind, når de passer til mine kompetencer og værkstedsrammer. Vælg, hvad du har brug for, og få en skabelon, du kan arbejde videre med.</p><div class="contact-address"><p>Send den færdige tekst til</p><button type="button" id="copy-email" aria-label="Kopiér mailadressen datumprototyping@gmail.com"><span>datumprototyping@gmail.com</span><span class="copy-label">Kopiér adresse</span></button><p id="email-copy-status" role="status"></p><input id="email-copy-fallback" aria-label="Mailadresse til manuel kopiering" value="datumprototyping@gmail.com" readonly hidden></div></div>
+<div class="builder"><form id="request-form"><h3>Fortæl lidt om opgaven</h3><p>Udfyld det, du ved. Resten kan vi afklare sammen.</p><div class="form-grid">
+<label>Opgavetype<select name="type"><option value="prototype">Prototype</option><option value="part">Enkeltstående del / reservedel</option><option value="series">Mindre serie</option><option value="cad">CAD / konstruktion</option><option value="fixture">Fikstur / specialværktøj</option><option value="other">Andet / hjælp til afklaring</option></select></label>
+<label>Materiale<select name="material"><option>Ikke afklaret</option><option>Aluminium</option><option>Stål</option><option>Rustfrit stål</option><option>Messing</option><option>Plast</option><option>Andet</option></select></label>
+<label>Antal<input name="quantity" type="number" min="1" step="1" inputmode="numeric" placeholder="Fx 1"></label>
+<label>Ønsket levering<input name="deadline" maxlength="100" placeholder="Fx i løbet af oktober"></label>
+<label class="wide">Funktion og omtrentlige mål<textarea name="description" rows="3" maxlength="3000" placeholder="Hvad skal delen bruges til? Hvilke mål eller pasninger er vigtige?"></textarea></label>
+</div><fieldset><legend>Hvilket materiale har du klar?</legend><div class="checkboxes"><label><input type="checkbox" name="assets" value="En tegning med mål">Tegning med mål</label><label><input type="checkbox" name="assets" value="En CAD-fil">CAD-fil</label><label><input type="checkbox" name="assets" value="Fotos eller en skitse">Fotos / skitse</label><label><input type="checkbox" name="assets" value="En fysisk del">Fysisk del</label></div></fieldset>
+<div class="form-grid"><label>Dit navn <span class="optional">(valgfrit)</span><input name="name" autocomplete="name" maxlength="120" placeholder="Navn"></label><label>Din e-mail <span class="optional">(valgfrit)</span><input name="email" type="email" autocomplete="email" maxlength="254" placeholder="navn@eksempel.dk"></label></div>
+<button class="button" type="submit">Generér skabelon <span aria-hidden="true">→</span></button><p class="form-note">Oplysningerne bliver på denne side. Der sendes ikke noget automatisk.</p></form>
+<section class="template-result" id="template-result" aria-labelledby="template-heading" hidden><div class="result-title"><h3 id="template-heading">Din forespørgsel</h3><span>Klar til tilpasning</span></div><label for="request-template">Redigér teksten, før du bruger den</label><textarea id="request-template" rows="16" spellcheck="true"></textarea><p id="template-stale" hidden>Du har ændret dine valg. Brug “Generér skabelon” igen for at opdatere teksten. Dine egne rettelser bliver da erstattet.</p><div class="template-actions"><button type="button" id="copy-template">Kopiér tekst</button><button type="button" id="download-template">Hent som .txt</button></div><p role="status" id="template-status"></p></section></div></section>
+</main><footer><a class="brand" href="#" aria-label="Datum Prototyping forside"><img class="brand-logo" src="brand/logo.png" alt="Datum / Prototyping" width="1640" height="312" loading="lazy"></a><p>Glen Cilinder-Hansen<br>Finmekanikerstuderende · København, DK</p><span class="eyebrow">IDÉ · LÆRING · HÅNDVÆRK</span></footer><dialog id="project-dialog" aria-labelledby="project-title"><div class="dialog-bar"><p class="eyebrow" id="project-index"></p><button type="button" class="dialog-close" aria-label="Luk projekt">Luk <span aria-hidden="true">×</span></button></div><div id="project-content"></div></dialog><script src="app.js" defer></script></body></html>
 
 
-    <section class="proof-strip" aria-label="Arbejdsgrundlag"><div class="wrap proof-grid">
-      <div><span>OPGAVETYPE</span><strong>One-off og mindre serier</strong></div>
-      <div><span>GRUNDLAG</span><strong>Skitse, CAD, tegning eller fysisk del</strong></div>
-      <div><span>KONTROL</span><strong>Kritiske mål efter aftalt krav</strong></div>
-      <div><span>DOKUMENTATION</span><strong>FAI og setup efter behov</strong></div>
-    </div></section>
 
-    <section class="content" id="cases">
-      <div class="wrap">
-        <div class="section-head reveal"><div><div class="label"><span class="section-index">01</span> / Arbejdsprøver</div><h2>Dokumenteret arbejde.</h2></div><p>Udvalgte emner, som jeg selv har arbejdet med under min finmekanikeruddannelse og gennem egne opgaver. Hver case viser materiale, proces, kritiske krav og den valgte fremstillingsløsning.</p></div>
-        <div class="projects">
-          <article class="project featured reveal"><div class="project-media"><img src="img/flame-render.png" alt="Flame Eater-motor med bearbejdede komponenter" loading="lazy"></div><div class="project-body"><div class="project-top"><span class="tag">Manuel fremstilling · konstruktion</span><span class="label">01</span></div><h3>Flame Eater Engine</h3><p>En fungerende mekanisme, hvor glidepasninger, parallelitet og mange enkeltdele skal spille sammen.</p><button class="project-open" data-project="flame">Se udfordring og løsning →</button></div></article>
-          <article class="project tall reveal"><div class="project-media"><img src="img/ringbender.png" alt="Bearbejdet ringbøjer-fikstur" loading="lazy"></div><div class="project-body"><div class="project-top"><span class="tag">Fikstur · CNC</span><span class="label">02</span></div><h3>Ringbøjer-fikstur</h3><p>Et fleksibelt FDM-værktøj gentænkt som en stiv løsning i aluminium og stål.</p><button class="project-open" data-project="ring">Se udfordring og løsning →</button></div></article>
-          <article class="project tall reveal"><div class="project-media"><img src="img/mosin-render-1.png" alt="Præcisionsdel fremstillet til Mosin Nagant" loading="lazy"></div><div class="project-body"><div class="project-top"><span class="tag">One-off · værktøjsstål</span><span class="label">03</span></div><h3>Mosin Nagant-dele</h3><p>To nye dele fremstillet ud fra opmåling og tegninger, med materiale valgt til reel funktion.</p><button class="project-open" data-project="mosin">Se udfordring og løsning →</button></div></article>
-          <article class="project featured reveal"><div class="project-media"><img src="img/tactable.png" alt="CNC-bearbejdet Tac Table i aluminium" loading="lazy"></div><div class="project-body"><div class="project-top"><span class="tag">CNC · processtrategi</span><span class="label">04</span></div><h3>Tac Table</h3><p>Tyndvægget emne bearbejdet fra 30 til 10 mm med fokus på spændinger, opspænding og planhed.</p><button class="project-open" data-project="tactable">Se udfordring og løsning →</button></div></article>
-        </div>
-      </div>
-    </section>
 
-    <section class="capabilities" id="kan">
-      <div class="wrap cap-grid">
-        <article class="cap reveal"><span class="cap-no">01 / TEKNISK AFKLARING</span><h3>Opgaven bliver defineret</h3><p>Funktion, geometri, materiale, tolerance og antal afklares før fremstillingen begynder.</p><ul><li>CAD og konstruktion</li><li>Tegninger og tolerancer</li><li>Materiale og fremstillingsvalg</li></ul></article>
-        <article class="cap reveal"><span class="cap-no">02 / FREMSTILLING</span><h3>Processen bliver planlagt</h3><p>CAD, CAM, opspænding og bearbejdningsrækkefølge vælges efter emnets kritiske funktioner.</p><ul><li>CNC-fræsning</li><li>Manuel fræsning og drejning</li><li>Enkeltdele og fiksturer</li></ul></article>
-        <article class="cap reveal"><span class="cap-no">03 / KONTROL</span><h3>Resultatet bliver dokumenteret</h3><p>Kritiske mål kontrolleres, og relevante måleresultater eller produktionsdokumenter følger leverancen.</p><ul><li>Kontrol af kritiske mål</li><li>FAI og setup-dokumentation</li><li>Iteration og forbedring</li></ul></article>
-      </div>
-    </section>
 
-    <section class="content" id="proces"><div class="wrap process-grid">
-      <div class="process-intro reveal"><div class="label"><span class="section-index">02</span> / Proces</div><h2>Fra forespørgsel til leverance.</h2><p>En tegning er bedst, men en skitse, CAD-model, defekt del eller tydelig funktionsbeskrivelse kan være nok til den første vurdering.</p></div>
-      <div class="steps reveal"><article class="step"><span>01</span><div><h3>Du viser problemet</h3><p>Send billeder, mål, en model eller en tegning. Fortæl hvad delen skal kunne, og hvor den skal bruges.</p></div></article><article class="step"><span>02</span><div><h3>Jeg vurderer opgaven</h3><p>Vi afklarer geometri, materiale, tolerance og en realistisk fremstillingsmetode.</p></div></article><article class="step"><span>03</span><div><h3>Delen bliver fremstillet</h3><p>Jeg planlægger setup og bearbejdning, fremstiller delen og kontrollerer de mål, der betyder noget.</p></div></article><article class="step"><span>04</span><div><h3>Du får delen og dokumentationen</h3><p>Omfanget aftales fra sag til sag. Relevante målinger og dokumenter følger med, når opgaven kræver det.</p></div></article></div>
-    </div></section>
 
-    <section class="content honest"><div class="wrap honest-grid"><div class="reveal"><div class="label">NUVÆRENDE KAPACITET</div><h2>Faglighed med klare rammer.</h2></div><div class="honest-card reveal"><strong>Datum Prototyping er udelukkende mig, Glen C. Hansen.</strong><p>Jeg er finmekanikerstuderende tæt på svendebrevet og står selv for kundedialog, CAD/CAM, fremstilling, kontrol og dokumentation. Alle forespørgsler vurderes efter kompleksitet, udstyr, materiale og tidsramme.</p></div></div></section>
 
-    <section class="content" id="kontakt"><div class="wrap contact-grid">
-      <div class="contact-copy reveal"><div class="label"><span class="section-index">03</span> / Forespørgsel</div><h2>Send grundlaget.</h2><p>Beskriv funktion, materiale, omtrentlige mål, antal og ønsket levering. Tegninger, CAD-filer og billeder kan vedhæftes i den klargjorte e-mail.</p><a href="mailto:defnotglen@gmail.com">defnotglen@gmail.com</a></div>
-      <form id="contactForm" class="reveal"><div class="form-row"><div class="field"><label for="name">Navn</label><input id="name" name="name" autocomplete="name" required placeholder="Dit navn"></div><div class="field"><label for="company">Firma <span>valgfrit</span></label><input id="company" name="company" autocomplete="organization" placeholder="Firmanavn"></div></div><div class="form-row"><div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="navn@firma.dk"></div><div class="field"><label for="quantity">Antal <span>cirka</span></label><input id="quantity" name="quantity" inputmode="numeric" placeholder="1 stk."></div></div><div class="field"><label for="type">Opgavetype</label><select id="type" name="type"><option>One-off del / reservedel</option><option>Prototype</option><option>Mindre serie</option><option>CAD / konstruktion</option><option>Fikstur / specialværktøj</option><option>Andet</option></select></div><div class="field"><label for="message">Krav og funktion</label><textarea id="message" name="message" required placeholder="Hvad skal delen bruges til? Angiv gerne materiale, hovedmål, kritiske tolerancer og ønsket levering."></textarea></div><button class="button primary" type="submit">Klargør forespørgsel →</button><p class="form-note" id="formNote">Din mailklient åbnes med oplysningerne samlet. Vedhæft tegninger, CAD-filer eller billeder før afsendelse.</p></form>
-    </div></section>
-  </main>
 
-  <footer><div class="wrap footer-grid"><div><div class="footer-brand"><img class="footer-logo" src="img/datum-prototyping-logo.svg" alt="Datum Prototyping"></div><p>One-off dele · prototyper · finmekanik<br>København, Danmark</p></div><div class="footer-meta">DATUMPROTOTYPING.DK<br>FINMEKANIKERSTUDERENDE · SVENDEBREV 2027<br>© 2026 GLEN C. HANSEN</div></div></footer>
 
-  <dialog id="projectDialog" aria-labelledby="modalTitle"><div class="modal-head"><span class="tag" id="modalTag"></span><button class="modal-close" id="modalClose" aria-label="Luk case">×</button></div><div class="modal-body"><h2 id="modalTitle"></h2><div class="modal-facts"><div class="modal-fact"><span>Materiale</span><strong id="modalMaterial"></strong></div><div class="modal-fact"><span>Tolerance</span><strong id="modalTolerance"></strong></div><div class="modal-fact"><span>Proces</span><strong id="modalProcess"></strong></div></div><div class="modal-story"><div><h3>UDFORDRING</h3><p id="modalChallenge"></p></div><div><h3>LØSNING</h3><p id="modalSolution"></p></div></div><div class="modal-docs" id="modalDocs"></div></div></dialog>
 
-  <script>
-    const projects={
-      flame:{tag:"01 / ENGINEERING PROJECT",title:"Flame Eater Engine",material:"Messing · aluminium · stål",tolerance:"Glidepasninger",process:"Manuel fræsning og drejning",challenge:"En termisk motor, hvor mange individuelle dele skal passe sammen med lav friktion og korrekt gastæthed.",solution:"Delene blev fremstillet og tilpasset med fokus på pasninger, parallelitet og løbende kontrol af kritiske mål.",docs:[{label:"FAI · Cylinder og stempel",url:"fai/fai-01.html"},{label:"FAI · Cam Disc",url:"fai/fai-02-camdisc.html"},{label:"FAI · Svinghjul",url:"fai/fai-03-flywheel.html"}]},
-      ring:{tag:"02 / FIXTURE",title:"Ringbøjer-fikstur",material:"Aluminium 6082 · stål",tolerance:"ISO 2768-m",process:"Haas Mini Mill",challenge:"Et tidligere FDM-værktøj gav for meget fleksibilitet under bukning.",solution:"Designet blev ændret til en stivere, bearbejdet konstruktion med aluminium og stål på de belastede flader."},
-      mosin:{tag:"03 / ONE-OFF",title:"Mosin Nagant-dele",material:"Værktøjsstål",tolerance:"Tegningsspecifik",process:"CNC-bearbejdning",challenge:"To manglende dele skulle fremstilles til en ældre Mosin Nagant ud fra opmålinger og tegninger.",solution:"De nye dele blev bearbejdet i værktøjsstål for at give den nødvendige styrke og funktion."},
-      tactable:{tag:"04 / CNC MACHINING",title:"Tac Table",material:"EN AW-6082-T6",tolerance:"Planhed · kritisk",process:"Haas Mini Mill",challenge:"En tyndvægget plade skulle bearbejdes fra 30 mm til 10 mm uden at indre spændinger trak emnet skævt.",solution:"CAM-strategien og opspændingen blev planlagt omkring spændingsfrigivelse. Emnet blev skrubbet, løsnet og genbespændt med lavt moment før sletbearbejdning.",docs:[{label:"Setup Sheet · Tac Table",url:"fai/setup-tactable.html"}]}
-    };
-    const dialog=document.querySelector("#projectDialog");
-    document.querySelectorAll("[data-project]").forEach(button=>button.addEventListener("click",()=>{const p=projects[button.dataset.project];if(!p)return;document.querySelector("#modalTag").textContent=p.tag;document.querySelector("#modalTitle").textContent=p.title;document.querySelector("#modalMaterial").textContent=p.material;document.querySelector("#modalTolerance").textContent=p.tolerance;document.querySelector("#modalProcess").textContent=p.process;document.querySelector("#modalChallenge").textContent=p.challenge;document.querySelector("#modalSolution").textContent=p.solution;document.querySelector("#modalDocs").innerHTML=(p.docs||[]).map(d=>`<a href="${d.url}" target="_blank" rel="noopener">${d.label} ↗</a>`).join("");dialog.showModal()}));
-    document.querySelector("#modalClose").addEventListener("click",()=>dialog.close());dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close()});
-    const menuButton=document.querySelector("#menuButton"),mobileMenu=document.querySelector("#mobileMenu");menuButton.addEventListener("click",()=>{const open=mobileMenu.classList.toggle("open");menuButton.setAttribute("aria-expanded",String(open));menuButton.textContent=open?"×":"≡"});mobileMenu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mobileMenu.classList.remove("open");menuButton.setAttribute("aria-expanded","false");menuButton.textContent="≡"}));
-    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("in");observer.unobserve(entry.target)}}),{threshold:.08,rootMargin:"0px 0px -30px"});document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));setTimeout(()=>document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in")),1200);
-    document.querySelector("#contactForm").addEventListener("submit",e=>{e.preventDefault();const name=document.querySelector("#name").value.trim(),company=document.querySelector("#company").value.trim(),email=document.querySelector("#email").value.trim(),quantity=document.querySelector("#quantity").value.trim(),type=document.querySelector("#type").value,message=document.querySelector("#message").value.trim();const subject=encodeURIComponent(`Forespørgsel — ${type} — ${company||name}`),body=encodeURIComponent(`Hej Glen,\n\nJeg vil gerne have vurderet følgende opgave:\n\n${message}\n\nKontakt: ${name}${company?`\nFirma: ${company}`:""}\nE-mail: ${email}\nOpgavetype: ${type}\nAntal: ${quantity||"Ikke fastlagt"}\n\nVenlig hilsen\n${name}`);document.querySelector("#formNote").textContent="Dit mailprogram åbnes nu. Vedhæft gerne billeder eller tegninger.";window.location.href=`mailto:defnotglen@gmail.com?subject=${subject}&body=${body}`});
-  </script>
-</body>
-</html>
+
+
+
