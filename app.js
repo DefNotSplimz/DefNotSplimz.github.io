@@ -23,7 +23,7 @@ const form=document.querySelector('#request-form'),result=document.querySelector
 const types={prototype:['Prototype','Jeg vil gerne have hjælp til en prototype.','Formål og hvad prototypen skal afprøve'],part:['Enkeltstående del / reservedel','Jeg vil gerne have hjælp til en enkeltstående del eller reservedel.','Funktion, mål og hvad delen skal passe sammen med'],series:['Mindre serie','Jeg vil gerne have vurderet en mindre serie.','Funktion, ensartethed og eventuelle gentagne leverancer'],cad:['CAD / konstruktion','Jeg vil gerne have hjælp til CAD og konstruktion.','Funktion, pladsforhold og ønsket filformat'],fixture:['Fikstur / specialværktøj','Jeg vil gerne have hjælp til et fikstur eller specialværktøj.','Emnet, belastningen og hvordan værktøjet skal bruges'],other:['Afklaring af opgave','Jeg har en idé, som jeg gerne vil have hjælp til at afklare.','Min idé og det, jeg har brug for hjælp til']};
 form.addEventListener('input',()=>{if(!result.hidden)stale.hidden=false;});
 form.addEventListener('submit',e=>{e.preventDefault();const f=new FormData(form),type=types[f.get('type')],get=k=>String(f.get(k)||'').trim();const assets=f.getAll('assets');
-output.value=`Emne: Forespørgsel — ${type[0]}\n\nHej Glen,\n\n${type[1]}\n\n${type[2]}:\n${get('description')||'[Beskriv opgaven her]'}\n\nMateriale: ${get('material')}\nAntal: ${get('quantity')||'Ikke afklaret'}\nØnsket levering: ${get('deadline')||'Efter aftale'}\n\nGrundlag, jeg kan sende:\n${assets.length?assets.map(x=>'• '+x).join('\n'):'Jeg har endnu ikke tegninger eller filer klar.'}\n\nKritiske mål og tolerancer: [Angiv krav, eller skriv at de skal afklares]\n\nKan du vurdere, om opgaven passer til dine muligheder, og hvilket grundlag du eventuelt mangler?\n\nVenlig hilsen\n${get('name')||'[Dit navn]'}${get('email')?'\n'+get('email'):''}`;
+output.value=get('contact-kind')==='job'?`Emne: Job og faglig dialog\n\nHej Glen,\n\n${get('job-description')||'[Beskriv muligheden eller det, du gerne vil tale om]'}\n\nJeg hører gerne fra dig.\n\nVenlig hilsen\n${get('name')||'[Dit navn]'}${get('email')?'\n'+get('email'):''}`:`Emne: Forespørgsel — ${type[0]}\n\nHej Glen,\n\n${type[1]}\n\n${type[2]}:\n${get('description')||'[Beskriv opgaven her]'}\n\nMateriale: ${get('material')}\nAntal: ${get('quantity')||'Ikke afklaret'}\nØnsket levering: ${get('deadline')||'Efter aftale'}\n\nGrundlag, jeg kan sende:\n${assets.length?assets.map(x=>'• '+x).join('\n'):'Jeg har endnu ikke tegninger eller filer klar.'}\n\nKritiske mål og tolerancer: [Angiv krav, eller skriv at de skal afklares]\n\nKan du vurdere, om opgaven passer til dine muligheder, og hvilket grundlag du eventuelt mangler?\n\nVenlig hilsen\n${get('name')||'[Dit navn]'}${get('email')?'\n'+get('email'):''}`;
 result.hidden=false;stale.hidden=true;status.textContent='Skabelonen er klar. Du kan redigere teksten nedenfor.';output.focus();
 });
 document.querySelector('#copy-template').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(output.value);status.textContent='Teksten er kopieret.';}catch{output.focus();output.select();status.textContent='Teksten er markeret. Brug Kopiér på din enhed, eller hent tekstfilen.';}});
@@ -39,3 +39,12 @@ document.querySelector("#copy-email").addEventListener("click",async()=>{
  catch{fallback.hidden=false;fallback.focus();fallback.select();message.textContent="Adressen er markeret. Vælg Kopiér på din enhed.";}
 });
 
+
+function setContactKind(kind){
+ document.querySelector('[name="contact-kind"][value="'+kind+'"]').checked=true;
+ for(const [id,active] of [['task-fields',kind==='task'],['job-fields',kind==='job']]){const field=document.getElementById(id);field.hidden=!active;field.disabled=!active;}
+ if(!result.hidden)stale.hidden=false;
+}
+form.querySelectorAll('[name="contact-kind"]').forEach(r=>r.addEventListener('change',()=>setContactKind(r.value)));
+document.querySelectorAll('[data-contact-kind]').forEach(a=>a.addEventListener('click',()=>setContactKind(a.dataset.contactKind)));
+form.addEventListener('invalid',e=>{const details=e.target.closest('details');if(details)details.open=true;},true);
