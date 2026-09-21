@@ -1,0 +1,2 @@
+:root{--datum-orange:#FF6536;--datum-ink:#17232A;--datum-white:#F5F3ED;--datum-steel:#B7C1C7;}
+.datum-logo{display:block;width:clamp(180px,28vw,340px);height:auto}
