@@ -89,7 +89,6 @@ article{background:#20272c}
 
 /* New horizontal brand proportions */
 header .brand{width:clamp(220px,31vw,380px);max-width:65%;flex-shrink:0}header .brand-logo{width:100%;height:auto}footer .brand{width:280px;max-width:100%}.doc-nav img{max-width:300px;height:auto}@media(max-width:700px){header .brand{width:235px;max-width:calc(100% - 100px)}footer .brand{width:250px}}
-
 /* Consistent scale and spacing across the portfolio and project pages. */
 :root{--accent:#ff6536;--muted:#b5bec3;--line:#37434a}
 body>header{padding-top:22px;padding-bottom:22px;min-height:112px}
