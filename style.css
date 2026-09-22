@@ -89,3 +89,52 @@ article{background:#20272c}
 
 /* New horizontal brand proportions */
 header .brand{width:clamp(220px,31vw,380px);max-width:65%;flex-shrink:0}header .brand-logo{width:100%;height:auto}footer .brand{width:280px;max-width:100%}.doc-nav img{max-width:300px;height:auto}@media(max-width:700px){header .brand{width:235px;max-width:calc(100% - 100px)}footer .brand{width:250px}}
+
+/* Consistent scale and spacing across the portfolio and project pages. */
+:root{--accent:#ff6536;--muted:#b5bec3;--line:#37434a}
+body>header{padding-top:22px;padding-bottom:22px;min-height:112px}
+body>header .brand,.project-page>header .brand{width:285px;max-width:48%}
+body>footer .brand{width:215px;max-width:100%}
+nav a{font-weight:500}
+.hero-copy .intro{line-height:1.65;max-width:43ch}
+.section-title>p,.cap-intro{line-height:1.65}
+.section h2,.standalone-project h1,.dialog-copy h2{text-wrap:balance;line-height:1.12}
+.cards article,.capability-grid article{border-radius:8px;overflow:hidden}
+.card-body p,.capability-grid p,.project-story p,.project-learning p{line-height:1.7}
+.tags span{border:1px solid var(--line);border-radius:4px;padding:4px 9px}
+.project-image{background:#171c20}
+.gallery .process-image{border-radius:5px}
+.gallery figcaption{line-height:1.55;max-width:34ch}
+.capability-grid h3{font-size:clamp(1.5rem,2.2vw,1.9rem);line-height:1.2;text-wrap:balance}
+.capability-grid p:last-child{margin-bottom:0}
+.standalone-visual{padding:0;background:#141b20;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.standalone-visual img{max-height:510px;object-fit:contain}
+.standalone-visual figcaption{padding:12px 20px;margin:0;line-height:1.5}
+.standalone-project .project-story h2{font-size:1.7rem}
+.project-story p{margin-top:12px}
+.project-return a,.career-contact{font-weight:500;min-height:44px;display:inline-flex;align-items:center}
+.project-return a:hover,.back-link:hover,.career-contact:hover{color:#ff9877}
+.optional-details summary{align-items:center;gap:12px;min-height:44px;font-size:1rem}
+.optional-details summary::after{content:'+';font-size:1.3rem;color:var(--muted)}
+.optional-details[open] summary::after{content:'−'}
+.optional-details summary span{margin-left:auto}
+.contact-choice input{min-height:18px;padding:0}
+.contact-choice label{border-radius:5px;line-height:1.4}
+.button{border-radius:4px;background:#ff6536;color:#121a20}
+.button:hover{background:#ff8058}
+.copy-label,.doc-kind,.career-contact{color:#ff916e}
+@media(max-width:1000px){.hero-copy .intro{max-width:38ch}}
+@media(max-width:700px){
+ body>header{min-height:96px;padding-top:16px;padding-bottom:16px}
+ body>header .brand,.project-page>header .brand{width:210px;max-width:calc(100% - 100px)}
+ .project-page>header .brand{max-width:70%}
+ .project-page>header{gap:8px 20px}
+ body>footer .brand{width:200px}
+ .hero-copy .intro{max-width:43ch}
+ .section{padding-top:44px;padding-bottom:44px}
+ .about h2{font-size:clamp(2rem,7vw,2.5rem)}
+ .standalone-visual img{max-height:360px}
+ .standalone-visual figcaption{padding:12px 16px}
+ .contact-intro h2{font-size:2.5rem}
+ .optional-details summary{font-size:.94rem}
+}

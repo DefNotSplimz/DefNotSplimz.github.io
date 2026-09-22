@@ -4,3 +4,8 @@ body.document{background:#171c20;color:#f3f4ef}.doc-nav{max-width:1200px;margin:
 
 .table-hint{display:none}@media(max-width:700px){.table-hint{display:block;font-size:.875rem;padding:12px 16px!important;margin:0;background:#253139;color:#d1dce3}}@media print{.table-hint{display:none}}
 
+
+/* Shared portfolio scale; print layout remains unchanged. */
+@media screen{.doc-nav img{width:230px;max-width:42%}.doc-nav{padding-block:22px;border-bottom:1px solid #37434a}.doc-shell{padding-top:36px}.doc-header h1{line-height:1.12;text-wrap:balance}.doc-shell h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.2}.metadata-grid{line-height:1.5}.doc-nav button{font-size:.9rem}.doc-shell footer{font-size:.875rem}}
+@media screen and (max-width:700px){.doc-nav img{width:210px;max-width:100%;flex-basis:auto}.doc-nav{gap:16px}.doc-nav a{min-height:44px;display:flex;align-items:center}.doc-nav button{margin-left:auto}.doc-shell{padding-top:28px}.doc-header h1{font-size:clamp(2rem,8vw,2.6rem)}}
+@media screen and (max-width:700px){.doc-nav{display:grid;grid-template-columns:1fr auto}.doc-nav img{grid-column:1/-1;width:200px;order:-1}.doc-nav button{margin-left:0}.doc-nav a{font-size:.94rem}}
