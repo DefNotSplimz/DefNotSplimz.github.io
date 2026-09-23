@@ -137,3 +137,20 @@ nav a{font-weight:500}
  .contact-intro h2{font-size:2.5rem}
  .optional-details summary{font-size:.94rem}
 }
+
+/* Additional work: honest placeholders until photographs are available. */
+.other-work{background:var(--paper)}
+.other-work .section-title{margin-bottom:18px}
+.samples-note{font-size:14px;margin:0 0 28px;max-width:65ch}
+.sample-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.work-sample{min-width:0;border:1px solid var(--line);background:#1b242a}
+.sample-placeholder{position:relative;aspect-ratio:3/2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#182126;border-bottom:1px dashed #495962;color:#a8b4bb}
+.sample-placeholder svg{width:44px;height:44px;stroke:currentColor;stroke-width:1.3}
+.sample-placeholder>span:last-child{font-size:13px;letter-spacing:.4px}
+.sample-number{position:absolute;top:16px;left:18px;font:12px Consolas,monospace;color:#a8b4bb}
+.sample-caption{padding:22px}
+.sample-status{font-size:10px;letter-spacing:1.6px;color:#b5bec4}
+.sample-caption h3{font-size:25px;margin:10px 0}
+.sample-caption p{font-size:14px;line-height:1.6;margin:0;color:#b5bec4}
+@media(max-width:950px){.sample-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.sample-grid{grid-template-columns:1fr;gap:20px}.sample-caption{padding:20px}.other-work .section-title>p{margin-top:16px}}
