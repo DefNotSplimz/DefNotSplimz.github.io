@@ -178,3 +178,6 @@ nav a{font-weight:500}
 .planned-content p{font-size:14px;line-height:1.65;margin:0;color:#b5bec4}
 .planned-next{grid-column:1/-1;border-left:2px solid var(--accent);padding-left:16px}
 @media(max-width:600px){.planned-project>summary{grid-template-columns:1fr 24px;gap:12px;padding:20px 0}.planned-project .planned-status{grid-column:1;grid-row:2;justify-self:start}.planned-toggle{grid-column:2;grid-row:1 / span 2}.planned-content{grid-template-columns:1fr;gap:22px;padding-bottom:24px}.planned-heading strong{font-size:24px}}
+
+/* Compact workflow in place of the process gallery. */
+.workflow-steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}.workflow-steps li{border-top:1px solid #465158;padding-top:20px}.workflow-steps .num{color:#ff6536;font-size:.8rem}.workflow-steps h3{margin:12px 0 8px}.workflow-steps p{margin:0;color:#b6bec3;line-height:1.65}@media(max-width:900px){.workflow-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){.workflow-steps{grid-template-columns:1fr;gap:20px}}
