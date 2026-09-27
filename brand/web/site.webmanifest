@@ -1,6 +1,10 @@
 {
   "name": "Datum Prototyping",
   "short_name": "Datum",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#181A1A",
+  "theme_color": "#181A1A",
   "icons": [
     {
       "src": "icon-192.png",
@@ -12,8 +16,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "theme_color": "#17232A",
-  "background_color": "#17232A",
-  "display": "browser"
+  ]
 }

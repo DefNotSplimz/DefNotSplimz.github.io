@@ -1,0 +1,7 @@
+/* Datum Brand 01 — shared public identity */
+:root{--datum-charcoal:#181a1a;--datum-graphite:#343735;--datum-ivory:#ecece5;--datum-orange:#fb7949}
+.eyebrow::before{content:"";display:inline-block;width:7px;height:7px;background:var(--datum-orange);margin-right:10px;vertical-align:1px}
+body>footer::after,.doc-shell>footer::after{content:"";display:block;flex-shrink:0;width:32px;height:32px;background:url('brand/graphics/datum-corner-on-dark.svg') center/contain no-repeat}
+.hero-visual{position:relative}.hero-visual::after{content:"";position:absolute;right:18px;bottom:18px;width:28px;height:28px;background:url('brand/graphics/datum-corner-on-dark.svg') center/contain no-repeat;pointer-events:none}.hero-visual figcaption{padding-right:60px}
+a:focus-visible,button:focus-visible{outline-color:var(--datum-orange)}.text-orange,em{color:var(--datum-orange)}
+@media print{body>footer::after,.doc-shell>footer::after{background-image:url('brand/graphics/datum-corner-on-light.svg')}}
