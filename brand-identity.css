@@ -5,3 +5,6 @@ body>footer::after,.doc-shell>footer::after{content:"";display:block;flex-shrink
 .hero-visual{position:relative}.hero-visual::after{content:"";position:absolute;right:18px;bottom:18px;width:28px;height:28px;background:url('brand/graphics/datum-corner-on-dark.svg') center/contain no-repeat;pointer-events:none}.hero-visual figcaption{padding-right:60px}
 a:focus-visible,button:focus-visible{outline-color:var(--datum-orange)}.text-orange,em{color:var(--datum-orange)}
 @media print{body>footer::after,.doc-shell>footer::after{background-image:url('brand/graphics/datum-corner-on-light.svg')}}
+
+/* Recruitment dossier */
+.career-dossier{margin-top:32px;padding:28px;border:1px solid #525651;border-left:4px solid var(--datum-orange);background:#202322}.career-dossier h3{font-size:clamp(24px,3vw,32px);line-height:1.15;margin:12px 0 16px}.career-dossier .actions{display:flex;flex-wrap:wrap;gap:20px;align-items:center;margin-top:24px}.career-dossier .button{font-size:14px}.career-dossier p{max-width:60ch}@media(max-width:480px){.career-dossier{padding:20px}.career-dossier .button{width:100%;justify-content:space-between}}
