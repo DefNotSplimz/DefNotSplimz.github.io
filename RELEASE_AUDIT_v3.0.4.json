@@ -1,0 +1,18 @@
+{
+  "version": "3.0.4",
+  "favicon_source": "brand/logos/datum-primary-hq.png",
+  "method": "exact symbol crop from approved HQ master; no redrawing",
+  "generated_sizes": [
+    16,
+    32,
+    48,
+    64,
+    180,
+    192,
+    512
+  ],
+  "old_favicon_references": [],
+  "pages_missing_favicon_links": [],
+  "missing_local_references": [],
+  "status": "PASS"
+}

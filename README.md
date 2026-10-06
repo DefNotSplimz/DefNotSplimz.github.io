@@ -1,13 +1,22 @@
-# Datum Prototyping Website v3.0.2
+# Datum Prototyping Website v3.0.4
 
-Production patch based on v3.0.1 CLEAN.
+Favicon quality release.
 
-## Changes
-- New Open Graph / social preview artwork in current Datum identity.
-- Homepage title updated to `Datum Prototyping | Håndværket ligger i detaljen.`
-- Homepage description rewritten to match the current positioning.
-- Open Graph and Twitter metadata normalized across homepage, project pages and document pages.
-- Social image cache key changed to `?v=302`.
+## Favicon system
+Every favicon in this release is derived directly from the approved HQ master:
+`brand/logos/datum-primary-hq.png`
 
-## Deployment
-Upload the contents of this folder over the current v3.0.1 deployment.
+The symbol (frame + D + datum triangle) is cropped from the real HQ artwork.
+No hand-redrawn favicon geometry is used.
+
+Included:
+- favicon.ico — 16 / 32 / 48 / 64
+- favicon-16.png
+- favicon-32.png
+- favicon-48.png
+- favicon-64.png
+- apple-touch-icon.png — 180×180
+- icon-192.png
+- icon-512.png
+
+All browser references use cache version `?v=304`.
