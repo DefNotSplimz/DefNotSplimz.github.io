@@ -1,17 +1,13 @@
-# Datum Prototyping Website v3.0.0
+# Datum Prototyping Website v3.0.2
 
-Final release candidate.
+Production patch based on v3.0.1 CLEAN.
 
-## Logo system
-- Dark UI: `brand/logos/datum-primary-hq.png`
-- Light documents: `brand/logos/datum-primary-hq-reverse.png`
-- Mono black: `brand/logos/datum-primary-hq-mono-black.png`
-- Mono white: `brand/logos/datum-primary-hq-mono-white.png`
-
-All four are derived from the same approved HQ master.
-
-## Documents
-FAI reports, setup sheet, fagligt dossier and document templates use the v3 document brand system.
+## Changes
+- New Open Graph / social preview artwork in current Datum identity.
+- Homepage title updated to `Datum Prototyping | Håndværket ligger i detaljen.`
+- Homepage description rewritten to match the current positioning.
+- Open Graph and Twitter metadata normalized across homepage, project pages and document pages.
+- Social image cache key changed to `?v=302`.
 
 ## Deployment
-Back up the live site, then upload the CONTENTS of this folder to the web root.
+Upload the contents of this folder over the current v3.0.1 deployment.

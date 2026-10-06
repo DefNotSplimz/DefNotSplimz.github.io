@@ -1,0 +1,14 @@
+{
+  "version": "3.0.2",
+  "social_preview": {
+    "image": "brand/social/og-image.png",
+    "dimensions": "1200x630",
+    "cache_version": "302",
+    "homepage_title": "Datum Prototyping | Håndværket ligger i detaljen.",
+    "homepage_description": "Finmekanik, CAD/CAM og CNC. Projekter, dokumentation og præcisionsarbejde fra idé og opmåling til fremstilling og kontrol."
+  },
+  "missing_local_references": [],
+  "metadata_issues": [],
+  "legacy_social_image_references": [],
+  "status": "PASS"
+}
