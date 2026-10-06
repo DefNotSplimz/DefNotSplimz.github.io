@@ -1,0 +1,9 @@
+{
+  "version": "3.0.1 CLEAN",
+  "purpose": "deployment-only package",
+  "file_count": 63,
+  "missing_static_references": [],
+  "missing_js_generated_references": [],
+  "legacy_files_detected": [],
+  "status": "PASS"
+}

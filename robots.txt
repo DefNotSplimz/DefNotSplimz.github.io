@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /brand/documents/
+Disallow: /brand/email/
+Disallow: /brand/brand-guide.html
 
 Sitemap: https://datumprototyping.dk/sitemap.xml

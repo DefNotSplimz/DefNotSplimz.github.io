@@ -1,0 +1,140 @@
+
+/* ==========================================================================
+   DATUM PROTOTYPING — v2.3 EDITORIAL + FORMATTING CONSOLIDATION
+   ========================================================================== */
+
+/* section rhythm */
+.section,
+.standalone-project,
+.project-story,
+.project-related,
+.project-end-cta{
+  scroll-margin-top:96px;
+}
+
+.section-head,
+.section-title,
+.project-section-head{
+  align-items:end!important;
+  gap:clamp(24px,4vw,52px)!important;
+}
+
+/* consistent max measure for prose */
+:where(
+  .lede,
+  .section-head>p,
+  .section-title>p,
+  .project-lede,
+  .project-copy>p:not(.eyebrow),
+  .person-copy>p,
+  .contact-intro>p,
+  .project-step p,
+  .project-learning-rebrand p
+){
+  max-width:62ch;
+}
+
+/* headline rhythm */
+:where(
+  .hero h1,
+  .section h2,
+  .project-hero-copy h1,
+  .project-section-head h2,
+  .project-end-cta h2
+){
+  text-wrap:balance;
+}
+
+/* paragraph rhythm */
+:where(
+  .lede,
+  .section-head>p,
+  .section-title>p,
+  .project-copy>p:not(.eyebrow),
+  .other-projects p,
+  .planned-content p,
+  .workflow-steps p,
+  .person-copy>p,
+  .contact-intro>p,
+  .project-lede,
+  .project-step p,
+  .project-learning-rebrand p
+){
+  margin-top:0;
+  margin-bottom:1em;
+}
+
+/* technical labels */
+.eyebrow{
+  margin-bottom:18px!important;
+  white-space:normal;
+}
+:where(.eyebrow,.image-label,.visual-note,.discipline span,.documents a,.planned-status){
+  text-transform:uppercase!important;
+}
+
+/* card padding consistency */
+:where(
+  .project-copy,
+  .other-projects article>div,
+  .career-dossier,
+  .contact-intro,
+  .builder,
+  .related-card .related-copy,
+  .project-step,
+  .project-learning-rebrand
+){
+  box-sizing:border-box;
+}
+
+/* buttons / links */
+.button,
+.text-link{
+  text-transform:uppercase!important;
+}
+.actions{
+  align-items:center!important;
+}
+
+/* docs strip */
+.documents{
+  align-items:stretch;
+}
+.documents>*{
+  min-height:76px;
+}
+
+/* method cards */
+.method-grid .work-snapshot figcaption{
+  min-height:68px;
+}
+
+/* planned projects */
+.planned-project summary{
+  line-height:1.25;
+}
+
+/* profile blocks */
+.person-copy dl>div{
+  min-height:112px;
+}
+
+/* dialogue */
+.dialogue-rail>div{
+  min-height:94px;
+}
+
+/* mobile rhythm */
+@media(max-width:680px){
+  .section{
+    padding-top:52px!important;
+    padding-bottom:52px!important;
+  }
+  .section-head,.section-title,.project-section-head{
+    margin-bottom:28px!important;
+  }
+  .person-copy dl>div,
+  .dialogue-rail>div{
+    min-height:0;
+  }
+}

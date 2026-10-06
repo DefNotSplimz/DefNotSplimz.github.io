@@ -1,0 +1,73 @@
+
+/* Datum Prototyping — v2.0 final launch safeguards */
+html{scroll-padding-top:86px}
+body{overflow-x:hidden}
+
+/* prevent accidental layout overflow */
+:where(main,section,article,figure,div,nav,header,footer){min-width:0}
+
+/* project header consistency */
+@media(min-width:1001px){
+  .project-site-header{grid-template-columns:288px 1fr auto!important}
+  .project-site-header .brand{
+    width:288px!important;
+    padding:0 28px!important;
+    justify-content:center!important;
+  }
+  .project-site-header .brand img{
+    width:232px!important;
+    max-height:67px!important;
+  }
+}
+
+/* Make mobile project return action dominant and safe */
+@media(max-width:1000px){
+  .project-site-header .back-link{
+    min-height:70px;
+    padding:0 18px;
+    border-left:1px solid var(--dt-line);
+  }
+}
+
+/* Avoid focus ring clipping inside bordered panels */
+:where(.button,.text-link,header a,.doc-links a,.related-card):focus-visible{
+  position:relative;
+  z-index:2;
+}
+
+/* Forms: clearer readable states */
+input,select,textarea{
+  color-scheme:dark;
+}
+input::placeholder,textarea::placeholder{
+  opacity:.62;
+}
+
+
+/* v2.0 final header optical alignment
+   Align the logo with the hero/content left edge instead of centering it
+   inside the 288px brand cell. */
+@media(min-width:1001px){
+  body.precision>header .brand,
+  .project-site-header .brand{
+    justify-content:flex-start!important;
+    padding-left:52px!important;
+    padding-right:18px!important;
+  }
+
+  body.precision>header .brand img,
+  .project-site-header .brand img{
+    width:210px!important;
+    max-width:100%!important;
+    object-position:left center!important;
+  }
+}
+
+@media(max-width:1000px){
+  body.precision>header .brand,
+  .project-site-header .brand{
+    justify-content:flex-start!important;
+    padding-left:18px!important;
+    padding-right:14px!important;
+  }
+}

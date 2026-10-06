@@ -1,0 +1,211 @@
+
+/* ==========================================================================
+   DATUM DOCUMENT BRAND SYSTEM v3.0.0
+   Dark surfaces:  datum-primary-hq.png
+   Light surfaces: datum-primary-hq-reverse.png
+   No carrier boxes. No alternate/traced logo files.
+   ========================================================================== */
+
+.doc-nav img.datum-logo-dark{
+  display:block!important;
+  width:228px!important;
+  height:auto!important;
+  max-width:228px!important;
+  max-height:52px!important;
+  min-height:0!important;
+  margin:0 20px!important;
+  padding:0!important;
+  object-fit:contain!important;
+  object-position:left center!important;
+  background:transparent!important;
+  filter:none!important;
+  opacity:1!important;
+  image-rendering:auto!important;
+}
+
+.print-document-head{
+  grid-template-columns:230px 1fr!important;
+  align-items:center!important;
+  gap:24px!important;
+}
+
+.print-document-head img.datum-logo-light,
+.page > header img.datum-logo-light{
+  display:block!important;
+  width:210px!important;
+  height:auto!important;
+  max-width:210px!important;
+  max-height:62px!important;
+  margin:0!important;
+  padding:0!important;
+  object-fit:contain!important;
+  object-position:left center!important;
+  background:transparent!important;
+  border:0!important;
+  filter:none!important;
+  opacity:1!important;
+  image-rendering:auto!important;
+}
+
+.page > header{
+  align-items:center!important;
+  gap:24px!important;
+}
+
+/* Dossier isolation - website globals must never leak in */
+body.dossier-page{
+  margin:0!important;
+  background:#111214!important;
+  color:#171719!important;
+}
+
+body.dossier-page > nav{
+  display:flex!important;
+  gap:24px!important;
+  justify-content:center!important;
+  padding:20px!important;
+  color:#ecece5!important;
+  flex-wrap:wrap!important;
+  background:transparent!important;
+  border:0!important;
+  min-height:auto!important;
+  text-transform:none!important;
+  letter-spacing:normal!important;
+}
+
+body.dossier-page main .page .contact{
+  margin-top:22px!important;
+  padding-top:16px!important;
+  border-top:1px solid #171719!important;
+  background:transparent!important;
+  color:#171719!important;
+}
+
+body.dossier-page main .page .contact h2{
+  font-size:15pt!important;
+  line-height:1.15!important;
+  letter-spacing:-.02em!important;
+  text-transform:none!important;
+  margin:0 0 10px!important;
+  color:#171719!important;
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-weight:500!important;
+}
+
+body.dossier-page main .page .contact > a{
+  display:inline-block!important;
+  color:#ea580c!important;
+  font-size:14pt!important;
+  font-weight:700!important;
+  text-decoration:none!important;
+}
+
+body.dossier-page main .page .contact p{
+  margin-top:8px!important;
+  color:#171719!important;
+  font-size:9pt!important;
+  line-height:1.55!important;
+}
+
+body.dossier-page main .page > footer{
+  display:flex!important;
+  gap:15px!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  margin-top:auto!important;
+  padding-top:14px!important;
+  border-top:1px solid #171719!important;
+  background:transparent!important;
+  color:#171719!important;
+  min-height:auto!important;
+  text-transform:uppercase!important;
+  letter-spacing:.08em!important;
+  font:9px/1.5 Consolas,'Courier New',monospace!important;
+}
+
+body.dossier-page main .page > footer a,
+body.dossier-page main .page > footer span{
+  color:#171719!important;
+  text-decoration:none!important;
+}
+
+body.dossier-page main .page > footer img{
+  width:24px!important;
+  height:auto!important;
+  display:block!important;
+  background:transparent!important;
+}
+
+@media(max-width:760px){
+  .doc-nav img.datum-logo-dark{
+    width:196px!important;
+    max-width:196px!important;
+    max-height:46px!important;
+    margin:0 14px!important;
+  }
+  .print-document-head{
+    grid-template-columns:1fr!important;
+  }
+  .print-document-head img.datum-logo-light,
+  .page > header img.datum-logo-light{
+    width:188px!important;
+    max-width:188px!important;
+    max-height:56px!important;
+  }
+}
+
+@media print{
+  .print-document-head img.datum-logo-light,
+  .page > header img.datum-logo-light{
+    background:transparent!important;
+    filter:none!important;
+    opacity:1!important;
+  }
+  body.dossier-page > nav{
+    display:none!important;
+  }
+  body.dossier-page main .page .contact,
+  body.dossier-page main .page > footer{
+    background:transparent!important;
+    color:#171719!important;
+  }
+}
+
+
+/* v3.0.0 print pagination verification */
+.print-continuation{
+  display:none;
+}
+
+@media print{
+  /* Single-page FAI docs: the control strip already carries page information.
+     Removing the decorative footer prevents an otherwise blank page 2. */
+  body.document:not(.setup-document) .doc-shell > footer{
+    display:none!important;
+  }
+
+  body.setup-document .print-continuation{
+    display:block!important;
+    break-before:page!important;
+    page-break-before:always!important;
+    margin-bottom:12pt!important;
+  }
+
+  body.setup-document .routing-section{
+    break-before:auto!important;
+    page-break-before:auto!important;
+  }
+
+  body.setup-document .print-continuation .print-document-head{
+    margin-bottom:10pt!important;
+  }
+
+  body.setup-document .print-continuation .doc-control-strip{
+    margin-bottom:12pt!important;
+  }
+
+  body.setup-document .doc-shell > footer{
+    break-inside:avoid!important;
+    page-break-inside:avoid!important;
+  }
+}

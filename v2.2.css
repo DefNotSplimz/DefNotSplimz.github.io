@@ -1,0 +1,8 @@
+
+/* v2.2 final layer */
+@media(min-width:1001px){
+  body.precision>header .brand img{
+    width:196px!important;
+    max-height:52px!important;
+  }
+}

@@ -1,0 +1,220 @@
+
+/* ==========================================================
+   DATUM TYPOGRAPHY SYSTEM v1.0
+   Display: Barlow Condensed
+   Body:    Barlow
+   Tech:    IBM Plex Mono
+   ========================================================== */
+
+:root{
+  --font-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --font-body:"Barlow",Arial,Helvetica,sans-serif;
+  --font-tech:"IBM Plex Mono",Consolas,"Courier New",monospace;
+}
+
+/* Reading text */
+body.precision,
+body.project-page,
+body.error-page{
+  font-family:var(--font-body)!important;
+  font-weight:400;
+  letter-spacing:0;
+}
+
+/* Major display typography */
+body.precision :where(h1,h2,h3),
+body.project-page :where(h1,h2,h3),
+body.error-page :where(h1,h2,h3),
+.hero-visual figcaption strong,
+.work-snapshot figcaption strong,
+.related-card strong{
+  font-family:var(--font-display)!important;
+}
+
+/* Stronger display rhythm */
+.hero h1,
+.section-head h2,
+.section-title h2,
+.work h2,
+.planned-work h2,
+.workshop h2,
+.person h2,
+.contact h2,
+.project-hero-copy h1,
+.project-section-head h2,
+.project-end-cta h2{
+  font-weight:600!important;
+  letter-spacing:-.035em!important;
+}
+
+.project-copy h3,
+.other-projects h3,
+.project-step h2,
+.project-learning-rebrand h2,
+.career-dossier h3,
+.related-card strong{
+  font-weight:600!important;
+  letter-spacing:-.025em!important;
+}
+
+/* Body copy — calm, readable, deliberately wider than condensed display */
+:where(
+  .lede,
+  .section-head>p,
+  .section-title>p,
+  .project-copy>p:not(.eyebrow),
+  .project-copy dd,
+  .documents p,
+  .other-projects p,
+  .planned-content p,
+  .workflow-steps p,
+  .person-copy>p,
+  .person-copy dd,
+  .career-dossier p,
+  .contact-intro>p,
+  .contact-address,
+  .project-lede,
+  .project-section-head>p:last-child,
+  .project-step p,
+  .project-learning-rebrand p,
+  .project-facts dd,
+  .related-card p,
+  .project-site-footer,
+  label,
+  input,
+  select,
+  textarea,
+  .form-note,
+  .privacy-note
+){
+  font-family:var(--font-body)!important;
+  font-weight:400!important;
+  letter-spacing:.003em!important;
+}
+
+/* Primary body sizes */
+.lede,
+.project-lede,
+.person-copy .person-intro{
+  font-weight:400!important;
+  line-height:1.55!important;
+}
+.project-copy>p:not(.eyebrow),
+.other-projects p,
+.workflow-steps p,
+.planned-content p,
+.person-copy>p:not(.eyebrow),
+.project-step p,
+.project-learning-rebrand p{
+  line-height:1.56!important;
+}
+
+/* Technical / navigational voice */
+:where(
+  .eyebrow,
+  header nav a,
+  .back-link,
+  .menu-toggle,
+  .button,
+  .text-link,
+  .availability,
+  .image-label,
+  .discipline,
+  .discipline span,
+  .featured figcaption,
+  .other-projects figcaption,
+  .documents a,
+  .project-copy dt,
+  .planned-status,
+  .planned-project summary:before,
+  .visual-note,
+  .project-tech-panel dt,
+  .project-step>span,
+  .project-learning-rebrand>span,
+  .related-card span,
+  .related-card em,
+  .project-site-footer,
+  footer,
+  .form-note,
+  .privacy-note
+){
+  font-family:var(--font-tech)!important;
+}
+
+/* Navigation */
+header nav a,
+.back-link,
+.menu-toggle{
+  font-weight:600!important;
+  letter-spacing:.105em!important;
+}
+
+/* Technical metadata */
+.eyebrow{
+  font-weight:600!important;
+  letter-spacing:.14em!important;
+}
+.image-label,
+.discipline span,
+.visual-note,
+.project-step>span,
+.project-tech-panel dt,
+.related-card span,
+.related-card em{
+  font-weight:600!important;
+}
+
+/* Buttons should feel engineered, not code-like */
+.button,
+.text-link{
+  font-weight:600!important;
+  letter-spacing:.085em!important;
+}
+
+/* Data / description lists */
+dt{
+  font-family:var(--font-tech)!important;
+  font-weight:600!important;
+  letter-spacing:.06em!important;
+  text-transform:uppercase;
+}
+dd{
+  font-family:var(--font-body)!important;
+}
+
+/* Forms */
+input,select,textarea{
+  font-family:var(--font-body)!important;
+  font-weight:400!important;
+}
+label{
+  font-family:var(--font-tech)!important;
+  font-weight:600!important;
+  letter-spacing:.05em!important;
+}
+
+/* Error page follows same identity */
+body.error-page .error-code,
+body.error-page .error-kicker,
+body.error-page nav,
+body.error-page .button{
+  font-family:var(--font-tech)!important;
+}
+body.error-page h1{
+  font-family:var(--font-display)!important;
+}
+
+/* Mobile — preserve hierarchy, avoid ultra-condensed tiny text */
+@media(max-width:680px){
+  .lede,
+  .project-lede,
+  .person-copy .person-intro{
+    line-height:1.52!important;
+  }
+  .eyebrow{
+    letter-spacing:.11em!important;
+  }
+  header nav a{
+    letter-spacing:.08em!important;
+  }
+}

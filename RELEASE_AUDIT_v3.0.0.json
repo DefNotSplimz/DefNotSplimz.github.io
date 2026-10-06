@@ -1,0 +1,19 @@
+{
+  "version": "3.0.0",
+  "qa_pass": "second/full re-check",
+  "missing_local_references": [],
+  "old_logo_references": [],
+  "wrong_document_logo_references": [],
+  "duplicate_ids": [],
+  "missing_alt": [],
+  "missing_image_dimensions_non_svg": [],
+  "transition_css_in_dossier": false,
+  "print_render_verification": {
+    "fai-01.html": "1 page",
+    "fai-02-camdisc.html": "1 page",
+    "fai-03-flywheel.html": "1 page",
+    "setup-tactable.html": "2 pages with repeated controlled-document header and correct 1/2, 2/2 numbering",
+    "fagligt-dossier.html": "2 pages; PDF regenerated and visually rendered/checked"
+  },
+  "visual_pdf_check": "PASS"
+}

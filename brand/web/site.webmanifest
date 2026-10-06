@@ -1,10 +1,14 @@
 {
+  "id": "/",
   "name": "Datum Prototyping",
   "short_name": "Datum",
+  "description": "Finmekanik, CAD/CAM, CNC og dokumenterede projekter fra Datum Prototyping.",
+  "lang": "da-DK",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#181A1A",
-  "theme_color": "#181A1A",
+  "background_color": "#0B0C0D",
+  "theme_color": "#0B0C0D",
   "icons": [
     {
       "src": "icon-192.png",

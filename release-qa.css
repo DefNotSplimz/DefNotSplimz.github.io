@@ -1,0 +1,106 @@
+
+/* Datum Prototyping — Release QA v1.6
+   Accessibility, interaction consistency, mobile hardening, spacing guards. */
+
+:root{
+  --qa-focus:#ff7a38;
+  --qa-hit:44px;
+}
+
+/* Keyboard UX */
+:where(a,button,input,select,textarea,summary):focus-visible{
+  outline:2px solid var(--qa-focus)!important;
+  outline-offset:3px!important;
+}
+:where(a,button){-webkit-tap-highlight-color:rgba(234,88,12,.18)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a,button{transition:background-color .18s ease,color .18s ease,border-color .18s ease,opacity .18s ease,transform .18s ease}
+
+/* Predictable images / layout shift */
+img{height:auto}
+.hero-visual img,.featured img,.other-projects img,.work-snapshot img,.person-visual img,
+.project-hero-image img,.related-card img{background:#151719}
+
+/* Hover states: subtle and industrial, not animated-merch */
+@media (hover:hover){
+  .button:hover{transform:translateY(-1px)}
+  .text-link:hover{color:#fff;border-color:var(--dt-orange)}
+  .documents a:hover,.doc-links a:hover{background:#151719}
+  .work-snapshot:hover img,.related-card:hover img{filter:saturate(.9) contrast(1.07)}
+  .work-snapshot:hover figcaption strong{color:var(--dt-orange)}
+}
+
+/* Touch targets */
+.menu-toggle,.project-site-header .back-link{min-height:var(--qa-hit)}
+input,select,textarea{min-height:44px}
+
+/* Prevent long words / URLs from blowing grids */
+:where(.lede,.project-lede,.project-copy,.person-copy,.contact-intro,.project-step,
+.project-learning-rebrand,.doc-links,.related-card,.project-site-footer){
+  overflow-wrap:anywhere;
+}
+
+/* Header / nav hardening */
+body.precision>header,body.project-page>header{isolation:isolate}
+header nav a,.back-link{white-space:nowrap}
+
+/* Mobile menu is a real panel */
+@media(max-width:1000px){
+  body.precision>header{
+    grid-template-columns:1fr auto!important;
+    position:sticky;
+  }
+  body.precision>header .menu-toggle{
+    display:flex!important;
+    align-items:center;
+    justify-content:center;
+    min-width:74px;
+    border-left:1px solid var(--dt-line);
+  }
+  body.precision>header #main-nav{
+    display:none;
+    grid-column:1/-1;
+    width:100%;
+    border-top:1px solid var(--dt-line);
+    background:#0b0c0d;
+  }
+  body.precision>header #main-nav.is-open{
+    display:grid!important;
+    grid-template-columns:1fr;
+  }
+  body.precision>header #main-nav a{
+    min-height:50px;
+    border-right:0;
+    border-bottom:1px solid var(--dt-line);
+  }
+  body.precision>header #main-nav a:last-child{border-bottom:0}
+}
+
+/* Responsive spacing / typographic guards */
+@media(max-width:680px){
+  .hero .eyebrow,.section .eyebrow,.project-hero-copy .eyebrow{letter-spacing:.12em!important}
+  .hero h1,.project-hero-copy h1,.project-end-cta h2{hyphens:none;overflow-wrap:normal}
+  .section-head,.section-title,.project-section-head{gap:20px!important}
+  .project-hero-actions,.actions{gap:12px}
+  .button{min-height:46px}
+  .project-site-footer{gap:12px}
+}
+
+/* Very narrow devices */
+@media(max-width:380px){
+  header .brand img,header .brand-logo{width:170px!important}
+  .hero h1,.project-hero-copy h1{font-size:46px!important}
+  .project-end-cta h2{font-size:44px!important}
+}
+
+/* Respect OS preference */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+  }
+}
