@@ -1,0 +1,20 @@
+
+:root{--black:#0d0d0f;--white:#f4f3ef;--muted:#a1a1aa;--line:#303034;--orange:#ea580c;--orange-hot:#f97316;--display:"Barlow Condensed",sans-serif;--body:"Barlow",sans-serif;--mono:"IBM Plex Mono",monospace}
+*{box-sizing:border-box}
+html{background:var(--black);color-scheme:dark}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 78% 16%,rgba(234,88,12,.06),transparent 24%),var(--black);color:var(--white);font-family:var(--body)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(#000,transparent 96%)}
+.error-shell{position:relative;width:min(1180px,calc(100% - 32px));border:1px solid var(--line);background:rgba(10,11,13,.94)}
+.error-shell header{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:28px;padding:14px 24px;border-bottom:1px solid var(--line)}
+.error-shell header img{display:block;width:230px;height:auto}
+.error-shell header span,.error-shell footer{font:600 10px/1.5 var(--mono);letter-spacing:.12em;color:#7f838a}
+.error-shell section{padding:clamp(64px,9vw,126px) clamp(24px,7vw,90px)}
+.eyebrow{margin:0 0 20px;color:var(--orange-hot);font:600 10px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;max-width:650px}
+.eyebrow:before{content:"";display:inline-block;width:8px;height:8px;margin-right:10px;background:var(--orange)}
+.error-shell h1{margin:0;font:800 clamp(64px,10vw,140px)/.84 var(--display);letter-spacing:-.045em;text-transform:uppercase}
+.error-shell section>p:not(.eyebrow){max-width:560px;margin:30px 0;color:#a8abb1;font-size:16px;line-height:1.65}
+.error-shell section>a{display:inline-flex;min-height:46px;align-items:center;padding:0 18px;background:var(--orange);color:#120e0b;text-decoration:none;font:600 10px var(--mono);letter-spacing:.09em}
+.error-shell section>a:hover{background:var(--orange-hot)}
+.error-shell a:focus-visible{outline:2px solid var(--orange-hot);outline-offset:3px}
+.error-shell footer{display:flex;justify-content:space-between;gap:20px;padding:20px 24px;border-top:1px solid var(--line)}
+@media(max-width:680px){body{display:block}.error-shell{width:100%;min-height:100vh;border-inline:0}.error-shell header span{display:none}.error-shell header img{width:190px}.error-shell footer{flex-direction:column}.error-shell h1{font-size:clamp(54px,18vw,86px)}}

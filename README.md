@@ -1,34 +1,42 @@
-# Datum Prototyping Website v3.0.4
+# Datum Prototyping Website v3.1.4
 
-Favicon quality release.
+Direction 01 + Brand v3.1.
 
-## Favicon system
-Every favicon in this release is derived directly from the approved HQ master:
-`brand/logos/datum-primary-hq.png`
+This build is the full-site QA/hardening release after the v3.1.3 SEO pass and v3.1.3.1 footer hotfix.
 
-The symbol (frame + D + datum triangle) is cropped from the real HQ artwork.
-No hand-redrawn favicon geometry is used.
+## Primary runtime files
+- `index.html`
+- `direction01-v314.css`
+- `site-v314.js`
+- `project-v314.css`
+- `error-v314.css`
+- `documents/document-v312.css`
+- `documents/document-v311.css`
+- `documents/dossier.css`
+- `documents/documents.js`
 
-Included:
-- favicon.ico — 16 / 32 / 48 / 64
-- favicon-16.png
-- favicon-32.png
-- favicon-48.png
-- favicon-64.png
-- apple-touch-icon.png — 180×180
-- icon-192.png
-- icon-512.png
+## Brand / web assets
+- UI logo: `brand/02_WEB/datum-v3.1-ui-logo.webp`
+- Favicons and app icons: `brand/02_WEB/`
+- Full brand package: `brand/`
 
-All browser references use cache version `?v=304`.
+## QA
+See `QA_v3.1.4.json`.
 
+The release checks:
+- local links and assets
+- anchors and DOM IDs
+- image intrinsic dimensions
+- forms and labels
+- CSS parsing
+- JavaScript syntax
+- SEO / Open Graph / Twitter metadata
+- JSON-LD
+- sitemap parity
+- web manifest icons
+- email signature asset path
+- technical-document print rendering
 
-## v3.1.1.1
-Removed the numbered slash-prefix styling (`01 /`, `02 /`, etc.) from section labels across the public site and FAI document views.
-
-
-## v3.1.2
-FAI reports and Setup Sheet rebuilt with the unified v3.1.2 technical document system.
-
-
-## v3.1.3
-SEO, page-specific Open Graph imagery, structured data, sitemap and crawl metadata hardened.
+## Deployment
+Upload the contents of this folder to the site root for `datumprototyping.dk`.
+`CNAME`, `robots.txt`, `sitemap.xml` and `site.webmanifest` are included.

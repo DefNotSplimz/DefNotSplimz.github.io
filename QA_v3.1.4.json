@@ -1,0 +1,150 @@
+{
+  "version": "3.1.4",
+  "date": "2026-10-08",
+  "checks": [
+    {
+      "check": "HTML local references",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Unique DOM IDs",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Internal anchor targets",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "One H1 per public page",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Required basic metadata",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Form controls labelled",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Image intrinsic dimensions/aspect",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "CSS parse",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "JavaScript syntax",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "SEO + Open Graph + JSON-LD",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Unique page titles",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Unique meta descriptions",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Sitemap equals indexable pages",
+      "passed": true,
+      "details": {
+        "sitemap": [
+          "index.html",
+          "projects/flame-eater-engine.html",
+          "projects/ring-bender.html",
+          "projects/tac-table.html",
+          "documents/fagligt-dossier.html",
+          "documents/fai-01.html",
+          "documents/fai-02-camdisc.html",
+          "documents/fai-03-flywheel.html",
+          "documents/setup-tactable.html"
+        ],
+        "indexable": [
+          "documents/fagligt-dossier.html",
+          "documents/fai-01.html",
+          "documents/fai-02-camdisc.html",
+          "documents/fai-03-flywheel.html",
+          "documents/setup-tactable.html",
+          "index.html",
+          "projects/flame-eater-engine.html",
+          "projects/ring-bender.html",
+          "projects/tac-table.html"
+        ]
+      }
+    },
+    {
+      "check": "Web manifest icons",
+      "passed": true,
+      "details": []
+    },
+    {
+      "check": "Email signature image path",
+      "passed": true,
+      "details": null
+    },
+    {
+      "check": "Project cards navigate to case-study pages",
+      "passed": true,
+      "details": [
+        {
+          "href": "projects/flame-eater-engine.html",
+          "data_project": null
+        },
+        {
+          "href": "projects/ring-bender.html",
+          "data_project": null
+        },
+        {
+          "href": "projects/tac-table.html",
+          "data_project": null
+        }
+      ]
+    },
+    {
+      "check": "Technical document print render",
+      "passed": true,
+      "details": {
+        "fai-01": 1,
+        "fai-02-camdisc": 1,
+        "fai-03-flywheel": 1,
+        "setup-tactable": 2,
+        "fagligt-dossier": 2
+      }
+    }
+  ],
+  "metrics": {
+    "public_html_pages": 10,
+    "all_html_files": 11,
+    "css_files": 27,
+    "js_files": 5,
+    "optimized_ui_logo_bytes": 107394,
+    "master_logo_bytes": 1076332,
+    "ui_logo_reduction_percent": 90.0,
+    "project_css_requests_before": 11,
+    "project_css_requests_after": 1,
+    "homepage_runtime_js_requests_before": 2,
+    "homepage_runtime_js_requests_after": 1
+  },
+  "failures": [],
+  "notes": [
+    "Interactive Chromium screenshot/runtime execution was unavailable in this container; browser behavior was hardened by static DOM/JS checks. Homepage and technical documents were additionally smoke-rendered with WeasyPrint."
+  ]
+}
