@@ -1,0 +1,20 @@
+{
+  "brand": "Datum Prototyping",
+  "brandVersion": "3.1",
+  "identity": "Refined Precision",
+  "approvedPrimaryMaster": "00_MASTER/DATUM-v3.1-premium-horizontal-transparent.png",
+  "colors": {
+    "black": "#0D0D0F",
+    "machineBlack": "#18181B",
+    "technicalWhite": "#F4F3EF",
+    "white": "#FFFFFF",
+    "datumOrange": "#EA580C",
+    "orangeHot": "#FF6412",
+    "drawingGrey": "#A1A1AA",
+    "lineGrey": "#303034"
+  },
+  "usage": {
+    "premium": "Digital brand presentation, website hero/header, social, high-quality print where raster is acceptable.",
+    "flatVector": "Embroidery, vinyl, laser marking, document headers, one-color or fully scalable production."
+  }
+}

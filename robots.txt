@@ -1,7 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /brand/documents/
-Disallow: /brand/email/
-Disallow: /brand/brand-guide.html
+
+Disallow: /brand/04_EMAIL/
+Disallow: /brand/08_GUIDELINES/
+Disallow: /brand/09_REFERENCE/
 
 Sitemap: https://datumprototyping.dk/sitemap.xml

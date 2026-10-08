@@ -1,0 +1,30 @@
+{
+  "fai-01.html": {
+    "duplicate_ids": [],
+    "missing_local_refs": [],
+    "v312_css": true,
+    "print_button": true,
+    "legacy_authorized_signature": false
+  },
+  "fai-02-camdisc.html": {
+    "duplicate_ids": [],
+    "missing_local_refs": [],
+    "v312_css": true,
+    "print_button": true,
+    "legacy_authorized_signature": false
+  },
+  "fai-03-flywheel.html": {
+    "duplicate_ids": [],
+    "missing_local_refs": [],
+    "v312_css": true,
+    "print_button": true,
+    "legacy_authorized_signature": false
+  },
+  "setup-tactable.html": {
+    "duplicate_ids": [],
+    "missing_local_refs": [],
+    "v312_css": true,
+    "print_button": true,
+    "legacy_authorized_signature": false
+  }
+}

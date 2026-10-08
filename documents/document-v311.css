@@ -1,0 +1,13 @@
+
+/* Datum Prototyping v3.1.1.1 — document screen polish */
+@media screen{
+  .doc-nav{min-height:70px!important;padding:9px 18px!important;gap:16px!important}
+  .doc-nav a,.doc-nav button{font-size:11px!important}
+  .doc-nav img.datum-logo-dark{width:235px!important;max-width:235px!important;max-height:54px!important}
+  .doc-shell{padding-top:96px!important}
+  .doc-control-strip span,.meta-label,.doc-meta dt{font-size:10px!important}
+  .doc-control-strip strong,.doc-meta dd{font-size:12px!important}
+}
+@media(max-width:760px){
+  @media screen{.doc-nav img.datum-logo-dark{width:185px!important}.doc-shell{padding-top:82px!important}}
+}

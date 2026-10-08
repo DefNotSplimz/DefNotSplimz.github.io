@@ -20,3 +20,15 @@ Included:
 - icon-512.png
 
 All browser references use cache version `?v=304`.
+
+
+## v3.1.1.1
+Removed the numbered slash-prefix styling (`01 /`, `02 /`, etc.) from section labels across the public site and FAI document views.
+
+
+## v3.1.2
+FAI reports and Setup Sheet rebuilt with the unified v3.1.2 technical document system.
+
+
+## v3.1.3
+SEO, page-specific Open Graph imagery, structured data, sitemap and crawl metadata hardened.

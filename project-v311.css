@@ -1,0 +1,13 @@
+
+/* Datum Prototyping v3.1.1.1 — project page polish */
+.project-site-header .brand-logo{width:235px!important;height:auto!important;max-height:56px!important;object-fit:contain!important}
+.project-site-header nav a,.project-site-header .back-link{font-size:10px!important;letter-spacing:.08em!important}
+.project-hero-image .image-label{font-size:10px!important}
+.project-hero-image figcaption{font-size:9px!important}
+.project-tech-panel dt{font-size:10px!important}
+.project-tech-panel dd{font-size:13px!important}
+.project-section-head>p:last-child,.project-step p,.project-learning-rebrand p,.rebrand-documents p,.related-projects p{font-size:14px!important}
+.project-step>span,.project-learning-rebrand>span,.related-card span,.project-site-footer{font-size:10px!important}
+.related-card em{font-size:10px!important}
+.project-site-footer{line-height:1.45!important}
+@media(max-width:680px){.project-site-header .brand-logo{width:190px!important}}

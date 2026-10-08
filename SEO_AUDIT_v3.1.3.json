@@ -1,0 +1,157 @@
+{
+  "version": "3.1.3",
+  "audited_at": "2026-10-08",
+  "pages": {
+    "index.html": {
+      "title_length": 56,
+      "description_length": 132,
+      "canonical": "https://datumprototyping.dk/",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "projects/flame-eater-engine.html": {
+      "title_length": 56,
+      "description_length": 144,
+      "canonical": "https://datumprototyping.dk/projects/flame-eater-engine.html",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "projects/ring-bender.html": {
+      "title_length": 52,
+      "description_length": 142,
+      "canonical": "https://datumprototyping.dk/projects/ring-bender.html",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "projects/tac-table.html": {
+      "title_length": 49,
+      "description_length": 133,
+      "canonical": "https://datumprototyping.dk/projects/tac-table.html",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "documents/fai-01.html": {
+      "title_length": 49,
+      "description_length": 135,
+      "canonical": "https://datumprototyping.dk/documents/fai-01.html",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "documents/fai-02-camdisc.html": {
+      "title_length": 47,
+      "description_length": 132,
+      "canonical": "https://datumprototyping.dk/documents/fai-02-camdisc.html",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "documents/fai-03-flywheel.html": {
+      "title_length": 40,
+      "description_length": 125,
+      "canonical": "https://datumprototyping.dk/documents/fai-03-flywheel.html",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "documents/setup-tactable.html": {
+      "title_length": 48,
+      "description_length": 124,
+      "canonical": "https://datumprototyping.dk/documents/setup-tactable.html",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "documents/fagligt-dossier.html": {
+      "title_length": 57,
+      "description_length": 140,
+      "canonical": "https://datumprototyping.dk/documents/fagligt-dossier.html",
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 1,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    },
+    "404.html": {
+      "title_length": 42,
+      "description_length": 133,
+      "canonical": null,
+      "h1_count": 1,
+      "og_complete": true,
+      "twitter_complete": true,
+      "og_image_dimensions": [
+        1200,
+        630
+      ],
+      "jsonld_blocks": 0,
+      "jsonld_valid": true,
+      "missing_local_refs": []
+    }
+  },
+  "failures": []
+}
