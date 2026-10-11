@@ -1,0 +1,23 @@
+:root{
+  --bg:#0d0d0f;
+  --bg-deep:#070809;
+  --panel:#111316;
+  --panel-2:#17191c;
+  --panel-3:#1d2023;
+  --panel-hot:#191713;
+  --line:rgba(255,255,255,.095);
+  --line-strong:rgba(255,255,255,.17);
+  --line-hot:rgba(234,88,12,.36);
+  --text:#f4f3ef;
+  --muted:#a8aaae;
+  --muted-2:#74777c;
+  --orange:#ea580c;
+  --orange-hi:#ff6b1d;
+  --orange-soft:rgba(234,88,12,.15);
+  --danger:#ef6b68;
+  --success:#63c18d;
+  --max:1480px;
+  --pad:clamp(20px,5vw,78px);
+  --sans:"Neue Haas Unica","Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}

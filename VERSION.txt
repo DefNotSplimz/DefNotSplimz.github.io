@@ -1,2 +1,0 @@
-Datum Prototyping v3.1.4
-Full Site QA + Hardening
