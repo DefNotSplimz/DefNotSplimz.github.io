@@ -83,9 +83,11 @@ body.menu-open .mobile-menu{display:block}
 .hero::after{content:"DATUM";position:absolute;right:-12px;top:165px;font:900 clamp(120px,20vw,310px)/.8 var(--font);letter-spacing:-.09em;color:rgba(16,18,22,.024);pointer-events:none}
 .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(430px,.98fr);gap:96px;align-items:center}
 .hero-copy{padding:8px 0 70px}
-.hero h1{margin:18px 0 24px;max-width:880px;font-size:clamp(60px,6.1vw,92px);line-height:.95;letter-spacing:-.06em;font-weight:820;text-wrap:balance}
+.hero h1{margin:18px 0 16px;max-width:880px;font-size:clamp(56px,5.6vw,86px);line-height:.95;letter-spacing:-.06em;font-weight:820;text-wrap:balance}
 .hero h1 em{font-style:normal;color:var(--orange)}
-.hero-lead{max-width:720px;margin:0 0 14px;font-size:20px;line-height:1.58;color:#383F45}
+.hero-hook{max-width:720px;margin:0 0 18px;color:var(--ink);font-size:clamp(19px,1.55vw,24px);line-height:1.35;letter-spacing:-.02em;font-weight:650}
+.hero-hook strong{color:var(--orange);font-weight:850}
+.hero-lead{max-width:720px;margin:0 0 14px;font-size:19px;line-height:1.58;color:#383F45}
 .hero-support{max-width:690px;margin:0 0 30px;color:#6A7177;line-height:1.72}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap}
 .hero-media{align-self:stretch;min-height:570px;border:0;background:#D8D3CB}
