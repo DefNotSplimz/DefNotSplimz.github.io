@@ -1,0 +1,52 @@
+@import url("document-base.css");
+@page{size:A4 landscape;margin:0}
+.doc-toolbar{width:min(297mm,calc(100vw - 32px))}
+.paper.setup{width:297mm;height:210mm;padding:0 12mm 9mm}
+.setup .doc-topbar{height:17mm;margin:0 -12mm;padding:0 12mm}
+.setup .doc-brand{width:44mm}
+.setup .doc-title{min-height:25mm;padding:4mm 0 3.5mm;grid-template-columns:1fr 54mm;gap:6mm}
+.setup .doc-title h1{font-size:20px}
+.setup .doc-title p{font-size:7.8px;max-width:150mm}
+.setup .status-block strong{font-size:10.8px;color:var(--ink)}
+.setup .status-block span{font-size:6.5px}
+.setup .data-grid{grid-template-columns:repeat(8,1fr);margin:3.4mm 0}
+.setup .data-cell{padding:2.2mm 2.4mm}
+.setup .data-cell:last-child{border-right:0}
+.setup .data-cell{border-bottom:0}
+.setup .data-cell strong{font-size:7.4px}
+.setup .section-label{margin:3.5mm 0 1.8mm}
+.setup .section-label h2{font-size:9.6px}
+.setup-top{display:grid;grid-template-columns:75mm 1fr;gap:4mm}
+.setup-figure{margin:0;border:1px solid var(--line-strong);background:#fff;padding:2.5mm;display:flex;align-items:center;justify-content:center;min-height:52mm;position:relative}
+.setup-figure img{max-width:100%;max-height:47mm;object-fit:contain}
+.setup-figure figcaption{position:absolute;left:2.5mm;bottom:2mm;font:800 5.2px var(--mono);color:#767D82;letter-spacing:.05em;text-transform:uppercase}
+.setup-instructions{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line)}
+.setup-instructions section{padding:3mm 3.5mm;border-right:1px solid var(--line)}
+.setup-instructions section:last-child{border-right:0}
+.setup-instructions h3{margin:0 0 2mm;font-size:9.2px}
+.setup-instructions dl{margin:0}
+.setup-instructions dl>div{display:grid;grid-template-columns:24mm 1fr;gap:2mm;padding:1.5mm 0;border-top:1px solid #D8DBDD}
+.setup-instructions dl>div:first-child{border-top:0}
+.setup-instructions dt{font:800 5.4px var(--mono);color:#70777D;text-transform:uppercase}
+.setup-instructions dd{margin:0;font-size:6.9px;line-height:1.32;color:#444B50}
+.tools-table th:nth-child(1){width:10mm}.tools-table th:nth-child(2){width:62mm}.tools-table th:nth-child(3){width:26mm}.tools-table th:nth-child(4){width:20mm}.tools-table th:nth-child(5){width:20mm}.tools-table th:nth-child(6){width:23mm}.tools-table th:nth-child(7){width:auto}
+.setup-note{margin-top:3mm;padding:2.7mm 3.2mm}.setup-note strong{font-size:8.5px}.setup-note p{font-size:6.8px}
+.page-context{padding:3mm 0 2mm;color:#686F75;font:800 5.7px var(--mono);letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.ops-table th:nth-child(1){width:15mm}.ops-table th:nth-child(2){width:17mm}.ops-table th:nth-child(3){width:34mm}.ops-table th:nth-child(4){width:auto}.ops-table th:nth-child(5){width:66mm}
+.setup .grid-table td{font-size:7px}
+.process-alert{margin-top:3.5mm;padding:3mm 3.5mm;border:1px solid #AFB4B8;border-left:4px solid var(--orange);background:#F4F2EE;display:grid;grid-template-columns:42mm 1fr;gap:4mm;align-items:start}
+.process-alert small{font:800 5.6px var(--mono);color:#747B81;letter-spacing:.08em;text-transform:uppercase}
+.process-alert strong{display:block;font-size:9px;margin-bottom:3px}
+.process-alert p{margin:0;color:#50575D;font-size:6.9px;line-height:1.38}
+.check-columns{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.check-block{border:1px solid var(--line);padding:3mm;background:#fff}
+.check-block h3{margin:0 0 2mm;font-size:8.8px}
+.check-list{grid-template-columns:1fr;gap:2.1mm;border:0}
+.check-item{font-size:6.9px}
+.release-row{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line-strong);margin-top:3.5mm}
+.release-row>div{padding:2.8mm;border-right:1px solid var(--line)}
+.release-row>div:last-child{border-right:0}
+.release-row small{display:block;color:#70777D;font:800 5.4px var(--mono);letter-spacing:.07em;text-transform:uppercase}
+.release-row strong{display:block;margin-top:4px;font-size:7.8px;line-height:1.18}
+.setup .doc-footer{height:7.5mm;padding:0 12mm}
+@media(max-width:760px){.doc-viewer{min-width:297mm}}
