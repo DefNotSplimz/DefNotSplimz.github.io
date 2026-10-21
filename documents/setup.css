@@ -50,3 +50,18 @@
 .release-row strong{display:block;margin-top:4px;font-size:7.8px;line-height:1.18}
 .setup .doc-footer{height:7.5mm;padding:0 12mm}
 @media(max-width:760px){.doc-viewer{min-width:297mm}}
+
+
+/* V3.9 setup redesign */
+.paper.setup{background:#fbfaf7}
+.setup .doc-title{position:relative}
+.setup .doc-title::after{content:"SHOPFLOOR / SETUP DOCUMENT";position:absolute;right:0;bottom:3.5mm;color:#b3bac0;font:800 5.8px var(--mono);letter-spacing:.13em;text-transform:uppercase}
+.setup .data-grid{border-top:2px solid var(--orange)}
+.setup-figure,.setup-instructions,.check-block,.release-row,.process-alert{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.setup-figure{background:#fff}
+.setup-instructions{background:#f7f6f2}
+.setup-instructions section{background:transparent}
+.tools-table th,.ops-table th{border-top:2px solid var(--orange)}
+.process-alert{background:#f4f1ea}
+.process-alert strong{font-family:var(--font);letter-spacing:-.02em;text-transform:uppercase}
+.release-row{background:#fff}.release-row>div:nth-child(even){background:#fafaf8}

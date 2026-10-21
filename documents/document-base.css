@@ -103,3 +103,29 @@ button,input,select,textarea{font:inherit}
   .doc-toolbar{padding:0 12px;align-items:flex-start}
   .doc-toolbar__right{justify-content:flex-end}
 }
+
+
+/* V3.9 document polish */
+.doc-viewer{background:radial-gradient(circle at top, rgba(234,88,12,.10), transparent 38%), #e6e3db}
+.doc-toolbar{gap:14px;padding:18px 0 16px}
+.doc-toolbar a,.doc-toolbar button{min-height:44px;padding:0 16px;border:1px solid #384048;background:#11161a;color:#fff;font:800 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)}
+.doc-toolbar__left a{display:inline-flex;align-items:center}
+.doc-toolbar__right{gap:10px}
+.doc-toolbar .primary{background:var(--orange);border-color:var(--orange);color:#fff}
+.paper{background:#fbfaf7;box-shadow:0 18px 44px rgba(0,0,0,.18)}
+.doc-topbar{background:#11161a;color:#fff;border-bottom:2px solid var(--orange)}
+.doc-brand{display:flex;align-items:center}
+.doc-control small{color:#98a0a8}
+.doc-control strong{letter-spacing:.04em}
+.doc-title{align-items:end;border-bottom:1px solid #ced1d3}
+.doc-title h1{font-family:var(--font);letter-spacing:-.04em;text-transform:uppercase}
+.doc-title p.type{color:var(--orange);font-weight:900;letter-spacing:.08em}
+.status-block{padding:3.2mm 3.4mm;border:1px solid #c7cbd0;background:#f7f6f2}
+.data-grid{background:#fff;border-color:#bfc5c9}
+.data-cell{background:#fff}.data-cell:nth-child(even){background:#fafaf8}
+.grid-table th{background:#eaebe9}.grid-table tbody tr:nth-child(even) td{background:#fafaf8}.grid-table tbody tr:hover td{background:#f4efe7}
+.check-item:before{border-color:#4b5258;background:#fff}
+.note-strip{border-left-width:4px}
+.doc-footer{background:transparent}
+.fai-reference,.fai-bottom,.setup-top,.check-columns,.release-row,.grid-table tr,.note-strip,.process-alert{break-inside:avoid;page-break-inside:avoid}
+@media print{.paper{box-shadow:none;background:#fff!important}.doc-topbar{print-color-adjust:exact;-webkit-print-color-adjust:exact}.grid-table tbody tr:hover td{background:transparent}}

@@ -36,3 +36,21 @@
 .fai-signoff .rev{margin-top:5px;padding-top:4px;border-top:1px solid #D1D5D7;color:#727A80;font-size:6px}
 .fai .doc-footer{height:8mm;padding:0 13mm}
 @media(max-width:760px){.paper.fai{transform-origin:top left}}
+
+
+/* V3.9 FAI redesign */
+.paper.fai{background:#fbfaf7}
+.fai .doc-title{position:relative}
+.fai .doc-title::after{content:"QA / FIRST ARTICLE INSPECTION";position:absolute;right:0;bottom:4.5mm;color:#b6bcc1;font:800 5.8px var(--mono);letter-spacing:.13em;text-transform:uppercase}
+.fai .data-grid{border-top:2px solid var(--orange)}
+.fai-reference{position:relative}
+.fai-drawing,.fai-basis,.fai-conclusion,.fai-signoff{box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.fai-drawing{background:#fff}
+.fai-basis{background:#f5f4ef}
+.fai-table th{border-top:2px solid var(--orange)}
+.fai-table td:last-child{font-weight:900;letter-spacing:.04em}
+.fai .pass{color:#176c2d}.fai .hold{color:#a73726}
+.fai-bottom{align-items:stretch}
+.fai-conclusion strong{font-family:var(--font);letter-spacing:-.02em;text-transform:uppercase}
+.fai-signoff{display:grid;align-content:start}
+.fai-signoff .rev{line-height:1.45}

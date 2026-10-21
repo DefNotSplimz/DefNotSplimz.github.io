@@ -1,0 +1,62 @@
+{
+  "schema": "datum-v4.0",
+  "type": "fai",
+  "project": "Flame Eater",
+  "part": "Cylinder & stempel",
+  "docId": "FAI-01-FLAME",
+  "rev": "C (arkiv)",
+  "drawing": "",
+  "material": "",
+  "machine": "",
+  "date": "",
+  "operator": "",
+  "reviewer": "",
+  "wcs": "",
+  "program": "",
+  "description": "Historiske måleposter for Cylinder & stempel, overført fra den eksisterende V3.9 FAI-rapport. Originaltegning og måleprotokol skal verificeres.",
+  "notes": "ARKIV / DATAOVERFØRSEL: Målepunkter er kopieret fra eksisterende projektdokument, men ikke selvstændigt dokument- eller måleverificeret i V4.0. Udfyld tegning/revision, måleinstrument og kontrollant før brug.",
+  "reviewed": false,
+  "rows": [
+    {
+      "number": "1",
+      "feature": "Cylinder inder-Ø",
+      "nominal": "11.000",
+      "low": "11.000",
+      "high": "11.018",
+      "actual": "11.005",
+      "instrument": ""
+    },
+    {
+      "number": "2",
+      "feature": "Stempel yder-Ø",
+      "nominal": "11.000",
+      "low": "10.966",
+      "high": "10.984",
+      "actual": "10.975",
+      "instrument": ""
+    },
+    {
+      "number": "3",
+      "feature": "Cylinder inderlængde",
+      "nominal": "34.000",
+      "low": "33.900",
+      "high": "34.100",
+      "actual": "34.005",
+      "instrument": ""
+    },
+    {
+      "number": "4",
+      "feature": "Stempel længde",
+      "nominal": "12.000",
+      "low": "11.900",
+      "high": "12.100",
+      "actual": "11.950",
+      "instrument": ""
+    }
+  ],
+  "_provenance": {
+    "source": "documents/fai-01.html",
+    "verification": "NOT_INDEPENDENTLY_VERIFIED",
+    "measurement_points": 4
+  }
+}

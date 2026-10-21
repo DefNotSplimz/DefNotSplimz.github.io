@@ -1,0 +1,383 @@
+/* DATUM PROTOTYPING / V3.3 TYPOGRAPHY
+   One restrained system: Barlow Condensed for display,
+   DM Sans for reading + controls, IBM Plex Mono for technical data.
+   Loaded last on all public website pages. All graphics stay V3.2. */
+:root {
+  --font: 'Barlow Condensed','Arial Narrow','Liberation Sans Narrow',sans-serif;
+  --body: 'DM Sans','Segoe UI',Arial,sans-serif;
+  --mono: 'IBM Plex Mono',Consolas,'Liberation Mono',monospace;
+  --type-display: var(--font);
+  --type-reading: var(--body);
+  --type-data: var(--mono);
+  --type-body-size: clamp(15.5px, .25vw + 14.5px, 17.5px);
+  --type-body-leading: 1.68;
+  --type-small-size: 12px;
+}
+body.datum-v3 {
+  font-family:var(--type-reading);
+  font-size:var(--type-body-size);
+  font-weight:400;
+  line-height:var(--type-body-leading);
+  letter-spacing:0;
+  font-optical-sizing:auto;
+  text-rendering:optimizeLegibility;
+}
+.datum-v3 p { text-wrap:pretty; }
+.datum-v3 h1,
+.datum-v3 h2,
+.datum-v3 h3 {
+  font-family:var(--type-display);
+  font-weight:850;
+  letter-spacing:-.016em;
+  text-rendering:optimizeLegibility;
+}
+.datum-v3 h1 {text-wrap:balance}
+.datum-v3 h2 {text-wrap:balance}
+.datum-v3 h3 {text-wrap:pretty}
+.datum-v3 button,
+.datum-v3 input,
+.datum-v3 select,
+.datum-v3 textarea {font-family:var(--type-reading)}
+
+/* Navigation, labels and functional controls: readable before decorative */
+.datum-v3 .top-rule,
+.datum-v3 .top-rule-inner,
+.datum-v3 .header-small-id,
+.datum-v3 .eyebrow,
+.datum-v3 .section-label,
+.datum-v3 .small-kicker,
+.datum-v3 .kicker,
+.datum-v3 .intro-index,
+.datum-v3 .drawing-label,
+.datum-v3 .visual-badge,
+.datum-v3 .visual-tag,
+.datum-v3 .hero-frame-top,
+.datum-v3 .hero-proof,
+.datum-v3 .hero-footnote,
+.datum-v3 .hero-bottom,
+.datum-v3 .hero-image-label>span,
+.datum-v3 .feature-scope>span,
+.datum-v3 .feature-scope small,
+.datum-v3 .feature-content .project-topline,
+.datum-v3 .technical-tags,
+.datum-v3 .tile-bottom>span,
+.datum-v3 .tile-bottom>p,
+.datum-v3 .service-details>span:first-child,
+.datum-v3 .service-spec,
+.datum-v3 .intake-annotation,
+.datum-v3 .quick-question>span,
+.datum-v3 .form-heading,
+.datum-v3 .form-grid label>span,
+.datum-v3 .footer-lower,
+.datum-v3 .footer-masthead small {
+  font-family:var(--type-data);
+  letter-spacing:.035em;
+}
+.datum-v3 .top-rule-inner {font-size:10px;line-height:1.45;font-weight:600}
+.datum-v3 .desktop-nav a {
+  font-family:var(--type-reading);font-size:12px;font-weight:700;
+  line-height:1.25;letter-spacing:.055em;
+}
+.datum-v3 .header-contact {
+  font-family:var(--type-reading);font-size:12px;font-weight:750;
+  letter-spacing:.035em;line-height:1.1;
+}
+.datum-v3 .header-small-id {font-size:10px;letter-spacing:.035em}
+.datum-v3 .mobile-menu a {font-family:var(--type-reading);font-size:19px;font-weight:700;letter-spacing:-.01em}
+.datum-v3 .mobile-menu span {font-family:var(--type-data);font-size:12px}
+.datum-v3 .eyebrow,.datum-v3 .section-label,.datum-v3 .small-kicker,.datum-v3 .kicker {
+  font-size:clamp(10px,.12vw + 9.6px,11.5px);
+  line-height:1.5;font-weight:650;letter-spacing:.055em;
+}
+.datum-v3 .section-label b {font-size:10px;line-height:1.45;letter-spacing:.045em}
+.datum-v3 .btn,
+.datum-v3 .header-contact,
+.datum-v3 .arrow-link,
+.datum-v3 .project-action,
+.datum-v3 .text-link,
+.datum-v3 .document-links a {
+  font-family:var(--type-reading);font-size:12.5px;font-weight:750;
+  line-height:1.3;letter-spacing:.035em;
+}
+.datum-v3 .btn {min-height:56px}
+.datum-v3 .btn span,.datum-v3 .arrow-link span,.datum-v3 .project-action span {
+  font-family:var(--type-display);font-weight:600;
+}
+
+/* Hero: visual dominance with a real typographic rhythm */
+.datum-v3 .hero h1 {
+  font-family:var(--type-display);font-weight:900;
+  font-size:clamp(80px,8vw,146px);
+  line-height:.84;letter-spacing:-.018em;
+  margin-bottom:clamp(34px,3vw,52px);
+  max-width:1100px;
+}
+.datum-v3 .hero-headline-line {letter-spacing:-.018em}
+.datum-v3 .hero-accent-line{margin-top:.11em}
+.datum-v3 .hero-headline-line:nth-child(2):before{bottom:-9px}
+.datum-v3 .hero-main .eyebrow{font-size:10.5px;letter-spacing:.04em}
+.datum-v3 .hero-description {
+  max-width:570px;font-family:var(--type-reading);
+  font-size:clamp(16px,.33vw + 14.9px,18px);
+  font-weight:450;line-height:1.72;letter-spacing:0;
+}
+.datum-v3 .hero-proof{font-size:11px;line-height:1.45;letter-spacing:.025em;font-weight:600}
+.datum-v3 .hero-footnote{font-size:10.5px;line-height:1.65;letter-spacing:.035em}
+.datum-v3 .hero-image-label strong {
+  font-family:var(--type-display);font-weight:850;
+  font-size:clamp(27px,2.2vw,39px);line-height:.99;letter-spacing:-.01em;
+}
+.datum-v3 .hero-image-label>span{font-size:10.5px;line-height:1.4}
+.datum-v3 .hero-frame-top{font-size:10px;line-height:1.3}
+.datum-v3 .hero-bottom{font-size:10.5px;line-height:1.4;letter-spacing:.035em}
+.datum-v3 .hero-bottom a{font-size:10px;letter-spacing:.025em}
+.datum-v3 .v3-visual-cut-index b{font-family:var(--type-display);font-weight:850;line-height:.92}
+.datum-v3 .v3-visual-cut-index small{font-family:var(--type-data);font-size:10px;line-height:1.55}
+.datum-v3 .strip-inner span{
+  font-family:var(--type-display);font-size:clamp(18px,1.5vw,23px);
+  font-weight:850;line-height:1.05;letter-spacing:.005em;
+}
+.datum-v3 .strip-inner b{font-family:var(--type-data);font-size:10px}
+
+/* Section display: four consistent sizes, not a dozen unrelated ones */
+.datum-v3 .intro-body h2 {
+  font-size:clamp(70px,7.1vw,122px);font-weight:850;
+  line-height:.92;letter-spacing:-.012em;
+}
+.datum-v3 .section-heading h2{
+  font-size:clamp(68px,6.6vw,110px);
+  font-weight:850;line-height:.93;letter-spacing:-.012em;
+}
+.datum-v3 .v3-interlude strong{
+  font-family:var(--type-display);font-weight:850;
+  line-height:.9;letter-spacing:-.01em;
+}
+.datum-v3 .signature-inner h2{
+  font-size:clamp(90px,10.5vw,172px);
+  font-weight:850;line-height:.87;letter-spacing:-.015em;
+}
+.datum-v3 .philosophy-grid h2{
+  font-size:clamp(72px,6.7vw,111px);font-weight:850;
+  line-height:.93;letter-spacing:-.012em;
+}
+.datum-v3 .about-content h2{
+  font-size:clamp(71px,6.7vw,115px);font-weight:850;
+  line-height:.91;letter-spacing:-.014em;
+}
+.datum-v3 .intake-heading h2{
+  font-size:clamp(88px,8vw,138px);font-weight:850;
+  line-height:.9;letter-spacing:-.015em;
+}
+.datum-v3 .contact-head h2{
+  font-size:clamp(86px,7.8vw,136px);font-weight:850;
+  line-height:.9;letter-spacing:-.015em;
+}
+
+/* Content readability on light and dark surfaces */
+.datum-v3 .intro-lower p,
+.datum-v3 .section-heading>p,
+.datum-v3 .feature-content>p,
+.datum-v3 .signature-inner>p:not(.section-label),
+.datum-v3 .service-details p,
+.datum-v3 .foundation-main p,
+.datum-v3 .philosophy-copy,
+.datum-v3 .process-item p,
+.datum-v3 .about-content p:not(.section-label),
+.datum-v3 .intake-heading>p:not(.section-label),
+.datum-v3 .contact-head>p,
+.datum-v3 .contact-aside p {
+  font-family:var(--type-reading);
+  font-size:clamp(15.5px,.2vw + 15px,17px);
+  font-weight:400;line-height:1.7;letter-spacing:0;
+}
+.datum-v3 .intro-lower p,.datum-v3 .about-content p:not(.section-label){max-width:66ch}
+.datum-v3 .feature-content>p,.datum-v3 .section-heading>p{max-width:55ch}
+.datum-v3 .intro-index{font-size:11px;line-height:1.55;font-weight:650}
+.datum-v3 .intro-index small{font-size:10px;line-height:1.5}
+.datum-v3 .drawing-label{font-size:10px;line-height:1.4}
+.datum-v3 .feature-content h3{
+  font-size:clamp(82px,7.6vw,138px);font-weight:900;
+  line-height:.9;letter-spacing:-.016em;
+}
+.datum-v3 .feature-content .project-topline{font-size:11px;line-height:1.55}
+.datum-v3 .technical-tags span{font-family:var(--type-data);font-size:10px;letter-spacing:.02em;line-height:1.5}
+.datum-v3 .feature-scope strong{font-family:var(--type-display);font-weight:850}
+.datum-v3 .tile-bottom h3{
+  font-family:var(--type-display);font-size:clamp(42px,4.2vw,76px);
+  font-weight:850;line-height:.97;letter-spacing:-.01em;
+}
+.datum-v3 .tile-bottom>span,.datum-v3 .tile-bottom>p{font-size:10.5px;line-height:1.6}
+.datum-v3 .tile-serial{font-family:var(--type-display);font-weight:900}
+.datum-v3 .tile-serial small{font-family:var(--type-data);font-size:10px}
+.datum-v3 .service-details h3{
+  font-size:clamp(45px,4vw,69px);font-weight:850;
+  line-height:.96;letter-spacing:-.01em;
+}
+.datum-v3 .service-details>span:first-child,
+.datum-v3 .service-spec{font-size:10.5px;line-height:1.55}
+.datum-v3 .foundation-main h3{
+  font-family:var(--type-display);font-weight:850;
+  font-size:clamp(44px,4.1vw,72px);line-height:.96;
+}
+.datum-v3 .process-item h3{
+  font-family:var(--type-display);font-weight:800;
+  font-size:clamp(31px,2.8vw,47px);line-height:1.02;
+}
+.datum-v3 .v3-apprentice-tag strong{
+  font-family:var(--type-display);font-size:clamp(29px,2.6vw,43px);
+  font-weight:850;line-height:1.02;letter-spacing:-.01em;
+}
+.datum-v3 .v3-apprentice-tag span,.datum-v3 .v3-apprentice-tag b{
+  font-family:var(--type-data);font-size:10.5px;line-height:1.45;letter-spacing:.025em;
+}
+.datum-v3 .about-honesty{font-size:15px;line-height:1.6}
+
+/* Intake and contact: interface typography must be usable at arm's length */
+.datum-v3 .quick-question h3{
+  font-family:var(--type-display);font-size:clamp(31px,2.5vw,39px);
+  line-height:1.05;font-weight:850;letter-spacing:-.01em;
+}
+.datum-v3 .quick-question>span{font-size:12px;line-height:1.3}
+.datum-v3 .quick-option{
+  font-family:var(--type-reading);font-size:12px;font-weight:750;
+  line-height:1.25;letter-spacing:.02em;min-height:44px;
+}
+.datum-v3 .intake-action>div{font-family:var(--type-reading);font-size:12px;line-height:1.5;white-space:normal}
+.datum-v3 .intake-action .btn{font-size:12.5px;min-height:56px}
+.datum-v3 .form-grid label>span{
+  font-family:var(--type-reading);font-size:12px;line-height:1.4;
+  font-weight:750;letter-spacing:.01em;color:#41494a;
+}
+.datum-v3 .form-heading span,.datum-v3 .form-heading b{
+  font-family:var(--type-data);font-size:11px;line-height:1.5;letter-spacing:.02em;
+}
+.datum-v3 .form-grid select,.datum-v3 .form-grid input,.datum-v3 .form-grid textarea{
+  font-family:var(--type-reading);font-size:16px;font-weight:400;
+  line-height:1.45;letter-spacing:0;min-height:52px;
+}
+.datum-v3 .form-grid textarea{min-height:128px}
+.datum-v3 .form-actions .btn{font-size:12px;min-height:54px}
+.datum-v3 .form-detail,.datum-v3 .privacy-note,.datum-v3 .form-status{
+  font-family:var(--type-reading);font-size:12.5px;line-height:1.6;
+}
+.datum-v3 .contact-aside h3{
+  font-family:var(--type-display);font-weight:850;
+  font-size:clamp(53px,4.7vw,88px);line-height:.96;letter-spacing:-.012em;
+}
+.datum-v3 .footer-upper p{font-family:var(--type-reading);font-weight:600;font-size:14px;line-height:1.55;letter-spacing:0}
+.datum-v3 .footer-nav a{font-family:var(--type-reading);font-size:13px;line-height:1.5;font-weight:650;letter-spacing:.015em}
+.datum-v3 .footer-lower{font-size:11px;line-height:1.6}
+.datum-v3 .footer-masthead>span{font-family:var(--type-display);font-weight:850}
+
+/* Project modal: project story should read like a case study */
+.datum-v3 .project-detail .kicker,
+.datum-v3 .project-detail__grid section>span {font-family:var(--type-data);font-size:11px;line-height:1.4;letter-spacing:.025em}
+.datum-v3 .project-detail h2{
+  font-family:var(--type-display);font-weight:850;
+  font-size:clamp(59px,6vw,102px);line-height:.95;letter-spacing:-.017em;
+}
+.datum-v3 .project-detail__lead{font-size:clamp(16px,.3vw + 15px,18px);line-height:1.7}
+.datum-v3 .project-detail__grid h3{
+  font-family:var(--type-display);font-size:clamp(27px,2.2vw,36px);
+  line-height:1.06;font-weight:800;letter-spacing:-.01em;
+}
+.datum-v3 .project-detail__grid p{font-family:var(--type-reading);font-size:15.5px;line-height:1.7}
+.datum-v3 .project-modal__close{font-family:var(--type-reading);font-size:12px;font-weight:700}
+.datum-v3 .document-links a{font-size:12px}
+
+/* Legal and 404 are part of the same visual language */
+.datum-v3.legal-page .legal-hero h1,
+.datum-v3.datum-error .error-card h1{
+  font-family:var(--type-display);font-weight:850;
+  letter-spacing:-.013em;line-height:.98;
+}
+.datum-v3.legal-page .legal-hero p,
+.datum-v3.legal-page .legal-copy,
+.datum-v3.legal-page .legal-copy p,
+.datum-v3.datum-error .error-card>p:not(.kicker){
+  font-family:var(--type-reading);font-size:16px;line-height:1.75;
+}
+
+@media(max-width:1100px) and (min-width:901px){
+  .datum-v3 .desktop-nav a{font-size:11.5px}
+  .datum-v3 .hero h1{font-size:clamp(67px,8.05vw,101px)}
+  .datum-v3 .service-details h3{font-size:clamp(43px,4vw,57px)}
+}
+@media(max-width:900px){
+  .datum-v3 .hero h1{font-size:clamp(63px,11vw,111px);line-height:.87}
+  .datum-v3 .hero-description{font-size:16.5px}
+  .datum-v3 .intro-body h2{font-size:clamp(64px,9.1vw,103px)}
+  .datum-v3 .section-heading h2{font-size:clamp(67px,9.4vw,108px)}
+  .datum-v3 .feature-content h3{font-size:clamp(78px,11.3vw,118px)}
+  .datum-v3 .signature-inner h2{font-size:clamp(78px,13vw,139px)}
+  .datum-v3 .service-details h3{font-size:clamp(39px,4.7vw,61px)}
+  .datum-v3 .philosophy-grid h2{font-size:clamp(74px,9.2vw,112px)}
+  .datum-v3 .about-content h2{font-size:clamp(67px,9vw,109px)}
+  .datum-v3 .intake-heading h2{font-size:clamp(82px,11vw,120px)}
+  .datum-v3 .contact-head h2{font-size:clamp(80px,10.3vw,116px)}
+  .datum-v3 .quick-option{font-size:12px}
+}
+@media(max-width:650px){
+  .datum-v3{--type-body-size:16px;--type-body-leading:1.65}
+  .datum-v3 .hero h1{font-size:clamp(43px,10.25vw,70px);line-height:.87;letter-spacing:-.013em;margin-bottom:34px}
+  .datum-v3 .hero-headline-line{letter-spacing:-.013em}
+  .datum-v3 .hero-accent-line{margin-top:.12em}
+  .datum-v3 .hero-main .eyebrow{font-size:10px;line-height:1.45}
+  .datum-v3 .hero-description{font-size:16px;line-height:1.68}
+  .datum-v3 .hero-cta-row .btn{font-size:11.5px;letter-spacing:.012em;line-height:1.3;min-height:54px}
+  .datum-v3 .hero-proof{font-size:10px;line-height:1.35;gap:8px 10px}
+  .datum-v3 .hero-footnote{font-size:10px;line-height:1.55}
+  .datum-v3 .hero-bottom{font-size:9.5px}
+  .datum-v3 .hero-bottom a{font-size:9px}
+  .datum-v3 .hero-frame-top{font-size:9px}
+  .datum-v3 .hero-image-label strong{font-size:27px}
+  .datum-v3 .v3-visual-cut-index small{font-size:9px}
+  .datum-v3 .strip-inner span{font-size:clamp(15px,4vw,19px);line-height:1.13}
+  .datum-v3 .intro-body h2{font-size:clamp(49px,10.1vw,72px);line-height:.95}
+  .datum-v3 .section-heading h2{font-size:clamp(53px,10.5vw,80px);line-height:.95}
+  .datum-v3 .v3-interlude strong{font-size:clamp(32px,8vw,53px);line-height:.94}
+  .datum-v3 .feature-content h3{font-size:clamp(76px,15.6vw,102px);line-height:.9}
+  .datum-v3 .tile-bottom h3{font-size:clamp(45px,12.5vw,65px);line-height:1}
+  .datum-v3 .signature-inner h2{font-size:clamp(68px,13.6vw,95px);line-height:.9}
+  .datum-v3 .service-details h3{font-size:clamp(46px,12vw,66px);line-height:.97}
+  .datum-v3 .foundation-main h3{font-size:clamp(39px,10vw,55px)}
+  .datum-v3 .philosophy-grid h2{font-size:clamp(57px,11.5vw,80px);line-height:.95}
+  .datum-v3 .about-content h2{font-size:clamp(60px,12vw,89px);line-height:.94}
+  .datum-v3 .intake-heading h2{font-size:clamp(73px,14vw,98px);line-height:.9}
+  .datum-v3 .contact-head h2{font-size:clamp(66px,12.6vw,93px);line-height:.94}
+  .datum-v3 .contact-aside h3{font-size:clamp(49px,10vw,74px)}
+  .datum-v3 .quick-question h3{font-size:31px}
+  .datum-v3 .quick-option{font-size:12px;min-height:45px;padding:11px 13px}
+  .datum-v3 .intake-action .btn,.datum-v3 .form-actions .btn{font-size:12.5px}
+  .datum-v3 .form-grid input,.datum-v3 .form-grid select,.datum-v3 .form-grid textarea{font-size:16px}
+  .datum-v3 .project-detail h2{font-size:clamp(54px,13vw,78px)}
+  .datum-v3 .project-detail__grid h3{font-size:30px}
+  .datum-v3 .footer-nav a{font-size:12.5px}
+  .datum-v3 .footer-lower{font-size:10.5px}
+}
+@media(max-width:390px){
+  .datum-v3 .hero h1{font-size:clamp(38px,10vw,43px)}
+  .datum-v3 .intro-body h2{font-size:clamp(42px,11vw,49px)}
+  .datum-v3 .section-heading h2{font-size:clamp(46px,12vw,54px)}
+  .datum-v3 .feature-content h3{font-size:clamp(66px,17vw,80px)}
+  .datum-v3 .tile-bottom h3{font-size:clamp(42px,12vw,52px)}
+  .datum-v3 .v3-interlude strong{font-size:clamp(31px,8vw,38px)}
+  .datum-v3 .intake-heading h2{font-size:clamp(70px,17.5vw,78px)}
+  .datum-v3 .contact-head h2{font-size:clamp(60px,15.3vw,70px)}
+}
+
+/* V3.3 final audit / no truncated service names on narrow cards. */
+@media(min-width:1401px){
+  .datum-v3 .service-details h3{font-size:clamp(48px,3.6vw,60px)}
+}
+@media(min-width:901px) and (max-width:1400px){
+  .datum-v3 .service-details h3{font-size:clamp(35px,3.5vw,48px)}
+}
+@media(min-width:651px) and (max-width:900px){
+  .datum-v3 .service-details h3{font-size:clamp(26px,3.5vw,31px)}
+}
+@media(max-width:650px){
+  .datum-v3 .service-details h3{font-size:clamp(35px,10vw,52px)}
+  /* The hairline crowded the next line on phones; keep the headline itself clean. */
+  .datum-v3 .hero-headline-line:nth-child(2)::before{display:none}
+}

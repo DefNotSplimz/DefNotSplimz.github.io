@@ -1,0 +1,159 @@
+/* DATUM PROTOTYPING / V3.5 — MONUMENTAL, NOT COMPRESSED
+   Replaces 900-weight condensed type and sub-0.9 leading with a measured
+   high-end industrial type scale. Loaded AFTER V3.4. This does not change
+   project interactions or the locked brand punchline. */
+:root {
+  --raw-display: 'Barlow Semi Condensed','Noto Sans SemiCondensed','Arial Narrow',Arial,sans-serif;
+  --raw-body: 'DM Sans','Inter','Segoe UI',Arial,sans-serif;
+  --type-display: var(--raw-display);
+  --type-reading: var(--raw-body);
+  --datum-display-weight: 700;
+  --datum-display-spacing: .002em;
+  --datum-leading: 1.04;
+}
+.datum-v3 {font-synthesis: none;}
+.datum-v3 h1,.datum-v3 h2,.datum-v3 h3{
+ font-family:var(--raw-display);font-weight:var(--datum-display-weight);
+ letter-spacing:var(--datum-display-spacing);line-height:var(--datum-leading);
+ font-stretch:normal;text-rendering:optimizeLegibility;
+}
+/* A brand headline: strong shoulders, no crushed counters or touching baselines */
+.datum-v3 .hero-main {row-gap:0;}
+.datum-v3 .hero h1{
+ font-family:var(--raw-display);font-weight:700;
+ font-size:clamp(53px,5.48vw,99px);line-height:1.015;
+ letter-spacing:.002em;margin:0 0 clamp(29px,2.7vw,44px);
+ max-width:100%;width:100%;
+}
+.datum-v3 .hero-headline-line{
+ font-family:inherit;font-weight:inherit;letter-spacing:inherit;
+ line-height:inherit;white-space:nowrap;max-width:100%;
+}
+.datum-v3 .hero-accent-line{color:#ff7027;}
+.datum-v3 .hero-description{
+ font-family:var(--raw-body);font-size:clamp(16px,1.08vw,18px);
+ font-weight:400;line-height:1.78;letter-spacing:.003em;
+ max-width:59ch;margin-bottom:clamp(29px,2.5vw,39px);
+}
+.datum-v3 .hero-main .eyebrow{margin-bottom:clamp(34px,3.2vw,52px);}
+.datum-v3 .hero-main{padding-block:clamp(86px,7vw,128px) clamp(58px,6vw,93px)}
+.datum-v3 .hero-body,.datum-v3 .hero-main{min-height:clamp(790px,66vw,960px)}
+.datum-v3 .hero-visual,.datum-v3 .hero-visual .image-shell{min-height:clamp(790px,66vw,960px)}
+.datum-v3 .hero-main{justify-content:center}
+.datum-v3 .hero-proof{margin-top:clamp(31px,2.9vw,45px)}
+.datum-v3 .hero-cta-row .btn{font-weight:700;font-size:13px;letter-spacing:.012em}
+.datum-v3 .hero-image-label strong{
+ font-family:var(--raw-display);font-weight:700;
+ font-size:clamp(34px,3.15vw,62px);line-height:1.03;letter-spacing:0;
+}
+.datum-v3 .v3-visual-cut-index b{font-family:var(--raw-display);font-weight:700;line-height:1.0}
+/* A real visual type scale, not separate arbitrary weight-900 headings */
+.datum-v3 .intro-body h2,
+.datum-v3 .section-heading h2,
+.datum-v3 .signature-inner h2,
+.datum-v3 .philosophy-grid h2,
+.datum-v3 .about-content h2,
+.datum-v3 .intake-heading h2,
+.datum-v3 .contact-head h2 {
+ font-family:var(--raw-display);font-weight:700;line-height:1.04;
+ letter-spacing:0;overflow-wrap:normal;
+}
+.datum-v3 .intro-body h2{font-size:clamp(62px,6.4vw,110px)}
+.datum-v3 .section-heading h2{font-size:clamp(61px,6.5vw,106px)}
+.datum-v3 .signature-inner h2{font-size:clamp(86px,9vw,150px)}
+.datum-v3 .philosophy-grid h2{font-size:clamp(68px,6.6vw,112px)}
+.datum-v3 .about-content h2{font-size:clamp(68px,6.6vw,116px)}
+.datum-v3 .intake-heading h2{font-size:clamp(83px,8vw,136px)}
+.datum-v3 .contact-head h2{font-size:clamp(76px,7.3vw,128px)}
+.datum-v3 .feature-content h3{
+ font-family:var(--raw-display);font-weight:700;
+ font-size:clamp(71px,6.9vw,125px);line-height:1.0;letter-spacing:.002em;
+ margin-top:clamp(37px,4vw,72px);margin-bottom:32px;
+}
+.datum-v3 .tile-bottom h3{
+ font-family:var(--raw-display);font-weight:700;
+ font-size:clamp(47px,4vw,73px);line-height:1.06;letter-spacing:0;
+}
+.datum-v3 .service-details h3{
+ font-family:var(--raw-display);font-weight:700;
+ font-size:clamp(39px,3.25vw,63px);line-height:1.07;letter-spacing:.003em;
+ overflow-wrap:normal;hyphens:auto;
+}
+.datum-v3 .process-item h3{font-family:var(--raw-display);font-weight:700;font-size:clamp(35px,2.85vw,52px);line-height:1.09}
+.datum-v3 .quick-question h3{font-family:var(--raw-display);font-weight:700;font-size:clamp(30px,2.45vw,41px);line-height:1.1}
+.datum-v3 .contact-aside h3{font-family:var(--raw-display);font-weight:700;font-size:clamp(52px,4.6vw,79px);line-height:1.06}
+.datum-v3 .v3-apprentice-tag strong{font-family:var(--raw-display);font-weight:700;font-size:clamp(26px,2.15vw,38px);line-height:1.09}
+.datum-v3 .v3-interlude strong{
+ font-family:var(--raw-display);font-weight:700;
+ font-size:clamp(55px,6.4vw,100px);line-height:1.04;letter-spacing:0;
+}
+.datum-v3 .strip-inner>span{
+ font-family:var(--raw-display);font-weight:700;
+ font-size:clamp(17px,1.25vw,23px);line-height:1.14;letter-spacing:.004em;
+}
+.datum-v3 .footer-masthead>span{font-family:var(--raw-display);font-weight:700;letter-spacing:.006em;line-height:1.02}
+/* Paragraphs / reading rhythm and clear control typography */
+.datum-v3 .intro-lower p,.datum-v3 .section-heading>p,
+.datum-v3 .feature-content p,.datum-v3 .service-details p,
+.datum-v3 .signature-inner>p:not(.section-label),
+.datum-v3 .philosophy-copy,.datum-v3 .process-item p,
+.datum-v3 .about-content p:not(.section-label),
+.datum-v3 .intake-heading>p:not(.section-label),
+.datum-v3 .contact-head>p,.datum-v3 .contact-aside p{
+ font-family:var(--raw-body);font-size:clamp(16px,1.02vw,18px);
+ font-weight:400;line-height:1.76;letter-spacing:.002em;
+}
+.datum-v3 .desktop-nav a{font-weight:650;letter-spacing:.035em;font-size:13px}
+.datum-v3 .btn,.datum-v3 .header-contact,.datum-v3 .quick-option{
+ font-family:var(--raw-body);font-weight:700;letter-spacing:.01em;
+}
+.datum-v3 .header-contact{font-size:13px}
+.datum-v3 .btn{font-size:13px}
+.datum-v3 .project-action{font-weight:700;letter-spacing:.01em}
+.datum-v3 .technical-tags span{font-weight:500}
+.datum-v3 .form-grid input,.datum-v3 .form-grid select,.datum-v3 .form-grid textarea{font-weight:400;line-height:1.55}
+/* Viewport adaptations: give long Danish words room instead of squashing letters */
+@media(min-width:901px) and (max-width:1300px){
+ .datum-v3 .hero h1{font-size:clamp(47px,5vw,72px)}
+ .datum-v3 .hero-main{padding-right:2.8vw;padding-left:4vw}
+ .datum-v3 .hero-body,.datum-v3 .hero-main,.datum-v3 .hero-visual,.datum-v3 .hero-visual .image-shell{min-height:800px}
+ .datum-v3 .hero-description{font-size:16px}
+}
+@media(max-width:900px){
+ .datum-v3 .hero-body{min-height:0}
+ .datum-v3 .hero-main{min-height:0;padding:clamp(65px,9vw,90px) clamp(24px,5vw,45px) 62px}
+ .datum-v3 .hero h1{font-size:clamp(59px,9.5vw,87px);line-height:1.03}
+ .datum-v3 .hero-visual,.datum-v3 .hero-visual .image-shell{min-height:0}
+ .datum-v3 .intro-body h2{font-size:clamp(64px,8.7vw,92px)}
+ .datum-v3 .section-heading h2{font-size:clamp(62px,8.2vw,94px)}
+ .datum-v3 .feature-content h3{font-size:clamp(73px,10vw,108px)}
+ .datum-v3 .service-details h3{font-size:clamp(39px,4.8vw,52px)}
+ .datum-v3 .v3-interlude strong{font-size:clamp(49px,7.8vw,78px)}
+}
+@media(max-width:650px){
+ .datum-v3 .hero-main{padding:62px 19px 46px}
+ .datum-v3 .hero h1{font-size:clamp(35px,8.65vw,55px);line-height:1.055;letter-spacing:.003em;margin-bottom:36px}
+ .datum-v3 .hero-main .eyebrow{margin-bottom:34px}
+ .datum-v3 .hero-description{font-size:16px;line-height:1.74;margin-bottom:28px}
+ .datum-v3 .hero-cta-row .btn{font-size:11px;font-weight:700}
+ .datum-v3 .hero-proof{font-size:9px}
+ .datum-v3 .intro-body h2{font-size:clamp(40px,8.4vw,62px);line-height:1.06;overflow-wrap:anywhere}
+ .datum-v3 .section-heading h2{font-size:clamp(44px,9vw,69px);line-height:1.05;overflow-wrap:anywhere}
+ .datum-v3 .signature-inner h2{font-size:clamp(62px,10.2vw,100px)}
+ .datum-v3 .feature-content h3{font-size:clamp(62px,13.7vw,88px);line-height:1.02}
+ .datum-v3 .tile-bottom h3{font-size:clamp(41px,9.2vw,65px)}
+ .datum-v3 .service-details h3{font-size:clamp(35px,8vw,52px);line-height:1.08;overflow-wrap:anywhere}
+ .datum-v3 .v3-interlude strong{font-size:clamp(34px,7.5vw,51px);line-height:1.06}
+ .datum-v3 .philosophy-grid h2{font-size:clamp(50px,10vw,77px)}
+ .datum-v3 .about-content h2{font-size:clamp(51px,9.2vw,75px)}
+ .datum-v3 .intake-heading h2{font-size:clamp(67px,13vw,105px)}
+ .datum-v3 .contact-head h2{font-size:clamp(64px,11vw,93px)}
+ .datum-v3 .contact-aside h3{font-size:clamp(48px,9.8vw,72px)}
+ .datum-v3 .quick-question h3{font-size:30px}
+ .datum-v3 .strip-inner>span{font-size:clamp(14px,3.6vw,19px)}
+ .datum-v3 .feature-content{min-height:380px}
+}
+@media(max-width:380px){
+ .datum-v3 .hero h1{font-size:clamp(33px,8.45vw,38px)}
+ .datum-v3 .hero-main .eyebrow{font-size:8px}
+}
