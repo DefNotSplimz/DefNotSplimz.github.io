@@ -1,4 +1,4 @@
-/* Datum Prototyping / Experience v3.4 */
+/* Datum Prototyping / Experience v3.4.2 — method image initialization fix */
 (()=>{
  const map={
   'cnc-mill':{n:'01',name:'CNC-FRÆSNING',desc:'Til former og detaljer, hvor CNC-værktøjsbaner giver god kontrol over geometri og gentagelighed.',uses:'Beslag, adaptere, lommer og specialgeometri',fit:'Prototyper, enkeltdele og mindre serier',criteria:'Geometri, værktøjsadgang og materiale'},
@@ -8,7 +8,31 @@
   'printing':{n:'05',name:'3D-PRINT',desc:'FDM-print af funktionelle plastemner – hurtigt fra digital model til en fysisk del, der kan prøves og forbedres.',uses:'Prøveemner, holdere, kapslinger og fiksturer',fit:'Formprøver, testmodeller og funktionelle dele',criteria:'Materiale, lagretning og belastning'}
  };
  const buttons=[...document.querySelectorAll('.method-btn')],photo=document.getElementById('methodPhoto');let methodTimeout;
- const pick=(id)=>{const m=map[id]; if(!m)return; buttons.forEach(b=>b.setAttribute('aria-selected',String(b.dataset.method===id)));clearTimeout(methodTimeout);photo.style.opacity='.42';methodTimeout=setTimeout(()=>{photo.style.backgroundImage=`url('assets/images/${id}.webp')`;photo.setAttribute('aria-label',`Illustrationsfoto af ${m.name.toLowerCase()}`);document.getElementById('methodNumber').textContent=m.n;document.getElementById('methodCaption').textContent='VALGT PROCES / '+m.n;document.getElementById('methodLabel').textContent=m.name;document.getElementById('methodDescription').textContent=m.desc;document.querySelector('.dossier-heading span').textContent='METODEKORT / '+m.n;document.getElementById('methodApplications').textContent=m.uses;document.getElementById('methodSuitable').textContent=m.fit;document.getElementById('methodCriteria').textContent=m.criteria;photo.style.opacity='1'},100)};
+ // Use the selected method for the first render; do not require an interaction to show its image.
+ const pick=(id, immediate=false)=>{
+  const m=map[id];
+  if(!m)return;
+  buttons.forEach(b=>b.setAttribute('aria-selected',String(b.dataset.method===id)));
+  clearTimeout(methodTimeout);
+  if(!immediate)photo.style.opacity='.42';
+  const render=()=>{
+   photo.style.backgroundImage=`url("assets/images/${id}.webp")`;
+   photo.setAttribute('aria-label',`Illustrationsfoto af ${m.name.toLowerCase()}`);
+   document.getElementById('methodNumber').textContent=m.n;
+   document.getElementById('methodCaption').textContent='VALGT PROCES / '+m.n;
+   document.getElementById('methodLabel').textContent=m.name;
+   document.getElementById('methodDescription').textContent=m.desc;
+   document.querySelector('.dossier-heading span').textContent='METODEKORT / '+m.n;
+   document.getElementById('methodApplications').textContent=m.uses;
+   document.getElementById('methodSuitable').textContent=m.fit;
+   document.getElementById('methodCriteria').textContent=m.criteria;
+   photo.style.opacity='1';
+  };
+  if(immediate) render();
+  else methodTimeout=setTimeout(render,100);
+ };
+ // Also keep HTML and state consistent if the default selected method changes later.
+ pick(buttons.find(b=>b.getAttribute('aria-selected')==='true')?.dataset.method || 'cnc-mill',true);
  buttons.forEach((b,i)=>{b.addEventListener('click',()=>pick(b.dataset.method));b.addEventListener('keydown',e=>{if(['ArrowDown','ArrowRight','ArrowUp','ArrowLeft'].includes(e.key)){e.preventDefault();const next=(i+((e.key==='ArrowDown'||e.key==='ArrowRight')?1:-1)+buttons.length)%buttons.length;buttons[next].focus();pick(buttons[next].dataset.method)}})});
  const methodProject=document.getElementById('methodProject');methodProject.addEventListener('click',()=>{const btn=buttons.find(b=>b.getAttribute('aria-selected')==='true');const chosen=map[btn.dataset.method].name;document.getElementById('processInterest').value=chosen;document.getElementById('briefContextName').textContent=chosen;document.getElementById('briefContext').hidden=false});
  document.getElementById('briefClearContext').addEventListener('click',()=>{document.getElementById('processInterest').value='';document.getElementById('briefContext').hidden=true});

@@ -64,3 +64,24 @@ Dette er et tekstudkast, som tager udgangspunkt i V3.4-koden — ikke en juridis
 5. Gennemgå tekstens faktiske formuleringer og procedure for opbevaring/sletning med den driftsansvarlige.
 
 Hvis du ændrer hosting, e-mailudbyder, kontaktformular eller analytics, skal privatlivspolitikken opdateres tilsvarende.
+
+
+## Opdatering V3.4.2 — CNC-fræsningsbillede ved første indlæsning
+
+- Rettet den forældede inline-billedsti `assets/cnc-mill.webp` til `assets/images/cnc-mill.webp` i `index.html`.
+- Metodevælgeren initialiserer nu den valgte metode synkront ved indlæsning, så billede, beskrivelse og metodekort svarer til den valgte knap fra starten.
+- CSS, øvrige sektioner og projektformularen er uændrede.
+
+
+## V3.5 — Samlet spacing- og typografikontrol
+
+- Ingen ændringer i godkendt logo, billeder, punchline eller formularens funktionalitet.
+- Optisk justering af overskrifternes bogstavafstand, linjeafstand og punktum i hero.
+- Ensretning af små sektionslabels, knapper, opgavekort og brødteksters læsbarhed.
+- Forbedret alignment og mellemrum i navigation, metodekort, R&D, materialer, Om og kontakt.
+- Materialevælgeren er nu 3 lige brede faner på små skærme (i stedet for faner, der stikker udenfor).
+- Scroll-target offset følger den faste navigations højde.
+- Forbedrede knapstørrelser og formatering ved 320–390 px samt mellembrede skærme.
+- Privatlivspolitikken er bibeholdt og bruger det fælles stylesheet.
+
+Designet skal efter upload gennemgås i de faktisk installerede browsere med udgangspunkt i disse responsive kontroller.
