@@ -1,42 +1,66 @@
-# Datum Prototyping · Website V4.0
+# DATUM PROTOTYPING — WEBSITE V3.4
 
-**Status:** Klar til upload på statisk hosting. Bygget oven på V3.9, med V3.8.6-layoutet som fundament. V4.0 ændrer projektvisninger, dokumentgenerator og dokumentstandarder; slogan og eksisterende brandretning er bevaret.
+## Projektstruktur
 
-## Start
+```
+index.html
+favicon.ico
+apple-touch-icon.png
+site.webmanifest
+robots.txt
+sitemap.xml
+assets/
+  css/style.css
+  js/main.js
+  images/   (alle godkendte fotos, logo og social/delingsbilleder)
+  icons/    (favicon, mobil- og app-ikoner)
+```
 
-- Åbn `index.html` på en lokal webserver eller publicér alle filerne i roden af din statiske hosting.
-- Åbn en projektcase via kortet **Flame Eater**, **Ring Bender** eller **Tac Table**.
-- Åbn `studio/index.html` for **Datum Document Studio** og printklar dokumentgenerering.
-- Åbn en blank standard i `standards/`, eller hent den tilsvarende PDF direkte fra studio.
+**Brand:** Titanium / Glacier. **Design, tekst og interaktioner:** uændrede i forhold til godkendt V3.3, bortset fra organisatoriske assets og manglende ikonressourcer.
 
-## V4.0 indeholder
+### Implementering
 
-**Projektcases:** Ny case-header, projektnummer, tekniske metadata, fotos, billedvælger på Ring Bender/Tac Table, understøttede dokumentlinks og genvej til Document Studio. De eksisterende projektskabeloner og modal-navigation bruges stadig.
+1. Upload alt indhold af denne mappe samlet til roden af `https://datumprototyping.dk/`.
+2. Bevar mappenavne og filplaceringer præcis som i ZIP-filen. `index.html` refererer til de lokale CSS-, JS- og billedfiler.
+3. Sørg for HTTPS, og kontrollér at `/assets/images/og-datum-prototyping.jpg` er offentligt tilgængelig. OG-bots kan ikke læse lokale `file://`-demoer.
+4. Brug ikke demoens billeder som dokumentation for faktiske egne faciliteter: billederne er AI-genererede illustrationsfotos.
+5. Kontaktformularen sender ikke direkte; den klargør projektbrief til kopiering. Brugeren vedhæfter selv sine eventuelle filer til e-mail.
 
-**Document Studio:** Fem dokumenttyper i en klientbaseret generator: FAI, setup sheet, procesark, kontrolark og job traveler. Redigér oplysninger, tilføj/fjern rækker, se forhåndsvisning, print/gem PDF, eksporter selvstændig HTML, eksporter/importer JSON, og gem lokalt i den aktuelle browser.
+### Grafik og ikoner
 
-**Printstandarder:** Tomme A4-dokumenter under `standards/` i både HTML og PDF. FAI, proces, kontrol og traveler er A4 portræt; setup er A4 landskab.
+- `assets/images/logo.png` — godkendt fuldt Datum Prototyping-logo (ikke rentegnet her)
+- `assets/icons/datum-d-symbol.png` — beskåret originalt D-symbol til ikoner, ikke en nyfortolket logoform
+- `favicon.ico`, `assets/icons/favicon-*` — browserikoner
+- `apple-touch-icon.png` — Apple/iOS bogmærkeikon
+- `assets/icons/android-chrome-*` — ikoner til Android/hjemskærm
+- `assets/images/og-datum-prototyping.jpg` — 1200 × 630, Open Graph / Twitter
+- `assets/images/hero-mobile.webp` — alternativ beskæring (ligger klar som billedasset, anvendes ikke i V3.4 layoutet)
 
-**Tidligere projektark:** `documents/` indeholder tre FAI'er til Flame Eater og det eksisterende todelte Tac Table-setup sheet. PDF-udgaverne er genereret igen fra deres tilhørende HTML med gældende CSS. Eksisterende registrerede projektmålinger er bevaret.
+### Font
 
-**Importable arkivdata:** Under `studio/presets/` findes JSON fra de tidligere FAI'er og Tac Table-værktøjslisten. De er **ikke uafhængigt verificerede** og importeres uden automatisk godkendelse. Kontroller tegningsrevision, specifikationer, målinger og måleinstrumenter før anvendelse.
+Cabin hentes fortsat fra Google Fonts (med eksisterende lokale fallback-skrifter). Ingen fontfiler er medleveret.
 
-## Kontrolsikkerhed
+### Test
 
-- Manglende måling → **AFVENTER**.
-- Ugyldigt tal/grænsepar → **UGYLDIGT MÅLEGRUNDLAG**.
-- Måling uden for min./maks. → **AFVIGELSE / HOLD**.
-- Måling inden for min./maks. → **INDENFOR**, men det er **ikke** lig med frigivelse.
-- Frigivelse kræver dokumenteret kontrol og ansvarlig signatur uden for generatorens automatiske status. En browserformular er ikke et akkrediteret kvalitetssystem.
+Kontrollér ved deployment at alle ressourcer indlæses med HTTP 200, at procesvælger/ R&D-faser/materialer virker, og at kopieringsknapperne fungerer fra HTTPS eller localhost.
 
-## Upload og hosting
 
-Siden er statisk og kræver ikke database, build-tool, Node-server eller backend. `CNAME` er bevaret for `datumprototyping.dk`. Udpak ZIP-filen, og upload **alle filer og mapper fra ZIP-filens rod**. `index.html` skal ligge direkte i webroden.
+## Opdatering v3.4.1 — Privatlivspolitik
 
-**Efter upload:** Kontrollér font-indlæsning (Google Fonts), begge modalformater, alle dokumentlinks, Document Studio-eksport, PDF-print, mailto-funktion, mobilmenu og ikoner direkte på live-domænet. Lokale tests erstatter ikke et testbesøg på produktionshosting.
+- `privatliv.html` er tilføjet som selvstændig, responsiv side med samme brand og ikonfiler som forsiden.
+- `assets/js/privacy.js` håndterer mobilmenu og scrollindikator på privatlivssiden.
+- Privatlivspolitikken linker tilbage til forsiden, og forsiden linker til den fra footer og projektformular.
+- `sitemap.xml` indeholder nu `/privatliv.html`.
+- Hjemmesidens formular indsamler og sender ikke oplysninger automatisk; besøg og kopieringsfunktioner beskrives i privatlivsteksten.
 
-## V4.0 QA
+### Kontrollér før offentliggørelse
 
-QA er kørt mod filernes HTML, CSS, JS, billeder, PDF'er og interne links. Browserfunktioner er testet ved 390, 768 og 1440 px på lokalt indlæst, asset-inline rendering. Alle fem standarder er printet til PDF og kontrolleret for A4-sideformat og ikke-tomme sider. De eksisterende ark er konverteret igen til PDF og kontrolleret for sidetal. **Begrænsning:** Live hosting og fontleverandørernes eksterne forbindelser er ikke verificeret.
+Dette er et tekstudkast, som tager udgangspunkt i V3.4-koden — ikke en juridisk godkendelse.
 
-Se `UPLOAD-CHECKLIST.md` for komplet checkliste.
+1. Bekræft den faktiske juridiske dataansvarlige, eventuelt CVR og kontaktadresse.
+2. Bekræft din webhosting, logning, databehandlere og opbevarings-/slettefrister.
+3. Afgør om Google Fonts skal indlæses fra Google, eller hostes lokalt. Direkte Google Fonts-forbindelser er oplyst i teksten; kontrollér overførsel og retligt grundlag.
+4. Bekræft, at der ikke er tilføjet cookies, tracking eller eksterne integrationer på den offentlige hosting.
+5. Gennemgå tekstens faktiske formuleringer og procedure for opbevaring/sletning med den driftsansvarlige.
+
+Hvis du ændrer hosting, e-mailudbyder, kontaktformular eller analytics, skal privatlivspolitikken opdateres tilsvarende.
