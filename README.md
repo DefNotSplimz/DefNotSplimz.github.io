@@ -1,3 +1,5 @@
+> **V3.5.7 / Founder & Vision:** “05 / Hvem er Datum Prototyping?” redesigned with three interactive perspectives and a clearly separated today/2027/future roadmap. See CHANGELOG_V3.5.7.md.
+
 # DATUM PROTOTYPING — WEBSITE V3.5.6
 
 **Sektion 03 / Når detaljen betyder noget** er nu en kombination af den eksisterende fotoforside og **Precision Desk** med fire interaktive fokuspunkter. Fokuspunkterne er mål & tolerancer, pasning & samling, overflade & finish samt kontrol & afprøvning. Hvert punkt giver konkrete eksempler og indsætter valgte krav som kontekst i Project Desk.
