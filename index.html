@@ -139,22 +139,24 @@
   </div>
 </section>
 <section class="intake" id="projekt" aria-labelledby="intakeTitle">
-  <div class="intake-top"><span>06 / START ET PROJEKT</span><span>SKITSER, FOTOS OG HALVFÆRDIGE IDÉER ER VELKOMNE.</span></div>
-  <div class="intake-heading"><div><span class="brief-kicker">DEN NÆSTE LØSNING BEGYNDER HER.</span><h2 id="intakeTitle"><span>SEND</span><span class="outline">DET.</span></h2></div><p>Ingen standardsager. Ingen krav om færdige tegninger.<br><strong>Beskriv udfordringen – så finder vi ud af resten sammen.</strong></p></div>
+  <div class="intake-top"><span>06 / DATUM PROJECT DESK</span><span>ET PROJEKT BEHØVER IKKE STARTE MED EN TEGNING.</span></div>
+  <div class="intake-heading"><div><span class="brief-kicker">FRA DET FØRSTE SPØRGSMÅL TIL NÆSTE SKRIDT.</span><h2 id="intakeTitle"><span>SEND</span><span class="outline">DET.</span></h2></div><p>Ingen standardskemaer med krav om tekniske svar.<br><strong>Start dér, hvor du er. Vi gør dine oplysninger til en brugbar projektbrief.</strong></p></div>
   <div class="brief-studio">
     <div class="brief-side">
-      <div class="brief-side-top"><span>DATUM PROTOTYPING / PROJECT INTAKE</span><span>001 — OPEN</span></div>
-      <div class="brief-side-main"><span class="brief-side-index">01 / UDFORDRINGEN</span><h3>HVAD STÅR<br>DU MED<span>?</span></h3><p>Det behøver hverken være færdigt, gennemtænkt eller sat på mål. Det vigtigste er at forstå dit behov.</p>
-        <div class="brief-preview" aria-live="polite"><span>DU STARTER MED</span><strong id="briefTypeTitle">EN IDÉ.</strong><p id="briefTypeHint">Fortæl hvad du forestiller dig, og hvad løsningen skal kunne.</p></div>
+      <div class="brief-side-top"><span>DATUM PROTOTYPING / PROJECT DESK</span><span class="live-desk"><i aria-hidden="true"></i> LOKAL KLADDE</span></div>
+      <div class="brief-side-main"><span class="brief-side-index">DIN OPGAVE. VORES UDGANGSPUNKT.</span><h3>DET<br>STARTER<br>HER<span>.</span></h3><p>En idé, en defekt del, et behov eller en skitse. Du behøver ikke vide, hvilken maskine eller metode der er den rigtige.</p>
+        <div class="brief-preview" aria-live="polite"><span>AKTUELT UDGANGSPUNKT</span><strong id="briefTypeTitle">EN IDÉ.</strong><p id="briefTypeHint">Fortæl hvad du forestiller dig, og hvad løsningen skal kunne.</p></div>
+        <div class="brief-live-snapshot" aria-live="polite"><div class="snapshot-top"><span>LIVE / DIN PROJEKTBRIEF</span><span id="briefLiveCount">01 / 03</span></div><div class="snapshot-track" aria-hidden="true"><i id="briefLiveBar"></i></div><p id="briefLiveText">Start med at fortælle, hvad der skal løses.</p><div class="snapshot-tags"><span id="snapshotTask">INGEN BESKRIVELSE ENDNU</span><span id="snapshotContact">KONTAKT AFVENTER</span></div></div>
       </div>
       <div class="brief-side-foot"><span>FRA IDÉ → TIL FYSISK LØSNING</span><span>↗ DATUM PROTOTYPING</span></div>
     </div>
     <form id="projectForm" class="brief-form" novalidate>
       <input type="hidden" id="processInterest" value="">
       <div class="brief-context" id="briefContext" hidden><span id="briefContextSource">FRA KOMPETENCEOVERSIGTEN:</span><strong id="briefContextName"></strong><button type="button" id="briefClearContext" aria-label="Fjern valgt fremstillingsmetode">×</button></div>
-      <div class="brief-form-head"><span>PROJEKTBRIEF / 01</span><span class="brief-form-status"><i aria-hidden="true"></i> KLAR TIL AT BEGYNDE</span></div>
+      <div class="brief-form-head"><span>PROJECT DESK / V3.0</span><span class="brief-form-status"><i aria-hidden="true"></i> INTET SENDES AUTOMATISK</span></div>
+      <div class="brief-stagebar" aria-label="Overblik over din projektbrief"><div class="brief-stage is-ready" id="briefStage1"><span>01</span><strong>UDGANGSPUNKT</strong></div><div class="brief-stage" id="briefStage2"><span>02</span><strong>OPGAVE</strong></div><div class="brief-stage" id="briefStage3"><span>03</span><strong>KONTAKT</strong></div></div>
       <fieldset class="brief-fieldset"><legend>01 <span>/ HVAD HAR DU?</span></legend>
-        <p class="brief-subline">Vælg det, der kommer tættest på. Der er ingen forkerte indgange.</p>
+        <p class="brief-subline">Hvad kommer du med? Vælg den indgang, der føles mest naturlig.</p>
         <div class="brief-types" role="group" aria-label="Dit udgangspunkt">
           <button type="button" class="brief-type is-selected" aria-pressed="true" data-kind="Idé"><span class="brief-type-icon">✳</span><span>IDÉ</span></button>
           <button type="button" class="brief-type" aria-pressed="false" data-kind="Del"><span class="brief-type-icon">⬡</span><span>DEL</span></button>
@@ -164,9 +166,11 @@
           <button type="button" class="brief-type" aria-pressed="false" data-kind="Ingen anelse"><span class="brief-type-icon">?</span><span>INGEN ANELSE</span></button>
         </div>
       </fieldset>
-      <div class="brief-fieldset brief-section"><label class="brief-legend" for="projectDescription">02 <span>/ FORTÆL OM OPGAVEN <em>*</em></span></label><p class="brief-subline" id="descriptionHelp">Et par sætninger er nok til at begynde.</p>
+      <div class="brief-fieldset brief-section"><label class="brief-legend" for="projectDescription">02 <span>/ FORTÆL OM OPGAVEN <em>*</em></span></label><p class="brief-subline" id="descriptionHelp">Fortæl, hvad problemet er, hvad delen skal bruges til, eller hvad du vil opnå. Et par sætninger er nok.</p>
         <textarea name="description" id="projectDescription" rows="4" required minlength="10" maxlength="2500" placeholder="Hvad vil du gerne have lavet, og hvad skal det bruges til?" aria-describedby="descriptionHelp descriptionCounter"></textarea>
         <div class="brief-undertext"><span>Intet krav om tekniske begreber.</span><span id="descriptionCounter">0 / 2500</span></div>
+        <div class="brief-help-row"><button type="button" id="briefExampleToggle" class="brief-example-toggle" aria-expanded="false" aria-controls="briefExample">↗ SE ET EKSEMPEL PÅ EN GOD BESKRIVELSE</button><p id="briefExample" class="brief-example" hidden>“Jeg mangler et lille beslag til en maskine. Det originale er knækket, og jeg har stadig den gamle del. Den nye skal kunne monteres samme sted.”</p></div>
+        <div class="brief-goal"><div class="brief-goal-top"><strong>HVAD BETYDER MEST FOR DIG?</strong><span>VALGFRIT</span></div><div class="brief-goals" role="group" aria-label="Det vigtigste ved opgaven"><button type="button" class="brief-goal-chip" aria-pressed="false" data-goal="Pasform & funktion">PASFORM & FUNKTION</button><button type="button" class="brief-goal-chip" aria-pressed="false" data-goal="Holdbarhed">HOLDBARHED</button><button type="button" class="brief-goal-chip" aria-pressed="false" data-goal="Overflade & finish">FINISH</button><button type="button" class="brief-goal-chip" aria-pressed="false" data-goal="Afklaring af muligheder">AFKLARING</button><button type="button" class="brief-goal-chip" aria-pressed="false" data-goal="Endnu ikke afklaret">VED IKKE ENDNU</button></div></div>
       </div>
       <div class="brief-section brief-details">
         <button type="button" id="briefDetailsToggle" class="brief-details-toggle" aria-expanded="false" aria-controls="briefExtra"><span><b>+ &nbsp; EKSTRA DETALJER</b><small>Materiale, antal og mål – hvis du kender dem</small></span><span id="briefDetailsGlyph">↗</span></button>
@@ -181,8 +185,8 @@
         <div class="brief-two"><label>TELEFON <span>(VALGFRIT)</span><input id="clientPhone" name="phone" type="tel" autocomplete="tel" maxlength="50" placeholder="Telefonnummer"></label><label>FIRMA <span>(VALGFRIT)</span><input id="clientCompany" name="company" autocomplete="organization" maxlength="150" placeholder="Firma eller privat"></label></div>
       </div>
       <p class="brief-privacy-note">Vi sender ikke oplysninger fra formularen. Du bestemmer selv, om du vil sende din projektbeskrivelse via e-mail. Læs vores <a href="privatliv.html">privatlivspolitik</a>.</p>
-      <div class="brief-submit-area"><div class="brief-submit-copy"><strong>KLAR TIL AT TAGE DEN VIDERE?</strong><p>Vi samler din projektbeskrivelse, så du kan kopiere e-mailadressen og teksten og sende henvendelsen fra dit eget mailprogram.</p></div><button type="submit" id="briefSubmit" class="brief-submit">KLARGØR MIN HENVENDELSE <span aria-hidden="true">↗</span></button></div>
-      <div id="briefOutcome" class="brief-outcome" hidden role="status"><strong>DIN PROJEKTBRIEF ER KLAR.</strong><p>Gennemse teksten. Brug <strong>Kopiér e-mail</strong> til at hente <strong>DatumPrototyping@gmail.com</strong>, og <strong>Kopiér tekst</strong> til din projektbeskrivelse. Indsæt begge dele i din egen e-mail. Eventuelle filer skal vedhæftes manuelt.</p><textarea id="briefPreviewText" readonly aria-label="Din klargjorte projektbeskrivelse" rows="9"></textarea><div class="brief-outcome-actions"><button type="button" id="copyBriefEmail" class="brief-mail">KOPIÉR E-MAIL ↗</button><button type="button" id="copyBrief" class="brief-copy">KOPIÉR TEKST ↗</button></div><span id="briefCopyStatus" aria-live="polite"></span></div>
+      <div class="brief-submit-area"><div class="brief-submit-copy"><strong>DU HAR STADIG FULD KONTROL.</strong><p>Vi samler oplysningerne til én læsbar projektbrief. Du bestemmer selv, om og hvornår du vil sende den fra dit mailprogram.</p></div><button type="submit" id="briefSubmit" class="brief-submit">GENNEMSE MIN PROJEKTBRIEF <span aria-hidden="true">↗</span></button></div>
+      <div id="briefOutcome" class="brief-outcome" hidden role="status"><div class="brief-result-head"><span>DATUM / PROJECT BRIEF</span><span>KLAR TIL GENNEMGANG · IKKE SENDT</span></div><div class="brief-result-lead"><span class="brief-result-symbol" aria-hidden="true">↗</span><div><strong>DIN PROJEKTBRIEF ER KLAR.</strong><p>Vi har samlet dine oplysninger. Gennemlæs teksten og kopier adresse og beskrivelse til dit eget mailprogram. <b>Der er ikke sendt noget.</b></p></div></div><label class="brief-result-label" for="briefPreviewText">DIN FÆRDIGE TEKST</label><textarea id="briefPreviewText" readonly aria-label="Din klargjorte projektbeskrivelse" rows="9"></textarea><div class="brief-result-actions-head">TO KLIK — SÅ ER DU KLAR</div><div class="brief-outcome-actions"><button type="button" id="copyBriefEmail" class="brief-mail"><span>01 / KOPIÉR E-MAIL</span><span aria-hidden="true">↗</span></button><button type="button" id="copyBrief" class="brief-copy"><span>02 / KOPIÉR TEKST</span><span aria-hidden="true">↗</span></button></div><div class="brief-outcome-contact"><span>DATUMPROTOTYPING@GMAIL.COM</span><span>HUSK SELV AT VEDHÆFTE VALGTE FILER</span></div><span id="briefCopyStatus" aria-live="polite"></span></div>
       <div id="briefError" class="brief-error" aria-live="polite" hidden>Udfyld beskrivelsen, navn og en gyldig e-mailadresse.</div>
     </form>
   </div>

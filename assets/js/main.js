@@ -34,8 +34,8 @@
  // Also keep HTML and state consistent if the default selected method changes later.
  pick(buttons.find(b=>b.getAttribute('aria-selected')==='true')?.dataset.method || 'cnc-mill',true);
  buttons.forEach((b,i)=>{b.addEventListener('click',()=>pick(b.dataset.method));b.addEventListener('keydown',e=>{if(['ArrowDown','ArrowRight','ArrowUp','ArrowLeft'].includes(e.key)){e.preventDefault();const next=(i+((e.key==='ArrowDown'||e.key==='ArrowRight')?1:-1)+buttons.length)%buttons.length;buttons[next].focus();pick(buttons[next].dataset.method)}})});
- const methodProject=document.getElementById('methodProject');methodProject.addEventListener('click',()=>{const btn=buttons.find(b=>b.getAttribute('aria-selected')==='true');const chosen=map[btn.dataset.method].name;document.getElementById('processInterest').value=chosen;document.getElementById('briefContextName').textContent=chosen;document.getElementById('briefContextSource').textContent='FRA KOMPETENCEOVERSIGTEN:';document.getElementById('briefContext').hidden=false});
- document.getElementById('briefClearContext').addEventListener('click',()=>{document.getElementById('processInterest').value='';document.getElementById('briefContext').hidden=true});
+ const methodProject=document.getElementById('methodProject');methodProject.addEventListener('click',()=>{const btn=buttons.find(b=>b.getAttribute('aria-selected')==='true');const chosen=map[btn.dataset.method].name;document.getElementById('processInterest').value=chosen;document.getElementById('briefContextName').textContent=chosen;document.getElementById('briefContextSource').textContent='FRA KOMPETENCEOVERSIGTEN:';document.getElementById('briefContext').hidden=false;resetPreview()});
+ document.getElementById('briefClearContext').addEventListener('click',()=>{document.getElementById('processInterest').value='';document.getElementById('briefContext').hidden=true;resetPreview()});
  const stages={
  discover:{n:'01',kicker:'UNDERSØG',label:'FORSTÅ FØR VI FREMSTILLER',title:'VI STARTER MED<br>DET, DER IKKE<br>VIRKER.',text:'Det kan være en løs skitse, en ødelagt reservedel, en CAD-fil eller et problem uden en oplagt løsning. Vi afklarer funktion, begrænsninger og hvilke oplysninger, der mangler.',image:'idea.webp',alt:'Skitser, digital model og fysisk prototype i et udviklingsforløb'},
  develop:{n:'02',kicker:'KONSTRUÉR',label:'MULIGHEDER BLIVER TIL GEOMETRI',title:'VI FORMER<br>DET, DER<br>MANGLER.',text:'En idé kan kræve opmåling, en ny CAD-model, materialevalg eller flere mulige konstruktioner. Formålet er at gøre den næste beslutning teknisk forståelig.',image:'cad.webp',alt:'CAD-konstruktion og teknisk tegning på en arbejdsstation'},
@@ -118,7 +118,7 @@
    document.getElementById('processInterest').value=item.title;
    document.getElementById('briefContextName').textContent=item.title;
    document.getElementById('briefContextSource').textContent='FRA MULIGHEDER:';
-   document.getElementById('briefContext').hidden=false;
+   document.getElementById('briefContext').hidden=false;resetPreview();
    document.querySelector(`.brief-type[data-kind="${item.kind}"]`)?.click();
    opportunityTrigger=null;opDialog.close();
    document.getElementById('projekt').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
@@ -133,10 +133,39 @@
  'CAD / tegning':{title:'EN TEGNING.',hint:'En CAD-fil eller tegning kan bruges som udgangspunkt for en vurdering.',placeholder:'Hvad skal fremstilles? Skriv gerne materiale, funktion eller særlige krav.'},
  'Ingen anelse':{title:'ET PROBLEM.',hint:'Du behøver ikke kende metoden. Beskriv blot hvad der ikke virker.',placeholder:'Hvad er problemet, og hvad ville en god løsning gøre for dig?'}
  };
- let kind='Idé';let preparedText='';
+ let kind='Idé';let goal='';let preparedText='';
  const form=document.getElementById('projectForm'),details=document.getElementById('briefExtra'),expand=document.getElementById('briefDetailsToggle'),counter=document.getElementById('descriptionCounter'),description=document.getElementById('projectDescription'),files=document.getElementById('projectFiles');
- document.querySelectorAll('.brief-type').forEach(btn=>btn.addEventListener('click',()=>{kind=btn.dataset.kind;document.querySelectorAll('.brief-type').forEach(b=>{const active=b===btn;b.classList.toggle('is-selected',active);b.setAttribute('aria-pressed',String(active))});const type=briefTypes[kind];document.getElementById('briefTypeTitle').textContent=type.title;document.getElementById('briefTypeHint').textContent=type.hint;description.placeholder=type.placeholder;document.getElementById('briefOutcome').hidden=true;}));
- description.addEventListener('input',()=>{counter.textContent=description.value.length+' / 2500';document.getElementById('briefError').hidden=true});
+ const getValidContact=()=>document.getElementById('clientName').value.trim().length>0&&document.getElementById('clientEmail').validity.valid&&document.getElementById('clientEmail').value.trim().length>0;
+ const resetPreview=()=>{document.getElementById('briefOutcome').hidden=true;preparedText=''};
+ const updateProjectLive=()=>{
+   const hasTask=description.value.trim().length>=10;
+   const hasContact=getValidContact();
+   const count=1+Number(hasTask)+Number(hasContact);
+   document.getElementById('briefLiveCount').textContent=String(count).padStart(2,'0')+' / 03';
+   document.getElementById('briefLiveBar').style.width=(count/3*100)+'%';
+   document.getElementById('briefLiveText').textContent=hasTask?(hasContact?'Du kan nu gennemse din projektbrief.':'Opgaven er beskrevet. Tilføj dine kontaktoplysninger.'): 'Start med at beskrive, hvad der skal løses.';
+   document.getElementById('snapshotTask').textContent=hasTask?'OPGAVE BESKREVET':'OPGAVE AFVENTER';
+   document.getElementById('snapshotContact').textContent=hasContact?'KONTAKT KLAR':'KONTAKT AFVENTER';
+   document.getElementById('briefStage2').classList.toggle('is-ready',hasTask);
+   document.getElementById('briefStage3').classList.toggle('is-ready',hasContact);
+   document.getElementById('briefSubmit').classList.toggle('is-complete',hasTask&&hasContact);
+ };
+ const briefExamples={
+   'Idé':'“Jeg har en idé til et lille beslag, der skal holde en sensor. Jeg kender ikke målene endnu, men det skal kunne skrues fast.”',
+   'Del':'“Jeg mangler en bøsning til en maskine. Den gamle del er slidt, og jeg har den liggende, så den kan måles op.”',
+   'Foto':'“Jeg har taget billeder af et beslag, som skal laves om. Den nye del skal passe på samme montering.”',
+   'Skitse':'“Jeg har tegnet en simpel skitse af en adapter. Den skal forbinde to dele med forskellige hulafstande.”',
+   'CAD / tegning':'“Jeg har en STEP-fil til en prototype i aluminium. Jeg vil gerne høre, om geometrien kan fremstilles, og om der er noget, der bør tilpasses.”',
+   'Ingen anelse':'“En plastdel i mit udstyr er gået i stykker. Jeg ved ikke, hvad den hedder, men jeg kan vise den og forklare, hvad den gjorde.”'
+ };
+ const exampleToggle=document.getElementById('briefExampleToggle'),exampleBox=document.getElementById('briefExample');
+ exampleToggle.addEventListener('click',()=>{exampleBox.hidden=!exampleBox.hidden;exampleToggle.setAttribute('aria-expanded',String(!exampleBox.hidden))});
+ document.querySelectorAll('.brief-goal-chip').forEach(btn=>btn.addEventListener('click',()=>{goal=goal===btn.dataset.goal?'':btn.dataset.goal;document.querySelectorAll('.brief-goal-chip').forEach(b=>{const chosen=b.dataset.goal===goal;b.classList.toggle('is-selected',chosen);b.setAttribute('aria-pressed',String(chosen))});resetPreview()}));
+ form.addEventListener('input',event=>{if(event.target!==description){resetPreview()}updateProjectLive()});
+ form.addEventListener('change',()=>{resetPreview();updateProjectLive()});
+ updateProjectLive();
+ document.querySelectorAll('.brief-type').forEach(btn=>btn.addEventListener('click',()=>{kind=btn.dataset.kind;document.querySelectorAll('.brief-type').forEach(b=>{const active=b===btn;b.classList.toggle('is-selected',active);b.setAttribute('aria-pressed',String(active))});const type=briefTypes[kind];document.getElementById('briefTypeTitle').textContent=type.title;document.getElementById('briefTypeHint').textContent=type.hint;description.placeholder=type.placeholder;exampleBox.textContent=briefExamples[kind];resetPreview();updateProjectLive();}));
+ description.addEventListener('input',()=>{counter.textContent=description.value.length+' / 2500';document.getElementById('briefError').hidden=true;resetPreview();updateProjectLive()});
  expand.addEventListener('click',()=>{details.hidden=!details.hidden;expand.setAttribute('aria-expanded',String(!details.hidden));document.getElementById('briefDetailsGlyph').textContent=details.hidden?'↗':'↘'});
  files.addEventListener('change',()=>{const all=[...files.files];document.getElementById('selectedFiles').textContent=all.length?all.map(f=>f.name).join('  ·  '):'';document.getElementById('fileNotice').textContent=all.length?'Filerne er kun valgt lokalt. Husk at vedhæfte dem selv i din e-mail.':'Filer uploades ikke her. Vedhæft dem selv, når du opretter din e-mail.'});
  const byId=id=>document.getElementById(id).value.trim();
@@ -144,7 +173,7 @@
  'Hej Datum Prototyping,', '',
  'Jeg vil gerne høre om en mulig opgave.', '',
  'UDGANGSPUNKT: '+kind, '', 'OPGAVETYPE / METODE: '+(byId('processInterest')||'Åben for forslag'),'',
- 'OPGAVEBESKRIVELSE:',byId('projectDescription'),'',
+ 'OPGAVEBESKRIVELSE:',byId('projectDescription'),'','VIGTIGST FOR MIG: '+(goal||'Ikke oplyst'),'',
  'MATERIALE: '+(byId('projectMaterial')||'Ikke oplyst'),
  'ANTAL: '+(byId('projectQuantity')||'Ikke oplyst'),
  'MÅL / KRAV: '+(byId('projectSpecs')||'Ikke oplyst'),'',
