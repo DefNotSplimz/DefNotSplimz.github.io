@@ -1,3 +1,13 @@
+# DATUM PROTOTYPING — WEBSITE V3.5.6
+
+**Sektion 03 / Når detaljen betyder noget** er nu en kombination af den eksisterende fotoforside og **Precision Desk** med fire interaktive fokuspunkter. Fokuspunkterne er mål & tolerancer, pasning & samling, overflade & finish samt kontrol & afprøvning. Hvert punkt giver konkrete eksempler og indsætter valgte krav som kontekst i Project Desk.
+
+Tilføjet: `assets/css/precision.css` og `assets/js/precision.js`. Disse indlæses i `index.html` efter eksisterende styles/script. Ingen andre sektioner eller de godkendte billedassets er ændret. Se `CHANGELOG_V3.5.6.md` og `QA_V3.5.6.md`.
+
+**Vigtigt:** Måleksemplet Ø20,00 ±0,05 mm er illustrativt og udtrykker ikke en generel garanteret bearbejdningskapacitet. Fortsat udviklingsprototype, ikke verificeret på live-domænet.
+
+---
+
 # DATUM PROTOTYPING — WEBSITE V3.5.5
 
 V3.5.5: Nyt interaktivt **02 / Tilgangen bag en løsning** (Process Workbench).
