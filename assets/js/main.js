@@ -65,7 +65,7 @@
  });
  // V3.5.7 — About Datum Prototyping: founder, work and future (no simulated achievements).
  const aboutData={
-  person:{number:'01 / 03',eyebrow:'01 / MENNESKET BAG',title:'FAGET ER<br>PERSONLIGT.',text:'Glen er i gang med uddannelsen til finmekaniker, med forventet svendebrev i april 2027. Datum Prototyping bygger på erfaring fra virkelige bearbejdningsopgaver og et ønske om hele tiden at blive dygtigere.',a:'BAG NAVNET',av:'Glen Cilinder-Hansen',b:'NÆSTE MILEPÆL',bv:'Svendebrev / forventet april 2027'},
+  person:{number:'01 / 03',eyebrow:'01 / MENNESKET BAG',title:'FAGET ER<br>PERSONLIGT.',text:'Glen er i gang med uddannelsen til finmekaniker, med forventet svendebrev i april 2027. Datum Prototyping bygger på erfaring fra virkelige bearbejdningsopgaver og et ønske om hele tiden at blive dygtigere.',a:'BAG NAVNET',av:'Glen',b:'NÆSTE MILEPÆL',bv:'Svendebrev / forventet april 2027'},
   work:{number:'02 / 03',eyebrow:'02 / DEN PRAKTISKE TILGANG',title:'FUNKTION<br>FØR FORM.',text:'En god løsning begynder med at forstå, hvad delen skal kunne. Vi vurderer manuelle metoder, CNC og 3D-print efter opgavens behov – og taler åbent om, hvad der kræver yderligere afklaring.',a:'FREMGANGSMÅDE',av:'Forstå → konstruér → fremstille',b:'FOKUS',bv:'Pasform, funktion og realistisk udførelse'},
   future:{number:'03 / 03',eyebrow:'03 / RETNINGEN',title:'AMBITIONEN<br>ER STØRRE.',text:'Målet er over tid at udvikle Datum Prototyping til en stærk dansk samarbejdspartner inden for specialfremstilling, prototyper og R&D. Det er en retning, vi arbejder hen imod – ikke noget vi påstår allerede at være.',a:'I DAG',av:'Selvstændigt, personligt værkstedsprojekt',b:'PÅ SIGT',bv:'Mere udvikling, engineering og R&D'}
  };

@@ -1,7 +1,7 @@
 # Datum Prototyping V3.5.7 — Hvem er Datum Prototyping?
 
 - Omskrevet den eksisterende Om-sektion til en personlig, redaktionel fortælling med founder-identitet.
-- Glen Cilinder-Hansen fremgår med status som finmekaniker under uddannelse og forventet svendebrev april 2027.
+- Glen fremgår med status som finmekaniker under uddannelse og forventet svendebrev april 2027.
 - Interaktive faner: Personen / Arbejdet / Ambitionen (klik og piletaster).
 - Tretrins-status: Nu, næste skridt, fremtidig retning.
 - Eksisterende CAD-billede genbruges og er eksplicit mærket som illustration, ikke foto af Glen eller faktiske faciliteter.
