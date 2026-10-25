@@ -94,3 +94,10 @@ Designet skal efter upload gennemgås i de faktisk installerede browsere med udg
 - Den tidligere OG-fil er bevaret som arkiv, så intet andet fra hjemmesiden brydes.
 - Upload hele mappen, og tjek derefter Social Sharing-previews via crawler. Sociale platforme kan cache gamle versioner.
 - AI-genereret foto er brandillustration, ikke dokumentation for egne maskiner eller kundeprojekter.
+
+
+## Opdatering 3.5.2 — Muligheder & materialer
+- Materialer opdelt i metaller og plast/FDM med alle relevante materialer.
+- Bearbejdet plast adskilt tydeligt fra 3D-print.
+- Selvstændigt område med 6 eksempler på mulige opgaver: one-of-one, prototyper, genskabelse, adaptere/beslag, fiksturer og små serier.
+- CTA til projektformular; ingen andre sektioner ændret.
