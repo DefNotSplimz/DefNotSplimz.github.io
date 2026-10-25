@@ -85,3 +85,12 @@ Hvis du ændrer hosting, e-mailudbyder, kontaktformular eller analytics, skal pr
 - Privatlivspolitikken er bibeholdt og bruger det fælles stylesheet.
 
 Designet skal efter upload gennemgås i de faktisk installerede browsere med udgangspunkt i disse responsive kontroller.
+
+
+## V3.5.1 — Open Graph-forbedring
+- Ny `assets/images/og-datum-prototyping-v2.jpg` (2400 × 1260), fotograferet illustration og separat, skarp typografi.
+- `og-datum-prototyping-v2-master.png` (tabsfri PNG-master) og `og-datum-prototyping-v2-1200.jpg` (1200 × 630 kompatibilitetseksempel).
+- `index.html`: `og:image`, `og:image:secure_url`, `twitter:image` opdateret til nyt cachebrydende URL-navn samt korrekte billeddimensioner.
+- Den tidligere OG-fil er bevaret som arkiv, så intet andet fra hjemmesiden brydes.
+- Upload hele mappen, og tjek derefter Social Sharing-previews via crawler. Sociale platforme kan cache gamle versioner.
+- AI-genereret foto er brandillustration, ikke dokumentation for egne maskiner eller kundeprojekter.
