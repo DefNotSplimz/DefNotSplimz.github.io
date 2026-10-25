@@ -34,7 +34,7 @@
  // Also keep HTML and state consistent if the default selected method changes later.
  pick(buttons.find(b=>b.getAttribute('aria-selected')==='true')?.dataset.method || 'cnc-mill',true);
  buttons.forEach((b,i)=>{b.addEventListener('click',()=>pick(b.dataset.method));b.addEventListener('keydown',e=>{if(['ArrowDown','ArrowRight','ArrowUp','ArrowLeft'].includes(e.key)){e.preventDefault();const next=(i+((e.key==='ArrowDown'||e.key==='ArrowRight')?1:-1)+buttons.length)%buttons.length;buttons[next].focus();pick(buttons[next].dataset.method)}})});
- const methodProject=document.getElementById('methodProject');methodProject.addEventListener('click',()=>{const btn=buttons.find(b=>b.getAttribute('aria-selected')==='true');const chosen=map[btn.dataset.method].name;document.getElementById('processInterest').value=chosen;document.getElementById('briefContextName').textContent=chosen;document.getElementById('briefContext').hidden=false});
+ const methodProject=document.getElementById('methodProject');methodProject.addEventListener('click',()=>{const btn=buttons.find(b=>b.getAttribute('aria-selected')==='true');const chosen=map[btn.dataset.method].name;document.getElementById('processInterest').value=chosen;document.getElementById('briefContextName').textContent=chosen;document.getElementById('briefContextSource').textContent='FRA KOMPETENCEOVERSIGTEN:';document.getElementById('briefContext').hidden=false});
  document.getElementById('briefClearContext').addEventListener('click',()=>{document.getElementById('processInterest').value='';document.getElementById('briefContext').hidden=true});
  const stages={
  discover:{n:'01',kicker:'UNDERSØG',label:'FORSTÅ FØR VI FREMSTILLER',title:'VI STARTER MED<br>DET, DER IKKE<br>VIRKER.',text:'Det kan være en løs skitse, en ødelagt reservedel, en CAD-fil eller et problem uden en oplagt løsning. Vi afklarer funktion, begrænsninger og hvilke oplysninger, der mangler.',image:'idea.webp',alt:'Skitser, digital model og fysisk prototype i et udviklingsforløb'},
@@ -49,6 +49,82 @@
  const materialTabs=[...document.querySelectorAll('.material-tab')];
  const selectMaterial=(b)=>{const x=materialData[b.dataset.material];if(!x)return;materialTabs.forEach(t=>{t.classList.toggle('is-active',t===b);t.setAttribute('aria-selected',String(t===b))});document.getElementById('materialKicker').textContent=x.kicker;document.getElementById('materialTitle').innerHTML=x.title;document.getElementById('materialDescription').textContent=x.desc;const im=document.getElementById('materialImage');im.src='assets/images/'+x.image;im.alt=x.imgAlt;document.getElementById('materialPhotoLabel').textContent=x.label;document.getElementById('materialPhotoNumber').textContent='MATERIALER / '+x.kicker.slice(0,2);document.getElementById('materialCaveat').textContent=x.caveat;document.getElementById('materialExamples').replaceChildren(...x.chips.map(label=>{const span=document.createElement('span');span.textContent=label;return span}));};
  materialTabs.forEach((b,i)=>{b.addEventListener('click',()=>selectMaterial(b));b.addEventListener('keydown',e=>{if(['ArrowRight','ArrowLeft','ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();const direction=['ArrowRight','ArrowDown'].includes(e.key)?1:-1;const next=materialTabs[(i+direction+materialTabs.length)%materialTabs.length];next.focus();selectMaterial(next)}})});
+
+ // V3.5.3 — six in-depth opportunity dossiers. These are examples, not claimed customer cases.
+ const opportunityData={
+  oneoff:{tag:'01 / 06 — UNIKT EMNE',title:'ONE-OF-ONE & SPECIALDELE',intro:'Når en standardkomponent ikke passer, kan en enkelt specialdel være den mest direkte løsning. Det kan være et nyt mål, en særlig form eller en funktion, der kræver tilpasning.',examples:[
+   ['Specialholder til en bestemt genstand','En lille fræset eller 3D-printet holder med den rigtige hulafstand, vinkel eller frigang.'],
+   ['Bøsning i utraditionelle mål','Én drejet bøsning eller et afstandsstykke, hvor standardmål ikke passer til samlingen.'],
+   ['Unik mekanisk komponent','En særlig knap, kobling eller monteringsdel udviklet efter pladsen og funktionen.']
+  ],input:'Send gerne et foto, en simpel skitse, omtrentlige mål og en forklaring på, hvad delen skal gøre.',kind:'Idé'},
+  prototype:{tag:'02 / 06 — UDVIKLING',title:'PROTOTYPER',intro:'En prototype gør det muligt at undersøge pasform og funktion, før man beslutter sig for den endelige løsning. Den behøver ikke ligne et færdigt produkt fra første forsøg.',examples:[
+   ['Første formprøve i FDM','Et 3D-print i plast til at kontrollere form, ergonomi eller monteringspunkter.'],
+   ['Funktionel metalprototype','Et enkelt fræset eller drejet emne til afprøvning af mekanisk funktion eller samling.'],
+   ['Version 02 efter en test','Små ændringer af hulplacering, frigang eller form, når den første prøve viser, hvad der skal forbedres.']
+  ],input:'Fortæl hvad prototypen skal afprøve. En idé, håndskitse eller CAD-model er et godt udgangspunkt.',kind:'Idé'},
+  replacement:{tag:'03 / 06 — RESERVEDEL',title:'ØDELAGTE & UDGÅEDE DELE',intro:'En knækket eller udgået reservedel kan nogle gange opmåles og fremstilles igen. Andre gange er det bedre at ændre konstruktionen, så den passer til det aktuelle behov.',examples:[
+   ['Knækket beslag eller holdebeslag','En ny del efter den gamle, eventuelt med tilpasset geometri, hvor det giver mening.'],
+   ['Slidt bøsning eller afstandsstykke','Opmåling af en slidt drejedel og vurdering af en erstatning i egnet materiale.'],
+   ['Udgået plastikdel','En manglende plastkomponent, der kan undersøges til bearbejdning eller 3D-print ud fra foto, mål og anvendelse.']
+  ],input:'Medbring eller fotografér helst den gamle del og dens monteringssted. Sikkerhedskritiske dele kræver særskilt vurdering.',kind:'Del'},
+  adapter:{tag:'04 / 06 — TILPASNING',title:'ADAPTERE & BESLAG',intro:'Nogle gange fungerer delene hver for sig, men passer ikke sammen. Et lille beslag, en adapter eller et afstandsstykke kan gøre hele forskellen.',examples:[
+   ['Adapter mellem to mål','En tilpasset overgang eller bøsning, der forbinder komponenter med forskellige dimensioner.'],
+   ['Beslag med særlig hulafstand','Et monteringsbeslag, hvor standardvarer ikke matcher hulmønster, vinkel eller pladsforhold.'],
+   ['Afstandsskiver og afstandsstykker','Drejede ringe eller simple afstandsdele, der giver korrekt placering eller frigang.']
+  ],input:'Oplys gerne begge tilslutningsmål, hulafstande, billeder og de belastninger, der er relevante.',kind:'Del'},
+  fixture:{tag:'05 / 06 — HJÆLPEMIDDEL',title:'FIKSTURER & HJÆLPEMIDLER',intro:'Et godt hjælpemiddel gør en opgave nemmere at udføre eller gentage. Det kan være en enkel holder, en boreguide eller en mere målrettet opspænding.',examples:[
+   ['Bore- eller monteringsguide','En lille jig, som hjælper med at placere boringer eller dele ensartet.'],
+   ['Emneholder eller opspændingsplade','En specialformet holder, der understøtter et emne under arbejde eller samling.'],
+   ['Simpelt kontrolhjælpemiddel','En pasnings- eller placeringsskabelon, der gør det lettere at kontrollere en gentagen opgave.']
+  ],input:'Beskriv arbejdsgangen, hvilken del der skal holdes, og hvad hjælpemidlet skal gøre lettere.',kind:'Idé'},
+  series:{tag:'06 / 06 — GENTAGELSE',title:'SMÅ SERIER & FORBEDRINGER',intro:'Når den første del fungerer, kan der være brug for flere. En eksisterende konstruktion kan også forbedres ud fra erfaring med brug, montage eller slid.',examples:[
+   ['En håndfuld ens bøsninger','Flere drejede dele i samme mål, hvor antal og gentagelighed vurderes efter opgaven.'],
+   ['Gentagne beslag eller adaptere','En mindre serie ens komponenter frem for flere individuelle fremstillinger.'],
+   ['Redesign af en eksisterende del','Justering af form, materiale eller monteringsprincip, når en første udgave har vist begrænsninger.']
+  ],input:'Fortæl ønsket antal, om du har en eksisterende prøve eller tegning, og hvilke ændringer du ønsker.',kind:'Del'}
+ };
+ const opportunityKeys=Object.keys(opportunityData);
+ const opDialog=document.getElementById('opportunityDialog');
+ const opExamples=document.getElementById('opDialogExamples');
+ let opportunitySelected='oneoff';
+ let opportunityTrigger=null;
+ function showOpportunity(key){
+   const item=opportunityData[key];if(!item)return;
+   opportunitySelected=key;
+   document.getElementById('opDialogNum').textContent=item.tag;
+   document.getElementById('opDialogTitle').textContent=item.title;
+   document.getElementById('opDialogIntro').textContent=item.intro;
+   document.getElementById('opDialogInput').textContent=item.input;
+   document.getElementById('opDialogPosition').textContent=String(opportunityKeys.indexOf(key)+1).padStart(2,'0')+' / 06';
+   opExamples.replaceChildren(...item.examples.map(([title,desc],i)=>{
+     const row=document.createElement('div');row.className='op-dialog-example';
+     const num=document.createElement('span');num.textContent=String(i+1).padStart(2,'0');
+     const content=document.createElement('div');const heading=document.createElement('h3');heading.textContent=title;
+     const text=document.createElement('p');text.textContent=desc;
+     content.append(heading,text);row.append(num,content);return row;
+   }));
+   if(opDialog.open)opDialog.scrollTop=0;
+ }
+ document.querySelectorAll('.opportunity-open').forEach(btn=>btn.addEventListener('click',()=>{
+   opportunityTrigger=btn;showOpportunity(btn.dataset.opportunity);opDialog.showModal();
+ }));
+ document.getElementById('opDialogClose').addEventListener('click',()=>opDialog.close());
+ opDialog.addEventListener('click',e=>{if(e.target===opDialog)opDialog.close()});
+ opDialog.addEventListener('close',()=>{opportunityTrigger?.focus({preventScroll:true})});
+ document.getElementById('opDialogPrev').addEventListener('click',()=>showOpportunity(opportunityKeys[(opportunityKeys.indexOf(opportunitySelected)+5)%6]));
+ document.getElementById('opDialogNext').addEventListener('click',()=>showOpportunity(opportunityKeys[(opportunityKeys.indexOf(opportunitySelected)+1)%6]));
+ document.getElementById('opDialogCta').addEventListener('click',e=>{
+   e.preventDefault();const item=opportunityData[opportunitySelected];
+   document.getElementById('processInterest').value=item.title;
+   document.getElementById('briefContextName').textContent=item.title;
+   document.getElementById('briefContextSource').textContent='FRA MULIGHEDER:';
+   document.getElementById('briefContext').hidden=false;
+   document.querySelector(`.brief-type[data-kind="${item.kind}"]`)?.click();
+   opportunityTrigger=null;opDialog.close();
+   document.getElementById('projekt').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+   history.replaceState(null,'','#projekt');
+ });
+
  const briefTypes={
  'Idé':{title:'EN IDÉ.',hint:'Fortæl hvad du forestiller dig, og hvad løsningen skal kunne.',placeholder:'Hvad forestiller du dig, og hvad skal det bruges til?'},
  'Del':{title:'EN DEL.',hint:'En løs reservedel, noget der skal tilpasses eller en komponent du mangler.',placeholder:'Hvilken del har du brug for, og hvad skal den passe til?'},
@@ -67,7 +143,7 @@
  const buildBrief=()=>[
  'Hej Datum Prototyping,', '',
  'Jeg vil gerne høre om en mulig opgave.', '',
- 'UDGANGSPUNKT: '+kind, '', 'METODEINTERESSE: '+(byId('processInterest')||'Åben for forslag'),'',
+ 'UDGANGSPUNKT: '+kind, '', 'OPGAVETYPE / METODE: '+(byId('processInterest')||'Åben for forslag'),'',
  'OPGAVEBESKRIVELSE:',byId('projectDescription'),'',
  'MATERIALE: '+(byId('projectMaterial')||'Ikke oplyst'),
  'ANTAL: '+(byId('projectQuantity')||'Ikke oplyst'),
