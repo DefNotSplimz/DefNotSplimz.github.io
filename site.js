@@ -116,6 +116,7 @@
   if(orig){const el=[...form.querySelectorAll('[name="origin"]')].find(x=>x.value===orig);if(el)el.checked=true;}
   const result=document.getElementById('result-section'), text=document.getElementById('result-text'), mail=document.getElementById('send-mail'), feedback=document.getElementById('result-feedback'), mailHint=document.getElementById('result-mail-hint');
   const mailAddress='DatumPrototyping@gmail.com';
+  const copyAddress=document.getElementById('copy-mail-address');
   let lastBody='', lastSubject='';
   // A preview is no longer current once any answer changes.
   form.addEventListener('input',()=>{if(!result.hidden){result.hidden=true;feedback.textContent='';}});
@@ -152,8 +153,8 @@
     const safeBody=tooLong?'Min projektbeskrivelse er for lang til at blive indsat automatisk. Jeg indsætter den fulde tekst herunder.\n\n':body;
     mail.href='mailto:'+mailAddress+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(safeBody);
     mailHint.innerHTML=tooLong?
-      'DIN BESKED ER LANG: Kopiér hele beskeden med knappen og indsæt den i dit e-mailprogram. Mailappen åbnes kun med en kort hjælpetekst.':
-      'Modtager: <strong>'+mailAddress+'</strong> · Du kan også kopiere teksten til din egen webmail.';
+      'Beskeden er lang: kopiér hele teksten og indsæt den i din egen webmail. Den valgfrie mailapp-knap indsætter kun en kort hjælpetekst.':
+      'Brug Gmail, Outlook eller en valgfri mailtjeneste. Ingen besked er sendt.';
     result.hidden=false;
     feedback.textContent='';
     result.scrollIntoView({behavior:'smooth',block:'start'});
@@ -161,13 +162,32 @@
   });
   mail.addEventListener('click',()=>{
     if(encodeURIComponent(lastBody).length>1750){feedback.textContent='Kopiér også hele teksten og indsæt den i din mail, inden du sender.';}
-    else {feedback.textContent='Dit e-mailprogram skulle åbne nu. Beskeden er IKKE sendt af hjemmesiden.';}
+    else {feedback.textContent='Mailappen forsøges åbnet. Beskeden er IKKE sendt af hjemmesiden.';}
+  });
+  const copyText=async value=>{
+    if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(value);return;}
+    const temp=document.createElement('textarea');
+    temp.value=value;temp.setAttribute('readonly','');
+    temp.style.cssText='position:fixed;left:-10000px;top:0;opacity:0';
+    document.body.appendChild(temp);temp.focus();temp.select();
+    const ok=typeof document.execCommand==='function' && document.execCommand('copy');
+    temp.remove();
+    if(!ok)throw new Error('Clipboard ikke tilgængelig');
+  };
+  copyAddress?.addEventListener('click',async()=>{
+    try{
+      await copyText(mailAddress);
+      feedback.textContent='Mailadressen er kopieret. Kopiér også beskeden, og indsæt begge i din foretrukne mailtjeneste. Intet er sendt.';
+    }catch(error){
+      feedback.textContent='Automatisk kopiering er blokeret. Markér mailadressen ovenfor, og kopiér den manuelt.';
+      document.querySelector('.datum-mail-recipient strong')?.setAttribute('tabindex','-1');
+      document.querySelector('.datum-mail-recipient strong')?.focus();
+    }
   });
   document.getElementById('copy-brief').addEventListener('click',async()=>{
     try{
-      if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(text.value);}
-      else{ text.focus();text.select(); if(!document.execCommand('copy'))throw new Error('copy failed');}
-      feedback.textContent='Teksten er kopieret. Ingen e-mail er sendt.';
+      await copyText(text.value);
+      feedback.textContent='Hele beskeden er kopieret. Indsæt den i din foretrukne mailtjeneste; ingen e-mail er sendt.';
     }catch(e){text.focus();text.select();feedback.textContent='Markér teksten og tryk Ctrl+C (eller Cmd+C på Mac) for at kopiere.';}
   });
 })();

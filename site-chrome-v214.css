@@ -89,3 +89,9 @@ body[data-active-workspace="om"] .site-header .site-nav a[href="om-datum.html"]:
 @media(prefers-reduced-motion:reduce){
  .site-header .site-nav > a:not(.nav-cta)::after,.site-footer .footer-links a{transition:none}
 }
+
+.privacy-page .privacy-list{font-size:15px;line-height:1.75;color:#B8C4BA;max-width:730px;margin:12px 0 22px;padding-left:23px}
+.privacy-page .privacy-list li{margin:7px 0}
+.privacy-page .privacy-meta{color:#C6FF00;font-size:12px;letter-spacing:.07em;text-transform:uppercase;font-weight:700}
+.privacy-page .privacy-note{border-left:3px solid #C6FF00;background:#182019;padding:17px 20px;max-width:750px;color:#D7E0D7}
+@media(max-width:680px){.datum-mail-recipient{padding:13px 14px}.result-controls .btn{flex-basis:100%}.privacy-page h2{font-size:clamp(27px,8.2vw,36px)}.privacy-page .privacy-list{font-size:14px}}

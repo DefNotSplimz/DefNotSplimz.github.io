@@ -100,3 +100,19 @@
 @media(max-width:740px){.brief-form #problem{min-height:195px!important}}
 .project-head-grid>*{min-width:0}
 @media(max-width:359px){.project-head-grid h1{font-size:35px;max-width:100%}}
+
+
+/* V3.0 RC2 — Copy-first email flow; same visual language as the approved release. */
+.datum-mail-recipient{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 20px;margin-top:22px;padding:17px 18px;background:#19221b;border-left:4px solid #C6FF00;overflow-wrap:anywhere}
+.datum-mail-recipient span{color:#AEBBAF;font:700 11px/1.5 var(--display);letter-spacing:.09em}
+.datum-mail-recipient strong{font:700 clamp(14px,1.35vw,18px)/1.4 var(--body);color:#F0EEE8}
+.result-controls{display:flex;gap:12px;flex-wrap:wrap}
+.result-controls .btn{flex:1 1 245px;min-width:0}
+.datum-mail-steps{color:#C5D1C5!important;font-size:13px!important;margin:13px 0 0!important}
+.datum-mail-optional{display:inline-flex;margin-top:12px;border-bottom:1px solid #778979;padding:6px 0;color:#D8E8D7;font:700 12px/1.4 var(--display);text-decoration:none}
+.datum-mail-optional:hover,.datum-mail-optional:focus-visible{color:#C6FF00;border-bottom-color:#C6FF00}
+.privacy-page .privacy-list{font-size:15px;line-height:1.75;color:#B8C4BA;max-width:730px;margin:12px 0 22px;padding-left:23px}
+.privacy-page .privacy-list li{margin:7px 0}
+.privacy-page .privacy-meta{color:#C6FF00;font-size:12px;letter-spacing:.07em;text-transform:uppercase;font-weight:700}
+.privacy-page .privacy-note{border-left:3px solid #C6FF00;background:#182019;padding:17px 20px;max-width:750px;color:#D7E0D7}
+@media(max-width:680px){.datum-mail-recipient{padding:13px 14px}.result-controls .btn{flex-basis:100%}.privacy-page h2{font-size:clamp(27px,8.2vw,36px)}.privacy-page .privacy-list{font-size:14px}}
