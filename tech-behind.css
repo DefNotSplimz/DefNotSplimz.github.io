@@ -1,0 +1,61 @@
+/* DATUM PROTOTYPING — SECTION 02 / TEKNIKKEN BAG LØSNINGEN — V2.5 */
+.datum-tech{background:#121716;border-top:1px solid #344039;border-bottom:1px solid #344039;overflow:hidden}
+.datum-tech .shell{min-width:0}
+.datum-tech-header{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.70fr);gap:clamp(36px,5vw,100px);align-items:end;padding-bottom:clamp(38px,5vw,72px)}
+.datum-tech-heading{min-width:0}
+.datum-tech-heading h2{font-family:var(--display);font-size:clamp(49px,6.55vw,105px);font-weight:800;line-height:.98;letter-spacing:-.045em;margin:26px 0 0;text-wrap:balance}
+.datum-tech-heading em,.datum-tech-card-body em,.datum-tech-alternative h3 em{font-style:normal;color:var(--lime)}
+.datum-tech-intro{border-left:2px solid var(--lime);padding:3px 0 3px 28px;max-width:430px}
+.datum-tech-intro-tag,.datum-tech-questions,.datum-tech-card-label,.datum-tech-card-body a,.datum-tech-alternative-text>span,.datum-tech-close>div>span,.datum-tech-close>a,.datum-tech-footnote{font-family:var(--display);font-weight:700;letter-spacing:.025em}
+.datum-tech-intro-tag{font-size:11px;color:var(--lime);line-height:1.4;display:flex;gap:12px;align-items:center}
+.datum-tech-intro-tag span{font-size:22px}
+.datum-tech-intro-lead{font-size:clamp(21px,2vw,27px)!important;line-height:1.32!important;color:#F0EEE8!important;font-weight:650;margin:18px 0 12px}
+.datum-tech-intro p:not(.datum-tech-intro-lead){font-size:16px;color:#BDC9BF;line-height:1.66;max-width:40ch}
+.datum-tech-intro strong{font-weight:750;color:var(--lime)}
+.datum-tech-questions{border:1px solid #3C4940;background:#1D2520;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:19px 22px;color:#D9E0DA;font-size:12px;line-height:1.4;flex-wrap:wrap}
+.datum-tech-questions-label{color:var(--lime);font-size:10.5px;padding-right:20px;border-right:1px solid #556058}
+.datum-tech-questions span:not(:first-child)::before{content:'↗';color:var(--lime);margin-right:10px}
+.datum-tech-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:16px}
+.datum-tech-card{background:#0B0F0F;border:1px solid #37403C;min-width:0;display:flex;flex-direction:column}
+.datum-tech-card-label{font-size:11px;line-height:1.35;color:#C4CEC4;display:flex;justify-content:space-between;gap:12px;padding:16px 23px}
+.datum-tech-card-label span:last-child{color:var(--lime)}
+.datum-tech-image{height:clamp(215px,20vw,320px);overflow:hidden;background:#1E2622}
+.datum-tech-image img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 50%;filter:contrast(1.06) saturate(.89);transition:transform .45s ease}
+.datum-tech-card:hover .datum-tech-image img{transform:scale(1.027)}
+.datum-tech-card-body{padding:clamp(21px,2.65vw,36px);flex:1;display:flex;flex-direction:column;align-items:flex-start}
+.datum-tech-card-body h3{font-size:clamp(29px,3vw,43px);line-height:1.03;letter-spacing:-.035em;margin:0 0 18px;overflow-wrap:normal}
+.datum-tech-card-body p{font-size:16px;line-height:1.69;color:#BDC9C0;max-width:54ch;margin:0 0 24px}
+.datum-tech-card-body a{color:var(--lime);text-decoration:none;display:inline-flex;justify-content:space-between;align-items:center;gap:15px;line-height:1.35;font-size:12px;margin-top:auto;border-top:1px solid #3E4A42;padding-top:17px;width:100%;min-height:44px}
+.datum-tech-card-body a:hover{text-decoration:underline;text-underline-offset:4px}
+.datum-tech-card-body a span{font-size:19px}
+.datum-tech-alternative{display:grid;grid-template-columns:minmax(0,.87fr) minmax(0,1.13fr);min-height:270px;margin-top:16px;background:#202823;border:1px solid #3A463E}
+.datum-tech-alternative-photo{min-height:270px;overflow:hidden;background:#151b17}
+.datum-tech-alternative-photo img{display:block;width:100%;height:100%;min-height:270px;object-fit:cover;object-position:center}
+.datum-tech-alternative-text{padding:clamp(25px,3vw,43px);display:flex;flex-direction:column;justify-content:center}
+.datum-tech-alternative-text>span:first-child{font-size:11px;color:var(--lime);line-height:1.4}
+.datum-tech-alternative h3{font-size:clamp(29px,3.05vw,46px);line-height:1.04;letter-spacing:-.036em;margin:15px 0}
+.datum-tech-alternative p{font-size:16px;color:#C5CDC5;line-height:1.68;max-width:60ch;margin:0 0 17px}
+.datum-tech-alternative-methods{font-size:11px;color:#E0E6DF!important;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.datum-tech-alternative-methods i{width:5px;height:5px;background:var(--lime);display:inline-block;border-radius:100%}
+.datum-tech-close{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:25px;border-top:1px solid #465248;margin-top:36px;padding:24px 0 9px}
+.datum-tech-close>div>span{font-size:12px;color:var(--lime)}
+.datum-tech-close p{font-size:15px;color:#B5C1B9;line-height:1.6;margin:7px 0 0;max-width:75ch}
+.datum-tech-close>a{display:flex;align-items:center;justify-content:space-between;gap:25px;min-height:52px;padding:13px 18px;text-decoration:none;color:#0A0C0D;background:var(--lime);font-size:12px;line-height:1.4;max-width:100%}
+.datum-tech-close>a:hover{background:#E0FF6B}
+.datum-tech-close>a span{font-size:19px}
+.datum-tech-footnote{font-size:10.5px;line-height:1.6;color:#9DA99E;margin:26px 0 0;letter-spacing:.015em}
+@media(max-width:1060px){.datum-tech-header{grid-template-columns:minmax(0,1fr) minmax(250px,.85fr);gap:38px}.datum-tech-heading h2{font-size:clamp(50px,6.25vw,84px)}.datum-tech-questions{justify-content:flex-start;column-gap:25px}.datum-tech-questions-label{width:100%;border-right:none}}
+@media(max-width:760px){.datum-tech-header{grid-template-columns:1fr;gap:25px}.datum-tech-heading h2{font-size:clamp(44px,9vw,73px)}.datum-tech-intro{max-width:600px}.datum-tech-questions{gap:12px}.datum-tech-grid{grid-template-columns:1fr}.datum-tech-image{height:clamp(230px,49vw,350px)}.datum-tech-card-body h3{font-size:clamp(30px,6.1vw,46px)}.datum-tech-alternative{grid-template-columns:1fr}.datum-tech-alternative-photo{height:250px;min-height:0}.datum-tech-alternative-photo img{height:100%;min-height:0}.datum-tech-close{grid-template-columns:1fr;gap:18px}.datum-tech-close>a{justify-self:stretch}}
+@media(max-width:420px){.datum-tech-heading h2{font-size:clamp(37px,10.7vw,47px);line-height:1.03;letter-spacing:-.05em}.datum-tech-questions{padding:18px;gap:12px}.datum-tech-questions span:not(:first-child){display:block;width:100%}.datum-tech-card-label{padding:13px 15px;font-size:10px}.datum-tech-card-body{padding:22px 19px}.datum-tech-card-body h3{font-size:clamp(27px,7.8vw,35px)}.datum-tech-alternative-text{padding:26px 20px}.datum-tech-alternative h3{font-size:clamp(26px,7.7vw,34px)}.datum-tech-close>a{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.datum-tech-image img{transition:none}}
+
+/* V2.6 — four machining methods shown with equal visual priority */
+.datum-tech-method-grid{height:clamp(285px,27.5vw,405px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:3px;background:#394139;overflow:hidden}
+.datum-tech-method{margin:0;position:relative;min-width:0;min-height:0;overflow:hidden;background:#171C19}
+.datum-tech-method::after{content:"";position:absolute;inset:34% 0 0;background:linear-gradient(to bottom,transparent,rgba(1,4,3,.83));pointer-events:none}
+.datum-tech-method img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;filter:contrast(1.07) saturate(.82);transition:transform .4s ease}
+.datum-tech-method:hover img{transform:scale(1.035)}
+.datum-tech-method figcaption{position:absolute;bottom:0;left:0;right:0;z-index:1;font-family:var(--display);font-size:clamp(10px,.9vw,13px);font-weight:750;letter-spacing:.035em;color:#F5F7F3;padding:15px 11px 13px 18px;border-left:3px solid var(--lime);background:linear-gradient(90deg,rgba(2,7,5,.55),transparent)}
+@media(max-width:760px){.datum-tech-method-grid{height:clamp(285px,71vw,480px)}.datum-tech-method figcaption{font-size:clamp(10px,2.6vw,13px)}}
+@media(max-width:350px){.datum-tech-method figcaption{font-size:9px;letter-spacing:0;padding:12px 6px 10px 8px;border-left-width:2px}}
+@media(prefers-reduced-motion:reduce){.datum-tech-method img{transition:none}}

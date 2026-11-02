@@ -1,0 +1,16 @@
+/* V2.6 additional methods on CNC info page */
+.manual-machining-section{padding-top:clamp(35px,6vw,80px);padding-bottom:clamp(45px,6vw,85px);border-top:1px solid #374239}
+.manual-machining-intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);column-gap:45px;align-items:end;margin-bottom:25px}
+.manual-machining-intro .eyebrow{grid-column:1/-1;margin-bottom:15px}
+.manual-machining-intro h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,4.3vw,66px);line-height:1.02;letter-spacing:-.035em;margin:0;min-width:0}
+.manual-machining-intro h2 em{font-style:normal;color:var(--lime)}
+.manual-machining-intro p{font-size:16px;line-height:1.7;color:#BCC8BF;max-width:58ch;margin:0}
+.manual-machining-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.manual-machining-grid article{background:#171D19;border:1px solid #3A443B;min-width:0}
+.manual-machining-grid img{display:block;object-fit:cover;object-position:center;width:100%;height:clamp(220px,23vw,360px)}
+.manual-machining-grid article>div{padding:clamp(20px,3vw,31px)}
+.manual-machining-grid span{font-family:var(--display);font-weight:700;font-size:12px;color:var(--lime)}
+.manual-machining-grid h3{font-family:var(--display);font-size:clamp(21px,2vw,29px);margin:11px 0 11px;line-height:1.14}
+.manual-machining-grid p{font-size:16px;line-height:1.65;color:#BAC5BC;margin:0}
+.manual-disclaimer{font-size:11px;letter-spacing:.025em;color:#9AA69E;line-height:1.5;margin-top:18px}
+@media(max-width:760px){.manual-machining-intro{grid-template-columns:1fr;gap:16px}.manual-machining-grid{grid-template-columns:1fr}.manual-machining-grid img{height:clamp(200px,58vw,320px)}}

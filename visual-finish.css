@@ -1,0 +1,131 @@
+/* DATUM / V2.12 — shared finish tokens and workspace visual layout */
+:root{
+  --datum-finish-line:#3B4840;
+  --datum-finish-text:#D2DAD1;
+  --datum-finish-gap:clamp(60px,6.7vw,104px);
+}
+/* Consistent section labels, left edges and spacing. */
+main > .idea-entry,main > .datum-tech,main > .datum-about-home {padding-block:var(--datum-finish-gap)}
+main > .datum-materials{padding-block:var(--datum-finish-gap)}
+main > .datum-close{padding-top:clamp(48px,5vw,70px);padding-bottom:clamp(35px,3.5vw,52px)}
+.datum-section-kicker--boxed{display:inline-flex;align-items:center;min-height:48px;gap:12px;padding:11px 16px 11px 14px}
+.datum-tech-heading .datum-section-kicker,.datum-about-story .datum-section-kicker,.datum-close-lead .datum-section-kicker,.datum-mat-intro .datum-section-kicker{margin-bottom:20px}
+.datum-tech-heading h2,.datum-mat-intro h2,.datum-about-story h2,.datum-close-lead h2{text-wrap:balance}
+/* Keep section introductions measured and their text columns aligned. */
+.datum-tech-header{align-items:start;gap:clamp(24px,3.3vw,58px)}
+.datum-tech-intro{align-self:center;margin:0;min-width:0}
+.datum-tech-intro p,.datum-tech-card-body p,.datum-tech-alternative p,.datum-mat-help-panel p,.datum-about-story>p{color:var(--datum-finish-text)}
+.datum-tech-card,.datum-mat-card,.datum-mat-help-panel{border-color:var(--datum-finish-line)}
+.datum-tech-grid{align-items:stretch}
+.datum-tech-card-body{min-width:0}
+.datum-tech-card-body h3,.datum-tech-alternative h3,.datum-mat-card-heading h3{overflow-wrap:normal}
+.datum-tech-image img,.datum-tech-method img,.datum-tech-alternative-photo img,.datum-mat-card-photo img,.datum-about-visual img{object-fit:cover;width:100%;height:100%}
+.datum-tech-card-body a,.datum-about-link,.datum-mat-footer a{min-height:46px}
+.datum-mat-grid{align-items:stretch}
+.datum-mat-card-photo{aspect-ratio:1.9 / 1;height:auto}
+.datum-mat-card-copy{justify-content:flex-start}
+.datum-mat-hero-visual img{object-fit:cover;object-position:center}
+.datum-about-horizon{align-items:stretch}
+.datum-about-horizon-item h3,.datum-about-value strong{hyphens:none}
+.datum-about-values{gap:0}
+.datum-close-flow{align-items:stretch}
+.datum-close-step{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.datum-close-step p{margin-top:0}
+/* Workspace is a visual tool, rather than a long stacked article. */
+.datum-ws-panel{width:min(1000px,78vw)}
+.datum-ws-top{padding-block:14px}
+.datum-ws-scroll{overflow-x:hidden}
+.datum-ws-intro{padding-top:clamp(24px,2.8vw,36px);padding-bottom:20px}
+.datum-ws-intro h2{font-size:clamp(34px,3.6vw,54px);line-height:1.02;margin:13px 0 10px;letter-spacing:-.025em}
+.datum-ws-intro p{font-size:15px;max-width:62ch;line-height:1.5}
+.datum-ws-switcher{gap:7px;padding-block:9px}
+.datum-ws-tabs{margin-bottom:16px;gap:7px}
+.datum-ws-tab{min-height:54px;padding:11px 14px;flex:1 1 140px}
+.datum-ws-detail{background:#0D1211;border:1px solid #526051}
+.datum-ws-feature-layout{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);align-items:stretch;min-height:335px}
+.datum-ws-feature-media{position:relative;min-width:0;min-height:335px;margin:0;overflow:hidden;background:#1A211E;border-right:1px solid #526051}
+.datum-ws-feature-media::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,rgba(4,8,6,.9),transparent 34%)}
+.datum-ws-feature-media img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center;max-width:none}
+.datum-ws-feature-media figcaption{position:absolute;left:18px;right:18px;bottom:17px;display:flex;justify-content:space-between;align-items:end;gap:14px;z-index:1;color:#ECEFE8;font:700 10px/1.4 var(--display);letter-spacing:.04em}
+.datum-ws-media-id{color:#C6FF00;display:inline-flex;align-items:center;gap:8px}
+.datum-ws-media-id i{height:1px;width:15px;background:#C6FF00}
+.datum-ws-feature-media figcaption>span:last-child{font-size:9px;color:#D0D9CE;text-align:right}
+.datum-ws-feature-content{min-width:0;display:flex;flex-direction:column;align-items:stretch;padding:clamp(20px,2.1vw,29px)}
+.datum-ws-feature-kicker{display:flex;justify-content:space-between;gap:15px;border-bottom:1px solid #425147;padding-bottom:12px;color:#C6FF00;font:700 10px/1.35 var(--display);letter-spacing:.06em}
+.datum-ws-feature-kicker span:last-child{color:#98A89B;white-space:nowrap}
+.datum-ws-feature-content h3{font:800 clamp(24px,2.55vw,36px)/1.05 var(--display);letter-spacing:-.027em;text-transform:uppercase;color:#F0F2ED;margin:16px 0 11px;text-wrap:balance}
+.datum-ws-feature-content>p{font:400 14px/1.56 var(--body);color:#C8D1C7;margin:0 0 17px;max-width:53ch;text-wrap:pretty}
+.datum-ws-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#344238;border:1px solid #344238;margin-top:auto}
+.datum-ws-points div{min-width:0;background:#18211C;padding:10px 11px;display:flex;align-items:flex-start;gap:9px;font:600 12px/1.4 var(--body);color:#E0E8DC}
+.datum-ws-points span{font:700 10px/1.55 var(--display);letter-spacing:.04em;color:#C6FF00;flex:none}
+.datum-ws-detail-note{border-top:1px solid #465447;background:#111815}
+.datum-ws-detail-note summary{list-style:none;padding:14px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;color:#CBD6CB;font:700 11px/1.4 var(--display);letter-spacing:.055em}
+.datum-ws-detail-note summary::-webkit-details-marker{display:none}
+.datum-ws-detail-note summary span{font-size:18px;color:#C6FF00;transition:transform .15s}
+.datum-ws-detail-note[open] summary span{transform:rotate(45deg)}
+.datum-ws-detail-note summary:focus-visible{outline:2px solid #C6FF00;outline-offset:-3px}
+.datum-ws-detail-note p{padding:0 20px 18px;color:#B7C4B9;font:400 13px/1.58 var(--body);margin:0;max-width:76ch}
+.datum-ws-bottom{padding-top:16px;padding-bottom:17px;align-items:center}
+.datum-ws-footnote{padding-bottom:16px;color:#9DAC9E}
+.datum-ws-switcher button{font-size:11px;letter-spacing:.03em}
+.datum-ws-brand img{width:120px}
+/* Keep modal's long project form deliberately readable, not squeezed into tiles. */
+.datum-ws-project-stage .brief-form{padding:clamp(18px,2.6vw,30px)}
+.datum-ws-project-stage .form-block{min-width:0}
+.datum-ws-project-stage .form-step,.datum-ws-project-stage .brief-form label{min-width:0}
+@media(max-width:1130px){
+ .datum-ws-panel{width:min(910px,88vw)}
+ .datum-ws-feature-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .datum-ws-feature-content h3{font-size:clamp(23px,3vw,31px)}
+ .datum-ws-points div{font-size:11px}
+}
+@media(max-width:760px){
+ .datum-tech-header{grid-template-columns:1fr}
+ .datum-tech-intro{align-self:stretch}
+ .datum-ws-feature-layout{grid-template-columns:1fr;min-height:0}
+ .datum-ws-feature-media{height:clamp(195px,32vw,265px);min-height:0;border-right:0;border-bottom:1px solid #45564A}
+ .datum-ws-feature-content{padding:20px}
+ .datum-ws-feature-content h3{font-size:clamp(25px,5.4vw,33px)}
+ .datum-ws-feature-content>p{max-width:70ch}
+ .datum-ws-panel{width:min(780px,94vw)}
+}
+@media(max-width:680px){
+ main > .idea-entry,main > .datum-tech,main > .datum-about-home,main > .datum-materials{padding-block:clamp(55px,13vw,72px)}
+ .datum-section-kicker--boxed{min-height:44px;padding:10px 13px}
+ .datum-tech-heading .datum-section-kicker,.datum-about-story .datum-section-kicker,.datum-close-lead .datum-section-kicker,.datum-mat-intro .datum-section-kicker{margin-bottom:16px}
+ .datum-ws-panel{width:100vw}
+ .datum-ws-top{padding:11px 16px}
+ .datum-ws-brand img{width:105px}
+ .datum-ws-intro{padding:19px 16px 14px}
+ .datum-ws-intro h2{font-size:clamp(29px,8vw,42px);margin:10px 0 8px}
+ .datum-ws-intro p{font-size:13px;line-height:1.5}
+ .datum-ws-tabs{padding-inline:16px;gap:6px;margin-bottom:13px}
+ .datum-ws-tab{flex-basis:calc(50% - 3px);min-height:45px;font-size:11px;padding:7px 10px}
+ .datum-ws-detail{margin-inline:16px}
+ .datum-ws-feature-media{height:clamp(174px,54vw,245px)}
+ .datum-ws-feature-content{padding:17px}
+ .datum-ws-feature-content h3{font-size:clamp(25px,7vw,33px);margin:11px 0 8px}
+ .datum-ws-feature-content>p{font-size:13px;margin-bottom:12px}
+ .datum-ws-points{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .datum-ws-points div{font-size:11px;padding:8px;gap:6px}
+ .datum-ws-points span{font-size:9px}
+ .datum-ws-feature-media figcaption{left:12px;right:12px;bottom:11px;font-size:10px}
+ .datum-ws-feature-media figcaption>span:last-child{font-size:8px}
+ .datum-ws-detail-note summary{padding:11px 15px}
+ .datum-ws-detail-note p{padding:0 15px 14px}
+ .datum-ws-bottom{padding:17px 16px 14px}
+ .datum-ws-footnote{padding:0 16px 18px}
+ .datum-ws-switcher{padding:8px 14px}
+ .datum-mat-card-photo{aspect-ratio:1.9/1}
+}
+@media(max-width:355px){
+ .datum-ws-points{grid-template-columns:1fr}
+ .datum-ws-feature-content h3{font-size:25px}
+ .datum-tech-heading h2{font-size:clamp(36px,10.3vw,40px)}
+}
+@media(prefers-reduced-motion:reduce){.datum-ws-detail-note summary span{transition:none}}
+
+/* Anchor transitions are clear of the sticky header; responsive image stability. */
+#start-her,#teknikken,#materialer,#status,#send-det{scroll-margin-top:clamp(77px,6.5vw,102px)}
+.datum-mat-card-photo img,.datum-tech-method img,.datum-about-visual img{display:block;max-width:100%}
+.datum-ws-feature-media img{image-rendering:auto}

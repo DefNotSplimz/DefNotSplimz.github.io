@@ -1,0 +1,29 @@
+/* DATUM / Visual System v2.3 — concept imagery, consistent treatment */
+.hero-visual img,.v2-tile-image img,.v2-image-band img,.datum-photo-inline img,.datum-method-photo img {filter:contrast(1.06) saturate(.88)}
+.hero-visual img {object-position:center 52%}
+.v2-tile-image img {object-position:center 54%; transition:transform .65s cubic-bezier(.2,.65,.2,1),filter .3s}
+.v2-promo-tile:hover .v2-tile-image img {transform:scale(1.035);filter:contrast(1.08) saturate(1)}
+.datum-photo-inline,.datum-method-photo{position:relative;margin:0;overflow:hidden;background:#0a0c0d;border:1px solid #38433a}
+.datum-photo-inline img,.datum-method-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.datum-photo-inline figcaption,.datum-method-photo figcaption {position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg,rgba(5,8,7,.9),rgba(5,8,7,0));padding:28px 19px 12px;font:600 10px/1.4 var(--body);letter-spacing:.07em;color:#d5ded5}
+.datum-photo-materials {height:clamp(200px,26vw,340px);margin:0 0 20px}
+.datum-photo-materials img {object-position:center 48%}
+.datum-method-photo {height:clamp(190px,19vw,280px);margin:0 0 20px}
+.datum-method-photo img{object-position:center center}
+.datum-method-photo figcaption {font-size:9px}
+.v2-image-band.datum-visual-band img {object-position:center 48%;object-fit:cover}
+.datum-about-band{height:clamp(280px,38vw,510px)}
+.datum-about-band img{object-position:center 57%}
+.datum-project-band {height:clamp(175px,20vw,285px);border-top:1px solid #273029;border-bottom:1px solid #273029}
+.datum-project-band img{object-position:center 54%}
+.datum-project-band span{font-size:9px}
+@media(max-width:620px){.hero-visual img{object-position:55% center}.datum-photo-materials{height:205px}.datum-photo-inline figcaption,.datum-method-photo figcaption{font-size:8px}.datum-project-band{height:180px}}
+@media(prefers-reduced-motion:reduce){.v2-tile-image img{transition:none}}
+/* Small-screen text balancing — keeps long Danish headings inside the viewport. */
+@media (max-width:400px){
+  .v2-process-promo .section-heading h2{font-size:clamp(33px,10.6vw,45px);letter-spacing:-.04em}
+  .project-head-grid h1{font-size:clamp(43px,12.6vw,55px);letter-spacing:-.035em}
+  .privacy-page h1,.error-page h1{font-size:clamp(46px,14vw,66px)}
+  .project-head-grid>div{min-width:0}
+}
+@media(max-width:400px){.privacy-page h2{font-size:clamp(20px,6.2vw,26px);letter-spacing:-.02em}}

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://datumprototyping.dk/</loc></url>
-  <url><loc>https://datumprototyping.dk/privatliv.html</loc></url>
+<url><loc>https://datumprototyping.dk/</loc></url>
+<url><loc>https://datumprototyping.dk/cnc.html</loc></url>
+<url><loc>https://datumprototyping.dk/cad-cam.html</loc></url>
+<url><loc>https://datumprototyping.dk/materialer.html</loc></url>
+<url><loc>https://datumprototyping.dk/om-datum.html</loc></url>
+<url><loc>https://datumprototyping.dk/projekt.html</loc></url>
+<url><loc>https://datumprototyping.dk/privatliv.html</loc></url>
 </urlset>

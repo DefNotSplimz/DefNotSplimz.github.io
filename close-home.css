@@ -1,0 +1,69 @@
+/* DATUM / 05 – an editorial closing invitation, not a second intake form.
+   Style is intentionally calmer than technology and materials visuals. */
+.datum-close{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(124deg,#080A0B 0%,#101614 59%,#0A0D0D 100%);border-top:1px solid #3C4741;border-bottom:1px solid #313A35;padding:clamp(46px,5.4vw,74px) 0 clamp(30px,3.8vw,50px)}
+.datum-close::before{content:"";position:absolute;pointer-events:none;z-index:-1;right:-12vw;top:0;width:55vw;height:100%;opacity:.28;background:repeating-linear-gradient(130deg,transparent 0 24px,rgba(198,255,0,.065) 24px 25px,transparent 25px 49px);mask-image:linear-gradient(90deg,transparent 0%,black 100%)}
+.datum-close *, .datum-close *::before, .datum-close *::after{box-sizing:border-box}
+.datum-close-header{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.42fr);gap:clamp(25px,4vw,70px);align-items:center;padding-bottom:26px}
+.datum-close-eyebrow{display:flex;align-items:center;gap:12px;font:700 clamp(11px,.9vw,13px)/1.4 var(--display);letter-spacing:.09em;color:#E7EAE4}
+.datum-close-slash{display:block;width:7px;height:26px;background:#C6FF00;transform:skew(-16deg)}
+.datum-close-lead h2{font:800 clamp(39px,5.35vw,82px)/.99 var(--display);text-transform:uppercase;letter-spacing:-.025em;color:#F0EEE8;margin:18px 0 15px;max-width:15ch}
+.datum-close-lead h2 em{font-style:normal;color:#C6FF00}
+.datum-close-lead>p{font:400 clamp(14px,1.1vw,17px)/1.6 var(--body);color:#CBD1CB;max-width:67ch;margin:0}
+.datum-close-insignia{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:9px;min-width:0;opacity:.62}
+.datum-close-insignia img{max-width:100%;max-height:154px;width:auto;object-fit:contain;filter:grayscale(1) brightness(.52) contrast(1.2)}
+.datum-close-insignia span{font:700 10px/1.45 var(--display);letter-spacing:.055em;color:#89968C;text-align:right}
+.datum-close-insignia b{color:#C6FF00;margin-left:6px}
+.datum-close-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #4A554C;border-bottom:1px solid #4A554C}
+.datum-close-step{padding:19px clamp(15px,2.1vw,34px) 21px;min-width:0;position:relative}
+.datum-close-step:first-child{padding-left:0}
+.datum-close-step:last-child{padding-right:0}
+.datum-close-step+.datum-close-step{border-left:1px solid #3D483E}
+.datum-close-count{display:inline-flex;align-items:center;gap:9px;color:#C6FF00;font:700 11px/1.4 var(--display);letter-spacing:.07em}
+.datum-close-count i{width:15px;height:1px;background:#89978C}
+.datum-close-step h3{font:800 clamp(17px,1.7vw,24px)/1.12 var(--display);letter-spacing:-.013em;color:#F0EEE8;margin:10px 0 7px}
+.datum-close-step p{font:400 clamp(13px,.99vw,15px)/1.52 var(--body);color:#B7C1B7;margin:0;max-width:40ch}
+.datum-close-actions{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:28px;margin-top:28px}
+.datum-close-pitch>span{display:block;color:#A6AEA7;font:700 10px/1.4 var(--display);letter-spacing:.075em;margin-bottom:6px}
+.datum-close-pitch strong{display:block;color:#F0EEE8;font:800 clamp(16px,1.5vw,22px)/1.18 var(--display);max-width:47ch}
+.datum-close-pitch p{color:#95A29A;font:400 12px/1.5 var(--body);margin:7px 0 0;max-width:62ch}
+.datum-close-buttons{display:flex;flex-direction:column;gap:13px;align-items:stretch;min-width:260px}
+.datum-close-buttons .btn{font:800 clamp(12px,1vw,14px)/1.2 var(--display);letter-spacing:.035em;justify-content:space-between;min-height:63px;white-space:nowrap}
+.datum-close-buttons .btn span{font-size:22px}
+.datum-close-secondary{display:inline-flex;justify-content:space-between;align-items:center;gap:20px;padding:0 2px 6px;border-bottom:1px solid #526156;text-decoration:none;color:#DCE3DA;font:700 11px/1.4 var(--display);letter-spacing:.03em}
+.datum-close-secondary span{color:#C6FF00;font-size:17px}
+.datum-close-secondary:hover,.datum-close-secondary:focus-visible{color:#C6FF00}
+.datum-close-note{color:#7F8E82;font:400 11px/1.5 var(--body);margin:16px 0 0}
+@media(max-width:940px){.datum-close-header{grid-template-columns:minmax(0,1fr) 120px}.datum-close-insignia img{max-height:90px}.datum-close-actions{grid-template-columns:1fr}.datum-close-buttons{flex-direction:row;align-items:center}.datum-close-buttons .btn{min-width:260px}.datum-close-secondary{min-width:195px}}
+@media(max-width:680px){.datum-close{padding:41px 0 36px}.datum-close-header{grid-template-columns:1fr;gap:0;padding-bottom:22px}.datum-close-lead h2{font-size:clamp(33px,9.4vw,58px);line-height:1.03;max-width:none}.datum-close-insignia{display:none}.datum-close-flow{grid-template-columns:1fr}.datum-close-step,.datum-close-step:first-child,.datum-close-step:last-child{padding:15px 0}.datum-close-step+.datum-close-step{border-left:0;border-top:1px solid #3D483E}.datum-close-step h3{font-size:19px;margin:6px 0}.datum-close-actions{margin-top:22px;gap:20px}.datum-close-buttons{flex-direction:column;align-items:stretch;min-width:0}.datum-close-buttons .btn{min-width:0;white-space:normal}.datum-close-pitch strong{font-size:19px}.datum-close-note{margin-top:17px}}
+@media(max-width:355px){.datum-close-lead h2{font-size:clamp(29px,8.9vw,36px)}.datum-close-buttons .btn{padding:16px}}
+@media(prefers-reduced-motion:reduce){.datum-close .btn{transition:none}}
+
+
+/* Shared section header system for 01–05 */
+.datum-section-kicker{display:inline-flex;align-items:center;gap:12px;font:700 clamp(11px,.9vw,13px)/1.4 var(--display);letter-spacing:.09em;color:#E7EAE4;text-transform:uppercase;max-width:100%}
+.datum-section-kicker--boxed{padding:14px 18px 14px 16px;background:linear-gradient(180deg,rgba(15,19,20,.96),rgba(10,13,13,.96));border:1px solid #26312b;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+.datum-section-slash{display:block;flex:none;width:7px;height:26px;background:#C6FF00;transform:skew(-16deg)}
+.datum-section-kicker span:last-child{display:block;min-width:0}
+.datum-section-head{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* Normalize section spacing/rhythm on the homepage */
+.idea-entry-topline{padding-bottom:24px;margin-bottom:0}
+.idea-entry-layout{padding-top:34px}
+.datum-tech-header{gap:clamp(28px,4.2vw,62px)}
+.datum-tech-heading .datum-section-kicker{margin-bottom:22px}
+.v2-material-preview .section-heading .datum-section-kicker{margin-bottom:22px}
+.datum-about-story .datum-section-kicker{margin-bottom:22px}
+.datum-close-lead .datum-section-kicker{margin-bottom:18px}
+.datum-close-header{padding-bottom:28px}
+.v2-material-preview{padding-top:clamp(82px,9vw,140px)}
+.datum-about-home{padding:clamp(82px,9vw,140px) 0}
+.datum-close{margin-top:0}
+
+@media(max-width:680px){
+  .datum-section-kicker{font-size:11px;letter-spacing:.075em;gap:10px}
+  .datum-section-kicker--boxed{padding:12px 14px 12px 13px}
+  .datum-section-slash{width:6px;height:22px}
+  .idea-entry-topline{padding-bottom:18px}
+  .idea-entry-layout{padding-top:26px}
+  .datum-tech-heading .datum-section-kicker,.v2-material-preview .section-heading .datum-section-kicker,.datum-about-story .datum-section-kicker,.datum-close-lead .datum-section-kicker{margin-bottom:16px}
+}

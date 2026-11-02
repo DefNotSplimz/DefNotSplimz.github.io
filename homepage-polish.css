@@ -1,0 +1,17 @@
+/* V2.9.4 — subtle visual consistency across approved homepage sections. */
+:root{--datum-section-rule:#35433b;--datum-section-gap:clamp(68px,7.5vw,112px)}
+/* A single shared header style is already established in close-home.css; this file keeps its usage consistent. */
+.idea-entry{padding-top:var(--datum-section-gap);padding-bottom:var(--datum-section-gap)}
+.datum-tech{padding-top:var(--datum-section-gap);padding-bottom:var(--datum-section-gap)}
+.datum-about-home{padding-top:var(--datum-section-gap);padding-bottom:var(--datum-section-gap)}
+.datum-close{padding-top:clamp(51px,5.5vw,80px)}
+.datum-section-kicker--boxed{min-height:50px;align-items:center}
+.idea-entry-topline{border-bottom-color:var(--datum-section-rule)}
+.datum-tech-heading .datum-section-kicker,.datum-about-story .datum-section-kicker,.datum-close-lead .datum-section-kicker{margin-bottom:20px}
+.datum-mat-intro .datum-section-kicker{margin-bottom:25px}
+@media(max-width:680px){
+ .idea-entry,.datum-tech,.datum-about-home{padding-top:67px;padding-bottom:67px}
+ .datum-section-kicker--boxed{min-height:45px}
+ .datum-tech-heading .datum-section-kicker,.datum-about-story .datum-section-kicker,.datum-close-lead .datum-section-kicker{margin-bottom:15px}
+ .datum-mat-intro .datum-section-kicker{margin-bottom:19px}
+}

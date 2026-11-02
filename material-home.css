@@ -1,0 +1,74 @@
+/* Datum Prototyping V2.9.4 — approved visual concept 03 / MATERIALER. */
+.datum-materials{background:linear-gradient(180deg,#080b0b 0%,#0c1110 63%,#080b0b 100%);border-top:1px solid #354139;border-bottom:1px solid #313e36;padding:clamp(66px,7.5vw,112px) 0 clamp(62px,7vw,104px);overflow:hidden}
+.datum-materials .shell{min-width:0}
+.datum-mat-hero{position:relative;min-height:clamp(315px,30vw,405px);display:flex;align-items:center;isolation:isolate;overflow:hidden;border-bottom:1px solid #263129;margin-bottom:clamp(22px,2.3vw,32px)}
+.datum-mat-intro{position:relative;z-index:2;max-width:min(100%,900px);padding:15px 0 30px}
+.datum-mat-hero-visual{position:absolute;z-index:-1;inset:0 0 0 auto;width:min(72%,940px);margin:0;overflow:hidden;opacity:.97}
+.datum-mat-hero-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#080b0b 0%,rgba(8,11,11,.98) 9%,rgba(8,11,11,.61) 28%,rgba(8,11,11,.06) 57%,transparent 100%),linear-gradient(0deg,#080b0b 0%,transparent 23%)}
+.datum-mat-hero-visual img{width:100%;height:100%;object-fit:cover;object-position:47% center;display:block}
+.datum-mat-intro .datum-section-kicker{margin:0 0 clamp(22px,2.5vw,34px)}
+.datum-mat-intro h2{font-family:var(--display);font-size:clamp(43px,4.65vw,76px);font-weight:800;line-height:.98;letter-spacing:-.04em;margin:0 0 21px;max-width:19ch;text-wrap:balance}
+.datum-mat-intro h2 em{font-style:normal;color:#c6ff00}
+.datum-mat-intro>p{font:400 clamp(15px,1.11vw,17px)/1.62 var(--body);color:#e0e5df;max-width:66ch;margin:0;max-width:640px;text-wrap:pretty;text-shadow:0 1px 5px #080b0b}
+.datum-mat-rule{display:block;margin-top:22px;width:108px;height:7px;background:#c6ff00;transform:skewX(-22deg)}
+.datum-mat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.datum-mat-card{min-width:0;border:1px solid #56615b;display:flex;flex-direction:column;background:linear-gradient(145deg,#151c1a,#0a0e0e);position:relative;clip-path:polygon(0 15px,15px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);transition:border-color .22s}
+.datum-mat-card:hover{border-color:#c6ff00}
+.datum-mat-card-photo{height:clamp(130px,12vw,190px);overflow:hidden;background:#161e1b;flex:none;border-bottom:1px solid #465048}
+.datum-mat-card-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 46%;transition:transform .3s ease}
+.datum-mat-card:hover img{transform:scale(1.035)}
+.datum-mat-card-copy{padding:clamp(16px,1.7vw,25px) clamp(14px,1.5vw,22px) clamp(18px,1.7vw,25px);flex:1;display:flex;flex-direction:column;gap:12px}
+.datum-mat-card-heading{display:grid;grid-template-columns:37px minmax(0,1fr);align-items:center;gap:13px}
+.datum-mat-card-heading svg{height:34px;width:34px;color:#f0eee8}
+.datum-mat-card-heading h3{border-left:4px solid #c6ff00;padding-left:12px;font:800 clamp(17px,1.35vw,23px)/1.14 var(--display);letter-spacing:-.025em;color:#f0eee8;margin:0;overflow-wrap:normal}
+.datum-mat-card-copy p{font:400 clamp(13px,.96vw,15px)/1.55 var(--body);color:#d5dcd5;margin:0;max-width:40ch}
+.datum-mat-help{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:clamp(22px,2.4vw,32px)}
+.datum-mat-help-panel{background:#0b0f0f;display:grid;grid-template-columns:54px minmax(0,1fr);gap:21px;align-items:start;padding:clamp(23px,2.25vw,33px);border:1px solid #59645e;clip-path:polygon(0 14px,14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);min-width:0}
+.datum-mat-help-panel svg{color:#e9eee7;width:47px;height:47px}
+.datum-mat-help-panel>div{border-left:4px solid #c6ff00;padding-left:17px}
+.datum-mat-help-panel h3{font:800 clamp(20px,2vw,28px)/1.12 var(--display);letter-spacing:-.027em;margin:0 0 11px;color:#f0eee8}
+.datum-mat-help-panel p{font:400 15px/1.55 var(--body);color:#cbd4ca;margin:0}
+.datum-mat-footer{display:flex;justify-content:space-between;align-items:center;gap:22px;margin-top:24px}
+.datum-mat-footer>span{color:#8c9a8f;font:600 10px/1.4 var(--display);letter-spacing:.035em}
+.datum-mat-footer a{display:inline-flex;align-items:center;gap:20px;text-decoration:none;background:#c6ff00;color:#0a0c0d;min-height:48px;padding:10px 18px;font:800 12px/1.25 var(--display);white-space:nowrap;clip-path:polygon(0 0,100% 0,100% 100%,10px 100%,0 calc(100% - 10px));transition:background .2s}
+.datum-mat-footer a:hover,.datum-mat-footer a:focus-visible{background:#e1ff67}
+.datum-mat-footer a span{font-size:19px}
+@media (max-width:1100px){
+ .datum-mat-intro h2{font-size:clamp(44px,5.2vw,62px)}
+ .datum-mat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .datum-mat-card-photo{height:clamp(172px,19vw,240px)}
+ .datum-mat-card-heading h3{font-size:clamp(19px,2.2vw,26px)}
+ .datum-mat-card-copy p{font-size:15px}
+ .datum-mat-help-panel{gap:14px;grid-template-columns:40px minmax(0,1fr);padding:22px}
+ .datum-mat-help-panel svg{height:36px;width:36px}
+ .datum-mat-help-panel h3{font-size:21px}
+}
+@media (max-width:720px){
+ .datum-materials{padding:65px 0 73px}
+ .datum-mat-hero{min-height:0;display:flex;flex-direction:column;align-items:stretch;overflow:visible;margin-bottom:21px;border:0}
+ .datum-mat-intro{padding:0 0 22px;max-width:100%}
+ .datum-mat-intro .datum-section-kicker{margin-bottom:23px}
+ .datum-mat-intro h2{font-size:clamp(35px,7.45vw,57px);line-height:1.04;margin-bottom:18px;max-width:24ch}
+ .datum-mat-intro>p{font-size:15px;line-height:1.65;max-width:60ch}
+ .datum-mat-rule{height:5px;margin-top:18px;width:75px}
+ .datum-mat-hero-visual{width:100%;height:clamp(170px,42vw,255px);position:relative;inset:auto;order:2;z-index:0;border:1px solid #344037}
+ .datum-mat-hero-visual:after{background:linear-gradient(0deg,rgba(8,11,11,.25),transparent 35%)}
+ .datum-mat-hero-visual img{object-fit:cover}
+ .datum-mat-help{grid-template-columns:1fr;gap:12px}
+ .datum-mat-footer{align-items:flex-start;flex-direction:column;gap:17px}
+ .datum-mat-footer a{width:100%;justify-content:space-between;max-width:420px}
+}
+@media (max-width:510px){
+ .datum-mat-grid{grid-template-columns:1fr;gap:12px}
+ .datum-mat-card-photo{height:clamp(175px,50vw,240px)}
+ .datum-mat-card-copy{padding:17px 18px 21px}
+ .datum-mat-card-heading h3{font-size:22px}
+ .datum-mat-card-copy p{font-size:15px}
+ .datum-mat-help-panel h3{font-size:clamp(18px,5vw,23px)}
+ .datum-mat-help-panel p{font-size:14px}
+ .datum-mat-help-panel{padding:19px 15px;gap:9px;grid-template-columns:32px minmax(0,1fr)}
+ .datum-mat-help-panel svg{width:29px;height:29px}
+ .datum-mat-help-panel>div{padding-left:12px;border-left-width:3px}
+}
+@media (max-width:360px){.datum-mat-intro h2{font-size:clamp(29px,8.4vw,35px)}.datum-mat-card-heading h3{font-size:21px}}
+@media (prefers-reduced-motion:reduce){.datum-mat-card-photo img{transition:none}}

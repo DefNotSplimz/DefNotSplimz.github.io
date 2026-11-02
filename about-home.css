@@ -1,0 +1,73 @@
+/* DATUM PROTOTYPING – 04 / OM DATUM – COMPACT EDITORIAL DIRECTION
+   Only affects the homepage section. V2.6 sections 01–03 remain untouched.
+   No new claims of current commercial scale, workshop ownership or past projects. */
+.datum-about-home{
+  background:linear-gradient(135deg,#121716 0%,#0C1010 58%,#151B18 100%);
+  border-top:1px solid #414843;border-bottom:1px solid #414843;
+  padding:clamp(35px,3vw,46px) 0 clamp(30px,2.8vw,42px);
+}
+.datum-about-home *, .datum-about-home *::before,.datum-about-home *::after{box-sizing:border-box}
+.datum-about-hero{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(28px,4.2vw,72px);align-items:stretch}
+.datum-about-story{min-width:0;display:flex;flex-direction:column;align-items:flex-start;padding:2px 0}
+.datum-about-story .eyebrow{font-family:var(--display);font-size:clamp(11px,.9vw,13px);letter-spacing:.065em;font-weight:700;margin-bottom:19px}
+.datum-about-story h2{font-family:var(--display);font-size:clamp(42px,4.15vw,67px);line-height:.98;letter-spacing:-.036em;font-weight:800;margin:0 0 19px;text-wrap:balance}
+.datum-about-story h2 em{font-style:normal;color:var(--lime)}
+.datum-about-story>p{font-family:var(--body);font-size:clamp(14px,1.1vw,16px);line-height:1.62;color:#D7DCD6;max-width:52ch;margin:0 0 18px}
+.datum-about-link{margin-top:auto;display:inline-flex;gap:20px;align-items:center;text-decoration:none;font:700 12px/1.3 var(--display);letter-spacing:.04em;border-bottom:1px solid #677069;padding:0 0 9px;color:#F0EEE8}
+.datum-about-link span{font-size:18px;color:var(--lime)}
+.datum-about-link:hover,.datum-about-link:focus-visible{color:var(--lime);border-bottom-color:var(--lime)}
+.datum-about-visual{min-width:0;height:clamp(248px,21vw,285px);margin:0;background:#171C19;position:relative;overflow:hidden;border:1px solid #404943;clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%)}
+.datum-about-visual img{width:100%;height:100%;object-fit:cover;object-position:57% 49%;filter:contrast(1.075) brightness(.84)}
+.datum-about-visual::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(3,7,6,.8),transparent 36%)}
+.datum-about-visual figcaption{position:absolute;left:16px;right:16px;bottom:12px;z-index:1;font:600 10px/1.35 var(--display);letter-spacing:.02em;color:#CFD5CD}
+.datum-about-values{margin-top:24px;padding:16px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid #434C45;border-bottom:1px solid #434C45}
+.datum-about-value{padding:0 20px;min-width:0}
+.datum-about-value:first-child{padding-left:0}
+.datum-about-value:last-child{padding-right:0}
+.datum-about-value+.datum-about-value{border-left:1px solid #444D46}
+.datum-about-value>span{font:700 10px/1.4 var(--display);letter-spacing:.07em;color:var(--lime)}
+.datum-about-value strong{display:block;font:800 clamp(14px,1.25vw,19px)/1.15 var(--display);letter-spacing:-.015em;margin:4px 0 5px;color:#F0EEE8}
+.datum-about-value p{font:400 clamp(12px,.94vw,14px)/1.48 var(--body);color:#C7D0C8;margin:0}
+.datum-about-horizon{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px}
+.datum-about-horizon-item{min-width:0;padding:17px 21px 16px;background:#1B2220;border:1px solid #3E4942;border-left:3px solid #C6FF00}
+.datum-about-horizon-kicker{display:flex;align-items:center;gap:10px;color:var(--lime);font:700 11px/1.3 var(--display);letter-spacing:.045em}
+.datum-about-horizon-kicker i{width:18px;height:1px;background:#889587;opacity:.55}
+.datum-about-horizon h3{font:800 clamp(17px,1.65vw,23px)/1.1 var(--display);letter-spacing:-.02em;margin:8px 0 5px;color:#F0EEE8}
+.datum-about-horizon p{font:400 clamp(12px,.96vw,14px)/1.5 var(--body);margin:0;color:#C6D0C8}
+.datum-about-foot{margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:24px}
+.datum-about-foot p{font:400 12px/1.5 var(--body);color:#9DA9A0;margin:0}
+.datum-about-foot p span{color:var(--lime);font-size:13px;padding-right:6px}
+.datum-about-foot a{font:700 11px/1.35 var(--display);text-decoration:none;letter-spacing:.035em;color:#F0EEE8;white-space:nowrap}
+.datum-about-foot a span{color:var(--lime);font-size:15px;padding-left:5px}
+.datum-about-foot a:hover,.datum-about-foot a:focus-visible{color:var(--lime)}
+@media(max-width:1000px){
+  .datum-about-hero{gap:24px;grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}
+  .datum-about-story h2{font-size:clamp(38px,4.7vw,55px)}
+  .datum-about-visual{height:clamp(235px,28vw,315px)}
+  .datum-about-value{padding-left:15px;padding-right:15px}
+  .datum-about-horizon-item{padding:17px}
+}
+@media(max-width:740px){
+  .datum-about-home{padding:46px 0 45px}
+  .datum-about-hero{grid-template-columns:1fr;gap:21px}
+  .datum-about-story h2{font-size:clamp(38px,9.1vw,64px);margin-bottom:15px}
+  .datum-about-story>p{max-width:62ch;margin-bottom:15px}
+  .datum-about-visual{height:clamp(190px,45vw,290px)}
+  .datum-about-values{grid-template-columns:1fr;margin-top:20px;padding:0}
+  .datum-about-value,.datum-about-value:first-child,.datum-about-value:last-child{padding:12px 0}
+  .datum-about-value+.datum-about-value{border-left:0;border-top:1px solid #444D46}
+  .datum-about-value strong{font-size:17px}
+  .datum-about-value p{font-size:13px}
+  .datum-about-horizon{grid-template-columns:1fr;gap:9px;margin-top:16px}
+  .datum-about-horizon-item{padding:15px 16px}
+  .datum-about-horizon h3{font-size:19px}
+  .datum-about-horizon p{font-size:13px}
+  .datum-about-foot{flex-direction:column;align-items:flex-start;gap:9px;margin-top:17px}
+  .datum-about-foot a{white-space:normal}
+}
+@media(max-width:355px){
+  .datum-about-story h2{font-size:clamp(34px,10.5vw,43px)}
+  .datum-about-visual{height:180px}
+  .datum-about-visual figcaption{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.datum-about-home *{scroll-behavior:auto}}

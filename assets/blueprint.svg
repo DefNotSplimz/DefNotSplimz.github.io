@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" aria-label="Principskitse af en mekanisk specialdel">
+<defs><pattern id="g" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#28302A" stroke-width=".7"/></pattern><pattern id="m" width="130" height="130" patternUnits="userSpaceOnUse"><path d="M130 0H0V130" fill="none" stroke="#3C443B" stroke-width="1"/></pattern></defs>
+<rect width="800" height="600" fill="#101412"/><rect width="800" height="600" fill="url(#g)"/><rect width="800" height="600" fill="url(#m)"/>
+<g stroke="#A6AEA8" stroke-width="3" fill="none" stroke-linejoin="bevel">
+<path d="M189 198 L304 138 L570 197 L454 258 Z"/><path d="M189 198V355L454 418V258M454 418L570 354V197"/>
+<path d="M247 228L316 194L503 239L431 276Z"/><path d="M247 228V315L431 358V276M431 358L503 316V239"/>
+<path d="M319 190L330 183L492 222" opacity=".6"/><path d="M203 321L430 374" opacity=".5"/>
+<ellipse cx="377" cy="205" rx="45" ry="20" transform="rotate(12 377 205)"/><ellipse cx="377" cy="205" rx="23" ry="10" transform="rotate(12 377 205)"/>
+<path d="M285 171l-22 11M520 208l24 7"/>
+</g>
+<g stroke="#C6FF00" stroke-width="1.6" fill="none"><path d="M189 425V480M570 378V480M189 459H570"/><path d="M185 451l8 16m373-16l8 16"/><path d="M123 198H164M123 355H164M142 198V355"/><path d="M134 202l16-8m-16 156l16 8"/><circle cx="377" cy="205" r="4" fill="#C6FF00"/><path d="M377 205L480 116H598"/><path d="M451 419L565 516H683"/></g>
+<g font-family="Arial, sans-serif" font-size="15" letter-spacing="2" fill="#EDEEE8"><text x="352" y="448">L / VARIABLE</text><text x="92" y="280" transform="rotate(-90 92 280)">H / VARIABLE</text><text x="606" y="119">BORING Ø ?</text><text x="570" y="519">MATERIALE ?</text></g>
+<g fill="#C6FF00" font-family="monospace" font-size="12" letter-spacing="1"><text x="24" y="37">[ KONCEPTGEOMETRI / IKKE EN FREMSTILLINGSTEGNING ]</text><text x="23" y="568">DATUM / DESIGN-SPACE / 01</text></g></svg>

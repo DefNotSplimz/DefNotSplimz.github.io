@@ -1,0 +1,170 @@
+/* DATUM PROTOTYPING / V2.13 — homepage rhythm & alignment refinement.
+   The approved visual system, images, copy and workspace logic remain unchanged. */
+:root {
+  --home-edge:#425047;
+  --home-copy:#CCD5CD;
+  --home-section-space:clamp(56px,6.3vw,92px);
+  --home-card-pad:clamp(20px,2.05vw,30px);
+}
+/* Visual alignment: a single rail and the same type rhythm for every section. */
+main > .idea-entry,main > .datum-tech,main > .datum-materials,main > .datum-about-home {
+  padding-block:var(--home-section-space);
+}
+main > .datum-close {
+  padding-block:clamp(44px,4.5vw,65px) clamp(33px,3.4vw,49px);
+}
+main :is(.datum-section-kicker--boxed) {
+  min-height:46px;
+  padding:10px 15px 10px 13px;
+  border-color:var(--home-edge);
+  gap:11px;
+  font-size:clamp(11px,.9vw,13px);
+  letter-spacing:.055em;
+  line-height:1.32;
+  white-space:normal;
+}
+main .datum-section-slash {width:6px;height:24px;flex:0 0 6px;}
+main :is(.datum-tech-heading,.datum-mat-intro,.datum-about-story,.datum-close-lead) > .datum-section-kicker {
+  margin-bottom:clamp(16px,1.6vw,23px);
+}
+main :is(.datum-tech-heading,.datum-mat-intro,.datum-about-story,.datum-close-lead) h2 {
+  margin-top:0;
+  text-wrap:balance;
+}
+main :is(.datum-tech-intro p,.datum-tech-card-body p,.datum-tech-alternative p,.datum-mat-intro>p,.datum-mat-card-copy p,.datum-mat-help-panel p,.datum-about-story>p,.datum-close-lead>p){
+  text-wrap:pretty;
+}
+/* 01 — clear baseline between the storytelling column and active form. */
+.idea-entry-topline {padding-bottom:17px;align-items:center;}
+.idea-entry-layout {
+  padding-top:clamp(28px,3vw,43px);
+  gap:clamp(30px,4.4vw,65px);
+  grid-template-columns:minmax(0,.93fr) minmax(0,1fr);
+  align-items:start;
+}
+.idea-entry-story h2 {font-size:clamp(58px,7.2vw,116px);line-height:.96;margin-bottom:clamp(21px,2.4vw,35px)}
+.idea-entry-story .idea-entry-lead {margin-bottom:15px;font-size:clamp(22px,2.05vw,31px)}
+.idea-entry-story p {line-height:1.65}
+.idea-entry-manifesto {margin-top:clamp(24px,3.4vw,45px);padding-top:21px}
+.idea-entry-panel {border-color:var(--home-edge)}
+#idea-start-form{padding:clamp(22px,2.4vw,34px)}
+#idea-start-text{min-height:182px}
+.idea-starters{margin-top:24px}
+.idea-submit{margin-top:25px;min-height:62px}
+.idea-entry-footer{margin-top:clamp(30px,4vw,56px);padding-top:19px}
+/* 02 — equal visual weight, without a huge empty card below CAD content. */
+.datum-tech-header {padding-bottom:clamp(23px,3vw,43px);align-items:center;gap:clamp(32px,4.8vw,68px)}
+.datum-tech-heading h2 {font-size:clamp(49px,5.65vw,89px);line-height:1.01;letter-spacing:-.035em}
+.datum-tech-intro{padding-left:21px}
+.datum-tech-intro p:not(.datum-tech-intro-lead){margin-bottom:0}
+.datum-tech-questions {padding:14px 19px;gap:12px 18px}
+.datum-tech-grid{gap:13px;margin-top:13px}
+.datum-tech-card-label{padding:13px 20px}
+.datum-tech-image{height:clamp(215px,19.8vw,300px)}
+.datum-tech-method-grid{height:clamp(235px,20.8vw,315px)}
+.datum-tech-card-body{padding:var(--home-card-pad)}
+.datum-tech-card-body h3{font-size:clamp(28px,2.6vw,39px);line-height:1.06;margin-bottom:12px}
+.datum-tech-card-body p {line-height:1.56;margin-bottom:22px}
+.datum-tech-card-body a {min-height:42px;padding-top:13px}
+.datum-tech-alternative{min-height:228px;margin-top:13px}
+.datum-tech-alternative-photo,.datum-tech-alternative-photo img{min-height:228px}
+.datum-tech-alternative-text{padding:clamp(23px,2.6vw,36px)}
+.datum-tech-alternative h3{margin:9px 0 10px;font-size:clamp(28px,2.65vw,40px)}
+.datum-tech-alternative p{line-height:1.53;margin-bottom:12px}
+.datum-tech-close{margin-top:24px;padding-top:19px;gap:20px}
+.datum-tech-footnote{margin-top:16px}
+/* 03 — four material cards share a precise image baseline and same copy inset. */
+.datum-mat-hero {min-height:clamp(282px,27vw,360px);margin-bottom:clamp(18px,2vw,27px)}
+.datum-mat-intro h2{font-size:clamp(42px,4.45vw,70px)}
+.datum-mat-grid{gap:12px}
+.datum-mat-card-photo{aspect-ratio:1.95 / 1;height:auto;min-height:0}
+.datum-mat-card-copy{padding:clamp(17px,1.65vw,24px);gap:10px}
+.datum-mat-card-heading{gap:9px;grid-template-columns:34px minmax(0,1fr)}
+.datum-mat-card-heading svg{width:31px;height:31px}
+.datum-mat-card-heading h3{padding-left:10px;border-left-width:3px;line-height:1.15}
+.datum-mat-card-copy p{line-height:1.55}
+.datum-mat-help{gap:12px;margin-top:clamp(16px,2vw,24px)}
+.datum-mat-help-panel{padding:clamp(20px,2vw,28px)}
+.datum-mat-footer{margin-top:20px}
+/* 04 — intentionally restrained after the visually dense technology + materials. */
+.datum-about-hero{align-items:center;gap:clamp(26px,3.5vw,54px)}
+.datum-about-story h2{font-size:clamp(41px,4vw,64px);line-height:1.01;margin-bottom:15px}
+.datum-about-visual{height:clamp(250px,22vw,300px)}
+.datum-about-values{margin-top:21px;padding:15px 0}
+.datum-about-horizon{margin-top:17px}
+.datum-about-foot{margin-top:15px}
+/* 05 — controlled finish: one CTA, equal-height process columns and no dead space. */
+.datum-close-header{padding-bottom:22px;align-items:center}
+.datum-close-lead h2{font-size:clamp(39px,5.05vw,77px);line-height:1.01;margin-bottom:12px}
+.datum-close-step{padding-block:16px 18px}
+.datum-close-actions{margin-top:22px;gap:24px}
+.datum-close-buttons .btn {min-height:57px}
+/* Shared focus/hover and image rendering discipline. */
+main a:focus-visible,main button:focus-visible,main textarea:focus-visible {
+ outline:2px solid var(--lime);outline-offset:3px;
+}
+.datum-tech-image,.datum-tech-method,.datum-tech-alternative-photo,.datum-mat-card-photo,.datum-about-visual {background:#18201C}
+.datum-tech-image img,.datum-tech-method img,.datum-tech-alternative-photo img,.datum-mat-card-photo img,.datum-about-visual img {
+ display:block;width:100%;height:100%;object-fit:cover;
+}
+@media(max-width:1050px){
+ .idea-entry-layout{grid-template-columns:1fr;gap:28px}
+ .idea-entry-story h2{font-size:clamp(65px,9.5vw,104px)}
+ .datum-tech-heading h2{font-size:clamp(48px,6.5vw,78px)}
+ .datum-tech-method-grid{height:clamp(270px,31vw,350px)}
+}
+@media(max-width:760px){
+ .datum-tech-header{grid-template-columns:1fr;gap:22px}
+ .datum-tech-image{height:clamp(185px,43vw,330px)}
+ .datum-tech-method-grid{height:clamp(280px,66vw,430px)}
+ .datum-tech-alternative{grid-template-columns:1fr}
+ .datum-tech-alternative-photo,.datum-tech-alternative-photo img{min-height:0;height:225px}
+ .datum-tech-card-body{padding:23px}
+ .datum-mat-card-photo{aspect-ratio:1.95 / 1}
+ .datum-about-hero{grid-template-columns:1fr;gap:21px}
+}
+@media(max-width:680px){
+ main > .idea-entry,main > .datum-tech,main > .datum-materials,main > .datum-about-home{padding-block:clamp(45px,11.5vw,61px)}
+ main > .datum-close{padding-block:39px 33px}
+ main .datum-section-kicker--boxed{min-height:43px;padding:10px 12px;font-size:10.5px}
+ main .datum-section-slash{width:6px;height:21px}
+ .idea-entry-topline{padding-bottom:14px}
+ .idea-entry-layout{padding-top:26px;gap:23px}
+ .idea-entry-story h2{font-size:clamp(45px,12vw,71px);margin-bottom:22px}
+ .idea-entry-story .idea-entry-lead{font-size:clamp(21px,5.7vw,28px)}
+ .idea-entry-story p{font-size:15px;line-height:1.65}
+ .idea-entry-manifesto{margin-top:22px;padding-top:18px}
+ #idea-start-form{padding:20px 17px}
+ #idea-start-text{min-height:172px}
+ .idea-starters{margin-top:21px}
+ .idea-submit{margin-top:23px;min-height:60px}
+ .idea-entry-footer{margin-top:30px;gap:11px}
+ .datum-tech-heading h2{font-size:clamp(38px,10vw,56px)}
+ .datum-tech-header{padding-bottom:23px}
+ .datum-tech-intro{padding-left:17px}
+ .datum-tech-questions{padding:14px 16px}
+ .datum-tech-method-grid{height:clamp(270px,71vw,400px)}
+ .datum-tech-image{height:clamp(195px,52vw,265px)}
+ .datum-tech-card-body{padding:19px}
+ .datum-tech-card-body h3{font-size:clamp(26px,8vw,34px)}
+ .datum-tech-card-body p{font-size:14px}
+ .datum-tech-alternative-photo,.datum-tech-alternative-photo img{height:200px}
+ .datum-tech-alternative-text{padding:21px 19px}
+ .datum-mat-hero{margin-bottom:19px}
+ .datum-mat-intro h2{font-size:clamp(33px,8.1vw,53px)}
+ .datum-mat-card-photo{aspect-ratio:1.95 / 1;height:auto}
+ .datum-mat-help-panel{padding:19px 16px}
+ .datum-about-story h2{font-size:clamp(35px,9vw,58px)}
+ .datum-about-visual{height:clamp(180px,47vw,250px)}
+ .datum-close-header{padding-bottom:20px}
+ .datum-close-lead h2{font-size:clamp(33px,9vw,55px)}
+}
+@media(max-width:355px){
+ .idea-entry-story h2{font-size:clamp(41px,12.1vw,47px)}
+ .datum-tech-heading h2{font-size:clamp(35px,10vw,39px)}
+ .datum-tech-card-label{font-size:9px;padding-inline:12px}
+ .datum-mat-card-heading h3{font-size:20px}
+}
+@media(prefers-reduced-motion:reduce){
+ .datum-tech-image img,.datum-mat-card-photo img{transition:none}
+}
