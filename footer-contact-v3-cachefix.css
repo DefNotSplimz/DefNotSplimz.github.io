@@ -1,0 +1,105 @@
+/* DATUM V3.0 - Footer contact styling safeguard.
+   A new filename prevents old CSS caches from omitting recently-added
+   email field rules. Intentionally scoped only to the existing footer. */
+.site-footer .footer-top > div:nth-child(2) { min-width: 0; }
+.site-footer .footer-direct-contact {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 20px 0 0;
+  padding: 18px 0 0;
+  border-top: 1px solid #39483e;
+  text-align: left;
+}
+.site-footer .footer-direct-label {
+  display: block;
+  margin: 0;
+  color: #C6FF00;
+  font-family: 'Oxanium', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: .085em;
+  text-transform: uppercase;
+}
+.site-footer .footer-direct-address {
+  display: block;
+  max-width: 100%;
+  margin: 0;
+  color: #F2F5F0;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(14px, 1.15vw, 16px);
+  font-weight: 600;
+  line-height: 1.55;
+  letter-spacing: .005em;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+.site-footer .footer-copy-button {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: flex-start;
+  gap: 16px;
+  max-width: 100%;
+  min-height: 40px;
+  margin: 2px 0 0;
+  padding: 10px 14px;
+  border: 1px solid #829F65;
+  border-radius: 0;
+  background-color: #19221B;
+  box-shadow: none;
+  color: #D8FFAA;
+  font-family: 'Oxanium', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: .055em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: normal;
+  cursor: pointer;
+  transition: color .16s ease, background-color .16s ease, border-color .16s ease;
+}
+.site-footer .footer-copy-button span { color: inherit; font-size: 17px; line-height: 1; }
+.site-footer .footer-copy-button:hover {
+  border-color: #C6FF00;
+  background-color: #2B3920;
+  color: #F0FFDB;
+}
+.site-footer .footer-copy-button:focus-visible {
+  outline: 2px solid #C6FF00;
+  outline-offset: 4px;
+}
+.site-footer .footer-direct-feedback {
+  display: block;
+  max-width: 100%;
+  margin: 0;
+  color: #B9D7A6;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.site-footer .footer-direct-feedback:empty { display: none; }
+@media (max-width: 620px) {
+  .site-footer .footer-direct-contact { margin-top: 16px; padding-top: 16px; gap: 8px; }
+  .site-footer .footer-direct-address { font-size: 15px; }
+  .site-footer .footer-copy-button { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-footer .footer-copy-button { transition: none; }
+}
+/* Prevent a long existing privacy heading from overflowing on narrow screens. */
+@media (max-width: 620px) {
+  .privacy-page h2 { overflow-wrap: anywhere; }
+}
