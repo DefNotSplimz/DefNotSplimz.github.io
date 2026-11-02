@@ -95,3 +95,34 @@ body[data-active-workspace="om"] .site-header .site-nav a[href="om-datum.html"]:
 .privacy-page .privacy-meta{color:#C6FF00;font-size:12px;letter-spacing:.07em;text-transform:uppercase;font-weight:700}
 .privacy-page .privacy-note{border-left:3px solid #C6FF00;background:#182019;padding:17px 20px;max-width:750px;color:#D7E0D7}
 @media(max-width:680px){.datum-mail-recipient{padding:13px 14px}.result-controls .btn{flex-basis:100%}.privacy-page h2{font-size:clamp(27px,8.2vw,36px)}.privacy-page .privacy-list{font-size:14px}}
+
+/* V3.0 – visible, selectable contact details in every footer. No new form. */
+.site-footer .footer-direct-contact {
+  display:flex;align-items:flex-start;flex-direction:column;gap:7px;
+  margin-top:22px;padding-top:17px;border-top:1px solid #344139;min-width:0;max-width:100%;
+}
+.site-footer .footer-direct-label {
+  font:700 10px/1.4 var(--display);letter-spacing:.09em;color:var(--lime);
+}
+.site-footer .footer-direct-address {
+  color:#F2F5F0;font:600 clamp(13px,1.15vw,16px)/1.5 var(--body);
+  overflow-wrap:anywhere;user-select:text;max-width:100%;
+}
+.site-footer .footer-copy-button {
+  display:inline-flex;align-items:center;justify-content:space-between;gap:14px;
+  min-height:40px;max-width:100%;margin-top:4px;padding:9px 12px;
+  border:1px solid #667D53;background:transparent;color:#D8EFBD;
+  font:700 10px/1.25 var(--display);letter-spacing:.055em;
+  cursor:pointer;transition:border-color .15s ease,background .15s ease;
+}
+.site-footer .footer-copy-button:hover {border-color:var(--lime);background:#26311F}
+.site-footer .footer-copy-button:focus-visible {outline:2px solid var(--lime);outline-offset:3px}
+.site-footer .footer-direct-feedback {
+  color:#B9CCB0;font:500 12px/1.5 var(--body);min-height:0;
+}
+.site-footer .footer-direct-feedback:empty {display:none}
+@media(max-width:620px){
+  .site-footer .footer-direct-contact{margin-top:16px;padding-top:14px}
+  .site-footer .footer-direct-address{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){.site-footer .footer-copy-button{transition:none}}

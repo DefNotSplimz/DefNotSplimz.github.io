@@ -24,7 +24,7 @@
   };
   document.addEventListener('click',async event=>{
     const btn=event.target.closest('[data-copy-email]');if(!btn)return;
-    const card=btn.closest('.datum-email-card');const status=card?.querySelector('[data-email-feedback]');
+    const surface=btn.closest('.datum-email-card, .footer-direct-contact');const status=surface?.querySelector('[data-email-feedback]');
     try{
       if(navigator.clipboard && window.isSecureContext)await navigator.clipboard.writeText(email);
       else fallbackCopy(email);
