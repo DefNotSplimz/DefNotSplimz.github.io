@@ -129,10 +129,10 @@
     const problem=clean(data.get('problem')),size=clean(data.get('size'));
     const amount=clean(data.get('amount')),material=clean(data.get('material'));
     const details=clean(data.get('details'));
-    const subject=`Forespørgsel til Datum / ${type} / ${name}`;
+    const subject=`Idé og spørgsmål til Datum / ${type} / ${name}`;
     const body=[
       'Hej Datum Prototyping','',
-      'Jeg vil gerne høre, om denne opgave kan vurderes:','',
+      'Jeg vil gerne dele en idé eller stille et teknisk spørgsmål:','',
       `UDGANGSPUNKT\n${origin}`,'',
       `OPGAVETYPE\n${type}`,'',
       `HVAD DELEN SKAL KUNNE\n${problem}`,'',
@@ -140,7 +140,7 @@
       `ANTAL\n${amount||'Ikke angivet'}`,'',
       `MATERIALE\n${material||'Ved ikke endnu'}`,'',
       `ANDRE OPLYSNINGER\n${details||'Ikke angivet'}`,'',
-      'Jeg ved, at en forespørgsel ikke er en ordre.','',
+      'Jeg er opmærksom på, at Datum er under uddannelse og endnu ikke modtager betalte opgaver eller bestillinger.','',
       `KONTAKT\n${name}\n${email}`,'',
       'Venlig hilsen',name
     ].join('\n');

@@ -10,7 +10,7 @@
     cnc: {
       label:'01 / PRÆCISIONSBEARBEJDNING', heading:'CNC <span>& MANUEL.</span>',
       intro:'Fire metoder. Ét mål: den rigtige løsning til din del.',
-      page:'cnc.html', link:'HELE GUIDEN TIL BEARBEJDNING', cta:'FORTÆL OM DIN DEL',
+      page:'cnc.html', link:'HELE GUIDEN TIL BEARBEJDNING', cta:'DEL DIN IDÉ',
       options:[
         {name:'CNC-fræsning',number:'01',title:'FORMER, FLADER & KONTURER.',image:'datum-cnc.webp',tag:'CNC / FRÆSNING',body:'Roterende skærende værktøj bearbejder et fastspændt emne. Relevant når delen eksempelvis kræver præcise flader, lommer, huller eller flere bearbejdede sider.',features:['Beslag, fiksturer og adaptere','Konturer, lommer og boringer','Digitalt forberedte værktøjsbaner','Værktøjsadgang og opspænding vurderes'],note:'CNC-fræsning er en mulighed, ikke et krav. Realistisk fremstilling vurderes ud fra den konkrete del.'},
         {name:'CNC-drejning',number:'02',title:'RUNDE DELE. PRÆCISE MÅL.',image:'datum-turning.webp',tag:'CNC / DREJNING',body:'Emnet roterer mod et skærende værktøj. Det gør drejning relevant til aksler, bøsninger, afstandsstykker og cylindriske emner med funktionelle diametre.',features:['Aksler og afstandsbøsninger','Diameter, pasning og koncentrisk form','Trin, spor og eventuelt gevind','Opspænding og støtte vurderes'],note:'Lange eller tynde emner kan kræve særlige løsninger ved opspænding og bearbejdning.'},
@@ -44,15 +44,15 @@
       intro:'Ét menneske. Præcision, nysgerrighed og plads til usædvanlige idéer.',
       page:'om-datum.html',link:'LÆS HELE HISTORIEN',cta:'START EN SAMTALE',
       options:[
-        {name:'Fagligheden',number:'01',title:'HÅNDVÆRKET SOM FUNDAMENT.',image:'datum-metal-detail.webp',tag:'NU / UNDER OPBYGNING',body:'Datum udvikles sideløbende med finmekanikeruddannelsen med speciale i CNC-bearbejdning. Fokus er på praktisk erfaring, præcision og reelle, individuelle opgaver.',features:['Finmekanisk faglighed','CNC og manuel bearbejdning','CAD/CAM og materialeforståelse','En opgave vurderes ad gangen'],note:'Der loves ikke en fast maskinpark eller produktionskapacitet, som endnu ikke er etableret.'},
-        {name:'Arbejdsformen',number:'02',title:'UNDERSØG FØRST.',image:'datum-cad-cam.webp',tag:'METODE / DIALOG',body:'Kunden kan starte med en tanke, en skitse eller en eksisterende del. Målet er at afklare det vigtigste og finde en realistisk teknisk vej – uden unødvendige mellemled.',features:['Direkte dialog','Nysgerrighed før begrænsninger','Fokus på delens funktion','Ærlige vurderinger'],note:'Ikke alle idéer kan fremstilles, men det skal være nemt at spørge.'},
+        {name:'Fagligheden',number:'01',title:'HÅNDVÆRKET SOM FUNDAMENT.',image:'datum-metal-detail.webp',tag:'NU / UNDER OPBYGNING',body:'Datum udvikles sideløbende med finmekanikeruddannelsen med speciale i CNC-bearbejdning. Fokus er på praktisk erfaring, præcision og faglig udvikling. Betalte opgaver tilbydes endnu ikke.',features:['Finmekanisk faglighed','CNC og manuel bearbejdning','CAD/CAM og materialeforståelse','Faglige idéer undersøges'],note:'Der loves ikke en fast maskinpark eller produktionskapacitet, som endnu ikke er etableret.'},
+        {name:'Arbejdsformen',number:'02',title:'UNDERSØG FØRST.',image:'datum-cad-cam.webp',tag:'METODE / DIALOG',body:'En besøgende kan starte med en tanke, en skitse eller en eksisterende del. Målet er at afklare det vigtigste og finde en realistisk teknisk vej – uden unødvendige mellemled.',features:['Direkte dialog','Nysgerrighed før begrænsninger','Fokus på delens funktion','Ærlige vurderinger'],note:'Ikke alle idéer kan fremstilles, men det skal være nemt at spørge.'},
         {name:'Visionen',number:'03',title:'ET DANSK NAVN AT REGNE MED.',image:'datum-hero.webp',tag:'FREMTID / PROTOTYPING',body:'Målet er et respekteret dansk one-man værksted med plads til CNC, prototyper og praktisk udvikling. Ikke større for størrelsens skyld – men stærkere på faglighed og problemløsning.',features:['Ét menneske bag værkstedet','Prototype- og udviklingsfokus','Langsigtet faglig ambition','Egne digitale hjælpemidler udvikles'],note:'Visionen er et fremtidigt mål, ikke en påstand om en allerede etableret virksomhed.'}
       ]
     }
   };
   const panelPaths={'cnc.html':'cnc','cad-cam.html':'cad','materialer.html':'materialer','om-datum.html':'om','projekt.html':'projekt'};
   const order=['cnc','cad','materialer','om','projekt'];
-  const names={cnc:'CNC & MANUEL',cad:'CAD / CAM',materialer:'MATERIALER',om:'OM DATUM',projekt:'SEND EN OPGAVE'};
+  const names={cnc:'CNC & MANUEL',cad:'CAD / CAM',materialer:'MATERIALER',om:'OM DATUM',projekt:'TAG KONTAKT'};
   const params=new URLSearchParams(location.search);
   const initial=params.get('workspace');
   const state={key:null,index:0,opener:null,pushed:false,closingTimer:null};
@@ -69,7 +69,7 @@
         <div class="datum-ws-bottom"><a class="datum-ws-cta" href="projekt.html">FORTÆL OM DIN IDÉ <span aria-hidden="true">↗</span></a><span class="datum-ws-full">VÆLG ET EMNE OVENFOR</span></div>
         <div class="datum-ws-footnote">BILLEDERNE ER KONCEPTVISUALISERINGER – IKKE DATUMS EGET VÆRKSTED ELLER TIDLIGERE KUNDEEMNER.</div>
        </div>
-       <div class="datum-ws-project-view" id="datum-ws-project-view" hidden><div class="datum-ws-intro"><div class="datum-ws-eyebrow">05 / SEND DET, DU HAR</div><h2 id="datum-ws-project-title">HVAD NU <span>HVIS…?</span></h2><p>Skriv det, du forestiller dig. Du gennemser hele beskeden, før du selv sender den fra din mail til DatumPrototyping@gmail.com.</p></div><div id="datum-ws-project-mount"></div></div>
+       <div class="datum-ws-project-view" id="datum-ws-project-view" hidden><div class="datum-ws-intro"><div class="datum-ws-eyebrow">05 / DEL DET, DU HAR</div><h2 id="datum-ws-project-title">HVAD NU <span>HVIS…?</span></h2><p>Datum er under uddannelse og tager ikke imod betalte opgaver. Del gerne en idé eller et spørgsmål. Du gennemser beskeden, før du selv sender den fra din mail.</p></div><div id="datum-ws-project-mount"></div></div>
       </div>
     </section>`;
   document.body.append(root);
