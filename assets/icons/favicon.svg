@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" version="1.1" role="img" aria-label="Datum Prototyping"><title>Datum Prototyping</title><desc>Datum Prototyping — app- og favicon-symbol.</desc><rect x="0" y="0" width="64" height="64" rx="13" fill="#0B0F14"/><g id="DP-symbol" transform="translate(-7.4 13.1) scale(0.1164)">
+    <path id="dp-outer" d="M 579 105 L 514 32 L 186 33 L 145 81 L 483 80 L 510 111 L 461 198 L 450 206 L 367 206 L 333 263 L 476 261 L 510 230 Z" fill="#E5E8EB"/>
+    <path id="dp-inner" d="M 98 293 L 174 292 L 247 171 L 439 171 L 443 168 L 472 117 L 470 115 L 201 115 Z" fill="#E5E8EB"/>
+    <path id="dp-accent" d="M 341 205 L 262 205 L 208 292 L 289 292 Z" fill="#B9ED13"/>
+  </g>
+  </svg>

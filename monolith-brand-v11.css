@@ -1,0 +1,24 @@
+/* DATUM PROTOTYPING / MONOLITH v1.1 — web identity integration.
+   Approved vector paths and V3 layout retained. Hero deliberately unchanged.
+   Horizontal header/footer logo; standalone mark in existing locations only. */
+.site-header .brand {flex:0 0 228px;width:228px;max-width:228px;min-width:0;}
+.site-header .brand img {display:block;width:100%;height:auto;max-height:58px;object-fit:contain;object-position:left center;}
+.site-footer .footer-logo {width:min(100%,242px);max-width:242px;}
+.site-footer .footer-logo img {width:100%;height:auto;max-height:none;object-fit:contain;object-position:left center;}
+@media (max-width:1210px) and (min-width:1081px) {
+  .site-header .brand {flex-basis:204px;width:204px;max-width:204px;}
+  .site-header .site-nav {gap:clamp(13px,1.2vw,22px);}
+}
+@media (max-width:1080px) {
+  .site-header .brand {flex:0 0 196px;width:196px;max-width:196px;}
+  .site-header .brand img {max-height:53px;}
+}
+@media (max-width:620px) {
+  .site-header .brand {flex:0 0 191px;width:191px;max-width:191px;}
+  .site-header .brand img {max-height:49px;}
+  .site-footer .footer-logo {width:205px;max-width:205px;}
+}
+@media (max-width:355px) {
+  .site-header .brand {flex:0 0 174px;width:174px;max-width:174px;}
+  .site-header .brand img {max-height:44px;}
+}
