@@ -5,12 +5,12 @@
   // HTML pages the existing links must work as ordinary navigation rather
   // than opening an incomplete workspace. This also provides a clean fallback
   // when the enhanced one-page experience is unavailable.
-  if(!document.getElementById('datum-ws-project-stage')) return;
+  if(!document.getElementById('start-her')) return;
   const content = {
     cnc: {
       label:'01 / PRÆCISIONSBEARBEJDNING', heading:'CNC <span>& MANUEL.</span>',
       intro:'Fire metoder. Ét mål: den rigtige løsning til din del.',
-      page:'cnc.html', link:'HELE GUIDEN TIL BEARBEJDNING', cta:'DEL DIN IDÉ',
+      page:'cnc.html', link:'HELE GUIDEN TIL BEARBEJDNING', cta:'STIL ET SPØRGSMÅL',
       options:[
         {name:'CNC-fræsning',number:'01',title:'FORMER, FLADER & KONTURER.',image:'datum-cnc.webp',tag:'CNC / FRÆSNING',body:'Roterende skærende værktøj bearbejder et fastspændt emne. Relevant når delen eksempelvis kræver præcise flader, lommer, huller eller flere bearbejdede sider.',features:['Beslag, fiksturer og adaptere','Konturer, lommer og boringer','Digitalt forberedte værktøjsbaner','Værktøjsadgang og opspænding vurderes'],note:'CNC-fræsning er en mulighed, ikke et krav. Realistisk fremstilling vurderes ud fra den konkrete del.'},
         {name:'CNC-drejning',number:'02',title:'RUNDE DELE. PRÆCISE MÅL.',image:'datum-turning.webp',tag:'CNC / DREJNING',body:'Emnet roterer mod et skærende værktøj. Det gør drejning relevant til aksler, bøsninger, afstandsstykker og cylindriske emner med funktionelle diametre.',features:['Aksler og afstandsbøsninger','Diameter, pasning og koncentrisk form','Trin, spor og eventuelt gevind','Opspænding og støtte vurderes'],note:'Lange eller tynde emner kan kræve særlige løsninger ved opspænding og bearbejdning.'},
@@ -21,7 +21,7 @@
     cad: {
       label:'02 / UDVIKLING & KONSTRUKTION',heading:'FRA TANKE <span>TIL MODEL.</span>',
       intro:'Fra den første tanke til en model, der kan undersøges og fremstilles.',
-      page:'cad-cam.html', link:'LÆS MERE OM CAD / CAM', cta:'FORTÆL OM DIN IDÉ',
+      page:'cad-cam.html', link:'LÆS MERE OM CAD / CAM', cta:'STIL ET SPØRGSMÅL',
       options:[
         {name:'Konstruktion',number:'01',title:'FORMEN KOMMER FØR MASKINEN.',image:'datum-cad-cam.webp',tag:'CAD / 3D-MODEL',body:'Fra skitse, mål eller en løs tanke til en digital model. Form og funktion kan undersøges, inden noget bliver fremstillet.',features:['3D-modeller og mekanisk geometri','Dimensioner og pasform','Justeringer og mulige versioner','En mere konkret retning for idéen'],note:'En CAD-model er ikke nødvendig, når du kontakter Datum.'},
         {name:'CAM-programmering',number:'02',title:'FRA GEOMETRI TIL VÆRKTØJSBANE.',image:'datum-cnc.webp',tag:'CAM / BEARBEJDNING',body:'Når en form skal CNC-bearbejdes, kan CAM bruges til at planlægge operationer, værktøjsbaner og bearbejdningsrækkefølge.',features:['Opsætning og referencer','Råmateriale og værktøjsvalg','Værktøjsbaner til den konkrete geometri','Kontrol og simulering før bearbejdning'],note:'CAM er ét skridt i fremstillingen – manuel bearbejdning kan være bedre til andre opgaver.'},
@@ -31,7 +31,7 @@
     materialer: {
       label:'03 / MATERIALEVALG',heading:'MATERIALET <span>GØR FORSKELLEN.</span>',
       intro:'Fortæl hvad delen skal kunne. Så undersøger vi materialet.',
-      page:'materialer.html',link:'SE DEN FULDE MATERIALEGUIDE',cta:'HJÆLP MIG MED MATERIALET',
+      page:'materialer.html',link:'SE DEN FULDE MATERIALEGUIDE',cta:'SPØRG OM MATERIALE',
       options:[
         {name:'Aluminium',number:'01',title:'LET, ALSIDIGT & BEARBEJDELIGT.',image:'datum-material-aluminium.webp',tag:'METAL / ALUMINIUM',body:'Aluminium er et ofte relevant udgangspunkt til beslag, mekaniske dele og prototyper, hvor lav vægt og god bearbejdelighed er nyttigt.',features:['Lav vægt','Gode muligheder for bearbejdning','Mange anvendelser til specialdele','Legering vælges efter funktionen'],note:'Styrke og overfladeegenskaber afhænger af den specifikke legering og behandling.'},
         {name:'Stål / rustfast',number:'02',title:'STYRKE, SLID & MODSTAND.',image:'datum-material-steel.webp',tag:'METAL / STÅL',body:'Stål vælges ofte, hvor styrke, stivhed og slidstyrke er vigtige. Rustfaste kvaliteter kan være relevante, når miljøet stiller særlige krav.',features:['Styrke og slidstyrke','Forskellige stålkvaliteter','Mulighed for korrosionsbestandighed','Overvejelse af vægt og bearbejdning'],note:'Rustfast betyder ikke korrosionsfri i alle miljøer; den relevante kvalitet vælges efter anvendelsen.'},
@@ -42,7 +42,7 @@
     om: {
       label:'04 / HVAD ER DATUM?',heading:'ÉN MAND. <span>INGEN SMÅ AMBITIONER.</span>',
       intro:'Ét menneske. Præcision, nysgerrighed og plads til usædvanlige idéer.',
-      page:'om-datum.html',link:'LÆS HELE HISTORIEN',cta:'START EN SAMTALE',
+      page:'om-datum.html',link:'LÆS HELE HISTORIEN',cta:'STIL ET SPØRGSMÅL',
       options:[
         {name:'Fagligheden',number:'01',title:'HÅNDVÆRKET SOM FUNDAMENT.',image:'datum-metal-detail.webp',tag:'NU / UNDER OPBYGNING',body:'Datum udvikles sideløbende med finmekanikeruddannelsen med speciale i CNC-bearbejdning. Fokus er på praktisk erfaring, præcision og faglig udvikling. Betalte opgaver tilbydes endnu ikke.',features:['Finmekanisk faglighed','CNC og manuel bearbejdning','CAD/CAM og materialeforståelse','Faglige idéer undersøges'],note:'Der loves ikke en fast maskinpark eller produktionskapacitet, som endnu ikke er etableret.'},
         {name:'Arbejdsformen',number:'02',title:'UNDERSØG FØRST.',image:'datum-cad-cam.webp',tag:'METODE / DIALOG',body:'En besøgende kan starte med en tanke, en skitse eller en eksisterende del. Målet er at afklare det vigtigste og finde en realistisk teknisk vej – uden unødvendige mellemled.',features:['Direkte dialog','Nysgerrighed før begrænsninger','Fokus på delens funktion','Ærlige vurderinger'],note:'Ikke alle idéer kan fremstilles, men det skal være nemt at spørge.'},
@@ -52,7 +52,7 @@
   };
   const panelPaths={'cnc.html':'cnc','cad-cam.html':'cad','materialer.html':'materialer','om-datum.html':'om','projekt.html':'projekt'};
   const order=['cnc','cad','materialer','om','projekt'];
-  const names={cnc:'CNC & MANUEL',cad:'CAD / CAM',materialer:'MATERIALER',om:'OM DATUM',projekt:'TAG KONTAKT'};
+  const names={cnc:'CNC & MANUEL',cad:'CAD / CAM',materialer:'MATERIALER',om:'OM DATUM',projekt:'SPØRGSMÅL'};
   const params=new URLSearchParams(location.search);
   const initial=params.get('workspace');
   const state={key:null,index:0,opener:null,pushed:false,closingTimer:null};
@@ -66,18 +66,24 @@
         <div class="datum-ws-intro"><div class="datum-ws-eyebrow" id="datum-ws-label"></div><h2 id="datum-ws-title"></h2><p id="datum-ws-intro"></p></div>
         <div class="datum-ws-tabs" id="datum-ws-tabs" role="tablist" aria-label="Vælg emne"></div>
         <article class="datum-ws-detail" id="datum-ws-detail" role="tabpanel" tabindex="0" aria-live="off"></article>
-        <div class="datum-ws-bottom"><a class="datum-ws-cta" href="projekt.html">FORTÆL OM DIN IDÉ <span aria-hidden="true">↗</span></a><span class="datum-ws-full">VÆLG ET EMNE OVENFOR</span></div>
+        <div class="datum-ws-bottom"><a class="datum-ws-cta" href="projekt.html">STIL ET SPØRGSMÅL <span aria-hidden="true">↗</span></a><span class="datum-ws-full">VÆLG ET EMNE OVENFOR</span></div>
         <div class="datum-ws-footnote">BILLEDERNE ER KONCEPTVISUALISERINGER – IKKE DATUMS EGET VÆRKSTED ELLER TIDLIGERE KUNDEEMNER.</div>
        </div>
-       <div class="datum-ws-project-view" id="datum-ws-project-view" hidden><div class="datum-ws-intro"><div class="datum-ws-eyebrow">05 / DEL DET, DU HAR</div><h2 id="datum-ws-project-title">HVAD NU <span>HVIS…?</span></h2><p>Datum er under uddannelse og tager ikke imod betalte opgaver. Del gerne en idé eller et spørgsmål. Du gennemser beskeden, før du selv sender den fra din mail.</p></div><div id="datum-ws-project-mount"></div></div>
+       <div class="datum-ws-project-view" id="datum-ws-project-view" hidden><div class="datum-ws-intro"><div class="datum-ws-eyebrow">05 / SPØRGSMÅL</div><h2 id="datum-ws-project-title">SKRIV EN <span>E-MAIL.</span></h2><p>Ingen kontaktformular. Har du et spørgsmål om Datum, kan du selv sende en almindelig e-mail fra din foretrukne mailtjeneste.</p></div><div class="datum-ws-email"><div class="datum-email-card" aria-label="Kontakt via e-mail">
+  <span class="datum-email-kicker">DIREKTE E-MAIL / INGEN FORMULAR</span>
+  <h3>HAR DU ET <em>SPØRGSMÅL?</em></h3>
+  <p>Har du spørgsmål om Datum, CNC eller en idé, du går og tænker på? Skriv selv fra den mailtjeneste, du foretrækker.</p>
+  <div class="datum-email-address"><span>E-MAILADRESSE</span><strong>DatumPrototyping@gmail.com</strong></div>
+  <div class="datum-email-actions"><button type="button" class="datum-email-copy" data-copy-email>KOPIÉR MAILADRESSE <span aria-hidden="true">⧉</span></button><a class="datum-email-optional" href="mailto:DatumPrototyping@gmail.com">Åbn mailapp (valgfrit) ↗</a></div>
+  <p class="datum-email-feedback" data-email-feedback role="status" aria-live="polite"></p>
+  <p class="datum-email-note">Der indtastes eller sendes ingen besked gennem hjemmesiden. Datum tager endnu ikke imod betalte opgaver eller bestillinger. <a href="privatliv.html">Læs om privatliv</a>.</p>
+</div></div></div>
       </div>
     </section>`;
   document.body.append(root);
   const $=s=>root.querySelector(s);
   const panel=$('.datum-ws-panel');const scroller=$('.datum-ws-scroll');
-  const projectStage=document.getElementById('datum-ws-project-stage');
-  if(projectStage)$('#datum-ws-project-mount').append(projectStage);
-  const backgroundRegions=[...document.querySelectorAll('body > header,body > main,body > footer')];
+    const backgroundRegions=[...document.querySelectorAll('body > header,body > main,body > footer')];
   const setBackgroundInert=value=>backgroundRegions.forEach(el=>{el.inert=value;});
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const detailParam=key=>key==='projekt'?null:content[key]?.options[state.index]?.number;
@@ -96,7 +102,7 @@
     drawDetails();
     if(updateURL){try{history.replaceState({datumWorkspace:state.key},'',urlFor(state.key));}catch(e){}}
   }
-  function show(key,{push=false,restoreFocus=true,fromIdea=false,detail=null}={}){
+  function show(key,{push=false,restoreFocus=true,detail=null}={}){
     if(key!=='projekt'&&!content[key])return;
     clearTimeout(state.closingTimer);
     const first=!state.key;
@@ -106,12 +112,8 @@
     $('#datum-ws-explore-view').hidden=project;
     $('#datum-ws-project-view').hidden=!project;
     if(project){
-      projectStage.hidden=false;
-      // Do not replace existing user-entered drafts on navigation changes.
-      if(fromIdea){const f=projectStage.querySelector('[name="origin"][value="En idé"]');if(f)f.checked=true;}
       const title=$('#datum-ws-project-title');panel.setAttribute('aria-labelledby',title.id);
     }else{
-      if(projectStage)projectStage.hidden=true;
       panel.setAttribute('aria-labelledby','datum-ws-title');
       const d=content[key];
       $('#datum-ws-label').textContent=d.label;
