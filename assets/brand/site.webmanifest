@@ -3,17 +3,20 @@
   "short_name": "Datum",
   "icons": [
     {
-      "src": "favicon-48x48.png",
-      "sizes": "48x48",
-      "type": "image/png"
+      "src": "/brand/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png"
+      "src": "/brand/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "theme_color": "#101314",
-  "background_color": "#F4F6F8",
-  "display": "standalone"
+  "theme_color": "#0f1416",
+  "background_color": "#0f1416",
+  "display": "standalone",
+  "start_url": "/"
 }
