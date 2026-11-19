@@ -1,0 +1,16 @@
+@import url('base.css');
+@import url('v5.css');
+body.auxiliary-page{background:radial-gradient(circle at 72% 0%,#222b2d 0%,#101516 47%,#0b1012 100%);min-height:100vh;color:#edf0ed;font-family:Arial,Helvetica,sans-serif}
+.aux-header{border-bottom:1px solid #394143;padding:20px clamp(20px,6vw,80px);background:rgba(10,14,15,.78)}
+.aux-header img{width:min(250px,64vw);height:auto;display:block}
+.aux-shell{width:min(800px,calc(100% - 40px));margin:clamp(50px,7vw,110px) auto 90px}
+.aux-kicker{font-size:12px;letter-spacing:2.5px;font-weight:800;color:#d0ad71;text-transform:uppercase}
+.aux-shell h1{font:900 clamp(45px,7vw,90px)/1.04 var(--font-display);letter-spacing:-1px;margin:20px 0 32px}
+.aux-shell h2{font:800 23px/1.25 var(--font-display);color:#d0ad71;margin:35px 0 12px}
+.aux-shell p{font-size:clamp(15px,2vw,17px);line-height:1.8;color:#c8cecb}
+.aux-shell a{color:#e2b978;text-decoration:underline;text-underline-offset:4px}
+.aux-shell .back{display:inline-block;margin-top:36px;text-decoration:none;border:1px solid #b78a3e;padding:14px 23px;color:#e8c18b;font-weight:800;letter-spacing:1px}
+.aux-shell .back:hover{background:#b78a3e;color:#111719}
+.error-number{font:900 clamp(100px,22vw,220px)/.9 var(--font-display);color:#caa064;letter-spacing:-.07em}
+.error-shell{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+@media(max-width:480px){.aux-header{padding:18px 20px}}

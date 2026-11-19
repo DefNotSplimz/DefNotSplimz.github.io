@@ -1,0 +1,162 @@
+{
+  "screens": [
+    {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "jsReady": true,
+      "loadedImages": 17,
+      "brokenImages": [],
+      "sections": [
+        "start",
+        "kompetencer",
+        "materialer",
+        "tilgang",
+        "om",
+        "kontakt"
+      ],
+      "compCards": 5,
+      "materials": 8,
+      "fdmCards": 3,
+      "og": "https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg",
+      "logoRatio": 4.15
+    },
+    {
+      "viewport": 360,
+      "scrollWidth": 360,
+      "jsReady": true,
+      "loadedImages": 17,
+      "brokenImages": [],
+      "sections": [
+        "start",
+        "kompetencer",
+        "materialer",
+        "tilgang",
+        "om",
+        "kontakt"
+      ],
+      "compCards": 5,
+      "materials": 8,
+      "fdmCards": 3,
+      "og": "https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg",
+      "logoRatio": 4.15
+    },
+    {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "jsReady": true,
+      "loadedImages": 17,
+      "brokenImages": [],
+      "sections": [
+        "start",
+        "kompetencer",
+        "materialer",
+        "tilgang",
+        "om",
+        "kontakt"
+      ],
+      "compCards": 5,
+      "materials": 8,
+      "fdmCards": 3,
+      "og": "https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg",
+      "logoRatio": 4.15
+    },
+    {
+      "viewport": 768,
+      "scrollWidth": 768,
+      "jsReady": true,
+      "loadedImages": 17,
+      "brokenImages": [],
+      "sections": [
+        "start",
+        "kompetencer",
+        "materialer",
+        "tilgang",
+        "om",
+        "kontakt"
+      ],
+      "compCards": 5,
+      "materials": 8,
+      "fdmCards": 3,
+      "og": "https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg",
+      "logoRatio": 4.149
+    },
+    {
+      "viewport": 1024,
+      "scrollWidth": 1024,
+      "jsReady": true,
+      "loadedImages": 17,
+      "brokenImages": [],
+      "sections": [
+        "start",
+        "kompetencer",
+        "materialer",
+        "tilgang",
+        "om",
+        "kontakt"
+      ],
+      "compCards": 5,
+      "materials": 8,
+      "fdmCards": 3,
+      "og": "https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg",
+      "logoRatio": 4.149
+    },
+    {
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "jsReady": true,
+      "loadedImages": 17,
+      "brokenImages": [],
+      "sections": [
+        "start",
+        "kompetencer",
+        "materialer",
+        "tilgang",
+        "om",
+        "kontakt"
+      ],
+      "compCards": 5,
+      "materials": 8,
+      "fdmCards": 3,
+      "og": "https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg",
+      "logoRatio": 4.15
+    },
+    {
+      "viewport": 1920,
+      "scrollWidth": 1920,
+      "jsReady": true,
+      "loadedImages": 17,
+      "brokenImages": [],
+      "sections": [
+        "start",
+        "kompetencer",
+        "materialer",
+        "tilgang",
+        "om",
+        "kontakt"
+      ],
+      "compCards": 5,
+      "materials": 8,
+      "fdmCards": 3,
+      "og": "https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg",
+      "logoRatio": 4.149
+    }
+  ],
+  "menu": {
+    "390": "pass",
+    "768": "pass"
+  },
+  "copy": {
+    "button_feedback": "MAILADRESSE KOPIERET",
+    "announcement": "Mailadressen er kopieret."
+  },
+  "no_js": {
+    "nav_visible": true,
+    "overflow": false
+  },
+  "js_errors": [],
+  "console_errors": [],
+  "limitations": [
+    "Tests use inlined copies of shipped HTML/CSS/JS/images because browser blocks localhost and file access",
+    "Server .htaccess/real 404 status and live social crawler fetch are not tested"
+  ]
+}

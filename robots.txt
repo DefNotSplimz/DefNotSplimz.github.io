@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+
 Sitemap: https://datumprototyping.dk/sitemap.xml

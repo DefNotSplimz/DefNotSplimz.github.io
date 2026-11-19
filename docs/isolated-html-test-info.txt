@@ -1,0 +1,1 @@
+This isolated visual test inlined shipped local assets because the test browser disallows loopback and file navigation. It is not a source file or live-hosting test.
