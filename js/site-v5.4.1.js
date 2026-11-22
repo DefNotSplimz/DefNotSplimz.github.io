@@ -109,3 +109,22 @@ document.documentElement.classList.add('js');
     document.querySelectorAll('main > section[id]').forEach(s => observer.observe(s));
   }
 })();
+
+
+// Section joins: purely decorative, never controls content visibility.
+(() => {
+  const seams = document.querySelectorAll('.chapter-join');
+  if (!seams.length) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+    seams.forEach(seam => seam.classList.add('is-visible'));
+    return;
+  }
+  const io = new IntersectionObserver((entries, observer) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    }
+  }, {threshold: 0.25, rootMargin: '0px 0px -6% 0px'});
+  seams.forEach(seam => io.observe(seam));
+})();

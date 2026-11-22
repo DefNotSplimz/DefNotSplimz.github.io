@@ -1,7 +1,1 @@
-Datum Prototyping V5.4 — CONTROLLED IMPACT
-Release candidate (static site)
-November 2026
-
-Design: new controlled-impact layout, original local images, brass identity.
-Technical: separated HTML/CSS/JS, favicon, OG, sitemap, robots, privacy, 404.
-See README.md and docs/QA_V5.4.md before deploying.
+Datum Prototyping V5.4.1 / CONTROLLED IMPACT — Refined Flow + Designed Subpages
