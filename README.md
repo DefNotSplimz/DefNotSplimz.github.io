@@ -1,48 +1,43 @@
-# V5.0.1 – footerlogo hotfix
+# Datum Prototyping — V5.4 / CONTROLLED IMPACT
 
-Rettelse: Footerlogoet bevarer nu den korrekte vandrette proportion. Den ekstra højde skyldtes HTML-attributten `height="485"` kombineret med en tidligere CSS-regel, der kun ændrede billedets bredde. Header og øvrig struktur er bevaret.
+**Komplet statisk hjemmeside** — dansk, responsiv, uden formularer, cookies, tracking eller backend.
 
-# Datum Prototyping — V5.0
+## Publicering
 
-Statisk, lokal/hosting-klar hjemmeside med kun HTML, CSS, JavaScript og lokale billeder. Ingen databaser, kontaktformularer, tracking, cookies eller eksterne CDN-kald.
+1. Pak ZIP-filen ud.
+2. Upload **indholdet** af mappen `DatumPrototyping_V5.4_CONTROLLED_IMPACT/` til dit domænes webrod (ofte `public_html` eller tilsvarende). Undlad at placere selve mappen som et ekstra undermappeniveau.
+3. Kontrollér `https://datumprototyping.dk/`, `https://datumprototyping.dk/privatliv.html`, `https://datumprototyping.dk/robots.txt`, `https://datumprototyping.dk/sitemap.xml`, `https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg` og en ugyldig sti.
+4. Test mobilmenu, anker-navigation og knappen **KOPIÉR** til e-mailadressen på den offentlige side.
 
-## Åbn lokalt
-Åbn `index.html`. Navigation, indhold og billeder kan læses offline. Kopiér-knappen virker i browsere, der giver adgang til udklipsholderen (typisk HTTPS eller localhost); ved begrænset adgang vises forklaring.
+**Hosting:** `.htaccess` er målrettet Apache/LiteSpeed. `_redirects` giver 404-routing på kompatible statiske platforme. Andre webservere skal konfigureres separat for at give korrekt HTTP 404-status. HTTPS og serverens eventuelle logning styres af webhotellet.
 
-## Upload
-Upload **indholdet af mappen** til domænets webrod, ikke selve mappen. Bevar alle stier. Ved Apache/LiteSpeed behold `.htaccess`, ved Netlify behold `_redirects`. Test `https://datumprototyping.dk/`, `https://datumprototyping.dk/privatliv.html` og en ugyldig URL på live server.
+## Design
 
-## Mappestruktur
-- `index.html`, `privatliv.html`, `404.html`
-- `css/` (base, lag, V5-tilpasning, undersider)
-- `js/main.js`
-- `assets/brand/` (godkendt logo)
-- `assets/icons/` (favicon- og touchikoner)
-- `assets/images/` (illustrative visuelle motiver)
-- `assets/og/` (delingsbillede)
-- `robots.txt`, `sitemap.xml`, `site.webmanifest`, `.htaccess`, `_redirects`, `.nojekyll`
+- Nyt samlet designsystem med mørke materialer, varme messingdetaljer og stærk billedkomposition.
+- Hero: en beskadiget del med den godkendte punchline **DIT PROBLEM. MIN UDFORDRING.**
+- Fem kompetencefelter, tre primære og fem øvrige materialer samt **billedfri** FDM-materialer (PLA, PETG, ASA).
+- Visuel proces: problem → analyse → mulig løsning. Billeder er illustrative, ikke kundecases.
+- Personlig præsentation uden at hævde ejerskab over maskiner eller eget værksted.
+- E-mailkontakt med vejledning og kopieringsfunktion, men ingen formular eller dataindsamling.
 
-## Særlige valg
-- `02 / Kompetencer`: fem informationskort, ingen klik/pop-up og ingen numre.
-- `03 / Materialer`: tre primære + fem sekundære billeder med forskudte højder; PLA/PETG/ASA uden billeder.
-- `06 / Kontakt`: kun kopiérbar e-mailadresse og liste over relevante oplysninger i en mail. Ingen lagring eller afsendelse.
-- Brand: mørkt tema, messingaccent og originalt, godkendt logo. Oxanium er navngivet i display-CSS, men **ingen fontfil distribueres**; browseren bruger en lokal fallback, hvis Oxanium ikke er installeret.
-- Fotos er genererede illustrationer, ikke dokumenterede kundeopgaver eller billeder af et eget værksted.
+## Filer
 
-## Efter upload – nødvendig kontrol
-Kontrollér HTTPS, korrekt HTTP 404 status, interne stier, cache, privatlivstekst ift. faktisk hosting, delingspreview på relevante platforme og kopiering af e-mail i både mobil og desktopbrowser.
+- `index.html` — startside med meta, Open Graph, Twitter og JSON-LD.
+- `css/site-v5.4.css` — alle layoutregler; inkluderer mobil, fokusmarkering og reduceret bevægelse.
+- `js/site-v5.4.js` — mobilmenu, e-mailkopiering, scrollindikator, navigation og robust skriftstørrelsestilpasning.
+- `assets/brand/` — det godkendte Datum-lockup samt messingfarvet DP-symbol.
+- `assets/images/` — lokale, optimerede WebP-billeder og teknisk SVG-illustration.
+- `assets/icons/` — tilpassede favicon- og appikoner i **hvid/messing**.
+- `assets/og/` — det tidligere godkendte OG-billede, uændret.
+- `privatliv.html`, `404.html`, `robots.txt`, `sitemap.xml`, `site.webmanifest`, `.htaccess`, `_redirects`.
+- `docs/` — lokale previewbilleder og QA-noter.
 
+## Vigtig funktionalitet
 
-## Metadata / SEO / Social
-- Hjemmesiden bruger canonical URL: https://datumprototyping.dk/
-- Open Graph og Twitter metadata peger på /assets/og/og-default.jpg (1200x630).
-- Forsiden indeholder JSON-LD for WebSite og Person.
-- robots.txt og sitemap.xml er inkluderet.
-- 404 og privatliv er markeret som noindex.
+Siden har **ikke** en kontaktformular. Kopiér-knappen benytter Clipboard API med lokal fallback; brugeren selv sender e-mail. Hvis JavaScript er deaktiveret, er indhold og navigationslinks stadig synlige.
 
-## V5.0.3 / godkendt OG-billede
-- Godkendt delingsbillede: `assets/og/datum-prototyping-og-v5-0-3.jpg` (1200 × 630 px JPEG).
-- `og-default.jpg` er også opdateret som kompatibilitetskopi.
-- De nye Open Graph- og Twitter-billedadresser bruger versionsbestemt filnavn, så tidligere delingscaches ikke låser sig til det gamle billede.
-- Fungerende Open Graph-kort kræver, at sitet er offentligt tilgængeligt via HTTPS. Bekræft med en ekstern delingsvalidator efter upload.
-- **Drift forudsætter** upload af indholdet af denne mappe til domænets webrod samt en server der respekterer valgte redirect/404-regler.
+## Tekniske begrænsninger
+
+- Systemskrifttyper bruges, så udseendet kan variere lidt på forskellige platforme. Der leveres ingen eksterne webfonts.
+- Browserbilleder til `docs/` er lavet af en isoleret gengivelse af de nøjagtige HTML/CSS/JS- og billedfiler, da denne QA-browser ikke kan navigere til lokale fil- eller localhost-adresser.
+- Den endelige kontrol af Apache 404-status, cache og offentlige sociale previews skal udføres efter publicering.

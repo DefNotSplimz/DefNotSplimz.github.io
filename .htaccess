@@ -1,16 +1,17 @@
-# Apache / LiteSpeed – Datum Prototyping V5
+# Apache / LiteSpeed – Datum Prototyping V5.4
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
 Options -Indexes
 <IfModule mod_mime.c>
  AddType image/webp .webp
+ AddType image/svg+xml .svg
 </IfModule>
 <IfModule mod_headers.c>
  Header always set X-Content-Type-Options "nosniff"
  Header always set Referrer-Policy "strict-origin-when-cross-origin"
  Header always set X-Frame-Options "SAMEORIGIN"
  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
- Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
+ Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self' 'sha256-BygikjNxu6FM3YZnQs9venyRcLCyXGg27khNFW/6Uro='; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
 </IfModule>
 <IfModule mod_expires.c>
  ExpiresActive On

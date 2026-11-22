@@ -1,12 +1,12 @@
 {
   "name": "Datum Prototyping",
   "short_name": "Datum",
-  "description": "Personligt projekt inden for finmekanik, prototyper og teknisk problemløsning.",
+  "description": "Dit problem. Min udfordring. Personligt projekt om finmekanik, prototyper og tekniske løsninger.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#101416",
-  "theme_color": "#101416",
+  "background_color": "#0b0e10",
+  "theme_color": "#0b0e10",
   "icons": [
     {
       "src": "assets/icons/favicon-192.png",

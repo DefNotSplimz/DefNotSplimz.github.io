@@ -1,0 +1,304 @@
+[
+  {
+    "window": 320,
+    "scrollWidth": 320,
+    "bodyWidth": 320,
+    "contentWidth": 286,
+    "heroTitleFont": "32px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 210.140625,
+        "right": 227.140625
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 269.328125,
+        "right": 286.328125
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "flex",
+    "errors": []
+  },
+  {
+    "window": 360,
+    "scrollWidth": 360,
+    "bodyWidth": 360,
+    "contentWidth": 326,
+    "heroTitleFont": "34.88px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 229.015625,
+        "right": 246.015625
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 293.515625,
+        "right": 310.515625
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "flex",
+    "errors": []
+  },
+  {
+    "window": 390,
+    "scrollWidth": 390,
+    "bodyWidth": 390,
+    "contentWidth": 356,
+    "heroTitleFont": "34.88px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 229.015625,
+        "right": 246.015625
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 293.515625,
+        "right": 310.515625
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "flex",
+    "errors": [],
+    "menu_open": "true",
+    "menu_closed_after_nav": "false"
+  },
+  {
+    "window": 430,
+    "scrollWidth": 430,
+    "bodyWidth": 430,
+    "contentWidth": 396,
+    "heroTitleFont": "34.88px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 229.015625,
+        "right": 246.015625
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 293.515625,
+        "right": 310.515625
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "flex",
+    "errors": []
+  },
+  {
+    "window": 620,
+    "scrollWidth": 620,
+    "bodyWidth": 620,
+    "contentWidth": 586,
+    "heroTitleFont": "48px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 315.203125,
+        "right": 332.203125
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 403.984375,
+        "right": 420.984375
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "flex",
+    "errors": []
+  },
+  {
+    "window": 768,
+    "scrollWidth": 768,
+    "bodyWidth": 768,
+    "contentWidth": 707,
+    "heroTitleFont": "55.296px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 367.65625,
+        "right": 398.390625
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 471.046875,
+        "right": 501.78125
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "flex",
+    "errors": []
+  },
+  {
+    "window": 900,
+    "scrollWidth": 900,
+    "bodyWidth": 900,
+    "contentWidth": 750,
+    "heroTitleFont": "64.8px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 430.9375,
+        "right": 466.9375
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 552.140625,
+        "right": 588.140625
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "flex",
+    "errors": []
+  },
+  {
+    "window": 1024,
+    "scrollWidth": 1024,
+    "bodyWidth": 1024,
+    "contentWidth": 850,
+    "heroTitleFont": "59.904px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 398.296875,
+        "right": 429.03125
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 510.328125,
+        "right": 541.0625
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "none",
+    "errors": []
+  },
+  {
+    "window": 1280,
+    "scrollWidth": 1280,
+    "bodyWidth": 1280,
+    "contentWidth": 960,
+    "heroTitleFont": "74.88px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 497.84375,
+        "right": 549.046875
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 637.875,
+        "right": 689.078125
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "none",
+    "errors": []
+  },
+  {
+    "window": 1440,
+    "scrollWidth": 1440,
+    "bodyWidth": 1440,
+    "contentWidth": 960,
+    "heroTitleFont": "84.24px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 560.203125,
+        "right": 617.8125
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 717.765625,
+        "right": 775.375
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "none",
+    "errors": [],
+    "copy_status": "Mailadressen er kopieret."
+  },
+  {
+    "window": 1838,
+    "scrollWidth": 1838,
+    "bodyWidth": 1838,
+    "contentWidth": 960,
+    "heroTitleFont": "107.523px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 715.03125,
+        "right": 879.03125
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 916.140625,
+        "right": 1080.140625
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "none",
+    "errors": []
+  },
+  {
+    "window": 1920,
+    "scrollWidth": 1920,
+    "bodyWidth": 1920,
+    "contentWidth": 960,
+    "heroTitleFont": "112px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 744.859375,
+        "right": 949.859375
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 954.359375,
+        "right": 1159.359375
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "none",
+    "errors": []
+  },
+  {
+    "window": 2560,
+    "scrollWidth": 2560,
+    "bodyWidth": 2560,
+    "contentWidth": 960,
+    "heroTitleFont": "112px",
+    "titleLines": [
+      {
+        "text": "DIT PROBLEM.",
+        "width": 744.859375,
+        "right": 1269.859375
+      },
+      {
+        "text": "MIN UDFORDRING.",
+        "width": 954.359375,
+        "right": 1479.359375
+      }
+    ],
+    "brokenImages": [],
+    "sections": 6,
+    "menuVisibility": "none",
+    "errors": []
+  }
+]

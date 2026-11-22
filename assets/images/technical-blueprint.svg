@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="720" viewBox="0 0 900 720">
+  <defs>
+    <pattern id="microgrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#1a3644" stroke-width=".75"/></pattern>
+    <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" fill="none" stroke="#476472" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="900" height="720" fill="#0c1922"/><rect width="900" height="720" fill="url(#microgrid)"/><rect width="900" height="720" fill="url(#grid)" opacity=".55"/>
+  <g stroke="#a7d1dd" fill="none" stroke-width="4" stroke-linejoin="round">
+    <path d="M240 510L270 235H340L465 168H605L680 515Z"/>
+    <path d="M315 510L330 280H366L478 215H570L612 515Z" stroke-width="2" opacity=".72"/>
+    <circle cx="500" cy="305" r="70"/><circle cx="500" cy="305" r="43" stroke-width="2"/>
+    <circle cx="315" cy="505" r="27"/><circle cx="635" cy="505" r="27"/>
+    <path d="M241 510H680M270 235H605" stroke-width="2" opacity=".8"/>
+  </g>
+  <g stroke="#bd9042" stroke-width="2" fill="none">
+    <path d="M240 575H681M240 557V592M681 557V592"/>
+    <path d="M175 235V515M157 235H193M157 515H193"/>
+    <path d="M500 232V378M427 305H573" stroke-dasharray="10 9"/>
+    <path d="M240 575L260 568M240 575L260 582M681 575L661 568M681 575L661 582"/>
+  </g>
+  <g fill="#d0b187" font-family="Arial,sans-serif" font-size="24" letter-spacing="3"><text x="433" y="624">440.00</text><text x="134" y="390" transform="rotate(-90 134 390)">280.00</text></g>
+  <g fill="#7996a4" font-family="Arial,sans-serif" font-size="18" letter-spacing="2"><text x="42" y="66">SKITSE / PRINCIP</text><text x="42" y="690">ILLUSTRATION — IKKE EN FAKTISK TEGNING</text><text x="670" y="66">D/001</text></g>
+  <g stroke="#bd9042" stroke-width="2"><path d="M710 125h120m-60-60v120"/><circle cx="770" cy="125" r="23" fill="none"/></g>
+</svg>

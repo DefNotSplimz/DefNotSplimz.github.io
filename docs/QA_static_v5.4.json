@@ -1,0 +1,138 @@
+{
+  "version": "5.4",
+  "scope": "static release file validation",
+  "checks": [
+    {
+      "check": "No duplicate IDs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Page language",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "One h1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Six proper sections",
+      "pass": true,
+      "detail": "['start', 'kompetencer', 'materialer', 'tilgang', 'om', 'kontakt']"
+    },
+    {
+      "check": "Five capabilities",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Eight material images",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "FDM image-free",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No form and no analytics",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Copy email target",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No photos pretending to be cases",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "OG image link",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Description present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Local HTML asset paths",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "check": "All images have alt attributes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "No hotlinked images or scripts",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "All anchor targets exist",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "OG size 1200x630",
+      "pass": true,
+      "detail": "(1200, 630)"
+    },
+    {
+      "check": "Sitemap XML",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Manifest icons",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Privacy noindex",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "404 noindex",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Robots sitemap link",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "Technical assets separate",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "CSS does not stretch image",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "CSP exact JSON-LD hash",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "check": "JavaScript syntax",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "passed": 26,
+  "total": 26
+}
