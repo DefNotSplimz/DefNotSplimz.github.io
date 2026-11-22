@@ -1,0 +1,695 @@
+{
+  "method": "Full HTML rendering from original file bytes with only external stylesheet deliberately unavailable; matching CSP injected as meta; no dependency injection for images, styling or scripts",
+  "results": [
+    {
+      "scrollWidth": 320,
+      "bodyWidth": 320,
+      "computedFontSize": 128,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 18,
+        "y": 343.71875,
+        "width": 284,
+        "height": 72.5,
+        "top": 343.71875,
+        "right": 302,
+        "bottom": 416.21875,
+        "left": 18
+      },
+      "page": "404.html",
+      "width": 320,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 360,
+      "bodyWidth": 360,
+      "computedFontSize": 129.6,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 18,
+        "y": 345.0625,
+        "width": 324,
+        "height": 72.5,
+        "top": 345.0625,
+        "right": 342,
+        "bottom": 417.5625,
+        "left": 18
+      },
+      "page": "404.html",
+      "width": 360,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "computedFontSize": 140.4,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 18,
+        "y": 354.265625,
+        "width": 354,
+        "height": 76.3125,
+        "top": 354.265625,
+        "right": 372,
+        "bottom": 430.578125,
+        "left": 18
+      },
+      "page": "404.html",
+      "width": 390,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 620,
+      "bodyWidth": 620,
+      "computedFontSize": 223.2,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 18,
+        "y": 424.640625,
+        "width": 584,
+        "height": 60.671875,
+        "top": 424.640625,
+        "right": 602,
+        "bottom": 485.3125,
+        "left": 18
+      },
+      "page": "404.html",
+      "width": 620,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "computedFontSize": 145.92,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 38.40625,
+        "y": 366.84375,
+        "width": 691.1875,
+        "height": 34.59375,
+        "top": 366.84375,
+        "right": 729.59375,
+        "bottom": 401.4375,
+        "left": 38.40625
+      },
+      "page": "404.html",
+      "width": 768,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1024,
+      "bodyWidth": 1024,
+      "computedFontSize": 194.56,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 51.203125,
+        "y": 429.640625,
+        "width": 920,
+        "height": 45.34375,
+        "top": 429.640625,
+        "right": 971.203125,
+        "bottom": 474.984375,
+        "left": 51.203125
+      },
+      "page": "404.html",
+      "width": 1024,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1440,
+      "bodyWidth": 1440,
+      "computedFontSize": 273.6,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 72,
+        "y": 470.59375,
+        "width": 920,
+        "height": 63.765625,
+        "top": 470.59375,
+        "right": 992,
+        "bottom": 534.359375,
+        "left": 72
+      },
+      "page": "404.html",
+      "width": 1440,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1838,
+      "bodyWidth": 1838,
+      "computedFontSize": 336,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 194,
+        "y": 526.046875,
+        "width": 920,
+        "height": 81.390625,
+        "top": 526.046875,
+        "right": 1114,
+        "bottom": 607.4375,
+        "left": 194
+      },
+      "page": "404.html",
+      "width": 1838,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 2560,
+      "bodyWidth": 2560,
+      "computedFontSize": 336,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "HER ER VEJEN SLUT.",
+      "h1Bounds": {
+        "x": 555,
+        "y": 526.046875,
+        "width": 920,
+        "height": 84.03125,
+        "top": 526.046875,
+        "right": 1475,
+        "bottom": 610.078125,
+        "left": 555
+      },
+      "page": "404.html",
+      "width": 2560,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 320,
+      "bodyWidth": 320,
+      "computedFontSize": 44.8,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 18,
+        "y": 219.46875,
+        "width": 284,
+        "height": 92.28125,
+        "top": 219.46875,
+        "right": 302,
+        "bottom": 311.75,
+        "left": 18
+      },
+      "page": "privatliv.html",
+      "width": 320,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 360,
+      "bodyWidth": 360,
+      "computedFontSize": 44.8,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 18,
+        "y": 232.953125,
+        "width": 324,
+        "height": 92.28125,
+        "top": 232.953125,
+        "right": 342,
+        "bottom": 325.234375,
+        "left": 18
+      },
+      "page": "privatliv.html",
+      "width": 360,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "computedFontSize": 44.8,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 18,
+        "y": 246.53125,
+        "width": 354,
+        "height": 92.28125,
+        "top": 246.53125,
+        "right": 372,
+        "bottom": 338.8125,
+        "left": 18
+      },
+      "page": "privatliv.html",
+      "width": 390,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 620,
+      "bodyWidth": 620,
+      "computedFontSize": 68.2,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 18,
+        "y": 222.4375,
+        "width": 584,
+        "height": 140.46875,
+        "top": 222.4375,
+        "right": 602,
+        "bottom": 362.90625,
+        "left": 18
+      },
+      "page": "privatliv.html",
+      "width": 620,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "computedFontSize": 56,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 38.40625,
+        "y": 246.0625,
+        "width": 691.1875,
+        "height": 115.34375,
+        "top": 246.0625,
+        "right": 729.59375,
+        "bottom": 361.40625,
+        "left": 38.40625
+      },
+      "page": "privatliv.html",
+      "width": 768,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1024,
+      "bodyWidth": 1024,
+      "computedFontSize": 68.608,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 51.203125,
+        "y": 248.078125,
+        "width": 921.59375,
+        "height": 141.3125,
+        "top": 248.078125,
+        "right": 972.796875,
+        "bottom": 389.390625,
+        "left": 51.203125
+      },
+      "page": "privatliv.html",
+      "width": 1024,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1440,
+      "bodyWidth": 1440,
+      "computedFontSize": 96.48,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 72,
+        "y": 232.046875,
+        "width": 1296,
+        "height": 198.75,
+        "top": 232.046875,
+        "right": 1368,
+        "bottom": 430.796875,
+        "left": 72
+      },
+      "page": "privatliv.html",
+      "width": 1440,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1838,
+      "bodyWidth": 1838,
+      "computedFontSize": 123.146,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 194,
+        "y": 234.453125,
+        "width": 1450,
+        "height": 253.65625,
+        "top": 234.453125,
+        "right": 1644,
+        "bottom": 488.109375,
+        "left": 194
+      },
+      "page": "privatliv.html",
+      "width": 1838,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 2560,
+      "bodyWidth": 2560,
+      "computedFontSize": 128,
+      "images": [
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        },
+        {
+          "name": "",
+          "loaded": true,
+          "src": "data:image/webp;base"
+        },
+        {
+          "name": "Datum Prototyping",
+          "loaded": true,
+          "src": "data:image/png;base6"
+        }
+      ],
+      "inlineStyleLoaded": true,
+      "contentH1": "PRIVATLIVUDEN STØJ.",
+      "h1Bounds": {
+        "x": 555,
+        "y": 234.453125,
+        "width": 1450,
+        "height": 263.65625,
+        "top": 234.453125,
+        "right": 2005,
+        "bottom": 498.109375,
+        "left": 555
+      },
+      "page": "privatliv.html",
+      "width": 2560,
+      "errors": [],
+      "overflow": 0
+    }
+  ],
+  "nojs": {
+    "logo": 900,
+    "hero": 1350,
+    "fontSize": 140.4
+  },
+  "failCount": 0
+}
