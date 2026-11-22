@@ -1,0 +1,106 @@
+/*
+ DATUM V5.4.3 / CONTROLLED DEPTH
+ One consistent atmospheric system, carefully graded by chapter.
+ Decoration is never required for reading or using the site.
+*/
+:root{--depth-gold:rgba(192,147,71,.34);--depth-steel:rgba(142,165,177,.1)}
+
+/* A darker theatre with soft, directional light, not a repeating stack of black cards. */
+.section{background-color:#0a1013;isolation:isolate}
+.section .shell{position:relative;z-index:3}
+.section::before{z-index:4;background:linear-gradient(90deg,transparent,rgba(216,184,126,.19) 18%,rgba(224,194,147,.32) 51%,rgba(216,184,126,.12) 78%,transparent)}
+.section::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.15;background-image:url("../assets/backgrounds/bg-noise-dark.webp");background-repeat:repeat;mix-blend-mode:soft-light}
+
+.scene-atmosphere{position:absolute;inset:-5% 0;z-index:1;overflow:hidden;pointer-events:none;isolation:isolate}
+.scene-atmosphere>span{display:block;position:absolute;inset:0;pointer-events:none}
+.scene-atmosphere__photo{background-size:cover;background-position:center;opacity:.88;transform:translate3d(0,12px,0) scale(1.045);transition:transform 1400ms cubic-bezier(.16,1,.3,1),opacity 1400ms ease;will-change:auto}
+.section.scene-settled .scene-atmosphere__photo{transform:translate3d(0,0,0) scale(1.02);opacity:1}
+.scene-atmosphere__grid{background-image:url("../assets/backgrounds/bg-blueprint-grid-soft.svg");background-size:clamp(950px,110vw,1760px) auto;background-position:center;opacity:.15;mask-image:linear-gradient(90deg,transparent 4%,black 60%,transparent 98%)}
+.scene-atmosphere__shape{opacity:.08;background-image:url("../assets/backgrounds/bg-dp-ghost-diagonal.svg");background-repeat:no-repeat;background-position:calc(100% + 12vw) 45%;background-size:min(85vw,1140px) auto}
+.scene-atmosphere__light{background:radial-gradient(ellipse 36% 63% at 85% 52%,rgba(186,134,58,.12),transparent 95%),radial-gradient(ellipse 44% 60% at 12% 22%,rgba(83,119,134,.085),transparent 88%)}
+
+/* 02 / Skills: workshop atmosphere — directional low light, no extra labels. */
+.section-skills{background:#0e1519}
+.section-skills .scene-atmosphere__photo{background-image:linear-gradient(180deg,rgba(7,12,15,.44),rgba(6,11,14,.68)),url("../assets/backgrounds/section-competences-atmosphere.webp");background-position:center 57%}
+.section-skills .scene-atmosphere__grid{opacity:.11;mask-image:linear-gradient(90deg,transparent,black 53%,transparent)}
+.section-skills .scene-atmosphere__shape{background-position:calc(100% + 19vw) 8%;opacity:.052}
+.section-skills .scene-atmosphere__light{background:radial-gradient(ellipse 47% 55% at 50% 79%,rgba(185,141,76,.105),transparent 83%),linear-gradient(122deg,rgba(8,13,17,.0) 33%,rgba(58,72,77,.14) 49%,transparent 74%)}
+.section-skills::after{opacity:.10}
+.section-skills .skill-gallery{filter:drop-shadow(0 25px 22px rgba(0,0,0,.18))}
+
+/* 03 / Materials: a tactile cool-steel to warm-brass sweep. */
+.section-materials{background:#0d1315}
+.section-materials .scene-atmosphere__photo{background-image:linear-gradient(90deg,rgba(4,10,12,.78) 0%,rgba(5,10,12,.40) 52%,rgba(6,10,12,.6) 100%),url("../assets/backgrounds/section-materials-texture-mix.webp");background-position:center 45%}
+.section-materials .scene-atmosphere__grid{opacity:.09;mask-image:linear-gradient(0deg,transparent 9%,black 54%,transparent 100%)}
+.section-materials .scene-atmosphere__shape{display:none}
+.section-materials .scene-atmosphere__light{background:radial-gradient(ellipse 38% 48% at 26% 28%,rgba(142,168,182,.14),transparent 94%),radial-gradient(ellipse 30% 44% at 72% 40%,rgba(195,133,49,.145),transparent 87%),linear-gradient(180deg,transparent 62%,rgba(9,14,17,.69) 100%)}
+.materials-featured,.materials-lower{filter:drop-shadow(0 19px 19px rgba(0,0,0,.17))}
+.fdm-panel{background:linear-gradient(145deg,rgba(30,38,41,.11),rgba(7,13,15,.31))}
+
+/* 04 / Process: blueprint space with a readable progression across the images. */
+.section-process{background:#0c1419}
+.section-process .scene-atmosphere__photo{background-image:linear-gradient(180deg,rgba(5,14,19,.7),rgba(5,11,16,.83)),url("../assets/backgrounds/section-approach-blueprint.webp")}
+.section-process .scene-atmosphere__grid{opacity:.34;background-size:clamp(920px,100vw,1600px) auto;mask-image:radial-gradient(ellipse 72% 66% at 52% 59%,black,transparent 100%)}
+.section-process .scene-atmosphere__shape{opacity:.045;background-image:url("../assets/backgrounds/bg-dp-ghost-large.svg");background-position:right -45% center}
+.section-process .scene-atmosphere__light{background:radial-gradient(ellipse 24% 55% at 18% 57%,rgba(165,129,70,.09),transparent 96%),radial-gradient(ellipse 26% 46% at 51% 54%,rgba(118,150,175,.13),transparent 92%),radial-gradient(ellipse 25% 48% at 84% 57%,rgba(167,128,68,.115),transparent 92%)}
+.process-flow{filter:drop-shadow(0 17px 20px rgba(0,0,0,.17))}
+
+/* 05 / About: keep the editorial photograph; let atmosphere follow, never drown it. */
+.section-about{background:#0a1115}
+.section-about .about-picture{z-index:0}
+.section-about .scene-atmosphere{z-index:1}
+.section-about .scene-atmosphere__photo{background-image:linear-gradient(90deg,rgba(6,13,16,.74),rgba(6,11,13,.43) 56%,rgba(8,13,13,.1)),url("../assets/backgrounds/section-about-cinematic-parts.webp");opacity:.52}
+.section-about.scene-settled .scene-atmosphere__photo{opacity:.56}
+.section-about .scene-atmosphere__grid{opacity:.12;mask-image:linear-gradient(90deg,black 0%,transparent 58%)}
+.section-about .scene-atmosphere__shape{opacity:.035;background-position:right -19vw top 2%}
+.section-about .scene-atmosphere__light{background:radial-gradient(ellipse 35% 58% at 85% 52%,rgba(192,143,67,.14),transparent 88%),linear-gradient(90deg,rgba(4,10,12,.55),transparent 75%)}
+.section-about .about-content{position:relative;z-index:3}
+
+/* 06 / Contact: quieter conclusion, with a controlled spotlight behind the address. */
+.section-contact{background:#090d0f}
+.section-contact .scene-atmosphere__photo{background-image:linear-gradient(90deg,rgba(7,10,11,.90),rgba(7,10,11,.60) 57%,rgba(8,10,10,.59)),url("../assets/backgrounds/section-contact-glow.webp");background-position:center 59%}
+.section-contact .scene-atmosphere__grid{opacity:.10;mask-image:linear-gradient(90deg,transparent 20%,black 76%,transparent)}
+.section-contact .scene-atmosphere__shape{opacity:.055;background-size:780px auto;background-position:calc(100% + 320px) 44%}
+.section-contact .scene-atmosphere__light{background:radial-gradient(ellipse 46% 61% at 61% 65%,rgba(179,123,52,.17),transparent 89%),linear-gradient(180deg,transparent 35%,#080b0c 100%)}
+.section-contact .contact-email{box-shadow:0 18px 52px rgba(0,0,0,.34),0 0 38px rgba(171,120,52,.06)}
+
+/* Joining chapters: warm light moves from section to section, not five identical strokes. */
+.chapter-join{height:46px;margin-block:-23px;z-index:7}
+.chapter-join::before{top:22px;background:linear-gradient(90deg,transparent 5%,rgba(196,154,84,.14) 15%,rgba(230,187,105,.8) 48%,rgba(195,151,78,.22) 82%,transparent 98%)}
+.chapter-join::after{top:4px;height:36px;background:radial-gradient(ellipse 43% 14px at 50% 50%,rgba(192,147,71,.12),transparent 98%)}
+.chapter-join-rail{top:23px}
+.chapter-join-mark{top:16px;opacity:.66;box-shadow:0 0 21px rgba(178,133,57,.16)}
+.chapter-join:nth-of-type(4n+1)::after{background:radial-gradient(ellipse 38% 15px at 24% 50%,rgba(191,140,67,.19),transparent 100%)}
+.chapter-join:nth-of-type(4n+3)::after{background:radial-gradient(ellipse 43% 14px at 80% 50%,rgba(190,150,88,.18),transparent 98%)}
+
+/* Fine interaction polish, not animations that break layout. */
+.skill,.material,.material-small,.process-card{transition:filter .3s ease,box-shadow .3s ease}
+@media(hover:hover) and (pointer:fine){
+  .skill:hover,.material:hover,.material-small:hover,.process-card:hover{filter:brightness(1.08)}
+}
+@media(max-width:900px){
+  .scene-atmosphere__photo{background-position:center}
+  .section-about .scene-atmosphere__photo{opacity:.48}
+  .section-contact .scene-atmosphere__shape{background-size:600px auto;background-position:calc(100% + 370px) 65%}
+  .chapter-join{height:32px;margin-block:-16px}
+  .chapter-join::before{top:15px}
+  .chapter-join::after{top:0;height:30px}
+  .chapter-join-rail{top:15px}
+  .chapter-join-mark{top:9px}
+}
+@media(max-width:620px){
+  .scene-atmosphere__shape{opacity:.036;background-size:620px auto;background-position:calc(100% + 300px) 18%}
+  .scene-atmosphere__grid{opacity:.08}
+  .section-materials .scene-atmosphere__light{background:radial-gradient(ellipse 72% 25% at 75% 21%,rgba(174,127,70,.11),transparent)}
+  .section-process .scene-atmosphere__grid{opacity:.22}
+  .section-about .scene-atmosphere__light{background:linear-gradient(90deg,rgba(4,10,12,.35),transparent 75%)}
+  .section-contact .scene-atmosphere__light{background:radial-gradient(ellipse 82% 42% at 76% 75%,rgba(182,134,67,.11),transparent 92%)}
+  .chapter-join{height:24px;margin-block:-12px}
+  .chapter-join::before{top:11px}
+  .chapter-join-rail{top:12px}
+  .chapter-join-mark{top:5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .scene-atmosphere__photo,.section.scene-settled .scene-atmosphere__photo{transform:none!important;transition:none!important}
+  .skill,.material,.material-small,.process-card{transition:none!important}
+}

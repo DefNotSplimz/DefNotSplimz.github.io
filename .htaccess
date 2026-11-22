@@ -1,4 +1,4 @@
-# Apache / LiteSpeed – Datum Prototyping V5.4
+# Apache / LiteSpeed – Datum Prototyping V5.4.3
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
 Options -Indexes
@@ -11,7 +11,7 @@ Options -Indexes
  Header always set Referrer-Policy "strict-origin-when-cross-origin"
  Header always set X-Frame-Options "SAMEORIGIN"
  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
- Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'sha256-C/jLM+qBSR8mhJ942KnQRATYtzQXD22lHnSB9DQAe1Q='; script-src 'self' 'sha256-BygikjNxu6FM3YZnQs9venyRcLCyXGg27khNFW/6Uro=' 'sha256-JJ3fIIsjjjI8qpDCF9ggr9lbGEVFO8L1oGZIsTsQUKI='; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
+ Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'sha256-YXIJdN7w134yRTraVSblvcco+EBbxmnBscdLK/mgYOo='; script-src 'self' 'sha256-BygikjNxu6FM3YZnQs9venyRcLCyXGg27khNFW/6Uro=' 'sha256-JJ3fIIsjjjI8qpDCF9ggr9lbGEVFO8L1oGZIsTsQUKI='; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
 </IfModule>
 <IfModule mod_expires.c>
  ExpiresActive On

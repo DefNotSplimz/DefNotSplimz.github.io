@@ -1,0 +1,493 @@
+{
+  "results": [
+    {
+      "scrollWidth": 320,
+      "bodyWidth": 320,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "32px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 210.140625,
+          "right": 227.140625,
+          "left": 17
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 269.328125,
+          "right": 286.328125,
+          "left": 17
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 320,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 360,
+      "bodyWidth": 360,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "34.88px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 229.015625,
+          "right": 246.015625,
+          "left": 17
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 293.515625,
+          "right": 310.515625,
+          "left": 17
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 360,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "34.88px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 229.015625,
+          "right": 246.015625,
+          "left": 17
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 293.515625,
+          "right": 310.515625,
+          "left": 17
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 390,
+      "errors": [],
+      "overflow": 0,
+      "menuOpen": "true",
+      "menuClosed": "false"
+    },
+    {
+      "scrollWidth": 430,
+      "bodyWidth": 430,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "34.88px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 229.015625,
+          "right": 246.015625,
+          "left": 17
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 293.515625,
+          "right": 310.515625,
+          "left": 17
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 430,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 620,
+      "bodyWidth": 620,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "48px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 315.203125,
+          "right": 332.203125,
+          "left": 17
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 403.984375,
+          "right": 420.984375,
+          "left": 17
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 620,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "55.296px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 367.65625,
+          "right": 398.390625,
+          "left": 30.734375
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 471.046875,
+          "right": 501.78125,
+          "left": 30.734375
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 768,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 900,
+      "bodyWidth": 900,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "64.8px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 430.9375,
+          "right": 466.9375,
+          "left": 36
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 552.140625,
+          "right": 588.140625,
+          "left": 36
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 900,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1024,
+      "bodyWidth": 1024,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "59.904px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 398.296875,
+          "right": 429.03125,
+          "left": 30.734375
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 510.328125,
+          "right": 541.0625,
+          "left": 30.734375
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 1024,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1280,
+      "bodyWidth": 1280,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "74.88px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 497.84375,
+          "right": 549.046875,
+          "left": 51.203125
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 637.875,
+          "right": 689.078125,
+          "left": 51.203125
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 1280,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1440,
+      "bodyWidth": 1440,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "84.24px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 560.203125,
+          "right": 617.8125,
+          "left": 57.609375
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 717.765625,
+          "right": 775.375,
+          "left": 57.609375
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 1440,
+      "errors": [],
+      "overflow": 0,
+      "emailStatus": "Mailadressen er kopieret."
+    },
+    {
+      "scrollWidth": 1838,
+      "bodyWidth": 1838,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "107.523px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 715.03125,
+          "right": 879.03125,
+          "left": 164
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 916.140625,
+          "right": 1080.140625,
+          "left": 164
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 1838,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1920,
+      "bodyWidth": 1920,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "112px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 744.859375,
+          "right": 949.859375,
+          "left": 205
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 954.359375,
+          "right": 1159.359375,
+          "left": 205
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 1920,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 2560,
+      "bodyWidth": 2560,
+      "sections": 6,
+      "scenes": 5,
+      "photoVisible": true,
+      "font": "112px",
+      "header": [
+        {
+          "text": "DIT PROBLEM.",
+          "w": 744.859375,
+          "right": 1269.859375,
+          "left": 525
+        },
+        {
+          "text": "MIN UDFORDRING.",
+          "w": 954.359375,
+          "right": 1479.359375,
+          "left": 525
+        }
+      ],
+      "brokenImages": [],
+      "headingCount": 1,
+      "sceneSettled": 5,
+      "width": 2560,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 320,
+      "bodyWidth": 320,
+      "styles": 1,
+      "imgs": [],
+      "h1": "HER ER VEJEN SLUT.",
+      "sceneColour": "rgb(9, 12, 14)",
+      "page": "404.html",
+      "width": 320,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "styles": 1,
+      "imgs": [],
+      "h1": "HER ER VEJEN SLUT.",
+      "sceneColour": "rgb(9, 12, 14)",
+      "page": "404.html",
+      "width": 390,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "styles": 1,
+      "imgs": [],
+      "h1": "HER ER VEJEN SLUT.",
+      "sceneColour": "rgb(9, 12, 14)",
+      "page": "404.html",
+      "width": 768,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1440,
+      "bodyWidth": 1440,
+      "styles": 1,
+      "imgs": [],
+      "h1": "HER ER VEJEN SLUT.",
+      "sceneColour": "rgb(9, 12, 14)",
+      "page": "404.html",
+      "width": 1440,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1920,
+      "bodyWidth": 1920,
+      "styles": 1,
+      "imgs": [],
+      "h1": "HER ER VEJEN SLUT.",
+      "sceneColour": "rgb(9, 12, 14)",
+      "page": "404.html",
+      "width": 1920,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 320,
+      "bodyWidth": 320,
+      "styles": 1,
+      "imgs": [],
+      "h1": "PRIVATLIVUDEN STØJ.",
+      "sceneColour": "rgba(0, 0, 0, 0)",
+      "page": "privatliv.html",
+      "width": 320,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "styles": 1,
+      "imgs": [],
+      "h1": "PRIVATLIVUDEN STØJ.",
+      "sceneColour": "rgba(0, 0, 0, 0)",
+      "page": "privatliv.html",
+      "width": 390,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "styles": 1,
+      "imgs": [],
+      "h1": "PRIVATLIVUDEN STØJ.",
+      "sceneColour": "rgba(0, 0, 0, 0)",
+      "page": "privatliv.html",
+      "width": 768,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1440,
+      "bodyWidth": 1440,
+      "styles": 1,
+      "imgs": [],
+      "h1": "PRIVATLIVUDEN STØJ.",
+      "sceneColour": "rgba(0, 0, 0, 0)",
+      "page": "privatliv.html",
+      "width": 1440,
+      "errors": [],
+      "overflow": 0
+    },
+    {
+      "scrollWidth": 1920,
+      "bodyWidth": 1920,
+      "styles": 1,
+      "imgs": [],
+      "h1": "PRIVATLIVUDEN STØJ.",
+      "sceneColour": "rgba(0, 0, 0, 0)",
+      "page": "privatliv.html",
+      "width": 1920,
+      "errors": [],
+      "overflow": 0
+    }
+  ],
+  "staticUnresolved": [],
+  "errors": []
+}

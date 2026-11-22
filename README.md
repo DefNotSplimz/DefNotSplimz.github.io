@@ -1,25 +1,45 @@
-# Datum Prototyping V5.4.2 — 404/privatliv bugfix
+# DATUM PROTOTYPING — V5.4.3 / CONTROLLED DEPTH
 
-## Fejlen
-404 og privatliv indlæste designet via `/css/pages-v5.4.1.css` og billeder via `/assets/...`.
-Ved direkte åbning af HTML-filer (`file:///`) eller fejlopsatte undermappestier virkede disse ikke.
-Tidligere browser-QA indlejrede aktiver under test og fangede dermed ikke denne fejl.
+**22. november 2026 — fuld hjemmesidepakke**
 
-## Rettelse
-- 404.html og privatliv.html har nu **indre CSS og indlejrede logo/fotos**, så de virker som selvstændige HTML-filer uden netadgang.
-- Den almindelige stylesheet-sti er bevaret som supplerende mulighed på serveren.
-- Absolutte forsidelinks til `/` bevares på serveren, mens en lille lokal HTML-hjælper omdirigerer dem til `index.html` ved `file:///`-test.
-- Apache/LiteSpeed CSP opdateret med præcise SHA-256-hashes, uden `unsafe-inline`.
-- Den øvrige hjemmeside, SEO/OG, materiale- og kompetenceafsnit er bevaret fra V5.4.1.
+## Hvad er nyt
 
-## Upload
-**ZIP-filen er FLAD:** `index.html`, `404.html`, `privatliv.html`, `.htaccess`, `css/`, `js/` og `assets/` ligger i ZIP-roden.
-Upload **alle disse filer og mapper til domænets webrod**, ikke en ekstra overmappe.
-Kontrollér at `.htaccess` også uploades på Apache/LiteSpeed.
+Denne version bygger videre på V5.4.2 og giver hele hjemmesiden et sammenhængende atmosfærisk baggrundssystem. Designet bevarer den godkendte hero, indholdet, kortenes form, det varme messingfarvede brand og det billedfri FDM-overblik.
 
-## Kontrol
-- Dobbeltklik på `404.html` og `privatliv.html` lokalt: layout og billeder skal vises.
-- Test `https://datumprototyping.dk/404.html` og `/privatliv.html` efter upload.
-- Test en helt ugyldig adresse, fx `/findes-ikke/ekstra`, og kontrollér at den svarer med HTTP 404 og viser det designede indhold.
-- Hvis webhotellet bruger andet end Apache/LiteSpeed, skal brugerdefineret 404-respons evt. konfigureres på værten.
-- HTTPS og live-serverens respons kan ikke garanteres af lokale tests.
+- **02 / KOMPETENCER:** Soft-focus værkstedslys, svag maskinatmosfære og D/P-ghost. Forsvinder bag de fotografiske kort.
+- **03 / MATERIALER:** Børstet metal, køligt stålskær og varmt messingfelt; materialerne er stadig lette at skelne fra hinanden.
+- **04 / MIN TILGANG:** Dæmpet engineering-grid med koordinatmarkeringer, 3 lyspunkter og en rolig visuel progression.
+- **05 / OM DATUM:** Bevarer sit store foto, men får flere tone- og lyslag, uden portræt.
+- **06 / KONTAKT:** Mørk, rolig afslutning med fokuseret messingglød omkring kontaktområdet.
+- **Sektionsovergange:** Lys-sømme og bløde gradienter, der holder siden sammen ved scroll og zoom-out.
+- **404 og privatliv:** Samme kontrollerede dybde, stadig selvstændige HTML-sider med indlejret CSS og egne billeder.
+
+## Teknisk opbygning
+
+- `index.html` — de seks sektioner; HTML-indholdet er synligt uden JavaScript.
+- `404.html`, `privatliv.html` — offline-tolerante undersider med indlejret CSS/foto/logo.
+- `css/site-v5.4.css` — hovedsidens eksisterende design.
+- `css/flow-v5.4.1.css` — eksisterende, dekorative overgange.
+- **`css/depth-v5.4.3.css`** — det nye lagdelte atmosfæresystem.
+- `js/site-v5.4.3.js` — mobilmenu, mailkopiering, header, progress, hero-fit og en enkelt, diskret atmosfære-afsløring.
+- `assets/backgrounds/` — optimerede webP-teksturer, bløde baggrundsbilleder, teknisk grid og ghosted D/P-motiver.
+- `assets/images/` — selvstændige fotos til kompetencer/materialer, originale motiver bevaret.
+- `assets/brand/`, `assets/icons/`, `assets/og/` — brand og delingsbillede (OG uændret).
+- `.htaccess` — sikkerhedspolitik med opdateret SHA-256-hash til selvstændige undersider, status-404 for Apache/LiteSpeed.
+- `robots.txt`, `sitemap.xml`, `site.webmanifest`, `favicon.ico`.
+
+## Offentliggørelse
+
+1. Gem en kopi af din nuværende liveudgave.
+2. Pak ZIP-filen ud. Dens indhold ligger **direkte i roden** — ikke i en ekstra versionsmappe.
+3. Upload alle filer og mapper til domænets webrod. Husk `.htaccess`, hvis dit webhotel bruger Apache/LiteSpeed.
+4. Kontrollér forsiden, mobilmenu og mailkopiering, samt `/privatliv.html`, `/404.html` og en ugyldig adresse.
+5. Tjek at `https://datumprototyping.dk/assets/og/datum-prototyping-og-v5-0-3.jpg` stadig kan hentes.
+
+Denne version er ikke automatisk publiceret til domænet.
+
+## Test og begrænsninger
+
+Se `docs/QA_V5.4.3.md`. Browserens politik blokerer direkte navigation til lokale `file://`- og `localhost`-adresser i testmiljøet; derfor er der testet en isoleret browsergengivelse af de samme HTML-, CSS-, JS- og billedfiler samt en særskilt kontrol af **alle faktiske lokale filstier**. 404/privatliv er gengivet med ekstern CSS fjernet, så de indlejrede designs testes. **Serverens faktiske HTTPS, HTTP-404 og offentlige sociale previews kan kun verificeres efter upload**.
+
+Alle dekorative effekter er valgfrie: siden virker også uden JavaScript, og animationer er deaktiveret ved `prefers-reduced-motion`.

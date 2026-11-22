@@ -128,3 +128,22 @@ document.documentElement.classList.add('js');
   }, {threshold: 0.25, rootMargin: '0px 0px -6% 0px'});
   seams.forEach(seam => io.observe(seam));
 })();
+
+
+// V5.4.3: atmosphere moves only from a short initial offset. Content is never hidden.
+(() => {
+  const scenes = document.querySelectorAll('main > section.section');
+  if (!scenes.length) return;
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    scenes.forEach(s => s.classList.add('scene-settled'));
+    return;
+  }
+  const io = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('scene-settled');
+      observer.unobserve(entry.target);
+    });
+  }, {rootMargin:'0px 0px -4% 0px',threshold:0.06});
+  scenes.forEach(s => io.observe(s));
+})();
